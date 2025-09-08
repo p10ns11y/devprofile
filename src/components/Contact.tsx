@@ -8,6 +8,8 @@ import { Textarea } from './ui/textarea';
 import { Mail, MapPin, Phone, Send } from 'lucide-react';
 import { useState } from 'react';
 
+import cvdata from '../data/cvdata.json'
+
 export function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -17,8 +19,18 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
+    // Generate mailto URL with form data
+    const subject = `Contact from ${formData.name}`;
+    const body = `Hello,
+
+${formData.message}
+
+From: ${formData.email}
+
+Best regards,
+${formData.name}`;
+    const mailtoUrl = `mailto:sathyam.peram@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -32,20 +44,20 @@ export function Contact() {
     {
       icon: Mail,
       title: 'Email',
-      value: 'sathyam.peram@gmail.com',
-      href: 'mailto:sathyam.peram@gmail.com'
+      value: cvdata.contact.email,
+      href: `mailto:${cvdata.contact.email}`
     },
     {
       icon: Phone,
       title: 'Phone',
-      value: '+46 737 641 917',
-      href: 'tel:+46737641917'
+      value: cvdata.contact.phone,
+      href: `tel:${cvdata.contact.phone}`
     },
     {
       icon: MapPin,
       title: 'Location',
-      value: 'Stockholm, Sweden',
-      href: '#'
+      value: cvdata.home.current_location,
+      href: `https://www.google.com/maps/search/?api=1&query=${cvdata.home.current_location}`
     }
   ];
 

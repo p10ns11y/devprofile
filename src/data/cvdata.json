@@ -7,6 +7,10 @@
     "github": "@p10ns11y",
     "citizenship": "Swedish"
   },
+  "home": {
+    "location":"Stockholm, Sweden",
+    "current_location": "Stockholm, Sweden"
+  },
   "social_links": [
     {
       "icon": "Github",
