@@ -18,7 +18,7 @@ export default function AMA() {
       transition={{ duration: 0.5 }}
       className="min-h-screen bg-background text-foreground overflow-hidden"
     >
-      <Header />
+      {/* <Header /> */}
 
       <main className="flex-1">
         <AICHAT />

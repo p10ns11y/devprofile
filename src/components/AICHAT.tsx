@@ -11,6 +11,8 @@ interface Message {
   type: 'user' | 'ai';
   content: string;
   timestamp: Date;
+  isStreaming?: boolean;
+  displayedContent?: string;
   sections?: Array<{
     text: string;
     section: string;
@@ -38,6 +40,54 @@ export function AICHAT() {
       inputRef.current.focus();
     }
   }, [isLoading]);
+
+  // Streaming hook
+  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (streamingMessageId) {
+      const streamingMessage = messages.find(m => m.id === streamingMessageId);
+      if (!streamingMessage || !streamingMessage.content) {
+        setStreamingMessageId(null);
+        return;
+      }
+
+      const displayText = streamingMessage.content;
+      setMessages(prev =>
+        prev.map(msg =>
+          msg.id === streamingMessageId
+            ? { ...msg, displayedContent: '', isStreaming: true }
+            : msg
+        )
+      );
+
+      let currentIndex = 0;
+
+      const interval = setInterval(() => {
+        currentIndex += 1;
+        const currentText = displayText.slice(0, currentIndex);
+
+        setMessages(prevMessages =>
+          prevMessages.map(msg =>
+            msg.id === streamingMessageId
+              ? {
+                  ...msg,
+                  displayedContent: currentText,
+                  isStreaming: currentIndex < displayText.length
+                }
+              : msg
+          )
+        );
+
+        if (currentIndex >= displayText.length) {
+          clearInterval(interval);
+          setStreamingMessageId(null);
+        }
+      }, 30); // Typing speed - slightly slower for visibility
+
+      return () => clearInterval(interval);
+    }
+  }, [streamingMessageId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,15 +119,24 @@ export function AICHAT() {
 
       const data = await response.json();
 
+      const aiMessageId = Date.now().toString() + '-ai';
       const aiMessage: Message = {
-        id: Date.now().toString() + '-ai',
+        id: aiMessageId,
         type: 'ai',
         content: data.answer,
+        displayedContent: '',
         timestamp: new Date(),
+        isStreaming: true,
         sections: data.details
       };
 
       setMessages(prev => [...prev, aiMessage]);
+      setStreamingMessageId(aiMessageId);
+
+      // Simulate streaming delay
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 100);
 
     } catch (error) {
       console.error(error);
@@ -88,7 +147,6 @@ export function AICHAT() {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, errorMessage]);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -197,7 +255,7 @@ export function AICHAT() {
                         }
                       }}
                       placeholder="Ask me anything about my professional background, skills, or experience..."
-                      className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none min-h-[48px] max-h-32"
+                      className="w-full px-4 py-4 pr-12 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none min-h-[80px] max-h-40 overflow-hidden"
                       rows={1}
                       disabled={isLoading}
                     />
@@ -216,7 +274,7 @@ export function AICHAT() {
         ) : (
           /* Conversation View - Scrollable Messages */
           <>
-            <div className="flex-1 overflow-y-auto px-4 pb-4 pt-6 space-y-4 min-h-0">
+            <div className="flex-1 overflow-y-auto px-4 pb-4 pt-6 max-w-2xl mx-auto min-h-0 flex flex-col justify-center space-y-6">
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
@@ -231,7 +289,7 @@ export function AICHAT() {
                     </div>
                   )}
 
-                  <div className={`max-w-lg ${message.type === 'user' ? 'ml-16' : 'mr-16'}`}>
+                  <div className={`max-w-md ${message.type === 'user' ? 'ml-12' : 'mr-12'}`}>
                     <div
                       className={`rounded-2xl px-4 py-3 shadow-sm ${
                         message.type === 'user'
@@ -239,10 +297,18 @@ export function AICHAT() {
                           : 'bg-white border border-gray-200 text-gray-900'
                       }`}
                     >
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
-                      <p className="text-xs mt-2 opacity-60">
-                        {formatTime(message.timestamp)}
+                      <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                        {message.type === 'ai' && message.isStreaming
+                          ? (message.displayedContent || "") +
+                            (Math.floor(Date.now() / 600) % 2 === 0 ? "|" : "")
+                          : message.content
+                        }
                       </p>
+                      {(!message.isStreaming || message.displayedContent !== message.content) && (
+                        <p className="text-xs mt-2 opacity-60">
+                          {formatTime(message.timestamp)}
+                        </p>
+                      )}
                     </div>
 
                     {/* Show source sections for AI messages */}
@@ -280,7 +346,7 @@ export function AICHAT() {
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-1">
                     <Bot className="w-4 h-4 text-white" />
                   </div>
-                  <div className="max-w-lg mr-16">
+                  <div className="max-w-md mr-12">
                     <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
                       <div className="flex items-center gap-2">
                         <div className="flex gap-1">
@@ -313,7 +379,7 @@ export function AICHAT() {
                       }
                     }}
                     placeholder="Ask me anything about my professional background, skills, or experience..."
-                    className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none min-h-[48px] max-h-32"
+                    className="w-full px-4 py-4 pr-12 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none min-h-[80px] max-h-40 overflow-hidden"
                     rows={1}
                     disabled={isLoading}
                   />
