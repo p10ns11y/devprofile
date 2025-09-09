@@ -1,6 +1,6 @@
 import ReactPDF from '@react-pdf/renderer';
 import React from 'react';
-import CVDocument from '../src/pages/cv-pdf';
+import CVDocument from '@/components/CVDocument';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { mkdirSync, existsSync } from 'fs';

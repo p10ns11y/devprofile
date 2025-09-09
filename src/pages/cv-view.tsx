@@ -43,7 +43,7 @@ const CVPage = () => {
 
   useEffect(() => {
     // Load CV data client-side
-    fetch('/api/cv')
+    fetch('/api/cv/data')
       .then(res => res.json())
       .then(data => {
         setCvData(data);
@@ -58,7 +58,7 @@ const CVPage = () => {
   const handleDownloadPDF = async () => {
     try {
       // Directly navigate to the API which will trigger download
-      window.location.href = '/api/cv-server-pdf';
+      window.location.href = '/api/cv/generate';
     } catch (error) {
       console.error('Error downloading PDF:', error);
     }

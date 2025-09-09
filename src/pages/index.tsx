@@ -27,7 +27,6 @@ export default function Home() {
         <Skills />
         <CurrentProjects />
         <Experience />
-        {/* <Timeline /> */}
         <Contact />
       </main>
 
