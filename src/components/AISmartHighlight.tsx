@@ -215,23 +215,4 @@ export function AISmartHighlight({
   );
 }
 
-// Utility function for non-React Code
-export function extractKeywords(text: string): HighlightData {
-  const lowerText = text.toLowerCase();
-
-  const technologies = Array.from(TECH_TERMS).filter(term =>
-    lowerText.includes(term.toLowerCase())
-  );
-
-  const actions = Array.from(ACTION_VERBS).filter(verb =>
-    lowerText.includes(verb.toLowerCase())
-  );
-
-  const experience = Array.from(EXPERIENCE_TERMS).filter(term =>
-    lowerText.includes(term.toLowerCase())
-  );
-
-  return { technologies, actions, experience };
-}
-
 export default AISmartHighlight;
