@@ -85,7 +85,7 @@ export function Footer() {
             className="flex items-center justify-center gap-2 text-sm text-muted-foreground"
           >
             <span>
-              © {currentYear} Peramanathan Sathyamoorthy. Made
+              © {currentYear} {cvdata.name}. Made
               with
             </span>
             <motion.div

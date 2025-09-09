@@ -72,7 +72,7 @@ export function Hero() {
                 fontSize: 'clamp(2.25rem, 8vw, 6rem)' // Responsive text: min 2.25rem (36px), scales with viewport, max 6rem (96px)
               }}
             >
-              <a href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener">Peramanathan Sathyamoorthy</a>
+              <a href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener">{cvdata.name}</a>
             </motion.h1>
 
             <motion.div
