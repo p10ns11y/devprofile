@@ -1,6 +1,10 @@
 import { motion } from 'motion/react';
-import { Card, CardContent } from './ui/card';
 import { Code2, Lightbulb, Users, Zap } from 'lucide-react';
+
+import AISmartHighlight from './AISmartHighlight';
+import { Card, CardContent } from './ui/card';
+
+import cvdata from '../data/cvdata.json'
 
 export function About() {
   const features = [
@@ -49,15 +53,9 @@ export function About() {
             className="space-y-6"
           >
             <p className="text-lg text-muted-foreground leading-relaxed">
-              I'm a Senior Software Engineer with over 9 years of experience building scalable web applications 
-              and leading development teams. I hold Master's degrees in Computer Science and Operations Research, 
-              providing a strong foundation in both theoretical and applied aspects of technology and optimization.
-            </p>
-            
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              My expertise spans JavaScript, TypeScript, and ReactJS with demonstrated leadership in integrating 
-              innovative solutions. I have a passion for mentoring and fostering innovation through technology, 
-              with experience as an educator and team leader in startup environments.
+            <AISmartHighlight priority="balanced">
+              {cvdata.profile}
+            </AISmartHighlight>
             </p>
 
             <motion.div

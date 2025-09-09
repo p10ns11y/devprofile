@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { AISmartHighlight } from '../../components/AISmartHighlight';
 
 interface CVData {
   name: string;
@@ -149,7 +150,11 @@ const CVPage = () => {
             <div className="lg:col-span-2">
               <div className="bg-white rounded-xl shadow-lg p-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Professional Profile</h2>
-                <p className="text-gray-700 leading-relaxed mb-8">{cvData.profile}</p>
+                <div className="text-gray-700 leading-relaxed mb-8">
+                  <AISmartHighlight priority="balanced">
+                    {cvData.profile}
+                  </AISmartHighlight>
+                </div>
 
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Work Experience</h2>
                 <div className="space-y-8">
@@ -165,7 +170,11 @@ const CVPage = () => {
                         {job.responsibilities.map((resp, i) => (
                           <li key={i} className="flex items-start">
                             <span className="inline-block w-2 h-2 bg-indigo-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                            <span className="leading-relaxed">{resp}</span>
+                            <span className="leading-relaxed">
+                              <AISmartHighlight priority="balanced">
+                                {resp}
+                              </AISmartHighlight>
+                            </span>
                           </li>
                         ))}
                       </ul>

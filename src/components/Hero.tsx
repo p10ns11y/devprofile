@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import { Icons, type IconName } from "./Icons";
+import { AISmartHighlight } from "./AISmartHighlight";
 
 import cvdata from '../data/cvdata.json'
 
@@ -85,7 +86,9 @@ export function Hero() {
                 Senior Software Engineer
               </p>
               <p className="text-lg text-muted-foreground">
-               {cvdata.profile}
+               <AISmartHighlight priority="balanced">
+                 {cvdata.one_liner}
+               </AISmartHighlight>
               </p>
             </motion.div>
 

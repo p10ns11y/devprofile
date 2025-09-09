@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { Calendar, MapPin, Users, Code } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { TimelineContent } from './Timeline';
+import { AISmartHighlight } from './AISmartHighlight';
 
 import cvdata from '../data/cvdata.json'
 
@@ -22,12 +23,11 @@ export function Experience() {
             Professional Experience
           </h2>
           <div className="w-20 h-1 bg-primary mx-auto mb-8"></div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            9+ years of progressive experience in software
-            engineering, from intern to senior engineer, with a
-            proven track record of delivering scalable solutions
-            and leading development teams.
-          </p>
+          {/* <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <AISmartHighlight priority="balanced">
+              {cvdata.profile}
+            </AISmartHighlight>
+          </p> */}
           <TimelineContent />
         </motion.div>
 
@@ -97,7 +97,9 @@ export function Experience() {
                               }}
                               className="text-muted-foreground leading-relaxed pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-primary before:font-bold"
                             >
-                              {responsibility}
+                              <AISmartHighlight priority="balanced">
+                                {responsibility}
+                              </AISmartHighlight>
                             </motion.li>
                           ),
                         )}
