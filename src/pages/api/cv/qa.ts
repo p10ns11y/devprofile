@@ -209,7 +209,8 @@ async function generateAnswer(question: string, results: any[]): Promise<string>
 
   // Advanced interview questions - bypass similarity threshold checks
   // CHECK ORDER MATTERS - More specific patterns first
-  const isAchievementsQuestion = /\b(biggest|greatest).*(achievement|success|accomplishment)\b|\bmost.*(successful|important).*project\b|\bwhat.*most.*proud\b|\bkey.*achievement\b|\bbiggest.*win\b/i.test(qLower) ||
+  const isAchievementsQuestion = /\bachievements?\b|\biggest.*achievement\b|\bwhat.*biggest\b.*\b/i.test(qLower) ||
+                                 /\bmost.*(successful|important).*project\b|\bwhat.*most.*proud\b|\bkey.*achievement\b|\bbiggest.*win\b/i.test(qLower) ||
                                  /\bmost.*(significant|notable).*contribution\b|\bproudest.*moment\b|\bcareer.*highlight\b/i.test(qLower);
 
   const isCareerOverviewQuestion = /\bgive.*me.*career.*overview\b|\btell.*me.*career\b|\bcareer.*journey\b|\bwork.*history\b|\bemployment.*history\b/i.test(qLower) ||

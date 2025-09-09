@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { motion } from "motion/react";
 import { Heart } from "lucide-react";
+import { Button } from "./ui/button";
 import { Icons,type IconName } from "./Icons";
 
 
@@ -54,14 +55,14 @@ export function Footer() {
           <div className="flex items-center justify-center gap-6 flex-wrap text-sm">
             <Link
               href="/cv/web-view"
-              className="inline-flex items-center px-4 py-2 text-indigo-600 hover:text-indigo-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
             >
               View CV
             </Link>
             <span className="text-muted-foreground">•</span>
             <a
               href="/cv.pdf"
-              className="inline-flex items-center px-4 py-2 text-indigo-600 hover:text-indigo-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
               target="_blank"
               rel="nofollow noreferrer noopener"
             >
@@ -71,10 +72,17 @@ export function Footer() {
             {/* eslint-disable-next-line */}
             <a
               href="/api/cv/generate"
-              className="inline-flex items-center px-4 py-2 text-green-600 hover:text-green-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
             >
               Download PDF
             </a>
+            <span className="text-muted-foreground">•</span>
+            <Link
+              href="/ama"
+              className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
+            >
+              🤖 Ask AI
+            </Link>
           </div>
 
           <motion.div
