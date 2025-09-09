@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { motion } from "motion/react";
 import { Heart } from "lucide-react";
 import { Icons,type IconName } from "./Icons";
@@ -25,6 +26,7 @@ export function Footer() {
             Peramanathan S.
           </motion.div>
 
+          {/* TODO: Potential Reusable Compoent (Hero, Footer) */}
           <div className="flex items-center justify-center gap-6">
             {cvdata.social_links.map((social, index) => (
               <motion.a
@@ -41,10 +43,38 @@ export function Footer() {
                 whileTap={{ scale: 0.9 }}
                 className="p-3 rounded-full border border-border hover:bg-accent transition-colors"
                 aria-label={social.label}
+                target="_blank"
+                rel="nofollow noreferrer noopnener"
               >
                 <Icons name={social.icon as IconName} className="w-5 h-5" />
               </motion.a>
             ))}
+          </div>
+
+          <div className="flex items-center justify-center gap-6 flex-wrap text-sm">
+            <Link
+              href="/cv/web-view"
+              className="inline-flex items-center px-4 py-2 text-indigo-600 hover:text-indigo-700 transition-colors"
+            >
+              View CV
+            </Link>
+            <span className="text-muted-foreground">•</span>
+            <a
+              href="/cv.pdf"
+              className="inline-flex items-center px-4 py-2 text-indigo-600 hover:text-indigo-700 transition-colors"
+              target="_blank"
+              rel="nofollow noreferrer noopener"
+            >
+              View PDF
+            </a>
+            <span className="text-muted-foreground">•</span>
+            {/* eslint-disable-next-line */}
+            <a
+              href="/api/cv/generate"
+              className="inline-flex items-center px-4 py-2 text-green-600 hover:text-green-700 transition-colors"
+            >
+              Download PDF
+            </a>
           </div>
 
           <motion.div

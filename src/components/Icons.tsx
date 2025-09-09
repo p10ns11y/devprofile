@@ -37,10 +37,7 @@ type Props = {
 
 export function Icons(props: Props) {
   let { name, ...restProps } = props;
-
   let Icon = iconsMap[name];
-
-  console.log('djdfj', name,  Icon)
 
   return (
     <Icon {...restProps as SVGProps} />

@@ -7,6 +7,7 @@ export function Header() {
   const navItems = [
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
+    { name: 'CV', href: '/cv/web-view' },
     { name: 'Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
     { name: 'Experience', href: '#experience' },
@@ -14,6 +15,13 @@ export function Header() {
   ];
 
   const scrollToSection = (href: string) => {
+    if (!href.startsWith('#')) {
+      // window.location.href = href;
+      let cvUrl = `${window.location.origin}/cv/web-view`;
+      window.open(href, '_blank');
+      return;
+    }
+  
     const element = document.querySelector(href);
     element?.scrollIntoView({ behavior: 'smooth' });
   };

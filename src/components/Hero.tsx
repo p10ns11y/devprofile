@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
-import { Icons,type IconName } from "./Icons";
+import { Icons, type IconName } from "./Icons";
 
 import cvdata from '../data/cvdata.json'
 
@@ -43,93 +43,125 @@ export function Hero() {
         ))}
       </div>
 
-      <div className="container mx-auto px-6 text-center z-10">
+      <div className="container mx-auto px-6 z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="space-y-6"
+          className="flex flex-col lg:flex-row gap-8 items-center justify-items-center min-h-[80vh]"
         >
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-muted-foreground"
-          >
-            Hello, I'm
-          </motion.p>
-
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent"
-          >
-            <a href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener">Peramanathan Sathyamoorthy</a>
-          </motion.h1>
-
+          {/* Left side - Textual content */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="space-y-2"
+            className="flex-1 text-center lg:text-center space-y-6"
           >
-            <p className="text-2xl md:text-3xl text-muted-foreground">
-              Senior Software Engineer
-            </p>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              9+ years of experience building scalable web
-              applications and leading development teams.
-              Master's in Computer Science and Operations
-              Research with expertise in TypeScript, React, and
-              innovation-driven solutions.
-            </p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-lg text-muted-foreground"
+            >
+              Hello, I'm
+            </motion.p>
+
+            <motion.h1
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="text-4xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent leading-tight"
+              style={{
+                fontSize: 'clamp(2.25rem, 8vw, 6rem)' // Responsive text: min 2.25rem (36px), scales with viewport, max 6rem (96px)
+              }}
+            >
+              <a href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener">Peramanathan Sathyamoorthy</a>
+            </motion.h1>
+
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="space-y-2"
+            >
+              <p className="text-2xl md:text-3xl text-muted-foreground">
+                Senior Software Engineer
+              </p>
+              <p className="text-lg text-muted-foreground">
+               {cvdata.profile}
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+              className="space-y-6"
+            >
+              <div className="flex items-center justify-center lg:justify-center gap-4 flex-wrap">
+                <Button
+                  size="lg"
+                  onClick={() => scrollToAbout()}
+                  className="group"
+                >
+                  View My Work
+                  <motion.div
+                    className="ml-2"
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    →
+                  </motion.div>
+                </Button>
+
+                <a href="/api/cv/view" target="_blank" rel="nofollow noreferrer noopnener" className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors">
+                  View CV
+                </a>
+              </div>
+
+              <div className="flex items-center justify-center lg:justify-center gap-4">
+                {cvdata.social_links.map((social, index) => (
+                  <motion.a
+                    key={social.label}
+                    href={social.href}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: 0.9 + index * 0.1,
+                    }}
+                    whileHover={{ scale: 1.2, rotate: 5 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="p-3 rounded-full border border-border hover:bg-accent transition-colors"
+                    aria-label={social.label}
+                    target="_blank"
+                    rel="nofollow noreferrer noopnener"
+                  >
+                    <Icons name={social.icon as IconName} className="w-5 h-5" />
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
 
+          {/* Right side - Image */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="flex items-center justify-center gap-4 flex-wrap"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 1.0 }}
+            className="flex-shrink-0" // Prevent image from shrinking
           >
-            <Button
-              size="lg"
-              onClick={() => scrollToAbout()}
-              className="group"
-            >
-              View My Work
-              <motion.div
-                className="ml-2"
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                →
-              </motion.div>
-            </Button>
-
-            <div className="flex items-center gap-4">
-              {cvdata.social_links.map((social, index) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.9 + index * 0.1,
-                  }}
-                  whileHover={{ scale: 1.2, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="p-3 rounded-full border border-border hover:bg-accent transition-colors"
-                  aria-label={social.label}
-                >
-                  <Icons name={social.icon as IconName} className="w-5 h-5" />
-                </motion.a>
-              ))}
+            <div className="relative w-0 h-0 md:w-96 md:h-96 xl:w-[30rem] xl:h-[30rem] rounded-full overflow-hidden shadow-2xl border-4 border-primary/10">
+              <a title="GitRoll Curism for https://github.com/p10ns11y" href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener">
+                <img
+                  src="/images/curism.png"
+                  alt="GitRoll CURISM (Contribution, Uniqueness, Reliability, Influence, Security, Maintainability) for https://github.com/p10ns11y"
+                  className="w-full h-full object-cover"
+                />
+              </a>
             </div>
           </motion.div>
         </motion.div>
       </div>
+
+
 
       <motion.button
         initial={{ opacity: 0 }}
