@@ -1,0 +1,8 @@
+data_path: cvdata.json
+qa_data_path: qa_data.jsonl
+model_name: google/flan-t5-small
+output_dir: cv_qa_model
+learning_rate: 5e-5
+batch_size: 8
+num_epochs: 3
+test_size: 0.2

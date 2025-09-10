@@ -1,0 +1,340 @@
+{
+  "name": "Peramanathan Sathyamoorthy",
+  "name_with_initial": "Peramanathan S.",
+  "one_liner": "Senior Software Engineer with 9+ years in scalable web apps, JavaScript, ReactJS, and system architecture, leading teams and mentoring in innovative startups.",
+  "shorter_bio": "Senior Software Engineer with 9+ years of experience in scalable web apps and team leadership. Master’s in Computer Science and Operations Research, skilled in JavaScript, ReactJS, and system architecture. Drives innovation and efficiency in startups, passionate about mentoring.",
+  "short_bio": "Senior Software Engineer with 9+ years of experience building scalable web applications and leading teams. Holds Master’s degrees in Computer Science and Operations Research, with expertise in JavaScript, ReactJS, and system architecture. Proven leader in driving innovative solutions and efficiency in startups, with a passion for mentoring and fostering innovation.",
+  "profile": "Senior Software Engineer with over 9 years of experience in building scalable web applications and leading development teams. Holds Master's degrees in Computer Science and Operations Research, providing a strong foundation in both theoretical and applied aspects of technology and optimization. Proven expertise in JavaScript, ReactJS, Architectural Design and System Building. Demonstrated leadership in integrating innovative solutions and driving efficiency in startup environments. Experienced educator with a passion for mentoring and fostering innovation through technology.",
+  "contact": {
+    "email": "sathyam.peram@gmail.com",
+    "phone": "+46 737 641 917",
+    "github": "@p10ns11y",
+    "citizenship": "Swedish"
+  },
+  "home": {
+    "location":"Stockholm, Sweden",
+    "current_location": "Stockholm, Sweden"
+  },
+  "social_links": [
+    {
+      "icon": "Github",
+      "href": "https://github.com/p10ns11y",
+      "label": "GitHub"
+    },
+    {
+      "icon": "X",
+      "href": "https://x.com/peramanathan",
+      "label": "X"
+    },
+    {
+      "icon": "Email",
+      "href": "#contact",
+      "label": "Email"
+    }
+  ],
+  "hobby_oss_projects": [
+    {
+      "id": 1,
+      "title": "Adaptate",
+      "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI",
+      "image": "https://images.unsplash.com/photo-1568716353609-12ddc5c67f04?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx6b2QlMjB2YWxpZGF0aW9uJTIwY29kZSUyMHNjaGVtYXxlbnwxfHx8fDE3NTcxNzI1MTd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      "technologies": [
+        "Zod",
+        "TypeScript",
+        "OpenAPI",
+        "JSON Schema",
+        "Validation",
+        "Node.js"
+      ],
+      "impact": "Dynamic Validation",
+      "url": "https://github.com/p10ns11y/adaptate"
+    },
+    {
+      "id": 2,
+      "title": "Selfie Signin",
+      "description": "Proof-of-concept: Users register by submitting multi-angle facial images to train an AWS Rekognition model, enabling seamless face-based logins",
+      "image": "/images/fa3c8ca54c1f2364ce99b8b4a5843bf84d6e4b68.png",
+      "technologies": [
+        "AWS Rekognition",
+        "React",
+        "TypeScript",
+        "Face Recognition",
+        "Authentication",
+        "ML"
+      ],
+      "impact": "Face-based Authentication",
+      "url": "https://github.com/p10ns11y/selfie-sign-in-flow-using-v0-xAI"
+    }
+  ],
+  "work_experience": [
+    {
+      "title": "Senior Software Engineer",
+      "company": "Oneflow AB, Digital Signature and Contract Management Platform",
+      "location": "Stockholm, Sweden",
+      "start_date": "January 2023",
+      "end_date": "December 2024",
+      "duration": "24 months",
+      "responsibilities": [
+        "Strategically integrated TypeScript into a mixed legacy codebase with FlowType and JavaScript, resulting in a 70% reduction in type-related errors, significantly enhancing code reliability and maintainability. Leveraged previously introduced Zod’s type inference for robust type hinting in business data",
+        "Automated the conversion of JavaScript modules to TypeScript with a custom script preserving the version control history, saving over 200 hours of manual work and accelerating development timelines",
+        "Unified distributed ACL permissions into a single utility module, managing complex contexts and user roles (owner, guest) to simplify maintenance, migration and enhance scalability."
+      ],
+      "tools": [
+        "TypeScript",
+        "ReactJS",
+        "Python"
+      ]
+    },
+    {
+      "title": "Engineering Team Lead",
+      "company": "Oneflow AB",
+      "location": "Stockholm, Sweden",
+      "start_date": "October 2021",
+      "end_date": "December 2022",
+      "duration": "15 months",
+      "responsibilities": [
+        "Co-led the development of a new JSON-based rich text editor seamlessly integrating with legacy HTML, increasing user satisfaction by 60% and providing a modern, cohesive editing experience.",
+        "Mentored and empowered the development team to a self-organizing model, overseeing hiring and onboarding while instilling a continuous improvement culture. This resulted in increased productivity, stronger ownership, and scalable team practices.",
+        "Pioneered an end-to-end testing transformation with Playwright, starting with an innovative approach to replicate mob testing scenarios. This significantly reduced regressions and boosted efficiency. Later, I spearheaded a complete rewrite of the end-to-end testing suite in Playwright.",
+        "Engineered a lightweight Zod-based data validation library which streamlined data validation and minimized runtime errors."
+      ],
+      "tools": [
+        "JavaScript",
+        "TypeScript",
+        "Python",
+        "ReactJS",
+        "Webpack",
+        "Jest",
+        "Zod",
+        "Testing-library",
+        "Playwright",
+        "MySQL",
+        "Nodejs",
+        "Express.js",
+        "Flask"
+      ]
+    },
+    {
+      "title": "Full Stack Integration Engineer",
+      "company": "Oneflow AB",
+      "location": "Stockholm, Sweden",
+      "start_date": "March 2019",
+      "end_date": "September 2021",
+      "duration": "31 months",
+      "responsibilities": [
+        "Established the Integration Team from the ground up, creating foundational processes and best practices for long-term scalability, while strategically aligning integration solutions with business needs.",
+        "Designed multi-client applications with Python and React.js, facilitating seamless integrations with platforms like HubSpot and SuperOffice, expanding Oneflow’s reach and interoperability. Helped Microsoft Dynamics and Salesforce Development with reviews and frontend decision making. Built connector application extensions for the CRM integrations and Teamtailor",
+        "Stabilized and enhanced the Public API, which enabled a robust third-party integration ecosystem, contributing to client satisfaction and platform versatility."
+      ],
+      "tools": [
+        "Python",
+        "Reactjs",
+        "CRMs (HubSpot, SuperOffice, Microsoft Dynamics, Salesforce)",
+        "Connexion"
+      ]
+    },
+    {
+      "title": "JavaScript Developer",
+      "company": "Oneflow AB",
+      "location": "Stockholm, Sweden",
+      "start_date": "April 2017",
+      "end_date": "February 2019",
+      "duration": "23 months",
+      "responsibilities": [
+        "Innovatively Integrated React Router into a Backbone.js-based client to build Identity and Access Management, facilitate faster prototyping cross-linked user management and efficient testing.",
+        "Optimized CI build processes, reducing build times by 40%,",
+        "Contributed to modernizing the legacy codebase by transitioning to React.js."
+      ],
+      "tools": [
+        "Python",
+        "Reactjs"
+      ]
+    },
+    {
+      "title": "Full Stack Developer",
+      "company": "Weavler AB, An accessible e-commerce artisans platform (with 1.6M SEK PTS grant)",
+      "location": "Stockholm, Sweden",
+      "start_date": "January 2016",
+      "end_date": "March 2017",
+      "responsibilities": [
+        "Managed AWS cloud infrastructure, reducing operational costs by 40%.",
+        "Integrated services like Mandrill, Slack bots, and PayPal, improving platform functionality. Implemented SEO strategies with server-side rendering.",
+        "Designed responsive email templates for email clients and browsers.",
+        "Created an intelligent notification and chat bot for onboarding and FAQs. Developed a open source babel plug-in to quickly implement translations to the entire project. Enhanced accessibility with text customization and color filters, aligned with WCAG standards. Experimented advanced features like speech synthesis and recognition, improving accessibility."
+      ],
+      "tools": [
+        "JavaScript",
+        "Express",
+        "Reactjs",
+        "Alt.js",
+        "Accessibility",
+        "SSR",
+        "MongoDB",
+        "Babel Plugin(OSS)"
+      ]
+    },
+    {
+      "title": "Software Engineer Intern (Summer Project)",
+      "company": "Bumbee Labs AB",
+      "location": "Stockholm, Sweden",
+      "start_date": "July 2015",
+      "end_date": "September 2015",
+      "responsibilities": [
+        "Applied MongoDB aggregation and map-reduce to generate structured reports from millions of raw data samples.",
+        "Enhanced full-stack dashboard with gulp build and key performance indicators.",
+        "Explored migrating tech stack to Reactjs and Eve Python framework."
+      ],
+      "tools": [
+        "MongoDB",
+        "AngularJS",
+        "Python",
+        "Heroku",
+        "Laravel (PHP)",
+        "System Monitoring"
+      ]
+    }
+  ],
+  "skills": {
+    "product": [
+      "Adaptable Problem Solving",
+      "Proactive Problem Prevention and Elimination",
+      "System Thinking",
+      "Detail Orientation",
+      "Innovative Adjacent Thinking",
+      "Creative Solutions"
+    ],
+    "practices": [
+      "Agile",
+      "Test Driven Development",
+      "Behavior Driven Development",
+      "End-to-End Testing",
+      "Pair/Mob Programming"
+    ],
+    "categories": [
+      {
+        "title": "Frontend & Core",
+        "skills": ["JavaScript", "TypeScript", "ReactJS", "Next.js", "Remix", "Astro", "Jest", "Playwright"]
+      },
+      {
+        "title": "Backend & Data",
+        "skills": ["Python", "Node.js", "Express", "Flask", "Django", "MySQL", "PostgreSQL", "MongoDB"]
+      },
+      {
+        "title": "DevOps & AI",
+        "skills": ["AWS", "Terraform", "Docker", "Git", "LangChain", "LLMs", "Webpack", "Vite"]
+      }
+    ]
+  },
+  "courses": [
+    "HashiCorp Terraform Associate Exam Cram [O'Reilly Live Event] 2 days Live Course",
+    "LangChain Chat with Your Data",
+    "Build LLM Apps with LangChain"
+  ],
+  "certifications": [
+    "EpicReact by Kent C. Dodds (2021)",
+    "Google: Computational Thinking for Educators(2015)",
+    "Coursera: Introduction to Meteor.js Development(2015)",
+    "Coursera: Machine Learning Foundations: A Case Study Approach (2015)",
+    "Coursera: Developing data products (2015)",
+    "Coursera: Getting and Cleaning Data(2015)",
+    "Coursera: R Programming(2015)",
+    "DataCamp: Kaggle R Tutorial on Machine Learning(2015)"
+  ],
+  "publications": [
+    "Profiling Energy Efficiency and Data Communications for Mobile Internet of Things",
+    "Energy Efficiency as a Orchestration Service for the Mobile Internet of Things"
+  ],
+  "education": [
+    {
+      "degree": "Master of Science in Computer Science",
+      "institution": "Uppsala University, Sweden",
+      "years": "2010 - 2016"
+    },
+    {
+      "degree": "Master of Science in Operations Research and Computer Applications",
+      "institution": "National Institute of Technology, Tiruchirappalli, Tamilnadu, India",
+      "years": "2007 - 2009"
+    },
+    {
+      "degree": "Bachelor of Science in Mathematics",
+      "institution": "Kadhir Mohideen College, Affiliated to Tiruchirappalli Bharathidasan University, Adirampattinam, Thanjavur, Tamilnadu, India",
+      "years": "2004 - 2007"
+    }
+  ],
+  "languages": {
+    "English": "Proficient",
+    "Swedish": "Basic"
+  },
+  "technologies": {
+    "AI": [
+      "LangChainjs",
+      "Agents"
+    ],
+    "Workflow": [
+      "Graphite"
+    ],
+    "Fullstack": [
+      "Remix",
+      "Nextjs",
+      "Astro",
+      "Solid-start"
+    ],
+    "Languages": [
+      "C",
+      "C++",
+      "Java",
+      "R",
+      "Erlang",
+      "Elixir",
+      "Rust"
+    ],
+    "Data Science & ML": [
+      "R",
+      "Python",
+      "NumPy",
+      "Panda",
+      "Scikit-learn"
+    ],
+    "Front-End tools": [
+      "Esbuild",
+      "Vitejs"
+    ],
+    "API Frameworks": [
+      "Django",
+      "Eve",
+      "Flask"
+    ],
+    "Databases": [
+      "MySQL",
+      "Postgres",
+      "MongoDB"
+    ],
+    "Deployment": [
+      "AWS (EC2, S3, IAM, ELB)",
+      "Heroku",
+      "Netlify",
+      "Vercel",
+      "Fly.io"
+    ],
+    "Miscellaneous": [
+      "Data Visualization",
+      "KPI Implementation",
+      "SEO Optimization",
+      "Accessibility Compliance",
+      "Speech Recognition",
+      "Chat Bot Development"
+    ]
+  },
+  "projects": [
+    {
+      "name": "Adaptate",
+      "url": "https://github.com/p10ns11y/adaptate",
+      "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI"
+    },
+    {
+      "name": "Selfie Signin",
+      "url": "https://github.com/p10ns11y/selfie-sign-in-flow-using-v0-xAI",
+      "description": "Proof-of-concept: Users register by submitting multi-angle facial images to train an AWS Rekognition model, enabling seamless face-based logins"
+    }
+  ]
+}

@@ -61,31 +61,23 @@ export function AICHAT() {
         )
       );
 
-      let currentIndex = 0;
-
-      const interval = setInterval(() => {
-        currentIndex += 1;
-        const currentText = displayText.slice(0, currentIndex);
-
+      // Simple delay before showing full content (no character-by-character animation)
+      setTimeout(() => {
         setMessages(prevMessages =>
           prevMessages.map(msg =>
             msg.id === streamingMessageId
               ? {
                   ...msg,
-                  displayedContent: currentText,
-                  isStreaming: currentIndex < displayText.length
+                  displayedContent: displayText,
+                  isStreaming: false
                 }
               : msg
           )
         );
+        setStreamingMessageId(null);
+      }, 1000); // 1 second thinking animation
 
-        if (currentIndex >= displayText.length) {
-          clearInterval(interval);
-          setStreamingMessageId(null);
-        }
-      }, 30); // Typing speed - slightly slower for visibility
-
-      return () => clearInterval(interval);
+      return () => {};
     }
   }, [streamingMessageId]);
 
@@ -168,38 +160,30 @@ export function AICHAT() {
   ];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      {/* Header - Always at top */}
+    <div className="flex flex-col h-full bg-gray-100">
+      {/* Header - Simplified for Drawer */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white/80 backdrop-blur-md shrink-0">
-        <div className="flex items-center gap-4">
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-2">
-              <ArrowLeft className="w-4 h-4" />
-              Back
-            </Button>
-          </Link>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-              <Bot className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h1 className="text-xl font-semibold text-gray-800">
-                AI Assistant
-              </h1>
-              <p className="text-sm text-gray-600">
-                Ask me anything about my background, experience, and skills
-              </p>
-            </div>
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+            <Bot className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h1 className="text-lg font-semibold text-gray-800">
+              AI Assistant
+            </h1>
+            <p className="text-xs text-gray-600">
+              Ask me anything about my background
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-emerald-500" />
-          <span className="text-sm text-gray-500">Powered by Local AI</span>
+          <span className="text-xs text-gray-500">Local AI</span>
         </div>
       </div>
 
       {/* Dynamic Layout */}
-      <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {messages.length === 0 ? (
           /* Welcome Screen - Centered */
           <div className="flex-1 flex flex-col justify-center items-center px-4 pb-16 pt-8">
@@ -274,7 +258,7 @@ export function AICHAT() {
         ) : (
           /* Conversation View - Scrollable Messages */
           <>
-            <div className="flex-1 overflow-y-auto px-4 pb-4 pt-6 max-w-2xl mx-auto min-h-0 flex flex-col justify-center space-y-6">
+            <div className="flex-1 overflow-y-auto px-4 pr-8 pb-4 pt-6 max-w-2xl mx-auto min-h-0 flex flex-col justify-center space-y-6">
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
@@ -299,8 +283,7 @@ export function AICHAT() {
                     >
                       <p className="text-sm leading-relaxed whitespace-pre-wrap">
                         {message.type === 'ai' && message.isStreaming
-                          ? (message.displayedContent || "") +
-                            (Math.floor(Date.now() / 600) % 2 === 0 ? "|" : "")
+                          ? "Thinking..."
                           : message.content
                         }
                       </p>

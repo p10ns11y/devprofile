@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react';
 import { Button } from './ui/button';
+import { AIDrawer } from './AIDrawer';
 
 import cvdata from '../data/cvdata.json'
 
@@ -82,13 +83,7 @@ export function Header() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <Button
-            variant="outline"
-            onClick={() => scrollToSection('/#contact')}
-            className="hidden md:inline-flex"
-          >
-            Let's Talk
-          </Button>
+          <AIDrawer />
         </motion.div>
       </nav>
     </motion.header>

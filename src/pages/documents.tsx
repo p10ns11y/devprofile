@@ -128,9 +128,9 @@ export default function Documents() {
       transition={{ duration: 0.5 }}
       className="min-h-screen bg-background text-foreground"
     >
-      <Header />
+      {/* <Header />  */}
 
-      <main className="flex-1 flex">
+      <main className="flex-1 flex pt-20">
         {/* Sidebar */}
         <div className="w-80 bg-white border-r border-gray-200 flex-shrink-0">
           <DocumentSidebar
@@ -150,7 +150,7 @@ export default function Documents() {
         </div>
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
     </motion.div>
   );
 }

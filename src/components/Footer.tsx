@@ -54,6 +54,13 @@ export function Footer() {
 
           <div className="flex items-center justify-center gap-6 flex-wrap text-sm">
             <Link
+              href="/"
+              className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
+            >
+              Home
+            </Link>
+            <span className="text-muted-foreground">•</span>
+            <Link
               href="/cv/web-view"
               className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
             >
