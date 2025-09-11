@@ -3,27 +3,46 @@
 import { motion } from 'motion/react';
 import { Button } from './ui/button';
 
+import cvdata from '../data/cvdata.json'
+
 export function Header() {
   const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
+    { name: 'Home', href: '/#home' },
+    { name: 'About', href: '/#about' },
     { name: 'CV', href: '/cv/web-view' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Skills', href: '/#skills' },
+    { name: 'Projects', href: '/#projects' },
+    { name: 'Experience', href: '/#experience' },
+    { name: 'Contact', href: '/#contact' },
   ];
 
   const scrollToSection = (href: string) => {
-    if (!href.startsWith('#')) {
-      // window.location.href = href;
-      let cvUrl = `${window.location.origin}/cv/web-view`;
-      window.open(href, '_blank');
+    // Handle external CV link
+    if (href === '/cv/web-view') {
+      const cvUrl = `${window.location.origin}/cv/web-view`;
+      window.open(cvUrl, '_blank');
       return;
     }
-  
-    const element = document.querySelector(href);
-    element?.scrollIntoView({ behavior: 'smooth' });
+
+    // Check if we're currently on home page
+    const isHomePage = window.location.pathname === '/';
+
+    if (href.startsWith('/#')) {
+      // Anchor link - if not on home page, navigate there first
+      if (!isHomePage) {
+        const homeUrl = `${window.location.origin}${href}`;
+        window.location.href = homeUrl;
+        return;
+      }
+
+      // On home page - smooth scroll to section
+      const element = document.querySelector(href.slice(1));
+      element?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    // Regular navigation (shouldn't happen for anchor links)
+    window.location.href = `${window.location.origin}${href}`;
   };
 
   return (
@@ -35,10 +54,11 @@ export function Header() {
     >
       <nav className="container mx-auto px-6 py-4 flex items-center justify-between">
         <motion.div
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.05, cursor: 'pointer' }}
           className="text-xl font-semibold"
+          onClick={() => scrollToSection('/')}
         >
-          Peramanathan S.
+          {cvdata.name_with_initial}
         </motion.div>
 
         <div className="hidden md:flex items-center space-x-8">
@@ -62,9 +82,9 @@ export function Header() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <Button 
-            variant="outline" 
-            onClick={() => scrollToSection('#contact')}
+          <Button
+            variant="outline"
+            onClick={() => scrollToSection('/#contact')}
             className="hidden md:inline-flex"
           >
             Let's Talk

@@ -1,5 +1,6 @@
 {
   "name": "Peramanathan Sathyamoorthy",
+  "name_with_initial": "Peramanathan S.",
   "one_liner": "Senior Software Engineer with 9+ years in scalable web apps, JavaScript, ReactJS, and system architecture, leading teams and mentoring in innovative startups.",
   "shorter_bio": "Senior Software Engineer with 9+ years of experience in scalable web apps and team leadership. Master’s in Computer Science and Operations Research, skilled in JavaScript, ReactJS, and system architecture. Drives innovation and efficiency in startups, passionate about mentoring.",
   "short_bio": "Senior Software Engineer with 9+ years of experience building scalable web applications and leading teams. Holds Master’s degrees in Computer Science and Operations Research, with expertise in JavaScript, ReactJS, and system architecture. Proven leader in driving innovative solutions and efficiency in startups, with a passion for mentoring and fostering innovation.",
@@ -11,7 +12,7 @@
     "citizenship": "Swedish"
   },
   "home": {
-    "location":"Stockholm, Sweden",
+    "location": "Stockholm, Sweden",
     "current_location": "Stockholm, Sweden"
   },
   "social_links": [
@@ -27,8 +28,114 @@
     },
     {
       "icon": "Email",
-      "href": "#contact",
+      "href": "mailto:sathyam.peram@gmail.com",
       "label": "Email"
+    }
+  ],
+  "developer_handles": {
+    "active": {
+      "github": "https://github.com/p10ns11y",
+      "huggingface": "https://huggingface.co/Peramanathan"
+    },
+    "inactive": {
+      "github": [
+        "https://github.com/peramsathyam",
+        "https://github.com/peramanathan"
+      ]
+    }
+  },
+  "projects_for_community": [
+    {
+      "id": 1,
+      "name": "SORKALAM - A google chrome extension for Tamil Language",
+      "date": "November 2014",
+      "meta": {
+        "app_store": true,
+        "inactive": true,
+        "stopped": true,
+        "removed": true,
+        "oss": "not yet",
+        "private": true
+      },
+      "description": "Distraction free English-Tamil online thesaurus with auto language detection integrating Glosbe, Wiktionary and Tamil Virtual University technical glossary APIs. Technically, an optimal integration of AJAX, JSON parsing, HTML parsing, jQuery, Message passing and regular expression"
+    },
+    {
+      "id": 2,
+      "name": "latex-cv",
+      "description": "LaTeX CV Generator",
+      "url": "https://github.com/p10ns11y/latex-cv"
+    },
+    {
+      "id": 3,
+      "title": "Grok Dia",
+      "date": "September 2025",
+      "description": "Extension to ask Grok for more information with whole and selected text context",
+      "url": "https://github.com/p10ns11y/grok-dia-extension/",
+      "meta": {
+        "app_store": false,
+        "status": "development",
+        "oss": true
+      }
+    }
+  ],
+  "interview_assignments": {
+    "oneflow ab": "https://github.com/p10ns11y/comment-on-highlight"
+  },
+  "work_oss_projects": [
+    {
+      "id": 1,
+      "name": "babel-plugin-react-intl-messages-generator",
+      "url": "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator",
+      "prs": [
+        "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator/pull/6",
+        "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator/pull/4"
+      ]
+    }
+  ],
+  "oss_contributions": [
+    {
+      "id": 1,
+      "name": "formatjs",
+      "related_to": "react-intl",
+      "url": "https://github.com/formatjs/formatjs",
+      "prs": [
+        "https://github.com/formatjs/formatjs/pull/837"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "react-boilerplate",
+      "url": "https://github.com/react-boilerplate/react-boilerplate",
+      "prs": [
+        "https://github.com/react-boilerplate/react-boilerplate/pull/1355"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "zod",
+      "url": "https://github.com/colinhacks/zod",
+      "prs": [
+        "https://github.com/colinhacks/zod/pull/1702"
+      ],
+      "work_related": true
+    },
+    {
+      "id": 4,
+      "name": "book-shelf",
+      "url": "https://github.com/kentcdodds/bookshelf",
+      "prs": [
+        "https://github.com/kentcdodds/bookshelf/pull/184",
+        "https://github.com/kentcdodds/bookshelf/pull/116"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "testing-react-apps",
+      "url": "https://github.com/kentcdodds/testing-react-apps",
+      "prs": [
+        "https://github.com/kentcdodds/testing-react-apps/pull/42",
+        "https://github.com/kentcdodds/testing-react-apps/pull/39"
+      ]
     }
   ],
   "hobby_oss_projects": [
@@ -239,6 +346,9 @@
     "Coursera: R Programming(2015)",
     "DataCamp: Kaggle R Tutorial on Machine Learning(2015)"
   ],
+  "xplanation": {
+    "coursera": "https://x.com/Peramanathan/status/1954168574731276572"
+  },
   "publications": [
     "Profiling Energy Efficiency and Data Communications for Mobile Internet of Things",
     "Energy Efficiency as a Orchestration Service for the Mobile Internet of Things"
@@ -247,17 +357,128 @@
     {
       "degree": "Master of Science in Computer Science",
       "institution": "Uppsala University, Sweden",
-      "years": "2010 - 2016"
+      "years": "2010 - 2016",
+      "level": "EQF 7",
+      "meta": {
+        "education_level_ref": "https://www.myh.se/in-english/seqf"
+      },
+      "credits_required": 120,
+      "credits_accquired": 122,
+      "converted_CGPA": "3.55 / 4",
+      "CGPA_xplanation": "https://x.com/Peramanathan/status/1950911980870496668",
+      "thesis": "Enabling Energy-Efficient Data Communication with Participatory Sensing and Mobile Cloud",
+      "thesis_highlight": [
+        "Designing self energy-efficient intelligent cloud profiler and actuator",
+        "Knowledge building while collecting data",
+        "Explore and organize the data in dynamic knowledge graphs",
+        "Cloud-assisted crowd-sourced optimization for data communication"
+      ],
+      "course_grades": {
+        "Programming Theory": {
+          "credits": 10,
+          "grade": 4
+        },
+        "Computer Networks I": {
+          "credits": 5,
+          "grade": 3
+        },
+        "Website Construction": {
+          "credits": 7.5,
+          "grade": 4
+        },
+        "Distributed Systems": {
+          "credits": 5,
+          "grade": 4
+        },
+        "Database Design I": {
+          "credits": 5,
+          "grade": 3
+        },
+        "Software Arch with Java": {
+          "credits": 5,
+          "grade": 4
+        },
+        "Advanced Algorithms": {
+          "credits": 10,
+          "grade": 5
+        },
+        "Computer Assisted Image Analysis I": {
+          "credits": 5,
+          "grade": 3
+        },
+        "Algorithms & Data Structures II": {
+          "credits": 5,
+          "grade": 5
+        },
+        "Machine Learning": {
+          "credits": 10,
+          "grade": 3
+        },
+        "Peer-to-Peer Computing": {
+          "credits": 7.5,
+          "grade": 5
+        },
+        "Data Mining I": {
+          "credits": 5,
+          "grade": 3
+        },
+        "Computer Games Development I": {
+          "credits": 7.5,
+          "grade": 4
+        },
+        "Cryptology": {
+          "credits": 5,
+          "grade": 5
+        }
+      },
+      "courses": [
+        {
+          "category": "Algorithms & Programming",
+          "courses": [
+            "Algorithms and Data Structures II",
+            "Advanced Algorithmics",
+            "Programming Theory"
+          ]
+        },
+        {
+          "category": "Networks & Systems",
+          "courses": [
+            "Computer Networks I",
+            "Peer-to-Peer",
+            "Distributed Systems",
+            "Cryptology",
+            "Website Construction"
+          ]
+        },
+        {
+          "category": "Data Science & AI",
+          "courses": [
+            "Computer Assisted Image Analysis I",
+            "Data Mining I",
+            "Machine Learning"
+          ]
+        },
+        {
+          "category": "Software Engineering & Databases",
+          "courses": [
+            "Database Design I",
+            "Software Architecture with Java",
+            "Computer Games Development I"
+          ]
+        }
+      ]
     },
     {
       "degree": "Master of Science in Operations Research and Computer Applications",
       "institution": "National Institute of Technology, Tiruchirappalli, Tamilnadu, India",
-      "years": "2007 - 2009"
+      "years": "2007 - 2009",
+      "level": "EQF 6"
     },
     {
       "degree": "Bachelor of Science in Mathematics",
       "institution": "Kadhir Mohideen College, Affiliated to Tiruchirappalli Bharathidasan University, Adirampattinam, Thanjavur, Tamilnadu, India",
-      "years": "2004 - 2007"
+      "years": "2004 - 2007",
+      "level": "EQF 5"
     }
   ],
   "languages": {

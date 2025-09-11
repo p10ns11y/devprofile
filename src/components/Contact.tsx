@@ -203,6 +203,8 @@ ${formData.name}`;
                   transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
                   whileHover={{ scale: 1.02, x: 10 }}
                   className="flex items-center gap-4 p-4 rounded-lg hover:bg-muted/50 transition-all duration-300 group"
+                  target='_blank'
+                  rel="nofollow noreferrer noopener"
                 >
                   <motion.div
                     whileHover={{ rotate: 360 }}

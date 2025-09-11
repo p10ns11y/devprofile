@@ -3,7 +3,8 @@
 import { motion } from "motion/react";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
-import { Icons, type IconName } from "./Icons";
+import Link from "next/link";
+import { SocialLinks } from "./SocialLinks";
 import { AISmartHighlight } from "./AISmartHighlight";
 
 import cvdata from '../data/cvdata.json'
@@ -99,48 +100,26 @@ export function Hero() {
               className="space-y-6"
             >
               <div className="flex items-center justify-center lg:justify-center gap-4 flex-wrap">
-                <Button
-                  size="lg"
+                <button
                   onClick={() => scrollToAbout()}
-                  className="group"
+                  className="inline-flex items-center px-6 py-3 bg-rose-600 text-white font-medium rounded-lg hover:bg-rose-700 transition-colors"
                 >
                   View My Work
-                  <motion.div
-                    className="ml-2"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    →
-                  </motion.div>
-                </Button>
+                </button>
 
-                <a href="/api/cv/view" target="_blank" rel="nofollow noreferrer noopnener" className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors">
+                <a href="/api/cv/view" target="_blank" rel="nofollow noreferrer noopnener" className="inline-flex items-center px-6 py-3 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors">
                   View CV
                 </a>
+
+                {/* <Link
+                  href="/ama"
+                  className="inline-flex items-center px-6 py-3 bg-pink-600 text-white font-medium rounded-lg hover:bg-pink-700 transition-colors"
+                >
+                  🤖 Ask AI
+                </Link> */}
               </div>
 
-              <div className="flex items-center justify-center lg:justify-center gap-4">
-                {cvdata.social_links.map((social, index) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: 0.9 + index * 0.1,
-                    }}
-                    whileHover={{ scale: 1.2, rotate: 5 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="p-3 rounded-full border border-border hover:bg-accent transition-colors"
-                    aria-label={social.label}
-                    target="_blank"
-                    rel="nofollow noreferrer noopnener"
-                  >
-                    <Icons name={social.icon as IconName} className="w-5 h-5" />
-                  </motion.a>
-                ))}
-              </div>
+             <SocialLinks />
             </motion.div>
           </motion.div>
 

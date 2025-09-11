@@ -35,7 +35,7 @@ type Props = {
   className: string | undefined,
 }
 
-export function Icons(props: Props) {
+export function Icon(props: Props) {
   let { name, ...restProps } = props;
   let Icon = iconsMap[name];
 
