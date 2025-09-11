@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { motion } from "motion/react";
 import { Heart } from "lucide-react";
-import { Button } from "./ui/button";
-import { Icons,type IconName } from "./Icons";
+
+import { SocialLinks } from "./SocialLinks";
 
 
 import cvdata from '../data/cvdata.json'
@@ -27,30 +27,7 @@ export function Footer() {
             Peramanathan S.
           </motion.div>
 
-          {/* TODO: Potential Reusable Compoent (Hero, Footer) */}
-          <div className="flex items-center justify-center gap-6">
-            {cvdata.social_links.map((social, index) => (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.1,
-                }}
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                whileTap={{ scale: 0.9 }}
-                className="p-3 rounded-full border border-border hover:bg-accent transition-colors"
-                aria-label={social.label}
-                target="_blank"
-                rel="nofollow noreferrer noopnener"
-              >
-                <Icons name={social.icon as IconName} className="w-5 h-5" />
-              </motion.a>
-            ))}
-          </div>
+          <SocialLinks />
 
           <div className="flex items-center justify-center gap-6 flex-wrap text-sm">
             <Link
@@ -77,12 +54,12 @@ export function Footer() {
               Download PDF
             </a>
             <span className="text-muted-foreground">•</span>
-            <Link
+            {/* <Link
               href="/ama"
               className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
             >
               🤖 Ask AI
-            </Link>
+            </Link> */}
           </div>
 
           <motion.div

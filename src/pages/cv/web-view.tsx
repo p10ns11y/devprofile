@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { AISmartHighlight } from '../../components/AISmartHighlight';
+
+import { AISmartHighlight } from '@/components/AISmartHighlight';
+import { SocialLinks } from '@/components/SocialLinks';
 
 interface CVData {
   name: string;
@@ -116,15 +118,8 @@ const CVPage = () => {
               <span>{cvData.contact.citizenship}</span>
             </div>
 
-            {/* Social Links */}
-            <div className="flex justify-center gap-6 text-gray-600 mb-8">
-              <a href="https://github.com/p10ns11y" className="hover:text-gray-900 transition-colors" target="_blank" rel="nofollow noreferrer noopener">
-                GitHub
-              </a>
-              <span>•</span>
-              <a href="https://x.com/peramanathan" className="hover:text-gray-900 transition-colors" target="_blank" rel="nofollow noreferrer noopener">
-                X
-              </a>
+            <div className='pb-10'>
+              <SocialLinks />
             </div>
 
             {/* Download Buttons */}
