@@ -111,12 +111,12 @@ export function Hero() {
                   View CV
                 </a>
 
-                <Link
+                {/* <Link
                   href="/ama"
                   className="inline-flex items-center px-6 py-3 bg-pink-600 text-white font-medium rounded-lg hover:bg-pink-700 transition-colors"
                 >
                   🤖 Ask AI
-                </Link>
+                </Link> */}
               </div>
 
               <div className="flex items-center justify-center lg:justify-center gap-4">
