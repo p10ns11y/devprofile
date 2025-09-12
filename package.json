@@ -1,5 +1,9 @@
 {
-  "name": "peramanathan-sathyamoorthy-cv",
+  "name": "devprofile",
+  "author": {
+    "name": "Peramanathan Sathyamoorthy",
+    "email": "sathyam.peram@gmail.com"
+  },
   "version": "0.1.0",
   "private": true,
   "files": [
@@ -19,6 +23,9 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.4",
     "@react-pdf/renderer": "^4.3.0",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@xenova/transformers": "^2.17.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "*",
@@ -43,7 +50,7 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
-    "@types/node": "^22.18.1",
+    "@types/node": "^24.3.1",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "autoprefixer": "^10.4.21",
