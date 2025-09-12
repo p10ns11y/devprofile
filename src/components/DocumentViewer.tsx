@@ -9,9 +9,11 @@ import {
   Download,
   Maximize,
   File,
-  AlertCircle
+  AlertCircle,
+  Home
 } from 'lucide-react';
 import { Button } from './ui/button';
+import Link from 'next/link';
 
 // Dynamic import for PDF components to avoid SSR issues
 const PDFComponents = {
@@ -122,8 +124,8 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   return (
     <div className="h-screen flex flex-col bg-white">
       {/* Document Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
-        <div className="flex items-center space-x-4">
+      <div className="flex items-center p-4 border-b border-gray-200 bg-white">
+        <div className="flex-1 flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             {document.type === 'pdf' ? (
               <File className="w-6 h-6 text-red-500" />
@@ -144,8 +146,18 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           </div>
         </div>
 
+        {/* Center - Home Button */}
+        <div className="flex-1 flex justify-center">
+          <Link href="/">
+            <button className="flex items-center space-x-2 px-4 py-2 bg-pink-500 text-white rounded-lg shadow-lg hover:bg-pink-600 hover:shadow-xl transition-all duration-200 text-sm font-medium">
+              <Home className="w-4 h-4" />
+              <span>Home</span>
+            </button>
+          </Link>
+        </div>
+
         {/* Controls */}
-        <div className="flex items-center space-x-2">
+        <div className="flex-1 flex items-center justify-end space-x-2">
           {/* Page Count */}
           {document.type === 'pdf' && numPages && (
             <div className="text-sm text-gray-700 px-3 py-1 bg-gray-50 rounded">
