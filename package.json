@@ -16,7 +16,8 @@
     "build": "npm run generate-pdf && next build",
     "start": "next start",
     "lint": "eslint .",
-    "generate-pdf": "bun scripts/generate-pdf.tsx"
+    "generate-pdf": "bun scripts/generate-pdf.tsx",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
