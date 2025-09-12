@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { SocialLinks } from "./social-links";
 import { AISmartHighlight } from "./ai-smart-highlight";
 
@@ -130,12 +131,13 @@ export function Hero() {
             transition={{ duration: 1, delay: 1.0 }}
             className="flex-shrink-0" // Prevent image from shrinking
           >
-            <div className="relative w-0 h-0 md:w-96 md:h-96 xl:w-[30rem] xl:h-[30rem] rounded-full overflow-hidden shadow-2xl border-4 border-primary/10">
-              <a title="GitRoll Curism for https://github.com/p10ns11y" href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener">
-                <img
+            <div className="w-0 h-0 md:w-96 md:h-96 xl:w-[30rem] xl:h-[30rem] rounded-full overflow-hidden shadow-2xl border-4 border-primary/10 relative">
+              <a title="GitRoll Curism for https://github.com/p10ns11y" href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener" className="block w-full h-full relative">
+                <Image
                   src="/images/curism.png"
                   alt="GitRoll CURISM (Contribution, Uniqueness, Reliability, Influence, Security, Maintainability) for https://github.com/p10ns11y"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               </a>
             </div>
