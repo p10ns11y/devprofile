@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { getFeatureDisclaimer, isFeatureInDevelopment } from '../config/feature-flags';
+import { AlertTriangle } from 'lucide-react';
 
 interface QAResult {
   answer: string;
@@ -45,8 +47,24 @@ export function QuestionAnswer() {
     }
   };
 
+  const qaDisclaimer = getFeatureDisclaimer('qa');
+  const isQaInDevelopment = isFeatureInDevelopment('qa');
+
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
+      {/* Development Disclaimer */}
+      {isQaInDevelopment && qaDisclaimer && (
+        <div className="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 dark:border-amber-600 rounded-r-lg p-4">
+          <div className="flex items-center">
+            <AlertTriangle className="w-5 h-5 text-amber-400 dark:text-amber-600 mr-3 flex-shrink-0" />
+            <div className="text-sm text-amber-800 dark:text-amber-200">
+              <p className="font-medium">Development Feature</p>
+              <p>{qaDisclaimer}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
         <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">
           Ask Questions About My Experience
