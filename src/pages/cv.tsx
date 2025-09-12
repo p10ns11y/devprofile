@@ -1,70 +1,7 @@
-import { useState } from 'react';
-import QuestionAnswer from '../components/question-answer';
+import CVView from "./cv/view";
 
-export default function CVIndex() {
-  const [showQA, setShowQA] = useState(false);
-
+export default function CV() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      {showQA ? (
-        <div className="mb-6">
-          <button
-            onClick={() => setShowQA(false)}
-            className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200"
-          >
-            ← Back to CV
-          </button>
-        </div>
-      ) : (
-        <div className="flex items-center justify-center">
-          <div className="max-w-2xl w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
-            <div className="mb-8">
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                Peramanathan Sathyamoorthy
-              </h1>
-              <p className="text-xl text-gray-600 mb-4">
-                Senior Software Engineer
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                Full-stack developer with 9+ years of experience in building scalable web applications,
-                leading development teams, and delivering innovative technology solutions.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <a
-                href="/cv.pdf"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                👁️ View CV
-              </a>
-
-              <a
-                href="/cv.pdf"
-                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
-                download="peramanathan-sathyamoorthy-cv.pdf"
-              >
-                ⬇️ Download CV
-              </a>
-
-              <button
-                onClick={() => setShowQA(true)}
-                className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
-              >
-                🤖 Ask AI Questions
-              </button>
-            </div>
-
-            <div className="text-sm text-gray-500">
-              <p>Built with Next.js 15 & React 19 • Local AI powered by transformers.js</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showQA && <QuestionAnswer />}
-    </div>
+    <CVView />
   );
 }

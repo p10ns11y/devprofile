@@ -40,7 +40,7 @@ interface CVData {
   languages: Record<string, string>;
 }
 
-const CVPage = () => {
+const CVWebView = () => {
   const [cvData, setCvData] = useState<CVData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -301,4 +301,4 @@ const CVPage = () => {
   );
 };
 
-export default CVPage;
+export default CVWebView;
