@@ -7,13 +7,14 @@ import {
   ZoomOut,
   RotateCcw,
   Download,
-  Maximize,
   File,
-  AlertCircle,
-  Home
+  AlertCircle
 } from 'lucide-react';
 import { Button } from './ui/button';
-import Link from 'next/link';
+import { DocumentItem, DocumentViewerProps } from '../types/documents';
+import { formatFileSize, getFileIconForViewer } from '../utils/fileUtils';
+import { HomeButton } from './HomeButton';
+import { LoadingSpinner } from './LoadingSpinner';
 
 // Dynamic import for PDF components to avoid SSR issues
 const PDFComponents = {
@@ -21,8 +22,6 @@ const PDFComponents = {
   Page: null as any,
   pdfjs: null as any
 };
-
-
 
 if (typeof window !== 'undefined') {
   // Import PDF.js only on client side
@@ -35,21 +34,6 @@ if (typeof window !== 'undefined') {
   if (PDFComponents.pdfjs) {
     PDFComponents.pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${PDFComponents.pdfjs.version}/build/pdf.worker.min.mjs`;
   }
-}
-
-interface DocumentItem {
-  id: string;
-  name: string;
-  path: string;
-  type: 'pdf' | 'image' | 'text' | 'other';
-  size: number;
-  lastModified: Date;
-  thumbnail?: string;
-}
-
-interface DocumentViewerProps {
-  document: DocumentItem | null;
-  loading: boolean;
 }
 
 export function DocumentViewer({ document, loading }: DocumentViewerProps) {
@@ -88,13 +72,139 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
     link.click();
   };
 
+  const renderPDF = () => {
+    if (!PDFComponents.Document) {
+      return (
+        <div className="flex items-start justify-center h-full">
+          <div className="text-center space-y-4">
+            <File className="w-16 h-16 text-gray-300 mx-auto" />
+            <h3 className="text-lg font-medium text-gray-700">
+              PDF Viewer Loading...
+            </h3>
+            <p className="text-gray-500 text-sm">
+              Please wait while we initialize PDF rendering
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex flex-col items-center">
+        <PDFComponents.Document
+          file={document!.path}
+          onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={onDocumentLoadError}
+          loading={
+            <div className="flex items-center justify-center p-8">
+              <div className="text-center space-y-2">
+                <LoadingSpinner />
+                <p className="text-gray-600 text-sm">Loading PDF...</p>
+              </div>
+            </div>
+          }
+          error={
+            <div className="flex items-center justify-center p-8">
+              <div className="text-center space-y-4">
+                <AlertCircle className="w-12 h-12 text-red-400 mx-auto" />
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900">PDF Load Error</h3>
+                  <p className="text-gray-600 text-sm">Unable to load the PDF document</p>
+                </div>
+              </div>
+            </div>
+          }
+        >
+          {PDFComponents.Page && numPages && Array.from(
+            new Array(numPages),
+            (el, index) => (
+              <div key={`page_${index + 1}`} className="mb-8 first:mt-0">
+                <PDFComponents.Page
+                  pageNumber={index + 1}
+                  scale={scale}
+                  rotate={rotate}
+                  loading={
+                    <div className="flex items-center justify-center p-8">
+                      <div className="text-center space-y-2">
+                        <LoadingSpinner size="sm" />
+                        <p className="text-gray-600 text-sm">Loading page {index + 1}...</p>
+                      </div>
+                    </div>
+                  }
+                  renderTextLayer={false}
+                  renderAnnotationLayer={false}
+                  className="shadow-lg border border-gray-200"
+                />
+                <div className="text-center mt-2">
+                  <span className="text-xs text-gray-500">Page {index + 1} of {numPages}</span>
+                </div>
+              </div>
+            )
+          )}
+        </PDFComponents.Document>
+      </div>
+    );
+  };
+
+  const renderImage = () => (
+    <div className="flex justify-center items-start min-h-full">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="max-w-full max-h-full"
+      >
+        <img
+          src={document!.path}
+          alt={document!.name}
+          className="max-w-full max-h-full object-contain shadow-lg rounded"
+          style={{
+            transform: `scale(${scale}) rotate(${rotate}deg)`,
+            transformOrigin: 'center center'
+          }}
+        />
+      </motion.div>
+    </div>
+  );
+
+  const renderOther = () => (
+    <div className="flex items-start justify-center h-full">
+      <div className="text-center space-y-4">
+        <File className="w-16 h-16 text-gray-300 mx-auto" />
+        <h3 className="text-lg font-medium text-gray-700">
+          Preview Not Available
+        </h3>
+        <p className="text-gray-500 text-sm">
+          {document!.name}
+        </p>
+        <button
+          onClick={handleDownload}
+          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+        >
+          Download file
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderDocumentContent = () => {
+    switch (document!.type) {
+      case 'pdf':
+        return renderPDF();
+      case 'image':
+        return renderImage();
+      default:
+        return renderOther();
+    }
+  };
+
 
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="flex flex-col items-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          <LoadingSpinner size="lg" />
           <p className="text-gray-600 text-sm">Loading document...</p>
         </div>
       </div>
@@ -127,19 +237,13 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
       <div className="flex items-center p-4 border-b border-gray-200 bg-white">
         <div className="flex-1 flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            {document.type === 'pdf' ? (
-              <File className="w-6 h-6 text-red-500" />
-            ) : document.type === 'image' ? (
-              <File className="w-6 h-6 text-blue-500" />
-            ) : (
-              <File className="w-6 h-6 text-gray-500" />
-            )}
+            {getFileIconForViewer(document.type)}
             <div>
               <h3 className="font-medium text-gray-900 text-sm">
                 {document.name}
               </h3>
               <p className="text-xs text-gray-500">
-                {(document.size / 1024 / 1024).toFixed(2)} MB •
+                {formatFileSize(document.size)} •
                 {document.lastModified.toLocaleDateString()}
               </p>
             </div>
@@ -148,12 +252,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
 
         {/* Center - Home Button */}
         <div className="flex-1 flex justify-center">
-          <Link href="/">
-            <button className="flex items-center space-x-2 px-4 py-2 bg-pink-500 text-white rounded-lg shadow-lg hover:bg-pink-600 hover:shadow-xl transition-all duration-200 text-sm font-medium">
-              <Home className="w-4 h-4" />
-              <span>Home</span>
-            </button>
-          </Link>
+          <HomeButton />
         </div>
 
         {/* Controls */}
@@ -208,112 +307,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
 
       {/* Document Content */}
       <div className="flex-1 overflow-auto bg-gray-50 p-6">
-        {document.type === 'pdf' ? (
-          PDFComponents.Document ? (
-            <div className="flex flex-col items-center">
-              <PDFComponents.Document
-                file={document.path}
-                onLoadSuccess={onDocumentLoadSuccess}
-                onLoadError={onDocumentLoadError}
-                loading={
-                  <div className="flex items-center justify-center p-8">
-                    <div className="text-center space-y-2">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
-                      <p className="text-gray-600 text-sm">Loading PDF...</p>
-                    </div>
-                  </div>
-                }
-                error={
-                  <div className="flex items-center justify-center p-8">
-                    <div className="text-center space-y-4">
-                      <AlertCircle className="w-12 h-12 text-red-400 mx-auto" />
-                      <div>
-                        <h3 className="text-lg font-medium text-gray-900">PDF Load Error</h3>
-                        <p className="text-gray-600 text-sm">Unable to load the PDF document</p>
-                      </div>
-                    </div>
-                  </div>
-                }
-              >
-                {PDFComponents.Page && numPages && Array.from(
-                  new Array(numPages),
-                  (el, index) => (
-                    <div key={`page_${index + 1}`} className="mb-8 first:mt-0">
-                      <PDFComponents.Page
-                        pageNumber={index + 1}
-                        scale={scale}
-                        rotate={rotate}
-                        loading={
-                          <div className="flex items-center justify-center p-8">
-                            <div className="text-center space-y-2">
-                              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
-                              <p className="text-gray-600 text-sm">Loading page {index + 1}...</p>
-                            </div>
-                          </div>
-                        }
-                        renderTextLayer={false}
-                        renderAnnotationLayer={false}
-                        className="shadow-lg border border-gray-200"
-                      />
-                      <div className="text-center mt-2">
-                        <span className="text-xs text-gray-500">Page {index + 1} of {numPages}</span>
-                      </div>
-                    </div>
-                  )
-                )}
-              </PDFComponents.Document>
-            </div>
-          ) : (
-            <div className="flex items-start justify-center h-full">
-              <div className="text-center space-y-4">
-                <File className="w-16 h-16 text-gray-300 mx-auto" />
-                <h3 className="text-lg font-medium text-gray-700">
-                  PDF Viewer Loading...
-                </h3>
-                <p className="text-gray-500 text-sm">
-                  Please wait while we initialize PDF rendering
-                </p>
-              </div>
-            </div>
-          )
-        ) : document.type === 'image' ? (
-          <div className="flex justify-center items-start min-h-full">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              className="max-w-full max-h-full"
-            >
-              <img
-                src={document.path}
-                alt={document.name}
-                className="max-w-full max-h-full object-contain shadow-lg rounded"
-                style={{
-                  transform: `scale(${scale}) rotate(${rotate}deg)`,
-                  transformOrigin: 'center center'
-                }}
-              />
-            </motion.div>
-          </div>
-        ) : (
-          <div className="flex items-start justify-center h-full">
-            <div className="text-center space-y-4">
-              <File className="w-16 h-16 text-gray-300 mx-auto" />
-              <h3 className="text-lg font-medium text-gray-700">
-                Preview Not Available
-              </h3>
-              <p className="text-gray-500 text-sm">
-                {document.name}
-              </p>
-              <button
-                onClick={handleDownload}
-                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-              >
-                Download file
-              </button>
-            </div>
-          </div>
-        )}
+        {renderDocumentContent()}
       </div>
     </div>
   );
