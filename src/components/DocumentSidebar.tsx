@@ -68,7 +68,7 @@ export function DocumentSidebar({
   }
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-screen flex flex-col">
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-900">
@@ -80,7 +80,7 @@ export function DocumentSidebar({
       </div>
 
       {/* Document List */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto" onWheel={(e) => e.stopPropagation()}>
         {documents.map((document) => (
           <motion.div
             key={document.id}
@@ -90,8 +90,8 @@ export function DocumentSidebar({
                 : ''
             }`}
             onClick={() => onDocumentSelect(document)}
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
+            whileHover={{ scale: 0.99 }}
+            whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-start space-x-3">
               {/* File Icon */}

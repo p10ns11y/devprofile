@@ -20,6 +20,8 @@ const PDFComponents = {
   pdfjs: null as any
 };
 
+
+
 if (typeof window !== 'undefined') {
   // Import PDF.js only on client side
   const { Document, Page, pdfjs } = require('react-pdf');
@@ -84,13 +86,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
     link.click();
   };
 
-  const previousPage = () => {
-    setPageNumber(prev => Math.max(prev - 1, 1));
-  };
 
-  const nextPage = () => {
-    setPageNumber(prev => Math.min(prev + 1, numPages || 1));
-  };
 
   if (loading) {
     return (
@@ -124,7 +120,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   }
 
   return (
-    <div className="h-full flex flex-col bg-white">
+    <div className="h-screen flex flex-col bg-white">
       {/* Document Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
         <div className="flex items-center space-x-4">
@@ -150,28 +146,11 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
 
         {/* Controls */}
         <div className="flex items-center space-x-2">
+          {/* Page Count */}
           {document.type === 'pdf' && numPages && (
-            <>
-              <button
-                onClick={previousPage}
-                disabled={pageNumber <= 1}
-                className="p-2 hover:bg-gray-100 rounded disabled:opacity-50"
-                title="Previous page"
-              >
-                ←
-              </button>
-              <span className="text-sm text-gray-700 px-2">
-                {pageNumber} of {numPages}
-              </span>
-              <button
-                onClick={nextPage}
-                disabled={pageNumber >= numPages}
-                className="p-2 hover:bg-gray-100 rounded disabled:opacity-50"
-                title="Next page"
-              >
-                →
-              </button>
-            </>
+            <div className="text-sm text-gray-700 px-3 py-1 bg-gray-50 rounded">
+              {numPages} page{numPages !== 1 ? 's' : ''}
+            </div>
           )}
 
           {/* Zoom Controls */}
@@ -219,7 +198,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
       <div className="flex-1 overflow-auto bg-gray-50 p-6">
         {document.type === 'pdf' ? (
           PDFComponents.Document ? (
-            <div className="flex justify-center items-center min-h-full">
+            <div className="flex flex-col items-center">
               <PDFComponents.Document
                 file={document.path}
                 onLoadSuccess={onDocumentLoadSuccess}
@@ -244,24 +223,36 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
                   </div>
                 }
               >
-                {PDFComponents.Page && (
-                  <PDFComponents.Page
-                    pageNumber={pageNumber}
-                    scale={scale}
-                    rotate={rotate}
-                    loading={
-                      <div className="flex items-center justify-center p-8">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+                {PDFComponents.Page && numPages && Array.from(
+                  new Array(numPages),
+                  (el, index) => (
+                    <div key={`page_${index + 1}`} className="mb-8 first:mt-0">
+                      <PDFComponents.Page
+                        pageNumber={index + 1}
+                        scale={scale}
+                        rotate={rotate}
+                        loading={
+                          <div className="flex items-center justify-center p-8">
+                            <div className="text-center space-y-2">
+                              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+                              <p className="text-gray-600 text-sm">Loading page {index + 1}...</p>
+                            </div>
+                          </div>
+                        }
+                        renderTextLayer={false}
+                        renderAnnotationLayer={false}
+                        className="shadow-lg border border-gray-200"
+                      />
+                      <div className="text-center mt-2">
+                        <span className="text-xs text-gray-500">Page {index + 1} of {numPages}</span>
                       </div>
-                    }
-                    renderTextLayer={false}
-                    renderAnnotationLayer={false}
-                  />
+                    </div>
+                  )
                 )}
               </PDFComponents.Document>
             </div>
           ) : (
-            <div className="flex items-center justify-center h-full">
+            <div className="flex items-start justify-center h-full">
               <div className="text-center space-y-4">
                 <File className="w-16 h-16 text-gray-300 mx-auto" />
                 <h3 className="text-lg font-medium text-gray-700">
@@ -274,7 +265,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
             </div>
           )
         ) : document.type === 'image' ? (
-          <div className="flex justify-center items-center min-h-full">
+          <div className="flex justify-center items-start min-h-full">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -293,7 +284,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
             </motion.div>
           </div>
         ) : (
-          <div className="flex items-center justify-center h-full">
+          <div className="flex items-start justify-center h-full">
             <div className="text-center space-y-4">
               <File className="w-16 h-16 text-gray-300 mx-auto" />
               <h3 className="text-lg font-medium text-gray-700">

@@ -101,6 +101,103 @@ export default function Documents() {
           size: 256000,
           lastModified: new Date(),
         },
+        // Additional certificates
+        {
+          id: 'cert-advanced-react-hooks',
+          name: 'advanced-react-hooks-certificate.pdf',
+          path: '/certificates/advanced-react-hooks-certificate.pdf',
+          type: 'pdf',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-advanced-react-patterns',
+          name: 'advanced-react-patterns-certificate.pdf',
+          path: '/certificates/advanced-react-patterns-certificate.pdf',
+          type: 'pdf',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-build-epic-react-app',
+          name: 'build-epic-react-app-certificate.pdf',
+          path: '/certificates/build-epic-react-app-certificate.pdf',
+          type: 'pdf',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-javascript-testing',
+          name: 'JavaScriptTestingCertificate.pdf',
+          path: '/certificates/JavaScriptTestingCertificate.pdf',
+          type: 'pdf',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-just-javascript',
+          name: 'JustJavaScript-certificate.pdf',
+          path: '/certificates/JustJavaScript-certificate.pdf',
+          type: 'pdf',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-polaris-ht101',
+          name: 'polaris-ht101-certificate-template.png',
+          path: '/certificates/polaris-ht101-certificate-template.png',
+          type: 'image',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-polaris-ht101-social',
+          name: 'polaris-ht101-social-certificate-template.png',
+          path: '/certificates/polaris-ht101-social-certificate-template.png',
+          type: 'image',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-react-fundamentals',
+          name: 'react-fundamentals-certificate.pdf',
+          path: '/certificates/react-fundamentals-certificate.pdf',
+          type: 'pdf',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-react-hooks-epic-react',
+          name: 'react-hooks-epic-react-certificate.pdf',
+          path: '/certificates/react-hooks-epic-react-certificate.pdf',
+          type: 'pdf',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-react-performance',
+          name: 'react-performance-certificate.pdf',
+          path: '/certificates/react-performance-certificate.pdf',
+          type: 'pdf',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-react-suspense',
+          name: 'react-suspense-certificate.pdf',
+          path: '/certificates/react-suspense-certificate.pdf',
+          type: 'pdf',
+          size: 256000,
+          lastModified: new Date(),
+        },
+        {
+          id: 'cert-testing-react-apps',
+          name: 'testing-react-apps-certificate.pdf',
+          path: '/certificates/testing-react-apps-certificate.pdf',
+          type: 'pdf',
+          size: 256000,
+          lastModified: new Date(),
+        },
       ];
 
       setDocuments(docs);
@@ -126,13 +223,13 @@ export default function Documents() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-background text-foreground"
+      className="h-screen bg-background text-foreground"
     >
       {/* <Header /> */}
 
       <main className="flex-1 flex">
         {/* Sidebar */}
-        <div className="w-80 bg-white border-r border-gray-200 flex-shrink-0">
+        <div className="max-h-screen w-max bg-white border-r border-gray-200 flex-shrink-0 overflow-hidden">
           <DocumentSidebar
             documents={documents}
             selectedDocument={selectedDocument}
@@ -142,7 +239,7 @@ export default function Documents() {
         </div>
 
         {/* Document Viewer */}
-        <div className="flex-1 bg-gray-50">
+        <div className="flex-1 bg-gray-50 overflow-y-auto">
           <DocumentViewer
             document={selectedDocument}
             loading={loading}

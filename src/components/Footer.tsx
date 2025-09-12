@@ -36,7 +36,7 @@ export function Footer() {
             >
               View CV
             </Link>
-            <span className="text-muted-foreground">•</span>
+            {/* <span className="text-muted-foreground">•</span> */}
             <a
               href="/cv.pdf"
               className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
@@ -45,7 +45,7 @@ export function Footer() {
             >
               View PDF
             </a>
-            <span className="text-muted-foreground">•</span>
+            {/* <span className="text-muted-foreground">•</span> */}
             {/* eslint-disable-next-line */}
             <a
               href="/api/cv/generate"
@@ -53,7 +53,7 @@ export function Footer() {
             >
               Download PDF
             </a>
-            <span className="text-muted-foreground">•</span>
+            {/* <span className="text-muted-foreground">•</span> */}
             {/* <Link
               href="/ama"
               className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
