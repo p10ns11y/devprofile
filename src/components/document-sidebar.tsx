@@ -8,8 +8,8 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { DocumentItem, DocumentSidebarProps } from '../types/documents';
-import { formatFileSize, getFileIcon } from '../utils/fileUtils';
-import { LoadingSpinner } from './LoadingSpinner';
+import { formatFileSize, getFileIcon } from '../utils/file-utils';
+import { LoadingSpinner } from './loading-spinner';
 
 
 export function DocumentSidebar({

@@ -20,14 +20,14 @@ export const getDocumentsData = (): DocumentItem[] => {
       size: 512000,
       lastModified: new Date(),
     },
-    {
-      id: 'fa3c8ca54c1f2364ce99b8b4a5843bf84d6e4b68-png',
-      name: 'fa3c8ca54c1f2364ce99b8b4a5843bf84d6e4b68.png',
-      path: '/images/fa3c8ca54c1f2364ce99b8b4a5843bf84d6e4b68.png',
-      type: 'image',
-      size: 1024000,
-      lastModified: new Date(),
-    },
+    // {
+    //   id: 'fa3c8ca54c1f2364ce99b8b4a5843bf84d6e4b68-png',
+    //   name: 'fa3c8ca54c1f2364ce99b8b4a5843bf84d6e4b68.png',
+    //   path: '/images/fa3c8ca54c1f2364ce99b8b4a5843bf84d6e4b68.png',
+    //   type: 'image',
+    //   size: 1024000,
+    //   lastModified: new Date(),
+    // },
     // Certificate PDFs
     {
       id: 'cert-coursera-0UXP2OPIYHPS',

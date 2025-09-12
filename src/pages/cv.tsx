@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import QuestionAnswer from '../components/QuestionAnswer';
+import QuestionAnswer from '../components/question-answer';
 
 export default function CVIndex() {
   const [showQA, setShowQA] = useState(false);

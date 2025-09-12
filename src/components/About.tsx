@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { Code2, Lightbulb, Users, Zap } from 'lucide-react';
 
-import AISmartHighlight from './AISmartHighlight';
+import AISmartHighlight from './ai-smart-highlight';
 import { Card, CardContent } from './ui/card';
 
 import cvdata from '../data/cvdata.json'

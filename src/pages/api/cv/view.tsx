@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import ReactPDF from '@react-pdf/renderer';
 import React from 'react';
-import CVDocument from '@/components/CVDocument';
+import CVDocument from '@/components/cv-document';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {

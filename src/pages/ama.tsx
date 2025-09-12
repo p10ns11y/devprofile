@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
-import { AICHAT } from '../components/AICHAT';
+import { Header } from '../components/header';
+import { Footer } from '../components/footer';
+import { AICHAT } from '../components/ai-chat';
 
 export default function AMA() {
   useEffect(() => {

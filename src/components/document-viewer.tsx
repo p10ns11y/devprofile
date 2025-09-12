@@ -12,9 +12,9 @@ import {
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { DocumentItem, DocumentViewerProps } from '../types/documents';
-import { formatFileSize, getFileIconForViewer } from '../utils/fileUtils';
-import { HomeButton } from './HomeButton';
-import { LoadingSpinner } from './LoadingSpinner';
+import { formatFileSize, getFileIconForViewer } from '../utils/file-utils';
+import { HomeButton } from './home-button';
+import { LoadingSpinner } from './loading-spinner';
 
 // Dynamic import for PDF components to avoid SSR issues
 const PDFComponents = {

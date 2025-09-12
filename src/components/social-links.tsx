@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 
-import { Icon, type IconName  } from '@/components/Icon'
+import { Icon, type IconName  } from '@/components/icon'
 
 import cvdata from '../data/cvdata.json';
 

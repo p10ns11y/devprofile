@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 
-import { AISmartHighlight } from '@/components/AISmartHighlight';
-import { SocialLinks } from '@/components/SocialLinks';
+import { AISmartHighlight } from '@/components/ai-smart-highlight';
+import { SocialLinks } from '@/components/social-links';
 
 interface CVData {
   name: string;

@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
-import { DocumentSidebar } from '../components/DocumentSidebar';
-import { DocumentViewer } from '../components/DocumentViewer';
+import { Header } from '../components/header';
+import { Footer } from '../components/footer';
+import { DocumentSidebar } from '../components/document-sidebar';
+import { DocumentViewer } from '../components/document-viewer';
 import { DocumentItem } from '../types/documents';
-import { getDocumentsData } from '../data/documentsData';
+import { getDocumentsData } from '../data/documents-data';
 
 export default function Documents() {
   const [documents, setDocuments] = useState<DocumentItem[]>([]);

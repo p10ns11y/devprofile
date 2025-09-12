@@ -3,8 +3,8 @@
 import { motion } from "motion/react";
 import { Calendar, MapPin, Users, Code } from "lucide-react";
 import { Badge } from "./ui/badge";
-import { TimelineContent } from './Timeline';
-import { AISmartHighlight } from './AISmartHighlight';
+import { TimelineContent } from './timeline';
+import { AISmartHighlight } from './ai-smart-highlight';
 
 import cvdata from '../data/cvdata.json'
 
