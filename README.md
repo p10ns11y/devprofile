@@ -220,10 +220,20 @@ This project is configured for deployment on:
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+2. Create a feature branch from `dev` branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+## Branching Workflow
+- `main`: Production-ready code.
+- `dev`: Integration branch, synced with `main` after every release or hotfix.
+- `canary`: Experimental branch for early production testing with limited users.
+- `feature/*`: Short-lived branches for developing new features, created from dev`.
+- `release/*`: Prepares a specific version for production, branched from dev`.
+- `hotfix/*`: Urgent fixes for production issues, branched from main, synced to dev`.
+- **Sync Process**: Run `git checkout main; git pull--rebse; git checkout dev; git rebase main; git push origin dev` after `main` updates.
+- **Branch Creation**: Always create `feature/*`, `release/*`, and `canary` from the latest `dev`.
 
 ## 📄 License
 
