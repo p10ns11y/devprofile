@@ -1,15 +1,15 @@
 "use client";
 
 import { motion } from 'motion/react';
-import { Header } from '../components/Header';
-import { Hero } from '../components/Hero';
-import { About } from '../components/About';
-import { Skills } from '../components/Skills';
-import { Projects as CurrentProjects } from '../components/Projects';
-import { Experience } from '../components/Experience';
-// import { Timeline } from '../components/Timeline';
-import { Contact } from '../components/Contact';
-import { Footer } from '../components/Footer';
+import { Header } from '../components/header';
+import { Hero } from '../components/hero';
+import { About } from '../components/about';
+import { Skills } from '../components/skills';
+import { Projects as CurrentProjects } from '../components/projects';
+import { Experience } from '../components/experience';
+// import { Timeline } from '../components/timeline';
+import { Contact } from '../components/contact';
+import { Footer } from '../components/footer';
 
 export default function Home() {
   return (

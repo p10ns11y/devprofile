@@ -4,8 +4,8 @@ import { motion } from "motion/react";
 import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import { SocialLinks } from "./SocialLinks";
-import { AISmartHighlight } from "./AISmartHighlight";
+import { SocialLinks } from "./social-links";
+import { AISmartHighlight } from "./ai-smart-highlight";
 
 import cvdata from '../data/cvdata.json'
 

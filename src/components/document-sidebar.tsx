@@ -2,56 +2,15 @@
 
 import React from 'react';
 import {
-  FileText,
-  ImageIcon,
-  File,
+  File as FileIcon,
   Clock,
   HardDrive
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { DocumentItem, DocumentSidebarProps } from '../types/documents';
+import { formatFileSize, getFileIcon } from '../utils/file-utils';
+import { LoadingSpinner } from './loading-spinner';
 
-interface DocumentItem {
-  id: string;
-  name: string;
-  path: string;
-  type: 'pdf' | 'image' | 'text' | 'other';
-  size: number;
-  lastModified: Date;
-  thumbnail?: string;
-}
-
-interface DocumentSidebarProps {
-  documents: DocumentItem[];
-  selectedDocument: DocumentItem | null;
-  onDocumentSelect: (document: DocumentItem) => void;
-  loading: boolean;
-}
-
-const formatFileSize = (bytes: number): string => {
-  const units = ['B', 'KB', 'MB', 'GB'];
-  let size = bytes;
-  let unitIndex = 0;
-
-  while (size >= 1024 && unitIndex < units.length - 1) {
-    size /= 1024;
-    unitIndex++;
-  }
-
-  return `${size.toFixed(1)} ${units[unitIndex]}`;
-};
-
-const getFileIcon = (type: string) => {
-  switch (type) {
-    case 'pdf':
-      return <FileText className="w-5 h-5 text-red-500" />;
-    case 'image':
-      return <ImageIcon className="w-5 h-5 text-blue-500" />;
-    case 'text':
-      return <FileText className="w-5 h-5 text-green-500" />;
-    default:
-      return <File className="w-5 h-5 text-gray-500" />;
-  }
-};
 
 export function DocumentSidebar({
   documents,
@@ -62,7 +21,7 @@ export function DocumentSidebar({
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+        <LoadingSpinner />
       </div>
     );
   }
@@ -144,7 +103,7 @@ export function DocumentSidebar({
 
         {documents.length === 0 && (
           <div className="flex flex-col items-center justify-center py-12 px-4">
-            <File className="w-12 h-12 text-gray-300 mb-4" />
+            <FileIcon className="w-12 h-12 text-gray-300 mb-4" />
             <h3 className="text-sm text-gray-500 font-medium mb-2">
               No Documents Found
             </h3>

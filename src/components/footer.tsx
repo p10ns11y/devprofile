@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { motion } from "motion/react";
 import { Heart } from "lucide-react";
 
-import { SocialLinks } from "./SocialLinks";
+import { SocialLinks } from "./social-links";
 
 
 import cvdata from '../data/cvdata.json'
