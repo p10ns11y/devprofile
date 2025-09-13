@@ -5,6 +5,10 @@ import CVDocument from '@/components/cv-document';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    // Set headers for PDF response
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline; filename="cv.pdf"');
+
     // Generate PDF using ReactPDF.renderToStream
     const pdfStream = await ReactPDF.renderToStream(<CVDocument />);
 
