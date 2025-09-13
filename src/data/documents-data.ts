@@ -11,15 +11,6 @@ export const getDocumentsData = (): DocumentItem[] => {
       size: 1024000,
       lastModified: new Date(),
     },
-    // Images
-    {
-      id: 'curism-png',
-      name: 'curism.png',
-      path: '/images/curism.png',
-      type: 'image',
-      size: 512000,
-      lastModified: new Date(),
-    },
     // {
     //   id: 'fa3c8ca54c1f2364ce99b8b4a5843bf84d6e4b68-png',
     //   name: 'fa3c8ca54c1f2364ce99b8b4a5843bf84d6e4b68.png',
@@ -118,22 +109,7 @@ export const getDocumentsData = (): DocumentItem[] => {
       size: 256000,
       lastModified: new Date(),
     },
-    {
-      id: 'cert-polaris-ht101',
-      name: 'polaris-ht101-certificate-template.png',
-      path: '/certificates/polaris-ht101-certificate-template.png',
-      type: 'image',
-      size: 256000,
-      lastModified: new Date(),
-    },
-    {
-      id: 'cert-polaris-ht101-social',
-      name: 'polaris-ht101-social-certificate-template.png',
-      path: '/certificates/polaris-ht101-social-certificate-template.png',
-      type: 'image',
-      size: 256000,
-      lastModified: new Date(),
-    },
+   
     {
       id: 'cert-react-fundamentals',
       name: 'react-fundamentals-certificate.pdf',
@@ -172,6 +148,31 @@ export const getDocumentsData = (): DocumentItem[] => {
       path: '/certificates/testing-react-apps-certificate.pdf',
       type: 'pdf',
       size: 256000,
+      lastModified: new Date(),
+    },
+    // {
+    //   id: 'cert-polaris-ht101',
+    //   name: 'polaris-ht101-certificate-template.png',
+    //   path: '/certificates/polaris-ht101-certificate-template.png',
+    //   type: 'image',
+    //   size: 256000,
+    //   lastModified: new Date(),
+    // },
+    {
+      id: 'cert-polaris-ht101-social',
+      name: 'polaris-ht101-social-certificate-template.png',
+      path: '/certificates/polaris-ht101-social-certificate-template.png',
+      type: 'image',
+      size: 256000,
+      lastModified: new Date(),
+    },
+    // Images
+    {
+      id: 'curism-png',
+      name: 'curism.png',
+      path: '/images/curism.png',
+      type: 'image',
+      size: 512000,
       lastModified: new Date(),
     },
   ];
