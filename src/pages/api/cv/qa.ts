@@ -14,6 +14,9 @@ let chunks: Chunk[] = [];
 let extractor: any = null;
 let generator: any = null;
 
+// Cache for QA responses
+let qaCache = new Map<string, { answer: string; details: any[] }>();
+
 // Load models and prepare chunks
 async function prepareData() {
   if (extractor && chunks.length > 0) return; // Already prepared
@@ -469,7 +472,8 @@ function generateCompanyAnswer(sectionGroups: Record<string, string[]>): string 
   const introductions = [
     "In my professional journey, ",
     "Throughout my career, ",
-    "I've worked at several companies where "
+    "Here are some relevant details: ",
+    "Regarding your question, "
   ];
 
   let answer = introductions[Math.floor(Math.random() * introductions.length)];
@@ -664,6 +668,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     await prepareData();
 
+    // Check if the question is already in the cache
+    if (qaCache.has(question)) {
+      const cachedResponse = qaCache.get(question);
+      return res.status(200).json(cachedResponse);
+    }
+
     // Embed the query
     const queryEmbedding = await extractor(question, { pooling: 'mean', normalize: true });
     const queryVec = Array.from(queryEmbedding.data as number[]);
@@ -685,6 +695,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Intelligent answer generation
     const answer = await generateAnswer(question, results);
+
+    // Cache the response
+    qaCache.set(question, {
+      answer,
+      details: results
+    });
 
     res.status(200).json({
       answer,

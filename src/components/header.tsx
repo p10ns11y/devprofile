@@ -1,11 +1,15 @@
 "use client";
 
 import { motion } from 'motion/react';
+import Link from 'next/link';
+import { useState } from 'react';
 import { Button } from './ui/button';
+import { Menu, X } from 'lucide-react';
 
 import cvdata from '../data/cvdata.json'
 
 export function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navItems = [
     { name: 'Home', href: '/#home' },
     { name: 'About', href: '/#about' },
@@ -18,13 +22,6 @@ export function Header() {
   ];
 
   const scrollToSection = (href: string) => {
-    // Handle external CV link
-    if (href === '/cv/web-view') {
-      const cvUrl = `${window.location.origin}/cv/web-view`;
-      window.open(cvUrl, '_blank');
-      return;
-    }
-
     // Check if we're currently on home page
     const isHomePage = window.location.pathname === '/';
 
@@ -39,11 +36,12 @@ export function Header() {
       // On home page - smooth scroll to section
       const element = document.querySelector(href.slice(1));
       element?.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false); // Close menu after navigation
       return;
     }
 
-    // Regular navigation (shouldn't happen for anchor links)
-    window.location.href = `${window.location.origin}${href}`;
+    // Regular navigation for non-anchor links (handled by Link now)
+    // No need for special cases
   };
 
   return (
@@ -64,19 +62,43 @@ export function Header() {
 
         <div className="hidden md:flex items-center space-x-8">
           {navItems.map((item, index) => (
-            <motion.button
+            <motion.div
               key={item.name}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ scale: 1.1, color: 'var(--primary)', cursor: 'pointer' }}
-              onClick={() => scrollToSection(item.href)}
-              className="text-muted-foreground hover:text-primary transition-colors"
             >
-              {item.name}
-            </motion.button>
+              {item.href.startsWith('/#') ? (
+                <motion.button
+                  whileHover={{ scale: 1.1, color: 'var(--primary)', cursor: 'pointer' }}
+                  onClick={() => scrollToSection(item.href)}
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {item.name}
+                </motion.button>
+              ) : (
+                <Link href={item.href} prefetch target={item.href === '/cv/web-view' ? '_blank' : '_self'}>
+                  <motion.span
+                    whileHover={{ scale: 1.1, color: 'var(--primary)', cursor: 'pointer' }}
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {item.name}
+                  </motion.span>
+                </Link>
+              )}
+            </motion.div>
           ))}
         </div>
+
+        {/* Mobile menu button */}
+        <Button
+          variant="ghost"
+          size="sm"
+          className="md:hidden ml-auto"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </Button>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -92,6 +114,61 @@ export function Header() {
           </Button>
         </motion.div>
       </nav>
+
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className="md:hidden bg-background/95 backdrop-blur-md border-t"
+        >
+          <div className="container mx-auto px-6 py-4 space-y-4">
+            {navItems.map((item, index) => (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                {item.href.startsWith('/#') ? (
+                  <button
+                    onClick={() => scrollToSection(item.href)}
+                    className="block w-full text-left text-muted-foreground hover:text-primary transition-colors py-2"
+                  >
+                    {item.name}
+                  </button>
+                ) : (
+                  <Link href={item.href} prefetch target={item.href === '/cv/web-view' ? '_blank' : '_self'}>
+                    <span
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block w-full text-left text-muted-foreground hover:text-primary transition-colors py-2"
+                    >
+                      {item.name}
+                    </span>
+                  </Link>
+                )}
+              </motion.div>
+            ))}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: navItems.length * 0.1 }}
+            >
+              <Button
+                variant="outline"
+                onClick={() => {
+                  scrollToSection('/#contact');
+                  setIsMenuOpen(false);
+                }}
+                className="w-full"
+              >
+                Let's Talk
+              </Button>
+            </motion.div>
+          </div>
+        </motion.div>
+      )}
     </motion.header>
   );
 }

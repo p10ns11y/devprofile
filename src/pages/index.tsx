@@ -1,11 +1,12 @@
 "use client";
 
+import React, { Suspense } from 'react';
 import { motion } from 'motion/react';
 import { Header } from '../components/header';
 import { Hero } from '../components/hero';
 import { About } from '../components/about';
 import { Skills } from '../components/skills';
-import { Projects as CurrentProjects } from '../components/projects';
+const CurrentProjects = React.lazy(() => import('../components/projects').then(mod => ({ default: mod.Projects })));
 import { Experience } from '../components/experience';
 // import { Timeline } from '../components/timeline';
 import { Contact } from '../components/contact';
@@ -25,7 +26,9 @@ export default function Home() {
         <Hero />
         <About />
         <Skills />
-        <CurrentProjects />
+        <Suspense fallback={<div className="py-20 text-center">Loading projects...</div>}>
+          <CurrentProjects />
+        </Suspense>
         <Experience />
         <Contact />
       </main>
