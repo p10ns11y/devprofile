@@ -1,4 +1,5 @@
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open('devprofile-v1').then((cache) => {
       return cache.addAll([

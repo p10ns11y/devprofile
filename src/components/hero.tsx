@@ -1,9 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { Button } from "./ui/button";
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
 import { SocialLinks } from "./social-links";
 import { AISmartHighlight } from "./ai-smart-highlight";
@@ -11,6 +10,16 @@ import { AISmartHighlight } from "./ai-smart-highlight";
 import cvdata from '../data/cvdata.json'
 
 export function Hero() {
+  const [particles, setParticles] = useState<Array<{ x: number; y: number }>>([]);
+
+  useEffect(() => {
+    const newParticles = [...Array(20)].map(() => ({
+      x: Math.random() * window.innerWidth,
+      y: Math.random() * window.innerHeight,
+    }));
+    setParticles(newParticles);
+  }, []);
+
   const scrollToAbout = () => {
     document
       .querySelector("#about")
@@ -24,13 +33,13 @@ export function Hero() {
     >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
+        {particles.map((particle, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 bg-primary/10 rounded-full"
             initial={{
-              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
-              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+              x: particle.x,
+              y: particle.y,
               scale: 0,
             }}
             animate={{
@@ -144,8 +153,6 @@ export function Hero() {
           </motion.div>
         </motion.div>
       </div>
-
-
 
       <motion.button
         initial={{ opacity: 0 }}
