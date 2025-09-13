@@ -2,11 +2,14 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { Button } from './ui/button';
+import { Menu, X } from 'lucide-react';
 
 import cvdata from '../data/cvdata.json'
 
 export function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navItems = [
     { name: 'Home', href: '/#home' },
     { name: 'About', href: '/#about' },
@@ -33,6 +36,7 @@ export function Header() {
       // On home page - smooth scroll to section
       const element = document.querySelector(href.slice(1));
       element?.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false); // Close menu after navigation
       return;
     }
 
@@ -86,6 +90,16 @@ export function Header() {
           ))}
         </div>
 
+        {/* Mobile menu button */}
+        <Button
+          variant="ghost"
+          size="sm"
+          className="md:hidden ml-auto"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </Button>
+
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -100,6 +114,61 @@ export function Header() {
           </Button>
         </motion.div>
       </nav>
+
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className="md:hidden bg-background/95 backdrop-blur-md border-t"
+        >
+          <div className="container mx-auto px-6 py-4 space-y-4">
+            {navItems.map((item, index) => (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                {item.href.startsWith('/#') ? (
+                  <button
+                    onClick={() => scrollToSection(item.href)}
+                    className="block w-full text-left text-muted-foreground hover:text-primary transition-colors py-2"
+                  >
+                    {item.name}
+                  </button>
+                ) : (
+                  <Link href={item.href} prefetch target={item.href === '/cv/web-view' ? '_blank' : '_self'}>
+                    <span
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block w-full text-left text-muted-foreground hover:text-primary transition-colors py-2"
+                    >
+                      {item.name}
+                    </span>
+                  </Link>
+                )}
+              </motion.div>
+            ))}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: navItems.length * 0.1 }}
+            >
+              <Button
+                variant="outline"
+                onClick={() => {
+                  scrollToSection('/#contact');
+                  setIsMenuOpen(false);
+                }}
+                className="w-full"
+              >
+                Let's Talk
+              </Button>
+            </motion.div>
+          </div>
+        </motion.div>
+      )}
     </motion.header>
   );
 }
