@@ -13,6 +13,7 @@ export function Header() {
     { name: 'Skills', href: '/#skills' },
     { name: 'Projects', href: '/#projects' },
     { name: 'Experience', href: '/#experience' },
+    { name: 'Content Hub', href: '/content-hub' },
     { name: 'Contact', href: '/#contact' },
   ];
 
@@ -68,7 +69,7 @@ export function Header() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ scale: 1.1, color: 'var(--primary)' }}
+              whileHover={{ scale: 1.1, color: 'var(--primary)', cursor: 'pointer' }}
               onClick={() => scrollToSection(item.href)}
               className="text-muted-foreground hover:text-primary transition-colors"
             >
