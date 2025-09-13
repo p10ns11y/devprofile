@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from 'motion/react';
+import Link from 'next/link';
 import { Button } from './ui/button';
 
 import cvdata from '../data/cvdata.json'
@@ -18,13 +19,6 @@ export function Header() {
   ];
 
   const scrollToSection = (href: string) => {
-    // Handle external CV link
-    if (href === '/cv/web-view') {
-      const cvUrl = `${window.location.origin}/cv/web-view`;
-      window.open(cvUrl, '_blank');
-      return;
-    }
-
     // Check if we're currently on home page
     const isHomePage = window.location.pathname === '/';
 
@@ -42,8 +36,8 @@ export function Header() {
       return;
     }
 
-    // Regular navigation (shouldn't happen for anchor links)
-    window.location.href = `${window.location.origin}${href}`;
+    // Regular navigation for non-anchor links (handled by Link now)
+    // No need for special cases
   };
 
   return (
@@ -64,17 +58,31 @@ export function Header() {
 
         <div className="hidden md:flex items-center space-x-8">
           {navItems.map((item, index) => (
-            <motion.button
+            <motion.div
               key={item.name}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ scale: 1.1, color: 'var(--primary)', cursor: 'pointer' }}
-              onClick={() => scrollToSection(item.href)}
-              className="text-muted-foreground hover:text-primary transition-colors"
             >
-              {item.name}
-            </motion.button>
+              {item.href.startsWith('/#') ? (
+                <motion.button
+                  whileHover={{ scale: 1.1, color: 'var(--primary)', cursor: 'pointer' }}
+                  onClick={() => scrollToSection(item.href)}
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  {item.name}
+                </motion.button>
+              ) : (
+                <Link href={item.href} prefetch target={item.href === '/cv/web-view' ? '_blank' : '_self'}>
+                  <motion.span
+                    whileHover={{ scale: 1.1, color: 'var(--primary)', cursor: 'pointer' }}
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {item.name}
+                  </motion.span>
+                </Link>
+              )}
+            </motion.div>
           ))}
         </div>
 
