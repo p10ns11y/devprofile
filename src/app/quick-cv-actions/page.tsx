@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react';
 import QuestionAnswer from "@/components/question-answer";
 import { getFeatureDisclaimer, isFeatureInDevelopment } from "@/config/feature-flags";
