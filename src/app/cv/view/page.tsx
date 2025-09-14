@@ -3,18 +3,27 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import CVDocument from '@/components/cv-document';
+import type { PDFViewerProps } from '@react-pdf/renderer';
 
-// Dynamically import PDFViewer to avoid SSR issues
-const PDFViewer = dynamic(() => import('@react-pdf/renderer').then(mod => mod.PDFViewer), {
-  ssr: false,
-  loading: () => <div>Loading PDF viewer...</div>
-});
+// Dynamically import PDFViewer to avoid SSR issues and handle ESM package
+const PDFViewerWrapper = dynamic(
+  () => import('@react-pdf/renderer').then(({ PDFViewer }) => {
+    const WrappedPDFViewer: React.FC<PDFViewerProps> = (props) => (
+      <PDFViewer {...props} />
+    );
+    return WrappedPDFViewer;
+  }),
+  {
+    ssr: false,
+    loading: () => <div className="flex items-center justify-center h-screen text-lg">Loading PDF viewer...</div>
+  }
+);
 
 const CVPreviewPage = () => (
   <div style={{ height: '100vh' }}>
-    <PDFViewer width="100%" height="100%">
+    <PDFViewerWrapper width="100%" height="100%">
       <CVDocument />
-    </PDFViewer>
+    </PDFViewerWrapper>
   </div>
 );
 
