@@ -2,10 +2,10 @@
 
 import { useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Header } from '../components/header';
-import { Footer } from '../components/footer';
-import { AICHAT } from '../components/ai-chat';
-import { getFeatureDisclaimer, isFeatureInDevelopment } from '../config/feature-flags';
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
+import { AICHAT } from "@/components/ai-chat";
+import { getFeatureDisclaimer, isFeatureInDevelopment } from "@/config/feature-flags";
 import { AlertTriangle } from 'lucide-react';
 
 export default function AMA() {

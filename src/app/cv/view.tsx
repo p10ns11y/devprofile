@@ -1,4 +1,4 @@
-import CVWebView from "./web-view";
+import CVWebView from "./page";
 
 export default function CVView() {
   return (

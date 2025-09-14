@@ -3,11 +3,11 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { ContentHubLayout } from '../../components/content-hub/ContentHubLayout';
-import { PostCard } from '../../components/content-hub/PostCard';
-import { BriefCard } from '../../components/content-hub/BriefCard';
-import { ReadingCard } from '../../components/content-hub/ReadingCard';
-import { samplePosts, sampleBriefs, sampleReadings, Post, Brief, Reading } from '../../lib/content-hub/data';
+import { ContentHubLayout } from "@/components/content-hub/ContentHubLayout";
+import { PostCard } from "@/components/content-hub/PostCard";
+import { BriefCard } from "@/components/content-hub/BriefCard";
+import { ReadingCard } from "@/components/content-hub/ReadingCard";
+import { samplePosts, sampleBriefs, sampleReadings, Post, Brief, Reading } from "@/lib/content-hub/data";
 
 export default function ContentHubPage() {
   const router = useRouter();
