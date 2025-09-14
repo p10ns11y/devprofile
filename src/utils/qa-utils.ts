@@ -2,22 +2,22 @@ import cvdata from '@/data/cvdata.json';
 import { pipeline } from '@xenova/transformers';
 
 // Type for vector data
-interface Chunk {
+export interface Chunk {
   text: string;
   embedding: number[];
   section: string;
 }
 
 // Global cache for embeddings and models
-let chunks: Chunk[] = [];
-let extractor: any = null;
-let generator: any = null;
+export let chunks: Chunk[] = [];
+export let extractor: any = null;
+export let generator: any = null;
 
 // Cache for QA responses
-let qaCache = new Map<string, { answer: string; details: any[] }>();
+export let qaCache = new Map<string, { answer: string; details: any[] }>();
 
 // Load models and prepare chunks
-async function prepareData() {
+export async function prepareData() {
   if (extractor && chunks.length > 0) return; // Already prepared
 
   extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
@@ -192,7 +192,7 @@ async function prepareData() {
 }
 
 // Cosine similarity
-function cosineSimilarity(a: number[], b: number[]): number {
+export function cosineSimilarity(a: number[], b: number[]): number {
   let dot = 0;
   let aMag = 0;
   let bMag = 0;
@@ -205,7 +205,7 @@ function cosineSimilarity(a: number[], b: number[]): number {
 }
 
 // Enhanced answer generation with clustering and human-like responses
-async function generateAnswer(question: string, results: any[]): Promise<string> {
+export async function generateAnswer(question: string, results: any[]): Promise<string> {
   // CHECK FOR INTRODUCTION QUESTIONS FIRST - BYPASS SIMILARITY THRESHOLDS
   const qLower = question.toLowerCase();
 
@@ -300,7 +300,7 @@ async function generateAnswer(question: string, results: any[]): Promise<string>
 }
 
 // Cluster similar results to avoid redundancy
-function clusterSimilarResults(results: any[]): any[] {
+export function clusterSimilarResults(results: any[]): any[] {
   if (results.length <= 1) return results;
 
   const clusters: any[] = [];
@@ -337,14 +337,14 @@ function clusterSimilarResults(results: any[]): any[] {
     });
 }
 
-function countSharedWords(text1: string, text2: string): number {
+export function countSharedWords(text1: string, text2: string): number {
   const words1 = new Set(text1.toLowerCase().split(/\W+/).filter(w => w.length > 2));
   const words2 = text2.toLowerCase().split(/\W+/).filter(w => w.length > 2);
   return words2.filter(word => words1.has(word)).length;
 }
 
 // Human-like answer generators for different question types
-function generateSkillAnswer(sectionGroups: Record<string, string[]>, question: string): string {
+export function generateSkillAnswer(sectionGroups: Record<string, string[]>, question: string): string {
   let intro = "Regarding skills and expertise, ";
   const skills: string[] = [];
   const experiences: string[] = [];
@@ -380,7 +380,7 @@ function generateSkillAnswer(sectionGroups: Record<string, string[]>, question: 
   return answer + ".";
 }
 
-function generateAchievementsAnswer(cvdata: any): string {
+export function generateAchievementsAnswer(cvdata: any): string {
   // Calculate some metrics from work experience
   const totalYears = Math.floor(new Date().getTime() - new Date(cvdata.work_experience[cvdata.work_experience.length - 1].start_date.split(' ').pop() || '2010').getTime()) / (1000 * 60 * 60 * 24 * 365);
 
@@ -408,7 +408,7 @@ function generateAchievementsAnswer(cvdata: any): string {
   return answer;
 }
 
-function generateCareerOverviewAnswer(cvdata: any): string {
+export function generateCareerOverviewAnswer(cvdata: any): string {
   const totalYears = Math.floor(new Date().getTime() - new Date(cvdata.work_experience[cvdata.work_experience.length - 1].start_date.split(' ').pop() || '2010').getTime()) / (1000 * 60 * 60 * 24 * 365);
 
   const companyCount = new Set(cvdata.work_experience.map((exp: any) => exp.company)).size;
@@ -432,7 +432,7 @@ function generateCareerOverviewAnswer(cvdata: any): string {
   return answer;
 }
 
-function generateWhyHireAnswer(cvdata: any): string {
+export function generateWhyHireAnswer(cvdata: any): string {
   const keyStrengths = [
     "Strong problem-solving abilities",
     "Leadership in technical projects",
@@ -467,7 +467,7 @@ function generateWhyHireAnswer(cvdata: any): string {
   return answer;
 }
 
-function generateCompanyAnswer(sectionGroups: Record<string, string[]>): string {
+export function generateCompanyAnswer(sectionGroups: Record<string, string[]>): string {
   const introductions = [
     "In my professional journey, ",
     "Throughout my career, ",
@@ -491,7 +491,7 @@ function generateCompanyAnswer(sectionGroups: Record<string, string[]>): string 
   return answer + ". These experiences have helped me develop a comprehensive skill set.";
 }
 
-function generateProjectAnswer(sectionGroups: Record<string, string[]>): string {
+export function generateProjectAnswer(sectionGroups: Record<string, string[]>): string {
   let answer = "";
   const projects: string[] = [];
   const openSource: string[] = [];
@@ -539,7 +539,7 @@ function generateProjectAnswer(sectionGroups: Record<string, string[]>): string 
   return answer;
 }
 
-function generateEducationAnswer(sectionGroups: Record<string, string[]>): string {
+export function generateEducationAnswer(sectionGroups: Record<string, string[]>): string {
   let answer = "My educational background includes ";
 
   Object.entries(sectionGroups).forEach(([section, texts]) => {
@@ -553,7 +553,7 @@ function generateEducationAnswer(sectionGroups: Record<string, string[]>): strin
   return answer;
 }
 
-function generateContactAnswer(sectionGroups: Record<string, string[]>): string {
+export function generateContactAnswer(sectionGroups: Record<string, string[]>): string {
   let answer = "You can reach me at ";
 
   Object.entries(sectionGroups).forEach(([section, texts]) => {
@@ -568,7 +568,7 @@ function generateContactAnswer(sectionGroups: Record<string, string[]>): string 
   return answer.replace(/, or through $/, '.');
 }
 
-function generateIntroductionAnswer(cvdata: any): string {
+export function generateIntroductionAnswer(cvdata: any): string {
   // Extract key information for comprehensive introduction
   const name = cvdata.name;
   const title = "Senior Software Engineer"; // From profile context
@@ -613,7 +613,7 @@ function generateIntroductionAnswer(cvdata: any): string {
   return introduction;
 }
 
-function generateGeneralAnswer(clusteredResults: any[], question: string): string {
+export function generateGeneralAnswer(clusteredResults: any[], question: string): string {
   const introductions = [
     "Based on my professional background, ",
     "From my career experiences, ",
@@ -641,7 +641,7 @@ function generateGeneralAnswer(clusteredResults: any[], question: string): strin
 }
 
 // Enhance natural flow and conversational tone
-function enhanceNaturalFlow(answer: string): string {
+export function enhanceNaturalFlow(answer: string): string {
   // Add conversational elements
   answer = answer.replace(/I have/g, "I've");
   answer = answer.replace(/I worked/g, "I worked");
@@ -652,61 +652,4 @@ function enhanceNaturalFlow(answer: string): string {
   answer = answer.replace(/\. /g, '. ').replace(/, (\w)/g, ', $1');
 
   return answer;
-}
-
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
-  }
-
-  const { question } = req.body;
-  if (!question) {
-    return res.status(400).json({ message: 'Query required' });
-  }
-
-  try {
-    await prepareData();
-
-    // Check if the question is already in the cache
-    if (qaCache.has(question)) {
-      const cachedResponse = qaCache.get(question);
-      return res.status(200).json(cachedResponse);
-    }
-
-    // Embed the query
-    const queryEmbedding = await extractor(question, { pooling: 'mean', normalize: true });
-    const queryVec = Array.from(queryEmbedding.data as number[]);
-
-    // Find most similar chunks
-    const similarities = chunks.map((chunk, i) => ({
-      index: i,
-      similarity: cosineSimilarity(queryVec, chunk.embedding)
-    }));
-
-    similarities.sort((a, b) => b.similarity - a.similarity);
-
-    const topK = 3;
-    const results = similarities.slice(0, topK).map(sim => ({
-      text: chunks[sim.index].text,
-      section: chunks[sim.index].section,
-      similarity: sim.similarity
-    }));
-
-    // Intelligent answer generation
-    const answer = await generateAnswer(question, results);
-
-    // Cache the response
-    qaCache.set(question, {
-      answer,
-      details: results
-    });
-
-    res.status(200).json({
-      answer,
-      details: results
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
 }
