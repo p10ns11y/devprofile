@@ -60,14 +60,7 @@ const CVWebView = () => {
       });
   }, []);
 
-  const handleDownloadPDF = async () => {
-    try {
-      // Directly navigate to the API which will trigger download
-      window.location.href = '/api/cv/generate';
-    } catch (error) {
-      console.error('Error downloading PDF:', error);
-    }
-  };
+
 
   if (loading) {
     return (
@@ -132,12 +125,13 @@ const CVWebView = () => {
               >
                 📖 View PDF
               </a>
-              <button
-                onClick={handleDownloadPDF}
+              <a
+                href="/api/cv/download"
+                download="peramanathan-sathyamoorthy-cv.pdf"
                 className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
               >
                 ⬇️ Download PDF
-              </button>
+              </a>
             </div>
           </div>
 
