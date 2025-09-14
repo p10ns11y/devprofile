@@ -1,17 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter, useParams } from 'next/navigation';
 import Head from 'next/head';
-import { ContentHubLayout } from '../../components/content-hub/ContentHubLayout';
-import { PostCard } from '../../components/content-hub/PostCard';
-import { BriefCard } from '../../components/content-hub/BriefCard';
-import { ReadingCard } from '../../components/content-hub/ReadingCard';
-import { samplePosts, sampleBriefs, sampleReadings, Post, Brief, Reading } from '../../lib/content-hub/data';
+import { ContentHubLayout } from "@/components/content-hub/ContentHubLayout";
+import { PostCard } from "@/components/content-hub/PostCard";
+import { BriefCard } from "@/components/content-hub/BriefCard";
+import { ReadingCard } from "@/components/content-hub/ReadingCard";
+import { samplePosts, sampleBriefs, sampleReadings, Post, Brief, Reading } from "@/lib/content-hub/data";
 
 export default function ContentHubPage() {
   const router = useRouter();
-  const { page } = router.query;
+  const params = useParams();
+  const page = params?.page as string | undefined;
   const [searchTerm, setSearchTerm] = useState('');
 
   if (!page) {
@@ -61,7 +62,7 @@ export default function ContentHubPage() {
       <ContentHubLayout
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
-        currentPage={page as string}
+        currentPage={page}
       />
       <main className="max-w-7xl mx-auto px-4 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -17,7 +17,11 @@
     "start": "next start",
     "lint": "eslint .",
     "generate-pdf": "bun scripts/generate-pdf.tsx",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -53,6 +57,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.1.0",
+    "@playwright/test": "^1.40.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@types/node": "^24.3.1",
     "@types/react": "^19.1.12",

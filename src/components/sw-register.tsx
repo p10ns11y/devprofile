@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect } from 'react';
-import type { AppProps } from 'next/app'
-import '../styles/globals.css'
 
-function MyApp({ Component, pageProps }: AppProps) {
+export function SWRegister() {
   useEffect(() => {
     if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').then((registration) => {
@@ -16,7 +14,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, []);
 
-  return <Component {...pageProps} />
+  return null;
 }
-
-export default MyApp

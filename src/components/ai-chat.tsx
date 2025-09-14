@@ -20,7 +20,11 @@ interface Message {
   }>;
 }
 
-export function AICHAT() {
+interface AICHATProps {
+  submitAction: (question: string) => Promise<{ answer: string; details: any[] }>;
+}
+
+export default function AICHAT({ submitAction }: AICHATProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -105,29 +109,17 @@ export function AICHAT() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/cv/qa', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ question: currentQuestion.trim() }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to get answer');
-      }
-
-      const data = await response.json();
+      const response = await submitAction(currentQuestion.trim());
 
       const aiMessageId = Date.now().toString() + '-ai';
       const aiMessage: Message = {
         id: aiMessageId,
         type: 'ai',
-        content: data.answer,
+        content: response.answer,
         displayedContent: '',
         timestamp: new Date(),
         isStreaming: true,
-        sections: data.details
+        sections: response.details
       };
 
       setMessages(prev => [...prev, aiMessage]);

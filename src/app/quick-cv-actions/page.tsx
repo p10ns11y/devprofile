@@ -1,9 +1,11 @@
+'use client'
+
 import { useState } from 'react';
-import QuestionAnswer from '../components/question-answer';
-import { getFeatureDisclaimer, isFeatureInDevelopment } from '../config/feature-flags';
+import QuestionAnswer from "@/components/question-answer";
+import { getFeatureDisclaimer, isFeatureInDevelopment } from "@/config/feature-flags";
 import { AlertTriangle } from 'lucide-react';
 
-import cvdata from '../data/cvdata.json'
+import cvdata from "@/data/cvdata.json"
 
 export default function QuickCVActions() {
   const [showQA, setShowQA] = useState(false);
