@@ -1,8 +1,14 @@
 'use client'
 
 import React from 'react';
-import { PDFViewer } from '@react-pdf/renderer';
+import dynamic from 'next/dynamic';
 import CVDocument from '@/components/cv-document';
+
+// Dynamically import PDFViewer to avoid SSR issues
+const PDFViewer = dynamic(() => import('@react-pdf/renderer').then(mod => mod.PDFViewer), {
+  ssr: false,
+  loading: () => <div>Loading PDF viewer...</div>
+});
 
 const CVPreviewPage = () => (
   <div style={{ height: '100vh' }}>
