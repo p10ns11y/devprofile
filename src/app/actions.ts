@@ -3,7 +3,7 @@
 export async function askQuestion(question: string): Promise<{ answer: string; details: any[] }> {
   // Construct full URL for server action fetch call
   const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
-  let host = 'localhost:3001'; // default fallback
+  let host = 'localhost:3000'; // Default for development with Turbopack
 
   if (process.env.NEXT_PUBLIC_SITE_URL) {
     host = process.env.NEXT_PUBLIC_SITE_URL;
@@ -14,6 +14,8 @@ export async function askQuestion(question: string): Promise<{ answer: string; d
   const baseUrl = `${protocol}://${host}`;
   const apiUrl = `${baseUrl}/api/cv/qa`;
 
+  console.log('QA API URL:', apiUrl); // Debug logging
+
   const response = await fetch(apiUrl, {
     method: 'POST',
     headers: {
@@ -23,6 +25,7 @@ export async function askQuestion(question: string): Promise<{ answer: string; d
   });
 
   if (!response.ok) {
+    console.error('QA API response not ok:', response.status, response.statusText);
     throw new Error('Failed to get answer');
   }
 
