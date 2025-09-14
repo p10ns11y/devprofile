@@ -18,7 +18,7 @@ export function Header() {
     { name: 'Projects', href: '/#projects' },
     { name: 'Experience', href: '/#experience' },
     { name: 'Content Hub', href: '/content-hub' },
-    { name: 'Contact', href: '/#contact' },
+    // { name: 'Contact', href: '/#contact' }, // Testing sw cache busting
   ];
 
   const scrollToSection = (href: string) => {

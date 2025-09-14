@@ -362,6 +362,5 @@ This portfolio website serves as a **comprehensive showcase** of:
 - 🧪 **Quality Assurance**: Automated testing and error boundaries
 - 📱 **UX Excellence**: Accessible, responsive, and user-centered design
 
-**Registration**: December 2025 - Complete technical transformation achieved through extensive debugging, architectural redesign, and implementation of cutting-edge web technologies and development practices.
 
 **Built with 💙 using Next.js 15 & React 19**
