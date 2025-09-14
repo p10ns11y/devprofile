@@ -1,5 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import cvdata from '../../../data/cvdata.json';
+import cvdata from '@/data/cvdata.json';
 import { pipeline } from '@xenova/transformers';
 
 // Type for vector data
@@ -655,7 +654,7 @@ function enhanceNaturalFlow(answer: string): string {
   return answer;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
