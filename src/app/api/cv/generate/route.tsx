@@ -5,9 +5,12 @@ import CVDocument from '@/components/cv-document';
 export async function GET() {
   try {
     const pdfBuffer = await ReactPDF.renderToBuffer(<CVDocument />);
-    
+
+    // Convert buffer to Uint8Array for Response compatibility
+    const arrayBuffer = new Uint8Array(pdfBuffer);
+
     // Set headers for direct download
-    return new Response(pdfBuffer, {
+    return new Response(arrayBuffer, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'attachment; filename="peramanathan-sathyamoorthy-cv.pdf"',
