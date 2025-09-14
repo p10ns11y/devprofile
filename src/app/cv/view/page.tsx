@@ -3,15 +3,14 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import CVDocument from '@/components/cv-document';
-import type { PDFViewerProps } from '@react-pdf/renderer';
 
 // Dynamically import PDFViewer to avoid SSR issues and handle ESM package
 const PDFViewerWrapper = dynamic(
-  () => import('@react-pdf/renderer').then(({ PDFViewer }) => {
-    const WrappedPDFViewer: React.FC<PDFViewerProps> = (props) => (
-      <PDFViewer {...props} />
-    );
-    return WrappedPDFViewer;
+  () => import('@react-pdf/renderer').then((renderModule) => {
+    const { PDFViewer } = renderModule;
+    return function WrappedPDFViewer({ children, ...props }: any) {
+      return React.createElement(PDFViewer, props, children);
+    };
   }),
   {
     ssr: false,
