@@ -1,30 +1,35 @@
 'use server';
 
 export async function askQuestion(question: string): Promise<{ answer: string; details: any[] }> {
-  // Construct full URL for server action fetch call
-  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
-  let host = 'localhost:3001'; // default fallback
+  try {
+    // Get current URL from headers to construct proper absolute URL
+    const host = await import('next/headers').then(h => h.headers()).then(h => h.get('host'));
+    const protocol = await import('next/headers').then(h => h.headers()).then(h => h.get('x-forwarded-proto') || 'http');
 
-  if (process.env.NEXT_PUBLIC_SITE_URL) {
-    host = process.env.NEXT_PUBLIC_SITE_URL;
-  } else if (process.env.VERCEL_URL) {
-    host = `${process.env.VERCEL_URL}`;
+    if (!host) {
+      throw new Error('Unable to determine host from headers');
+    }
+
+    const apiUrl = `${protocol}://${host}/api/cv/qa`;
+    console.log('QA API URL:', apiUrl); // Debug logging
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ question }),
+    });
+
+    if (!response.ok) {
+      console.error('QA API response not ok:', response.status, response.statusText);
+      throw new Error('Failed to get answer');
+    }
+
+    return response.json();
+  } catch (error) {
+    // Add better error logging
+    console.error('Server action error:', error);
+    throw error;
   }
-
-  const baseUrl = `${protocol}://${host}`;
-  const apiUrl = `${baseUrl}/api/cv/qa`;
-
-  const response = await fetch(apiUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ question }),
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to get answer');
-  }
-
-  return response.json();
 }
