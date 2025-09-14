@@ -1,15 +1,15 @@
-import { Readable } from 'stream';
-import ReactPDF from '@react-pdf/renderer';
 import React from 'react';
+import { renderToBuffer } from '@react-pdf/renderer';
 import CVDocument from '@/components/cv-document';
 
 export async function GET(request: Request) {
   try {
-    const pdfStream = await ReactPDF.renderToStream(<CVDocument />);
-    
-    const webStream = Readable.toWeb(pdfStream as unknown as Readable)  as ReadableStream;
+    const pdfBuffer = await renderToBuffer(<CVDocument />);
 
-    return new Response(webStream, {
+    // Convert buffer to Uint8Array for Response compatibility
+    const arrayBuffer = new Uint8Array(pdfBuffer);
+
+    return new Response(arrayBuffer, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'inline',

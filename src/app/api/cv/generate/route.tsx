@@ -1,10 +1,10 @@
-import ReactPDF from '@react-pdf/renderer';
 import React from 'react';
+import { renderToBuffer } from '@react-pdf/renderer';
 import CVDocument from '@/components/cv-document';
 
 export async function GET() {
   try {
-    const pdfBuffer = await ReactPDF.renderToBuffer(<CVDocument />);
+    const pdfBuffer = await renderToBuffer(<CVDocument />);
 
     // Convert buffer to Uint8Array for Response compatibility
     const arrayBuffer = new Uint8Array(pdfBuffer);
