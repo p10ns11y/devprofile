@@ -22,6 +22,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" />
       </head>
       <body>
+        <SpeedInsights />
         <SWRegister />
         {children}
       </body>
