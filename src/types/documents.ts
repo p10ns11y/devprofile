@@ -12,10 +12,10 @@ export interface DocumentSidebarProps {
   documents: DocumentItem[];
   selectedDocument: DocumentItem | null;
   onDocumentSelect: (document: DocumentItem) => void;
-  loading: boolean;
+  loading?: boolean;
 }
 
 export interface DocumentViewerProps {
   document: DocumentItem | null;
-  loading: boolean;
+  loading?: boolean;
 }
