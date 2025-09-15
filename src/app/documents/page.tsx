@@ -1,72 +1,33 @@
-"use client";
+import React, { Suspense } from 'react'
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
-import { DocumentSidebar } from "@/components/document-sidebar";
-import { DocumentViewer } from "@/components/document-viewer";
-import { DocumentItem } from "@/types/documents";
-import { getDocumentsData } from "@/data/documents-data";
+const DocumentView = React.lazy(() => import('./document-view'));
 
-export default function Documents() {
-  const [documents, setDocuments] = useState<DocumentItem[]>([]);
-  const [selectedDocument, setSelectedDocument] = useState<DocumentItem | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  // Initialize with available documents
-  useEffect(() => {
-    const initializeDocuments = async () => {
-      const docs = getDocumentsData();
-
-      setDocuments(docs);
-
-      // Auto-select CV
-      const cvDoc = docs.find(doc => doc.id === 'cv-pdf');
-      if (cvDoc) {
-        setSelectedDocument(cvDoc);
-      }
-
-      setLoading(false);
-    };
-
-    initializeDocuments();
-  }, []);
-
-  const handleDocumentSelect = (document: DocumentItem) => {
-    setSelectedDocument(document);
-  };
-
+export default async function Documents() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+    <div
       className="h-screen bg-background text-foreground"
     >
-      {/* <Header /> */}
-
-      <main className="flex-1 flex">
-        {/* Sidebar */}
-        <div className="max-h-screen w-max bg-white border-r border-gray-200 flex-shrink-0 overflow-hidden">
-          <DocumentSidebar
-            documents={documents}
-            selectedDocument={selectedDocument}
-            onDocumentSelect={handleDocumentSelect}
-            loading={loading}
-          />
-        </div>
-
-        {/* Document Viewer */}
-        <div className="flex-1 bg-gray-50 overflow-y-auto">
-          <DocumentViewer
-            document={selectedDocument}
-            loading={loading}
-          />
-        </div>
-      </main>
-
-      {/* <Footer /> */}
-    </motion.div>
+     <Suspense fallback="loading...">
+       <DocumentsInternal />
+     </Suspense>
+    </div>
   );
 }
+
+async function DocumentsInternal() {
+  let { exampleFlag } = await import('@/app/flags');
+  let isFlagEnabled = await exampleFlag();
+
+  if (!isFlagEnabled) {
+    return <div>Feature not available</div>;
+  }
+
+  return (
+    <div
+      className="h-screen bg-background text-foreground"
+    >
+      <DocumentView />
+    </div>
+  );
+}
+

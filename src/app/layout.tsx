@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { VercelToolbar } from '@vercel/toolbar/next';
 
 import type { Metadata } from 'next'
 import { SWRegister } from '@/components/sw-register'
@@ -15,6 +16,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const shouldInjectToolbar = process.env.NODE_ENV === 'development';
   return (
     <html lang="en">
       <head>
@@ -24,6 +26,7 @@ export default function RootLayout({
       <body>
         <SpeedInsights />
         <SWRegister />
+        {shouldInjectToolbar && <VercelToolbar />}
         {children}
       </body>
     </html>
