@@ -1,5 +1,7 @@
 import '@/styles/globals.css'
 
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 import type { Metadata } from 'next'
 import { SWRegister } from '@/components/sw-register'
 
