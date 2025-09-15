@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - DevProfile</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .offline-container {
+      max-width: 500px;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #00ff88, #0099ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #00ff88;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      opacity: 0.8;
+    }
+    .reload-btn, .home-btn {
+      display: inline-block;
+      padding: 12px 24px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .reload-btn {
+      background: #00ff88;
+      color: #1a1a2e;
+    }
+    .home-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .reload-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+    }
+    .home-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .network-status {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 8px 16px;
+      background: rgba(255, 69, 58, 0.9);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .network-status::before {
+      content: '●';
+      color: #ff453a;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="network-status">
+    Offline Mode
+  </div>
+
+  <div class="offline-container">
+    <div class="spinner"></div>
+    <h1>You're Offline</h1>
+    <p>It looks like you've lost your internet connection. Don't worry - some parts of the site are cached and available offline!</p>
+    <p>Try refreshing the page when you're back online, or navigate to cached content.</p>
+
+    <button class="reload-btn" onclick="window.location.reload()">
+      🔄 Try Again
+    </button>
+
+    <a href="/" class="home-btn">
+      🏠 Go Home
+    </a>
+  </div>
+
+  <script>
+    // Listen for online/offline events
+    window.addEventListener('online', function() {
+      document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #00ff88 100%)';
+      setTimeout(() => location.reload(), 500);
+    });
+
+    window.addEventListener('offline', function() {
+      document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)';
+    });
+
+    // Service worker communication
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(registration => {
+        // Listen for updates
+        registration.addEventListener('updatefound', () => {
+          console.log('Service worker update found');
+        });
+      });
+    }
+  </script>
+</body>
+</html>
