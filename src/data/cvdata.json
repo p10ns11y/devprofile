@@ -442,6 +442,7 @@
       "url": "https://github.com/p10ns11y/latex-cv",
       "technologies": ["LaTeX", "Document Generation", "Rust", "AWS OpenID", "GitHub Actions", "Automated PR", "Automated S3 upload"],
       "is_open_source": true,
+      "impact": "Bulk and highly automated and secure PDF documents generation"
       "image": "https://imagine-public.x.ai/imagine-public/images/0c8cbea7-54e5-486b-b510-de0ae22082dc.png"
     },
     {
