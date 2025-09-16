@@ -142,6 +142,13 @@ export function Header() {
                   <Link href={item.href} prefetch target={item.href === '/cv/web-view' ? '_blank' : '_self'}>
                     <span
                       onClick={() => setIsMenuOpen(false)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setIsMenuOpen(false);
+                        }
+                      }}
+                      tabIndex={0}
                       className="block w-full text-left text-muted-foreground hover:text-primary transition-colors py-2"
                     >
                       {item.name}
