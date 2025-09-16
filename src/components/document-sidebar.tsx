@@ -45,7 +45,7 @@ export function DocumentSidebar({
             key={document.id}
             className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
               selectedDocument?.id === document.id
-                ? 'bg-blue-50 border-l-4 border-l-blue-500'
+                ? 'bg-gray-200 border-l-4 border-l-gray-500'
                 : ''
             }`}
             onClick={() => onDocumentSelect(document)}
@@ -55,7 +55,7 @@ export function DocumentSidebar({
             <div className="flex items-start space-x-3">
               {/* File Icon */}
               <div className={`flex-shrink-0 mt-1 ${
-                selectedDocument?.id === document.id ? 'border-2 border-blue-500 rounded' : ''
+                selectedDocument?.id === document.id ? 'border-2 border-gray-500 rounded' : ''
               }`}>
                 {getFileIcon(document.type)}
               </div>
@@ -64,7 +64,7 @@ export function DocumentSidebar({
               <div className="flex-1 min-w-0">
                 <h3 className={`text-sm font-medium truncate ${
                   selectedDocument?.id === document.id
-                    ? 'text-blue-900'
+                    ? 'text-gray-900'
                     : 'text-gray-900'
                 }`}>
                   {document.name}
@@ -88,9 +88,9 @@ export function DocumentSidebar({
                 <div className="mt-2">
                   <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
                     document.type === 'pdf'
-                      ? 'bg-red-100 text-red-800'
+                      ? 'bg-gray-100 text-gray-800'
                       : document.type === 'image'
-                      ? 'bg-blue-100 text-blue-800'
+                      ? 'bg-gray-100 text-gray-800'
                       : 'bg-gray-100 text-gray-800'
                   }`}>
                     {document.type.toUpperCase()}

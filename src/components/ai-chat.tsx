@@ -160,9 +160,9 @@ export default function AICHAT({ submitAction }: AICHATProps) {
   ];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
+    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header - Always at top */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white/80 backdrop-blur-md shrink-0">
+      <div className="flex items-center justify-between p-4 border-b border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 backdrop-blur-md shrink-0">
         <div className="flex items-center gap-4">
           <Link href="/">
             <Button variant="ghost" size="sm" className="gap-2">
@@ -171,22 +171,22 @@ export default function AICHAT({ submitAction }: AICHATProps) {
             </Button>
           </Link>
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center">
               <Bot className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-gray-800">
+              <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 AI Assistant
               </h1>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
                 Ask me anything about my background, experience, and skills
               </p>
             </div>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-emerald-500" />
-          <span className="text-sm text-gray-500">Powered by Local AI</span>
+          <Sparkles className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+          <span className="text-sm text-gray-600 dark:text-gray-400">Powered by Local AI</span>
         </div>
       </div>
 
@@ -201,20 +201,20 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center">
                   <Bot className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                   Welcome to my AI Assistant!
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-gray-700 dark:text-gray-300">
                   I have comprehensive knowledge about my professional background, including my career experience, skills, projects, and achievements.
                   Ask me anything and I'll provide detailed, personalized responses.
                 </p>
               </motion.div>
 
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-700">
+                <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
                   Try asking me about:
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-lg">
@@ -222,9 +222,9 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                     <button
                       key={index}
                       onClick={() => setCurrentQuestion(question)}
-                      className="p-4 text-left bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 group"
+                      className="p-4 text-left bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md transition-all duration-200 group"
                     >
-                      <p className="text-sm text-gray-700 group-hover:text-gray-900">
+                      <p className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
                         {question}
                       </p>
                     </button>
@@ -236,7 +236,9 @@ export default function AICHAT({ submitAction }: AICHATProps) {
               <div className="flex-shrink-0 px-4 pt-6">
                 <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
                   <div className="relative">
+                    <label htmlFor="question-input-initial" className="sr-only">Ask me anything about my professional background, skills, or experience</label>
                     <textarea
+                      id="question-input-initial"
                       ref={inputRef}
                       value={currentQuestion}
                       onChange={(e) => setCurrentQuestion(e.target.value)}
@@ -247,14 +249,15 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                         }
                       }}
                       placeholder="Ask me anything about my professional background, skills, or experience..."
-                      className="w-full px-4 py-4 pr-12 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none min-h-[80px] max-h-40 overflow-hidden"
+                      className="w-full px-4 py-4 pr-12 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-gray-500 dark:focus:border-gray-400 resize-none min-h-[80px] max-h-40 overflow-hidden"
                       rows={1}
                       disabled={isLoading}
                     />
                     <button
                       type="submit"
                       disabled={isLoading || !currentQuestion.trim()}
-                      className="absolute right-2 top-2 p-2 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors shadow-sm"
+                      className="absolute right-2 top-2 p-2 rounded-lg bg-gray-600 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors shadow-sm"
+                      aria-label="Send message"
                     >
                       <Send className="w-4 h-4 text-white" />
                     </button>
@@ -276,7 +279,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                   className={`flex gap-4 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   {message.type === 'ai' && (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-1">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center flex-shrink-0 mt-1">
                       <Bot className="w-4 h-4 text-white" />
                     </div>
                   )}
@@ -286,7 +289,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                       className={`rounded-2xl px-4 py-3 shadow-sm ${
                         message.type === 'user'
                           ? 'bg-rose-500 text-white'
-                          : 'bg-white border border-gray-200 text-gray-900'
+                          : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100'
                       }`}
                     >
                       <p className="text-sm leading-relaxed whitespace-pre-wrap">
@@ -309,7 +312,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                         {message.sections.slice(0, 3).map((section, index) => (
                           <span
                             key={index}
-                            className="inline-flex items-center px-2 py-1 text-xs bg-blue-50 text-blue-700 rounded-full border border-blue-200"
+                            className="inline-flex items-center px-2 py-1 text-xs bg-blue-50 dark:bg-blue-900 text-blue-700 dark:text-blue-400 rounded-full border border-blue-200 dark:border-blue-500"
                           >
                             {section.section}
                             <span className="ml-1 text-xs opacity-60">
@@ -335,18 +338,18 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                   animate={{ opacity: 1, y: 0 }}
                   className="flex gap-4"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center flex-shrink-0 mt-1">
                     <Bot className="w-4 h-4 text-white" />
                   </div>
                   <div className="max-w-md mr-12">
-                    <div className="bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
+                    <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-2xl px-4 py-3 shadow-sm">
                       <div className="flex items-center gap-2">
                         <div className="flex gap-1">
                           <div className="w-2 h-2 rounded-full bg-gray-400 animate-pulse"></div>
                           <div className="w-2 h-2 rounded-full bg-gray-400 animate-pulse" style={{ animationDelay: '0.1s' }}></div>
                           <div className="w-2 h-2 rounded-full bg-gray-400 animate-pulse" style={{ animationDelay: '0.2s' }}></div>
                         </div>
-                        <span className="text-sm text-gray-600">Thinking...</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">Thinking...</span>
                       </div>
                     </div>
                   </div>
@@ -357,7 +360,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
             </div>
 
             {/* Input Form - Fixed at Bottom */}
-            <div className="flex-shrink-0 border-t border-gray-200 bg-white/80 backdrop-blur-md p-4">
+            <div className="flex-shrink-0 border-t border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 backdrop-blur-md p-4">
               <div className="max-w-lg mx-auto">
                 <form onSubmit={handleSubmit} className="relative">
                   <textarea
@@ -371,19 +374,19 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                       }
                     }}
                     placeholder="Ask me anything about my professional background, skills, or experience..."
-                    className="w-full px-4 py-4 pr-12 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none min-h-[80px] max-h-40 overflow-hidden"
+                    className="w-full px-4 py-4 pr-12 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-400 focus:border-gray-500 dark:focus:border-gray-400 resize-none min-h-[80px] max-h-40 overflow-hidden"
                     rows={1}
                     disabled={isLoading}
                   />
                   <button
                     type="submit"
                     disabled={isLoading || !currentQuestion.trim()}
-                    className="absolute right-2 top-2 p-2 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors shadow-sm"
+                    className="absolute right-2 top-2 p-2 rounded-lg bg-gray-600 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 disabled:bg-gray-400 dark:disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors shadow-sm"
                   >
                     <Send className="w-4 h-4 text-white" />
                   </button>
                 </form>
-                <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+                <div className="flex items-center justify-between mt-2 text-xs text-gray-500 dark:text-gray-400">
                   <span>Press Enter to send, Shift+Enter for new line</span>
                   <span>Built with local AI models</span>
                 </div>

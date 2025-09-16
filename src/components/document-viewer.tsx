@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import {
   ZoomIn,
@@ -10,8 +10,8 @@ import {
   File,
   AlertCircle
 } from 'lucide-react';
-import { Button } from './ui/button';
-import { DocumentItem, DocumentViewerProps } from '../types/documents';
+
+import { DocumentViewerProps } from '../types/documents';
 import { formatFileSize, getFileIconForViewer } from '../utils/file-utils';
 import { HomeButton } from './home-button';
 import { LoadingSpinner } from './loading-spinner';
@@ -99,7 +99,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
             <div className="flex items-center justify-center p-8">
               <div className="text-center space-y-2">
                 <LoadingSpinner />
-                <p className="text-gray-600 text-sm">Loading PDF...</p>
+                <p className="text-gray-700 dark:text-gray-300">Loading PDF...</p>
               </div>
             </div>
           }
