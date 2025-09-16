@@ -257,6 +257,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                       type="submit"
                       disabled={isLoading || !currentQuestion.trim()}
                       className="absolute right-2 top-2 p-2 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors shadow-sm"
+                      aria-label="Send message"
                     >
                       <Send className="w-4 h-4 text-white" />
                     </button>
