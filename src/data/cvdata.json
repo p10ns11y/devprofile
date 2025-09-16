@@ -442,7 +442,7 @@
       "url": "https://github.com/p10ns11y/latex-cv",
       "technologies": ["LaTeX", "Document Generation", "Rust", "AWS OpenID", "GitHub Actions", "Automated PR", "Automated S3 upload"],
       "is_open_source": true,
-      "impact": "Bulk and highly automated and secure PDF documents generation"
+      "impact": "Bulk and highly automated and secure PDF documents generation",
       "image": "https://imagine-public.x.ai/imagine-public/images/0c8cbea7-54e5-486b-b510-de0ae22082dc.png"
     },
     {
@@ -460,6 +460,7 @@
         "status": "development",
         "oss": true
       },
+      "impact": "In page AI helper",
       "image": "https://imagine-public.x.ai/imagine-public/images/4c1973c9-61b3-48d9-b728-e2ff145b8610.png"
     },
     {
@@ -483,6 +484,7 @@
       "meta": {
         "company": "Oneflow AB"
       },
+      "impact": "Interview assignment",
       "image": "https://imagine-public.x.ai/imagine-public/images/04a0269b-efd8-4f2c-b0a7-c7d33e91e17f.png"
     },
     {
@@ -500,6 +502,7 @@
         "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator/pull/6",
         "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator/pull/4"
       ],
+      "impact": "Automated project wide internationalization helper",
       "image": "https://imagine-public.x.ai/imagine-public/images/65b5f554-a997-43f5-9ed3-4e1d047fd20d.png"
     },
     {
