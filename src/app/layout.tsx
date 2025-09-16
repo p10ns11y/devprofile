@@ -27,7 +27,9 @@ export default function RootLayout({
         <SpeedInsights />
         <SWRegister />
         {shouldInjectToolbar && <VercelToolbar />}
-        {children}
+        <main>
+          {children}
+        </main>
       </body>
     </html>
   )
