@@ -1,5 +1,5 @@
 import cvdata from '@/data/cvdata.json';
-import { pipeline } from '@xenova/transformers';
+import { pipeline } from '@huggingface/transformers';
 
 // Type for vector data
 export interface Chunk {
