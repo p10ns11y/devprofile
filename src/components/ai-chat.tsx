@@ -236,7 +236,9 @@ export default function AICHAT({ submitAction }: AICHATProps) {
               <div className="flex-shrink-0 px-4 pt-6">
                 <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
                   <div className="relative">
+                    <label htmlFor="question-input-initial" className="sr-only">Ask me anything about my professional background, skills, or experience</label>
                     <textarea
+                      id="question-input-initial"
                       ref={inputRef}
                       value={currentQuestion}
                       onChange={(e) => setCurrentQuestion(e.target.value)}
