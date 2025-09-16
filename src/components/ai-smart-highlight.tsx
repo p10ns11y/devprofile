@@ -171,7 +171,7 @@ export function AISmartHighlight({
           if (technologies.some(tech => tech.toLowerCase() === cleanPart)) {
             // Technology highlighting - bold + green/blue color
             return (
-              <span key={index} className="font-bold text-green-600 dark:text-green-400">
+              <span key={index} className="font-bold text-green-700 dark:text-green-500">
                 {part}
               </span>
             );

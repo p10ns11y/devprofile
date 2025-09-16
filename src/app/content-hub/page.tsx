@@ -35,7 +35,7 @@ export default function ContentHubLanding() {
           </Link>
           <Link href="/content-hub/briefs" className="group">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-              <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white group-hover:text-green-700 dark:group-hover:text-green-500">
                 Briefs
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
