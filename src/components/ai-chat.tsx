@@ -204,10 +204,10 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                 <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                   <Bot className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                   Welcome to my AI Assistant!
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-gray-700 dark:text-gray-300">
                   I have comprehensive knowledge about my professional background, including my career experience, skills, projects, and achievements.
                   Ask me anything and I'll provide detailed, personalized responses.
                 </p>
