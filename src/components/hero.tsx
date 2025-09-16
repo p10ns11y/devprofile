@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { SocialLinks } from "./social-links";
@@ -11,6 +11,7 @@ import cvdata from '@/data/cvdata.json'
 
 export function Hero() {
   const [particles, setParticles] = useState<Array<{ x: number; y: number }>>([]);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const newParticles = [...Array(20)].map(() => ({
@@ -155,14 +156,14 @@ export function Hero() {
       </div>
 
       <motion.button
-        initial={{ opacity: 0 }}
+        initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.2 }}
         onClick={scrollToAbout}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
         <motion.div
-          animate={{ y: [0, 10, 0] }}
+          animate={shouldReduceMotion ? {} : { y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
           className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
         >
