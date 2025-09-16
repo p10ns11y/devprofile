@@ -14,7 +14,7 @@ export function Header() {
     { name: 'Home', href: '/#home' },
     { name: 'About', href: '/#about' },
     { name: 'CV', href: '/cv' },
-    { name: 'Skills', href: '/#skills' },
+    // { name: 'Skills', href: '/#skills' },
     { name: 'Projects', href: '/#projects' },
     { name: 'Experience', href: '/#experience' },
     { name: 'Content Hub', href: '/content-hub' },

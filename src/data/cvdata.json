@@ -7,8 +7,8 @@
   "open_for_new_opportunies": true,
   "name_with_initial": "Peramanathan S.",
   "one_liner": "Senior Software Engineer with 9+ years in scalable web apps, JavaScript, ReactJS, and system architecture, leading teams and mentoring in innovative startups.",
-  "shorter_bio": "Senior Software Engineer with 9+ years of experience in scalable web apps and team leadership. Master’s in Computer Science and Operations Research, skilled in JavaScript, ReactJS, and system architecture. Drives innovation and efficiency in startups, passionate about mentoring.",
-  "short_bio": "Senior Software Engineer with 9+ years of experience building scalable web applications and leading teams. Holds Master’s degrees in Computer Science and Operations Research, with expertise in JavaScript, ReactJS, and system architecture. Proven leader in driving innovative solutions and efficiency in startups, with a passion for mentoring and fostering innovation.",
+  "shorter_bio": "Senior Software Engineer with 9+ years of experience in scalable web apps and team leadership. Master's in Computer Science and Operations Research, skilled in JavaScript, ReactJS, and system architecture. Drives innovation and efficiency in startups, passionate about mentoring.",
+  "short_bio": "Senior Software Engineer with 9+ years of experience building scalable web applications and leading teams. Holds Master's degrees in Computer Science and Operations Research, with expertise in JavaScript, ReactJS, and system architecture. Proven leader in driving innovative solutions and efficiency in startups, with a passion for mentoring and fostering innovation.",
   "profile": "Senior Software Engineer with over 9 years of experience in building scalable web applications and leading development teams. Holds Master's degrees in Computer Science and Operations Research, providing a strong foundation in both theoretical and applied aspects of technology and optimization. Proven expertise in JavaScript, ReactJS, Architectural Design and System Building. Demonstrated leadership in integrating innovative solutions and driving efficiency in startup environments. Experienced educator with a passion for mentoring and fostering innovation through technology.",
   "contact": {
     "email": "sathyam.peram@gmail.com",
@@ -49,134 +49,6 @@
       ]
     }
   },
-  "projects_for_community": [
-    {
-      "id": 1,
-      "name": "SORKALAM - A google chrome extension for Tamil Language",
-      "date": "November 2014",
-      "meta": {
-        "app_store": true,
-        "inactive": true,
-        "stopped": true,
-        "removed": true,
-        "oss": "not yet",
-        "private": true
-      },
-      "description": "Distraction free English-Tamil online thesaurus with auto language detection integrating Glosbe, Wiktionary and Tamil Virtual University technical glossary APIs. Technically, an optimal integration of AJAX, JSON parsing, HTML parsing, jQuery, Message passing and regular expression"
-    },
-    {
-      "id": 2,
-      "name": "latex-cv",
-      "description": "LaTeX CV Generator",
-      "url": "https://github.com/p10ns11y/latex-cv"
-    },
-    {
-      "id": 3,
-      "title": "Grok Dia",
-      "date": "September 2025",
-      "description": "Extension to ask Grok for more information with whole and selected text context",
-      "url": "https://github.com/p10ns11y/grok-dia-extension/",
-      "meta": {
-        "app_store": false,
-        "status": "development",
-        "oss": true
-      }
-    }
-  ],
-  "interview_assignments": {
-    "oneflow ab": "https://github.com/p10ns11y/comment-on-highlight"
-  },
-  "work_oss_projects": [
-    {
-      "id": 1,
-      "name": "babel-plugin-react-intl-messages-generator",
-      "url": "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator",
-      "prs": [
-        "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator/pull/6",
-        "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator/pull/4"
-      ]
-    }
-  ],
-  "oss_contributions": [
-    {
-      "id": 1,
-      "name": "formatjs",
-      "related_to": "react-intl",
-      "url": "https://github.com/formatjs/formatjs",
-      "prs": [
-        "https://github.com/formatjs/formatjs/pull/837"
-      ]
-    },
-    {
-      "id": 2,
-      "name": "react-boilerplate",
-      "url": "https://github.com/react-boilerplate/react-boilerplate",
-      "prs": [
-        "https://github.com/react-boilerplate/react-boilerplate/pull/1355"
-      ]
-    },
-    {
-      "id": 3,
-      "name": "zod",
-      "url": "https://github.com/colinhacks/zod",
-      "prs": [
-        "https://github.com/colinhacks/zod/pull/1702"
-      ],
-      "work_related": true
-    },
-    {
-      "id": 4,
-      "name": "book-shelf",
-      "url": "https://github.com/kentcdodds/bookshelf",
-      "prs": [
-        "https://github.com/kentcdodds/bookshelf/pull/184",
-        "https://github.com/kentcdodds/bookshelf/pull/116"
-      ]
-    },
-    {
-      "id": 5,
-      "name": "testing-react-apps",
-      "url": "https://github.com/kentcdodds/testing-react-apps",
-      "prs": [
-        "https://github.com/kentcdodds/testing-react-apps/pull/42",
-        "https://github.com/kentcdodds/testing-react-apps/pull/39"
-      ]
-    }
-  ],
-  "hobby_oss_projects": [
-    {
-      "id": 1,
-      "title": "Adaptate",
-      "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI",
-      "image": "https://images.unsplash.com/photo-1568716353609-12ddc5c67f04?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx6b2QlMjB2YWxpZGF0aW9uJTIwY29kZSUyMHNjaGVtYXxlbnwxfHx8fDE3NTcxNzI1MTd8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      "technologies": [
-        "Zod",
-        "TypeScript",
-        "OpenAPI",
-        "JSON Schema",
-        "Validation",
-        "Node.js"
-      ],
-      "impact": "Dynamic Validation",
-      "url": "https://github.com/p10ns11y/adaptate"
-    },
-    {
-      "id": 2,
-      "title": "Selfie Signin",
-      "description": "Proof-of-concept: Users register by submitting multi-angle facial images to train an AWS Rekognition model, enabling seamless face-based logins",
-      "image": "/images/fa3c8ca54c1f2364ce99b8b4a5843bf84d6e4b68.png",
-      "technologies": [
-        "AWS Rekognition",
-        "React",
-        "TypeScript",
-        "Face Recognition",
-        "Authentication",
-        "ML"
-      ],
-      "impact": "Face-based Authentication",
-      "url": "https://github.com/p10ns11y/selfie-sign-in-flow-using-v0-xAI"
-    }
-  ],
   "work_experience": [
     {
       "title": "Senior Software Engineer",
@@ -552,14 +424,186 @@
   },
   "projects": [
     {
-      "name": "Adaptate",
-      "url": "https://github.com/p10ns11y/adaptate",
-      "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI"
+      "id": 1,
+      "name": "Ask Me Anything About Me",
+      "description": "A personal chatbot that answers questions about me using Retrieval-Augmented Generation (RAG) with local documents. This project demonstrates a cost-effective approach to building LLM applications using free and open-source tools.",
+      "technologies": ["LLMs", "Langchain", "Ollama", "Groq", "Chroma", "React 19", "React Server Components", "Server-Sent Events", "Docker"],
+      "url": "https://github.com/p10ns11y/ama-about-me",
+      "type": "hobby_oss",
+      "impact": "Cost-effective local chatbot",
+      "is_open_source": true,
+      "image": "https://imagine-public.x.ai/imagine-public/images/c4c47b59-3ce2-4473-a4f0-25ae7a0f2d83.png"
     },
     {
+      "id": 2,
+      "name": "latex-cv",
+      "description": "A LaTeX-based CV and cover letter generator designed for efficient document creation and automation. It supports manual PDF compilation from .tex files, bulk generation via a Rust script, and integrated workflows for VSCode and GitHub Actions. The project automates PDF builds, uploads them to AWS S3 with public access for sharing, and creates pull requests for review—ideal for maintaining versioned resumes in a professional portfolio. Includes a visually appealing CV layout with a profile photo, contact details, and structured sections for work experience, skills, and education",
+      "type": "personal",
+      "url": "https://github.com/p10ns11y/latex-cv",
+      "technologies": ["LaTeX", "Document Generation", "Rust", "AWS OpenID", "GitHub Actions", "Automated PR", "Automated S3 upload"],
+      "is_open_source": true,
+      "image": "https://imagine-public.x.ai/imagine-public/images/0c8cbea7-54e5-486b-b510-de0ae22082dc.png"
+    },
+    {
+      "id": 3,
+      "name": "Grok Dia",
+      "description": "Extension to ask Grok for more information with whole and selected text context",
+      "type": "hobby_oss",
+      "url": "https://github.com/p10ns11y/grok-dia-extension/",
+      "technologies": ["Browser Extension", "AI Integration"],
+      "date": "September 2025",
+      "status": "development",
+      "is_open_source": true,
+      "meta": {
+        "app_store": false,
+        "status": "development",
+        "oss": true
+      },
+      "image": "https://imagine-public.x.ai/imagine-public/images/4c1973c9-61b3-48d9-b728-e2ff145b8610.png"
+    },
+    {
+      "id": 4,
       "name": "Selfie Signin",
+      "description": "Proof-of-concept: Users register by submitting multi-angle facial images to train an AWS Rekognition model, enabling seamless face-based logins",
+      "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/selfie-sign-in-flow-using-v0-xAI",
-      "description": "Proof-of-concept: Users register by submitting multi-angle facial images to train an AWS Rekognition model, enabling seamless face-based logins"
+      "technologies": ["AWS Rekognition", "React", "TypeScript", "Face Recognition", "Authentication", "ML"],
+      "impact": "Face-based Authentication",
+      "is_open_source": true,
+      "image": "https://imagine-public.x.ai/imagine-public/images/44862745-4ddd-4ca9-8797-11fea38eece1.png"
+    },
+    {
+      "id": 12,
+      "name": "Comments on Highlight - Interview Assignment",
+      "description": "Interview project for coding challenge",
+      "type": "interview",
+      "url": "https://github.com/p10ns11y/comment-on-highlight",
+      "technologies": ["JavaScript", "Development"],
+      "meta": {
+        "company": "Oneflow AB"
+      },
+      "image": "https://imagine-public.x.ai/imagine-public/images/04a0269b-efd8-4f2c-b0a7-c7d33e91e17f.png"
+    },
+    {
+      "id": 5,
+      "name": "babel-plugin-react-intl-messages-generator",
+      "description": "Babel plugin for generating react-intl message files",
+      "type": "work_oss",
+      "url": "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator",
+      "technologies": ["Babel", "JavaScript", "react-intl"],
+      "is_open_source": true,
+      "meta": {
+        "company": "Weavler AB"
+      },
+      "prs": [
+        "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator/pull/6",
+        "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator/pull/4"
+      ],
+      "image": "https://imagine-public.x.ai/imagine-public/images/65b5f554-a997-43f5-9ed3-4e1d047fd20d.png"
+    },
+    {
+      "id": 6,
+      "name": "formatjs (react-intl)",
+      "description": "Contributions to react-intl library used for internationalization",
+      "type": "work_oss",
+      "url": "https://github.com/formatjs/formatjs",
+      "technologies": ["JavaScript", "i18n", "react-intl"],
+      "is_open_source": true,
+      "meta": {
+        "company": "Weavler AB"
+      },
+      "prs": [
+        "https://github.com/formatjs/formatjs/pull/837"
+      ],
+      "related_to": "react-intl",
+      "image": "https://imagine-public.x.ai/imagine-public/images/b33b9553-a975-49b9-88ef-90fbc2adf6be.png"
+    },
+    {
+      "id": 7,
+      "name": "react-boilerplate",
+      "description": "Contributions to React Boilerplate project",
+      "type": "oss_contribution",
+      "url": "https://github.com/react-boilerplate/react-boilerplate",
+      "technologies": ["React", "JavaScript", "Boilerplate"],
+      "is_open_source": true,
+      "prs": [
+        "https://github.com/react-boilerplate/react-boilerplate/pull/1355"
+      ],
+      "image": "https://imagine-public.x.ai/imagine-public/images/09d0ceb5-686c-4f63-a26a-06788eae93ec.png"
+    },
+    {
+      "id": 8,
+      "name": "zod",
+      "description": "Contributions to Zod validation library",
+      "type": "oss_contribution",
+      "url": "https://github.com/colinhacks/zod",
+      "technologies": ["TypeScript", "Validation", "Zod"],
+      "is_open_source": true,
+      "prs": [
+        "https://github.com/colinhacks/zod/pull/1702"
+      ],
+      "work_related": true,
+      "extra_image": "https://imagine-public.x.ai/imagine-public/images/36eb7eff-5ebc-4055-a171-ec98ef58a7d4.png",
+      "image": "https://imagine-public.x.ai/imagine-public/images/ad6c499a-29d2-42e1-8aca-fe51964896eb.png"
+    },
+    {
+      "id": 9,
+      "name": "kentcdodds/bookshelf",
+      "description": "Contributions to Kent C. Dodds' bookshelf project",
+      "type": "oss_contribution",
+      "url": "https://github.com/kentcdodds/bookshelf",
+      "technologies": ["JavaScript", "Open Source"],
+      "is_open_source": true,
+      "prs": [
+        "https://github.com/kentcdodds/bookshelf/pull/184",
+        "https://github.com/kentcdodds/bookshelf/pull/116"
+      ],
+      "image": "https://imagine-public.x.ai/imagine-public/images/279d7c2b-178f-447f-8720-eb77e7b241f4.png"
+    },
+    {
+      "id": 10,
+      "name": "testing-react-apps",
+      "description": "Contributions to React testing applications documentation",
+      "type": "oss_contribution",
+      "url": "https://github.com/kentcdodds/testing-react-apps",
+      "technologies": ["React", "Testing", "Documentation"],
+      "is_open_source": true,
+      "prs": [
+        "https://github.com/kentcdodds/testing-react-apps/pull/42",
+        "https://github.com/kentcdodds/testing-react-apps/pull/39"
+      ],
+      "image": "https://imagine-public.x.ai/imagine-public/images/2dcc47f5-dff4-4048-bc45-b4f7c9bd8702.png"
+    },
+    {
+      "id": 11,
+      "name": "Adaptate",
+      "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI",
+      "type": "hobby_oss",
+      "url": "https://github.com/p10ns11y/adaptate",
+      "technologies": ["Zod", "TypeScript", "OpenAPI", "JSON Schema", "Validation", "Node.js"],
+      "impact": "Dynamic Validation",
+      "is_open_source": true,
+      "image": "https://imagine-public.x.ai/imagine-public/images/1513422f-f939-4e19-8977-713293d94216.png"
+    },
+    {
+      "id": 13,
+      "name": "Sorkalam",
+      "description": "A google chrome extension for Tamil Language that is distraction free English-Tamil online thesaurus with auto language detection integrating Glosbe, Wiktionary and Tamil Virtual University technical glossary APIs. Technically, an optimal integration of AJAX, JSON parsing, HTML parsing, jQuery, Message passing and regular expression",
+      "type": "community",
+      "url": "#",
+      "technologies": ["JavaScript", "Chrome Extension", "AJAX", "jQuery"],
+      "date": "November 2014",
+      "status": "stopped",
+      "is_open_source": false,
+      "meta": {
+        "app_store": true,
+        "inactive": true,
+        "stopped": true,
+        "removed": true,
+        "oss": "not yet",
+        "private": true
+      },
+      "image": "https://imagine-public.x.ai/imagine-public/images/40601e9d-0561-4641-9e83-9588a4dbaee5.png"
     }
   ]
 }
