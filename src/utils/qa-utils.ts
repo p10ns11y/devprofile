@@ -16,6 +16,24 @@ export let generator: any = null;
 // Cache for QA responses
 export let qaCache = new Map<string, { answer: string; details: any[] }>();
 
+/**
+ * Maps unified project types to meaningful section names for QA system
+ * @param type The project type from the unified structure
+ * @returns Appropriate section name for search grouping
+ */
+function mapProjectTypeToSection(type: string): string {
+  const sectionMap: Record<string, string> = {
+    'community': 'Community Projects',
+    'work_oss': 'Work Open Source',
+    'oss_contribution': 'Open Source Contributions',
+    'hobby_oss': 'Hobby OSS Projects',
+    'personal': 'Personal Projects',
+    'interview': 'Interview Assignments'
+  };
+
+  return sectionMap[type] || 'Projects';
+}
+
 // Load models and prepare chunks
 export async function prepareData() {
   if (extractor && chunks.length > 0) return; // Already prepared
@@ -99,12 +117,41 @@ export async function prepareData() {
     });
   });
 
-  // OSS Projects
-  cvdata.hobby_oss_projects?.forEach(project => {
+  // Unified projects from the main projects array
+  cvdata.projects?.forEach(project => {
+    const sectionName = mapProjectTypeToSection(project.type);
+    let content = `Project: ${project.name}`;
+
+    if (project.description) {
+      content += ` - ${project.description}`;
+    }
+
+    if (project.technologies && project.technologies.length > 0) {
+      content += `. Technologies: ${project.technologies.join(', ')}`;
+    }
+
+    if (project.url) {
+      content += `. URL: ${project.url}`;
+    }
+
+    const metadata: any = {
+      url: project.url,
+      technologies: project.technologies,
+      type: project.type
+    };
+
+    if (project.date) metadata.date = project.date;
+    if (project.status) metadata.status = project.status;
+    if (project.is_open_source !== undefined) metadata.is_open_source = project.is_open_source;
+    if (project.impact) metadata.impact = project.impact;
+    if (project.prs) metadata.prs = project.prs;
+    if (project.work_related) metadata.work_related = project.work_related;
+    if (project.meta) metadata.meta = project.meta;
+
     dataEntries.push({
-      section: 'Open Source',
-      content: `Hobby project: ${project.title} - ${project.description}. Technologies: ${project.technologies.join(', ')}`,
-      metadata: { url: project.url, technologies: project.technologies }
+      section: sectionName,
+      content: content,
+      metadata: metadata
     });
   });
 

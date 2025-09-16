@@ -15,8 +15,8 @@ export default async function Documents() {
 }
 
 async function DocumentsInternal() {
-  let { exampleFlag } = await import('@/app/flags');
-  let isFlagEnabled = await exampleFlag();
+  let { documentsFlag } = await import('@/app/flags');
+  let isFlagEnabled = await documentsFlag();
 
   if (!isFlagEnabled) {
     return <div>Feature not available</div>;
