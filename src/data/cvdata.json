@@ -424,29 +424,7 @@
   },
   "projects": [
     {
-      "id": 1,
-      "name": "Ask Me Anything About Me",
-      "description": "A personal chatbot that answers questions about me using Retrieval-Augmented Generation (RAG) with local documents. This project demonstrates a cost-effective approach to building LLM applications using free and open-source tools.",
-      "technologies": ["LLMs", "Langchain", "Ollama", "Groq", "Chroma", "React 19", "React Server Components", "Server-Sent Events", "Docker"],
-      "url": "https://github.com/p10ns11y/ama-about-me",
-      "type": "hobby_oss",
-      "impact": "Cost-effective local chatbot",
-      "is_open_source": true,
-      "image": "https://imagine-public.x.ai/imagine-public/images/c4c47b59-3ce2-4473-a4f0-25ae7a0f2d83.png"
-    },
-    {
-      "id": 2,
-      "name": "latex-cv",
-      "description": "A LaTeX-based CV and cover letter generator designed for efficient document creation and automation. It supports manual PDF compilation from .tex files, bulk generation via a Rust script, and integrated workflows for VSCode and GitHub Actions. The project automates PDF builds, uploads them to AWS S3 with public access for sharing, and creates pull requests for review—ideal for maintaining versioned resumes in a professional portfolio. Includes a visually appealing CV layout with a profile photo, contact details, and structured sections for work experience, skills, and education",
-      "type": "personal",
-      "url": "https://github.com/p10ns11y/latex-cv",
-      "technologies": ["LaTeX", "Document Generation", "Rust", "AWS OpenID", "GitHub Actions", "Automated PR", "Automated S3 upload"],
-      "is_open_source": true,
-      "impact": "Bulk and highly automated and secure PDF documents generation",
-      "image": "https://imagine-public.x.ai/imagine-public/images/0c8cbea7-54e5-486b-b510-de0ae22082dc.png"
-    },
-    {
-      "id": 3,
+      "id": 13,
       "name": "Grok Dia",
       "description": "Extension to ask Grok for more information with whole and selected text context",
       "type": "hobby_oss",
@@ -464,18 +442,70 @@
       "image": "https://imagine-public.x.ai/imagine-public/images/4c1973c9-61b3-48d9-b728-e2ff145b8610.png"
     },
     {
-      "id": 4,
+      "id": 12,
       "name": "Selfie Signin",
       "description": "Proof-of-concept: Users register by submitting multi-angle facial images to train an AWS Rekognition model, enabling seamless face-based logins",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/selfie-sign-in-flow-using-v0-xAI",
-      "technologies": ["AWS Rekognition", "React", "TypeScript", "Face Recognition", "Authentication", "ML"],
+      "technologies": ["AWS Rekognition", "React", "TypeScript", "Face Recognition", "Authentication", "ML", "State Machines", "XStateJS", "UX flow"],
       "impact": "Face-based Authentication",
       "is_open_source": true,
       "image": "https://imagine-public.x.ai/imagine-public/images/44862745-4ddd-4ca9-8797-11fea38eece1.png"
     },
     {
-      "id": 12,
+      "id": 11,
+      "name": "latex-cv",
+      "description": "A LaTeX-based CV and cover letter generator designed for efficient document creation and automation. It supports manual PDF compilation from .tex files, bulk generation via a Rust script, and integrated workflows for VSCode and GitHub Actions. The project automates PDF builds, uploads them to AWS S3 with public access for sharing, and creates pull requests for review—ideal for maintaining versioned resumes in a professional portfolio. Includes a visually appealing CV layout with a profile photo, contact details, and structured sections for work experience, skills, and education",
+      "type": "personal",
+      "url": "https://github.com/p10ns11y/latex-cv",
+      "technologies": ["LaTeX", "Document Generation", "Rust", "AWS OpenID", "GitHub Actions", "Automated PR", "Automated S3 upload"],
+      "is_open_source": true,
+      "impact": "Bulk and highly automated and secure PDF documents generation",
+      "image": "https://imagine-public.x.ai/imagine-public/images/0c8cbea7-54e5-486b-b510-de0ae22082dc.png"
+    },
+     {
+      "id": 10,
+      "name": "Adaptate",
+      "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI",
+      "type": "hobby_oss",
+      "url": "https://github.com/p10ns11y/adaptate",
+      "technologies": ["Zod", "TypeScript", "OpenAPI", "JSON Schema", "Validation", "Node.js"],
+      "impact": "Dynamic Validation",
+      "is_open_source": true,
+      "image": "https://imagine-public.x.ai/imagine-public/images/1513422f-f939-4e19-8977-713293d94216.png"
+    },
+    {
+      "id": 9,
+      "name": "Ask Me Anything About Me",
+      "description": "A personal chatbot that answers questions about me using Retrieval-Augmented Generation (RAG) with local documents. This project demonstrates a cost-effective approach to building LLM applications using free and open-source tools.",
+      "technologies": ["LLMs", "Langchain", "Ollama", "Groq", "Chroma", "React 19", "React Server Components", "Server-Sent Events", "Docker"],
+      "url": "https://github.com/p10ns11y/ama-about-me",
+      "type": "hobby_oss",
+      "impact": "Cost-effective local chatbot",
+      "is_open_source": true,
+      "image": "https://imagine-public.x.ai/imagine-public/images/c4c47b59-3ce2-4473-a4f0-25ae7a0f2d83.png"
+    },
+    {
+      "id": 8,
+      "name": "zod",
+      "description": "Contributions to Zod validation library",
+      "type": "work_oss",
+      "url": "https://github.com/colinhacks/zod",
+      "technologies": ["TypeScript", "Validation", "Zod"],
+      "is_open_source": true,
+      "meta": {
+        "company": "Oneflow AB"
+      },
+      "impact": "Fixed the critical ordering in chainable operations to preserve expected behavior and avoid debugging issues.",
+      "prs": [
+        "https://github.com/colinhacks/zod/pull/1702"
+      ],
+      "work_related": true,
+      "extra_image": "https://imagine-public.x.ai/imagine-public/images/36eb7eff-5ebc-4055-a171-ec98ef58a7d4.png",
+      "image": "https://imagine-public.x.ai/imagine-public/images/ad6c499a-29d2-42e1-8aca-fe51964896eb.png"
+    },
+    {
+      "id": 7,
       "name": "Comments on Highlight - Interview Assignment",
       "description": "Interview project for coding challenge",
       "type": "interview",
@@ -488,7 +518,7 @@
       "image": "https://imagine-public.x.ai/imagine-public/images/04a0269b-efd8-4f2c-b0a7-c7d33e91e17f.png"
     },
     {
-      "id": 5,
+      "id": 6,
       "name": "babel-plugin-react-intl-messages-generator",
       "description": "Babel plugin for generating react-intl message files",
       "type": "work_oss",
@@ -506,10 +536,10 @@
       "image": "https://imagine-public.x.ai/imagine-public/images/65b5f554-a997-43f5-9ed3-4e1d047fd20d.png"
     },
     {
-      "id": 6,
+      "id": 5,
       "name": "formatjs (react-intl)",
       "description": "Contributions to react-intl library used for internationalization",
-      "type": "work_oss",
+      "type": "oss_contribution",
       "url": "https://github.com/formatjs/formatjs",
       "technologies": ["JavaScript", "i18n", "react-intl"],
       "is_open_source": true,
@@ -523,7 +553,7 @@
       "image": "https://imagine-public.x.ai/imagine-public/images/b33b9553-a975-49b9-88ef-90fbc2adf6be.png"
     },
     {
-      "id": 7,
+      "id": 4,
       "name": "react-boilerplate",
       "description": "Contributions to React Boilerplate project",
       "type": "oss_contribution",
@@ -536,22 +566,7 @@
       "image": "https://imagine-public.x.ai/imagine-public/images/09d0ceb5-686c-4f63-a26a-06788eae93ec.png"
     },
     {
-      "id": 8,
-      "name": "zod",
-      "description": "Contributions to Zod validation library",
-      "type": "oss_contribution",
-      "url": "https://github.com/colinhacks/zod",
-      "technologies": ["TypeScript", "Validation", "Zod"],
-      "is_open_source": true,
-      "prs": [
-        "https://github.com/colinhacks/zod/pull/1702"
-      ],
-      "work_related": true,
-      "extra_image": "https://imagine-public.x.ai/imagine-public/images/36eb7eff-5ebc-4055-a171-ec98ef58a7d4.png",
-      "image": "https://imagine-public.x.ai/imagine-public/images/ad6c499a-29d2-42e1-8aca-fe51964896eb.png"
-    },
-    {
-      "id": 9,
+      "id": 3,
       "name": "kentcdodds/bookshelf",
       "description": "Contributions to Kent C. Dodds' bookshelf project",
       "type": "oss_contribution",
@@ -565,7 +580,7 @@
       "image": "https://imagine-public.x.ai/imagine-public/images/279d7c2b-178f-447f-8720-eb77e7b241f4.png"
     },
     {
-      "id": 10,
+      "id": 2,
       "name": "testing-react-apps",
       "description": "Contributions to React testing applications documentation",
       "type": "oss_contribution",
@@ -579,18 +594,7 @@
       "image": "https://imagine-public.x.ai/imagine-public/images/2dcc47f5-dff4-4048-bc45-b4f7c9bd8702.png"
     },
     {
-      "id": 11,
-      "name": "Adaptate",
-      "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI",
-      "type": "hobby_oss",
-      "url": "https://github.com/p10ns11y/adaptate",
-      "technologies": ["Zod", "TypeScript", "OpenAPI", "JSON Schema", "Validation", "Node.js"],
-      "impact": "Dynamic Validation",
-      "is_open_source": true,
-      "image": "https://imagine-public.x.ai/imagine-public/images/1513422f-f939-4e19-8977-713293d94216.png"
-    },
-    {
-      "id": 13,
+      "id": 1,
       "name": "Sorkalam",
       "description": "A google chrome extension for Tamil Language that is distraction free English-Tamil online thesaurus with auto language detection integrating Glosbe, Wiktionary and Tamil Virtual University technical glossary APIs. Technically, an optimal integration of AJAX, JSON parsing, HTML parsing, jQuery, Message passing and regular expression",
       "type": "community",
