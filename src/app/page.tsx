@@ -12,8 +12,7 @@ import { Experience } from "@/components/experience";
 import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
 
-export default async function Home() {
-
+export default function Home() {
   return (
     <motion.div
       initial={{ opacity: 0 }}
