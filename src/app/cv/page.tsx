@@ -31,10 +31,21 @@ interface CVData {
   technologies: Record<string, string[]>;
   projects: Array<{
     name: string;
+    key: string;
     url: string;
     description: string;
   }>;
-  publications: string[];
+  publications: Array<{
+    title: string;
+    url: string;
+    doi_url?: string;
+    journal?: {
+      name: string;
+    };
+    conference?: string;
+    first_published?: string;
+    date?: string;
+  }>;
   education: Array<{
     degree: string;
     institution: string;
@@ -231,7 +242,7 @@ const CVWebView = () => {
               <div className="bg-white rounded-xl shadow-lg p-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Projects</h2>
                 <div className="space-y-4">
-                  {cvData.projects.map((project, index) => (
+                  {cvData.projects.filter(project => ['selfie-signin', 'adaptate'].includes(project.key || project.name)).map((project, index) => (
                     <div key={index}>
                       <a
                         href={project.url}
@@ -276,9 +287,21 @@ const CVWebView = () => {
               {/* Publications */}
               <div className="bg-white rounded-xl shadow-lg p-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Publications</h2>
-                <div className="space-y-2">
+                <div className="space-y-4">
                   {cvData.publications.map((pub, index) => (
-                    <p key={index} className="text-gray-700 leading-relaxed">{pub}</p>
+                    <div key={index} className="mb-4">
+                      <a
+                        href={pub.doi_url || pub.url}
+                        className="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
+                        target="_blank"
+                        rel="nofollow noreferrer noopener"
+                      >
+                        {pub.title}
+                      </a>
+                      <p className="text-gray-600 text-sm mt-1">
+                        {pub.journal ? `${pub.journal.name}` : pub.conference}, {pub.first_published || pub.date}
+                      </p>
+                    </div>
                   ))}
                 </div>
               </div>
