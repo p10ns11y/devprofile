@@ -227,8 +227,32 @@
     "coursera": "https://x.com/Peramanathan/status/1954168574731276572"
   },
   "publications": [
-    "Profiling Energy Efficiency and Data Communications for Mobile Internet of Things",
-    "Energy Efficiency as a Orchestration Service for the Mobile Internet of Things"
+    {
+      "title": "Profiling Energy Efficiency and Data Communications for Mobile Internet of Things",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1155/2017/6562915",
+      "doi_url": "https://doi.org/10.1155/2017/6562915",
+      "pdf_download_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1155/2017/6562915?download=true",
+      "first_published": "2017-11-07",
+      "journal": {
+        "name": "Wireless Communications and Mobile Computing",
+        "link": "https://onlinelibrary.wiley.com/journal/6302",
+        "ISSN": "1530-8677",
+        "copy_right": "© John Wiley & Sons Ltd"
+      },
+      "abstact": "This paper proposes a novel power management solution for resource-constrained devices in the context of Internet of Things (IoT). We focus on smartphones in the IoT, as they are getting increasingly popular and equipped with strong sensing capabilities. Smartphones have complex and asynchronous power consumption incurred by heterogeneous components including their on-board sensors. Their interaction with the cloud allows them to offload computation tasks and access remote data storage. In this work, we aim at monitoring the power consumption behaviours of the smartphones, profiling both individual applications and the system as a whole, to make better decisions in power management. We design a cloud orchestration architecture as an epic predictor of behaviours of smart devices by extracting their application characteristics and resource utilization. We design and implement this architecture to perform energy profiling and data analysis on massive data logs. This cloud orchestration architecture coordinates a number of cloud-based services and supports dynamic workflows between service components, which can reduce energy consumption in the energy profiling process itself. Experimental results showed that small portion of applications dominate the energy consumption of smartphones. Heuristic profiling can effectively reduce energy consumption in data logging and communications without scarifying the accuracy of power monitoring."
+    },
+    {
+      "title": "Energy Efficiency as a Orchestration Service for the Mobile Internet of Things",
+      "url": "https://ieeexplore.ieee.org/document/7396150",
+      "doi_url": "https://doi.org/10.1109/CloudCom.2015.90",
+      "conference": "2015 IEEE 7th International Conference on Cloud Computing Technology and Science (CloudCom)",
+      "date": "2015-11-30 - 2015-12-03",
+      "ISBN": "978-1-4673-9560-1",
+      "publisher": "IEEE",
+      "location": "Vancouver, BC, Canada",
+      "conference_url": "https://ieeexplore.ieee.org/servlet/opac?punumber=7395249",
+      "abstact": "This paper proposes a novel power management solution for resource-constrained devices in the context of Internet of Things (IoT). We focus on smartphones in the IoT, as they are getting increasingly popular and equipped with strong sensing capabilities. Smartphones have complex and asynchronous power consumption incurred by heterogeneous components including their on-board sensors. Their interaction with the cloud allows them to offload computation tasks and access remote data storage. In this work, we aim at monitoring the power consumption behaviours of the smartphones, profiling both individual applications and the system as a whole, to make better decisions in power management. We design a cloud orchestration architecture as an epic predictor of behaviours of smart devices by extracting their application characteristics and resource utilization. We design and implement this architecture to perform energy profiling and data analysis on massive data logs. This cloud orchestration architecture coordinates a number of cloud-based services and supports dynamic workflows between service components, which can reduce energy consumption in the energy profiling process itself. Experimental results showed that small portion of applications dominate the energy consumption of smartphones. Heuristic profiling can effectively reduce energy consumption in data logging and communications without scarifying the accuracy of power monitoring."
+    }
   ],
   "education": [
     {
@@ -426,6 +450,7 @@
     {
       "id": 13,
       "name": "Grok Dia",
+      "key": "grok-dia",
       "description": "Extension to ask Grok for more information with whole and selected text context",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/grok-dia-extension/",
@@ -444,6 +469,7 @@
     {
       "id": 12,
       "name": "Selfie Signin",
+      "key": "selfie-signin",
       "description": "Proof-of-concept: Users register by submitting multi-angle facial images to train an AWS Rekognition model, enabling seamless face-based logins",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/selfie-sign-in-flow-using-v0-xAI",
@@ -452,9 +478,10 @@
       "is_open_source": true,
       "image": "https://imagine-public.x.ai/imagine-public/images/44862745-4ddd-4ca9-8797-11fea38eece1.png"
     },
-    {
+     {
       "id": 11,
       "name": "latex-cv",
+      "key": "latex-cv",
       "description": "A LaTeX-based CV and cover letter generator designed for efficient document creation and automation. It supports manual PDF compilation from .tex files, bulk generation via a Rust script, and integrated workflows for VSCode and GitHub Actions. The project automates PDF builds, uploads them to AWS S3 with public access for sharing, and creates pull requests for review—ideal for maintaining versioned resumes in a professional portfolio. Includes a visually appealing CV layout with a profile photo, contact details, and structured sections for work experience, skills, and education",
       "type": "personal",
       "url": "https://github.com/p10ns11y/latex-cv",
@@ -465,6 +492,7 @@
     },
      {
       "id": 10,
+      "key": "adaptate",
       "name": "Adaptate",
       "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI",
       "type": "hobby_oss",
@@ -477,6 +505,7 @@
     {
       "id": 9,
       "name": "Ask Me Anything About Me",
+      "key": "ama-about-me",
       "description": "A personal chatbot that answers questions about me using Retrieval-Augmented Generation (RAG) with local documents. This project demonstrates a cost-effective approach to building LLM applications using free and open-source tools.",
       "technologies": ["LLMs", "Langchain", "Ollama", "Groq", "Chroma", "React 19", "React Server Components", "Server-Sent Events", "Docker"],
       "url": "https://github.com/p10ns11y/ama-about-me",
@@ -507,6 +536,7 @@
     {
       "id": 7,
       "name": "Comments on Highlight - Interview Assignment",
+      "key": "comments-on-highlight",
       "description": "Interview project for coding challenge",
       "type": "interview",
       "url": "https://github.com/p10ns11y/comment-on-highlight",
@@ -520,6 +550,7 @@
     {
       "id": 6,
       "name": "babel-plugin-react-intl-messages-generator",
+      "key": "babel-plugin-react-intl-messages-generator",
       "description": "Babel plugin for generating react-intl message files",
       "type": "work_oss",
       "url": "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator",
@@ -538,6 +569,7 @@
     {
       "id": 5,
       "name": "formatjs (react-intl)",
+      "key": "formatjs",
       "description": "Contributions to react-intl library used for internationalization",
       "type": "oss_contribution",
       "url": "https://github.com/formatjs/formatjs",
@@ -555,6 +587,7 @@
     {
       "id": 4,
       "name": "react-boilerplate",
+      "key": "react-boilerplate",
       "description": "Contributions to React Boilerplate project",
       "type": "oss_contribution",
       "url": "https://github.com/react-boilerplate/react-boilerplate",
@@ -568,6 +601,7 @@
     {
       "id": 3,
       "name": "kentcdodds/bookshelf",
+      "key": "kentcdodds-bookshelf",
       "description": "Contributions to Kent C. Dodds' bookshelf project",
       "type": "oss_contribution",
       "url": "https://github.com/kentcdodds/bookshelf",
@@ -582,6 +616,7 @@
     {
       "id": 2,
       "name": "testing-react-apps",
+      "key": "testing-react-apps",
       "description": "Contributions to React testing applications documentation",
       "type": "oss_contribution",
       "url": "https://github.com/kentcdodds/testing-react-apps",
@@ -596,6 +631,7 @@
     {
       "id": 1,
       "name": "Sorkalam",
+      "key": "sorkalam",
       "description": "A google chrome extension for Tamil Language that is distraction free English-Tamil online thesaurus with auto language detection integrating Glosbe, Wiktionary and Tamil Virtual University technical glossary APIs. Technically, an optimal integration of AJAX, JSON parsing, HTML parsing, jQuery, Message passing and regular expression",
       "type": "community",
       "url": "#",

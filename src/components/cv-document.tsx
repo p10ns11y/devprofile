@@ -75,8 +75,8 @@ const CVDocument = () => (
 
           <View>
             <Text style={styles.subheader}>Projects</Text>
-            {data.projects.map((project, index) => (
-              <View key={index}>
+            {data.projects.filter(project => ['selfie-signin', 'adaptate'].includes(project.key || project.name)).map((project, index) => (
+              <View key={project.key}>
                  <Link src={project.url} style={[styles.link, { fontSize: 9 }]}>{project.name}</Link>
                 {/** @ts-ignore */}
                  <Text style={{ display: 'inline', fontSize: 8, marginLeft: 5 }}>{project.description}</Text>
@@ -84,7 +84,16 @@ const CVDocument = () => (
             ))}
 
             <Text style={styles.subheader}>Publications</Text>
-            {data.publications.map((pub, i) => <Text key={i} style={[styles.rightColumnList, { fontFamily: 'Helvetica' }]}>{pub}</Text>)}
+            {data.publications.map((pub, i) => (
+              <View key={i} style={{ marginBottom: 3 }}>
+                <Link src={pub.doi_url || pub.url} style={[styles.link, { fontSize: 9, fontWeight: 'bold' }]}>
+                  {pub.title}
+                </Link>
+                <Text style={[styles.rightColumnText, { fontSize: 8, marginTop: 1 }]}>
+                  {pub.journal ? `${pub.journal.name}, ${pub.first_published}` : `${pub.conference}, ${pub.date}`}
+                </Text>
+              </View>
+            ))}
 
             <Text style={styles.subheader}>Education</Text>
             {data.education.map((edu, i) => (
