@@ -77,7 +77,7 @@ export function Header() {
                   {item.name}
                 </motion.button>
               ) : (
-                <Link href={item.href} prefetch target={item.href === '/cv/web-view' ? '_blank' : '_self'}>
+                <Link href={item.href} prefetch target={item.href === '/cv' ? '_blank' : '_self'}>
                   <motion.span
                     whileHover={{ scale: 1.1, color: 'var(--primary)', cursor: 'pointer' }}
                     className="text-muted-foreground hover:text-primary transition-colors"
