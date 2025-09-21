@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import dynamic from 'next/dynamic'
@@ -8,10 +8,10 @@ import dynamic from 'next/dynamic'
 import { AISmartHighlight } from '@/components/ai-smart-highlight';
 import { SocialLinks } from '@/components/social-links';
 
-// import Layout from './layout';
+import cvData from '@/data/cvdata.json'
 
 const Layout = dynamic(
-  () => import('./layout'), 
+  () => import('./content-layout'),
   { ssr: false }
 )
 
@@ -62,46 +62,164 @@ interface CVData {
   languages: Record<string, string>;
 }
 
+function MainContent() {
+  return (
+    <Layout ratios={[34, 21]} gap={1}>
+      {/* Content column take almost everything and leave one column column end: -2*/}
+      <div id="mainContent" className="bg-white rounded-xl shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Professional Profile</h2>
+        <div className="text-gray-700 leading-relaxed mb-8">
+          <AISmartHighlight priority="balanced">
+            {cvData.profile}
+          </AISmartHighlight>
+        </div>
+
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Work Experience</h2>
+        <div className="space-y-8">
+          {cvData.work_experience.map((job, index) => (
+            <div key={index} className="border-l-4 border-indigo-500 pl-6">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                {job.title} • {job.company}
+              </h3>
+              <p className="text-indigo-600 font-medium mb-2">
+                {job.location} • {job.start_date} - {job.end_date}
+              </p>
+              <ul className="text-gray-700 space-y-1 mb-4">
+                {job.responsibilities.map((resp, i) => (
+                  <li key={i} className="flex items-start">
+                    <span className="inline-block w-2 h-2 bg-indigo-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    <span className="leading-relaxed">
+                      <AISmartHighlight priority="balanced">
+                        {resp}
+                      </AISmartHighlight>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <div className="text-sm text-gray-600">
+                <span className="font-medium">Tools & Technologies:</span>{' '}
+                <span className="bg-gray-100 px-2 py-1 rounded text-gray-800">
+                  {job.tools.join(', ')}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Skills */}
+      <div className="bg-white rounded-xl shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Skills</h2>
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">Product</h3>
+          <div className="flex flex-wrap gap-2">
+            {cvData.skills.product.map((skill, index) => (
+              <span key={index} className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">Development</h3>
+          <div className="flex flex-wrap gap-2">
+            {cvData.skills.practices.map((skill, index) => (
+              <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Projects */}
+      <div className="bg-white rounded-xl shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Projects</h2>
+        <div className="space-y-4">
+          {cvData.projects.map((project, index) => (
+            <div key={index}>
+              <a
+                href={project.url}
+                className="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
+                target="_blank"
+                rel="nofollow noreferrer noopener"
+              >
+                {project.name}
+              </a>
+              <p className="text-gray-700 text-sm mt-1">{project.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Languages */}
+      <div className="bg-white rounded-xl shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Languages</h2>
+        <div className="grid grid-cols-1 gap-2">
+          {Object.entries(cvData.languages).map(([language, level], index) => (
+            <div key={index} className="flex justify-between items-center">
+              <span className="font-medium text-gray-800">{language}</span>
+              <span className="text-gray-600">{level}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Technologies */}
+      <div className="bg-white rounded-xl shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Technologies</h2>
+        <div className="space-y-2">
+          {Object.entries(cvData.technologies).map(([category, items], index) => (
+            <div key={index} className="text-sm text-gray-700">
+              <span className="font-semibold text-gray-800 capitalize">{category}:</span> {items.join(', ')}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Education */}
+      <div className="bg-white rounded-xl shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Education</h2>
+        <div className="space-y-4">
+          {cvData.education.map((edu, index) => (
+            <div key={index}>
+              <h3 className="text-lg font-semibold text-gray-900">{edu.degree}</h3>
+              <p className="text-gray-600">{edu.institution}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Publications */}
+      <div className="bg-white rounded-xl shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">Publications</h2>
+        <div className="space-y-4">
+          {cvData.publications.map((pub, index) => (
+            <div key={index} className="mb-4">
+              <a
+                href={pub.doi_url || pub.url}
+                className="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
+                target="_blank"
+                rel="nofollow noreferrer noopener"
+              >
+                {pub.title}
+              </a>
+              <p className="text-gray-600 text-sm mt-1">
+                {pub.journal ? `${pub.journal.name}` : pub.conference}, {pub.first_published || pub.date}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Layout>
+  )
+}
+
 const CVWebView = () => {
-  const [cvData, setCvData] = useState<CVData | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Load CV data client-side
-    fetch('/api/cv/data')
-      .then(res => res.json())
-      .then(data => {
-        setCvData(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error loading CV data:', error);
-        setLoading(false);
-      });
-  }, []);
-
-
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg">Loading CV...</div>
-      </div>
-    );
-  }
-
-  if (!cvData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg text-red-600">Error loading CV data</div>
-      </div>
-    );
-  }
-
   return (
     <>
       <Head>
-        <title>{cvData.name} | Senior Software Engineer CV</title>
+        <title>{cvData.name} | {cvData.latest_proffessional_role} CV</title>
         <meta name="description" content={`Professional CV of ${cvData.name}, Senior Software Engineer with expertise in ${Object.keys(cvData.technologies).join(', ')}`} />
         <meta name="keywords" content="CV, Resume, Senior Software Engineer, Full Stack Developer" />
         <meta property="og:title" content={`${cvData.name} | Senior Software Engineer`} />
@@ -117,7 +235,7 @@ const CVWebView = () => {
               {cvData.name}
             </h1>
             <p className="text-xl md:text-2xl text-indigo-600 font-medium mb-6">
-              Senior Software Engineer
+              {cvData.latest_proffessional_role}
             </p>
 
             {/* Contact Info */}
@@ -156,167 +274,15 @@ const CVWebView = () => {
           </div>
 
           {/* Main Content Grid */}
-          {/* <div className="grid gap-8 grid-cols-[3fr_5fr_5fr]"> */}
-          <Layout ratios={[13, 8]} gap={1}>
-            {/* Content column take almost everything and leave one column column end: -2*/}
-            <div className="col-start-1 col-end-[-2] bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Professional Profile</h2>
-              <div className="text-gray-700 leading-relaxed mb-8">
-                <AISmartHighlight priority="balanced">
-                  {cvData.profile}
-                </AISmartHighlight>
-              </div>
+          <Suspense fallback="loading...">
+            <MainContent />
+          </Suspense>
 
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Work Experience</h2>
-              <div className="space-y-8">
-                {cvData.work_experience.map((job, index) => (
-                  <div key={index} className="border-l-4 border-indigo-500 pl-6">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                      {job.title} • {job.company}
-                    </h3>
-                    <p className="text-indigo-600 font-medium mb-2">
-                      {job.location} • {job.start_date} - {job.end_date}
-                    </p>
-                    <ul className="text-gray-700 space-y-1 mb-4">
-                      {job.responsibilities.map((resp, i) => (
-                        <li key={i} className="flex items-start">
-                          <span className="inline-block w-2 h-2 bg-indigo-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                          <span className="leading-relaxed">
-                            <AISmartHighlight priority="balanced">
-                              {resp}
-                            </AISmartHighlight>
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="text-sm text-gray-600">
-                      <span className="font-medium">Tools & Technologies:</span>{' '}
-                      <span className="bg-gray-100 px-2 py-1 rounded text-gray-800">
-                        {job.tools.join(', ')}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Skills */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Skills</h2>
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Product</h3>
-                <div className="flex flex-wrap gap-2">
-                  {cvData.skills.product.map((skill, index) => (
-                    <span key={index} className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Development</h3>
-                <div className="flex flex-wrap gap-2">
-                  {cvData.skills.practices.map((skill, index) => (
-                    <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Projects */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Projects</h2>
-              <div className="space-y-4">
-                {cvData.projects.map((project, index) => (
-                  <div key={index}>
-                    <a
-                      href={project.url}
-                      className="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
-                      target="_blank"
-                      rel="nofollow noreferrer noopener"
-                    >
-                      {project.name}
-                    </a>
-                    <p className="text-gray-700 text-sm mt-1">{project.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Languages */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Languages</h2>
-              <div className="grid grid-cols-1 gap-2">
-                {Object.entries(cvData.languages).map(([language, level], index) => (
-                  <div key={index} className="flex justify-between items-center">
-                    <span className="font-medium text-gray-800">{language}</span>
-                    <span className="text-gray-600">{level}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Technologies */}
-            {/* <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Technologies</h2>
-              <div className="space-y-4">
-                {Object.entries(cvData.technologies).map(([category, items], index) => (
-                  <div key={index}>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2 capitalize">{category}</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {items.map((item, i) => (
-                        <span key={i} className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div> */}
-
-            {/* Education */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Education</h2>
-              <div className="space-y-4">
-                {cvData.education.map((edu, index) => (
-                  <div key={index}>
-                    <h3 className="text-lg font-semibold text-gray-900">{edu.degree}</h3>
-                    <p className="text-gray-600">{edu.institution}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Publications */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Publications</h2>
-              <div className="space-y-4">
-                {cvData.publications.map((pub, index) => (
-                  <div key={index} className="mb-4">
-                    <a
-                      href={pub.doi_url || pub.url}
-                      className="text-lg font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
-                      target="_blank"
-                      rel="nofollow noreferrer noopener"
-                    >
-                      {pub.title}
-                    </a>
-                    <p className="text-gray-600 text-sm mt-1">
-                      {pub.journal ? `${pub.journal.name}` : pub.conference}, {pub.first_published || pub.date}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Layout>
 
           {/* Back to Home */}
           <div className="text-center mt-12">
-            <Link href="/" className="inline-flex items-center px-6 py-3 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-900 transition-colors">
-              ← Back to Home
+            <Link href="/" className="inline-flex items-center px-6 py-3 bg-gray-400 text-white font-medium rounded-lg hover:bg-gray-600 transition-colors">
+              Home
             </Link>
           </div>
         </div>

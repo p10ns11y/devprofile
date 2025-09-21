@@ -97,6 +97,12 @@ try {
 - **Component Lazy Loading**: Heavy components loaded on demand
 - **Bundle Analysis**: Size monitoring with build tools
 
+#### 2. Layout Algorithm Optimization
+- **Content-Length Based Balancing**: Use `innerText.length` instead of `offsetHeight` for masonry layout distribution
+- **Predictable Layout Calculation**: Content-based metrics provide consistent results independent of viewport dimensions
+- **MainContent Priority Constraint**: Reserve first position in first column for primary content element
+- **Threshold-Based Distribution**: Balance tolerance (15%) and minimum movement delta (200 characters) for optimal column assignment
+
 #### 2. Image Optimization
 - **Next.js Image Optimization**: Automatic format conversion and sizing
 - **Responsive Images**: Tailwind responsive utilities
