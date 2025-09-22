@@ -18,7 +18,7 @@ Font.register({
 
 const styles = StyleSheet.create({
   page: {
-    padding: 25,
+    padding: '10 25',
     fontFamily: 'Helvetica',
     fontSize: 9,
     lineHeight: 1.3,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
     marginBottom: 3,
-    textAlign: 'justify',
+    textAlign: 'left',
   },
   bullet: {
     width: 8,
@@ -86,17 +86,18 @@ const styles = StyleSheet.create({
   },
   columnContainer: {
     flexDirection: 'row',
-    marginTop: 8,
+    marginTop: 2,
   },
   leftColumn: {
-    width: '65%',
+    width: '61.818182%',
     paddingRight: 12,
   },
   rightColumn: {
-    width: '35%',
-    paddingLeft: 12,
+    width: '38.181818%',
+    paddingLeft: 6,
     borderLeft: 1,
     borderColor: '#eee',
+    // paddingBottom: 20
   },
   section: {
     marginBottom: 8,
@@ -124,12 +125,12 @@ const styles = StyleSheet.create({
   },
   tools: {
     fontSize: 8,
-    color: '#777',
+    color: '#646464',
     fontStyle: 'italic',
     marginTop: 1,
   },
   link: {
-    color: '#666',
+    color: '#646464',
     textDecoration: 'none',
   },
   rightSectionText: {
@@ -170,7 +171,7 @@ const CVDocument = () => (
     <Page size="A4" orientation="portrait" dpi={300} style={styles.page} bookmark="Table of Contents">
       {/* @ts-ignore */}
       <View bookmark="Header">
-        <Text style={styles.header} fixed>{data.name}</Text>
+        <Text style={styles.header}>{data.name}</Text>
         <Text style={styles.title}>{data.latest_proffessional_role}</Text>
         <View style={styles.contactLine}>
           <Link src={`mailto:${data.contact.email}`} style={styles.link}>{data.contact.email}</Link>
@@ -178,8 +179,8 @@ const CVDocument = () => (
           <Text style={{ paddingLeft: 4 }}>{data.contact.citizenship}</Text>
         </View>
         <View style={styles.contactLine}>
-          <Link src="https://github.com/p10ns11y" style={styles.link}>github.com/p10ns11y</Link>
-          <Link src="https://x.com/peramanathan" style={[styles.link, { paddingLeft: 10 }]}>x.com/peramanathan</Link>
+          <Link src={data.cv_social_links.github} style={styles.link}>{data.cv_social_links.github}</Link>
+          <Link src={data.cv_social_links.x} style={[styles.link, { paddingLeft: 10 }]}>{data.cv_social_links.x}</Link>
         </View>
       </View>
       {/* @ts-ignore */}
@@ -226,10 +227,10 @@ const CVDocument = () => (
             <Text style={styles.subheader}>Projects</Text>
             {data.projects.filter(project => ['selfie-signin', 'adaptate'].includes(project.key || project.name)).map((project, index) => (
               <View key={index} style={styles.projectItem}>
-                <Link src={project.url} style={[styles.link, { fontSize: 9 }]}>
+                <Link src={project.url} style={[styles.link, { fontSize: 9, fontWeight: 'bold', color: '#0e0e0e' }]}>
                   {project.name}
                 </Link>
-                <Text style={{ fontSize: 8, color: '#666', marginTop: 1 }}>{project.description}</Text>
+                <Text style={{ fontSize: 8, fontStyle: 'italic', color: '#1c1c1c', marginTop: 1 }}>{project.description}</Text>
               </View>
             ))}
           </View>
@@ -279,6 +280,14 @@ const CVDocument = () => (
           </View>
         </View>
       </View>
+      <View style={{ paddingTop: 42, margin: 'auto auto 0 auto', fontSize: 8 }} fixed>
+        <Text>
+          {new Date(Date.now()).toLocaleDateString('sv')} © {data.name}
+        </Text>
+      </View>
+      {/* <Text style={{ textAlign: 'center' }} render={({ pageNumber, totalPages }) => (
+        `${pageNumber} / ${totalPages}`
+      )} fixed /> */}
     </Page>
   </Document>
 );

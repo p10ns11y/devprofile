@@ -20,6 +20,10 @@
     "location": "Stockholm, Sweden",
     "current_location": "Stockholm, Sweden"
   },
+  "cv_social_links": {
+    "github": "https://github.com/p10ns11y",
+    "x": "https://x.com/peramanathan"
+  },
   "social_links": [
     {
       "icon": "Github",
