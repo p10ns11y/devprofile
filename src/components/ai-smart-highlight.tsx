@@ -169,27 +169,27 @@ export function AISmartHighlight({
           const cleanPart = part.toLowerCase();
 
           if (technologies.some(tech => tech.toLowerCase() === cleanPart)) {
-            // Technology highlighting - bold + green/blue color
+            // Technology highlighting - bold weight
             return (
-              <span key={index} className="font-bold text-green-700 dark:text-green-500">
+              <span key={index} className="font-bold text-text1">
                 {part}
               </span>
             );
           }
 
           if (actions.some(action => action.toLowerCase() === cleanPart)) {
-            // Action verb highlighting - extra bold + blue color
+            // Action verb highlighting - extra bold weight
             return (
-              <span key={index} className="font-extrabold text-blue-600 dark:text-blue-400">
+              <span key={index} className="font-extrabold text-text1">
                 {part}
               </span>
             );
           }
 
           if (experience.some(exp => exp.toLowerCase() === cleanPart)) {
-            // Experience term highlighting - semibold + purple
+            // Experience term highlighting - semibold weight
             return (
-              <span key={index} className="font-semibold text-purple-600 dark:text-purple-400">
+              <span key={index} className="font-semibold text-text1">
                 {part}
               </span>
             );
