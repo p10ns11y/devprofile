@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@import "./brand/themelightdim.css";
+@import "./brand/theme.css";
 
 html {
   font-size: var(--font-size);
