@@ -235,8 +235,12 @@ const CVWebView = () => {
           <div className="text-center mb-12 relative">
             <div className="absolute top-0 right-0 flex flex-col md:flex-row items-end md:items-center gap-2 md:gap-4">
               <ThemeToggle />
-              <Link href="/" className="inline-flex items-center px-3 py-2 bg-surface3 text-text1 font-medium rounded-lg hover:bg-surface4 transition-colors" title="Back to Home">
-                <Home className="w-4 h-4" />
+              <Link
+                href="/"
+                className="inline-flex items-center px-3 py-2 bg-surface3 text-text1 font-medium rounded-lg hover:bg-surface4 transition-colors"
+                aria-label="Back to Home"
+              >
+                <Home className="w-4 h-4" aria-hidden="true" />
               </Link>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-text1 mb-4">
