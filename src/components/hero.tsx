@@ -37,7 +37,7 @@ export function Hero() {
         {particles.map((particle, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-primary/10 rounded-full"
+            className="absolute w-2 h-2 bg-brand/10 rounded-full"
             initial={{
               x: particle.x,
               y: particle.y,
@@ -71,7 +71,7 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg text-muted-foreground"
+              className="text-lg text-text2"
             >
               Hello, I'm
             </motion.p>
@@ -80,7 +80,7 @@ export function Hero() {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-4xl font-bold bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent leading-tight"
+              className="text-4xl font-bold text-text1 leading-tight"
               style={{
                 fontSize: 'clamp(2.25rem, 8vw, 6rem)' // Responsive text: min 2.25rem (36px), scales with viewport, max 6rem (96px)
               }}
@@ -94,10 +94,10 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="space-y-2"
             >
-              <p className="text-2xl md:text-3xl text-muted-foreground">
+              <p className="text-2xl md:text-3xl text-text2">
                 Senior Software Engineer
               </p>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg text-text2">
                <AISmartHighlight priority="balanced">
                  {cvdata.one_liner}
                </AISmartHighlight>
@@ -113,12 +113,12 @@ export function Hero() {
               <div className="flex items-center justify-center lg:justify-center gap-4 flex-wrap">
                 <button
                   onClick={() => scrollToAbout()}
-                  className="inline-flex items-center px-6 py-3 bg-rose-600 text-white font-medium rounded-lg hover:bg-rose-700 transition-colors"
+                  className="inline-flex items-center px-6 py-3 bg-brand text-text1 font-medium rounded-lg hover:bg-brand/90 hover:scale-105 transition-all cursor-pointer"
                 >
                   View My Work
                 </button>
 
-                <a href="/api/cv/view" target="_blank" rel="nofollow noreferrer noopnener" className="inline-flex items-center px-6 py-3 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors">
+                <a href="/api/cv/view" target="_blank" rel="nofollow noreferrer noopener" className="inline-flex items-center px-6 py-3 bg-surface3 text-text1 font-medium rounded-lg hover:bg-surface4 transition-colors">
                   View CV
                 </a>
 
@@ -141,13 +141,13 @@ export function Hero() {
             transition={{ duration: 1, delay: 1.0 }}
             className="flex-shrink-0" // Prevent image from shrinking
           >
-            <div className="w-0 h-0 md:w-96 md:h-96 xl:w-[30rem] xl:h-[30rem] rounded-full overflow-hidden shadow-2xl border-4 border-primary/10 relative">
+            <div className="w-0 h-0 md:w-96 md:h-96 xl:w-[30rem] xl:h-[30rem] rounded-full overflow-hidden rad-shadow border-4 border-brand/10 relative">
               <a title="GitRoll Curism for https://github.com/p10ns11y" href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener" className="block w-full h-full relative">
                 <Image
                   src="/images/curism.png"
                   alt="GitRoll CURISM (Contribution, Uniqueness, Reliability, Influence, Security, Maintainability) for https://github.com/p10ns11y"
                   fill
-                  className="object-cover"
+                  className="object-cover contrast-125"
                 />
               </a>
             </div>
@@ -165,7 +165,7 @@ export function Hero() {
         <motion.div
           animate={shouldReduceMotion ? {} : { y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+          className="flex flex-col items-center gap-2 text-text2 hover:text-brand transition-colors"
         >
           <span className="text-sm">Scroll down</span>
           <ChevronDown className="w-5 h-5" />

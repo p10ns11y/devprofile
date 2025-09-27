@@ -33,7 +33,7 @@ export function About() {
   ];
 
   return (
-    <section ref={ref} id="about" className="py-20 bg-muted/30">
+    <section ref={ref} id="about" className="py-20 bg-surface2">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -42,7 +42,7 @@ export function About() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl mb-6">About Me</h2>
-          <div className="w-20 h-1 bg-primary mx-auto mb-8"></div>
+          <div className="w-20 h-1 bg-brand mx-auto mb-8 opacity-60"></div>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -52,7 +52,7 @@ export function About() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="space-y-6"
           >
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-lg text-text2 leading-relaxed">
             <AISmartHighlight priority="balanced">
               {cvdata.profile}
             </AISmartHighlight>
@@ -71,7 +71,7 @@ export function About() {
                   animate={isIntersecting ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
                   whileHover={{ scale: 1.05 }}
-                  className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium"
+                  className="px-4 py-2 bg-surface3 text-text1 rounded-full text-sm font-medium"
                 >
                   {skill}
                 </motion.span>
@@ -98,12 +98,12 @@ export function About() {
                     <motion.div
                       whileHover={{ rotate: 360 }}
                       transition={{ duration: 0.6 }}
-                      className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto"
+                      className="w-12 h-12 bg-brand/10 rounded-full flex items-center justify-center mx-auto"
                     >
-                      <feature.icon className="w-6 h-6 text-primary" />
+                      <feature.icon className="w-6 h-6 text-brand" />
                     </motion.div>
                     <h3 className="font-semibold">{feature.title}</h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-text2">
                       {feature.description}
                     </p>
                   </CardContent>

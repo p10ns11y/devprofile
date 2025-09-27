@@ -28,10 +28,10 @@ export function Projects() {
         href={project.url}
         target="_blank"
         rel="nofollow noreferrer noopener"
-        className={`block h-full overflow-hidden rounded-xl border ${
+        className={`block h-full overflow-hidden rounded-xl border-2 ${
           isOssContribution
-            ? 'border-slate-200 bg-slate-50 dark:bg-slate-900/50 hover:border-slate-300 dark:hover:border-slate-600'
-            : 'border-border/50 bg-card shadow-lg hover:shadow-xl hover:border-primary/20'
+            ? 'border-border bg-surface2 rad-shadow hover:border-surface4'
+            : 'border-border bg-surface3 rad-shadow hover:shadow-xl hover:border-brand/20'
         } transition-all duration-300 cursor-pointer`}
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
@@ -40,22 +40,18 @@ export function Projects() {
             <img
               src={project.image}
               alt={project.name || (project as any).title}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105 grayscale group-hover:grayscale-66"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             <div className="absolute bottom-3 left-3 right-3 space-y-2">
               {/* Impact Badge */}
-              <div className={`inline-flex items-center px-2 py-1 rounded-md ${
-                isOssContribution
-                  ? 'bg-slate-800 text-slate-100'
-                  : 'bg-primary/90 text-primary-foreground'
-              } text-xs font-medium`}>
+              <div className={`inline-flex items-center px-2 py-1 rounded-md bg-brand/90 text-text1 text-xs font-medium`}>
                 {project.impact || 'Contribution'}
               </div>
 
               {/* Company Badge - Only show if available */}
               {project.meta?.company && (
-                <div className="inline-flex items-center px-2 py-1 rounded-md bg-blue-700 text-blue-100 text-xs font-medium">
+                <div className="inline-flex items-center px-2 py-1 rounded-md bg-surface2 text-text1 text-xs font-medium">
                   {project.meta.company}
                 </div>
               )}
@@ -64,20 +60,18 @@ export function Projects() {
 
           {/* Text Content Column */}
           <div className={`p-4 lg:p-6 flex flex-col justify-between min-h-[140px] lg:min-h-full ${
-            isOssContribution ? 'text-slate-700 dark:text-slate-300' : ''
+            isOssContribution ? 'text-text1' : ''
           }`}>
             <div className="space-y-3">
               <motion.h4
-                whileHover={{ color: "var(--primary)" }}
-                className={`font-semibold text-base lg:text-lg leading-tight transition-colors group-hover:text-primary line-clamp-2 ${
-                  isOssContribution ? 'group-hover:text-slate-900 dark:group-hover:text-slate-100' : 'group-hover:text-primary'
-                }`}
+                whileHover={{ color: "var(--color-brand)" }}
+                className={`font-semibold text-base lg:text-lg leading-tight transition-colors line-clamp-2 group-hover:text-text1`}
               >
                 {project.name || (project as any).title}
               </motion.h4>
 
-              <p className={`text-muted-foreground text-xs lg:text-sm leading-relaxed line-clamp-2 ${
-                isOssContribution ? 'text-slate-600 dark:text-slate-400' : ''
+              <p className={`text-text2 text-xs lg:text-sm leading-relaxed line-clamp-2 ${
+                isOssContribution ? 'text-text2' : ''
               }`}>
                 {project.description}
               </p>
@@ -102,8 +96,8 @@ export function Projects() {
                   >
                     <Badge
                       variant="secondary"
-                      className={`text-xs hover:bg-primary hover:text-primary-foreground transition-colors duration-300 ${
-                        isOssContribution ? 'hover:bg-slate-700 hover:text-slate-100' : ''
+                      className={`text-xs hover:bg-brand hover:text-text1 transition-colors duration-300 ${
+                        isOssContribution ? 'hover:bg-surface4 hover:text-text1' : ''
                       }`}
                     >
                       {tech}
@@ -126,13 +120,12 @@ export function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-20 pt-16 border-t border-border"
         >
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <h3 className="text-3xl font-bold mb-4 text-text1">
               Featured Projects
             </h3>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-text2 max-w-2xl mx-auto">
               Key personal and professional projects showcasing technical expertise and innovation
             </p>
           </div>
@@ -152,10 +145,10 @@ export function Projects() {
             className="mt-20 pt-16"
           >
             <div className="text-center mb-12">
-              <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-slate-600 via-slate-500 to-slate-600 dark:from-slate-300 dark:via-slate-400 dark:to-slate-500 bg-clip-text text-transparent">
+              <h3 className="text-3xl font-bold mb-4 text-text2">
                 Open Source Contributions
               </h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-text2 max-w-2xl mx-auto">
                 Community contributions and collaborative work on open-source projects
               </p>
             </div>

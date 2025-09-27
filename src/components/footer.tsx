@@ -11,7 +11,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-muted/30 py-12">
+    <footer className="bg-surface2 py-12">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -32,14 +32,14 @@ export function Footer() {
           <div className="flex items-center justify-center gap-6 flex-wrap text-sm">
             <Link
               href="/cv"
-              className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 text-text1 hover:text-brand transition-colors"
             >
               View CV
             </Link>
             {/* <span className="text-muted-foreground">•</span> */}
             <a
               href="/cv.pdf"
-              className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 text-text1 hover:text-brand transition-colors"
               target="_blank"
               rel="nofollow noreferrer noopener"
             >
@@ -49,7 +49,7 @@ export function Footer() {
             {/* eslint-disable-next-line */}
             <a
               href="/api/cv/download"
-              className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 text-text1 hover:text-brand transition-colors"
             >
               Download PDF
             </a>
@@ -67,19 +67,18 @@ export function Footer() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex items-center justify-center gap-2 text-sm text-muted-foreground"
+            className="flex items-center justify-center gap-2 text-sm text-text2"
           >
             <span>
-              © {currentYear} {cvdata.name}. Made
-              with
+              © {currentYear} {cvdata.name}.
             </span>
-            <motion.div
+            {/* <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
               <Heart className="w-4 h-4 text-red-500 fill-current" />
             </motion.div>
-            <span>and lots of coffee</span>
+            <span>and lots of coffee</span> */}
           </motion.div>
 
           <motion.div
@@ -87,11 +86,11 @@ export function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xs text-muted-foreground"
+            className="text-xs text-text2"
           >
             <p>
-              Built with React, TypeScript, and Tailwind CSS.
-              Designed with care and attention to detail.
+              Crafted with NextJS, Tailwind CSS (Material Design dynamic color inspired theme), and Figma Make flair, powered by Cline, Kilo Code, and xAI's zippy grok-code-fast-1. 
+              My Big Brain added the sass, not that BigBrain mode, just pure wit! 😎
             </p>
           </motion.div>
         </motion.div>

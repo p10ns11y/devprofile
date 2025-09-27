@@ -12,7 +12,7 @@ export default async function AMA() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-hidden">
+    <div className="min-h-screen bg-brand text-text1 overflow-hidden">
       {/* Development Disclaimer */}
       {isAmaInDevelopment && amaDisclaimer && (
         <div className="bg-amber-50 border-l-4 border-amber-400 p-4 mx-4 mt-4 rounded-r-lg">
