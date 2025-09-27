@@ -28,7 +28,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
   useEffect(() => {
     // Apply theme class for CSS theme switching
-    document.documentElement.className = theme;
+    const root = document.documentElement;
+    root.classList.remove('light', 'dim');
+    root.classList.add(theme);
   }, [theme]);
 
   useEffect(() => {

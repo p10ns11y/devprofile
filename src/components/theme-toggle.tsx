@@ -27,14 +27,16 @@ export function ThemeToggle() {
     }
   };
 
+  const nextTheme = theme === 'light' ? 'dim' : 'light';
+
   return (
     <Button
       variant="ghost"
       size="sm"
       onClick={cycleTheme}
       className="w-9 h-9 p-0 cursor-pointer"
-      title={theme}
-      aria-label={`Switch to ${theme === 'light' ? 'dim' : 'light'} theme`}
+      title={`Switch to ${nextTheme} theme`}
+      aria-label={`Switch to ${nextTheme} theme`}
     >
       {getIcon()}
     </Button>

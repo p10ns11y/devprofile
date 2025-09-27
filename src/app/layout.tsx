@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   const shouldInjectToolbar = process.env.NODE_ENV === 'development';
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#000000" />

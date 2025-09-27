@@ -219,8 +219,8 @@
   } */
   
   .brand {
-    color: var(--brand);
     background-color: var(--brand);
+    color: var(--text1);
   }
   
   .surface1 {

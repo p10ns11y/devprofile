@@ -114,5 +114,5 @@ html {
   --color-surface3: var(--surface3);
   --color-surface4: var(--surface4);
   --color-shadow: var(--surface-shadow);
-  --shadow-strength: var(--shadow-strength);
+  --color-shadow-strength: var(--shadow-strength);
 }

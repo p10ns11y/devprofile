@@ -7,7 +7,7 @@ html {
   --brand-l: 0.6118;
   --brand-c: 0.2256;
   --brand-h: 24;
-  --brand-hue: 360;
+  --brand-hue: 24;
   --brand-saturation: 60%;
   --brand-lightness: 60%;
   --brand: hsl(var(--brand-hue) var(--brand-saturation) var(--brand-lightness));

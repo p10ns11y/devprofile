@@ -118,7 +118,7 @@ export function Hero() {
                   View My Work
                 </button>
 
-                <a href="/api/cv/view" target="_blank" rel="nofollow noreferrer noopnener" className="inline-flex items-center px-6 py-3 bg-surface3 text-text1 font-medium rounded-lg hover:bg-surface4 transition-colors">
+                <a href="/api/cv/view" target="_blank" rel="nofollow noreferrer noopener" className="inline-flex items-center px-6 py-3 bg-surface3 text-text1 font-medium rounded-lg hover:bg-surface4 transition-colors">
                   View CV
                 </a>
 
