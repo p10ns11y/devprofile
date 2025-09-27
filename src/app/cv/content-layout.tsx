@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -36,6 +36,15 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
     }
 
     if (container && !CSS.supports('display', 'masonry') && container.children.length > 0) {
+      // container.style.flexDirection = 'row';
+      // For single column, simply render in order
+      if (ratios.length === 1) {
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.gap = `${gap}rem`;
+        return;
+      }
+
       // Find mainContent element safely
       const mainContentElement = Array.from(container.children).find((child: Element) => {
         return child.id === 'mainContent' && child instanceof HTMLElement;
@@ -111,7 +120,7 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
       const minHeight = Math.min(...finalHeights);
       const imbalanceRatio = maxHeight / minHeight;
 
-      // If imbalance > 1.4 (40% taller), try moving the last element to improve balance
+      // If imbalance > 1.4 (40% taller) and we have 2 columns, try moving the last element to improve balance
       const THRESHOLD = 1.4;
       if (imbalanceRatio > THRESHOLD && placedItems.length > 0) {
         const lastPlaced = placedItems[placedItems.length - 1];
@@ -122,10 +131,10 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
         const testChars = [...charsPerColumn];
         testChars[originalCol] -= lastPlaced.element.innerText.length;
         testChars[alternateCol] += lastPlaced.element.innerText.length;
-        
+
         const alternativeHeights = testChars.map((chars, i) => chars / columnCapacities[i]);
         const alternativeMaxHeight = Math.max(...alternativeHeights);
-        
+
         // If moving improves balance (lower max height), apply it
         if (alternativeMaxHeight < maxHeight) {
           // Remove from original column
@@ -134,10 +143,10 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
           if (itemIndex > -1) {
             originalItems.splice(itemIndex, 1);
           }
-          
+
           // Add to new column
           cols[alternateCol].items.push(lastPlaced.element);
-          
+
           // Update char counts
           charsPerColumn[originalCol] -= lastPlaced.element.innerText.length;
           charsPerColumn[alternateCol] += lastPlaced.element.innerText.length;
@@ -153,6 +162,7 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
       if (container) {
         container.innerHTML = '';
         container.style.display = 'flex';
+        container.style.flexDirection = 'row';
         container.style.gap = `${gap}rem`;
         container.style.flexWrap = 'nowrap';
   
@@ -175,7 +185,27 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
     }
   };
 }
-const Layout = ({ children, ratios = [1, 2], gap = 4, className = '' }: LayoutProps) => {
+const Layout = ({ children, ratios: defaultRatios = [1, 2], gap = 4, className = '' }: LayoutProps) => {
+  const [isWideViewport, setIsWideViewport] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 1024px)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsWideViewport(e.matches);
+    };
+
+    // Set initial value
+    setIsWideViewport(mediaQuery.matches);
+
+    // Listen for changes
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  const ratios = useMemo(() => {
+    return isWideViewport ? defaultRatios : [1];
+  }, [isWideViewport, defaultRatios]);
+
   // Calculate dynamic styles for layout (memoized to prevent infinite loops)
   const dynamicStyles = useMemo(() => {
     if (typeof window === 'undefined' || typeof window?.CSS === 'undefined') {
@@ -192,6 +222,7 @@ const Layout = ({ children, ratios = [1, 2], gap = 4, className = '' }: LayoutPr
             // @ts-ignore - masonry properties not fully typed in React CSSProperties
             masonryTemplateColumns: `${frUnits}fr`,
             gridTemplateColumns: `${frUnits}fr`,
+            masonry: `${frUnits}fr`,
             masonryDirection: 'column',
           }
         : {
@@ -204,9 +235,6 @@ const Layout = ({ children, ratios = [1, 2], gap = 4, className = '' }: LayoutPr
 
     return styles;
   }, [ratios, gap]);
-
-  const totalRatio = ratios.reduce((sum, r) => sum + r, 0);
-  const columnWidths = ratios.map(r => `${(r / totalRatio) * 100}%`);
 
   return (
     <div
