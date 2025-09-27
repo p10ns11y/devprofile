@@ -45,13 +45,13 @@ export function Projects() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             <div className="absolute bottom-3 left-3 right-3 space-y-2">
               {/* Impact Badge */}
-              <div className={`inline-flex items-center px-2 py-1 rounded-md bg-white/90 text-text1 text-xs font-medium`}>
+              <div className={`inline-flex items-center px-2 py-1 rounded-md bg-brand/90 text-text1 text-xs font-medium`}>
                 {project.impact || 'Contribution'}
               </div>
 
               {/* Company Badge - Only show if available */}
               {project.meta?.company && (
-                <div className="inline-flex items-center px-2 py-1 rounded-md bg-white/90 text-text1 text-xs font-medium">
+                <div className="inline-flex items-center px-2 py-1 rounded-md bg-surface2 text-text1 text-xs font-medium">
                   {project.meta.company}
                 </div>
               )}
