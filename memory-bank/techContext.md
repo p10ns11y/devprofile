@@ -23,6 +23,10 @@
   - JIT compilation for optimized build size
   - Custom design system through configuration
   - Responsive design utilities built-in
+- **Theme System**: OKLCH color space with Material Design tokens
+  - Light and Dim theme variants with high contrast ratios
+  - Perceptually uniform colors for better accessibility
+  - CSS custom properties for consistent theming
 - **PostCSS**: CSS processing pipeline
   - Autoprefixer for browser compatibility
   - CSS modules for scoped styling

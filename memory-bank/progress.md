@@ -44,6 +44,7 @@
 - **Next.js 15 Architecture**: Full App Router implementation with Server Actions
 - **React 19 Integration**: Modern concurrent features and Suspense patterns
 - **TypeScript Strict Mode**: 100% type coverage with comprehensive interfaces
+- **Theme System**: OKLCH color space with Material Design-inspired design tokens
 - **Performance Optimization**: Build time reduced to ~4.5 seconds
 - **Cross-Platform Compatibility**: Universal deployment across major platforms
 
@@ -78,7 +79,7 @@
 - **Advanced CV Filtering**: Date range, type, and keyword filtering
 - **Search Optimization**: Full-text search across all content
 - **Social Sharing**: Optimized sharing for portfolio content
-- **Dark Mode**: Complete theme system implementation
+- **Theme System**: Light/Dim themes with OKLCH colors and Material Design inspiration
 
 ### Future Features (Medium Priority)
 - **Blog System**: Full-featured blog with RSS feed
