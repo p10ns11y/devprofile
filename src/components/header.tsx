@@ -183,6 +183,15 @@ export function Header() {
                 Let's Talk
               </Button>
             </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: (navItems.length + 1) * 0.1 }}
+              className="flex justify-center pt-4 border-t border-border/20"
+            >
+              <ThemeToggle />
+            </motion.div>
           </div>
         </motion.div>
       )}
