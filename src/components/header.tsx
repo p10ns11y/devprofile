@@ -17,6 +17,7 @@ export function Header() {
     { name: 'CV', href: '/cv' },
     // { name: 'Skills', href: '/#skills' },
     { name: 'Projects', href: '/#projects' },
+    { name: 'Accomplishments', href: '/#accomplishments' },
     { name: 'Experience', href: '/#experience' },
     { name: 'Content Hub', href: '/content-hub' },
     // { name: 'Contact', href: '/#contact' }, // Testing sw cache busting

@@ -183,6 +183,7 @@ const CVDocument = () => (
           <Link src={data.cv_social_links.x} style={[styles.link, { paddingLeft: 10 }]}>{data.cv_social_links.x}</Link>
         </View>
       </View>
+
       {/* @ts-ignore */}
       <View style={styles.section} id="Profile" bookmark="Profile">
         <Text style={styles.subheader}>Profile</Text>
@@ -231,6 +232,17 @@ const CVDocument = () => (
                   {project.name}
                 </Link>
                 <Text style={{ fontSize: 8, fontStyle: 'italic', color: '#1c1c1c', marginTop: 1 }}>{project.description}</Text>
+              </View>
+            ))}
+          </View>
+          {/* @ts-ignore */}
+          <View style={styles.section} id="Accomplishments" bookmark={{ title: "Accomplishments", fit: false }}>
+            <Text style={styles.subheader}>Accomplishments</Text>
+            {data.courses.map((course, index) => (
+              <View key={index} style={styles.projectItem}>
+                <Link src={course.url} style={[styles.link, { fontSize: 9, fontFamily: 'Helvetica-Bold' }]}>
+                  {course.name}
+                </Link>
               </View>
             ))}
           </View>

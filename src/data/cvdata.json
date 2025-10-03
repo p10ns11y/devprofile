@@ -213,9 +213,21 @@
     ]
   },
   "courses": [
-    "HashiCorp Terraform Associate Exam Cram [O'Reilly Live Event] 2 days Live Course",
-    "LangChain Chat with Your Data",
-    "Build LLM Apps with LangChain"
+    {
+      "name": "HashiCorp Terraform Associate Exam Cram [O'Reilly Live Event] 2 days Live Course",
+      "url": "https://github.com/p10ns11y/oreilly-terraform-live-course-sessions",
+      "domain": "DevOps"
+    },
+    {
+      "name": "LangChain Chat with Your Data",
+      "url": "https://learn.deeplearning.ai/accomplishments/f72f24f1-9ad2-4bc0-b8c2-33cbecb81ec2",
+      "domain": "AI"
+    },
+    {
+      "name": "Build LLM Apps with LangChain.js",
+      "url": "https://learn.deeplearning.ai/accomplishments/14907d64-9ff2-4dc7-b5f7-ce42982f8551?usp=sharing",
+      "domain": "AI"
+    }
   ],
   "certifications": [
     "EpicReact by Kent C. Dodds (2021)",

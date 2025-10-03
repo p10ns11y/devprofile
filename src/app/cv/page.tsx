@@ -40,6 +40,10 @@ interface CVData {
     practices: string[];
   };
   technologies: Record<string, string[]>;
+  courses: Array<{
+    name: string;
+    url: string;
+  }>;
   projects: Array<{
     name: string;
     key: string;
@@ -60,6 +64,7 @@ interface CVData {
   education: Array<{
     degree: string;
     institution: string;
+    years: string;
   }>;
   languages: Record<string, string>;
 }
@@ -154,14 +159,20 @@ function MainContent() {
         </div>
       </div>
 
-      {/* Languages */}
+      {/* Accomplishments */}
       <div className="bg-surface1 rounded-xl rad-shadow p-8">
-        <h2 className="text-2xl font-bold text-text1 mb-6">Languages</h2>
-        <div className="grid grid-cols-1 gap-2">
-          {Object.entries(cvData.languages).map(([language, level], index) => (
-            <div key={index} className="flex justify-between items-center">
-              <span className="font-medium text-text1">{language}</span>
-              <span className="text-text2">{level}</span>
+        <h2 className="text-2xl font-bold text-text1 mb-6">Accomplishments</h2>
+        <div className="space-y-4">
+          {cvData.courses.map((course, index) => (
+            <div key={index}>
+              <a
+                href={course.url}
+                className="text-lg font-semibold text-brand hover:text-text1 transition-colors"
+                target="_blank"
+                rel="nofollow noreferrer noopener"
+              >
+                {course.name}
+              </a>
             </div>
           ))}
         </div>
@@ -187,6 +198,7 @@ function MainContent() {
             <div key={index}>
               <h3 className="text-lg font-semibold text-text1">{edu.degree}</h3>
               <p className="text-text2">{edu.institution}</p>
+              <p className="text-brand font-medium text-sm">{edu.years}</p>
             </div>
           ))}
         </div>
@@ -209,6 +221,19 @@ function MainContent() {
               <p className="text-text2 text-sm mt-1">
                 {pub.journal ? `${pub.journal.name}` : pub.conference}, {pub.first_published || pub.date}
               </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+        {/* Languages */}
+      <div className="bg-surface1 rounded-xl rad-shadow p-8">
+        <h2 className="text-2xl font-bold text-text1 mb-6">Languages</h2>
+        <div className="grid grid-cols-1 gap-2">
+          {Object.entries(cvData.languages).map(([language, level], index) => (
+            <div key={index} className="flex justify-between items-center">
+              <span className="font-medium text-text1">{language}</span>
+              <span className="text-text2">{level}</span>
             </div>
           ))}
         </div>
@@ -296,4 +321,3 @@ const CVWebView = () => {
 };
 
 export default CVWebView;
-
