@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   ShieldCheck,
   ShieldX,
@@ -28,10 +28,10 @@ export function VerificationHash({ certificateId }: VerificationHashProps) {
     // Import cvdata dynamically to avoid SSR issues
     import('@/data/cvdata.json').then((cvData) => {
       // Find certificate by ID
-      for (const cert of cvData.certificates) {
+      for (let index = 0; index < cvData.certificates.length; index++) {
+        const cert = cvData.certificates[index];
         const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, '');
         const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
-        const index = cvData.certificates.indexOf(cert);
         const uniqueId = `cert-${sanitizedName}-${index}`;
 
         if (uniqueId === certificateId && cert.sha256Hash) {
@@ -42,50 +42,56 @@ export function VerificationHash({ certificateId }: VerificationHashProps) {
     });
   };
 
-  const verifyHash = async () => {
-    if (currentHash && expectedHash) return; // Already verified
-
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/certificates/${certificateId}/hash`);
-      if (response.ok) {
-        const data = await response.json();
-        setCurrentHash(data.hash);
-
-        // Get expected hash if not already loaded
-        if (!expectedHash) {
-          await new Promise(resolve => {
-            const checkHash = () => {
-              import('@/data/cvdata.json').then((cvData) => {
-                for (const cert of cvData.certificates) {
-                  const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, '');
-                  const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
-                  const index = cvData.certificates.indexOf(cert);
-                  const uniqueId = `cert-${sanitizedName}-${index}`;
-
-                  if (uniqueId === certificateId && cert.sha256Hash) {
-                    setExpectedHash(cert.sha256Hash);
-                    resolve(void 0);
-                    return;
-                  }
-                }
-                resolve(void 0);
-              });
-            };
-            checkHash();
-          });
-        }
-
-        // Set current hash - verification will happen via useEffect
-        setCurrentHash(data.hash);
-      }
-    } catch (error) {
-      console.error('Failed to verify hash:', error);
-      setVerificationStatus('failed');
-    } finally {
-      setLoading(false);
+// Helper to find certificate hash by ID
+const findCertificateHash = async (certId: string): Promise<string | null> => {
+  const cvData = await import('@/data/cvdata.json');
+  for (let index = 0; index < cvData.certificates.length; index++) {
+    const cert = cvData.certificates[index];
+    const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, '');
+    const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+    const uniqueId = `cert-${sanitizedName}-${index}`;
+    if (uniqueId === certId && cert.sha256Hash) {
+      return cert.sha256Hash;
     }
-  };
+  }
+  return null;
+};
+
+const verifyHash = async () => {
+  if (currentHash && expectedHash) return; // Prevent re-verification
+
+  setLoading(true);
+  try {
+    const response = await fetch(`/api/certificates/${certificateId}/hash`);
+    if (response.ok) {
+      const data = await response.json();
+      setCurrentHash(data.hash);
+
+      // Get expected hash if not already loaded
+      if (!expectedHash) {
+        const hash = await findCertificateHash(certificateId);
+        if (hash) {
+          setExpectedHash(hash);
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Failed to verify hash:', error);
+    setVerificationStatus('failed');
+  } finally {
+    setLoading(false);
+  }
+};
+
+// elsewhere in the same file:
+
+// const getExpectedHash = () => {
+//   findCertificateHash(certificateId).then(hash => {
+//     if (hash) {
+//       setExpectedHash(hash);
+//     }
+//   });
+// };
 
   // Reset state and load expected hash when certificate changes
   React.useEffect(() => {
@@ -114,7 +120,8 @@ export function VerificationHash({ certificateId }: VerificationHashProps) {
     try {
       await navigator.clipboard.writeText(expectedHash);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      const timer = setTimeout(() => setCopied(false), 2000);
+      return () => clearTimeout(timer);
     } catch (error) {
       console.error('Failed to copy hash:', error);
     }

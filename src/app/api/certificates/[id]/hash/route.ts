@@ -43,10 +43,20 @@ export async function GET(
 
     // Construct file path
     const filePath = path.join(process.cwd(), 'public', 'certificates', targetFilename);
+    const certificatesDir = path.join(process.cwd(), 'public', 'certificates');
+    const resolvedPath = path.resolve(filePath);
+   
+   // Ensure the resolved path is within the certificates directory
+   if (!resolvedPath.startsWith(path.resolve(certificatesDir) + path.sep)) {
+     return NextResponse.json(
+       { error: 'Invalid certificate path' },
+       { status: 400 }
+     );
+   }
 
     // Check if file exists
     try {
-      await fs.access(filePath);
+     await fs.access(resolvedPath);
     } catch {
       return NextResponse.json(
         { error: 'Certificate file not found' },
@@ -54,9 +64,9 @@ export async function GET(
       );
     }
 
-    // Read file and calculate SHA-256 hash
-    const fileBuffer = await fs.readFile(filePath);
-    const hash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
+   // Read file and calculate SHA-256 hash
+   const fileBuffer = await fs.readFile(resolvedPath);
+   const hash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
 
     // Return hash with metadata
     return NextResponse.json({

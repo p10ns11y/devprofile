@@ -21,7 +21,7 @@
 | **AI AMA** | ✅ Complete | 100% | Q&A chatbot, context awareness |
 | **Content Hub** | ✅ Complete | 100% | Dynamic content, multi-page support |
 | **Document Viewer** | ✅ Complete | 100% | PDF/image viewer, certificate display |
-| **Certificates System** | ✅ Complete | 100% | Dedicated certificates page with verification links, mobile responsive |
+| **Certificates System** | ✅ Complete | 100% | Dedicated certificates page, mobile responsive |
 | **Mobile Responsive** | ✅ Complete | 100% | Mobile-first design, touch optimization |
 | **Accessibility** | 🟡 Mostly Complete | 90% | WCAG AA compliance, keyboard navigation |
 | **SEO Optimization** | ✅ Complete | 100% | Meta tags, structured data, SSR |
@@ -77,7 +77,6 @@
 ## 🎯 What's Left to Build (Remaining Features)
 
 ### Minor Enhancements (High Priority)
-- **Document Verification**: SHA-256 hash verification system for certificates
 - **User Analytics**: Comprehensive tracking of certificate interactions
 - **Advanced CV Filtering**: Date range, type, and keyword filtering
 - **Search Optimization**: Full-text search across all content

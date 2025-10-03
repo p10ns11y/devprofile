@@ -45,10 +45,14 @@ async function calculateHashes() {
     certificates: updatedCertificates
   };
 
+  const outputPath = path.join(process.cwd(), 'src', 'data', 'cvdata.json');
+  const tempPath = outputPath + '.tmp';
+
   await fs.writeFile(
-    path.join(process.cwd(), 'src', 'data', 'cvdata.json'),
+    tempPath,
     JSON.stringify(updatedData, null, 2)
   );
+  await fs.rename(tempPath, outputPath);
 
   console.log('\n🎉 Hash calculation complete!');
   console.log(`📊 Processed ${updatedCertificates.length} certificates`);
