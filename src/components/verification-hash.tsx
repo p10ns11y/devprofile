@@ -131,37 +131,39 @@ const verifyHash = async () => {
 
   return (
     <>
-      <div className="flex items-center space-x-2 bg-surface3 px-3 py-2 rounded-lg border border-border">
-        <div className="flex-shrink-0">
-          {verificationStatus === 'verified' ? (
-            <ShieldCheck className="w-5 h-5 text-accent-secondary fill-current" />
-          ) : verificationStatus === 'failed' ? (
-            <ShieldX className="w-5 h-5 text-accent-primary fill-current" />
-          ) : (
-            <Shield className="w-5 h-5 text-accent-primary" />
-          )}
-        </div>
+      <div className="flex items-center justify-between space-x-2 bg-surface3 px-3 py-2 rounded-lg border border-border">
         <button
           onClick={verifyHash}
           disabled={loading}
-          className="text-sm text-text1 hover:text-accent-primary underline disabled:opacity-50"
+          className="flex items-center space-x-2 cursor-pointer disabled:cursor-not-allowed"
         >
-          {loading ? 'Verifying...' : verificationStatus === 'verified' ? '✓ Verified' : verificationStatus === 'failed' ? '✗ Failed' : 'Verify'}
+          <div className="flex-shrink-0">
+            {verificationStatus === 'verified' ? (
+              <ShieldCheck className="w-5 h-5 text-accent-secondary fill-current" />
+            ) : verificationStatus === 'failed' ? (
+              <ShieldX className="w-5 h-5 text-accent-primary fill-current" />
+            ) : (
+              <Shield className="w-5 h-5 text-accent-primary" />
+            )}
+          </div>
+          <span className="text-sm text-text1 hover:text-accent-primary underline disabled:opacity-50">
+            {loading ? 'Verifying...' : verificationStatus === 'verified' ? '✓ Verified' : verificationStatus === 'failed' ? '✗ Failed' : 'Verify'}
+          </span>
         </button>
 
         {expectedHash && (
           <>
-            <span className="text-sm text-text2 font-mono">{displayHash}</span>
+            <span className="text-sm text-text2 font-mono break-all max-w-20 md:max-w-none">{displayHash}</span>
             <button
               onClick={copyToClipboard}
-              className="text-accent-primary hover:text-accent-primary/80"
+              className="text-accent-primary hover:text-accent-primary/80 flex-shrink-0"
               title="Copy expected hash"
             >
               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             </button>
             <button
               onClick={() => setShowInfo(true)}
-              className="text-accent-primary hover:text-accent-primary/80"
+              className="text-accent-primary hover:text-accent-primary/80 flex-shrink-0"
               title="Verification details"
             >
               <Info className="w-4 h-4" />
