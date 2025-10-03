@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import {
   ZoomIn,
@@ -41,6 +41,21 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   const [pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(1.0);
   const [rotate, setRotate] = useState(0);
+  const [containerWidth, setContainerWidth] = useState<number>(800);
+
+  // Update container width on resize
+  useEffect(() => {
+    const updateWidth = () => {
+      const viewerElement = window.document.querySelector('[data-pdf-viewer]');
+      if (viewerElement) {
+        setContainerWidth(viewerElement.clientWidth - 64); // Subtract padding
+      }
+    };
+
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -121,6 +136,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
                   pageNumber={index + 1}
                   scale={scale}
                   rotate={rotate}
+                  width={containerWidth}
                   loading={
                     <div className="flex items-center justify-center p-8">
                       <div className="text-center space-y-2">
@@ -230,7 +246,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-white">
+    <div className="h-screen flex flex-col bg-white" data-pdf-viewer>
       {/* Document Header */}
       <div className="flex items-center p-4 border-b border-gray-200 bg-white">
         <div className="flex-1 flex items-center space-x-4">
