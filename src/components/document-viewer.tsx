@@ -112,7 +112,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
             <div className="flex items-center justify-center p-8">
               <div className="text-center space-y-2">
                 <LoadingSpinner />
-                <p className="text-gray-700 dark:text-gray-300">Loading PDF...</p>
+                <p className="text-text1">Loading PDF...</p>
               </div>
             </div>
           }
@@ -121,8 +121,8 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
               <div className="text-center space-y-4">
                 <AlertCircle className="w-12 h-12 text-red-400 mx-auto" />
                 <div>
-                  <h3 className="text-lg font-medium text-gray-900">PDF Load Error</h3>
-                  <p className="text-gray-600 text-sm">Unable to load the PDF document</p>
+                  <h3 className="text-lg font-medium text-text1">PDF Load Error</h3>
+                  <p className="text-text2 text-sm">Unable to load the PDF document</p>
                 </div>
               </div>
             </div>
@@ -141,7 +141,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
                     <div className="flex items-center justify-center p-8">
                       <div className="text-center space-y-2">
                         <LoadingSpinner size="sm" />
-                        <p className="text-gray-600 text-sm">Loading page {index + 1}...</p>
+                        <p className="text-text2 text-sm">Loading page {index + 1}...</p>
                       </div>
                     </div>
                   }
@@ -150,7 +150,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
                   className="shadow-lg border border-gray-200"
                 />
                 <div className="text-center mt-2">
-                  <span className="text-xs text-gray-500">Page {index + 1} of {numPages}</span>
+                  <span className="text-xs text-text2">Page {index + 1} of {numPages}</span>
                 </div>
               </div>
             )
@@ -184,16 +184,16 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   const renderOther = () => (
     <div className="flex items-start justify-center h-full">
       <div className="text-center space-y-4">
-        <File className="w-16 h-16 text-gray-300 mx-auto" />
-        <h3 className="text-lg font-medium text-gray-700">
+        <File className="w-16 h-16 text-text-disabled mx-auto" />
+        <h3 className="text-lg font-medium text-text1">
           Preview Not Available
         </h3>
-        <p className="text-gray-500 text-sm">
+        <p className="text-text2 text-sm">
           {document!.name}
         </p>
         <button
           onClick={handleDownload}
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+          className="text-accent-primary hover:text-accent-primary/80 text-sm font-medium"
         >
           Download file
         </button>
@@ -219,7 +219,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
       <div className="flex items-center justify-center h-full">
         <div className="flex flex-col items-center space-y-4">
           <LoadingSpinner size="lg" />
-          <p className="text-gray-600 text-sm">Loading document...</p>
+          <p className="text-text2 text-sm">Loading certificate...</p>
         </div>
       </div>
     );
@@ -227,18 +227,18 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
 
   if (!document) {
     return (
-      <div className="flex flex-col items-center justify-center h-full bg-gray-50">
+      <div className="flex flex-col items-center justify-center h-full bg-surface2">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center space-y-4"
         >
-          <File className="w-16 h-16 text-gray-300 mx-auto" />
-          <h3 className="text-lg font-medium text-gray-700">
-            Select a Document
+          <File className="w-16 h-16 text-text-disabled mx-auto" />
+          <h3 className="text-lg font-medium text-text1">
+            Select a Certificate
           </h3>
-          <p className="text-gray-500 text-sm">
-            Choose a document from the sidebar to view its content
+          <p className="text-text2 text-sm">
+            Choose a certificate from the sidebar to view its content
           </p>
         </motion.div>
       </div>
@@ -246,17 +246,17 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-white" data-pdf-viewer>
+    <div className="h-screen flex flex-col bg-surface1" data-pdf-viewer>
       {/* Document Header */}
-      <div className="flex items-center p-4 border-b border-gray-200 bg-white">
+      <div className="flex items-center p-4 border-b border-border bg-surface1">
         <div className="flex-1 flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             {getFileIconForViewer(document.type)}
             <div>
-              <h3 className="font-medium text-gray-900 text-sm">
+              <h3 className="font-medium text-text1 text-sm">
                 {document.name}
               </h3>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-text2">
                 {formatFileSize(document.size)} •
                 {document.lastModified.toLocaleDateString()}
               </p>
@@ -273,26 +273,26 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
         <div className="flex-1 flex items-center justify-end space-x-2">
           {/* Page Count */}
           {document.type === 'pdf' && numPages && (
-            <div className="text-sm text-gray-700 px-3 py-1 bg-gray-50 rounded">
+            <div className="text-sm text-text1 px-3 py-1 bg-surface3 rounded">
               {numPages} page{numPages !== 1 ? 's' : ''}
             </div>
           )}
 
           {/* Zoom Controls */}
-          <div className="flex items-center border-l pl-2 ml-2 space-x-1">
+          <div className="flex items-center border-l pl-2 ml-2 space-x-1 border-border">
             <button
               onClick={handleZoomOut}
-              className="p-2 hover:bg-gray-100 rounded"
+              className="p-2 hover:bg-surface3 rounded"
               title="Zoom out"
             >
               <ZoomOut className="w-4 h-4" />
             </button>
-            <span className="text-sm px-2 text-gray-700">
+            <span className="text-sm px-2 text-text1">
               {Math.round(scale * 100)}%
             </span>
             <button
               onClick={handleZoomIn}
-              className="p-2 hover:bg-gray-100 rounded"
+              className="p-2 hover:bg-surface3 rounded"
               title="Zoom in"
             >
               <ZoomIn className="w-4 h-4" />
@@ -300,17 +300,17 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           </div>
 
           {/* Other Controls */}
-          <div className="flex items-center border-l pl-2 ml-2 space-x-1">
+          <div className="flex items-center border-l pl-2 ml-2 space-x-1 border-border">
             <button
               onClick={handleRotate}
-              className="p-2 hover:bg-gray-100 rounded"
+              className="p-2 hover:bg-surface3 rounded"
               title="Rotate"
             >
               <RotateCcw className="w-4 h-4" />
             </button>
             <button
               onClick={handleDownload}
-              className="p-2 hover:bg-gray-100 rounded"
+              className="p-2 hover:bg-surface3 rounded"
               title="Download"
             >
               <Download className="w-4 h-4" />
@@ -320,7 +320,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
       </div>
 
       {/* Document Content */}
-      <div className="flex-1 overflow-auto bg-gray-50 p-6">
+      <div className="flex-1 overflow-auto bg-surface2 p-6">
         {renderDocumentContent()}
       </div>
     </div>

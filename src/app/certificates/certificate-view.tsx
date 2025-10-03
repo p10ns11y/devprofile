@@ -52,11 +52,11 @@ export default function CertificateViewComponent() {
       transition={{ duration: 0.5 }}
     >
       {/* Mobile Header */}
-      <div className="md:hidden bg-white border-b border-gray-200 p-4 flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-gray-900">Certificates</h1>
+      <div className="md:hidden bg-surface1 border-b border-border p-4 flex items-center justify-between">
+        <h1 className="text-lg font-semibold text-text1">Certificates</h1>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 hover:bg-gray-100 rounded-lg"
+          className="p-2 hover:bg-surface3 rounded-lg"
           aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
         >
           {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -72,7 +72,7 @@ export default function CertificateViewComponent() {
           inset-y-0 left-0 z-40
           w-80 md:w-max
           max-h-screen
-          bg-white border-r border-gray-200
+          bg-surface1 border-r border-border
           flex-shrink-0
           overflow-hidden
           transition-transform duration-300 ease-in-out
@@ -94,7 +94,7 @@ export default function CertificateViewComponent() {
         )}
 
         {/* Main Content */}
-        <div className="flex-1 bg-gray-50 overflow-y-auto">
+        <div className="flex-1 bg-surface2 overflow-y-auto">
           <DocumentViewer
             document={selectedCertificate}
           />
