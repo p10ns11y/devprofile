@@ -43,12 +43,15 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   const [rotate, setRotate] = useState(0);
   const [containerWidth, setContainerWidth] = useState<number>(800);
 
-  // Update container width on resize
+  // Update container width on resize with reasonable limits
   useEffect(() => {
     const updateWidth = () => {
       const viewerElement = window.document.querySelector('[data-pdf-viewer]');
       if (viewerElement) {
-        setContainerWidth(viewerElement.clientWidth - 64); // Subtract padding
+        // Use a reasonable width: min of container width and 800px, with minimum 400px
+        const availableWidth = viewerElement.clientWidth - 64; // Subtract padding
+        const optimalWidth = Math.min(availableWidth, 800); // Max 800px for readability
+        setContainerWidth(Math.max(optimalWidth, 300)); // Min 400px
       }
     };
 

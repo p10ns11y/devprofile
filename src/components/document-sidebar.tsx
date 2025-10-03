@@ -3,8 +3,7 @@
 import React, { useEffect } from 'react';
 import {
   File as FileIcon,
-  Clock,
-  HardDrive
+  Clock
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { DocumentItem, DocumentSidebarProps } from '../types/documents';
@@ -82,66 +81,48 @@ export function DocumentSidebar({
                 </h3>
 
                 <div className="flex items-center space-x-4 mt-1 text-xs text-text2">
-                  <div className="flex items-center space-x-1">
-                    <HardDrive className="w-3 h-3" />
-                    <span>{formatFileSize(document.size)}</span>
-                  </div>
+                   <div className="flex items-center space-x-1">
+                     <Clock className="w-3 h-3" />
+                     <span>
+                       {document.reissuedDate ? `Reissued: ${document.reissuedDate}` : document.lastModified.toLocaleDateString()}
+                     </span>
+                   </div>
+                 </div>
 
-                  <div className="flex items-center space-x-1">
-                    <Clock className="w-3 h-3" />
-                    <span>
-                      {document.reissuedDate ? `Reissued: ${document.reissuedDate}` : document.lastModified.toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
+                 {/* Completion Date */}
+                 {document.reissuedDate && document.completionDate && (
+                   <div className="mt-1 text-xs text-text2">
+                     Completed: {document.completionDate}
+                   </div>
+                 )}
 
-                {/* Completion Date */}
-                {document.reissuedDate && document.completionDate && (
-                  <div className="mt-1 text-xs text-text2">
-                    Completed: {document.completionDate}
-                  </div>
-                )}
+                 {/* Verification URL */}
+                 {document.verifyUrl && (
+                   <div className="mt-2">
+                     <a
+                       href={document.verifyUrl}
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       className="text-xs text-accent-primary hover:text-accent-primary/80 underline"
+                     >
+                       Verify Certificate
+                     </a>
+                   </div>
+                 )}
 
-                {/* Explanation Link */}
-                {document.explanationUrl && (
-                  <div className="mt-1">
-                    <a
-                      href={document.explanationUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-accent-primary hover:text-accent-primary/80 underline"
-                    >
-                      Certificate Reissue Explanation
-                    </a>
-                  </div>
-                )}
-
-                {/* File Type Badge */}
-                <div className="mt-2">
-                  <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-                    document.type === 'pdf'
-                      ? 'bg-surface3 text-text1'
-                      : document.type === 'image'
-                      ? 'bg-surface3 text-text1'
-                      : 'bg-surface3 text-text1'
-                  }`}>
-                    {document.type.toUpperCase()}
-                  </span>
-                </div>
-
-                {/* Verification URL */}
-                {document.verifyUrl && (
-                  <div className="mt-2">
-                    <a
-                      href={document.verifyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-accent-primary hover:text-accent-primary/80 underline"
-                    >
-                      Verify Certificate
-                    </a>
-                  </div>
-                )}
+                 {/* Explanation Link - moved to bottom */}
+                 {document.explanationUrl && (
+                   <div className="mt-2">
+                     <a
+                       href={document.explanationUrl}
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       className="text-xs text-accent-primary hover:text-accent-primary/80 underline"
+                     >
+                       Certificate Reissue Explanation
+                     </a>
+                   </div>
+                 )}
               </div>
             </div>
           </motion.div>
