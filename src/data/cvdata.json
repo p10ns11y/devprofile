@@ -274,7 +274,7 @@
   "certificates": [
     {
       "course": "Testing JavaScript",
-      "completionDate": "May 19, 2021",
+      "completionDate": "2021-05-19",
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "lessonsCompleted": 104,
@@ -292,7 +292,7 @@
     {
       "course": "The Data Scientist's Toolbox",
       "reissuedDate": "Jul 28, 2025",
-      "completionDate": "March, 2015",
+      "completionDate": "2015-03-01",
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/0UXP2OPIYHPS",
@@ -310,7 +310,7 @@
     },
     {
       "course": "Introduction to Meteor.js Development",
-      "completionDate": "Dec 29, 2015",
+      "completionDate": "2015-12-29",
       "issuer": "University of London and Goldsmiths, University of London",
       "provider": "Coursera",
       "verifyUrl": "https://coursera.org/verify/5M8WT6R5VW32",
@@ -327,7 +327,7 @@
     {
       "course": "R Programming",
       "reissuedDate": "Jul 28, 2025",
-      "completionDate": "March, 2015",
+      "completionDate": "2015-03-01",
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/A5O6UPSB1TU2",
@@ -346,7 +346,7 @@
     {
       "course": "Getting and Cleaning Data",
       "reissuedDate": "Jul 28, 2025",
-      "completionDate": "March, 2015",
+      "completionDate": "2015-03-01",
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/CF3OFVOXL5DL",
@@ -364,8 +364,8 @@
     },
     {
       "course": "Developing Data Products",
-      "reissuedDate": "Jul 28, 2025",
-      "completionDate": "March, 2015",
+      "reissuedDate": "2025-07-28",
+      "completionDate": "2015-03-01",
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/9PP3NZMJZBYQ",
@@ -383,7 +383,7 @@
     },
     {
       "course": "Machine Learning Foundations: A Case Study Approach",
-      "completionDate": "Dec 7, 2015",
+      "completionDate": "2015-12-07",
       "issuer": "University of Washington",
       "provider": "Coursera",
       "verifyUrl": "https://coursera.org/verify/QDDVWPVKDNEX",
@@ -403,7 +403,7 @@
     },
     {
       "course": "Advanced React Hooks",
-      "completionDate": "2020/10/10",
+      "completionDate": "2020-10-10",
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
@@ -418,7 +418,7 @@
     },
     {
       "course": "Advanced React Patterns",
-      "completionDate": "2020/10/12",
+      "completionDate": "2020-10-12",
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
@@ -433,7 +433,7 @@
     },
     {
       "course": "Build an Epic React App",
-      "completionDate": "2021/05/18",
+      "completionDate": "2021-05-18",
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
@@ -448,7 +448,7 @@
     },
     {
       "course": "Human Trafficking 101 Training",
-      "completionDate": "September 2024",
+      "completionDate": "2024-09-01",
       "issuer": "Polaris Project",
       "provider": "Polaris",
       "verifyUrl": null,
@@ -461,7 +461,7 @@
     },
     {
       "course": "Just JavaScript",
-      "completionDate": "September 11, 2021",
+      "completionDate": "2021-09-11",
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "episodesCompleted": 10,
@@ -492,7 +492,7 @@
     },
     {
       "course": "Testing React Apps",
-      "completionDate": "2020/10/31",
+      "completionDate": "2020-10-31",
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
@@ -507,7 +507,7 @@
     },
     {
       "course": "React Performance",
-      "completionDate": "2020/10/24",
+      "completionDate": "2020-10-24",
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
@@ -522,7 +522,7 @@
     },
     {
       "course": "React Suspense",
-      "completionDate": "2020/11/28",
+      "completionDate": "2020-11-28",
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
@@ -537,7 +537,7 @@
     },
     {
       "course": "React Hooks",
-      "completionDate": "2020/10/06",
+      "completionDate": "2020-10-06",
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,

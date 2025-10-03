@@ -87,7 +87,7 @@ export function DocumentSidebar({
                      <div className="flex items-center space-x-1">
                        <Clock className="w-3 h-3" />
                        <span>
-                         {document.reissuedDate ? `Reissued: ${document.reissuedDate}` : document.lastModified.toLocaleDateString()}
+                         {document.reissuedDate ? `Reissued: ${new Date(document.reissuedDate).toLocaleDateString()}` : document.lastModified.toLocaleDateString()}
                        </span>
                      </div>
                    </div>
@@ -95,7 +95,7 @@ export function DocumentSidebar({
                    {/* Completion Date */}
                    {document.reissuedDate && document.completionDate && (
                      <div className="mt-1 text-xs text-text2">
-                       Completed: {document.completionDate}
+                       Completed: {new Date(document.completionDate).toLocaleDateString()}
                      </div>
                    )}
                    {document.verifyUrl && (
