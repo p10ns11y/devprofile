@@ -1,4 +1,5 @@
 import { DocumentItem } from '../types/documents';
+import cvData from './cvdata.json';
 
 export const getDocumentsData = (): DocumentItem[] => {
   return [
@@ -176,4 +177,42 @@ export const getDocumentsData = (): DocumentItem[] => {
       lastModified: new Date(),
     },
   ];
+};
+
+export const getCertificatesData = (): DocumentItem[] => {
+  const certificates = cvData.certificates.map((cert: any, index: number) => {
+    let verifyUrl: string | undefined = undefined;
+    if (cert.verifyUrl) {
+      verifyUrl = cert.verifyUrl.startsWith('http://') || cert.verifyUrl.startsWith('https://')
+        ? cert.verifyUrl
+        : `https://${cert.verifyUrl}`;
+    }
+    const fileExtension = cert.filename.split('.').pop()?.toLowerCase();
+    const type = fileExtension === 'png' || fileExtension === 'jpg' || fileExtension === 'jpeg' ? 'image' : 'pdf';
+
+    // Create a unique ID based on filename (remove extension and sanitize)
+    const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, '');
+    const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+    const uniqueId = `cert-${sanitizedName}-${index}`;
+
+    return {
+      id: uniqueId,
+      name: cert.filename,
+      path: `/certificates/${cert.filename}`,
+      type: type as 'pdf' | 'image',
+      size: 256000, // Default size, could be improved
+      lastModified: new Date(cert.reissuedDate || cert.completionDate || Date.now()),
+      verifyUrl,
+      completionDate: cert.completionDate,
+      reissuedDate: cert.reissuedDate,
+      explanationUrl: cert.reissuedDate ? cvData.xplanation?.coursera : undefined,
+    };
+  });
+
+  // Sort by completion date in reverse chronological order (newest first)
+  return certificates.sort((a, b) => {
+    const dateA = a.completionDate ? new Date(a.completionDate).getTime() : 0;
+    const dateB = b.completionDate ? new Date(b.completionDate).getTime() : 0;
+    return dateB - dateA; // Reverse chronological
+  });
 };

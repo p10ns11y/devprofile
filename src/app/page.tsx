@@ -8,6 +8,7 @@ import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
 import { Skills } from "@/components/skills";
 const CurrentProjects = React.lazy(() => import('@/components/projects').then(mod => ({ default: mod.Projects })));
+import { Accomplishments } from "@/components/accomplishments";
 import { Experience } from "@/components/experience";
 import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
@@ -29,6 +30,7 @@ export default function Home() {
         <Suspense fallback={<div className="py-20 text-center">Loading projects...</div>}>
           <CurrentProjects />
         </Suspense>
+        <Accomplishments />
         <Experience />
         <Contact />
       </main>

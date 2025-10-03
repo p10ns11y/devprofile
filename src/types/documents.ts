@@ -6,6 +6,10 @@ export interface DocumentItem {
   size: number;
   lastModified: Date;
   thumbnail?: string;
+  verifyUrl?: string;
+  completionDate?: string;
+  reissuedDate?: string;
+  explanationUrl?: string;
 }
 
 export interface DocumentSidebarProps {

@@ -213,9 +213,26 @@
     ]
   },
   "courses": [
-    "HashiCorp Terraform Associate Exam Cram [O'Reilly Live Event] 2 days Live Course",
-    "LangChain Chat with Your Data",
-    "Build LLM Apps with LangChain"
+    {
+      "name": "HashiCorp Terraform Associate Exam Cram [O'Reilly Live Event] 2 days Live Course",
+      "url": "https://github.com/p10ns11y/oreilly-terraform-live-course-sessions",
+      "domain": "DevOps",
+      "type": "live-course",
+      "proof_of_accomplishment": "github_code_repo"
+    },
+    {
+      "name": "LangChain Chat with Your Data",
+      "url": "https://learn.deeplearning.ai/accomplishments/f72f24f1-9ad2-4bc0-b8c2-33cbecb81ec2",
+      "domain": "AI",
+      "type": "course",
+      "proof_of_accomplishment": "accomplishment_url"
+    },
+    {
+      "name": "Build LLM Apps with LangChain.js",
+      "url": "https://learn.deeplearning.ai/accomplishments/14907d64-9ff2-4dc7-b5f7-ce42982f8551?usp=sharing",
+      "domain": "AI",
+      "proof_of_accomplishment": "accomplishment_url"
+    }
   ],
   "certifications": [
     "EpicReact by Kent C. Dodds (2021)",
@@ -226,6 +243,191 @@
     "Coursera: Getting and Cleaning Data(2015)",
     "Coursera: R Programming(2015)",
     "DataCamp: Kaggle R Tutorial on Machine Learning(2015)"
+  ],
+  "certificates": [
+    {
+      "course": "Testing JavaScript",
+      "completionDate": "May 19, 2021",
+      "issuer": "Kent C. Dodds",
+      "provider": "Epic React",
+      "lessonsCompleted": 104,
+      "modulesCompleted": 7,
+      "verifyUrl": null,
+      "instructors": ["Kent C. Dodds"],
+      "type": "Online Course",
+      "filename": "JavaScriptTestingCertificate.pdf"
+    },
+    {
+      "course": "The Data Scientist's Toolbox",
+      "reissuedDate": "Jul 28, 2025",
+      "completionDate": "March, 2015",
+      "issuer": "Johns Hopkins University",
+      "provider": "Coursera",
+      "verifyUrl": "coursera.org/verify/0UXP2OPIYHPS",
+      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
+      "type": "Online Non-Credit Course",
+      "filename": "Coursera 0UXP2OPIYHPS.pdf"
+    },
+    {
+      "course": "Introduction to Meteor.js Development",
+      "completionDate": "Dec 29, 2015",
+      "issuer": "University of London and Goldsmiths, University of London",
+      "provider": "Coursera",
+      "verifyUrl": "https://coursera.org/verify/5M8WT6R5VW32",
+      "instructors": ["Dr Matthew Yee-King"],
+      "department": "Computing Department, Goldsmiths, University of London",
+      "type": "Online Non-Credit Course",
+      "filename": "Coursera-Meteor.pdf"
+    },
+    {
+      "course": "R Programming",
+      "reissuedDate": "Jul 28, 2025",
+      "completionDate": "March, 2015",
+      "issuer": "Johns Hopkins University",
+      "provider": "Coursera",
+      "verifyUrl": "coursera.org/verify/A5O6UPSB1TU2",
+      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
+      "type": "Online Non-Credit Course",
+      "filename": "Coursera A5O6UPSB1TU2.pdf"
+    },
+    {
+      "course": "Getting and Cleaning Data",
+      "reissuedDate": "Jul 28, 2025",
+      "completionDate": "March, 2015",
+      "issuer": "Johns Hopkins University",
+      "provider": "Coursera",
+      "verifyUrl": "coursera.org/verify/CF3OFVOXL5DL",
+      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
+      "type": "Online Non-Credit Course",
+      "filename": "Coursera CF3OFVOXL5DL.pdf"
+    },
+    {
+      "course": "Developing Data Products",
+      "reissuedDate": "Jul 28, 2025",
+      "completionDate": "March, 2015",
+      "issuer": "Johns Hopkins University",
+      "provider": "Coursera",
+      "verifyUrl": "coursera.org/verify/9PP3NZMJZBYQ",
+      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
+      "type": "Online Non-Credit Course",
+      "filename": "Coursera-dataproducts.pdf"
+    },
+    {
+      "course": "Machine Learning Foundations: A Case Study Approach",
+      "completionDate": "Dec 7, 2015",
+      "issuer": "University of Washington",
+      "provider": "Coursera",
+      "verifyUrl": "https://coursera.org/verify/QDDVWPVKDNEX",
+      "instructors": ["Emily Fox", "Carlos Guestrin"],
+      "departments": ["Statistics", "Computer Science and Engineering"],
+      "type": "MOOC",
+      "filename": "Coursera-ML.pdf"
+    },
+    {
+      "course": "Advanced React Hooks",
+      "completionDate": "2020/10/10",
+      "issuer": "Kent C. Dodds",
+      "provider": "Epic React",
+      "verifyUrl": null,
+      "instructors": ["Kent C. Dodds"],
+      "type": "Online Course",
+      "filename": "advanced-react-hooks-certificate.pdf"
+    },
+    {
+      "course": "Advanced React Patterns",
+      "completionDate": "2020/10/12",
+      "issuer": "Kent C. Dodds",
+      "provider": "Epic React",
+      "verifyUrl": null,
+      "instructors": ["Kent C. Dodds"],
+      "type": "Online Course",
+      "filename": "advanced-react-patterns-certificate.pdf"
+    },
+    {
+      "course": "Build an Epic React App",
+      "completionDate": "2021/05/18",
+      "issuer": "Kent C. Dodds",
+      "provider": "Epic React",
+      "verifyUrl": null,
+      "instructors": ["Kent C. Dodds"],
+      "type": "Workshop",
+      "filename": "build-epic-react-app-certificate.pdf"
+    },
+    {
+      "course": "Human Trafficking 101 Training",
+      "completionDate": "September 2024",
+      "issuer": "Polaris Project",
+      "provider": "Polaris",
+      "verifyUrl": null,
+      "instructors": [],
+      "type": "Training",
+      "filename": "polaris-ht101-certificate-template.png"
+    },
+    {
+      "course": "Just JavaScript",
+      "completionDate": "September 11, 2021",
+      "issuer": "Kent C. Dodds",
+      "provider": "Epic React",
+      "episodesCompleted": 10,
+      "verifyUrl": null,
+      "instructors": ["Kent C. Dodds"],
+      "type": "Online Course",
+      "filename": "JustJavaScript-certificate.pdf"
+    },
+    {
+      "course": "React Fundamentals",
+      "completionDate": "2020-10-02",
+      "issuer": "Kent C. Dodds",
+      "provider": "Epic React",
+      "verifyUrl": null,
+      "instructors": ["Kent C. Dodds"],
+      "type": "Online Course",
+      "filename": "react-fundamentals-certificate.pdf"
+    },
+    {
+      "course": "Testing React Apps",
+      "completionDate": "2020/10/31",
+      "issuer": "Kent C. Dodds",
+      "provider": "Epic React",
+      "verifyUrl": null,
+      "instructors": ["Kent C. Dodds"],
+      "type": "Online Course",
+      "filename": "testing-react-apps-certificate.pdf"
+    },
+    {
+      "course": "React Performance",
+      "completionDate": "2020/10/24",
+      "issuer": "Kent C. Dodds",
+      "provider": "Epic React",
+      "verifyUrl": null,
+      "instructors": ["Kent C. Dodds"],
+      "type": "Online Course",
+      "filename": "react-performance-certificate.pdf"
+    },
+    {
+      "course": "React Suspense",
+      "completionDate": "2020/11/28",
+      "issuer": "Kent C. Dodds",
+      "provider": "Epic React",
+      "verifyUrl": null,
+      "instructors": ["Kent C. Dodds"],
+      "type": "Online Course",
+      "filename": "react-suspense-certificate.pdf"
+    },
+    {
+      "course": "React Hooks",
+      "completionDate": "2020/10/06",
+      "issuer": "Kent C. Dodds",
+      "provider": "Epic React",
+      "verifyUrl": null,
+      "instructors": ["Kent C. Dodds"],
+      "type": "Online Course",
+      "filename": "react-hooks-epic-react-certificate.pdf"
+    }
   ],
   "xplanation": {
     "coursera": "https://x.com/Peramanathan/status/1954168574731276572"
