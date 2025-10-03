@@ -253,11 +253,11 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
     <div className="h-screen flex flex-col bg-surface1" data-pdf-viewer>
       {/* Document Header */}
       <div className="flex flex-col md:flex-row md:items-center p-4 border-b border-border bg-surface1 gap-2 md:gap-0">
-        {/* Top row on mobile: Document info and Home button */}
-        <div className="flex items-center justify-between md:flex-1 md:justify-start md:space-x-4">
+        {/* Left side: Document info */}
+        <div className="flex-1 flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             {getFileIconForViewer(document.type)}
-            <div className="min-w-0 flex-1 md:flex-initial">
+            <div className="min-w-0">
               <h3 className="font-medium text-text1 text-sm truncate">
                 {document.name}
               </h3>
@@ -267,86 +267,62 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
               </p>
             </div>
           </div>
-
-          {/* Home Button - shown on mobile top row */}
-          <div className="md:hidden">
-            <HomeButton />
-          </div>
         </div>
 
-        {/* Bottom row on mobile: Controls */}
-        <div className="flex items-center justify-between md:justify-end md:space-x-2 md:flex-1">
-          {/* Left side on mobile: Page count and verification */}
-          <div className="flex items-center space-x-2 md:hidden">
-            {document.type === 'pdf' && numPages && (
-              <div className="text-sm text-text1 px-2 py-1 bg-surface3 rounded">
-                {numPages}p
-              </div>
-            )}
-            {document.type === 'pdf' && (
-              <VerificationHash certificateId={document.id} />
-            )}
+        {/* Right side: Home button and Controls */}
+        <div className="flex items-right space-x-1 md:space-x-2">
+          {/* Home Button */}
+          <HomeButton />
+
+          {/* Page Count */}
+          {document.type === 'pdf' && numPages && (
+            <div className="text-sm text-text1 px-2 py-1 bg-surface3 rounded md:px-3">
+              {numPages}p
+            </div>
+          )}
+
+          {/* Verification Hash */}
+          {document.type === 'pdf' && (
+            <VerificationHash certificateId={document.id} />
+          )}
+
+          {/* Zoom Controls */}
+          <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
+            <button
+              onClick={handleZoomOut}
+              className="p-1 md:p-2 hover:bg-surface3 rounded"
+              title="Zoom out"
+            >
+              <ZoomOut className="w-4 h-4" />
+            </button>
+            <span className="text-xs md:text-sm px-1 md:px-2 text-text1">
+              {Math.round(scale * 100)}%
+            </span>
+            <button
+              onClick={handleZoomIn}
+              className="p-1 md:p-2 hover:bg-surface3 rounded"
+              title="Zoom in"
+            >
+              <ZoomIn className="w-4 h-4" />
+            </button>
           </div>
 
-          {/* Center - Home Button (desktop only) */}
-          <div className="hidden md:flex md:flex-1 md:justify-center">
-            <HomeButton />
-          </div>
-
-          {/* Right side: Controls */}
-          <div className="flex items-center space-x-1 md:space-x-2">
-            {/* Desktop: Page Count */}
-            {document.type === 'pdf' && numPages && (
-              <div className="hidden md:block text-sm text-text1 px-3 py-1 bg-surface3 rounded">
-                {numPages} page{numPages !== 1 ? 's' : ''}
-              </div>
-            )}
-
-            {/* Desktop: Verification Hash */}
-            {document.type === 'pdf' && (
-              <div className="hidden md:block">
-                <VerificationHash certificateId={document.id} />
-              </div>
-            )}
-
-            {/* Zoom Controls */}
-            <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
-              <button
-                onClick={handleZoomOut}
-                className="p-1 md:p-2 hover:bg-surface3 rounded"
-                title="Zoom out"
-              >
-                <ZoomOut className="w-4 h-4" />
-              </button>
-              <span className="text-xs md:text-sm px-1 md:px-2 text-text1">
-                {Math.round(scale * 100)}%
-              </span>
-              <button
-                onClick={handleZoomIn}
-                className="p-1 md:p-2 hover:bg-surface3 rounded"
-                title="Zoom in"
-              >
-                <ZoomIn className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Other Controls */}
-            <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
-              <button
-                onClick={handleRotate}
-                className="p-1 md:p-2 hover:bg-surface3 rounded"
-                title="Rotate"
-              >
-                <RotateCcw className="w-4 h-4" />
-              </button>
-              <button
-                onClick={handleDownload}
-                className="p-1 md:p-2 hover:bg-surface3 rounded"
-                title="Download"
-              >
-                <Download className="w-4 h-4" />
-              </button>
-            </div>
+          {/* Other Controls */}
+          <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
+            <button
+              onClick={handleRotate}
+              className="p-1 md:p-2 hover:bg-surface3 rounded"
+              title="Rotate"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handleDownload}
+              className="p-1 md:p-2 hover:bg-surface3 rounded"
+              title="Download"
+            >
+              <Download className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>
