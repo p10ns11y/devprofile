@@ -270,7 +270,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
         </div>
 
         {/* Right side: Home button and Controls */}
-        <div className="flex items-right space-x-1 md:space-x-2">
+        <div className="flex flex-wrap items-center justify-end gap-1 md:gap-2">
           {/* Home Button */}
           <HomeButton />
 
@@ -281,9 +281,11 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
             </div>
           )}
 
-          {/* Verification Hash */}
+          {/* Verification Hash - Desktop */}
           {document.type === 'pdf' && (
-            <VerificationHash certificateId={document.id} />
+            <div className="hidden md:block">
+              <VerificationHash certificateId={document.id} />
+            </div>
           )}
 
           {/* Zoom Controls */}
@@ -325,6 +327,13 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
             </button>
           </div>
         </div>
+
+        {/* Verification Hash - Full width on mobile */}
+        {document.type === 'pdf' && (
+          <div className="w-full mt-2 md:hidden">
+            <VerificationHash certificateId={document.id} />
+          </div>
+        )}
       </div>
 
       {/* Document Content */}
