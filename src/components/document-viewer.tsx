@@ -73,17 +73,15 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   };
 
   const renderPDF = () => {
-    if (!PDFComponents.Document) {
+    // Only render PDF component on client to avoid hydration issues
+    if (typeof window === 'undefined') {
       return (
-        <div className="flex items-start justify-center h-full">
-          <div className="text-center space-y-4">
-            <File className="w-16 h-16 text-gray-300 mx-auto" />
-            <h3 className="text-lg font-medium text-gray-700">
-              PDF Viewer Loading...
-            </h3>
-            <p className="text-gray-500 text-sm">
-              Please wait while we initialize PDF rendering
-            </p>
+        <div className="flex flex-col items-center">
+          <div className="flex items-center justify-center p-8">
+            <div className="text-center space-y-2">
+              <LoadingSpinner />
+              <p className="text-gray-700 dark:text-gray-300">Loading PDF viewer...</p>
+            </div>
           </div>
         </div>
       );

@@ -243,6 +243,9 @@ const CVDocument = () => (
                 <Link src={course.url} style={[styles.link, { fontSize: 9, fontFamily: 'Helvetica-Bold' }]}>
                   {course.name}
                 </Link>
+                <Text style={{ fontSize: 7, fontStyle: 'italic', color: '#666', marginTop: 1 }}>
+                  {course.domain}
+                </Text>
               </View>
             ))}
           </View>

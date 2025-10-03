@@ -6,7 +6,7 @@ import { ExternalLink } from 'lucide-react';
 import cvdata from '@/data/cvdata.json';
 
 export function Accomplishments() {
-  const renderCourseCard = (course: { name: string; url: string }, index: number) => (
+  const renderCourseCard = (course: { name: string; url: string; domain: string, proof_of_accomplishment: string }, index: number) => (
     <motion.div
       key={index}
       initial={{ opacity: 0, y: 50 }}
@@ -33,9 +33,14 @@ export function Accomplishments() {
             >
               {course.name}
             </motion.h4>
+            <div className="flex items-center justify-between mb-2">
+              <span className="inline-flex items-center px-2 py-1 bg-brand/10 text-brand text-xs font-medium rounded-full">
+                {course.domain}
+              </span>
+            </div>
             <div className="flex items-center text-text2 hover:text-brand transition-colors">
               <ExternalLink className="w-4 h-4 mr-2" />
-              <span className="text-sm">View Certificate</span>
+              <span className="text-sm">View { course.proof_of_accomplishment === 'github_code_repo' ? 'Repository' : 'Certificate'}</span>
             </div>
           </div>
         </div>

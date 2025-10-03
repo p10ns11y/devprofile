@@ -173,6 +173,7 @@ function MainContent() {
               >
                 {course.name}
               </a>
+              <p className="text-text2 text-sm mt-1 italic">{course.domain}</p>
             </div>
           ))}
         </div>

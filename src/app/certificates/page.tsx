@@ -1,20 +1,20 @@
 import React, { Suspense } from 'react'
 
-const DocumentView = React.lazy(() => import('./document-view'));
+const CertificateView = React.lazy(() => import('./certificate-view'));
 
-export default async function Documents() {
+export default async function Certificates() {
   return (
     <div
       className="h-screen bg-background text-foreground"
     >
      <Suspense fallback="loading...">
-       <DocumentsInternal />
+       <CertificatesInternal />
      </Suspense>
     </div>
   );
 }
 
-async function DocumentsInternal() {
+async function CertificatesInternal() {
   let { documentsFlag } = await import('@/app/flags');
   let isFlagEnabled = await documentsFlag();
 
@@ -26,7 +26,7 @@ async function DocumentsInternal() {
     <div
       className="h-screen bg-background text-foreground"
     >
-      <DocumentView />
+      <CertificateView />
     </div>
   );
 }

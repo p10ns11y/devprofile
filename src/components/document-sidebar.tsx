@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   File as FileIcon,
   Clock,
@@ -18,6 +18,16 @@ export function DocumentSidebar({
   onDocumentSelect,
   loading
 }: DocumentSidebarProps) {
+  // Scroll selected item into view
+  useEffect(() => {
+    if (selectedDocument) {
+      const element = document.querySelector(`[data-cert-id="${selectedDocument.id}"]`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }, [selectedDocument]);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -31,10 +41,10 @@ export function DocumentSidebar({
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-900">
-          Documents
+          Certificates
         </h2>
         <p className="text-sm text-gray-600">
-          {documents.length} file{documents.length !== 1 ? 's' : ''}
+          {documents.length} certificate{documents.length !== 1 ? 's' : ''}
         </p>
       </div>
 
@@ -43,6 +53,7 @@ export function DocumentSidebar({
         {documents.map((document) => (
           <motion.div
             key={document.id}
+            data-cert-id={document.id}
             className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
               selectedDocument?.id === document.id
                 ? 'bg-gray-200 border-l-4 border-l-gray-500'
@@ -79,10 +90,31 @@ export function DocumentSidebar({
                   <div className="flex items-center space-x-1">
                     <Clock className="w-3 h-3" />
                     <span>
-                      {document.lastModified.toLocaleDateString()}
+                      {document.reissuedDate ? `Reissued: ${document.reissuedDate}` : document.lastModified.toLocaleDateString()}
                     </span>
                   </div>
                 </div>
+
+                {/* Completion Date */}
+                {document.reissuedDate && document.completionDate && (
+                  <div className="mt-1 text-xs text-gray-500">
+                    Completed: {document.completionDate}
+                  </div>
+                )}
+
+                {/* Explanation Link */}
+                {document.explanationUrl && (
+                  <div className="mt-1">
+                    <a
+                      href={document.explanationUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-600 hover:text-blue-800 underline"
+                    >
+                      Certificate Reissue Explanation
+                    </a>
+                  </div>
+                )}
 
                 {/* File Type Badge */}
                 <div className="mt-2">
@@ -96,6 +128,20 @@ export function DocumentSidebar({
                     {document.type.toUpperCase()}
                   </span>
                 </div>
+
+                {/* Verification URL */}
+                {document.verifyUrl && (
+                  <div className="mt-2">
+                    <a
+                      href={document.verifyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-600 hover:text-blue-800 underline"
+                    >
+                      Verify Certificate
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>
