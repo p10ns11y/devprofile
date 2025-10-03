@@ -15,6 +15,7 @@ import { DocumentViewerProps } from '../types/documents';
 import { formatFileSize, getFileIconForViewer } from '../utils/file-utils';
 import { HomeButton } from './home-button';
 import { LoadingSpinner } from './loading-spinner';
+import { VerificationHash } from './verification-hash';
 
 // Dynamic import for PDF components to avoid SSR issues
 const PDFComponents = {
@@ -273,12 +274,17 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
         </div>
 
         {/* Controls */}
-        <div className="flex-1 flex items-center justify-end space-x-2">
+        <div className="flex items-center space-x-2">
           {/* Page Count */}
           {document.type === 'pdf' && numPages && (
             <div className="text-sm text-text1 px-3 py-1 bg-surface3 rounded">
               {numPages} page{numPages !== 1 ? 's' : ''}
             </div>
+          )}
+
+          {/* Verification Hash - Next to controls */}
+          {document.type === 'pdf' && (
+            <VerificationHash certificateId={document.id} />
           )}
 
           {/* Zoom Controls */}

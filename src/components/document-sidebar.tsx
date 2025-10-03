@@ -36,6 +36,7 @@ export function DocumentSidebar({
       </div>
     );
   }
+  
 
   return (
     <div className="h-screen flex flex-col">
@@ -52,96 +53,98 @@ export function DocumentSidebar({
       {/* Document List */}
       <div className="flex-1 overflow-y-auto" onWheel={(e) => e.stopPropagation()}>
         {documents.map((document) => (
-          <motion.div
-            key={document.id}
-            data-cert-id={document.id}
-            className={`p-4 border-b border-border cursor-pointer hover:bg-surface3 transition-colors ${
-              selectedDocument?.id === document.id
-                ? 'bg-surface2 border-l-4 border-l-accent-primary'
-                : ''
-            }`}
-            onClick={() => onDocumentSelect(document)}
-            whileHover={{ scale: 0.99 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <div className="flex items-start space-x-3">
-              {/* File Icon */}
-              <div className={`flex-shrink-0 mt-1 ${
-                selectedDocument?.id === document.id ? 'border-2 border-accent-primary rounded' : ''
-              }`}>
-                {getFileIcon(document.type)}
-              </div>
-
-              {/* File Details */}
-              <div className="flex-1 min-w-0">
-                <h3 className={`text-sm font-medium truncate ${
-                  selectedDocument?.id === document.id
-                    ? 'text-text1'
-                    : 'text-text1'
+          <div key={document.id}>
+            <motion.div
+              data-cert-id={document.id}
+              className={`p-4 border-b border-border cursor-pointer hover:bg-surface3 transition-colors ${
+                selectedDocument?.id === document.id
+                  ? 'bg-surface2 border-l-4 border-l-accent-primary'
+                  : ''
+              }`}
+              onClick={() => onDocumentSelect(document)}
+              whileHover={{ scale: 0.99 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="flex items-start space-x-3">
+                {/* File Icon */}
+                <div className={`flex-shrink-0 mt-1 ${
+                  selectedDocument?.id === document.id ? 'border-2 border-accent-primary rounded' : ''
                 }`}>
-                  {document.name}
-                </h3>
+                  {getFileIcon(document.type)}
+                </div>
 
-                <div className="flex items-center space-x-4 mt-1 text-xs text-text2">
-                   <div className="flex items-center space-x-1">
-                     <Clock className="w-3 h-3" />
-                     <span>
-                       {document.reissuedDate ? `Reissued: ${document.reissuedDate}` : document.lastModified.toLocaleDateString()}
-                     </span>
-                   </div>
-                 </div>
+                {/* File Details */}
+                <div className="flex-1 min-w-0">
+                  <h3 className={`text-sm font-medium truncate ${
+                    selectedDocument?.id === document.id
+                      ? 'text-text1'
+                      : 'text-text1'
+                  }`}>
+                    {document.name}
+                  </h3>
 
-                 {/* Completion Date */}
-                 {document.reissuedDate && document.completionDate && (
-                   <div className="mt-1 text-xs text-text2">
-                     Completed: {document.completionDate}
+                  <div className="flex items-center space-x-4 mt-1 text-xs text-text2">
+                     <div className="flex items-center space-x-1">
+                       <Clock className="w-3 h-3" />
+                       <span>
+                         {document.reissuedDate ? `Reissued: ${document.reissuedDate}` : document.lastModified.toLocaleDateString()}
+                       </span>
+                     </div>
                    </div>
-                 )}
-                 {document.verifyUrl && (
-                   <div className="mt-2">
-                     <a
-                       href={document.verifyUrl}
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       aria-label={`Verify certificate for ${document.name}`}
-                       onClick={(e) => {
-                         const url = new URL(document.verifyUrl as string, window.location.href);
-                         if (!['http:', 'https:'].includes(url.protocol)) {
-                           e.preventDefault();
-                           console.error('Invalid URL scheme');
-                         }
-                       }}
-                       className="text-xs text-accent-primary hover:text-accent-primary/80 underline"
-                     >
-                       Verify Certificate
-                     </a>
-                   </div>
-                 )}
 
-                 {/* Explanation Link */}
-                 {document.explanationUrl && (
-                   <div className="mt-2">
-                     <a
-                       href={document.explanationUrl}
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       aria-label={`Certificate reissue explanation for ${document.name}`}
-                       onClick={(e) => {
-                         const url = new URL(document.explanationUrl as string, window.location.href);
-                         if (!['http:', 'https:'].includes(url.protocol)) {
-                           e.preventDefault();
-                           console.error('Invalid URL scheme');
-                         }
-                       }}
-                       className="text-xs text-accent-primary hover:text-accent-primary/80 underline"
-                     >
-                       Certificate Reissue Explanation
-                     </a>
-                   </div>
-                 )}
+                   {/* Completion Date */}
+                   {document.reissuedDate && document.completionDate && (
+                     <div className="mt-1 text-xs text-text2">
+                       Completed: {document.completionDate}
+                     </div>
+                   )}
+                   {document.verifyUrl && (
+                     <div className="mt-2">
+                       <a
+                         href={document.verifyUrl}
+                         target="_blank"
+                         rel="noopener noreferrer"
+                         aria-label={`Verify certificate for ${document.name}`}
+                         onClick={(e) => {
+                           const url = new URL(document.verifyUrl as string, window.location.href);
+                           if (!['http:', 'https:'].includes(url.protocol)) {
+                             e.preventDefault();
+                             console.error('Invalid URL scheme');
+                           }
+                         }}
+                         className="text-xs text-accent-primary hover:text-accent-primary/80 underline"
+                       >
+                         Verify Certificate
+                       </a>
+                     </div>
+                   )}
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+
+
+            {/* Explanation Link - Outside clickable area */}
+            {selectedDocument?.id === document.id && document.explanationUrl && (
+              <div className="px-4 pb-4">
+                <a
+                  href={document.explanationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Certificate reissue explanation for ${document.name}`}
+                  onClick={(e) => {
+                    const url = new URL(document.explanationUrl as string, window.location.href);
+                    if (!['http:', 'https:'].includes(url.protocol)) {
+                      e.preventDefault();
+                      console.error('Invalid URL scheme');
+                    }
+                  }}
+                  className="text-xs text-accent-primary hover:text-accent-primary/80 underline"
+                >
+                  Certificate Reissue Explanation
+                </a>
+              </div>
+            )}
+          </div>
         ))}
 
         {documents.length === 0 && (
