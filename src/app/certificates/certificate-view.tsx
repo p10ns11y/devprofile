@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 
@@ -15,18 +15,16 @@ let defaultCertificate = certificates[0] as DocumentItem;
 
 export default function CertificateViewComponent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
+
   const certId = searchParams?.get('id');
 
   const [selectedCertificate, setSelectedCertificate] = useState<DocumentItem>(defaultCertificate);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Custom setter that updates both state and URL
   const selectCertificate = (certificate: DocumentItem) => {
     setSelectedCertificate(certificate);
-    const url = new URL(window.location.href);
-    url.searchParams.set('id', certificate.id);
-    window.history.replaceState({}, '', url.toString());
-    // Close sidebar on mobile after selection
+    router.replace(`?id=${certificate.id}`, { scroll: false });
     setSidebarOpen(false);
   };
 

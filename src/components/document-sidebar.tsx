@@ -20,7 +20,9 @@ export function DocumentSidebar({
   // Scroll selected item into view
   useEffect(() => {
     if (selectedDocument) {
-      const element = document.querySelector(`[data-cert-id="${selectedDocument.id}"]`);
+      const element = document.querySelector(
+        `[data-cert-id="${CSS.escape(selectedDocument.id)}"]`
+      );
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
@@ -95,14 +97,20 @@ export function DocumentSidebar({
                      Completed: {document.completionDate}
                    </div>
                  )}
-
-                 {/* Verification URL */}
                  {document.verifyUrl && (
                    <div className="mt-2">
                      <a
                        href={document.verifyUrl}
                        target="_blank"
                        rel="noopener noreferrer"
+                       aria-label={`Verify certificate for ${document.name}`}
+                       onClick={(e) => {
+                         const url = new URL(document.verifyUrl as string, window.location.href);
+                         if (!['http:', 'https:'].includes(url.protocol)) {
+                           e.preventDefault();
+                           console.error('Invalid URL scheme');
+                         }
+                       }}
                        className="text-xs text-accent-primary hover:text-accent-primary/80 underline"
                      >
                        Verify Certificate
@@ -110,13 +118,21 @@ export function DocumentSidebar({
                    </div>
                  )}
 
-                 {/* Explanation Link - moved to bottom */}
+                 {/* Explanation Link */}
                  {document.explanationUrl && (
                    <div className="mt-2">
                      <a
                        href={document.explanationUrl}
                        target="_blank"
                        rel="noopener noreferrer"
+                       aria-label={`Certificate reissue explanation for ${document.name}`}
+                       onClick={(e) => {
+                         const url = new URL(document.explanationUrl as string, window.location.href);
+                         if (!['http:', 'https:'].includes(url.protocol)) {
+                           e.preventDefault();
+                           console.error('Invalid URL scheme');
+                         }
+                       }}
                        className="text-xs text-accent-primary hover:text-accent-primary/80 underline"
                      >
                        Certificate Reissue Explanation
