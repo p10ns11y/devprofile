@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 
-const CertificateView = React.lazy(() => import('./certificate-view'));
+// const CertificateView = React.lazy(() => import('./certificate-view'));
+import CertificateView from './certificate-view'
 
 export default async function Certificates() {
   return (

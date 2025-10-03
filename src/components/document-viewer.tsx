@@ -15,6 +15,7 @@ import { DocumentViewerProps } from '../types/documents';
 import { formatFileSize, getFileIconForViewer } from '../utils/file-utils';
 import { HomeButton } from './home-button';
 import { LoadingSpinner } from './loading-spinner';
+import { VerificationHash } from './verification-hash';
 
 // Dynamic import for PDF components to avoid SSR issues
 const PDFComponents = {
@@ -251,15 +252,16 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   return (
     <div className="h-screen flex flex-col bg-surface1" data-pdf-viewer>
       {/* Document Header */}
-      <div className="flex items-center p-4 border-b border-border bg-surface1">
+      <div className="flex flex-col md:flex-row md:items-center p-4 border-b border-border bg-surface1 gap-2 md:gap-0">
+        {/* Left side: Document info */}
         <div className="flex-1 flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             {getFileIconForViewer(document.type)}
-            <div>
-              <h3 className="font-medium text-text1 text-sm">
+            <div className="min-w-0">
+              <h3 className="font-medium text-text1 text-sm truncate">
                 {document.name}
               </h3>
-              <p className="text-xs text-text2">
+              <p className="text-xs text-text2 hidden sm:block">
                 {formatFileSize(document.size)} •
                 {document.lastModified.toLocaleDateString()}
               </p>
@@ -267,35 +269,38 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           </div>
         </div>
 
-        {/* Center - Home Button */}
-        <div className="flex-1 flex justify-center">
+        {/* Right side: Home button and Controls */}
+        <div className="flex items-right space-x-1 md:space-x-2">
+          {/* Home Button */}
           <HomeButton />
-        </div>
 
-        {/* Controls */}
-        <div className="flex-1 flex items-center justify-end space-x-2">
           {/* Page Count */}
           {document.type === 'pdf' && numPages && (
-            <div className="text-sm text-text1 px-3 py-1 bg-surface3 rounded">
-              {numPages} page{numPages !== 1 ? 's' : ''}
+            <div className="text-sm text-text1 px-2 py-1 bg-surface3 rounded md:px-3">
+              {numPages}p
             </div>
           )}
 
+          {/* Verification Hash */}
+          {document.type === 'pdf' && (
+            <VerificationHash certificateId={document.id} />
+          )}
+
           {/* Zoom Controls */}
-          <div className="flex items-center border-l pl-2 ml-2 space-x-1 border-border">
+          <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
             <button
               onClick={handleZoomOut}
-              className="p-2 hover:bg-surface3 rounded"
+              className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Zoom out"
             >
               <ZoomOut className="w-4 h-4" />
             </button>
-            <span className="text-sm px-2 text-text1">
+            <span className="text-xs md:text-sm px-1 md:px-2 text-text1">
               {Math.round(scale * 100)}%
             </span>
             <button
               onClick={handleZoomIn}
-              className="p-2 hover:bg-surface3 rounded"
+              className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Zoom in"
             >
               <ZoomIn className="w-4 h-4" />
@@ -303,17 +308,17 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           </div>
 
           {/* Other Controls */}
-          <div className="flex items-center border-l pl-2 ml-2 space-x-1 border-border">
+          <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
             <button
               onClick={handleRotate}
-              className="p-2 hover:bg-surface3 rounded"
+              className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Rotate"
             >
               <RotateCcw className="w-4 h-4" />
             </button>
             <button
               onClick={handleDownload}
-              className="p-2 hover:bg-surface3 rounded"
+              className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Download"
             >
               <Download className="w-4 h-4" />

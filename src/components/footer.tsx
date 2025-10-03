@@ -37,6 +37,13 @@ export function Footer() {
               View CV
             </Link>
             {/* <span className="text-muted-foreground">•</span> */}
+            <Link
+              href="/certificates"
+              className="inline-flex items-center px-4 py-2 text-text1 hover:text-brand transition-colors"
+            >
+              Certificates
+            </Link>
+            {/* <span className="text-muted-foreground">•</span> */}
             <a
               href="/cv.pdf"
               className="inline-flex items-center px-4 py-2 text-text1 hover:text-brand transition-colors"

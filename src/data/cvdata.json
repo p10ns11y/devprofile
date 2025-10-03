@@ -200,15 +200,42 @@
     "categories": [
       {
         "title": "Frontend & Core",
-        "skills": ["JavaScript", "TypeScript", "ReactJS", "Next.js", "Remix", "Astro", "Jest", "Playwright"]
+        "skills": [
+          "JavaScript",
+          "TypeScript",
+          "ReactJS",
+          "Next.js",
+          "Remix",
+          "Astro",
+          "Jest",
+          "Playwright"
+        ]
       },
       {
         "title": "Backend & Data",
-        "skills": ["Python", "Node.js", "Express", "Flask", "Django", "MySQL", "PostgreSQL", "MongoDB"]
+        "skills": [
+          "Python",
+          "Node.js",
+          "Express",
+          "Flask",
+          "Django",
+          "MySQL",
+          "PostgreSQL",
+          "MongoDB"
+        ]
       },
       {
         "title": "DevOps & AI",
-        "skills": ["AWS", "Terraform", "Docker", "Git", "LangChain", "LLMs", "Webpack", "Vite"]
+        "skills": [
+          "AWS",
+          "Terraform",
+          "Docker",
+          "Git",
+          "LangChain",
+          "LLMs",
+          "Webpack",
+          "Vite"
+        ]
       }
     ]
   },
@@ -253,9 +280,14 @@
       "lessonsCompleted": 104,
       "modulesCompleted": 7,
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
-      "filename": "JavaScriptTestingCertificate.pdf"
+      "filename": "JavaScriptTestingCertificate.pdf",
+      "sha256Hash": "1da0d9c0f8f6726a20cbbd52c1aede5b0d28362342ebad2d0c78813d40c22864",
+      "fileSize": 93911,
+      "lastVerified": "2025-10-03T20:47:18.996Z"
     },
     {
       "course": "The Data Scientist's Toolbox",
@@ -264,10 +296,17 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/0UXP2OPIYHPS",
-      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "instructors": [
+        "Jeff Leek, PhD",
+        "Roger Peng, PhD",
+        "Brian Caffo, PhD"
+      ],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
-      "filename": "Coursera 0UXP2OPIYHPS.pdf"
+      "filename": "Coursera 0UXP2OPIYHPS.pdf",
+      "sha256Hash": "b0086f859a27c1b5ba971e4e78d6f5e051bde2fc14a0729bd7fb0b886bf0b25b",
+      "fileSize": 327115,
+      "lastVerified": "2025-10-03T20:47:18.999Z"
     },
     {
       "course": "Introduction to Meteor.js Development",
@@ -275,10 +314,15 @@
       "issuer": "University of London and Goldsmiths, University of London",
       "provider": "Coursera",
       "verifyUrl": "https://coursera.org/verify/5M8WT6R5VW32",
-      "instructors": ["Dr Matthew Yee-King"],
+      "instructors": [
+        "Dr Matthew Yee-King"
+      ],
       "department": "Computing Department, Goldsmiths, University of London",
       "type": "Online Non-Credit Course",
-      "filename": "Coursera-Meteor.pdf"
+      "filename": "Coursera-Meteor.pdf",
+      "sha256Hash": "40a565b0bcfff18fce4f5bfaa7f2f00bbd39ed87b4fc38a8ff321a76cc0f2b4f",
+      "fileSize": 317253,
+      "lastVerified": "2025-10-03T20:47:19.000Z"
     },
     {
       "course": "R Programming",
@@ -287,10 +331,17 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/A5O6UPSB1TU2",
-      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "instructors": [
+        "Jeff Leek, PhD",
+        "Roger Peng, PhD",
+        "Brian Caffo, PhD"
+      ],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
-      "filename": "Coursera A5O6UPSB1TU2.pdf"
+      "filename": "Coursera A5O6UPSB1TU2.pdf",
+      "sha256Hash": "a91f19d9461883f3820a8e82dca060a8fe061dc8ebbc8befea1cd94ade962859",
+      "fileSize": 326970,
+      "lastVerified": "2025-10-03T20:47:19.001Z"
     },
     {
       "course": "Getting and Cleaning Data",
@@ -299,10 +350,17 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/CF3OFVOXL5DL",
-      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "instructors": [
+        "Jeff Leek, PhD",
+        "Roger Peng, PhD",
+        "Brian Caffo, PhD"
+      ],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
-      "filename": "Coursera CF3OFVOXL5DL.pdf"
+      "filename": "Coursera CF3OFVOXL5DL.pdf",
+      "sha256Hash": "55b143c7324859739ac7284b1d6cbea0578b993aa984b6621119ecbf7507d495",
+      "fileSize": 327403,
+      "lastVerified": "2025-10-03T20:47:19.003Z"
     },
     {
       "course": "Developing Data Products",
@@ -311,10 +369,17 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/9PP3NZMJZBYQ",
-      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "instructors": [
+        "Jeff Leek, PhD",
+        "Roger Peng, PhD",
+        "Brian Caffo, PhD"
+      ],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
-      "filename": "Coursera-dataproducts.pdf"
+      "filename": "Coursera-dataproducts.pdf",
+      "sha256Hash": "6325fd3a0da1bb4067f4e6604691e001cd30ef059e4a7d379c03c5679ef69818",
+      "fileSize": 327005,
+      "lastVerified": "2025-10-03T20:47:19.003Z"
     },
     {
       "course": "Machine Learning Foundations: A Case Study Approach",
@@ -322,10 +387,19 @@
       "issuer": "University of Washington",
       "provider": "Coursera",
       "verifyUrl": "https://coursera.org/verify/QDDVWPVKDNEX",
-      "instructors": ["Emily Fox", "Carlos Guestrin"],
-      "departments": ["Statistics", "Computer Science and Engineering"],
+      "instructors": [
+        "Emily Fox",
+        "Carlos Guestrin"
+      ],
+      "departments": [
+        "Statistics",
+        "Computer Science and Engineering"
+      ],
       "type": "MOOC",
-      "filename": "Coursera-ML.pdf"
+      "filename": "Coursera-ML.pdf",
+      "sha256Hash": "5645ad06600f22491235dc96d93efd2084dd043dd649784e0b717398d23ab501",
+      "fileSize": 311769,
+      "lastVerified": "2025-10-03T20:47:19.005Z"
     },
     {
       "course": "Advanced React Hooks",
@@ -333,9 +407,14 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
-      "filename": "advanced-react-hooks-certificate.pdf"
+      "filename": "advanced-react-hooks-certificate.pdf",
+      "sha256Hash": "59af8a29c4e8d29026c6984914c2ab351ad6ff6e09756db4435cad76b52ef084",
+      "fileSize": 812396,
+      "lastVerified": "2025-10-03T20:47:19.007Z"
     },
     {
       "course": "Advanced React Patterns",
@@ -343,9 +422,14 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
-      "filename": "advanced-react-patterns-certificate.pdf"
+      "filename": "advanced-react-patterns-certificate.pdf",
+      "sha256Hash": "635c9d643ec1eab42b52abc961f804f4fd5d87f2c40d524e2cbc7fdc4ff1c89f",
+      "fileSize": 1024613,
+      "lastVerified": "2025-10-03T20:47:19.009Z"
     },
     {
       "course": "Build an Epic React App",
@@ -353,9 +437,14 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Workshop",
-      "filename": "build-epic-react-app-certificate.pdf"
+      "filename": "build-epic-react-app-certificate.pdf",
+      "sha256Hash": "0e7d47e2503d21261ee42d92d5e965a8af939f6b994e6420123194738f603b4f",
+      "fileSize": 1016685,
+      "lastVerified": "2025-10-03T20:47:19.012Z"
     },
     {
       "course": "Human Trafficking 101 Training",
@@ -365,7 +454,10 @@
       "verifyUrl": null,
       "instructors": [],
       "type": "Training",
-      "filename": "polaris-ht101-certificate-template.png"
+      "filename": "polaris-ht101-certificate-template.png",
+      "sha256Hash": "c3dd3d417d17db3ac4653e0e0caa76a08490e23c4d691d532d0d4754e337de83",
+      "fileSize": 208643,
+      "lastVerified": "2025-10-03T20:47:19.013Z"
     },
     {
       "course": "Just JavaScript",
@@ -374,9 +466,14 @@
       "provider": "Epic React",
       "episodesCompleted": 10,
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
-      "filename": "JustJavaScript-certificate.pdf"
+      "filename": "JustJavaScript-certificate.pdf",
+      "sha256Hash": "70cb975aa2bd19795db985234f3decc440096943a31e205fa28c5154279cec86",
+      "fileSize": 45962,
+      "lastVerified": "2025-10-03T20:47:19.014Z"
     },
     {
       "course": "React Fundamentals",
@@ -384,9 +481,14 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
-      "filename": "react-fundamentals-certificate.pdf"
+      "filename": "react-fundamentals-certificate.pdf",
+      "sha256Hash": "10e6c45191eb01c9aecf5b7b53afd07953786ae75a27d4204f9eff1143cc87bb",
+      "fileSize": 1012853,
+      "lastVerified": "2025-10-03T20:47:19.016Z"
     },
     {
       "course": "Testing React Apps",
@@ -394,9 +496,14 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
-      "filename": "testing-react-apps-certificate.pdf"
+      "filename": "testing-react-apps-certificate.pdf",
+      "sha256Hash": "9631dc96454398bf88e4007fd25183b5014d1a24ead64983b232664745c7b2d8",
+      "fileSize": 1161945,
+      "lastVerified": "2025-10-03T20:47:19.019Z"
     },
     {
       "course": "React Performance",
@@ -404,9 +511,14 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
-      "filename": "react-performance-certificate.pdf"
+      "filename": "react-performance-certificate.pdf",
+      "sha256Hash": "6af504885a25d5dec524f2f3ea32c762c0fc807711ab8baaac25f15d4dffa191",
+      "fileSize": 1267659,
+      "lastVerified": "2025-10-03T20:47:19.022Z"
     },
     {
       "course": "React Suspense",
@@ -414,9 +526,14 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
-      "filename": "react-suspense-certificate.pdf"
+      "filename": "react-suspense-certificate.pdf",
+      "sha256Hash": "3927186f452ebe6356f00037135b95516afd98923120427336fb164807a66000",
+      "fileSize": 1674394,
+      "lastVerified": "2025-10-03T20:47:19.027Z"
     },
     {
       "course": "React Hooks",
@@ -424,9 +541,14 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
-      "filename": "react-hooks-epic-react-certificate.pdf"
+      "filename": "react-hooks-epic-react-certificate.pdf",
+      "sha256Hash": "a7ec44fa1c4f6ac5d2aad9f52836da5b8f91bf53e4ec10004e0bb9405d6a56de",
+      "fileSize": 1542526,
+      "lastVerified": "2025-10-03T20:47:19.030Z"
     }
   ],
   "xplanation": {
@@ -660,7 +782,10 @@
       "description": "Extension to ask Grok for more information with whole and selected text context",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/grok-dia-extension/",
-      "technologies": ["Browser Extension", "AI Integration"],
+      "technologies": [
+        "Browser Extension",
+        "AI Integration"
+      ],
       "date": "September 2025",
       "status": "development",
       "is_open_source": true,
@@ -679,31 +804,56 @@
       "description": "Proof-of-concept: Users register by submitting multi-angle facial images to train an AWS Rekognition model, enabling seamless face-based logins",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/selfie-sign-in-flow-using-v0-xAI",
-      "technologies": ["AWS Rekognition", "React", "TypeScript", "Face Recognition", "Authentication", "ML", "State Machines", "XStateJS", "UX flow"],
+      "technologies": [
+        "AWS Rekognition",
+        "React",
+        "TypeScript",
+        "Face Recognition",
+        "Authentication",
+        "ML",
+        "State Machines",
+        "XStateJS",
+        "UX flow"
+      ],
       "impact": "Face-based Authentication",
       "is_open_source": true,
       "image": "https://imagine-public.x.ai/imagine-public/images/44862745-4ddd-4ca9-8797-11fea38eece1.png"
     },
-     {
+    {
       "id": 11,
       "name": "latex-cv",
       "key": "latex-cv",
       "description": "A LaTeX-based CV and cover letter generator designed for efficient document creation and automation. It supports manual PDF compilation from .tex files, bulk generation via a Rust script, and integrated workflows for VSCode and GitHub Actions. The project automates PDF builds, uploads them to AWS S3 with public access for sharing, and creates pull requests for review—ideal for maintaining versioned resumes in a professional portfolio. Includes a visually appealing CV layout with a profile photo, contact details, and structured sections for work experience, skills, and education",
       "type": "personal",
       "url": "https://github.com/p10ns11y/latex-cv",
-      "technologies": ["LaTeX", "Document Generation", "Rust", "AWS OpenID", "GitHub Actions", "Automated PR", "Automated S3 upload"],
+      "technologies": [
+        "LaTeX",
+        "Document Generation",
+        "Rust",
+        "AWS OpenID",
+        "GitHub Actions",
+        "Automated PR",
+        "Automated S3 upload"
+      ],
       "is_open_source": true,
       "impact": "Bulk and highly automated and secure PDF documents generation",
       "image": "https://imagine-public.x.ai/imagine-public/images/0c8cbea7-54e5-486b-b510-de0ae22082dc.png"
     },
-     {
+    {
       "id": 10,
       "key": "adaptate",
       "name": "Adaptate",
       "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/adaptate",
-      "technologies": ["Zod", "TypeScript", "OpenAPI", "JSON Schema", "Validation", "Node.js"],
+      "technologies": [
+        "Zod",
+        "TypeScript",
+        "OpenAPI",
+        "JSON Schema",
+        "Validation",
+        "Node.js"
+      ],
       "impact": "Dynamic Validation",
       "is_open_source": true,
       "image": "https://imagine-public.x.ai/imagine-public/images/1513422f-f939-4e19-8977-713293d94216.png"
@@ -713,7 +863,17 @@
       "name": "Ask Me Anything About Me",
       "key": "ama-about-me",
       "description": "A personal chatbot that answers questions about me using Retrieval-Augmented Generation (RAG) with local documents. This project demonstrates a cost-effective approach to building LLM applications using free and open-source tools.",
-      "technologies": ["LLMs", "Langchain", "Ollama", "Groq", "Chroma", "React 19", "React Server Components", "Server-Sent Events", "Docker"],
+      "technologies": [
+        "LLMs",
+        "Langchain",
+        "Ollama",
+        "Groq",
+        "Chroma",
+        "React 19",
+        "React Server Components",
+        "Server-Sent Events",
+        "Docker"
+      ],
       "url": "https://github.com/p10ns11y/ama-about-me",
       "type": "hobby_oss",
       "impact": "Cost-effective local chatbot",
@@ -726,7 +886,11 @@
       "description": "Contributions to Zod validation library",
       "type": "work_oss",
       "url": "https://github.com/colinhacks/zod",
-      "technologies": ["TypeScript", "Validation", "Zod"],
+      "technologies": [
+        "TypeScript",
+        "Validation",
+        "Zod"
+      ],
       "is_open_source": true,
       "meta": {
         "company": "Oneflow AB"
@@ -746,7 +910,10 @@
       "description": "Interview project for coding challenge",
       "type": "interview",
       "url": "https://github.com/p10ns11y/comment-on-highlight",
-      "technologies": ["JavaScript", "Development"],
+      "technologies": [
+        "JavaScript",
+        "Development"
+      ],
       "meta": {
         "company": "Oneflow AB"
       },
@@ -760,7 +927,11 @@
       "description": "Babel plugin for generating react-intl message files",
       "type": "work_oss",
       "url": "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator",
-      "technologies": ["Babel", "JavaScript", "react-intl"],
+      "technologies": [
+        "Babel",
+        "JavaScript",
+        "react-intl"
+      ],
       "is_open_source": true,
       "meta": {
         "company": "Weavler AB"
@@ -779,7 +950,11 @@
       "description": "Contributions to react-intl library used for internationalization",
       "type": "oss_contribution",
       "url": "https://github.com/formatjs/formatjs",
-      "technologies": ["JavaScript", "i18n", "react-intl"],
+      "technologies": [
+        "JavaScript",
+        "i18n",
+        "react-intl"
+      ],
       "is_open_source": true,
       "meta": {
         "company": "Weavler AB"
@@ -797,7 +972,11 @@
       "description": "Contributions to React Boilerplate project",
       "type": "oss_contribution",
       "url": "https://github.com/react-boilerplate/react-boilerplate",
-      "technologies": ["React", "JavaScript", "Boilerplate"],
+      "technologies": [
+        "React",
+        "JavaScript",
+        "Boilerplate"
+      ],
       "is_open_source": true,
       "prs": [
         "https://github.com/react-boilerplate/react-boilerplate/pull/1355"
@@ -811,7 +990,10 @@
       "description": "Contributions to Kent C. Dodds' bookshelf project",
       "type": "oss_contribution",
       "url": "https://github.com/kentcdodds/bookshelf",
-      "technologies": ["JavaScript", "Open Source"],
+      "technologies": [
+        "JavaScript",
+        "Open Source"
+      ],
       "is_open_source": true,
       "prs": [
         "https://github.com/kentcdodds/bookshelf/pull/184",
@@ -826,7 +1008,11 @@
       "description": "Contributions to React testing applications documentation",
       "type": "oss_contribution",
       "url": "https://github.com/kentcdodds/testing-react-apps",
-      "technologies": ["React", "Testing", "Documentation"],
+      "technologies": [
+        "React",
+        "Testing",
+        "Documentation"
+      ],
       "is_open_source": true,
       "prs": [
         "https://github.com/kentcdodds/testing-react-apps/pull/42",
@@ -841,7 +1027,12 @@
       "description": "A google chrome extension for Tamil Language that is distraction free English-Tamil online thesaurus with auto language detection integrating Glosbe, Wiktionary and Tamil Virtual University technical glossary APIs. Technically, an optimal integration of AJAX, JSON parsing, HTML parsing, jQuery, Message passing and regular expression",
       "type": "community",
       "url": "#",
-      "technologies": ["JavaScript", "Chrome Extension", "AJAX", "jQuery"],
+      "technologies": [
+        "JavaScript",
+        "Chrome Extension",
+        "AJAX",
+        "jQuery"
+      ],
       "date": "November 2014",
       "status": "stopped",
       "is_open_source": false,
