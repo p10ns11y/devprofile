@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { Heart } from "lucide-react";
 
 import { SocialLinks } from "./social-links";
+import { PrivacySettings } from "./privacy/privacy-settings";
 
 
 import cvdata from '../data/cvdata.json'
@@ -61,6 +62,13 @@ export function Footer() {
               Download PDF
             </a>
             {/* <span className="text-muted-foreground">•</span> */}
+            <Link
+              href="/privacy-policy"
+              className="inline-flex items-center px-4 py-2 text-text1 hover:text-brand transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            {/* <span className="text-muted-foreground">•</span> */}
             {/* <Link
               href="/ama"
               className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
@@ -96,12 +104,15 @@ export function Footer() {
             className="text-xs text-text2"
           >
             <p>
-              Crafted with NextJS, Tailwind CSS (Material Design dynamic color inspired theme), and Figma Make flair, powered by Cline, Kilo Code, and xAI's zippy grok-code-fast-1. 
+              Crafted with NextJS, Tailwind CSS (Material Design dynamic color inspired theme), and Figma Make flair, powered by Cline, Kilo Code, and xAI's zippy grok-code-fast-1.
               My Big Brain added the sass, not that BigBrain mode, just pure wit! 😎
             </p>
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Privacy Settings Modal */}
+      <PrivacySettings />
     </footer>
   );
 }

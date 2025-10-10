@@ -6,6 +6,7 @@ import { VercelToolbar } from '@vercel/toolbar/next';
 import type { Metadata } from 'next'
 import { SWRegister } from '@/components/sw-register'
 import { ThemeProvider } from '@/components/theme-provider'
+import { ConsentBanner } from '@/components/privacy/consent-banner'
 
 export const metadata: Metadata = {
   title: 'Peramanathan Sathyamoorthy - Dev Profile',
@@ -33,8 +34,10 @@ export default function RootLayout({
           <main id="main">
             {children}
           </main>
+          <ConsentBanner />
         </ThemeProvider>
       </body>
     </html>
   )
 }
+

@@ -16,6 +16,13 @@ import { formatFileSize, getFileIconForViewer } from '../utils/file-utils';
 import { HomeButton } from './home-button';
 import { LoadingSpinner } from './loading-spinner';
 import { VerificationHash } from './verification-hash';
+import {
+  logAnalyticsEvent,
+  detectRightClick,
+  detectScreenshotAttempt,
+  trackViewDuration,
+  preventContextMenuOnCertificates
+} from '../utils/analytics-tracker';
 
 // Dynamic import for PDF components to avoid SSR issues
 const PDFComponents = {
@@ -43,6 +50,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   const [scale, setScale] = useState(1.0);
   const [rotate, setRotate] = useState(0);
   const [containerWidth, setContainerWidth] = useState<number>(800);
+  const [scrollDepth, setScrollDepth] = useState<number>(0);
 
   // Update container width on resize with reasonable limits
   useEffect(() => {
@@ -60,6 +68,81 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
     window.addEventListener('resize', updateWidth);
     return () => window.removeEventListener('resize', updateWidth);
   }, []);
+
+  // Analytics tracking effects
+  useEffect(() => {
+    if (!document) return;
+
+    // Prevent context menu on certificate elements
+    const cleanupPreventContext = preventContextMenuOnCertificates();
+
+    // Detect right-click events
+    const cleanupRightClick = detectRightClick((certificateId, targetElement) => {
+      logAnalyticsEvent({
+        eventType: 'right_click',
+        certificateId,
+        interactionData: {
+          targetElement,
+          pageUrl: window.location.href,
+          viewportSize: `${window.innerWidth}x${window.innerHeight}`
+        } as any
+      });
+    });
+
+    // Detect screenshot attempts
+    const cleanupScreenshot = detectScreenshotAttempt((certificateId, method, canvasSize) => {
+      logAnalyticsEvent({
+        eventType: 'screenshot_attempt',
+        certificateId,
+        interactionData: {
+          method,
+          canvasSize,
+          pageUrl: window.location.href,
+          viewportSize: `${window.innerWidth}x${window.innerHeight}`
+        } as any
+      });
+    });
+
+    // Track view duration
+    const cleanupViewDuration = trackViewDuration(document.id, (duration) => {
+      logAnalyticsEvent({
+        eventType: 'view',
+        certificateId: document.id,
+        interactionData: {
+          duration,
+          pageUrl: window.location.href,
+          viewportSize: `${window.innerWidth}x${window.innerHeight}`
+        }
+      });
+    });
+
+    // Track scroll depth
+    const handleScroll = () => {
+      const scrollElement = window.document.querySelector('[data-pdf-viewer]');
+      if (scrollElement) {
+        const scrollTop = scrollElement.scrollTop;
+        const scrollHeight = scrollElement.scrollHeight;
+        const clientHeight = scrollElement.clientHeight;
+        const depth = Math.round((scrollTop / (scrollHeight - clientHeight)) * 100);
+        setScrollDepth(depth);
+      }
+    };
+
+    const scrollElement = window.document.querySelector('[data-pdf-viewer]');
+    if (scrollElement) {
+      scrollElement.addEventListener('scroll', handleScroll, { passive: true });
+    }
+
+    return () => {
+      cleanupPreventContext();
+      cleanupRightClick();
+      cleanupScreenshot();
+      cleanupViewDuration();
+      if (scrollElement) {
+        scrollElement.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [document]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -84,6 +167,19 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
 
   const handleDownload = () => {
     if (!document) return;
+
+    // Track download event
+    logAnalyticsEvent({
+      eventType: 'download',
+      certificateId: document.id,
+      interactionData: {
+        pageUrl: window.location.href,
+        viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+        fileSize: document.size,
+        downloadMethod: 'direct'
+      } as any
+    });
+
     const doc = window.document;
     const link = doc.createElement('a');
     link.href = document.path;

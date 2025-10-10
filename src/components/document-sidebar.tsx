@@ -9,6 +9,7 @@ import { motion } from 'motion/react';
 import { DocumentItem, DocumentSidebarProps } from '../types/documents';
 import { formatFileSize, getFileIcon } from '../utils/file-utils';
 import { LoadingSpinner } from './loading-spinner';
+import { logAnalyticsEvent } from '../utils/analytics-tracker';
 
 
 export function DocumentSidebar({
@@ -61,7 +62,18 @@ export function DocumentSidebar({
                   ? 'bg-surface2 border-l-4 border-l-accent-primary'
                   : ''
               }`}
-              onClick={() => onDocumentSelect(document)}
+              onClick={() => {
+                // Track selection event
+                logAnalyticsEvent({
+                  eventType: 'navigation',
+                  certificateId: document.id,
+                  interactionData: {
+                    pageUrl: window.location.href,
+                    viewportSize: `${window.innerWidth}x${window.innerHeight}`
+                  }
+                });
+                onDocumentSelect(document);
+              }}
               whileHover={{ scale: 0.99 }}
               whileTap={{ scale: 0.98 }}
             >

@@ -9,6 +9,12 @@ import { DocumentSidebar } from "@/components/document-sidebar";
 import { DocumentViewer } from "@/components/document-viewer";
 import { DocumentItem } from "@/types/documents";
 import { getCertificatesData } from "@/data/documents-data";
+import {
+  initializeAnalyticsSession,
+  logAnalyticsEvent,
+  trackNavigation,
+  endAnalyticsSession
+} from "@/utils/analytics-tracker";
 
 let certificates = getCertificatesData();
 let defaultCertificate = certificates[0] as DocumentItem;
@@ -23,13 +29,29 @@ export default function CertificateViewComponent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const selectCertificate = (certificate: DocumentItem) => {
+    // Track navigation event
+    if (selectedCertificate.id !== certificate.id) {
+      logAnalyticsEvent({
+        eventType: 'navigation',
+        certificateId: certificate.id,
+        interactionData: {
+          referrer: selectedCertificate.id,
+          pageUrl: window.location.href,
+          viewportSize: `${window.innerWidth}x${window.innerHeight}`
+        }
+      });
+    }
+
     setSelectedCertificate(certificate);
     router.replace(`?id=${certificate.id}`, { scroll: false });
     setSidebarOpen(false);
   };
 
-  // Handle URL params after component mounts to avoid hydration mismatch
+  // Initialize analytics session and handle URL params
   useEffect(() => {
+    // Initialize analytics session
+    initializeAnalyticsSession();
+
     if (certId) {
       const cert = certificates.find(c => c.id === certId);
       if (cert && cert.id !== selectedCertificate.id) {
@@ -42,6 +64,27 @@ export default function CertificateViewComponent() {
       window.history.replaceState({}, '', url.toString());
     }
   }, [certId]);
+
+  // Track view event when certificate changes
+  useEffect(() => {
+    if (selectedCertificate.id) {
+      logAnalyticsEvent({
+        eventType: 'view',
+        certificateId: selectedCertificate.id,
+        interactionData: {
+          pageUrl: window.location.href,
+          viewportSize: `${window.innerWidth}x${window.innerHeight}`
+        }
+      });
+    }
+  }, [selectedCertificate.id]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      endAnalyticsSession();
+    };
+  }, []);
 
   return (
     <motion.div
