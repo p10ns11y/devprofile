@@ -364,3 +364,7 @@ This portfolio website serves as a **comprehensive showcase** of:
 
 
 **Built with 💙 using Next.js 15 & React 19**
+
+## Improve
+
+- [] Typography (in smaller laptops Typography creates layout issue)
