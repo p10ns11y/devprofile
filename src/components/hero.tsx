@@ -82,7 +82,7 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="text-4xl font-bold text-text1 leading-tight"
               style={{
-                fontSize: 'clamp(2.25rem, 8vw, 6rem)' // Responsive text: min 2.25rem (36px), scales with viewport, max 6rem (96px)
+                fontSize: 'clamp(2rem, 6vmin, 4rem)'
               }}
             >
               <a href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener">{cvdata.name}</a>

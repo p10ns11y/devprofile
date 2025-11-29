@@ -57,13 +57,13 @@ export function Header() {
       <nav className="container mx-auto px-6 py-4 flex items-center justify-between">
         <motion.div
           whileHover={{ scale: 1.05, cursor: 'pointer' }}
-          className="text-xl font-semibold"
+          className="text-md font-semibold pr-2"
           onClick={() => scrollToSection('/')}
         >
           {cvdata.name_with_initial}
         </motion.div>
 
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden text-[0.9em] md:flex flex-1 justify-between">
           {navItems.map((item, index) => (
             <motion.div
               key={item.name}

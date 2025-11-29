@@ -3,6 +3,7 @@
 @import "./brand/theme.css";
 
 html {
+  --font-size: 1rem;
   font-size: var(--font-size);
   block-size: 100%;
   background-color: var(--color-surface1);
