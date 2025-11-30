@@ -23,30 +23,31 @@ export default function AMAv2() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+    <div className="min-h-screen bg-surface1 text-text1">
+      <div className="pt-20"></div> {/* Spacer for fixed header */}
       {/* Header */}
-      <div className="sticky top-0 z-50 border-b border-slate-200/50 dark:border-slate-800/50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl">
+      <div className="sticky top-0 z-50 border-b border-border bg-surface1/80 backdrop-blur-xl">
         <div className="max-w-4xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link href="/">
-                <Button variant="ghost" size="sm" className="gap-2 hover:bg-slate-100 dark:hover:bg-slate-800">
+                <Button variant="ghost" size="sm" className="gap-2 hover:bg-surface2">
                   <ArrowLeft className="w-4 h-4" />
                   Back
                 </Button>
               </Link>
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg">
-                    <Bot className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 rounded-full bg-accent-primary flex items-center justify-center shadow-lg">
+                    <Bot className="w-5 h-5 text-accent-primary-text" />
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-green-500 border-2 border-white dark:border-slate-950"></div>
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-accent-secondary border-2 border-surface1"></div>
                 </div>
                 <div>
-                  <h1 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                  <h1 className="text-lg font-semibold text-text1">
                     AI Assistant v2
                   </h1>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">
+                  <p className="text-sm text-text2">
                     Powered by AI SDK v6 + Workflow DevKit
                   </p>
                 </div>
@@ -71,20 +72,20 @@ export default function AMAv2() {
               {/* Hero Section */}
               <div className="space-y-6">
                 <div className="relative">
-                  <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-600 flex items-center justify-center shadow-2xl">
-                    <MessageSquare className="w-10 h-10 text-white" />
+                  <div className="w-20 h-20 mx-auto rounded-2xl bg-accent-primary flex items-center justify-center shadow-2xl">
+                    <MessageSquare className="w-10 h-10 text-accent-primary-text" />
                   </div>
-                  <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
-                    <Sparkles className="w-3 h-3 text-white" />
+                  <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accent-secondary flex items-center justify-center">
+                    <Sparkles className="w-3 h-3 text-accent-secondary-text" />
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div className="text-center">
-                    <Shimmer as="h1" className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-100 dark:via-blue-100 dark:to-slate-100 bg-clip-text text-transparent mb-2">
+                    <Shimmer as="h1" className="text-4xl font-bold text-text1 mb-2">
                       Welcome to AI Assistant v2
                     </Shimmer>
-                    <p className="text-lg text-slate-600 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
+                    <p className="text-lg text-text2 max-w-lg mx-auto leading-relaxed">
                       Ask me anything about professional background, skills, experience, and projects. I use advanced AI with semantic search for accurate, contextual responses.
                     </p>
                   </div>
@@ -93,38 +94,38 @@ export default function AMAv2() {
 
               {/* Feature Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-                <div className="group bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-800 transition-all duration-300 hover:-translate-y-1">
-                  <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mb-3 group-hover:bg-blue-200 dark:group-hover:bg-blue-800/50 transition-colors">
-                    <Bot className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <div className="group bg-surface1 rounded-xl p-6 shadow-lg border border-border hover:shadow-xl hover:border-accent-primary transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-10 h-10 rounded-lg bg-accent-primary/10 flex items-center justify-center mb-3 group-hover:bg-accent-primary/20 transition-colors">
+                    <Bot className="w-5 h-5 text-accent-primary" />
                   </div>
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Smart Responses</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Context-aware answers using Claude's advanced reasoning and conversation memory</p>
+                  <h3 className="font-semibold text-text1 mb-2">Smart Responses</h3>
+                  <p className="text-sm text-text2">Context-aware answers using Claude's advanced reasoning and conversation memory</p>
                 </div>
 
-                <div className="group bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:border-purple-200 dark:hover:border-purple-800 transition-all duration-300 hover:-translate-y-1">
-                  <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center mb-3 group-hover:bg-purple-200 dark:group-hover:bg-purple-800/50 transition-colors">
-                    <Zap className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                <div className="group bg-surface1 rounded-xl p-6 shadow-lg border border-border hover:shadow-xl hover:border-accent-primary transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-10 h-10 rounded-lg bg-accent-primary/10 flex items-center justify-center mb-3 group-hover:bg-accent-primary/20 transition-colors">
+                    <Zap className="w-5 h-5 text-accent-primary" />
                   </div>
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Real-time Streaming</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Live response streaming with Workflow DevKit durability and error recovery</p>
+                  <h3 className="font-semibold text-text1 mb-2">Real-time Streaming</h3>
+                  <p className="text-sm text-text2">Live response streaming with Workflow DevKit durability and error recovery</p>
                 </div>
 
-                <div className="group bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:border-green-200 dark:hover:border-green-800 transition-all duration-300 hover:-translate-y-1">
-                  <div className="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/50 flex items-center justify-center mb-3 group-hover:bg-green-200 dark:group-hover:bg-green-800/50 transition-colors">
-                    <MessageSquare className="w-5 h-5 text-green-600 dark:text-green-400" />
+                <div className="group bg-surface1 rounded-xl p-6 shadow-lg border border-border hover:shadow-xl hover:border-accent-primary transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-10 h-10 rounded-lg bg-accent-primary/10 flex items-center justify-center mb-3 group-hover:bg-accent-primary/20 transition-colors">
+                    <MessageSquare className="w-5 h-5 text-accent-primary" />
                   </div>
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Rich Formatting</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Markdown rendering with code blocks, lists, and professional formatting</p>
+                  <h3 className="font-semibold text-text1 mb-2">Rich Formatting</h3>
+                  <p className="text-sm text-text2">Markdown rendering with code blocks, lists, and professional formatting</p>
                 </div>
               </div>
 
               {/* Quick Start Questions */}
               <div className="space-y-6">
                 <div className="text-center">
-                  <Shimmer as="h2" className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                  <Shimmer as="h2" className="text-xl font-semibold text-text1 mb-2">
                     Try asking me about:
                   </Shimmer>
-                  <p className="text-slate-600 dark:text-slate-400">
+                  <p className="text-text2">
                     Click any question below to get started
                   </p>
                 </div>
@@ -134,9 +135,9 @@ export default function AMAv2() {
                     <button
                       key={index}
                       onClick={() => sendMessage({ text: question })}
-                      className="group p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-lg transition-all duration-200 text-left"
+                      className="group p-4 bg-surface1 rounded-xl border border-border hover:border-accent-primary hover:shadow-lg transition-all duration-200 text-left"
                     >
-                      <p className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100 font-medium">
+                      <p className="text-sm text-text2 group-hover:text-text1 font-medium">
                         {question}
                       </p>
                     </button>
@@ -156,7 +157,7 @@ export default function AMAv2() {
                   }}
                   className="relative"
                 >
-                  <div className="relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg focus-within:border-blue-300 dark:focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-100 dark:focus-within:ring-blue-900/20 transition-all hover:shadow-xl">
+                  <div className="relative bg-surface1 rounded-2xl border border-border shadow-lg focus-within:border-accent-primary focus-within:ring-4 focus-within:ring-accent-primary/10 transition-all hover:shadow-xl">
                     <textarea
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
@@ -170,19 +171,19 @@ export default function AMAv2() {
                         }
                       }}
                       placeholder="Ask me about my experience, skills, projects, or career journey..."
-                      className="w-full px-4 py-4 pr-14 bg-transparent text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none resize-none min-h-[60px] max-h-32 leading-relaxed"
+                      className="w-full px-4 py-4 pr-14 bg-transparent text-text1 placeholder-text3 focus:outline-none resize-none min-h-[60px] max-h-32 leading-relaxed"
                       rows={1}
                       disabled={isLoading}
                     />
                     <button
                       type="submit"
                       disabled={isLoading || !input.trim()}
-                      className="absolute right-3 top-3 p-2 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 dark:disabled:bg-slate-600 disabled:cursor-not-allowed transition-colors shadow-sm"
+                      className="absolute right-3 top-3 p-2 rounded-lg bg-accent-primary hover:bg-accent-primary/90 disabled:bg-surface3 disabled:cursor-not-allowed transition-colors shadow-sm"
                     >
-                      <Send className="w-4 h-4 text-white" />
+                      <Send className="w-4 h-4 text-accent-primary-text" />
                     </button>
                   </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 text-center">
+                  <p className="text-xs text-text3 mt-2 text-center">
                     Press Enter to send • Built with AI Elements design patterns
                   </p>
                 </form>
@@ -201,8 +202,8 @@ export default function AMAv2() {
                 >
                   {message.role === 'assistant' && (
                     <div className="flex-shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-md">
-                        <Bot className="w-4 h-4 text-white" />
+                      <div className="w-8 h-8 rounded-full bg-accent-primary flex items-center justify-center shadow-md">
+                        <Bot className="w-4 h-4 text-accent-primary-text" />
                       </div>
                     </div>
                   )}
@@ -211,8 +212,8 @@ export default function AMAv2() {
                     <div
                       className={`rounded-2xl px-4 py-3 shadow-sm ${
                         message.role === 'user'
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100'
+                          ? 'bg-accent-primary text-accent-primary-text'
+                          : 'bg-surface1 border border-border text-text1'
                       }`}
                     >
                       {message.role === 'assistant' ? (
@@ -233,32 +234,32 @@ export default function AMAv2() {
                                 <li className="text-sm">{children}</li>
                               ),
                               strong: ({ children }) => (
-                                <strong className="font-semibold text-slate-900 dark:text-slate-100">
+                                <strong className="font-semibold text-text1">
                                   {children}
                                 </strong>
                               ),
                               code: ({ children }) => (
-                                <code className="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-xs font-mono">
+                                <code className="bg-surface2 px-1.5 py-0.5 rounded text-xs font-mono text-text1">
                                   {children}
                                 </code>
                               ),
                               pre: ({ children }) => (
-                                <pre className="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg overflow-x-auto text-xs font-mono mb-2">
+                                <pre className="bg-surface2 p-3 rounded-lg overflow-x-auto text-xs font-mono mb-2 text-text1">
                                   {children}
                                 </pre>
                               ),
                               h1: ({ children }) => (
-                                <h1 className="text-lg font-semibold mb-2 text-slate-900 dark:text-slate-100">
+                                <h1 className="text-lg font-bold mb-3 text-text1 leading-tight">
                                   {children}
                                 </h1>
                               ),
                               h2: ({ children }) => (
-                                <h2 className="text-base font-semibold mb-2 text-slate-900 dark:text-slate-100">
+                                <h2 className="text-base font-bold mb-2 text-text1 leading-tight">
                                   {children}
                                 </h2>
                               ),
                               h3: ({ children }) => (
-                                <h3 className="text-sm font-semibold mb-1 text-slate-900 dark:text-slate-100">
+                                <h3 className="text-sm font-bold mb-2 text-text1 leading-snug">
                                   {children}
                                 </h3>
                               ),
@@ -287,7 +288,7 @@ export default function AMAv2() {
                         </p>
                       )}
                     </div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 px-1">
+                    <p className="text-xs text-text3 mt-2 px-1">
                       {new Date().toLocaleTimeString('en-US', {
                         hour: 'numeric',
                         minute: '2-digit',
@@ -298,8 +299,8 @@ export default function AMAv2() {
 
                   {message.role === 'user' && (
                     <div className="flex-shrink-0">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center shadow-md">
-                        <User className="w-4 h-4 text-white" />
+                      <div className="w-8 h-8 rounded-full bg-surface3 flex items-center justify-center shadow-md">
+                        <User className="w-4 h-4 text-text1" />
                       </div>
                     </div>
                   )}
@@ -309,12 +310,12 @@ export default function AMAv2() {
               {isLoading && (
                 <div className="flex gap-4 justify-start">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-md">
-                      <Bot className="w-4 h-4 text-white" />
+                    <div className="w-8 h-8 rounded-full bg-accent-primary flex items-center justify-center shadow-md">
+                      <Bot className="w-4 h-4 text-accent-primary-text" />
                     </div>
                   </div>
-                  <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl px-4 py-3 shadow-sm">
-                    <Shimmer as="span" className="text-sm text-slate-600 dark:text-slate-400">
+                  <div className="bg-surface1 border border-border rounded-2xl px-4 py-3 shadow-sm">
+                    <Shimmer as="span" className="text-sm text-text2">
                       AI is analyzing your question and preparing a thoughtful response...
                     </Shimmer>
                   </div>
@@ -323,7 +324,7 @@ export default function AMAv2() {
             </div>
 
             {/* Input - Fixed at Bottom */}
-            <div className="sticky bottom-0 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-t border-slate-200/50 dark:border-slate-800/50 -mx-4 px-4 py-4">
+            <div className="sticky bottom-0 bg-surface1/80 backdrop-blur-xl border-t border-border -mx-4 px-4 py-4">
               <div className="max-w-3xl mx-auto">
                 <form
                   onSubmit={(e) => {
@@ -335,7 +336,7 @@ export default function AMAv2() {
                   }}
                   className="relative"
                 >
-                  <div className="relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg focus-within:border-blue-300 dark:focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-100 dark:focus-within:ring-blue-900/20 transition-all hover:shadow-xl">
+                  <div className="relative bg-surface1 rounded-2xl border border-border shadow-lg focus-within:border-accent-primary focus-within:ring-4 focus-within:ring-accent-primary/10 transition-all hover:shadow-xl">
                     <textarea
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
@@ -349,19 +350,19 @@ export default function AMAv2() {
                         }
                       }}
                       placeholder="Ask me about my experience, skills, projects, or career journey..."
-                      className="w-full px-4 py-4 pr-14 bg-transparent text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none resize-none min-h-[60px] max-h-32 leading-relaxed"
+                      className="w-full px-4 py-4 pr-14 bg-transparent text-text1 placeholder-text3 focus:outline-none resize-none min-h-[60px] max-h-32 leading-relaxed"
                       rows={1}
                       disabled={isLoading}
                     />
                     <button
                       type="submit"
                       disabled={isLoading || !input.trim()}
-                      className="absolute right-3 top-3 p-2 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 dark:disabled:bg-slate-600 disabled:cursor-not-allowed transition-colors shadow-sm"
+                      className="absolute right-3 top-3 p-2 rounded-lg bg-accent-primary hover:bg-accent-primary/90 disabled:bg-surface3 disabled:cursor-not-allowed transition-colors shadow-sm"
                     >
-                      <Send className="w-4 h-4 text-white" />
+                      <Send className="w-4 h-4 text-accent-primary-text" />
                     </button>
                   </div>
-                  <div className="flex items-center justify-between mt-2 text-xs text-slate-500 dark:text-slate-400">
+                  <div className="flex items-center justify-between mt-2 text-xs text-text3">
                     <span>Press Enter to send, Shift+Enter for new line</span>
                     <span>Built with AI Elements design patterns</span>
                   </div>
