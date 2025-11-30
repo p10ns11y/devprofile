@@ -1,6 +1,6 @@
 import { tool } from 'ai';
 import { z } from 'zod';
-import { searchCVChunks, initializeCVEmbeddings, CVChunk } from './cv-embedding';
+import { searchCVChunks, initializeCVEmbeddings, CVChunk, cvEmbeddings } from './cv-embedding';
 
 // Initialize CV embeddings when module loads
 let initializationPromise: Promise<any> | null = null;
@@ -16,15 +16,27 @@ async function ensureInitialized() {
 export const cvSearchTool = tool({
   description: 'Search through CV/resume information to answer questions about professional background, experience, skills, education, and projects. Use this for questions about work history, technical skills, education, certifications, or personal background.',
   parameters: z.object({
-    query: z.string().describe('The search query about professional background, skills, experience, etc.'),
+    query: z.string().min(1).describe('The search query about professional background, skills, experience, etc.'),
     category: z.enum(['experience', 'skills', 'education', 'projects', 'personal', 'certifications', 'all']).optional().describe('Optional category filter to narrow search scope'),
     limit: z.number().min(1).max(10).optional().default(5).describe('Maximum number of relevant results to return')
   }),
-  execute: async ({ query, category, limit = 5 }) => {
+  execute: async ({ query, category, limit }: { query: string; category?: string; limit?: number }) => {
     try {
+      // Validate query parameter
+      if (!query || typeof query !== 'string' || query.trim().length === 0) {
+        console.warn('CV search tool called with invalid query:', { query, category, limit });
+        return {
+          results: [],
+          totalFound: 0,
+          searchQuery: 'invalid query',
+          category: category || 'all',
+          error: 'Query parameter is required and must be a non-empty string'
+        };
+      }
+
       await ensureInitialized();
 
-      let searchQuery = query;
+      let searchQuery = query.trim();
       if (category && category !== 'all') {
         searchQuery = `${query} ${category}`;
       }
@@ -68,13 +80,13 @@ export const workExperienceTool = tool({
     company: z.string().optional().describe('Filter by specific company name'),
     limit: z.number().min(1).max(10).optional().default(5).describe('Maximum number of experiences to return')
   }),
-  execute: async ({ query, company, limit = 5 }) => {
+  execute: async ({ query, company, limit = 5 }: { query?: string; company?: string; limit?: number }) => {
     try {
       await ensureInitialized();
 
-      let searchQuery = query || 'work experience career history professional roles';
-      if (company) {
-        searchQuery = `${searchQuery} ${company}`;
+      let searchQuery = query && query.trim() ? query.trim() : 'work experience career history professional roles';
+      if (company && company.trim()) {
+        searchQuery = `${searchQuery} ${company.trim()}`;
       }
 
       const relevantChunks = await searchCVChunks(searchQuery, limit * 2); // Get more for filtering
@@ -222,10 +234,30 @@ export const educationTool = tool({
       await ensureInitialized();
 
       const searchQuery = query || 'education university degree academic background';
-      const relevantChunks = await searchCVChunks(searchQuery, limit);
+      // Get more candidates before filtering to ensure we get all education chunks
+      const relevantChunks = await searchCVChunks(searchQuery, limit * 3); // Get 3x more candidates
 
       // Filter for education chunks
       const educationChunks = relevantChunks.filter(chunk => chunk.category === 'education');
+
+      console.log('educationTool: total relevant chunks =', relevantChunks.length);
+      console.log('educationTool: education chunks after filtering =', educationChunks.length);
+
+      // If we have fewer education chunks than requested, get all education chunks
+      if (educationChunks.length < limit) {
+        console.log('educationTool: getting all education chunks since we have fewer than requested');
+        const allEducationChunks = cvEmbeddings.filter(chunk => chunk.category === 'education');
+        // Sort by importance since we don't have a specific query match
+        allEducationChunks.sort((a, b) => b.importance - a.importance);
+        return {
+          results: allEducationChunks.slice(0, limit).map(chunk => ({
+            content: chunk.content,
+            section: chunk.section
+          })),
+          totalFound: allEducationChunks.length,
+          searchQuery
+        };
+      }
 
       return {
         results: educationChunks.slice(0, limit).map(chunk => ({

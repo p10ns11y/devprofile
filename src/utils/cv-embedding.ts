@@ -171,15 +171,18 @@ async function generateEmbeddings(chunks: Array<{content: string, section: strin
   try {
     // Use AI SDK's embedMany for efficient batch embedding
     const contents = chunks.map(chunk => chunk.content);
-    const embeddings = await embedMany({
-      model: 'google/text-embedding-005', // OpenAI's efficient embedding model
+    const embeddingsResult = await embedMany({
+      model: 'text-embedding-3-small', // OpenAI's efficient embedding model
       values: contents,
     });
+
+    // Access embeddings from the result object
+    const embeddings = embeddingsResult?.embeddings || [];
 
     const cvChunks: CVChunk[] = chunks.map((chunk, index) => ({
       id: `cv_chunk_${index}_${Date.now()}`,
       content: chunk.content,
-      embedding: embeddings[index],
+      embedding: embeddings[index] || [],
       section: chunk.section,
       category: chunk.category,
       importance: chunk.importance,
@@ -194,7 +197,7 @@ async function generateEmbeddings(chunks: Array<{content: string, section: strin
     return cvChunks;
   } catch (error) {
     logEmbeddingError('generateEmbeddings', error);
-    throw new FatalError(`Failed to generate embeddings: ${error.message}`);
+    throw new FatalError(`Failed to generate embeddings: ${String(error)}`);
   }
 }
 
@@ -215,9 +218,9 @@ export async function initializeCVEmbeddings(): Promise<EmbeddingResult> {
   const startTime = Date.now();
   logEmbeddingStep('initializeCVEmbeddings:start');
 
-  try {
-    // Step 1: Create semantic chunks from CV data
-    const allChunks = [
+    try {
+      // Step 1: Create semantic chunks from CV data
+      const allChunks = [
       ...createBasicInfoChunks(),
       ...createWorkExperienceChunks(),
       ...createSkillsChunks(),
@@ -243,7 +246,7 @@ export async function initializeCVEmbeddings(): Promise<EmbeddingResult> {
     logEmbeddingStep('initializeCVEmbeddings:success', {
       totalChunks: cvEmbeddings.length,
       processingTime: `${processingTime}ms`,
-      categories: [...new Set(cvEmbeddings.map(c => c.category))]
+      categories: Array.from(new Set(cvEmbeddings.map(c => c.category)))
     });
 
     return result;
@@ -261,10 +264,13 @@ export async function searchCVChunks(query: string, limit: number = 5): Promise<
 
   try {
     // Embed the query
-    const queryEmbedding = await embed({
-      model: 'google/text-embedding-005',
+    const queryEmbeddingResult = await embed({
+      model: 'text-embedding-3-small',
       value: query,
     });
+
+    // Extract the embedding from the result object
+    const queryEmbedding = queryEmbeddingResult?.embedding;
 
     // Calculate cosine similarity
     const similarities = cvEmbeddings.map(chunk => ({
@@ -279,6 +285,7 @@ export async function searchCVChunks(query: string, limit: number = 5): Promise<
       return b.chunk.importance - a.chunk.importance;
     });
 
+    console.log('similarity limit', limit)
     return similarities.slice(0, limit).map(s => s.chunk);
   } catch (error) {
     console.error('CV search error:', error);

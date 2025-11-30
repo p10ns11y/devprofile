@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { Send, Bot, User, Sparkles, ArrowLeft, MessageSquare, Zap } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { Shimmer } from '@/components/ai-elements/shimmer';
 
 export default function AMAv2() {
   const [input, setInput] = useState('');
@@ -77,48 +80,50 @@ export default function AMAv2() {
                 </div>
 
                 <div className="space-y-4">
-                  <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-100 dark:via-blue-100 dark:to-slate-100 bg-clip-text text-transparent">
-                    Welcome to AI Assistant v2
-                  </h1>
-                  <p className="text-lg text-slate-600 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
-                    Ask me anything about professional background, skills, experience, and projects. I use advanced AI with semantic search for accurate, contextual responses.
-                  </p>
+                  <div className="text-center">
+                    <Shimmer as="h1" className="text-4xl font-bold bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-100 dark:via-blue-100 dark:to-slate-100 bg-clip-text text-transparent mb-2">
+                      Welcome to AI Assistant v2
+                    </Shimmer>
+                    <p className="text-lg text-slate-600 dark:text-slate-400 max-w-lg mx-auto leading-relaxed">
+                      Ask me anything about professional background, skills, experience, and projects. I use advanced AI with semantic search for accurate, contextual responses.
+                    </p>
+                  </div>
                 </div>
               </div>
 
               {/* Feature Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-                <div className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
-                  <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mb-3">
+                <div className="group bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:border-blue-200 dark:hover:border-blue-800 transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mb-3 group-hover:bg-blue-200 dark:group-hover:bg-blue-800/50 transition-colors">
                     <Bot className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                   </div>
                   <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Smart Responses</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Context-aware answers using semantic search and CV embeddings</p>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">Context-aware answers using Claude's advanced reasoning and conversation memory</p>
                 </div>
 
-                <div className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
-                  <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center mb-3">
+                <div className="group bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:border-purple-200 dark:hover:border-purple-800 transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center mb-3 group-hover:bg-purple-200 dark:group-hover:bg-purple-800/50 transition-colors">
                     <Zap className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                   </div>
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Real-time Processing</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Durable workflows with automatic retries and streaming responses</p>
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Real-time Streaming</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">Live response streaming with Workflow DevKit durability and error recovery</p>
                 </div>
 
-                <div className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
-                  <div className="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/50 flex items-center justify-center mb-3">
+                <div className="group bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:border-green-200 dark:hover:border-green-800 transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/50 flex items-center justify-center mb-3 group-hover:bg-green-200 dark:group-hover:bg-green-800/50 transition-colors">
                     <MessageSquare className="w-5 h-5 text-green-600 dark:text-green-400" />
                   </div>
-                  <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Tool Integration</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">6 specialized tools for work experience, skills, projects, and education</p>
+                  <h3 className="font-semibold text-slate-900 dark:text-slate-100 mb-2">Rich Formatting</h3>
+                  <p className="text-sm text-slate-600 dark:text-slate-400">Markdown rendering with code blocks, lists, and professional formatting</p>
                 </div>
               </div>
 
               {/* Quick Start Questions */}
               <div className="space-y-6">
                 <div className="text-center">
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                  <Shimmer as="h2" className="text-xl font-semibold text-slate-900 dark:text-slate-100 mb-2">
                     Try asking me about:
-                  </h2>
+                  </Shimmer>
                   <p className="text-slate-600 dark:text-slate-400">
                     Click any question below to get started
                   </p>
@@ -151,7 +156,7 @@ export default function AMAv2() {
                   }}
                   className="relative"
                 >
-                  <div className="relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg focus-within:border-blue-300 dark:focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-100 dark:focus-within:ring-blue-900/20 transition-all">
+                  <div className="relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg focus-within:border-blue-300 dark:focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-100 dark:focus-within:ring-blue-900/20 transition-all hover:shadow-xl">
                     <textarea
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
@@ -164,8 +169,8 @@ export default function AMAv2() {
                           }
                         }
                       }}
-                      placeholder="Ask me anything about my professional background..."
-                      className="w-full px-4 py-4 pr-14 bg-transparent text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none resize-none min-h-[60px] max-h-32"
+                      placeholder="Ask me about my experience, skills, projects, or career journey..."
+                      className="w-full px-4 py-4 pr-14 bg-transparent text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none resize-none min-h-[60px] max-h-32 leading-relaxed"
                       rows={1}
                       disabled={isLoading}
                     />
@@ -210,16 +215,77 @@ export default function AMAv2() {
                           : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100'
                       }`}
                     >
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {message.parts.map((part, i) => {
-                          switch (part.type) {
-                            case 'text':
-                              return <span key={i}>{part.text}</span>;
-                            default:
-                              return null;
-                          }
-                        })}
-                      </p>
+                      {message.role === 'assistant' ? (
+                        <div className="prose prose-sm dark:prose-invert max-w-none">
+                          <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              p: ({ children }) => (
+                                <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>
+                              ),
+                              ul: ({ children }) => (
+                                <ul className="mb-2 ml-4 list-disc space-y-1">{children}</ul>
+                              ),
+                              ol: ({ children }) => (
+                                <ol className="mb-2 ml-4 list-decimal space-y-1">{children}</ol>
+                              ),
+                              li: ({ children }) => (
+                                <li className="text-sm">{children}</li>
+                              ),
+                              strong: ({ children }) => (
+                                <strong className="font-semibold text-slate-900 dark:text-slate-100">
+                                  {children}
+                                </strong>
+                              ),
+                              code: ({ children }) => (
+                                <code className="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-xs font-mono">
+                                  {children}
+                                </code>
+                              ),
+                              pre: ({ children }) => (
+                                <pre className="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg overflow-x-auto text-xs font-mono mb-2">
+                                  {children}
+                                </pre>
+                              ),
+                              h1: ({ children }) => (
+                                <h1 className="text-lg font-semibold mb-2 text-slate-900 dark:text-slate-100">
+                                  {children}
+                                </h1>
+                              ),
+                              h2: ({ children }) => (
+                                <h2 className="text-base font-semibold mb-2 text-slate-900 dark:text-slate-100">
+                                  {children}
+                                </h2>
+                              ),
+                              h3: ({ children }) => (
+                                <h3 className="text-sm font-semibold mb-1 text-slate-900 dark:text-slate-100">
+                                  {children}
+                                </h3>
+                              ),
+                            }}
+                          >
+                            {message.parts.map((part, i) => {
+                              switch (part.type) {
+                                case 'text':
+                                  return part.text;
+                                default:
+                                  return '';
+                              }
+                            }).join('')}
+                          </ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                          {message.parts.map((part, i) => {
+                            switch (part.type) {
+                              case 'text':
+                                return <span key={i}>{part.text}</span>;
+                              default:
+                                return null;
+                            }
+                          })}
+                        </p>
+                      )}
                     </div>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 px-1">
                       {new Date().toLocaleTimeString('en-US', {
@@ -248,14 +314,9 @@ export default function AMAv2() {
                     </div>
                   </div>
                   <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl px-4 py-3 shadow-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="flex gap-1">
-                        <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></div>
-                        <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                      </div>
-                      <span className="text-sm text-slate-600 dark:text-slate-400">AI is thinking...</span>
-                    </div>
+                    <Shimmer as="span" className="text-sm text-slate-600 dark:text-slate-400">
+                      AI is analyzing your question and preparing a thoughtful response...
+                    </Shimmer>
                   </div>
                 </div>
               )}
@@ -274,7 +335,7 @@ export default function AMAv2() {
                   }}
                   className="relative"
                 >
-                  <div className="relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg focus-within:border-blue-300 dark:focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-100 dark:focus-within:ring-blue-900/20 transition-all">
+                  <div className="relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-lg focus-within:border-blue-300 dark:focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-100 dark:focus-within:ring-blue-900/20 transition-all hover:shadow-xl">
                     <textarea
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
@@ -287,8 +348,8 @@ export default function AMAv2() {
                           }
                         }
                       }}
-                      placeholder="Ask me anything about my professional background..."
-                      className="w-full px-4 py-4 pr-14 bg-transparent text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none resize-none min-h-[60px] max-h-32"
+                      placeholder="Ask me about my experience, skills, projects, or career journey..."
+                      className="w-full px-4 py-4 pr-14 bg-transparent text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none resize-none min-h-[60px] max-h-32 leading-relaxed"
                       rows={1}
                       disabled={isLoading}
                     />

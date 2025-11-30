@@ -119,6 +119,8 @@ export async function processChatRequest(messages: UIMessage[], tools: Record<st
       toolsUsed: tools.length > 0
     });
 
+    console.log('result', result);
+
     return result;
   } catch (error) {
     logWorkflowError('processChatRequest', error);

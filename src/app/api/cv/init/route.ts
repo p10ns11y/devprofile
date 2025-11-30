@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
         totalChunks: result.totalProcessed,
         embeddingModel: result.embeddingModel,
         processingTime: `${duration}ms`,
-        categories: [...new Set(result.chunks.map(c => c.category))],
+        categories: Array.from(new Set(result.chunks.map(c => c.category))),
         sampleChunks: result.chunks.slice(0, 3).map(c => ({
           section: c.section,
           category: c.category,
