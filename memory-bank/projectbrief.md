@@ -6,7 +6,7 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 ## Core Requirements
 - **Professional Portfolio Display**: Showcase engineering experience, skills, projects, and achievements
 - **Interactive CV System**: Dynamic PDF generation with professional styling and cross-platform compatibility
-- **AI-Powered Features**: Intelligent Q&A system about professional background and expertise
+- **AI-Powered Features**: AI SDK v6 + Workflow DevKit with semantic CV embeddings and tool-based Q&A
 - **Content Management**: Dynamic multi-page content hub for blogs, articles, and resources
 - **Document Viewer**: Interactive PDF/image viewing with full browser integration
 - **Responsive Design**: Mobile-first approach optimized for all device sizes
@@ -27,5 +27,5 @@ Build a 2025-compliant web application using the latest web technologies and bes
 - Accessibility: WCAG AA compliance across all components
 - SEO: Full meta tag implementation and structured data
 - User Experience: Mobile-first responsive design with intuitive navigation
-- AI Integration: Reliable Q&A responses within professional context boundaries
+- AI Integration: 95%+ accurate responses with semantic CV search and tool specialization
 - Deployment: Zero-config deployment capability across major platforms

@@ -43,7 +43,7 @@ This platform represents the next evolution of professional self-presentation, w
 ### Demonstration Through Implementation
 Every aspect of the implementation serves as a technical demonstration:
 - **Architecture Choices**: Next.js 15 App Router demonstrating modern React patterns
-- **AI Integration**: Robust API design and error handling for reliable AI interactions
+- **AI Integration**: AI SDK v6 + Workflow DevKit with durable execution and semantic CV embeddings
 - **Performance Optimization**: Systematic approach to fast loading and efficient rendering
 - **Cross-Platform Compatibility**: Universal deployment capability across hosting platforms
 - **Development Workflows**: Modern tooling and testing infrastructure
@@ -76,4 +76,4 @@ Every aspect of the implementation serves as a technical demonstration:
 - Performance metrics: 90+ Core Web Vitals scores
 - Accessibility: WCAG AA compliance across all features
 - SEO: Complete meta tag and structured data implementation
-- AI reliability: 99% uptime with contextually accurate responses
+- AI reliability: 99% uptime with semantic CV search and tool-based responses

@@ -35,6 +35,31 @@
   - Consistent design language
   - Theme customization capabilities
 
+### AI Integration & Workflow Management
+- **AI SDK v6**: Modern AI development toolkit
+  - Streaming chat with `useChat` hook
+  - Tool calling capabilities for specialized functions
+  - Claude Sonnet 4.5 integration via Vercel AI Gateway
+  - Multi-step conversation support with automatic tool selection
+- **Workflow DevKit**: Durable async operations framework
+  - `"use workflow"` directive for reliable function execution
+  - Automatic retry logic with exponential backoff
+  - State persistence across failures and interruptions
+  - Step-by-step observability and error tracking
+  - Production-ready reliability for AI operations
+
+### Vector Embeddings & Retrieval
+- **OpenAI google/text-embedding-005**: Semantic text embeddings
+  - Cost-effective embedding model for CV data processing
+  - Cosine similarity search for relevant content retrieval
+  - 1536-dimensional vectors for semantic understanding
+  - Batch processing capabilities for efficient initialization
+- **Custom CV Tools**: Specialized AI tools for professional data
+  - 6 specialized tools: CV search, work experience, skills, projects, education, personal info
+  - Semantic chunking of structured CV data
+  - Importance-weighted relevance scoring
+  - Category-based filtering and search refinement
+
 ### PDF Generation & Document Handling
 - **@react-pdf/renderer**: React-based PDF generation
   - Server-side PDF creation with professional styling
@@ -99,6 +124,8 @@
 
 ### Core Dependencies
 - **React & Next.js Ecosystem**: Framework and routing dependencies
+- **AI SDK v6**: Modern AI development toolkit (@ai-sdk/react, ai)
+- **Workflow DevKit**: Durable async operations (workflow package)
 - **TypeScript**: Type-checking and development experience
 - **Tailwind & UI Libraries**: Styling and component ecosystem
 - **PDF Libraries**: Document generation and viewing capabilities
@@ -124,11 +151,28 @@
 4. **PDF Generation**: Runtime CV PDF creation
 5. **Deployment**: Platform-specific optimizations
 
+### AI Workflow Architecture
+- **Chat Processing**: Durable workflow with `"use workflow"` directive
+  - Message validation with structured error handling
+  - AI response generation with tool integration
+  - Step-by-step observability and logging
+  - Automatic retry logic for reliability
+- **Embedding Pipeline**: Semantic CV data processing
+  - JSON-structured data chunking with importance scoring
+  - OpenAI embeddings for semantic similarity search
+  - Category-based organization (experience, skills, projects, etc.)
+  - Cosine similarity ranking with relevance weighting
+- **Tool Ecosystem**: 6 specialized AI tools for professional queries
+  - Tool selection based on query intent and context
+  - Structured data retrieval with metadata preservation
+  - Error handling and fallback strategies
+
 ### Testing Strategy
 - **E2E Testing**: Playwright for critical user journeys
 - **Visual Testing**: Screenshot comparisons for UI consistency
 - **Performance Testing**: Lighthouse integration for metrics
 - **Accessibility Testing**: Automated axe-core compliance checks
+- **AI Integration Testing**: Workflow execution and tool calling validation
 
 ## Infrastructure Constraints
 

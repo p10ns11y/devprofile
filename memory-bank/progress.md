@@ -18,7 +18,7 @@
 |-----------------|--------|------------|-------|
 | **Core Portfolio** | ✅ Complete | 100% | Hero, About, Skills, Projects, Experience, Contact |
 | **CV System** | ✅ Complete | 100% | PDF generation, download, viewing |
-| **AI AMA** | ✅ Complete | 100% | Q&A chatbot, context awareness |
+| **AI AMA v2** | ✅ Complete | 100% | AI SDK v6 + Workflow DevKit + CV embeddings |
 | **Content Hub** | ✅ Complete | 100% | Dynamic content, multi-page support |
 | **Document Viewer** | ✅ Complete | 100% | PDF/image viewer, certificate display |
 | **Certificates System** | ✅ Complete | 100% | Dedicated certificates page, mobile responsive |
