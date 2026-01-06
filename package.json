@@ -44,7 +44,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "@vercel/toolbar": "^0.1.41",
     "@xyflow/react": "^12.9.3",
-    "ai": "^5.0.104",
+    "ai": "^6.0.11",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -86,12 +86,12 @@
     "autoprefixer": "^10.4.22",
     "esbuild": "^0.25.12",
     "eslint": "^9.39.1",
-    "eslint-config-next": "^16.0.5",
+    "eslint-config-next": "^16.1.1",
     "lightningcss": "^1.30.2",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
-    "vercel": "^48.12.0"
+    "vercel": "^50.1.4"
   },
   "trustedDependencies": [
     "@vercel/speed-insights"

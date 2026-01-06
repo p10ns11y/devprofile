@@ -49,7 +49,7 @@ async function generateAIResponse(messages: UIMessage[], tools: Record<string, a
   try {
     const result = await streamText({
       model: 'xai/grok-4.1-fast-reasoning',
-      messages: convertToModelMessages(messages),
+      messages: await convertToModelMessages(messages),
       system: SYSTEM_PROMPT,
       tools: toolsCount > 0 ? tools : undefined,
       stopWhen: stepCountIs(5), // Allow up to 5 steps for tool usage

@@ -15,12 +15,12 @@ async function ensureInitialized() {
 // CV Search Tool - General purpose CV information retrieval
 export const cvSearchTool = tool({
   description: 'Search through CV/resume information to answer questions about professional background, experience, skills, education, and projects. Use this for questions about work history, technical skills, education, certifications, or personal background.',
-  parameters: z.object({
-    query: z.string().min(1).describe('The search query about professional background, skills, experience, etc.'),
-    category: z.enum(['experience', 'skills', 'education', 'projects', 'personal', 'certifications', 'all']).optional().describe('Optional category filter to narrow search scope'),
-    limit: z.number().min(1).max(10).optional().default(5).describe('Maximum number of relevant results to return')
+  inputSchema: z.object({
+    query: z.string().describe('The search query about professional background, skills, experience, etc.'),
+    category: z.string().optional().describe('Optional category filter to narrow search scope'),
+    limit: z.number().optional().describe('Maximum number of relevant results to return')
   }),
-  execute: async ({ query, category, limit }: { query: string; category?: string; limit?: number }) => {
+  execute: async ({ query, category, limit }) => {
     try {
       // Validate query parameter
       if (!query || typeof query !== 'string' || query.trim().length === 0) {
@@ -75,12 +75,12 @@ export const cvSearchTool = tool({
 // Work Experience Tool - Specific for career questions
 export const workExperienceTool = tool({
   description: 'Get detailed information about work experience, career history, and professional roles. Use this for questions about job history, companies worked for, responsibilities, and career progression.',
-  parameters: z.object({
+  inputSchema: z.object({
     query: z.string().optional().describe('Optional specific question about work experience, or leave empty for general overview'),
     company: z.string().optional().describe('Filter by specific company name'),
     limit: z.number().min(1).max(10).optional().default(5).describe('Maximum number of experiences to return')
   }),
-  execute: async ({ query, company, limit = 5 }: { query?: string; company?: string; limit?: number }) => {
+  execute: async ({ query, company, limit = 5 }) => {
     try {
       await ensureInitialized();
 
@@ -125,7 +125,7 @@ export const workExperienceTool = tool({
 // Skills Tool - For technical skills and expertise
 export const skillsTool = tool({
   description: 'Get information about technical skills, programming languages, frameworks, and areas of expertise. Use this for questions about technical capabilities, programming languages, development tools, and professional skills.',
-  parameters: z.object({
+  inputSchema: z.object({
     query: z.string().optional().describe('Optional specific skill or technology to search for'),
     category: z.enum(['frontend', 'backend', 'devops', 'ai', 'practices', 'product']).optional().describe('Optional skill category filter'),
     limit: z.number().min(1).max(15).optional().default(10).describe('Maximum number of skills to return')
@@ -170,7 +170,7 @@ export const skillsTool = tool({
 // Projects Tool - For portfolio and project information
 export const projectsTool = tool({
   description: 'Get information about personal projects, open source contributions, and professional work samples. Use this for questions about portfolio, GitHub projects, contributions, and development work.',
-  parameters: z.object({
+  inputSchema: z.object({
     query: z.string().optional().describe('Optional specific project or technology to search for'),
     type: z.enum(['work_oss', 'hobby_oss', 'personal', 'interview', 'community', 'oss_contribution']).optional().describe('Optional project type filter'),
     limit: z.number().min(1).max(10).optional().default(5).describe('Maximum number of projects to return')
@@ -225,7 +225,7 @@ export const projectsTool = tool({
 // Education Tool - For academic background
 export const educationTool = tool({
   description: 'Get information about educational background, degrees, and academic qualifications. Use this for questions about university, degrees, academic achievements, and formal education.',
-  parameters: z.object({
+  inputSchema: z.object({
     query: z.string().optional().describe('Optional specific question about education'),
     limit: z.number().min(1).max(5).optional().default(3).describe('Maximum number of education entries to return')
   }),
@@ -281,7 +281,7 @@ export const educationTool = tool({
 // Personal Info Tool - For general personal/professional information
 export const personalInfoTool = tool({
   description: 'Get general personal and professional information like bio, location, contact details, and professional summary. Use this for questions about who I am, where I live, contact information, and general professional background.',
-  parameters: z.object({
+  inputSchema: z.object({
     query: z.string().optional().describe('Optional specific aspect of personal information'),
     limit: z.number().min(1).max(5).optional().default(3).describe('Maximum number of info items to return')
   }),
