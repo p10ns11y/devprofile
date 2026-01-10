@@ -2,19 +2,23 @@ import React from 'react';
 import { Document, Page, Text, View, StyleSheet, Link, Font } from '@react-pdf/renderer';
 import data from '@/data/cvdata.json';
 
-// Register fonts
-Font.register({
-  family: 'Helvetica',
-  src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Helvetica/Helvetica.ttf',
-});
-Font.register({
-  family: 'Helvetica-Bold',
-  src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Helvetica/Helvetica-Bold.ttf',
-});
-Font.register({
-  family: 'Times-Roman',
-  src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Times/Times-Roman.ttf',
-});
+try {
+    Font.register({
+      family: 'Helvetica',
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Helvetica/Helvetica.ttf',
+    });
+    Font.register({
+      family: 'Helvetica-Bold',
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Helvetica/Helvetica-Bold.ttf',
+    });
+    Font.register({
+      family: 'Times-Roman',
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Times/Times-Roman.ttf',
+    });
+} catch (error) {
+    console.warn('Font registration failed:', error);
+}
+
 
 const styles = StyleSheet.create({
   page: {
