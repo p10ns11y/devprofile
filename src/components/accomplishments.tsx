@@ -66,8 +66,12 @@ export function Accomplishments() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
-            {cvdata.courses.map((course, index) => renderCourseCard(course, index))}
+          <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory">
+            {cvdata.courses.map((course, index) => (
+              <div key={index} className="flex-shrink-0 w-80 snap-start">
+                {renderCourseCard(course, index)}
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>
