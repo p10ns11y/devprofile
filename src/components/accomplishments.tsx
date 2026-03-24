@@ -17,7 +17,7 @@ export function Accomplishments() {
         delay: index * 0.15,
       }}
       whileHover={{ y: -5 }}
-      className="group"
+      className="group flex-1 min-w-72"
     >
       <a
         href={course.url}
@@ -66,7 +66,7 @@ export function Accomplishments() {
             </p>
           </div>
 
-          <div className="columns-1 md:columns-2 gap-6">
+          <div className="flex flex-wrap gap-6">
             {cvdata.courses.map((course, index) => renderCourseCard(course, index))}
           </div>
         </motion.div>
