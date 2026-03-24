@@ -6,6 +6,13 @@ import { ExternalLink } from 'lucide-react';
 import cvdata from '@/data/cvdata.json';
 
 export function Accomplishments() {
+  const getCols = (len: number) => {
+    for (let c = 4; c >= 1; c--) {
+      if (len % c === 0) return c;
+    }
+    return 1;
+  };
+
   const renderCourseCard = (course: { name: string; url: string; domain: string, proof_of_accomplishment: string }, index: number) => (
     <motion.div
       key={index}
@@ -66,12 +73,8 @@ export function Accomplishments() {
             </p>
           </div>
 
-          <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory">
-            {cvdata.courses.map((course, index) => (
-              <div key={index} className="flex-shrink-0 w-80 snap-start">
-                {renderCourseCard(course, index)}
-              </div>
-            ))}
+          <div className="grid gap-6" style={{ gridTemplateColumns: `repeat(${getCols(cvdata.courses.length)}, 1fr)` }}>
+            {cvdata.courses.map((course, index) => renderCourseCard(course, index))}
           </div>
         </motion.div>
       </div>
