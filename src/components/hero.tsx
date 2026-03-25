@@ -147,6 +147,8 @@ export function Hero() {
                   src="/images/curism.png"
                   alt="GitRoll CURISM (Contribution, Uniqueness, Reliability, Influence, Security, Maintainability) for https://github.com/p10ns11y"
                   fill
+                  sizes="(max-width: 767px) 0px, (max-width: 1279px) 384px, 480px"
+                  loading="eager"
                   className="object-cover contrast-125"
                 />
               </a>
