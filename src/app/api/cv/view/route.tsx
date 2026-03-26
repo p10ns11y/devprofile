@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'inline; filename="peramanathan-sathyamoorthy-cv.pdf"',
           'Content-Length': pdfBuffer.length.toString(),
-          'Cache-Control': 'public, max-age=3600',
+          'Cache-Control': 'max-age=600, stale-while-revalidate=7200',
         },
       });
     } else {
@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
           'Content-Type': 'application/pdf',
           'Content-Disposition': 'inline; filename="peramanathan-sathyamoorthy-cv.pdf"',
           'Content-Length': pdfBuffer.length.toString(),
-          'Cache-Control': 'public, max-age=3600',
+          'Cache-Control': 'max-age=600, stale-while-revalidate=7200',
         },
       });
     }

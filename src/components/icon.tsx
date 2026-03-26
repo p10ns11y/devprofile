@@ -32,7 +32,7 @@ export type IconName = keyof typeof iconsMap;
 
 type Props = {
   name: IconName,
-  className: string | undefined,
+  className?: string | undefined,
 }
 
 export function Icon(props: Props) {
