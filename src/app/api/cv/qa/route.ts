@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       const cachedResponse = qaCache.get(question);
       return new Response(JSON.stringify(cachedResponse), {
         status: 200,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
       });
     }
 
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
 
     return new Response(JSON.stringify(response), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
     });
   } catch (error) {
     console.error(error);

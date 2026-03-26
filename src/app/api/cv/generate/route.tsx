@@ -14,7 +14,7 @@ export async function GET() {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': 'attachment; filename="peramanathan-sathyamoorthy-cv.pdf"',
-        'Cache-Control': 'public, max-age=31536000',
+        'Cache-Control': 'max-age=600, stale-while-revalidate=7200',
       },
     });
   } catch (error) {

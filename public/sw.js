@@ -174,9 +174,12 @@ self.addEventListener('fetch', (event) => {
       EXTERNAL_ASSETS.some(asset => request.url.includes(asset))) {
     // Cache First strategy for static assets
     event.respondWith(cacheFirst(request));
-  } else if (request.destination === 'document' || url.pathname.startsWith('/api/')) {
-    // Network First for pages and API
+  } else if (request.destination === 'document') {
+    // Network First for pages
     event.respondWith(networkFirst(request));
+  } else if (url.pathname.startsWith('/api/') || url.pathname === '/cv.pdf') {
+    // Stale While Revalidate for API and CV PDF to handle cache bursting
+    event.respondWith(staleWhileRevalidate(request));
   } else {
     // Stale While Revalidate for everything else
     event.respondWith(staleWhileRevalidate(request));
