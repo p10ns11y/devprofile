@@ -11,12 +11,6 @@ import {
 } from '@react-pdf/renderer';
 import data from '@/data/cvdata.json';
 
-// Register fonts
-// Font.register({
-//   family: 'Inter',
-//   src: '/fonts/Inter-Regular.ttf'
-// });
-
 Font.register({
   family: 'Helvetica',
   src: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Helvetica/Helvetica.ttf',
