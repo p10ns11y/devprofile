@@ -1,0 +1,17 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "ms-playwright.playwright",
+    "EditorConfig.EditorConfig"
+  ],
+  "unwantedRecommendations": [
+    "rust-lang.rust-analyzer",
+    "rust-lang.rust",
+    "ms-python.python",
+    "ms-python.debugpy",
+    "ms-toolsai.jupyter",
+    "esbenp.prettier-vscode",
+    "kilocode.kilo-code"
+  ]
+}

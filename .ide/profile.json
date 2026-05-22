@@ -1,0 +1,62 @@
+{
+  "$schema": "./profile.schema.json",
+  "name": "devprofile",
+  "description": "Next.js 16 + React 19 + TypeScript + Tailwind 4 + Playwright + pnpm",
+  "stack": ["next", "react", "typescript", "tailwind", "playwright", "pnpm", "eslint-flat"],
+  "extensions": {
+    "recommend": [
+      "dbaeumer.vscode-eslint",
+      "bradlc.vscode-tailwindcss",
+      "ms-playwright.playwright",
+      "EditorConfig.EditorConfig"
+    ],
+    "unwanted": [
+      "rust-lang.rust-analyzer",
+      "rust-lang.rust",
+      "ms-python.python",
+      "ms-python.debugpy",
+      "ms-toolsai.jupyter",
+      "esbenp.prettier-vscode",
+      "kilocode.kilo-code"
+    ]
+  },
+  "cursor": {
+    "plugins": [
+      { "name": "shadcn", "publisher": "cursor-public", "optional": true }
+    ]
+  },
+  "settings": {
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "editor.formatOnSave": true,
+    "[typescript]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "files.exclude": {
+      "**/.next": true,
+      "**/out": true,
+      "**/playwright-report": true,
+      "**/test-results": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/pnpm-lock.yaml": true,
+      "**/.next": true,
+      "**/public/cv.pdf": true
+    }
+  }
+}

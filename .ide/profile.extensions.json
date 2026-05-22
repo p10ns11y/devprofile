@@ -1,0 +1,24 @@
+{
+  "dbaeumer.vscode-eslint": {
+    "eslint.useFlatConfig": true,
+    "eslint.workingDirectories": [{ "mode": "auto" }],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    },
+    "[typescript]": { "editor.defaultFormatter": "dbaeumer.vscode-eslint" },
+    "[typescriptreact]": { "editor.defaultFormatter": "dbaeumer.vscode-eslint" },
+    "[javascript]": { "editor.defaultFormatter": "dbaeumer.vscode-eslint" },
+    "[javascriptreact]": { "editor.defaultFormatter": "dbaeumer.vscode-eslint" }
+  },
+  "bradlc.vscode-tailwindcss": {
+    "tailwindCSS.includeLanguages": {
+      "typescript": "javascript",
+      "typescriptreact": "javascript"
+    },
+    "tailwindCSS.experimental.configFile": "tailwind.config.ts"
+  },
+  "ms-playwright.playwright": {
+    "playwright.reuseBrowser": true,
+    "playwright.showTrace": false
+  }
+}
