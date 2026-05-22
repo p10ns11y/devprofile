@@ -1,19 +1,22 @@
 import { expect, test } from "@playwright/test";
+import { openMobileMenuIfNeeded } from "./helpers/mobile-nav";
 
 test.describe("Homepage", () => {
-  test("should load homepage successfully", async ({ page }) => {
+  test("should load homepage successfully", async ({ page, isMobile }) => {
     await page.goto("/");
 
     await expect(page.locator("h1").first()).toBeVisible();
+    await openMobileMenuIfNeeded(page, isMobile);
     await expect(page.getByRole("button", { name: "About", exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: "Projects", exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: "Experience", exact: true })).toBeVisible();
     await expect(page.locator("#about").getByRole("heading", { name: "About Me" })).toBeVisible();
   });
 
-  test("should have working navigation links", async ({ page }) => {
+  test("should have working navigation links", async ({ page, isMobile }) => {
     await page.goto("/");
 
+    await openMobileMenuIfNeeded(page, isMobile);
     await page.getByRole("link", { name: "Content Hub", exact: true }).click();
     await expect(page).toHaveURL(/\/content-hub/);
 

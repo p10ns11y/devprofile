@@ -40,4 +40,5 @@ ln -sf ../../.agents/skills/react-client-expert .cursor/skills/react-client-expe
 - **Browser:** system **Brave Beta** (`/usr/bin/brave-browser-beta`), not Playwright-downloaded Chromium. Config: `playwright.config.ts`, `playwright.brave.ts`.
 - **Do not** run `pnpm exec playwright install chromium` for local E2E; use `pnpm exec playwright uninstall` if bundled Chromium was installed earlier.
 - Override path: `BRAVE_BETA_PATH`. Details: [tests/e2e/README.md](tests/e2e/README.md).
-- After `@playwright/test` major bumps: update the package only; reinstall Brave on the machine if needed — **not** `playwright install chromium`.
+- After `@playwright/test` major bumps: update the package only; reinstall Brave on the machine if needed — **not** `playwright install chromium` for tests.
+- **Headed / UI:** `pnpm test:e2e:headed`, test runs, and `pnpm test:e2e:ui` all use **Brave Beta** (`launchOptions.executablePath`; UI panel opened via `brave-browser-beta` in `scripts/playwright-ui-brave.mjs`).
