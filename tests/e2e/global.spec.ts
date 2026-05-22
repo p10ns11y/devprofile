@@ -2,20 +2,17 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Global Navigation & Layout", () => {
   test("should have consistent header across pages", async ({ page }) => {
-    // Test homepage
     await page.goto("/");
-    const homeHeader = page.locator('header, [class*="header"]').first();
-    await expect(homeHeader).toBeVisible();
+    await expect(page.locator("header").first()).toBeVisible();
+    await expect(page.getByRole("button", { name: "Home", exact: true })).toBeVisible();
 
-    // Test AMA page
     await page.goto("/ama");
-    const amaHeader = page.locator('header, [class*="header"]').first();
-    await expect(amaHeader).toBeVisible();
+    await expect(page.getByRole("heading", { name: "AI Assistant", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Back" })).toBeVisible();
 
-    // Test content hub
     await page.goto("/content-hub");
-    const contentHeader = page.locator('header, [class*="header"]').first();
-    await expect(contentHeader).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Content Hub" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
   });
 
   test("should have consistent footer across pages", async ({ page }) => {
@@ -108,8 +105,7 @@ test.describe("Performance & Accessibility", () => {
     const imageCount = await images.count();
 
     if (imageCount > 0) {
-      // At least one image should load
-      await expect(images.first()).toBeVisible();
+      await expect(images.first()).toBeAttached();
     }
   });
 
