@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { Send, Bot, User, Sparkles, ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Bot, Send, Sparkles, User } from "lucide-react";
+import { motion } from "motion/react";
+import Link from "next/link";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
-import Link from 'next/link';
 
 interface Message {
   id: string;
-  type: 'user' | 'ai';
+  type: "user" | "ai";
   content: string;
   timestamp: Date;
   isStreaming?: boolean;
@@ -26,7 +27,7 @@ interface AICHATProps {
 
 export default function AICHAT({ submitAction }: AICHATProps) {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [currentQuestion, setCurrentQuestion] = useState('');
+  const [currentQuestion, setCurrentQuestion] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -37,7 +38,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [scrollToBottom]);
 
   useEffect(() => {
     if (!isLoading && inputRef.current) {
@@ -50,18 +51,16 @@ export default function AICHAT({ submitAction }: AICHATProps) {
 
   useEffect(() => {
     if (streamingMessageId) {
-      const streamingMessage = messages.find(m => m.id === streamingMessageId);
-      if (!streamingMessage || !streamingMessage.content) {
+      const streamingMessage = messages.find((m) => m.id === streamingMessageId);
+      if (!streamingMessage?.content) {
         setStreamingMessageId(null);
         return;
       }
 
       const displayText = streamingMessage.content;
-      setMessages(prev =>
-        prev.map(msg =>
-          msg.id === streamingMessageId
-            ? { ...msg, displayedContent: '', isStreaming: true }
-            : msg
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === streamingMessageId ? { ...msg, displayedContent: "", isStreaming: true } : msg
         )
       );
 
@@ -71,13 +70,13 @@ export default function AICHAT({ submitAction }: AICHATProps) {
         currentIndex += 1;
         const currentText = displayText.slice(0, currentIndex);
 
-        setMessages(prevMessages =>
-          prevMessages.map(msg =>
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
             msg.id === streamingMessageId
               ? {
                   ...msg,
                   displayedContent: currentText,
-                  isStreaming: currentIndex < displayText.length
+                  isStreaming: currentIndex < displayText.length,
                 }
               : msg
           )
@@ -91,7 +90,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
 
       return () => clearInterval(interval);
     }
-  }, [streamingMessageId]);
+  }, [streamingMessageId, messages.find]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,55 +98,54 @@ export default function AICHAT({ submitAction }: AICHATProps) {
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      type: 'user',
+      type: "user",
       content: currentQuestion.trim(),
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
-    setCurrentQuestion('');
+    setMessages((prev) => [...prev, userMessage]);
+    setCurrentQuestion("");
     setIsLoading(true);
 
     try {
       const response = await submitAction(currentQuestion.trim());
 
-      const aiMessageId = Date.now().toString() + '-ai';
+      const aiMessageId = `${Date.now().toString()}-ai`;
       const aiMessage: Message = {
         id: aiMessageId,
-        type: 'ai',
+        type: "ai",
         content: response.answer,
-        displayedContent: '',
+        displayedContent: "",
         timestamp: new Date(),
         isStreaming: true,
-        sections: response.details
+        sections: response.details,
       };
 
-      setMessages(prev => [...prev, aiMessage]);
+      setMessages((prev) => [...prev, aiMessage]);
       setStreamingMessageId(aiMessageId);
 
       // Simulate streaming delay
       setTimeout(() => {
         setIsLoading(false);
       }, 100);
-
     } catch (error) {
       console.error(error);
       const errorMessage: Message = {
-        id: Date.now().toString() + '-error',
-        type: 'ai',
+        id: `${Date.now().toString()}-error`,
+        type: "ai",
         content: "Sorry, I'm having trouble connecting right now. Please try again in a moment.",
-        timestamp: new Date()
+        timestamp: new Date(),
       };
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
       setIsLoading(false);
     }
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
     });
   };
 
@@ -156,7 +154,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
     "What is your experience with React?",
     "What are your biggest achievements?",
     "Give me a career overview",
-    "Which projects are you working on?"
+    "Which projects are you working on?",
   ];
 
   return (
@@ -208,8 +206,9 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                   Welcome to my AI Assistant!
                 </h2>
                 <p className="text-gray-700 dark:text-gray-300">
-                  I have comprehensive knowledge about my professional background, including my career experience, skills, projects, and achievements.
-                  Ask me anything and I'll provide detailed, personalized responses.
+                  I have comprehensive knowledge about my professional background, including my
+                  career experience, skills, projects, and achievements. Ask me anything and I'll
+                  provide detailed, personalized responses.
                 </p>
               </motion.div>
 
@@ -236,14 +235,16 @@ export default function AICHAT({ submitAction }: AICHATProps) {
               <div className="flex-shrink-0 px-4 pt-6">
                 <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
                   <div className="relative">
-                    <label htmlFor="question-input-initial" className="sr-only">Ask me anything about my professional background, skills, or experience</label>
+                    <label htmlFor="question-input-initial" className="sr-only">
+                      Ask me anything about my professional background, skills, or experience
+                    </label>
                     <textarea
                       id="question-input-initial"
                       ref={inputRef}
                       value={currentQuestion}
                       onChange={(e) => setCurrentQuestion(e.target.value)}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
+                        if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();
                           handleSubmit(e);
                         }
@@ -276,38 +277,35 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className={`flex gap-4 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex gap-4 ${message.type === "user" ? "justify-end" : "justify-start"}`}
                 >
-                  {message.type === 'ai' && (
+                  {message.type === "ai" && (
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center flex-shrink-0 mt-1">
                       <Bot className="w-4 h-4 text-white" />
                     </div>
                   )}
 
-                  <div className={`max-w-md ${message.type === 'user' ? 'ml-12' : 'mr-12'}`}>
+                  <div className={`max-w-md ${message.type === "user" ? "ml-12" : "mr-12"}`}>
                     <div
                       className={`rounded-2xl px-4 py-3 shadow-sm ${
-                        message.type === 'user'
-                          ? 'bg-rose-500 text-white'
-                          : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100'
+                        message.type === "user"
+                          ? "bg-rose-500 text-white"
+                          : "bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                       }`}
                     >
                       <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {message.type === 'ai' && message.isStreaming
+                        {message.type === "ai" && message.isStreaming
                           ? (message.displayedContent || "") +
                             (Math.floor(Date.now() / 600) % 2 === 0 ? "|" : "")
-                          : message.content
-                        }
+                          : message.content}
                       </p>
                       {(!message.isStreaming || message.displayedContent !== message.content) && (
-                        <p className="text-xs mt-2 opacity-60">
-                          {formatTime(message.timestamp)}
-                        </p>
+                        <p className="text-xs mt-2 opacity-60">{formatTime(message.timestamp)}</p>
                       )}
                     </div>
 
                     {/* Show source sections for AI messages */}
-                    {message.type === 'ai' && message.sections && message.sections.length > 0 && (
+                    {message.type === "ai" && message.sections && message.sections.length > 0 && (
                       <div className="mt-2 flex flex-wrap gap-1">
                         {message.sections.slice(0, 3).map((section, index) => (
                           <span
@@ -324,7 +322,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                     )}
                   </div>
 
-                  {message.type === 'user' && (
+                  {message.type === "user" && (
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center flex-shrink-0 mt-1">
                       <User className="w-4 h-4 text-white" />
                     </div>
@@ -346,10 +344,18 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                       <div className="flex items-center gap-2">
                         <div className="flex gap-1">
                           <div className="w-2 h-2 rounded-full bg-gray-400 animate-pulse"></div>
-                          <div className="w-2 h-2 rounded-full bg-gray-400 animate-pulse" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 rounded-full bg-gray-400 animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                          <div
+                            className="w-2 h-2 rounded-full bg-gray-400 animate-pulse"
+                            style={{ animationDelay: "0.1s" }}
+                          ></div>
+                          <div
+                            className="w-2 h-2 rounded-full bg-gray-400 animate-pulse"
+                            style={{ animationDelay: "0.2s" }}
+                          ></div>
                         </div>
-                        <span className="text-sm text-gray-600 dark:text-gray-400">Thinking...</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Thinking...
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -368,7 +374,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                     value={currentQuestion}
                     onChange={(e) => setCurrentQuestion(e.target.value)}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
+                      if (e.key === "Enter" && !e.shiftKey) {
                         e.preventDefault();
                         handleSubmit(e);
                       }

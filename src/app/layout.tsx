@@ -1,23 +1,19 @@
-import '@/styles/globals.css'
+import "@/styles/globals.css";
 
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { VercelToolbar } from '@vercel/toolbar/next';
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { VercelToolbar } from "@vercel/toolbar/next";
 
-import type { Metadata } from 'next'
-import { SWRegister } from '@/components/sw-register'
-import { ThemeProvider } from '@/components/theme-provider'
+import type { Metadata } from "next";
+import { SWRegister } from "@/components/sw-register";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: 'Peramanathan Sathyamoorthy - Dev Profile',
-  description: 'Modern portfolio showcasing software engineering skills and projects',
-}
+  title: "Peramanathan Sathyamoorthy - Dev Profile",
+  description: "Modern portfolio showcasing software engineering skills and projects",
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const shouldInjectToolbar = process.env.NODE_ENV === 'development';
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const shouldInjectToolbar = process.env.NODE_ENV === "development";
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -26,15 +22,18 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
-          <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-brand text-white px-4 py-2 rounded z-50">Skip to main content</a>
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-brand text-white px-4 py-2 rounded z-50"
+          >
+            Skip to main content
+          </a>
           <SpeedInsights />
           <SWRegister />
           {shouldInjectToolbar && <VercelToolbar />}
-          <main id="main">
-            {children}
-          </main>
+          <main id="main">{children}</main>
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }

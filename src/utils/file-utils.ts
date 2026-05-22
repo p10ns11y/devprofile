@@ -1,12 +1,8 @@
-import React from 'react';
-import {
-  FileText,
-  ImageIcon,
-  File
-} from 'lucide-react';
+import { File, FileText, ImageIcon } from "lucide-react";
+import React from "react";
 
 export const formatFileSize = (bytes: number): string => {
-  const units = ['B', 'KB', 'MB', 'GB'];
+  const units = ["B", "KB", "MB", "GB"];
   let size = bytes;
   let unitIndex = 0;
 
@@ -20,11 +16,11 @@ export const formatFileSize = (bytes: number): string => {
 
 export const getFileIcon = (type: string): React.JSX.Element => {
   switch (type) {
-    case 'pdf':
+    case "pdf":
       return React.createElement(FileText, { className: "w-5 h-5 text-red-500" });
-    case 'image':
+    case "image":
       return React.createElement(ImageIcon, { className: "w-5 h-5 text-blue-500" });
-    case 'text':
+    case "text":
       return React.createElement(FileText, { className: "w-5 h-5 text-green-500" });
     default:
       return React.createElement(File, { className: "w-5 h-5 text-gray-500" });
@@ -33,9 +29,9 @@ export const getFileIcon = (type: string): React.JSX.Element => {
 
 export const getFileIconForViewer = (type: string): React.JSX.Element => {
   switch (type) {
-    case 'pdf':
+    case "pdf":
       return React.createElement(File, { className: "w-6 h-6 text-red-500" });
-    case 'image':
+    case "image":
       return React.createElement(File, { className: "w-6 h-6 text-blue-500" });
     default:
       return React.createElement(File, { className: "w-6 h-6 text-gray-500" });

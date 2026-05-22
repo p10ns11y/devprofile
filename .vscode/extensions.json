@@ -1,17 +1,18 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint",
+    "biomejs.biome",
     "bradlc.vscode-tailwindcss",
     "ms-playwright.playwright",
     "EditorConfig.EditorConfig"
   ],
   "unwantedRecommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
     "rust-lang.rust-analyzer",
     "rust-lang.rust",
     "ms-python.python",
     "ms-python.debugpy",
     "ms-toolsai.jupyter",
-    "esbenp.prettier-vscode",
     "kilocode.kilo-code"
   ]
 }

@@ -1,22 +1,22 @@
 /** @type {import('next').NextConfig} */
-import withVercelToolbar from '@vercel/toolbar/plugins/next';
+import withVercelToolbar from "@vercel/toolbar/plugins/next";
 
 const nextConfig = {
   images: {},
-  transpilePackages: ['@react-pdf/renderer'],
+  transpilePackages: ["@react-pdf/renderer"],
   async headers() {
     return [
       {
-        source: '/cv.pdf',
+        source: "/cv.pdf",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'max-age=600, stale-while-revalidate=7200',
+            key: "Cache-Control",
+            value: "max-age=600, stale-while-revalidate=7200",
           },
         ],
       },
     ];
   },
-}
+};
 
-export default withVercelToolbar()(nextConfig)
+export default withVercelToolbar()(nextConfig);

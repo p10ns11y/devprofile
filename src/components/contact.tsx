@@ -1,20 +1,19 @@
 "use client";
 
-import { motion } from 'motion/react';
-import { Card, CardContent } from './ui/card';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import { Mail, MapPin, Phone, Send } from 'lucide-react';
-import { useState } from 'react';
-
-import cvdata from '../data/cvdata.json'
+import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { motion } from "motion/react";
+import { useState } from "react";
+import cvdata from "../data/cvdata.json";
+import { Button } from "./ui/button";
+import { Card, CardContent } from "./ui/card";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
 
 export function Contact() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -34,31 +33,31 @@ ${formData.name}`;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
   const contactInfo = [
     {
       icon: Mail,
-      title: 'Email',
+      title: "Email",
       value: cvdata.contact.email,
-      href: `mailto:${cvdata.contact.email}`
+      href: `mailto:${cvdata.contact.email}`,
     },
     {
       icon: Phone,
-      title: 'Phone',
+      title: "Phone",
       value: cvdata.contact.phone,
-      href: `tel:${cvdata.contact.phone}`
+      href: `tel:${cvdata.contact.phone}`,
     },
     {
       icon: MapPin,
-      title: 'Location',
+      title: "Location",
       value: cvdata.home.current_location,
-      href: `https://www.google.com/maps/search/?api=1&query=${cvdata.home.current_location}`
-    }
+      href: `https://www.google.com/maps/search/?api=1&query=${cvdata.home.current_location}`,
+    },
   ];
 
   return (
@@ -74,7 +73,8 @@ ${formData.name}`;
           <h2 className="text-4xl md:text-5xl mb-6">Get In Touch</h2>
           <div className="w-20 h-1 bg-brand mx-auto mb-8"></div>
           <p className="text-lg text-text2 max-w-2xl mx-auto">
-            Ready to start your next project? Let's discuss how we can work together to bring your ideas to life.
+            Ready to start your next project? Let's discuss how we can work together to bring your
+            ideas to life.
           </p>
         </motion.div>
 
@@ -162,10 +162,7 @@ ${formData.name}`;
                       size="lg"
                       className="w-full group bg-brand text-text1 hover:bg-surface3"
                     >
-                      <motion.div
-                        whileHover={{ x: 5 }}
-                        className="flex items-center gap-2"
-                      >
+                      <motion.div whileHover={{ x: 5 }} className="flex items-center gap-2">
                         Send Message
                         <Send className="w-4 h-4" />
                       </motion.div>
@@ -187,8 +184,8 @@ ${formData.name}`;
             <div className="space-y-6">
               <h3 className="text-2xl font-semibold">Let's Connect</h3>
               <p className="text-text2">
-                I'm always excited to discuss new opportunities and interesting projects.
-                Feel free to reach out through any of the channels below.
+                I'm always excited to discuss new opportunities and interesting projects. Feel free
+                to reach out through any of the channels below.
               </p>
             </div>
 
@@ -203,7 +200,7 @@ ${formData.name}`;
                   transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
                   whileHover={{ scale: 1.02, x: 10 }}
                   className="flex items-center gap-4 p-4 rounded-lg hover:bg-surface2/50 transition-all duration-300 group"
-                  target='_blank'
+                  target="_blank"
                   rel="nofollow noreferrer noopener"
                 >
                   <motion.div
@@ -236,10 +233,9 @@ ${formData.name}`;
                 feel free to give me a call.
               </p>
             </motion.div> */}
-          </motion.div> 
+          </motion.div>
         </div>
       </div>
     </section>
   );
 }
-

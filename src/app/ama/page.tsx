@@ -1,14 +1,14 @@
+import { AlertTriangle } from "lucide-react";
+import { askQuestion } from "@/app/actions";
 import AICHAT from "@/components/ai-chat";
 import { getFeatureDisclaimer, isFeatureInDevelopment } from "@/config/feature-flags";
-import { AlertTriangle } from 'lucide-react';
-import { askQuestion } from '@/app/actions';
 
 export default async function AMA() {
   let amaDisclaimer;
-  const isAmaInDevelopment = isFeatureInDevelopment('ama');
+  const isAmaInDevelopment = isFeatureInDevelopment("ama");
 
   if (isAmaInDevelopment) {
-    amaDisclaimer = getFeatureDisclaimer('ama');
+    amaDisclaimer = getFeatureDisclaimer("ama");
   }
 
   return (

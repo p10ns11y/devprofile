@@ -1,33 +1,32 @@
+"use client";
 
-'use client';
-
-import { useTheme } from './theme-provider';
-import { Button } from './ui/button';
-import { Sun, Moon, Monitor, Eye } from 'lucide-react';
+import { Eye, Sun } from "lucide-react";
+import { useTheme } from "./theme-provider";
+import { Button } from "./ui/button";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   const cycleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dim');
+    if (theme === "light") {
+      setTheme("dim");
     } else {
-      setTheme('light');
+      setTheme("light");
     }
   };
 
   const getIcon = () => {
     switch (theme) {
-      case 'light':
+      case "light":
         return <Sun className="w-4 h-4" />;
-      case 'dim':
+      case "dim":
         return <Eye className="w-4 h-4" />;
       default:
         return <Sun className="w-4 h-4" />;
     }
   };
 
-  const nextTheme = theme === 'light' ? 'dim' : 'light';
+  const nextTheme = theme === "light" ? "dim" : "light";
 
   return (
     <Button

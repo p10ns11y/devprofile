@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import { useState } from 'react';
+import { AlertTriangle } from "lucide-react";
+import { useState } from "react";
 import QuestionAnswer from "@/components/question-answer";
 import { getFeatureDisclaimer, isFeatureInDevelopment } from "@/config/feature-flags";
-import { AlertTriangle } from 'lucide-react';
 
-import cvdata from "@/data/cvdata.json"
+import cvdata from "@/data/cvdata.json";
 
 export default function QuickCVActions() {
   const [showQA, setShowQA] = useState(false);
-  const qaDisclaimer = getFeatureDisclaimer('qa');
-  const isQaInDevelopment = isFeatureInDevelopment('qa');
+  const qaDisclaimer = getFeatureDisclaimer("qa");
+  const isQaInDevelopment = isFeatureInDevelopment("qa");
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
@@ -27,15 +27,9 @@ export default function QuickCVActions() {
         <div className="flex items-center justify-center">
           <div className="max-w-2xl w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
             <div className="mb-8">
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                {cvdata.name}
-              </h1>
-              <p className="text-xl text-gray-600 mb-4">
-                {cvdata.latest_proffessional_role}
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                {cvdata.short_bio}
-              </p>
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">{cvdata.name}</h1>
+              <p className="text-xl text-gray-600 mb-4">{cvdata.latest_proffessional_role}</p>
+              <p className="text-gray-700 leading-relaxed">{cvdata.short_bio}</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">

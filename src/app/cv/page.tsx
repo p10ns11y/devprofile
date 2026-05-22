@@ -1,22 +1,17 @@
-'use client';
+"use client";
 
-import React, { Suspense } from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import dynamic from 'next/dynamic'
+import { Home } from "lucide-react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import Link from "next/link";
+import { Suspense } from "react";
+import { AISmartHighlight } from "@/components/ai-smart-highlight";
+import { SocialLinks } from "@/components/social-links";
+import { ThemeToggle } from "@/components/theme-toggle";
 
-import { AISmartHighlight } from '@/components/ai-smart-highlight';
-import { SocialLinks } from '@/components/social-links';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Home } from 'lucide-react';
+import cvData from "@/data/cvdata.json";
 
-import cvData from '@/data/cvdata.json'
-
-const Layout = dynamic(
-  () => import('./content-layout'),
-  { ssr: false }
-)
-
+const Layout = dynamic(() => import("./content-layout"), { ssr: false });
 
 interface CVData {
   name: string;
@@ -76,9 +71,7 @@ function MainContent() {
       <div id="mainContent" className="bg-surface1 rounded-xl rad-shadow p-8">
         <h2 className="text-2xl font-bold text-text1 mb-6">Professional Profile</h2>
         <div className="text-text2 leading-relaxed mb-8">
-          <AISmartHighlight priority="balanced">
-            {cvData.profile}
-          </AISmartHighlight>
+          <AISmartHighlight priority="balanced">{cvData.profile}</AISmartHighlight>
         </div>
 
         <h2 className="text-2xl font-bold text-text1 mb-6">Work Experience</h2>
@@ -96,17 +89,15 @@ function MainContent() {
                   <li key={i} className="flex items-start">
                     <span className="inline-block w-2 h-2 bg-brand rounded-full mt-2 mr-3 flex-shrink-0"></span>
                     <span className="leading-relaxed">
-                      <AISmartHighlight priority="balanced">
-                        {resp}
-                      </AISmartHighlight>
+                      <AISmartHighlight priority="balanced">{resp}</AISmartHighlight>
                     </span>
                   </li>
                 ))}
               </ul>
               <div className="text-sm text-text2">
-                <span className="font-medium text-text1">Tools & Technologies:</span>{' '}
+                <span className="font-medium text-text1">Tools & Technologies:</span>{" "}
                 <span className="bg-surface3 px-2 py-1 rounded text-text1">
-                  {job.tools.join(', ')}
+                  {job.tools.join(", ")}
                 </span>
               </div>
             </div>
@@ -131,7 +122,10 @@ function MainContent() {
           <h3 className="text-lg font-semibold text-text1 mb-2">Development</h3>
           <div className="flex flex-wrap gap-2">
             {cvData.skills.practices.map((skill, index) => (
-              <span key={index} className="px-3 py-1 bg-accent-secondary/10 text-accent-secondary rounded-full text-sm">
+              <span
+                key={index}
+                className="px-3 py-1 bg-accent-secondary/10 text-accent-secondary rounded-full text-sm"
+              >
                 {skill}
               </span>
             ))}
@@ -185,7 +179,8 @@ function MainContent() {
         <div className="space-y-2">
           {Object.entries(cvData.technologies).map(([category, items], index) => (
             <div key={index} className="text-sm text-text2">
-              <span className="font-semibold text-text1 capitalize">{category}:</span> {items.join(', ')}
+              <span className="font-semibold text-text1 capitalize">{category}:</span>{" "}
+              {items.join(", ")}
             </div>
           ))}
         </div>
@@ -220,14 +215,15 @@ function MainContent() {
                 {pub.title}
               </a>
               <p className="text-text2 text-sm mt-1">
-                {pub.journal ? `${pub.journal.name}` : pub.conference}, {pub.first_published || pub.date}
+                {pub.journal ? `${pub.journal.name}` : pub.conference},{" "}
+                {pub.first_published || pub.date}
               </p>
             </div>
           ))}
         </div>
       </div>
 
-        {/* Languages */}
+      {/* Languages */}
       <div className="bg-surface1 rounded-xl rad-shadow p-8">
         <h2 className="text-2xl font-bold text-text1 mb-6">Languages</h2>
         <div className="grid grid-cols-1 gap-2">
@@ -240,16 +236,24 @@ function MainContent() {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
 
 const CVWebView = () => {
   return (
     <>
       <Head>
-        <title>{cvData.name} | {cvData.latest_proffessional_role} CV</title>
-        <meta name="description" content={`Professional CV of ${cvData.name}, Senior Software Engineer with expertise in ${Object.keys(cvData.technologies).join(', ')}`} />
-        <meta name="keywords" content="CV, Resume, Senior Software Engineer, Full Stack Developer" />
+        <title>
+          {cvData.name} | {cvData.latest_proffessional_role} CV
+        </title>
+        <meta
+          name="description"
+          content={`Professional CV of ${cvData.name}, Senior Software Engineer with expertise in ${Object.keys(cvData.technologies).join(", ")}`}
+        />
+        <meta
+          name="keywords"
+          content="CV, Resume, Senior Software Engineer, Full Stack Developer"
+        />
         <meta property="og:title" content={`${cvData.name} | Senior Software Engineer`} />
         <meta property="og:description" content={cvData.profile} />
         <meta property="og:type" content="website" />
@@ -269,27 +273,31 @@ const CVWebView = () => {
                 <Home className="w-4 h-4" aria-hidden="true" />
               </Link>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-text1 mb-4">
-              {cvData.name}
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-text1 mb-4">{cvData.name}</h1>
             <p className="text-xl md:text-2xl text-brand font-medium mb-6">
               {cvData.latest_proffessional_role}
             </p>
 
             {/* Contact Info */}
             <div className="flex flex-col md:flex-row justify-center items-center gap-4 text-text2 mb-8">
-              <a href={`mailto:${cvData.contact.email}`} className="hover:text-brand transition-colors">
+              <a
+                href={`mailto:${cvData.contact.email}`}
+                className="hover:text-brand transition-colors"
+              >
                 {cvData.contact.email}
               </a>
               <span className="hidden md:inline text-text2">•</span>
-              <a href={`tel:${cvData.contact.phone}`} className="hover:text-brand transition-colors">
+              <a
+                href={`tel:${cvData.contact.phone}`}
+                className="hover:text-brand transition-colors"
+              >
                 {cvData.contact.phone}
               </a>
               <span className="hidden md:inline text-text2">•</span>
               <span className="text-text1">{cvData.contact.citizenship}</span>
             </div>
 
-            <div className='pb-10'>
+            <div className="pb-10">
               <SocialLinks />
             </div>
 

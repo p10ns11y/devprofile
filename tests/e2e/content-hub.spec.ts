@@ -1,29 +1,25 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from "@playwright/test";
 
-test.describe('Content Hub', () => {
-  test('should load content hub page', async ({ page }) => {
-    await page.goto('/content-hub');
+test.describe("Content Hub", () => {
+  test("should load content hub page", async ({ page }) => {
+    await page.goto("/content-hub");
 
     // Check page loads successfully
-    await expect(page.locator('h1, h2').first()).toBeVisible();
+    await expect(page.locator("h1, h2").first()).toBeVisible();
   });
 
-  test('should display content items', async ({ page }) => {
-    await page.goto('/content-hub');
+  test("should display content items", async ({ page }) => {
+    await page.goto("/content-hub");
 
     // Check for content containers or cards
     const contentContainer = page.locator('[class*="content"], [class*="card"], article').first();
 
     // Content may load dynamically, so check for either content or loading state
-    await expect(
-      contentContainer.or(
-        page.getByText(/loading|loading content/i)
-      )
-    ).toBeVisible();
+    await expect(contentContainer.or(page.getByText(/loading|loading content/i))).toBeVisible();
   });
 
-  test('should handle dynamic content loading', async ({ page }) => {
-    await page.goto('/content-hub');
+  test("should handle dynamic content loading", async ({ page }) => {
+    await page.goto("/content-hub");
 
     // Wait for any dynamic content to load
     await page.waitForTimeout(2000);
@@ -42,14 +38,14 @@ test.describe('Content Hub', () => {
     }
   });
 
-  test('should have proper navigation back to home', async ({ page }) => {
-    await page.goto('/content-hub');
+  test("should have proper navigation back to home", async ({ page }) => {
+    await page.goto("/content-hub");
 
     // Look for navigation elements
-    const navLink = page.getByRole('link', { name: /home|back/i }).first();
+    const navLink = page.getByRole("link", { name: /home|back/i }).first();
     if (await navLink.isVisible()) {
       await navLink.click();
-      await expect(page).toHaveURL('/');
+      await expect(page).toHaveURL("/");
     }
   });
 });

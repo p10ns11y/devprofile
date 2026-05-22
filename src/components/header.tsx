@@ -1,34 +1,33 @@
 "use client";
 
-import { motion } from 'motion/react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { Button } from './ui/button';
-import { Menu, X } from 'lucide-react';
-import { ThemeToggle } from './theme-toggle';
-
-import cvdata from '../data/cvdata.json'
+import { Menu, X } from "lucide-react";
+import { motion } from "motion/react";
+import Link from "next/link";
+import { useState } from "react";
+import cvdata from "../data/cvdata.json";
+import { ThemeToggle } from "./theme-toggle";
+import { Button } from "./ui/button";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navItems = [
-    { name: 'Home', href: '/#home' },
-    { name: 'About', href: '/#about' },
-    { name: 'CV', href: '/cv' },
+    { name: "Home", href: "/#home" },
+    { name: "About", href: "/#about" },
+    { name: "CV", href: "/cv" },
     // { name: 'Skills', href: '/#skills' },
-    { name: 'Projects', href: '/#projects' },
-    { name: 'Accomplishments', href: '/#accomplishments' },
-    { name: 'Certificates', href: '/certificates' },
-    { name: 'Experience', href: '/#experience' },
-    { name: 'Content Hub', href: '/content-hub' },
+    { name: "Projects", href: "/#projects" },
+    { name: "Accomplishments", href: "/#accomplishments" },
+    { name: "Certificates", href: "/certificates" },
+    { name: "Experience", href: "/#experience" },
+    { name: "Content Hub", href: "/content-hub" },
     // { name: 'Contact', href: '/#contact' }, // Testing sw cache busting
   ];
 
   const scrollToSection = (href: string) => {
     // Check if we're currently on home page
-    const isHomePage = window.location.pathname === '/';
+    const isHomePage = window.location.pathname === "/";
 
-    if (href.startsWith('/#')) {
+    if (href.startsWith("/#")) {
       // Anchor link - if not on home page, navigate there first
       if (!isHomePage) {
         const homeUrl = `${window.location.origin}${href}`;
@@ -38,7 +37,7 @@ export function Header() {
 
       // On home page - smooth scroll to section
       const element = document.querySelector(href.slice(1));
-      element?.scrollIntoView({ behavior: 'smooth' });
+      element?.scrollIntoView({ behavior: "smooth" });
       setIsMenuOpen(false); // Close menu after navigation
       return;
     }
@@ -56,9 +55,9 @@ export function Header() {
     >
       <nav className="container mx-auto px-6 py-4 flex items-center justify-between">
         <motion.div
-          whileHover={{ scale: 1.05, cursor: 'pointer' }}
+          whileHover={{ scale: 1.05, cursor: "pointer" }}
           className="text-md font-semibold pr-2"
-          onClick={() => scrollToSection('/')}
+          onClick={() => scrollToSection("/")}
         >
           {cvdata.name_with_initial}
         </motion.div>
@@ -71,18 +70,18 @@ export function Header() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              {item.href.startsWith('/#') ? (
+              {item.href.startsWith("/#") ? (
                 <motion.button
-                  whileHover={{ scale: 1.1, color: 'var(--color-brand)', cursor: 'pointer' }}
+                  whileHover={{ scale: 1.1, color: "var(--color-brand)", cursor: "pointer" }}
                   onClick={() => scrollToSection(item.href)}
                   className="text-text2 hover:text-brand"
                 >
                   {item.name}
                 </motion.button>
               ) : (
-                <Link href={item.href} prefetch target={item.href === '/cv' ? '_blank' : '_self'}>
+                <Link href={item.href} prefetch target={item.href === "/cv" ? "_blank" : "_self"}>
                   <motion.span
-                    whileHover={{ scale: 1.1, color: 'var(--color-brand)', cursor: 'pointer' }}
+                    whileHover={{ scale: 1.1, color: "var(--color-brand)", cursor: "pointer" }}
                     className="text-text2 hover:text-text1"
                   >
                     {item.name}
@@ -117,10 +116,7 @@ export function Header() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <Button
-              variant="outline"
-              onClick={() => scrollToSection('/#contact')}
-            >
+            <Button variant="outline" onClick={() => scrollToSection("/#contact")}>
               Let's Talk
             </Button>
           </motion.div>
@@ -131,7 +127,7 @@ export function Header() {
       {isMenuOpen && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
+          animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           className="md:hidden bg-surface1/95 backdrop-blur-md border-t"
         >
@@ -143,7 +139,7 @@ export function Header() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                {item.href.startsWith('/#') ? (
+                {item.href.startsWith("/#") ? (
                   <button
                     onClick={() => scrollToSection(item.href)}
                     className="block w-full text-left text-text2 hover:text-brand transition-colors py-2"
@@ -151,16 +147,19 @@ export function Header() {
                     {item.name}
                   </button>
                 ) : (
-                  <Link href={item.href} prefetch target={item.href === '/cv/web-view' ? '_blank' : '_self'}>
+                  <Link
+                    href={item.href}
+                    prefetch
+                    target={item.href === "/cv/web-view" ? "_blank" : "_self"}
+                  >
                     <span
                       onClick={() => setIsMenuOpen(false)}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
+                        if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
                           setIsMenuOpen(false);
                         }
                       }}
-                      tabIndex={0}
                       className="block w-full text-left text-text2 hover:text-brand transition-colors py-2"
                     >
                       {item.name}
@@ -177,7 +176,7 @@ export function Header() {
               <Button
                 variant="outline"
                 onClick={() => {
-                  scrollToSection('/#contact');
+                  scrollToSection("/#contact");
                   setIsMenuOpen(false);
                 }}
                 className="w-full"

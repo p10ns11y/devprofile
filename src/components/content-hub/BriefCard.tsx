@@ -1,5 +1,4 @@
-import React from 'react';
-import { Brief } from '../../lib/content-hub/data';
+import type { Brief } from "../../lib/content-hub/data";
 
 interface BriefCardProps {
   brief: Brief;

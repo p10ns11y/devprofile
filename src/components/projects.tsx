@@ -1,15 +1,13 @@
 "use client";
 
-import { motion } from 'motion/react';
-
-import { Badge } from './ui/badge';
-
-import cvdata from '@/data/cvdata.json'
+import { motion } from "motion/react";
+import cvdata from "@/data/cvdata.json";
+import { Badge } from "./ui/badge";
 
 export function Projects() {
   // Filter projects by type
-  const featuredProjects = cvdata.projects.filter(project => project.type !== 'oss_contribution');
-  const ossContributions = cvdata.projects.filter(project => project.type === 'oss_contribution');
+  const featuredProjects = cvdata.projects.filter((project) => project.type !== "oss_contribution");
+  const ossContributions = cvdata.projects.filter((project) => project.type === "oss_contribution");
 
   const renderProjectCard = (project: any, index: number, isOssContribution = false) => (
     <motion.div
@@ -30,8 +28,8 @@ export function Projects() {
         rel="nofollow noreferrer noopener"
         className={`block h-full overflow-hidden rounded-xl border-2 ${
           isOssContribution
-            ? 'border-border bg-surface2 rad-shadow hover:border-surface4'
-            : 'border-border bg-surface3 rad-shadow hover:shadow-xl hover:border-brand/20'
+            ? "border-border bg-surface2 rad-shadow hover:border-surface4"
+            : "border-border bg-surface3 rad-shadow hover:shadow-xl hover:border-brand/20"
         } transition-all duration-300 cursor-pointer`}
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
@@ -45,8 +43,10 @@ export function Projects() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             <div className="absolute bottom-3 left-3 right-3 space-y-2">
               {/* Impact Badge */}
-              <div className={`inline-flex items-center px-2 py-1 rounded-md bg-brand/90 text-text1 text-xs font-medium`}>
-                {project.impact || 'Contribution'}
+              <div
+                className={`inline-flex items-center px-2 py-1 rounded-md bg-brand/90 text-text1 text-xs font-medium`}
+              >
+                {project.impact || "Contribution"}
               </div>
 
               {/* Company Badge - Only show if available */}
@@ -59,9 +59,11 @@ export function Projects() {
           </div>
 
           {/* Text Content Column */}
-          <div className={`p-4 lg:p-6 flex flex-col justify-between min-h-[140px] lg:min-h-full ${
-            isOssContribution ? 'text-text1' : ''
-          }`}>
+          <div
+            className={`p-4 lg:p-6 flex flex-col justify-between min-h-[140px] lg:min-h-full ${
+              isOssContribution ? "text-text1" : ""
+            }`}
+          >
             <div className="space-y-3">
               <motion.h4
                 whileHover={{ color: "var(--color-brand)" }}
@@ -70,40 +72,41 @@ export function Projects() {
                 {project.name || (project as any).title}
               </motion.h4>
 
-              <p className={`text-text2 text-xs lg:text-sm leading-relaxed line-clamp-2 ${
-                isOssContribution ? 'text-text2' : ''
-              }`}>
+              <p
+                className={`text-text2 text-xs lg:text-sm leading-relaxed line-clamp-2 ${
+                  isOssContribution ? "text-text2" : ""
+                }`}
+              >
                 {project.description}
               </p>
             </div>
 
             <div className="flex flex-wrap gap-1.5 lg:gap-2 mt-4">
-              {project.technologies
-                ?.map((tech: string, techIndex: number) => (
-                  <motion.div
-                    key={tech}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{
-                      opacity: 1,
-                      scale: 1,
-                    }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.3,
-                      delay: techIndex * 0.03,
-                    }}
-                    whileHover={{ scale: 1.05 }}
+              {project.technologies?.map((tech: string, techIndex: number) => (
+                <motion.div
+                  key={tech}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{
+                    opacity: 1,
+                    scale: 1,
+                  }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.3,
+                    delay: techIndex * 0.03,
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <Badge
+                    variant="secondary"
+                    className={`text-xs hover:bg-brand hover:text-text1 transition-colors duration-300 ${
+                      isOssContribution ? "hover:bg-surface4 hover:text-text1" : ""
+                    }`}
                   >
-                    <Badge
-                      variant="secondary"
-                      className={`text-xs hover:bg-brand hover:text-text1 transition-colors duration-300 ${
-                        isOssContribution ? 'hover:bg-surface4 hover:text-text1' : ''
-                      }`}
-                    >
-                      {tech}
-                    </Badge>
-                  </motion.div>
-                ))}
+                    {tech}
+                  </Badge>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
@@ -122,9 +125,7 @@ export function Projects() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 text-text1">
-              Featured Projects
-            </h3>
+            <h3 className="text-3xl font-bold mb-4 text-text1">Featured Projects</h3>
             <p className="text-text2 max-w-2xl mx-auto">
               Key personal and professional projects showcasing technical expertise and innovation
             </p>
@@ -145,9 +146,7 @@ export function Projects() {
             className="mt-20 pt-16"
           >
             <div className="text-center mb-12">
-              <h3 className="text-3xl font-bold mb-4 text-text2">
-                Open Source Contributions
-              </h3>
+              <h3 className="text-3xl font-bold mb-4 text-text2">Open Source Contributions</h3>
               <p className="text-text2 max-w-2xl mx-auto">
                 Community contributions and collaborative work on open-source projects
               </p>

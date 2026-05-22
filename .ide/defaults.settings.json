@@ -14,7 +14,7 @@
   "files.eol": "\n",
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
-    "package.json": "pnpm-lock.yaml, pnpm-workspace.yaml, tsconfig*.json, next.config.*, postcss.config.*, eslint.config.*, playwright.config.*",
+    "package.json": "pnpm-lock.yaml, pnpm-workspace.yaml, tsconfig*.json, next.config.*, postcss.config.*, biome.json, playwright.config.*",
     "*.ts": "${capture}.test.ts, ${capture}.spec.ts",
     "*.tsx": "${capture}.test.tsx, ${capture}.spec.tsx"
   },

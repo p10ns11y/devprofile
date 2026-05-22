@@ -2,7 +2,7 @@ export interface DocumentItem {
   id: string;
   name: string;
   path: string;
-  type: 'pdf' | 'image' | 'text' | 'other';
+  type: "pdf" | "image" | "text" | "other";
   size: number;
   lastModified: Date;
   thumbnail?: string;

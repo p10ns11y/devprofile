@@ -50,9 +50,9 @@ scripts/
 
 | Signal | File / dep | Typical extensions | Unwanted (other stacks) |
 |--------|------------|--------------------|-------------------------|
-| Next.js | `next`, `next.config.*` | ESLint, sometimes Tailwind | Prettier if ESLint formats |
+| Next.js | `next`, `next.config.*` | Biome, Tailwind CSS IntelliSense | ESLint, Prettier (legacy) |
 | React | `react`, `react-dom` | ESLint | — |
-| TypeScript | `typescript`, `tsconfig.json` | ESLint; use workspace `typescript.tsdk` | — |
+| TypeScript | `typescript`, `tsconfig.json` | Biome; use workspace `typescript.tsdk` | — |
 | Tailwind | `tailwindcss`, `@tailwindcss/postcss` | Tailwind CSS IntelliSense | — |
 | Playwright | `@playwright/test`, `playwright.config.*` | Playwright | — |
 | pnpm | `pnpm-lock.yaml`, `packageManager` | — | npm-only tooling |
@@ -110,7 +110,7 @@ Cursor validates `editor.defaultFormatter` against **installed** extensions only
 - `vscode.typescript-language-features` — TS/JS format
 - `vscode.json-language-features` — JSON
 
-Put extension-only keys in `.ide/profile.extensions.json` (merged by `ide:sync` only when that extension exists under `~/.cursor/extensions/`). Example: ESLint format-on-save and `dbaeumer.vscode-eslint` as formatter apply after installing the recommended ESLint extension and re-running `pnpm ide:sync`.
+Put extension-only keys in `.ide/profile.extensions.json` (merged by `ide:sync` only when that extension exists under `~/.cursor/extensions/`). **devprofile** uses [Biome](https://biomejs.dev) (`biomejs.biome`) for lint + format — not ESLint.
 
 ---
 
@@ -125,7 +125,7 @@ Put extension-only keys in `.ide/profile.extensions.json` (merged by `ide:sync` 
 
 Override per project in `profile.settings` only when needed (e.g. `eslint.useFlatConfig`, Tailwind v4 `experimental.configFile`, Playwright reuse browser).
 
-**devprofile** baseline: workspace TypeScript SDK, built-in TS/JSON formatters, `.next` / test output excludes. ESLint/Tailwind/Playwright keys live in `profile.extensions.json` and merge when those extensions are installed.
+**devprofile** baseline: Biome formatter/linter, workspace TypeScript SDK, `.next` / test output excludes. Tailwind/Playwright extension keys merge from `profile.extensions.json` when installed.
 
 ---
 

@@ -29,4 +29,4 @@ ln -sf ../../.agents/skills/upgrade-packages .cursor/skills/upgrade-packages
 
 - Run commands in the repo root unless noted otherwise.
 - Prefer `pnpm` when `pnpm-lock.yaml` exists.
-- After dependency changes: `pnpm install`, re-run audit, then `pnpm type-check` / `pnpm lint` if applicable.
+- After dependency changes: `pnpm install`, re-run audit, then `pnpm type-check` / `pnpm lint` (Biome) if applicable.
