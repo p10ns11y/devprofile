@@ -209,6 +209,7 @@ Workspace already enforces `strictDepBuilds`, `trustPolicy: no-downgrade`, and `
 ## Related skills
 
 - [fix-dependency-security](../fix-dependency-security/SKILL.md) — audit, overrides, SFW, `minimumReleaseAge`, `trustPolicy`
+- [audit-ide-dependencies](../audit-ide-dependencies/SKILL.md) — editor extensions/plugin caches (when IDE trees have their own lockfiles)
 - [upgrade-packages](../upgrade-packages/SKILL.md) — version bumps; re-run this audit after Tier A/B/C upgrades
 
 ## References

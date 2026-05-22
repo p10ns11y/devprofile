@@ -250,6 +250,7 @@ Summarize for the user:
 ## Related skills
 
 - [audit-allow-builds](../audit-allow-builds/SKILL.md) — supply-chain review of `allowBuilds` packages (lockfile versions, new releases, postinstall scripts)
+- [audit-ide-dependencies](../audit-ide-dependencies/SKILL.md) — Cursor/VS Code extensions and plugin caches under `~/.cursor` (separate from the project lockfile)
 - [upgrade-packages](../upgrade-packages/SKILL.md) — semver-safe and major framework upgrades; shares trust-downgrade / `pnpm why` workflow
 
 ## References

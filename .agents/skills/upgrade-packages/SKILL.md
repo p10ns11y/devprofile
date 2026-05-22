@@ -240,6 +240,7 @@ Report to the user:
 ## Related skills
 
 - [audit-allow-builds](../audit-allow-builds/SKILL.md) — post-upgrade review of lifecycle-script packages in `allowBuilds`
+- [audit-ide-dependencies](../audit-ide-dependencies/SKILL.md) — editor extensions/plugins (not the project lockfile)
 - [fix-dependency-security](../fix-dependency-security/SKILL.md) — audit, SFW, workspace supply-chain policy
 
 ## Related skills

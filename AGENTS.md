@@ -8,6 +8,7 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 |---------------------------|------|
 | `pnpm audit`, npm vulnerabilities, deprecated packages, supply-chain attacks, `sfw`, install safety | [`.agents/skills/fix-dependency-security/SKILL.md`](.agents/skills/fix-dependency-security/SKILL.md) |
 | `allowBuilds`, postinstall/build scripts, `strictDepBuilds`, `approve-builds`, lifecycle-script risk | [`.agents/skills/audit-allow-builds/SKILL.md`](.agents/skills/audit-allow-builds/SKILL.md) |
+| Cursor/VS Code extensions, IDE plugins, editor supply-chain, MCP tooling deps | [`.agents/skills/audit-ide-dependencies/SKILL.md`](.agents/skills/audit-ide-dependencies/SKILL.md) |
 | Upgrade, update, or bump dependencies; Next/React/TS/Tailwind majors; codemods | [`.agents/skills/upgrade-packages/SKILL.md`](.agents/skills/upgrade-packages/SKILL.md) |
 
 ## Cursor
@@ -18,6 +19,7 @@ To auto-load a skill in Cursor, symlink or copy it into `.cursor/skills/`:
 mkdir -p .cursor/skills
 ln -sf ../../.agents/skills/fix-dependency-security .cursor/skills/fix-dependency-security
 ln -sf ../../.agents/skills/audit-allow-builds .cursor/skills/audit-allow-builds
+ln -sf ../../.agents/skills/audit-ide-dependencies .cursor/skills/audit-ide-dependencies
 ln -sf ../../.agents/skills/upgrade-packages .cursor/skills/upgrade-packages
 ```
 

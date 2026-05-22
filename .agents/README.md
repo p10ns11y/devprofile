@@ -24,6 +24,7 @@ Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown bo
 |-------|------|
 | Dependency security (audit, deprecations, SFW, supply chain) | [skills/fix-dependency-security/SKILL.md](skills/fix-dependency-security/SKILL.md) |
 | allowBuilds / lifecycle-script supply-chain audit | [skills/audit-allow-builds/SKILL.md](skills/audit-allow-builds/SKILL.md) |
+| IDE extensions / Cursor plugins (pnpm/npm audit) | [skills/audit-ide-dependencies/SKILL.md](skills/audit-ide-dependencies/SKILL.md) |
 | Package upgrades (semver-safe, framework majors + codemods) | [skills/upgrade-packages/SKILL.md](skills/upgrade-packages/SKILL.md) |
 
 When adding a skill, update this table and the root [AGENTS.md](../AGENTS.md) index.
