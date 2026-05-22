@@ -14,7 +14,8 @@
       "!**/playwright-report",
       "!**/test-results",
       "!public/offline.html",
-      "!public/sw.js"
+      "!public/sw.js",
+      "!**/.vscode"
     ]
   },
   "formatter": {
