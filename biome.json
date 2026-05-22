@@ -36,7 +36,7 @@
         "noRedundantRoles": "warn"
       },
       "correctness": {
-        "useExhaustiveDependencies": "warn",
+        "useExhaustiveDependencies": "off",
         "noInvalidUseBeforeDeclaration": "warn",
         "noUnusedImports": "warn",
         "noUnusedVariables": "warn",

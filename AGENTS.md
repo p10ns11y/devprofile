@@ -11,6 +11,7 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 | Cursor/VS Code extensions, IDE plugins, editor supply-chain, MCP tooling deps | [`.agents/skills/audit-ide-dependencies/SKILL.md`](.agents/skills/audit-ide-dependencies/SKILL.md) |
 | Per-project IDE settings, extension recommendations, Cursor plugin hooks | [`.agents/skills/project-ide-profile/SKILL.md`](.agents/skills/project-ide-profile/SKILL.md) |
 | Upgrade, update, or bump dependencies; Next/React/TS/Tailwind majors; codemods | [`.agents/skills/upgrade-packages/SKILL.md`](.agents/skills/upgrade-packages/SKILL.md) |
+| React components, hooks, client state, effects, Context, XState; **no RSC** for UI logic | [`.agents/skills/react-client-expert/SKILL.md`](.agents/skills/react-client-expert/SKILL.md) |
 
 ## Cursor
 
@@ -23,6 +24,7 @@ ln -sf ../../.agents/skills/audit-allow-builds .cursor/skills/audit-allow-builds
 ln -sf ../../.agents/skills/audit-ide-dependencies .cursor/skills/audit-ide-dependencies
 ln -sf ../../.agents/skills/project-ide-profile .cursor/skills/project-ide-profile
 ln -sf ../../.agents/skills/upgrade-packages .cursor/skills/upgrade-packages
+ln -sf ../../.agents/skills/react-client-expert .cursor/skills/react-client-expert
 ```
 
 ## Conventions
@@ -30,6 +32,7 @@ ln -sf ../../.agents/skills/upgrade-packages .cursor/skills/upgrade-packages
 - Run commands in the repo root unless noted otherwise.
 - Prefer `pnpm` when `pnpm-lock.yaml` exists.
 - After dependency changes: `pnpm install`, re-run audit, then `pnpm type-check` / `pnpm lint` (Biome) if applicable.
+- **React client UI:** follow [react-client-expert](.agents/skills/react-client-expert/SKILL.md). Biome does not lint `useEffect` dependency arrays (`useExhaustiveDependencies` off).
 
 ## E2E / Playwright
 
