@@ -18,66 +18,44 @@
     "lint": "eslint .",
     "generate-pdf": "bun scripts/generate-pdf.tsx",
     "type-check": "tsc --noEmit",
+    "ide:sync": "node scripts/sync-ide-profile.mjs",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug"
   },
   "dependencies": {
-    "@huggingface/transformers": "^3.8.1",
+    "@huggingface/transformers": "^4.2.0",
     "@radix-ui/react-slot": "^1.2.4",
-    "@react-pdf/renderer": "^4.3.2",
+    "@react-pdf/renderer": "^4.5.1",
     "@vercel/speed-insights": "^2.0.0",
-    "@vercel/toolbar": "^0.2.2",
+    "@vercel/toolbar": "^0.2.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "flags": "^4.0.5",
-    "lucide-react": "^1.7.0",
-    "motion": "^12.38.0",
+    "flags": "^4.0.6",
+    "lucide-react": "^1.16.0",
+    "motion": "^12.40.0",
     "next": "16.2.6",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "react-pdf": "^10.4.1",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.5",
-    "@playwright/test": "^1.58.2",
-    "@tailwindcss/postcss": "^4.2.2",
-    "@types/node": "^25.5.0",
-    "@types/react": "^19.2.14",
+    "@playwright/test": "^1.60.0",
+    "@tailwindcss/postcss": "^4.3.0",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
-    "autoprefixer": "^10.4.27",
-    "eslint": "^10.1.0",
-    "postcss": "^8.5.8",
-    "tailwindcss": "^4.2.2",
-    "typescript": "^6.0.2"
+    "autoprefixer": "^10.5.0",
+    "eslint": "^9.39.3",
+    "eslint-config-next": "16.2.6",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3"
   },
   "trustedDependencies": [
     "@vercel/speed-insights"
   ],
-  "pnpm": {
-    "overrides": {
-      "postcss": "^8.5.8",
-      "eslint-visitor-keys": "^5.0.1",
-      "minimatch": "^10.2.4",
-      "ajv": "^6.14.0",
-      "espree": "^11.2.0",
-      "scheduler": "^0.27.0",
-      "@swc/helpers": "^0.5.19",
-      "@next/env": "^16.2.1",
-      "json-schema-traverse": "^1.0.0",
-      "brace-expansion": "^5.0.5",
-      "balanced-match": "^4.0.4",
-      "base64-js": "^1.5.1",
-      "pako": "^1.0.11",
-      "glob-parent": "^5.1.2",
-      "fsevents": "^2.3.3",
-      "onnxruntime-common": "^1.21.0",
-      "path-to-regexp": "^8.3.0"
-    },
-    "allowedDeprecatedVersions": {
-      "boolean": "*"
-    }
-  }
+  "packageManager": "pnpm@11.2.2+sha512.36e6621fad506178936455e70247b8808ef4ec25797a9f437a93281a020484e2607f6a469a22e982987c3dbb8866e3071514ab10a4a1749e06edcd1ec118436f"
 }

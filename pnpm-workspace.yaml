@@ -1,6 +1,53 @@
 allowBuilds:
-  esbuild: true
+  esbuild: false
   onnxruntime-node: true
   protobufjs: true
   sharp: true
   unrs-resolver: true
+
+overrides:
+  postcss: ^8.5.8
+  eslint-visitor-keys: ^5.0.1
+  espree: ^11.2.0
+  scheduler: ^0.27.0
+  "@swc/helpers": ^0.5.19
+  "@next/env": ^16.2.6
+  json-schema-traverse: ^1.0.0
+  base64-js: ^1.5.1
+  pako: ^1.0.11
+  glob-parent: ^5.1.2
+  fsevents: ^2.3.3
+  onnxruntime-common: ^1.26.0
+  onnxruntime-node: ^1.26.0
+  global-agent: ^4.1.3
+  path-to-regexp: ^8.3.0
+  # Trust-policy: eslint-config-next pins older releases without provenance
+  eslint-import-resolver-typescript: ^4.4.4
+  semver: ^7.7.2
+
+# Supply-chain hardening (pnpm 11) — see .agents/skills/fix-dependency-security/SKILL.md
+# allowBuilds audit — see .agents/skills/audit-allow-builds/SKILL.md
+
+# Delay installs until versions have aged on the registry (malware is usually pulled quickly)
+# 1 day (pnpm 11 default). Use 10080 for 7d once the lockfile only contains aged versions.
+minimumReleaseAge: 1440
+minimumReleaseAgeStrict: true
+minimumReleaseAgeIgnoreMissingTime: false
+
+# Transitive deps must resolve from registry/workspace, not git/tarball URLs
+blockExoticSubdeps: true
+
+# Block packages whose npm trust evidence downgraded vs earlier releases
+trustPolicy: no-downgrade
+
+# Lifecycle / build scripts
+strictDepBuilds: true
+dangerouslyAllowAllBuilds: false
+sideEffectsCache: false
+
+
+
+# Fail pnpm run/exec if node_modules is out of sync with the lockfile
+verifyDepsBeforeRun: error
+
+
