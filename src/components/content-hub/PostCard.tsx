@@ -1,5 +1,4 @@
-import React from 'react';
-import { Post } from '../../lib/content-hub/data';
+import type { Post } from "../../lib/content-hub/data";
 
 interface PostCardProps {
   post: Post;

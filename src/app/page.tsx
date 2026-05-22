@@ -1,16 +1,18 @@
 "use client";
 
-import React, { Suspense } from 'react';
-import { motion } from 'motion/react';
-
+import { motion } from "motion/react";
+import React, { Suspense } from "react";
+import { About } from "@/components/about";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
-import { About } from "@/components/about";
-import { Skills } from "@/components/skills";
-const CurrentProjects = React.lazy(() => import('@/components/projects').then(mod => ({ default: mod.Projects })));
+
+const CurrentProjects = React.lazy(() =>
+  import("@/components/projects").then((mod) => ({ default: mod.Projects }))
+);
+
 import { Accomplishments } from "@/components/accomplishments";
-import { Experience } from "@/components/experience";
 import { Contact } from "@/components/contact";
+import { Experience } from "@/components/experience";
 import { Footer } from "@/components/footer";
 
 export default function Home() {

@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
-import { SocialLinks } from "./social-links";
+import { useEffect, useState } from "react";
+import cvdata from "@/data/cvdata.json";
 import { AISmartHighlight } from "./ai-smart-highlight";
-
-import cvdata from '@/data/cvdata.json'
+import { SocialLinks } from "./social-links";
 
 export function Hero() {
   const [particles, setParticles] = useState<Array<{ x: number; y: number }>>([]);
@@ -22,9 +21,7 @@ export function Hero() {
   }, []);
 
   const scrollToAbout = () => {
-    document
-      .querySelector("#about")
-      ?.scrollIntoView({ behavior: "smooth" });
+    document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -64,9 +61,7 @@ export function Hero() {
           className="flex flex-col lg:flex-row gap-8 items-center justify-items-center min-h-[80vh]"
         >
           {/* Left side - Textual content */}
-          <motion.div
-            className="flex-1 text-center lg:text-center space-y-6"
-          >
+          <motion.div className="flex-1 text-center lg:text-center space-y-6">
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -82,10 +77,16 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="text-4xl font-bold text-text1 leading-tight"
               style={{
-                fontSize: 'clamp(2rem, 6vmin, 4rem)'
+                fontSize: "clamp(2rem, 6vmin, 4rem)",
               }}
             >
-              <a href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener">{cvdata.name}</a>
+              <a
+                href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33"
+                target="_blank"
+                rel="nofollow noreferrer noopnener"
+              >
+                {cvdata.name}
+              </a>
             </motion.h1>
 
             <motion.div
@@ -94,13 +95,9 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="space-y-2"
             >
-              <p className="text-2xl md:text-3xl text-text2">
-                Senior Software Engineer
-              </p>
+              <p className="text-2xl md:text-3xl text-text2">Senior Software Engineer</p>
               <p className="text-lg text-text2">
-               <AISmartHighlight priority="balanced">
-                 {cvdata.one_liner}
-               </AISmartHighlight>
+                <AISmartHighlight priority="balanced">{cvdata.one_liner}</AISmartHighlight>
               </p>
             </motion.div>
 
@@ -112,13 +109,19 @@ export function Hero() {
             >
               <div className="flex items-center justify-center lg:justify-center gap-4 flex-wrap">
                 <button
+                  type="button"
                   onClick={() => scrollToAbout()}
                   className="inline-flex items-center px-6 py-3 bg-brand text-text1 font-medium rounded-lg hover:bg-brand/90 hover:scale-105 transition-all cursor-pointer"
                 >
                   View My Work
                 </button>
 
-                <a href="/api/cv/view" target="_blank" rel="nofollow noreferrer noopener" className="inline-flex items-center px-6 py-3 bg-surface3 text-text1 font-medium rounded-lg hover:bg-surface4 transition-colors">
+                <a
+                  href="/api/cv/view"
+                  target="_blank"
+                  rel="nofollow noreferrer noopener"
+                  className="inline-flex items-center px-6 py-3 bg-surface3 text-text1 font-medium rounded-lg hover:bg-surface4 transition-colors"
+                >
                   View CV
                 </a>
 
@@ -130,7 +133,7 @@ export function Hero() {
                 </Link> */}
               </div>
 
-             <SocialLinks />
+              <SocialLinks />
             </motion.div>
           </motion.div>
 
@@ -142,7 +145,13 @@ export function Hero() {
             className="flex-shrink-0" // Prevent image from shrinking
           >
             <div className="w-0 h-0 md:w-96 md:h-96 xl:w-[30rem] xl:h-[30rem] rounded-full overflow-hidden rad-shadow border-4 border-brand/10 relative">
-              <a title="GitRoll Curism for https://github.com/p10ns11y" href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33" target="_blank" rel="nofollow noreferrer noopnener" className="block w-full h-full relative">
+              <a
+                title="GitRoll Curism for https://github.com/p10ns11y"
+                href="https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33"
+                target="_blank"
+                rel="nofollow noreferrer noopnener"
+                className="block w-full h-full relative"
+              >
                 <Image
                   src="/images/curism.png"
                   alt="GitRoll CURISM (Contribution, Uniqueness, Reliability, Influence, Security, Maintainability) for https://github.com/p10ns11y"

@@ -1,12 +1,12 @@
-import fs from 'fs';
-import path from 'path';
-import { NextRequest } from 'next/server';
+import fs from "fs";
+import type { NextRequest } from "next/server";
+import path from "path";
 
 export async function GET(req: NextRequest) {
   try {
     // In production/serverless environments, read the file from public directory
-    const publicDir = path.join(process.cwd(), 'public');
-    const pdfPath = path.join(publicDir, 'cv.pdf');
+    const publicDir = path.join(process.cwd(), "public");
+    const pdfPath = path.join(publicDir, "cv.pdf");
 
     if (fs.existsSync(pdfPath)) {
       // Read the PDF file from the filesystem
@@ -15,28 +15,28 @@ export async function GET(req: NextRequest) {
       // Set headers for inline viewing (not download)
       return new Response(pdfBuffer, {
         headers: {
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': 'inline; filename="peramanathan-sathyamoorthy-cv.pdf"',
-          'Content-Length': pdfBuffer.length.toString(),
-          'Cache-Control': 'max-age=600, stale-while-revalidate=7200',
+          "Content-Type": "application/pdf",
+          "Content-Disposition": 'inline; filename="peramanathan-sathyamoorthy-cv.pdf"',
+          "Content-Length": pdfBuffer.length.toString(),
+          "Cache-Control": "max-age=600, stale-while-revalidate=7200",
         },
       });
     } else {
       // Serve directly from public URL for inline viewing
-      const protocol = (req.headers.get('x-forwarded-proto') as string) || 'https';
-      const host = req.headers.get('host');
+      const protocol = (req.headers.get("x-forwarded-proto") as string) || "https";
+      const host = req.headers.get("host");
       const pdfUrl = `${protocol}://${host}/cv.pdf`;
 
       const pdfResponse = await fetch(pdfUrl, {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (compatible; Vercel/1.0)',
-        }
+          "User-Agent": "Mozilla/5.0 (compatible; Vercel/1.0)",
+        },
       });
 
       if (!pdfResponse.ok) {
-        return new Response(JSON.stringify({ error: 'PDF not found' }), {
+        return new Response(JSON.stringify({ error: "PDF not found" }), {
           status: 404,
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
         });
       }
 
@@ -45,18 +45,18 @@ export async function GET(req: NextRequest) {
 
       return new Response(pdfBuffer, {
         headers: {
-          'Content-Type': 'application/pdf',
-          'Content-Disposition': 'inline; filename="peramanathan-sathyamoorthy-cv.pdf"',
-          'Content-Length': pdfBuffer.length.toString(),
-          'Cache-Control': 'max-age=600, stale-while-revalidate=7200',
+          "Content-Type": "application/pdf",
+          "Content-Disposition": 'inline; filename="peramanathan-sathyamoorthy-cv.pdf"',
+          "Content-Length": pdfBuffer.length.toString(),
+          "Cache-Control": "max-age=600, stale-while-revalidate=7200",
         },
       });
     }
   } catch (error) {
-    console.error('Error serving PDF:', error);
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+    console.error("Error serving PDF:", error);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 }

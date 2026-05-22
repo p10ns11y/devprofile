@@ -1,16 +1,16 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-import crypto from 'crypto';
-import cvData from '../src/data/cvdata.json';
+import crypto from "crypto";
+import { promises as fs } from "fs";
+import path from "path";
+import cvData from "../src/data/cvdata.json";
 
 async function calculateHashes() {
-  console.log('🔐 Calculating SHA-256 hashes for certificates...\n');
+  console.log("🔐 Calculating SHA-256 hashes for certificates...\n");
 
   const certificates = cvData.certificates;
   const updatedCertificates = [];
 
   for (const cert of certificates) {
-    const filePath = path.join(process.cwd(), 'public', 'certificates', cert.filename);
+    const filePath = path.join(process.cwd(), "public", "certificates", cert.filename);
 
     try {
       // Check if file exists
@@ -19,19 +19,18 @@ async function calculateHashes() {
 
       // Read file and calculate hash
       const fileBuffer = await fs.readFile(filePath);
-      const hash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
+      const hash = crypto.createHash("sha256").update(fileBuffer).digest("hex");
 
       // Add hash to certificate data
       const updatedCert = {
         ...cert,
         sha256Hash: hash,
         fileSize: fileBuffer.length,
-        lastVerified: new Date().toISOString()
+        lastVerified: new Date().toISOString(),
       };
 
       updatedCertificates.push(updatedCert);
       console.log(`✅ Hash calculated: ${hash.slice(0, 16)}...`);
-
     } catch (error) {
       console.error(`❌ Error processing ${cert.filename}:`, error);
       // Keep original certificate if file not found
@@ -42,21 +41,18 @@ async function calculateHashes() {
   // Update cvdata.json
   const updatedData = {
     ...cvData,
-    certificates: updatedCertificates
+    certificates: updatedCertificates,
   };
 
-  const outputPath = path.join(process.cwd(), 'src', 'data', 'cvdata.json');
-  const tempPath = outputPath + '.tmp';
+  const outputPath = path.join(process.cwd(), "src", "data", "cvdata.json");
+  const tempPath = `${outputPath}.tmp`;
 
-  await fs.writeFile(
-    tempPath,
-    JSON.stringify(updatedData, null, 2)
-  );
+  await fs.writeFile(tempPath, JSON.stringify(updatedData, null, 2));
   await fs.rename(tempPath, outputPath);
 
-  console.log('\n🎉 Hash calculation complete!');
+  console.log("\n🎉 Hash calculation complete!");
   console.log(`📊 Processed ${updatedCertificates.length} certificates`);
-  console.log('💾 Hashes saved to cvdata.json');
+  console.log("💾 Hashes saved to cvdata.json");
 }
 
 calculateHashes().catch(console.error);

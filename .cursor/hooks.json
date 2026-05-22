@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "hooks": {
+    "workspaceOpen": [
+      {
+        "command": "node scripts/load-workspace-plugins.mjs"
+      }
+    ]
+  }
+}

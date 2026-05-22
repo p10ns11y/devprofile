@@ -1,35 +1,33 @@
-import { motion } from 'motion/react';
-import { Code2, Lightbulb, Users, Zap } from 'lucide-react';
-import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-
-import AISmartHighlight from './ai-smart-highlight';
-import { Card, CardContent } from './ui/card';
-
-import cvdata from '../data/cvdata.json'
+import { Code2, Lightbulb, Users, Zap } from "lucide-react";
+import { motion } from "motion/react";
+import cvdata from "../data/cvdata.json";
+import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
+import AISmartHighlight from "./ai-smart-highlight";
+import { Card, CardContent } from "./ui/card";
 
 export function About() {
   const [ref, isIntersecting] = useIntersectionObserver({ threshold: 0.1 });
   const features = [
     {
       icon: Code2,
-      title: 'Clean Code',
-      description: 'Writing maintainable, scalable code that stands the test of time.'
+      title: "Clean Code",
+      description: "Writing maintainable, scalable code that stands the test of time.",
     },
     {
       icon: Lightbulb,
-      title: 'Innovation',
-      description: 'Always exploring new technologies and creative solutions.'
+      title: "Innovation",
+      description: "Always exploring new technologies and creative solutions.",
     },
     {
       icon: Users,
-      title: 'Collaboration',
-      description: 'Working effectively with teams to deliver exceptional results.'
+      title: "Collaboration",
+      description: "Working effectively with teams to deliver exceptional results.",
     },
     {
       icon: Zap,
-      title: 'Performance',
-      description: 'Building fast, optimized applications for the best user experience.'
-    }
+      title: "Performance",
+      description: "Building fast, optimized applications for the best user experience.",
+    },
   ];
 
   return (
@@ -53,9 +51,7 @@ export function About() {
             className="space-y-6"
           >
             <p className="text-lg text-text2 leading-relaxed">
-            <AISmartHighlight priority="balanced">
-              {cvdata.profile}
-            </AISmartHighlight>
+              <AISmartHighlight priority="balanced">{cvdata.profile}</AISmartHighlight>
             </p>
 
             <motion.div
@@ -64,7 +60,12 @@ export function About() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-wrap gap-3"
             >
-              {['Engineering Leadership', 'TypeScript Integration', 'Team Mentoring', 'API Architecture'].map((skill, index) => (
+              {[
+                "Engineering Leadership",
+                "TypeScript Integration",
+                "Team Mentoring",
+                "API Architecture",
+              ].map((skill, index) => (
                 <motion.span
                   key={skill}
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -103,9 +104,7 @@ export function About() {
                       <feature.icon className="w-6 h-6 text-brand" />
                     </motion.div>
                     <h3 className="font-semibold">{feature.title}</h3>
-                    <p className="text-sm text-text2">
-                      {feature.description}
-                    </p>
+                    <p className="text-sm text-text2">{feature.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>

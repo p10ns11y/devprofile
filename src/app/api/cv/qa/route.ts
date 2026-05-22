@@ -1,12 +1,12 @@
-import { prepareData, qaCache, generateAnswer, chunks, extractor } from '@/utils/qa-utils';
+import { chunks, extractor, generateAnswer, prepareData, qaCache } from "@/utils/qa-utils";
 
 export async function POST(request: Request) {
   try {
     const { question } = await request.json();
     if (!question) {
-      return new Response(JSON.stringify({ message: 'Query required' }), {
+      return new Response(JSON.stringify({ message: "Query required" }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { "Content-Type": "application/json" },
       });
     }
 
@@ -17,27 +17,27 @@ export async function POST(request: Request) {
       const cachedResponse = qaCache.get(question);
       return new Response(JSON.stringify(cachedResponse), {
         status: 200,
-        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
+        headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
       });
     }
 
     // Embed the query and find similar chunks
-    const queryEmbedding = await extractor(question, { pooling: 'mean', normalize: true });
+    const queryEmbedding = await extractor(question, { pooling: "mean", normalize: true });
     const queryVec = Array.from(queryEmbedding.data as number[]);
 
     // Cosine similarity calculation
     const similarities = chunks.map((chunk, i) => ({
       index: i,
-      similarity: cosineSimilarity(queryVec, chunk.embedding)
+      similarity: cosineSimilarity(queryVec, chunk.embedding),
     }));
 
     similarities.sort((a, b) => b.similarity - a.similarity);
 
     const topK = 3;
-    const results = similarities.slice(0, topK).map(sim => ({
+    const results = similarities.slice(0, topK).map((sim) => ({
       text: chunks[sim.index].text,
       section: chunks[sim.index].section,
-      similarity: sim.similarity
+      similarity: sim.similarity,
     }));
 
     // Generate answer
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
     const response = {
       answer,
-      details: results
+      details: results,
     };
 
     // Cache the response
@@ -53,13 +53,13 @@ export async function POST(request: Request) {
 
     return new Response(JSON.stringify(response), {
       status: 200,
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
+      headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
     });
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ message: 'Internal server error' }), {
+    return new Response(JSON.stringify({ message: "Internal server error" }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { "Content-Type": "application/json" },
     });
   }
 }

@@ -1,6 +1,4 @@
-'use client';
-
-import React from 'react';
+"use client";
 
 interface SearchBarProps {
   value: string;
@@ -8,7 +6,11 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-export function SearchBar({ value, onChange, placeholder = 'Search by title or tags...' }: SearchBarProps) {
+export function SearchBar({
+  value,
+  onChange,
+  placeholder = "Search by title or tags...",
+}: SearchBarProps) {
   return (
     <div className="mb-8">
       <input

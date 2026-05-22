@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Reading } from '../../lib/content-hub/data';
+import { useState } from "react";
+import type { Reading } from "../../lib/content-hub/data";
 
 interface ReadingCardProps {
   reading: Reading;
@@ -12,8 +12,8 @@ export function ReadingCard({ reading }: ReadingCardProps) {
   const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(null);
 
   const handleReadAloud = () => {
-    if (!('speechSynthesis' in window)) {
-      alert('Speech synthesis is not supported in your browser.');
+    if (!("speechSynthesis" in window)) {
+      alert("Speech synthesis is not supported in your browser.");
       return;
     }
 
@@ -49,11 +49,12 @@ export function ReadingCard({ reading }: ReadingCardProps) {
         ))}
       </div>
       <button
+        type="button"
         onClick={handleReadAloud}
         className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
         aria-label={isReading ? `Stop reading ${reading.title}` : `Read ${reading.title} aloud`}
       >
-        {isReading ? 'Stop Reading' : 'Read Aloud'}
+        {isReading ? "Stop Reading" : "Read Aloud"}
       </button>
     </article>
   );

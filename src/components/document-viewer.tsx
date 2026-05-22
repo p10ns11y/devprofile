@@ -1,32 +1,25 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import {
-  ZoomIn,
-  ZoomOut,
-  RotateCcw,
-  Download,
-  File,
-  AlertCircle
-} from 'lucide-react';
+import { AlertCircle, Download, File, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
+import { motion } from "motion/react";
+import { useEffect, useState } from "react";
 
-import { DocumentViewerProps } from '../types/documents';
-import { formatFileSize, getFileIconForViewer } from '../utils/file-utils';
-import { HomeButton } from './home-button';
-import { LoadingSpinner } from './loading-spinner';
-import { VerificationHash } from './verification-hash';
+import type { DocumentViewerProps } from "../types/documents";
+import { formatFileSize, getFileIconForViewer } from "../utils/file-utils";
+import { HomeButton } from "./home-button";
+import { LoadingSpinner } from "./loading-spinner";
+import { VerificationHash } from "./verification-hash";
 
 // Dynamic import for PDF components to avoid SSR issues
 const PDFComponents = {
   Document: null as any,
   Page: null as any,
-  pdfjs: null as any
+  pdfjs: null as any,
 };
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   // Import PDF.js only on client side
-  const { Document, Page, pdfjs } = require('react-pdf');
+  const { Document, Page, pdfjs } = require("react-pdf");
   PDFComponents.Document = Document;
   PDFComponents.Page = Page;
   PDFComponents.pdfjs = pdfjs;
@@ -39,7 +32,7 @@ if (typeof window !== 'undefined') {
 
 export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [_pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(1.0);
   const [rotate, setRotate] = useState(0);
   const [containerWidth, setContainerWidth] = useState<number>(800);
@@ -47,7 +40,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   // Update container width on resize with reasonable limits
   useEffect(() => {
     const updateWidth = () => {
-      const viewerElement = window.document.querySelector('[data-pdf-viewer]');
+      const viewerElement = window.document.querySelector("[data-pdf-viewer]");
       if (viewerElement) {
         // Use a reasonable width: min of container width and 800px, with minimum 400px
         const availableWidth = viewerElement.clientWidth - 64; // Subtract padding
@@ -57,8 +50,8 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
     };
 
     updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => window.removeEventListener('resize', updateWidth);
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
@@ -67,25 +60,25 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   };
 
   const onDocumentLoadError = (error: Error) => {
-    console.error('Error loading document:', error);
+    console.error("Error loading document:", error);
   };
 
   const handleZoomIn = () => {
-    setScale(prev => Math.min(prev + 0.2, 3.0));
+    setScale((prev) => Math.min(prev + 0.2, 3.0));
   };
 
   const handleZoomOut = () => {
-    setScale(prev => Math.max(prev - 0.2, 0.5));
+    setScale((prev) => Math.max(prev - 0.2, 0.5));
   };
 
   const handleRotate = () => {
-    setRotate(prev => (prev + 90) % 360);
+    setRotate((prev) => (prev + 90) % 360);
   };
 
   const handleDownload = () => {
     if (!document) return;
     const doc = window.document;
-    const link = doc.createElement('a');
+    const link = doc.createElement("a");
     link.href = document.path;
     link.download = document.name;
     link.click();
@@ -93,7 +86,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
 
   const renderPDF = () => {
     // Only render PDF component on client to avoid hydration issues
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       return (
         <div className="flex flex-col items-center">
           <div className="flex items-center justify-center p-8">
@@ -109,7 +102,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
     return (
       <div className="flex flex-col items-center">
         <PDFComponents.Document
-          file={document!.path}
+          file={document?.path}
           onLoadSuccess={onDocumentLoadSuccess}
           onLoadError={onDocumentLoadError}
           loading={
@@ -132,9 +125,9 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
             </div>
           }
         >
-          {PDFComponents.Page && numPages && Array.from(
-            new Array(numPages),
-            (el, index) => (
+          {PDFComponents.Page &&
+            numPages &&
+            Array.from(new Array(numPages), (_el, index) => (
               <div key={`page_${index + 1}`} className="mb-8 first:mt-0">
                 <PDFComponents.Page
                   pageNumber={index + 1}
@@ -154,11 +147,12 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
                   className="shadow-lg border border-gray-200"
                 />
                 <div className="text-center mt-2">
-                  <span className="text-xs text-text2">Page {index + 1} of {numPages}</span>
+                  <span className="text-xs text-text2">
+                    Page {index + 1} of {numPages}
+                  </span>
                 </div>
               </div>
-            )
-          )}
+            ))}
         </PDFComponents.Document>
       </div>
     );
@@ -173,12 +167,12 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
         className="max-w-full max-h-full"
       >
         <img
-          src={document!.path}
-          alt={document!.name}
+          src={document?.path}
+          alt={document?.name}
           className="max-w-full max-h-full object-contain shadow-lg rounded"
           style={{
             transform: `scale(${scale}) rotate(${rotate}deg)`,
-            transformOrigin: 'center center'
+            transformOrigin: "center center",
           }}
         />
       </motion.div>
@@ -189,13 +183,10 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
     <div className="flex items-start justify-center h-full">
       <div className="text-center space-y-4">
         <File className="w-16 h-16 text-text-disabled mx-auto" />
-        <h3 className="text-lg font-medium text-text1">
-          Preview Not Available
-        </h3>
-        <p className="text-text2 text-sm">
-          {document!.name}
-        </p>
+        <h3 className="text-lg font-medium text-text1">Preview Not Available</h3>
+        <p className="text-text2 text-sm">{document?.name}</p>
         <button
+          type="button"
           onClick={handleDownload}
           className="text-accent-primary hover:text-accent-primary/80 text-sm font-medium"
         >
@@ -206,17 +197,15 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   );
 
   const renderDocumentContent = () => {
-    switch (document!.type) {
-      case 'pdf':
+    switch (document?.type) {
+      case "pdf":
         return renderPDF();
-      case 'image':
+      case "image":
         return renderImage();
       default:
         return renderOther();
     }
   };
-
-
 
   if (loading) {
     return (
@@ -238,9 +227,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           className="text-center space-y-4"
         >
           <File className="w-16 h-16 text-text-disabled mx-auto" />
-          <h3 className="text-lg font-medium text-text1">
-            Select a Certificate
-          </h3>
+          <h3 className="text-lg font-medium text-text1">Select a Certificate</h3>
           <p className="text-text2 text-sm">
             Choose a certificate from the sidebar to view its content
           </p>
@@ -258,12 +245,9 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           <div className="flex items-center space-x-2">
             {getFileIconForViewer(document.type)}
             <div className="min-w-0">
-              <h3 className="font-medium text-text1 text-sm truncate">
-                {document.name}
-              </h3>
+              <h3 className="font-medium text-text1 text-sm truncate">{document.name}</h3>
               <p className="text-xs text-text2 hidden sm:block">
-                {formatFileSize(document.size)} •
-                {document.lastModified.toLocaleDateString()}
+                {formatFileSize(document.size)} •{document.lastModified.toLocaleDateString()}
               </p>
             </div>
           </div>
@@ -275,14 +259,14 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           <HomeButton />
 
           {/* Page Count */}
-          {document.type === 'pdf' && numPages && (
+          {document.type === "pdf" && numPages && (
             <div className="text-sm text-text1 px-2 py-1 bg-surface3 rounded md:px-3">
               {numPages}p
             </div>
           )}
 
           {/* Verification Hash - Desktop */}
-          {document.type === 'pdf' && (
+          {document.type === "pdf" && (
             <div className="hidden md:block">
               <VerificationHash certificateId={document.id} />
             </div>
@@ -291,6 +275,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           {/* Zoom Controls */}
           <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
             <button
+              type="button"
               onClick={handleZoomOut}
               className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Zoom out"
@@ -301,6 +286,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
               {Math.round(scale * 100)}%
             </span>
             <button
+              type="button"
               onClick={handleZoomIn}
               className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Zoom in"
@@ -312,6 +298,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           {/* Other Controls */}
           <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
             <button
+              type="button"
               onClick={handleRotate}
               className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Rotate"
@@ -319,6 +306,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
               <RotateCcw className="w-4 h-4" />
             </button>
             <button
+              type="button"
               onClick={handleDownload}
               className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Download"
@@ -329,7 +317,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
         </div>
 
         {/* Verification Hash - Full width on mobile */}
-        {document.type === 'pdf' && (
+        {document.type === "pdf" && (
           <div className="w-full mt-2 md:hidden">
             <VerificationHash certificateId={document.id} />
           </div>
@@ -337,9 +325,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
       </div>
 
       {/* Document Content */}
-      <div className="flex-1 overflow-auto bg-surface2 p-6">
-        {renderDocumentContent()}
-      </div>
+      <div className="flex-1 overflow-auto bg-surface2 p-6">{renderDocumentContent()}</div>
     </div>
   );
 }

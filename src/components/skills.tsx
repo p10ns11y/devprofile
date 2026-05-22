@@ -1,6 +1,6 @@
-import { motion } from 'motion/react';
-import { Badge } from './ui/badge';
-import cvdata from '../data/cvdata.json'
+import { motion } from "motion/react";
+import cvdata from "../data/cvdata.json";
+import { Badge } from "./ui/badge";
 
 export function Skills() {
   // const skillCategories = [
@@ -51,7 +51,7 @@ export function Skills() {
               >
                 {category.title}
               </motion.h3>
-              
+
               <div className="flex flex-wrap gap-3 justify-center">
                 {category.skills.map((skill, skillIndex) => (
                   <motion.div
@@ -59,18 +59,18 @@ export function Skills() {
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ 
-                      duration: 0.4, 
-                      delay: categoryIndex * 0.2 + skillIndex * 0.1 
+                    transition={{
+                      duration: 0.4,
+                      delay: categoryIndex * 0.2 + skillIndex * 0.1,
                     }}
-                    whileHover={{ 
+                    whileHover={{
                       scale: 1.1,
-                      rotate: Math.random() * 10 - 5 
+                      rotate: Math.random() * 10 - 5,
                     }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Badge 
-                      variant="secondary" 
+                    <Badge
+                      variant="secondary"
                       className="text-sm py-2 px-4 hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
                     >
                       {skill}
@@ -91,12 +91,12 @@ export function Skills() {
           className="mt-16 space-y-6"
         >
           <h3 className="text-2xl font-semibold text-center mb-8">Proficiency</h3>
-          
+
           {[
-            { name: 'TypeScript/JavaScript', level: 95 },
-            { name: 'React/Frontend', level: 95 },
-            { name: 'Python/Backend', level: 90 },
-            { name: 'Team Leadership', level: 85 }
+            { name: "TypeScript/JavaScript", level: 95 },
+            { name: "React/Frontend", level: 95 },
+            { name: "Python/Backend", level: 90 },
+            { name: "Team Leadership", level: 85 },
           ].map((skill, index) => (
             <motion.div
               key={skill.name}

@@ -1,8 +1,9 @@
-import { Accomplishments } from '@/components/accomplishments';
+import { Accomplishments } from "@/components/accomplishments";
 
 export const metadata = {
-  title: 'Accomplishments - Peramanathan Sathyamoorthy',
-  description: 'Professional certifications and course completions in technology, cloud platforms, and AI',
+  title: "Accomplishments - Peramanathan Sathyamoorthy",
+  description:
+    "Professional certifications and course completions in technology, cloud platforms, and AI",
 };
 
 export default function AccomplishmentsPage() {

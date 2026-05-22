@@ -1,8 +1,8 @@
-import { motion } from 'motion/react';
+import { motion } from "motion/react";
 
-import { Icon, type IconName  } from '@/components/icon'
+import { Icon, type IconName } from "@/components/icon";
 
-import cvdata from '../data/cvdata.json';
+import cvdata from "../data/cvdata.json";
 
 export function SocialLinks() {
   return (
@@ -28,5 +28,5 @@ export function SocialLinks() {
         </motion.a>
       ))}
     </div>
-  )
+  );
 }

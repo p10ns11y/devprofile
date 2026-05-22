@@ -57,7 +57,7 @@ html {
   --accent-primary-text-dim-fallback: hsl(0 0% 90%);
   --accent-primary-text-dim: oklch(90% 0 0);
   --accent-secondary-dim-fallback: hsl(24 30% 60%);
-  --accent-secondary-dim: oklch(60% 0.10 24);
+  --accent-secondary-dim: oklch(60% 0.1 24);
   --accent-secondary-text-dim-fallback: hsl(0 0% 90%);
   --accent-secondary-text-dim: oklch(90% 0 0);
   --shadow-color-dim-fallback: hsl(var(--brand-hue) var(--brand-saturation) 10%);
@@ -239,10 +239,14 @@ html {
 
   --shadow-2xs: 0 1px hsl(var(--color-shadow) / 0.05);
   --shadow-xs: 0 1px 2px 0 hsl(var(--color-shadow) / 0.05);
-  --shadow-sm: 0 1px 3px 0 hsl(var(--color-shadow) / 0.1), 0 1px 2px -1px hsl(var(--color-shadow) / 0.1);
-  --shadow-md: 0 4px 6px -1px hsl(var(--color-shadow) / 0.1), 0 2px 4px -2px hsl(var(--color-shadow) / 0.1);
-  --shadow-lg: 0 10px 15px -3px hsl(var(--color-shadow) / 0.1), 0 4px 6px -4px hsl(var(--color-shadow) / 0.1);
-  --shadow-xl: 0 20px 25px -5px hsl(var(--color-shadow) / 0.1), 0 8px 10px -6px hsl(var(--color-shadow) / 0.1);
+  --shadow-sm:
+    0 1px 3px 0 hsl(var(--color-shadow) / 0.1), 0 1px 2px -1px hsl(var(--color-shadow) / 0.1);
+  --shadow-md:
+    0 4px 6px -1px hsl(var(--color-shadow) / 0.1), 0 2px 4px -2px hsl(var(--color-shadow) / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px hsl(var(--color-shadow) / 0.1), 0 4px 6px -4px hsl(var(--color-shadow) / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px hsl(var(--color-shadow) / 0.1), 0 8px 10px -6px hsl(var(--color-shadow) / 0.1);
   --shadow-2xl: 0 25px 50px -12px hsl(var(--color-shadow) / 0.25);
 
   --inset-shadow-2xs: inset 0 1px hsl(var(--color-shadow) / 0.05);
@@ -259,11 +263,14 @@ html {
   --text-shadow-2xs: 0px 1px 0px hsl(var(--color-shadow) / 0.15);
   --text-shadow-xs: 0px 1px 1px hsl(var(--color-shadow) / 0.2);
   --text-shadow-sm:
-    0px 1px 0px hsl(var(--color-shadow) / 0.075), 0px 1px 1px hsl(var(--color-shadow) / 0.075), 0px 2px 2px hsl(var(--color-shadow) / 0.075);
+    0px 1px 0px hsl(var(--color-shadow) / 0.075), 0px 1px 1px hsl(var(--color-shadow) / 0.075),
+    0px 2px 2px hsl(var(--color-shadow) / 0.075);
   --text-shadow-md:
-    0px 1px 1px hsl(var(--color-shadow) / 0.1), 0px 1px 2px hsl(var(--color-shadow) / 0.1), 0px 2px 4px hsl(var(--color-shadow) / 0.1);
+    0px 1px 1px hsl(var(--color-shadow) / 0.1), 0px 1px 2px hsl(var(--color-shadow) / 0.1),
+    0px 2px 4px hsl(var(--color-shadow) / 0.1);
   --text-shadow-lg:
-    0px 1px 2px hsl(var(--color-shadow) / 0.1), 0px 3px 2px hsl(var(--color-shadow) / 0.1), 0px 4px 8px hsl(var(--color-shadow) / 0.1);
+    0px 1px 2px hsl(var(--color-shadow) / 0.1), 0px 3px 2px hsl(var(--color-shadow) / 0.1),
+    0px 4px 8px hsl(var(--color-shadow) / 0.1);
 }
 
 @theme static {

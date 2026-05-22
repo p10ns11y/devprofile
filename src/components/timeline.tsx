@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { motion } from 'motion/react';
-import cvdata from '../data/cvdata.json'
+import { motion } from "motion/react";
+import cvdata from "../data/cvdata.json";
 
 export function TimelineContent() {
   return (
@@ -23,25 +23,20 @@ export function TimelineContent() {
               <div className="font-semibold text-foreground mb-1">
                 {exp.start_date.split(" ")[1]}
               </div>
-              <div className="text-muted-foreground">
-                {exp.title}
-              </div>
-              <div className="text-primary font-medium">
-                {exp.company.split(",")[0]}
-              </div>
+              <div className="text-muted-foreground">{exp.title}</div>
+              <div className="text-primary font-medium">{exp.company.split(",")[0]}</div>
             </motion.div>
           ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
-
 
 export function Timeline() {
   return (
-    <section id="Timeline" className='py-20'>
-      <div className='container mx-auto px-6'>
+    <section id="Timeline" className="py-20">
+      <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -49,12 +44,10 @@ export function Timeline() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="mt-16 pt-16 border-t border-border"
         >
-          <h3 className="text-2xl font-bold text-center mb-8">
-            Career Timeline
-          </h3>
+          <h3 className="text-2xl font-bold text-center mb-8">Career Timeline</h3>
           <TimelineContent />
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

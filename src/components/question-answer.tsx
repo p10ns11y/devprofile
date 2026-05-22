@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { getFeatureDisclaimer, isFeatureInDevelopment } from '../config/feature-flags';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
+import { getFeatureDisclaimer, isFeatureInDevelopment } from "../config/feature-flags";
 
 interface QAResult {
   answer: string;
@@ -12,7 +13,7 @@ interface QAResult {
 }
 
 export function QuestionAnswer() {
-  const [question, setQuestion] = useState('');
+  const [question, setQuestion] = useState("");
   const [result, setResult] = useState<QAResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -26,29 +27,29 @@ export function QuestionAnswer() {
     setResult(null);
 
     try {
-      const response = await fetch('/api/cv/qa', {
-        method: 'POST',
+      const response = await fetch("/api/cv/qa", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ question }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get answer');
+        throw new Error("Failed to get answer");
       }
 
       const data = await response.json();
       setResult(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
   };
 
-  const qaDisclaimer = getFeatureDisclaimer('qa');
-  const isQaInDevelopment = isFeatureInDevelopment('qa');
+  const qaDisclaimer = getFeatureDisclaimer("qa");
+  const isQaInDevelopment = isFeatureInDevelopment("qa");
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -75,7 +76,10 @@ export function QuestionAnswer() {
 
         <form onSubmit={handleAsk} className="space-y-4">
           <div>
-            <label htmlFor="question" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label
+              htmlFor="question"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
               Your Question
             </label>
             <input
@@ -93,7 +97,7 @@ export function QuestionAnswer() {
             disabled={loading || !question.trim()}
             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Thinking...' : 'Ask'}
+            {loading ? "Thinking..." : "Ask"}
           </button>
         </form>
       </div>
@@ -110,7 +114,9 @@ export function QuestionAnswer() {
           <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg">{result.answer}</p>
 
           <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-            <h4 className="font-medium mb-3 text-gray-800 dark:text-gray-200">Retrieved Information</h4>
+            <h4 className="font-medium mb-3 text-gray-800 dark:text-gray-200">
+              Retrieved Information
+            </h4>
             <div className="space-y-3">
               {result.details.map((detail, index) => (
                 <div key={index} className="bg-gray-50 dark:bg-gray-700 rounded p-3">

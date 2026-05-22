@@ -1,14 +1,14 @@
-import { DocumentItem } from '../types/documents';
-import cvData from './cvdata.json';
+import type { DocumentItem } from "../types/documents";
+import cvData from "./cvdata.json";
 
 export const getDocumentsData = (): DocumentItem[] => {
   return [
     // CV Document
     {
-      id: 'cv-pdf',
-      name: 'cv.pdf',
-      path: '/cv.pdf',
-      type: 'pdf',
+      id: "cv-pdf",
+      name: "cv.pdf",
+      path: "/cv.pdf",
+      type: "pdf",
       size: 1024000,
       lastModified: new Date(),
     },
@@ -22,132 +22,132 @@ export const getDocumentsData = (): DocumentItem[] => {
     // },
     // Certificate PDFs
     {
-      id: 'cert-coursera-0UXP2OPIYHPS',
-      name: 'Coursera 0UXP2OPIYHPS.pdf',
-      path: '/certificates/Coursera 0UXP2OPIYHPS.pdf',
-      type: 'pdf',
+      id: "cert-coursera-0UXP2OPIYHPS",
+      name: "Coursera 0UXP2OPIYHPS.pdf",
+      path: "/certificates/Coursera 0UXP2OPIYHPS.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-coursera-A5O6UPSB1TU2',
-      name: 'Coursera A5O6UPSB1TU2.pdf',
-      path: '/certificates/Coursera A5O6UPSB1TU2.pdf',
-      type: 'pdf',
+      id: "cert-coursera-A5O6UPSB1TU2",
+      name: "Coursera A5O6UPSB1TU2.pdf",
+      path: "/certificates/Coursera A5O6UPSB1TU2.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-coursera-CF3OFVOXL5DL',
-      name: 'Coursera CF3OFVOXL5DL.pdf',
-      path: '/certificates/Coursera CF3OFVOXL5DL.pdf',
-      type: 'pdf',
+      id: "cert-coursera-CF3OFVOXL5DL",
+      name: "Coursera CF3OFVOXL5DL.pdf",
+      path: "/certificates/Coursera CF3OFVOXL5DL.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-coursera-dataproducts',
-      name: 'Coursera-dataproducts.pdf',
-      path: '/certificates/Coursera-dataproducts.pdf',
-      type: 'pdf',
+      id: "cert-coursera-dataproducts",
+      name: "Coursera-dataproducts.pdf",
+      path: "/certificates/Coursera-dataproducts.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-coursera-meteor',
-      name: 'Coursera-Meteor.pdf',
-      path: '/certificates/Coursera-Meteor.pdf',
-      type: 'pdf',
+      id: "cert-coursera-meteor",
+      name: "Coursera-Meteor.pdf",
+      path: "/certificates/Coursera-Meteor.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-coursera-ml',
-      name: 'Coursera-ML.pdf',
-      path: '/certificates/Coursera-ML.pdf',
-      type: 'pdf',
+      id: "cert-coursera-ml",
+      name: "Coursera-ML.pdf",
+      path: "/certificates/Coursera-ML.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     // Additional certificates
     {
-      id: 'cert-advanced-react-hooks',
-      name: 'advanced-react-hooks-certificate.pdf',
-      path: '/certificates/advanced-react-hooks-certificate.pdf',
-      type: 'pdf',
+      id: "cert-advanced-react-hooks",
+      name: "advanced-react-hooks-certificate.pdf",
+      path: "/certificates/advanced-react-hooks-certificate.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-advanced-react-patterns',
-      name: 'advanced-react-patterns-certificate.pdf',
-      path: '/certificates/advanced-react-patterns-certificate.pdf',
-      type: 'pdf',
+      id: "cert-advanced-react-patterns",
+      name: "advanced-react-patterns-certificate.pdf",
+      path: "/certificates/advanced-react-patterns-certificate.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-build-epic-react-app',
-      name: 'build-epic-react-app-certificate.pdf',
-      path: '/certificates/build-epic-react-app-certificate.pdf',
-      type: 'pdf',
+      id: "cert-build-epic-react-app",
+      name: "build-epic-react-app-certificate.pdf",
+      path: "/certificates/build-epic-react-app-certificate.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-javascript-testing',
-      name: 'JavaScriptTestingCertificate.pdf',
-      path: '/certificates/JavaScriptTestingCertificate.pdf',
-      type: 'pdf',
+      id: "cert-javascript-testing",
+      name: "JavaScriptTestingCertificate.pdf",
+      path: "/certificates/JavaScriptTestingCertificate.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-just-javascript',
-      name: 'JustJavaScript-certificate.pdf',
-      path: '/certificates/JustJavaScript-certificate.pdf',
-      type: 'pdf',
+      id: "cert-just-javascript",
+      name: "JustJavaScript-certificate.pdf",
+      path: "/certificates/JustJavaScript-certificate.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
-   
+
     {
-      id: 'cert-react-fundamentals',
-      name: 'react-fundamentals-certificate.pdf',
-      path: '/certificates/react-fundamentals-certificate.pdf',
-      type: 'pdf',
-      size: 256000,
-      lastModified: new Date(),
-    },
-    {
-      id: 'cert-react-hooks-epic-react',
-      name: 'react-hooks-epic-react-certificate.pdf',
-      path: '/certificates/react-hooks-epic-react-certificate.pdf',
-      type: 'pdf',
+      id: "cert-react-fundamentals",
+      name: "react-fundamentals-certificate.pdf",
+      path: "/certificates/react-fundamentals-certificate.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-react-performance',
-      name: 'react-performance-certificate.pdf',
-      path: '/certificates/react-performance-certificate.pdf',
-      type: 'pdf',
+      id: "cert-react-hooks-epic-react",
+      name: "react-hooks-epic-react-certificate.pdf",
+      path: "/certificates/react-hooks-epic-react-certificate.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-react-suspense',
-      name: 'react-suspense-certificate.pdf',
-      path: '/certificates/react-suspense-certificate.pdf',
-      type: 'pdf',
+      id: "cert-react-performance",
+      name: "react-performance-certificate.pdf",
+      path: "/certificates/react-performance-certificate.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
     {
-      id: 'cert-testing-react-apps',
-      name: 'testing-react-apps-certificate.pdf',
-      path: '/certificates/testing-react-apps-certificate.pdf',
-      type: 'pdf',
+      id: "cert-react-suspense",
+      name: "react-suspense-certificate.pdf",
+      path: "/certificates/react-suspense-certificate.pdf",
+      type: "pdf",
+      size: 256000,
+      lastModified: new Date(),
+    },
+    {
+      id: "cert-testing-react-apps",
+      name: "testing-react-apps-certificate.pdf",
+      path: "/certificates/testing-react-apps-certificate.pdf",
+      type: "pdf",
       size: 256000,
       lastModified: new Date(),
     },
@@ -160,19 +160,19 @@ export const getDocumentsData = (): DocumentItem[] => {
     //   lastModified: new Date(),
     // },
     {
-      id: 'cert-polaris-ht101-social',
-      name: 'polaris-ht101-social-certificate-template.png',
-      path: '/certificates/polaris-ht101-social-certificate-template.png',
-      type: 'image',
+      id: "cert-polaris-ht101-social",
+      name: "polaris-ht101-social-certificate-template.png",
+      path: "/certificates/polaris-ht101-social-certificate-template.png",
+      type: "image",
       size: 256000,
       lastModified: new Date(),
     },
     // Images
     {
-      id: 'curism-png',
-      name: 'curism.png',
-      path: '/images/curism.png',
-      type: 'image',
+      id: "curism-png",
+      name: "curism.png",
+      path: "/images/curism.png",
+      type: "image",
       size: 512000,
       lastModified: new Date(),
     },
@@ -181,25 +181,29 @@ export const getDocumentsData = (): DocumentItem[] => {
 
 export const getCertificatesData = (): DocumentItem[] => {
   const certificates = cvData.certificates.map((cert: any, index: number) => {
-    let verifyUrl: string | undefined = undefined;
+    let verifyUrl: string | undefined;
     if (cert.verifyUrl) {
-      verifyUrl = cert.verifyUrl.startsWith('http://') || cert.verifyUrl.startsWith('https://')
-        ? cert.verifyUrl
-        : `https://${cert.verifyUrl}`;
+      verifyUrl =
+        cert.verifyUrl.startsWith("http://") || cert.verifyUrl.startsWith("https://")
+          ? cert.verifyUrl
+          : `https://${cert.verifyUrl}`;
     }
-    const fileExtension = cert.filename.split('.').pop()?.toLowerCase();
-    const type = fileExtension === 'png' || fileExtension === 'jpg' || fileExtension === 'jpeg' ? 'image' : 'pdf';
+    const fileExtension = cert.filename.split(".").pop()?.toLowerCase();
+    const type =
+      fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg"
+        ? "image"
+        : "pdf";
 
     // Create a unique ID based on filename (remove extension and sanitize)
-    const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, '');
-    const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+    const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, "");
+    const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
     const uniqueId = `cert-${sanitizedName}-${index}`;
 
     return {
       id: uniqueId,
       name: cert.filename,
       path: `/certificates/${cert.filename}`,
-      type: type as 'pdf' | 'image',
+      type: type as "pdf" | "image",
       size: 256000, // Default size, could be improved
       lastModified: new Date(cert.reissuedDate || cert.completionDate || Date.now()),
       verifyUrl,

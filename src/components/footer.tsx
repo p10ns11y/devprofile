@@ -1,11 +1,7 @@
-import Link from 'next/link';
 import { motion } from "motion/react";
-import { Heart } from "lucide-react";
-
+import Link from "next/link";
+import cvdata from "../data/cvdata.json";
 import { SocialLinks } from "./social-links";
-
-
-import cvdata from '../data/cvdata.json'
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -20,10 +16,7 @@ export function Footer() {
           transition={{ duration: 0.8 }}
           className="text-center space-y-8"
         >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="text-2xl font-semibold"
-          >
+          <motion.div whileHover={{ scale: 1.05 }} className="text-2xl font-semibold">
             Peramanathan S.
           </motion.div>
 
@@ -96,8 +89,9 @@ export function Footer() {
             className="text-xs text-text2"
           >
             <p>
-              Crafted with NextJS, Tailwind CSS (Material Design dynamic color inspired theme), and Figma Make flair, powered by Cline, Kilo Code, and xAI's zippy grok-code-fast-1. 
-              My Big Brain added the sass, not that BigBrain mode, just pure wit! 😎
+              Crafted with NextJS, Tailwind CSS (Material Design dynamic color inspired theme), and
+              Figma Make flair, powered by Cline, Kilo Code, and xAI's zippy grok-code-fast-1. My
+              Big Brain added the sass, not that BigBrain mode, just pure wit! 😎
             </p>
           </motion.div>
         </motion.div>

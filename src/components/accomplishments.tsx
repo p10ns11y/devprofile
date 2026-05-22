@@ -1,12 +1,15 @@
 "use client";
 
-import { motion } from 'motion/react';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink } from "lucide-react";
+import { motion } from "motion/react";
 
-import cvdata from '@/data/cvdata.json';
+import cvdata from "@/data/cvdata.json";
 
 export function Accomplishments() {
-  const renderCourseCard = (course: { name: string; url: string; domain: string, proof_of_accomplishment: string }, index: number) => (
+  const renderCourseCard = (
+    course: { name: string; url: string; domain: string; proof_of_accomplishment: string },
+    index: number
+  ) => (
     <motion.div
       key={index}
       initial={{ opacity: 0, y: 50 }}
@@ -40,7 +43,12 @@ export function Accomplishments() {
             </div>
             <div className="flex items-center text-text2 hover:text-brand transition-colors">
               <ExternalLink className="w-4 h-4 mr-2" />
-              <span className="text-sm">View { course.proof_of_accomplishment === 'github_code_repo' ? 'Repository' : 'Certificate'}</span>
+              <span className="text-sm">
+                View{" "}
+                {course.proof_of_accomplishment === "github_code_repo"
+                  ? "Repository"
+                  : "Certificate"}
+              </span>
             </div>
           </div>
         </div>
@@ -58,11 +66,10 @@ export function Accomplishments() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 text-text1">
-              Accomplishments
-            </h3>
+            <h3 className="text-3xl font-bold mb-4 text-text1">Accomplishments</h3>
             <p className="text-text2 max-w-2xl mx-auto">
-              Professional certifications and course completions in technology, cloud platforms, and AI
+              Professional certifications and course completions in technology, cloud platforms, and
+              AI
             </p>
           </div>
 

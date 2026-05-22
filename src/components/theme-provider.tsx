@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
 
-type Theme = 'light' | 'dim';
+type Theme = "light" | "dim";
 
 interface ThemeContextType {
   theme: Theme;
@@ -14,7 +14,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
 }
@@ -24,26 +24,26 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
     // Apply theme class for CSS theme switching
     const root = document.documentElement;
-    root.classList.remove('light', 'dim');
+    root.classList.remove("light", "dim");
     root.classList.add(theme);
   }, [theme]);
 
   useEffect(() => {
     // Load theme from localStorage on mount
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme && ['light', 'dim'].includes(savedTheme)) {
+    const savedTheme = localStorage.getItem("theme") as Theme;
+    if (savedTheme && ["light", "dim"].includes(savedTheme)) {
       setTheme(savedTheme);
     }
   }, []);
 
   const handleSetTheme = (newTheme: Theme) => {
     setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   return (

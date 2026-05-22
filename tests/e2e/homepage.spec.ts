@@ -1,47 +1,41 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from "@playwright/test";
+import { openMobileMenuIfNeeded } from "./helpers/mobile-nav";
 
-test.describe('Homepage', () => {
-  test('should load homepage successfully', async ({ page }) => {
-    await page.goto('/');
+test.describe("Homepage", () => {
+  test("should load homepage successfully", async ({ page, isMobile }) => {
+    await page.goto("/");
 
-    // Check if main elements are present
-    await expect(page.locator('h1')).toBeVisible();
-    await expect(page.getByText('About')).toBeVisible();
-    await expect(page.getByText('Skills')).toBeVisible();
-    await expect(page.getByText('Experience')).toBeVisible();
-    await expect(page.getByText('Contact')).toBeVisible();
+    await expect(page.locator("h1").first()).toBeVisible();
+    await openMobileMenuIfNeeded(page, isMobile);
+    await expect(page.getByRole("button", { name: "About", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Projects", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Experience", exact: true })).toBeVisible();
+    await expect(page.locator("#about").getByRole("heading", { name: "About Me" })).toBeVisible();
   });
 
-  test('should have working navigation links', async ({ page }) => {
-    await page.goto('/');
+  test("should have working navigation links", async ({ page, isMobile }) => {
+    await page.goto("/");
 
-    // Check navigation links
-    await page.getByRole('link', { name: /ama|ask me anything/i }).click();
-    await expect(page).toHaveURL(/.*ama/);
+    await openMobileMenuIfNeeded(page, isMobile);
+    await page.getByRole("link", { name: "Content Hub", exact: true }).click();
+    await expect(page).toHaveURL(/\/content-hub/);
 
-    // Navigate back
     await page.goBack();
-    await expect(page).toHaveURL('/');
+    await expect(page).toHaveURL("/");
   });
 
-  test('should display hero section correctly', async ({ page }) => {
-    await page.goto('/');
+  test("should display hero section correctly", async ({ page }) => {
+    await page.goto("/");
 
-    // Check hero section elements
-    const heroSection = page.locator('[class*="hero"], [class*="Hero"]').first();
-    await expect(heroSection).toBeVisible();
-
-    // Check for main heading
-    await expect(page.locator('h1, h2').first()).toBeVisible();
+    await expect(page.locator("#home")).toBeVisible();
+    await expect(page.locator("h1").first()).toBeVisible();
+    await expect(page.getByRole("button", { name: "View My Work" })).toBeVisible();
   });
 
-  test('should load projects section', async ({ page }) => {
-    await page.goto('/');
+  test("should load projects section", async ({ page }) => {
+    await page.goto("/");
 
-    // Wait for projects to load (lazy loaded component)
-    await page.waitForTimeout(2000); // Allow time for lazy loading
-
-    const projectsSection = page.locator('[class*="project"], [class*="Project"]').first();
-    await expect(projectsSection.or(page.getByText('Loading projects...'))).toBeVisible();
+    await expect(page.locator("#projects")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Featured Projects" })).toBeVisible();
   });
 });

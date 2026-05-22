@@ -125,12 +125,12 @@
 
   <script>
     // Listen for online/offline events
-    window.addEventListener('online', function() {
+    window.addEventListener('online', () => {
       document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #00ff88 100%)';
       setTimeout(() => location.reload(), 500);
     });
 
-    window.addEventListener('offline', function() {
+    window.addEventListener('offline', () => {
       document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)';
     });
 

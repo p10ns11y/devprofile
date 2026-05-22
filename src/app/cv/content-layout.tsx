@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,11 +20,11 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
     if (!node || isApplied) {
       if (container && originalContainerStyle) {
         // Restore original styles
-        const styleProps = originalContainerStyle.split(';').filter(prop => prop.trim());
-        styleProps.forEach(prop => {
-          const [key, value] = prop.split(':').map(s => s.trim());
+        const styleProps = originalContainerStyle.split(";").filter((prop) => prop.trim());
+        styleProps.forEach((prop) => {
+          const [key, value] = prop.split(":").map((s) => s.trim());
           if (key && value) {
-            container!.style.setProperty(key, value);
+            container?.style.setProperty(key, value);
           }
         });
       }
@@ -35,26 +35,26 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
       originalContainerStyle = container.style.cssText;
     }
 
-    if (container && !CSS.supports('display', 'masonry') && container.children.length > 0) {
+    if (container && !CSS.supports("display", "masonry") && container.children.length > 0) {
       // container.style.flexDirection = 'row';
       // For single column, simply render in order
       if (ratios.length === 1) {
-        container.style.display = 'flex';
-        container.style.flexDirection = 'column';
+        container.style.display = "flex";
+        container.style.flexDirection = "column";
         container.style.gap = `${gap}rem`;
         return;
       }
 
       // Find mainContent element safely
       const mainContentElement = Array.from(container.children).find((child: Element) => {
-        return child.id === 'mainContent' && child instanceof HTMLElement;
+        return child.id === "mainContent" && child instanceof HTMLElement;
       }) as HTMLDivElement | undefined;
 
       // Filter valid child elements (excluding mainContent)
-      const items = Array.from(container.children)
-        .filter((child: Element): child is HTMLElement =>
-          child instanceof HTMLElement && child.id !== 'mainContent'
-        );
+      const items = Array.from(container.children).filter(
+        (child: Element): child is HTMLElement =>
+          child instanceof HTMLElement && child.id !== "mainContent"
+      );
 
       // Only proceed if we have items to work with
       if (items.length === 0) return;
@@ -64,9 +64,9 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
         width: `${(r / totalRatio) * 100}%`,
         items: [] as HTMLElement[],
       }));
-      
+
       // Column capacities: proportional content holding based on width ratios
-      const columnCapacities = ratios.map(r => r / totalRatio);
+      const columnCapacities = ratios.map((r) => r / totalRatio);
 
       // Adaptive placement with forward-looking height minimization
       // Maintain running char counts for each column
@@ -77,30 +77,30 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
       }
 
       // Evaluate each item in original order
-      const placedItems = items.map((item, index) => {
+      const placedItems = items.map((item, _index) => {
         const itemChars = item.innerText.length;
-        
+
         // Evaluate placement in each possible column
         const placementOptions = ratios.map((_, colIndex) => {
           // Calculate height (chars / capacity factor) for all columns after placement
           const tempChars = [...charsPerColumn];
           tempChars[colIndex] += itemChars;
-          
+
           // Height metric: normalized by column capacity for fair comparison
           const heights = tempChars.map((chars, i) => chars / columnCapacities[i]);
           const maxHeight = Math.max(...heights);
           const heightBalanceScore = maxHeight; // Minimize the maximum height (perfect balance)
-          
+
           return {
             colIndex,
             maxHeightAfter: maxHeight,
             heights: [...heights],
-            balanceScore: heightBalanceScore
+            balanceScore: heightBalanceScore,
           };
         });
 
         // Choose best placement: lowest maximum height
-        const bestPlacement = placementOptions.reduce((best, current) => 
+        const bestPlacement = placementOptions.reduce((best, current) =>
           current.balanceScore < best.balanceScore ? current : best
         );
 
@@ -110,7 +110,7 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
 
         return {
           element: item,
-          placement: bestPlacement
+          placement: bestPlacement,
         };
       });
 
@@ -160,36 +160,43 @@ function createFallbackMasonaryLayoutRef(ratios: number[], gap: number) {
 
       // Clear and rebuild DOM
       if (container) {
-        container.innerHTML = '';
-        container.style.display = 'flex';
-        container.style.flexDirection = 'row';
+        container.innerHTML = "";
+        container.style.display = "flex";
+        container.style.flexDirection = "row";
         container.style.gap = `${gap}rem`;
-        container.style.flexWrap = 'nowrap';
-  
-        const colDivs = cols.map((col: { width: string; items: HTMLElement[] }, i: number) => {
-          const div = document.createElement('div');
+        container.style.flexWrap = "nowrap";
+
+        const colDivs = cols.map((col: { width: string; items: HTMLElement[] }, _i: number) => {
+          const div = document.createElement("div");
           div.style.flex = `0 0 ${col.width}`; // As flex item
           // div.style.marginBottom = `${gap}rem`;
-          div.style.display = 'flex'; // Also flex container
-          div.style.flexDirection = 'column';
+          div.style.display = "flex"; // Also flex container
+          div.style.flexDirection = "column";
           div.style.gap = `${gap}rem`;
           // Filter out any null/undefined items before appending
-          col.items.filter((item: HTMLElement | undefined) => item).forEach((item: HTMLElement) => div.appendChild(item));
+          col.items
+            .filter((item: HTMLElement | undefined) => item)
+            .forEach((item: HTMLElement) => div.appendChild(item));
           return div;
         });
-  
-        colDivs.forEach((div: HTMLDivElement) => container!.appendChild(div));
+
+        colDivs.forEach((div: HTMLDivElement) => container?.appendChild(div));
       }
 
       isApplied = true;
     }
   };
 }
-const Layout = ({ children, ratios: defaultRatios = [1, 2], gap = 4, className = '' }: LayoutProps) => {
+const Layout = ({
+  children,
+  ratios: defaultRatios = [1, 2],
+  gap = 4,
+  className = "",
+}: LayoutProps) => {
   const [isWideViewport, setIsWideViewport] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(min-width: 1024px)');
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
     const handleChange = (e: MediaQueryListEvent) => {
       setIsWideViewport(e.matches);
     };
@@ -198,8 +205,8 @@ const Layout = ({ children, ratios: defaultRatios = [1, 2], gap = 4, className =
     setIsWideViewport(mediaQuery.matches);
 
     // Listen for changes
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
   const ratios = useMemo(() => {
@@ -208,28 +215,27 @@ const Layout = ({ children, ratios: defaultRatios = [1, 2], gap = 4, className =
 
   // Calculate dynamic styles for layout (memoized to prevent infinite loops)
   const dynamicStyles = useMemo(() => {
-    if (typeof window === 'undefined' || typeof window?.CSS === 'undefined') {
-      return {}
+    if (typeof window === "undefined" || typeof window?.CSS === "undefined") {
+      return {};
     }
 
-    const frUnits = ratios.join('fr ');
+    const frUnits = ratios.join("fr ");
 
     const styles: React.CSSProperties = {
-      display: CSS.supports('display', 'masonry') ? 'masonry' : 'block',
+      display: CSS.supports("display", "masonry") ? "masonry" : "block",
       gap: `${gap}rem`,
-      ...(CSS.supports('display', 'masonry')
-        ? {
-            // @ts-ignore - masonry properties not fully typed in React CSSProperties
+      ...(CSS.supports("display", "masonry")
+        ? ({
             masonryTemplateColumns: `${frUnits}fr`,
             gridTemplateColumns: `${frUnits}fr`,
             masonry: `${frUnits}fr`,
-            masonryDirection: 'column',
-          }
+            masonryDirection: "column",
+          } as React.CSSProperties)
         : {
-            display: 'grid',
+            display: "grid",
             gridTemplateColumns: `${frUnits}fr`,
-            gridAutoRows: 'min-content',
-            gridAutoFlow: 'dense'
+            gridAutoRows: "min-content",
+            gridAutoFlow: "dense",
           }),
     };
 
@@ -240,7 +246,7 @@ const Layout = ({ children, ratios: defaultRatios = [1, 2], gap = 4, className =
     <div
       ref={createFallbackMasonaryLayoutRef(ratios, gap)}
       className={`mx-auto max-w-[100vw] p-${gap} ${className}`}
-      style={CSS.supports('display', 'masonry') ? dynamicStyles: {}}
+      style={CSS.supports("display", "masonry") ? dynamicStyles : {}}
       suppressHydrationWarning
     >
       {React.Children.toArray(children)}

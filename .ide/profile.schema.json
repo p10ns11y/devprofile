@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Project IDE profile",
+  "type": "object",
+  "required": ["name"],
+  "properties": {
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "stack": { "type": "array", "items": { "type": "string" } },
+    "extensions": {
+      "type": "object",
+      "properties": {
+        "recommend": { "type": "array", "items": { "type": "string" } },
+        "unwanted": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "cursor": {
+      "type": "object",
+      "properties": {
+        "plugins": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "publisher": { "type": "string" },
+              "optional": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "settings": { "type": "object" }
+  }
+}
