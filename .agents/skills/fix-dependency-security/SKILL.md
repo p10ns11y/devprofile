@@ -38,12 +38,13 @@ Copy and track:
 
 ```
 - [ ] 1. Baseline: pnpm audit (and pnpm outdated if useful)
-- [ ] 2. Plan fixes (direct bumps vs overrides vs upstream)
-- [ ] 3. Apply fixes (package.json + pnpm-workspace.yaml)
-- [ ] 4. Install behind SFW: sfw pnpm install
-- [ ] 5. Confirm: pnpm audit → clean
-- [ ] 6. Confirm: no deprecated deps (install output / pnpm why)
-- [ ] 7. Validate: pnpm type-check && pnpm lint
+- [ ] 2. If trust downgrade: pnpm why → bump parent or overrides (no trustPolicyExclude)
+- [ ] 3. Plan CVE fixes (direct bumps vs overrides vs upstream)
+- [ ] 4. Apply fixes (package.json + pnpm-workspace.yaml)
+- [ ] 5. Install behind SFW: sfw pnpm install
+- [ ] 6. Confirm: pnpm audit → clean
+- [ ] 7. Confirm: no deprecated deps (install output / pnpm why)
+- [ ] 8. Validate: pnpm type-check && pnpm lint
 ```
 
 ---
@@ -64,11 +65,44 @@ pnpm outdated         # optional: direct upgrade candidates
 
 ---
 
-## Step 2: Fix vulnerabilities
+## Step 2: Fix `ERR_PNPM_TRUST_DOWNGRADE`
+
+When `trustPolicy: no-downgrade` blocks install or lockfile verification:
+
+1. Read the package name and version from the error (e.g. `semver@6.3.1`).
+2. Trace the tree:
+
+```bash
+pnpm why <package>
+```
+
+3. Fix in this order (do **not** use `trustPolicyExclude` unless the user explicitly approves an exception):
+
+| Option | When |
+|--------|------|
+| **Bump direct dep** | `pnpm why` shows your `package.json` dependency — raise its range and reinstall |
+| **Bump transitive parent** | A parent you control (e.g. `eslint-config-next`) has a newer release that drops the bad version — upgrade that parent |
+| **`pnpm.overrides`** | Parent range cannot move yet, but a newer **same-major** or compatible major exists with stronger trust — pin in `pnpm-workspace.yaml`, then regenerate the lockfile |
+
+4. Regenerate a stale lockfile if overrides changed but verification still fails:
+
+```bash
+rm -rf node_modules pnpm-lock.yaml
+sfw pnpm install --no-frozen-lockfile
+pnpm install   # confirm lockfile passes supply-chain policies
+```
+
+5. Re-run `pnpm why <package>` to confirm a single trusted version remains.
+
+Example (eslint toolchain): `eslint-config-next` pulled `eslint-import-resolver-typescript@3.10.1` and `semver@6.3.1` → overrides to `^4.4.4` and `^7.7.2` after `pnpm why` showed no newer parent.
+
+---
+
+## Step 3: Fix vulnerabilities
 
 ### Direct dependencies
 
-Bump in `package.json`, then install (see Step 4).
+Bump in `package.json`, then install (see Step 5).
 
 Example: Next.js advisories → set `next` to latest patched in the same major line (e.g. `16.2.6`).
 
@@ -94,10 +128,10 @@ Do not stop until `pnpm audit` reports no known vulnerabilities (or document acc
 
 ---
 
-## Step 3: Fix deprecations
+## Step 4: Fix deprecations
 
 ```bash
-pnpm install    # surface deprecated warnings (prefer sfw — Step 4)
+pnpm install    # surface deprecated warnings (prefer sfw — Step 5)
 pnpm why <deprecated-package>
 ```
 
@@ -109,7 +143,7 @@ pnpm why <deprecated-package>
 
 ---
 
-## Step 4: SFW (Socket Firewall) for installs
+## Step 5: SFW (Socket Firewall) for installs
 
 ### Install SFW once per machine
 
@@ -146,7 +180,7 @@ Docs: https://docs.socket.dev/docs/socket-firewall-free
 
 ---
 
-## Step 5: pnpm supply-chain hardening
+## Step 6: pnpm supply-chain hardening
 
 Prefer settings in **`pnpm-workspace.yaml`** (not `package.json`):
 
@@ -159,11 +193,11 @@ blockExoticSubdeps: true
 
 Keep existing project overrides (security pins) alongside these keys.
 
-**`allowBuilds`:** only enable lifecycle scripts for packages that truly need native builds (e.g. `sharp`, `esbuild`).
+**`allowBuilds`:** only enable lifecycle scripts for packages that truly need native builds (e.g. `sharp`, `esbuild`). After changes to the whitelist or to locked versions of allowed packages, run [audit-allow-builds](../audit-allow-builds/SKILL.md).
 
 ---
 
-## Step 6: CI / StepSecurity (optional)
+## Step 7: CI / StepSecurity (optional)
 
 For GitHub Actions, add [Harden-Runner](https://github.com/step-security/harden-runner) early in the job to detect anomalous egress and tampering:
 
@@ -177,7 +211,7 @@ Use StepSecurity threat write-ups when investigating **npm incidents** (typosqua
 
 ---
 
-## Step 7: Validate
+## Step 8: Validate
 
 ```bash
 pnpm audit
@@ -198,8 +232,8 @@ Summarize for the user:
 ## Project-specific notes (devprofile)
 
 - **Package manager:** pnpm 11; config in `pnpm-workspace.yaml`.
-- **Hardened workspace:** `minimumReleaseAge: 1440` (strict 1d; bump to `10080` when lockfile has no packages newer than 7d), `minimumReleaseAgeStrict`, `blockExoticSubdeps`, `trustPolicy: no-downgrade`, `strictDepBuilds`, `verifyDepsBeforeRun: error`, `sideEffectsCache: false`, explicit `allowBuilds` whitelist.
-- **Overrides** pin transitive security packages and ONNX stack versions.
+- **Hardened workspace:** `minimumReleaseAge: 1440` (strict 1d; bump to `10080` when lockfile has no packages newer than 7d), `minimumReleaseAgeStrict`, `blockExoticSubdeps`, `trustPolicy: no-downgrade` (no `trustPolicyExclude`), `strictDepBuilds`, `verifyDepsBeforeRun: error`, `sideEffectsCache: false`, explicit `allowBuilds` whitelist.
+- **Overrides** pin transitive security packages, ONNX stack, and eslint trust fixes (`eslint-import-resolver-typescript`, `semver`).
 - **Do not** reintroduce `allowedDeprecatedVersions` for `boolean` — fixed via `onnxruntime-node` / `global-agent` bumps.
 
 ---
@@ -211,6 +245,12 @@ Summarize for the user:
 - Running `pnpm add` / `pnpm update` without `sfw` when hardening supply chain
 - Putting pnpm `overrides` in `package.json` when the repo uses `pnpm-workspace.yaml`
 - Assuming audit clean means safe without checking deprecations and install-time firewall
+- `trustPolicyExclude` to bypass trust downgrades — use `pnpm why`, bump, or `overrides` instead
+
+## Related skills
+
+- [audit-allow-builds](../audit-allow-builds/SKILL.md) — supply-chain review of `allowBuilds` packages (lockfile versions, new releases, postinstall scripts)
+- [upgrade-packages](../upgrade-packages/SKILL.md) — semver-safe and major framework upgrades; shares trust-downgrade / `pnpm why` workflow
 
 ## References
 
