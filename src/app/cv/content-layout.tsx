@@ -225,13 +225,12 @@ const Layout = ({
       display: CSS.supports("display", "masonry") ? "masonry" : "block",
       gap: `${gap}rem`,
       ...(CSS.supports("display", "masonry")
-        ? {
-            // @ts-expect-error - masonry properties not fully typed in React CSSProperties
+        ? ({
             masonryTemplateColumns: `${frUnits}fr`,
             gridTemplateColumns: `${frUnits}fr`,
             masonry: `${frUnits}fr`,
             masonryDirection: "column",
-          }
+          } as React.CSSProperties)
         : {
             display: "grid",
             gridTemplateColumns: `${frUnits}fr`,
