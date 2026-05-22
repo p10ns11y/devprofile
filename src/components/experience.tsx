@@ -21,7 +21,7 @@ export function Experience() {
           <h2 className="text-4xl md:text-5xl mb-6">Professional Experience</h2>
           <div className="w-20 h-1 bg-brand mx-auto mb-8"></div>
           {/* <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            <AISmartHighlight priority="balanced">
+            <AISmartHighlight>
               {cvdata.profile}
             </AISmartHighlight>
           </p> */}
@@ -88,9 +88,7 @@ export function Experience() {
                             }}
                             className="text-text1 leading-relaxed pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-brand before:font-bold"
                           >
-                            <AISmartHighlight priority="balanced">
-                              {responsibility}
-                            </AISmartHighlight>
+                            <AISmartHighlight>{responsibility}</AISmartHighlight>
                           </motion.li>
                         ))}
                       </ul>

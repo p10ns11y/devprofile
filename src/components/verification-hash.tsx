@@ -1,7 +1,8 @@
 "use client";
 
 import { Check, Copy, Info, Shield, ShieldCheck, ShieldX, X } from "lucide-react";
-import React, { useState } from "react";
+import { useMemo, useState } from "react";
+import { deriveVerificationStatus, findCertificateHash } from "@/lib/certificate-hash";
 
 interface VerificationHashProps {
   certificateId: string;
@@ -9,107 +10,34 @@ interface VerificationHashProps {
 
 export function VerificationHash({ certificateId }: VerificationHashProps) {
   const [currentHash, setCurrentHash] = useState<string | null>(null);
-  const [expectedHash, setExpectedHash] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [verificationStatus, setVerificationStatus] = useState<
-    "pending" | "verified" | "failed" | null
-  >(null);
+  const [fetchFailed, setFetchFailed] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
-  // Get expected hash from cvdata
-  const getExpectedHash = () => {
-    // Import cvdata dynamically to avoid SSR issues
-    import("@/data/cvdata.json").then((cvData) => {
-      // Find certificate by ID
-      for (let index = 0; index < cvData.certificates.length; index++) {
-        const cert = cvData.certificates[index];
-        const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, "");
-        const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
-        const uniqueId = `cert-${sanitizedName}-${index}`;
-
-        if (uniqueId === certificateId && cert.sha256Hash) {
-          setExpectedHash(cert.sha256Hash);
-          break;
-        }
-      }
-    });
-  };
-
-  // Helper to find certificate hash by ID
-  const findCertificateHash = async (certId: string): Promise<string | null> => {
-    const cvData = await import("@/data/cvdata.json");
-    for (let index = 0; index < cvData.certificates.length; index++) {
-      const cert = cvData.certificates[index];
-      const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, "");
-      const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
-      const uniqueId = `cert-${sanitizedName}-${index}`;
-      if (uniqueId === certId && cert.sha256Hash) {
-        return cert.sha256Hash;
-      }
-    }
-    return null;
-  };
+  const expectedHash = useMemo(() => findCertificateHash(certificateId), [certificateId]);
+  const verificationStatus = deriveVerificationStatus(currentHash, expectedHash, fetchFailed);
 
   const verifyHash = async () => {
-    if (currentHash && expectedHash) return; // Prevent re-verification
+    if (currentHash && expectedHash) return;
 
     setLoading(true);
+    setFetchFailed(false);
     try {
       const response = await fetch(`/api/certificates/${certificateId}/hash`);
       if (response.ok) {
         const data = await response.json();
         setCurrentHash(data.hash);
-
-        // Get expected hash if not already loaded
-        if (!expectedHash) {
-          const hash = await findCertificateHash(certificateId);
-          if (hash) {
-            setExpectedHash(hash);
-          }
-        }
+      } else {
+        setFetchFailed(true);
       }
     } catch (error) {
       console.error("Failed to verify hash:", error);
-      setVerificationStatus("failed");
+      setFetchFailed(true);
     } finally {
       setLoading(false);
     }
   };
-
-  // elsewhere in the same file:
-
-  // const getExpectedHash = () => {
-  //   findCertificateHash(certificateId).then(hash => {
-  //     if (hash) {
-  //       setExpectedHash(hash);
-  //     }
-  //   });
-  // };
-
-  // Reset state and load expected hash when certificate changes
-  React.useEffect(() => {
-    // Reset all state when certificate changes
-    setCurrentHash(null);
-    setExpectedHash(null);
-    setVerificationStatus(null);
-    setLoading(false);
-    setCopied(false);
-
-    // Load expected hash for new certificate
-    getExpectedHash();
-  }, [
-    // Load expected hash for new certificate
-    getExpectedHash,
-  ]);
-
-  // Automatically verify when both hashes are available
-  React.useEffect(() => {
-    if (currentHash && expectedHash && !verificationStatus) {
-      const status = currentHash === expectedHash ? "verified" : "failed";
-      setVerificationStatus(status);
-    }
-  }, [currentHash, expectedHash, verificationStatus]);
 
   const copyToClipboard = async () => {
     if (!expectedHash) return;
@@ -117,8 +45,7 @@ export function VerificationHash({ certificateId }: VerificationHashProps) {
     try {
       await navigator.clipboard.writeText(expectedHash);
       setCopied(true);
-      const timer = setTimeout(() => setCopied(false), 2000);
-      return () => clearTimeout(timer);
+      setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.error("Failed to copy hash:", error);
     }

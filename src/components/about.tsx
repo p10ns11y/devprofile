@@ -51,7 +51,7 @@ export function About() {
             className="space-y-6"
           >
             <p className="text-lg text-text2 leading-relaxed">
-              <AISmartHighlight priority="balanced">{cvdata.profile}</AISmartHighlight>
+              <AISmartHighlight>{cvdata.profile}</AISmartHighlight>
             </p>
 
             <motion.div

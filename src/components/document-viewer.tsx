@@ -268,7 +268,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           {/* Verification Hash - Desktop */}
           {document.type === "pdf" && (
             <div className="hidden md:block">
-              <VerificationHash certificateId={document.id} />
+              <VerificationHash key={document.id} certificateId={document.id} />
             </div>
           )}
 
@@ -319,7 +319,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
         {/* Verification Hash - Full width on mobile */}
         {document.type === "pdf" && (
           <div className="w-full mt-2 md:hidden">
-            <VerificationHash certificateId={document.id} />
+            <VerificationHash key={document.id} certificateId={document.id} />
           </div>
         )}
       </div>

@@ -3,7 +3,7 @@
 import { Menu, X } from "lucide-react";
 import { motion } from "motion/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { DocumentSidebar } from "@/components/document-sidebar";
 import { DocumentViewer } from "@/components/document-viewer";
@@ -18,30 +18,26 @@ export default function CertificateViewComponent() {
   const router = useRouter();
 
   const certId = searchParams?.get("id");
-
-  const [selectedCertificate, setSelectedCertificate] = useState<DocumentItem>(defaultCertificate);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const selectedCertificate = useMemo(() => {
+    if (certId) {
+      const cert = certificates.find((c) => c.id === certId);
+      if (cert) return cert;
+    }
+    return defaultCertificate;
+  }, [certId]);
+
+  useEffect(() => {
+    if (!certId) {
+      router.replace(`?id=${defaultCertificate.id}`, { scroll: false });
+    }
+  }, [certId, router]);
+
   const selectCertificate = (certificate: DocumentItem) => {
-    setSelectedCertificate(certificate);
     router.replace(`?id=${certificate.id}`, { scroll: false });
     setSidebarOpen(false);
   };
-
-  // Handle URL params after component mounts to avoid hydration mismatch
-  useEffect(() => {
-    if (certId) {
-      const cert = certificates.find((c) => c.id === certId);
-      if (cert && cert.id !== selectedCertificate.id) {
-        setSelectedCertificate(cert);
-      }
-    } else {
-      // Set initial URL if not present
-      const url = new URL(window.location.href);
-      url.searchParams.set("id", selectedCertificate.id);
-      window.history.replaceState({}, "", url.toString());
-    }
-  }, [certId, selectedCertificate.id]);
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>

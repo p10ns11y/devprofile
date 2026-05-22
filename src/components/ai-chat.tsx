@@ -32,13 +32,9 @@ export default function AICHAT({ submitAction }: AICHATProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
-    scrollToBottom();
-  }, [scrollToBottom]);
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages.length]);
 
   useEffect(() => {
     if (!isLoading && inputRef.current) {
@@ -46,51 +42,53 @@ export default function AICHAT({ submitAction }: AICHATProps) {
     }
   }, [isLoading]);
 
-  // Streaming hook
   const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
+  const streamingMessage = streamingMessageId
+    ? messages.find((m) => m.id === streamingMessageId)
+    : undefined;
+  const streamingContent = streamingMessage?.content;
 
   useEffect(() => {
-    if (streamingMessageId) {
-      const streamingMessage = messages.find((m) => m.id === streamingMessageId);
-      if (!streamingMessage?.content) {
+    if (!streamingMessageId || !streamingContent) {
+      if (streamingMessageId && !streamingContent) {
         setStreamingMessageId(null);
-        return;
       }
+      return;
+    }
 
-      const displayText = streamingMessage.content;
-      setMessages((prev) =>
-        prev.map((msg) =>
-          msg.id === streamingMessageId ? { ...msg, displayedContent: "", isStreaming: true } : msg
+    const displayText = streamingContent;
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg.id === streamingMessageId ? { ...msg, displayedContent: "", isStreaming: true } : msg
+      )
+    );
+
+    let currentIndex = 0;
+
+    const interval = setInterval(() => {
+      currentIndex += 1;
+      const currentText = displayText.slice(0, currentIndex);
+
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === streamingMessageId
+            ? {
+                ...msg,
+                displayedContent: currentText,
+                isStreaming: currentIndex < displayText.length,
+              }
+            : msg
         )
       );
 
-      let currentIndex = 0;
+      if (currentIndex >= displayText.length) {
+        clearInterval(interval);
+        setStreamingMessageId(null);
+      }
+    }, 30);
 
-      const interval = setInterval(() => {
-        currentIndex += 1;
-        const currentText = displayText.slice(0, currentIndex);
-
-        setMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.id === streamingMessageId
-              ? {
-                  ...msg,
-                  displayedContent: currentText,
-                  isStreaming: currentIndex < displayText.length,
-                }
-              : msg
-          )
-        );
-
-        if (currentIndex >= displayText.length) {
-          clearInterval(interval);
-          setStreamingMessageId(null);
-        }
-      }, 30); // Typing speed - slightly slower for visibility
-
-      return () => clearInterval(interval);
-    }
-  }, [streamingMessageId, messages.find]);
+    return () => clearInterval(interval);
+  }, [streamingMessageId, streamingContent]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

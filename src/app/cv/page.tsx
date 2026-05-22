@@ -20,7 +20,7 @@ function MainContent() {
       <div id="mainContent" className="bg-surface1 rounded-xl rad-shadow p-8">
         <h2 className="text-2xl font-bold text-text1 mb-6">Professional Profile</h2>
         <div className="text-text2 leading-relaxed mb-8">
-          <AISmartHighlight priority="balanced">{cvData.profile}</AISmartHighlight>
+          <AISmartHighlight>{cvData.profile}</AISmartHighlight>
         </div>
 
         <h2 className="text-2xl font-bold text-text1 mb-6">Work Experience</h2>
@@ -38,7 +38,7 @@ function MainContent() {
                   <li key={i} className="flex items-start">
                     <span className="inline-block w-2 h-2 bg-brand rounded-full mt-2 mr-3 flex-shrink-0"></span>
                     <span className="leading-relaxed">
-                      <AISmartHighlight priority="balanced">{resp}</AISmartHighlight>
+                      <AISmartHighlight>{resp}</AISmartHighlight>
                     </span>
                   </li>
                 ))}
