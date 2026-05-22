@@ -77,8 +77,7 @@ git push origin dev
 ## 📞 Support
 
 For questions or issues:
-- Review existing code and documentation
-- Check `src/guidelines/` for additional project information
+- Review existing code and documentation ([README.md](README.md), [ARCHITECTURE.md](ARCHITECTURE.md), [AGENTS.md](AGENTS.md))
 - Contact Peramanathan Sathyamoorthy directly
 
 ## 📄 License

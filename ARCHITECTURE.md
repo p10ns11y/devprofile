@@ -1,166 +1,176 @@
 # Architecture & Technical Documentation
 
-This document provides detailed technical information about the DevProfile application architecture, project structure, and customization guidelines.
+Technical overview of the DevProfile application: structure, routes, tooling, and customization.
 
-## 🏗️ Project Structure (2025 App Router)
+## Project structure (Next.js App Router)
 
 ```
 /
-├── public/                          # Static assets
-│   ├── cv.pdf                      # Pre-generated CV PDF
-│   ├── certificates/               # Professional certificates
-│   └── images/                     # Static images and assets
+├── .agents/skills/              # Portable agent skills (see AGENTS.md)
+├── .ide/                        # IDE profile source (pnpm ide:sync → .vscode)
+├── public/
+│   ├── cv.pdf                   # Pre-generated CV PDF
+│   ├── certificates/            # Certificate files
+│   └── images/
 ├── scripts/
-│   └── generate-pdf.tsx            # PDF generation script
+│   ├── generate-pdf.tsx
+│   ├── generate-sw-version.mjs
+│   ├── playwright-ui-brave.mjs  # E2E UI without bundled Chromium
+│   └── sync-ide-profile.mjs
 ├── src/
-│   ├── app/                        # Next.js App Router
-│   │   ├── actions.ts              # Server actions
-│   │   ├── api/                    # API routes
-│   │   │   ├── cv/                 # CV-related endpoints
-│   │   │   │   ├── download/       # CV download API
-│   │   │   │   ├── generate/       # PDF generation API
-│   │   │   │   ├── qa/             # AI Q&A API
-│   │   │   │   └── view/           # CV viewer API
-│   │   │   └── certificates/       # Certificate verification
-│   │   ├── cv/                     # CV pages
-│   │   ├── documents/              # Documents viewer
-│   │   ├── content-hub/            # Dynamic content system
-│   │   ├── ama/                    # AI AMA chat
-│   │   ├── quick-cv-actions/       # Quick actions page
-│   │   ├── layout.tsx              # Root layout
-│   │   └── page.tsx                # Homepage
-│   ├── components/                 # React components
-│   │   ├── ui/                     # shadcn/ui components
-│   │   ├── content-hub/            # Content Hub components
-│   │   ├── figma/                  # Figma integration
-│   │   ├── ai-chat.tsx             # AI chat interface
-│   │   ├── hero.tsx                # Hero section
-│   │   ├── header.tsx              # Navigation
-│   │   └── ...                     # Other feature components
-│   ├── config/                     # Configuration
-│   │   └── feature-flags.ts        # Feature toggles
-│   ├── data/                       # Static data
-│   │   ├── cvdata.json             # CV content
-│   │   └── documents-data.ts       # Document metadata
-│   ├── hooks/                      # Custom React hooks
-│   ├── lib/                        # Utility libraries
-│   ├── types/                      # TypeScript definitions
-│   ├── utils/                      # Helper functions
-│   └── styles/                     # Global styles
-├── tests/                          # Playwright E2E tests
-│   └── e2e/                        # Test specifications
-├── next.config.mjs                # Next.js configuration
-├── package.json                   # Dependencies & scripts
-├── tailwind.config.ts             # Tailwind CSS config
-└── tsconfig.json                  # TypeScript configuration
+│   ├── app/
+│   │   ├── actions.ts           # Server actions
+│   │   ├── api/
+│   │   │   ├── cv/              # CV data, PDF, QA, download, view
+│   │   │   └── certificates/    # Hash verification API
+│   │   ├── ama/                 # AI AMA chat
+│   │   ├── certificates/        # Certificate viewer (URL ?id=)
+│   │   ├── content-hub/         # Dynamic content pages
+│   │   ├── cv/
+│   │   ├── accomplishments/
+│   │   ├── quick-cv-actions/
+│   │   ├── layout.tsx
+│   │   └── page.tsx             # Homepage (client-heavy)
+│   ├── components/
+│   │   ├── ui/                  # shadcn/ui
+│   │   ├── content-hub/
+│   │   ├── ai-chat.tsx
+│   │   ├── document-viewer.tsx
+│   │   ├── verification-hash.tsx
+│   │   └── ...
+│   ├── config/feature-flags.ts
+│   ├── data/cvdata.json
+│   ├── data/documents-data.ts
+│   ├── hooks/
+│   ├── lib/                     # e.g. certificate-hash.ts
+│   ├── types/
+│   └── styles/globals.css
+├── tests/e2e/                   # Playwright (Brave Beta)
+├── biome.json                   # Lint + format
+├── playwright.config.ts
+├── playwright.brave.ts
+├── pnpm-workspace.yaml          # Supply-chain policy + overrides
+├── next.config.mjs
+├── package.json
+├── tailwind.config.ts
+└── tsconfig.json
 ```
 
-## 🎨 Customization
+## App routes
 
-### Updating CV Data
+| Path | Purpose |
+|------|---------|
+| `/` | Portfolio homepage |
+| `/cv` | CV page |
+| `/cv/view` | CV view variant |
+| `/certificates` | Document viewer (certificates; `?id=` selection) |
+| `/content-hub` | Content hub index |
+| `/content-hub/[page]` | Content hub pages |
+| `/ama` | AI assistant |
+| `/accomplishments` | Accomplishments |
+| `/quick-cv-actions` | Quick CV actions |
 
-1. **Edit content** in `src/data/cvdata.json`
-2. **Modify components** in `src/components/` to match data structure
-3. **Regenerate PDF** with `npm run generate-pdf`
+## Customization
 
-### Managing Documents
+### CV data
 
-1. **Add metadata** to `src/data/documents-data.ts`
-2. **Place files** in `public/` directory
-3. **Update paths** in the data file
-4. **Documents appear** automatically in the viewer
+1. Edit `src/data/cvdata.json`
+2. Adjust components in `src/components/` as needed
+3. Regenerate PDF: `pnpm run generate-pdf`
 
-### Document Viewer Features
+### Certificates / documents
 
-The application includes a comprehensive document viewer with:
+1. Add metadata in `src/data/documents-data.ts`
+2. Place files under `public/`
+3. Viewer: `src/components/document-viewer.tsx` + `src/app/certificates/`
 
-- **Multi-format Support**: PDFs, images, certificates
-- **Interactive Controls**: Zoom, rotate, navigation
-- **Responsive Design**: Desktop and mobile optimized
-- **File Management**: Organized sidebar with type indicators
-- **Download Support**: Direct download functionality
+### Styling
 
-### Styling Configuration
+- Global tokens: `src/styles/globals.css`
+- Tailwind: `tailwind.config.ts` (v4 + PostCSS)
+- Theme: `src/components/theme-provider.tsx` (`light` / `dim`)
 
-- **Colors & Themes**: `src/styles/globals.css`
-- **Tailwind Config**: `tailwind.config.ts`
-- **Component Styles**: Individual `.tsx` files
+## Feature flags
 
-## ⚙️ Feature Flags
+- **Location:** `src/config/feature-flags.ts`
+- Toggles for in-development features (e.g. AMA) and user-facing disclaimers
 
-The application uses a centralized feature flag system:
+## Development scripts
 
-- **Location**: `src/config/feature-flags.ts`
-- **Purpose**: Control feature availability and development disclaimers
-- **Configuration**: Simple on/off toggles
-- **User Communication**: Clear messaging about feature status
-
-### Current Development Features
-
-- **AMA (Ask Me Anything)**: AI-powered Q&A feature
-- **CV Question Answering**: AI-powered CV content analysis
-
-## 🔧 Development Scripts
+Use **pnpm** (see `package.json`). Prefer `sfw pnpm install` when changing dependencies.
 
 ```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production (includes PDF generation)
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npm run type-check   # TypeScript type checking
-
-# PDF Generation
-npm run generate-pdf # Generate CV PDF using Bun script
-
-# Testing
-npm run test:e2e     # Run E2E tests with Playwright
+pnpm dev
+pnpm build
+pnpm start
+pnpm lint              # Biome — errors only
+pnpm lint:report       # Biome — full output
+pnpm lint:fix
+pnpm format
+pnpm type-check
+pnpm ide:sync
+pnpm generate-pdf
+pnpm test:e2e          # Brave Beta — tests/e2e/README.md
+pnpm test:e2e:headed
+pnpm test:e2e:ui
 ```
 
-## 📄 API Routes
+## API routes
 
-### CV Endpoints
-- `GET /api/cv` - Get CV data
-- `POST /api/cv/generate` - Generate PDF
-- `GET /api/cv/download` - Download CV PDF
-- `POST /api/cv/qa` - AI Q&A about CV
-- `GET /api/cv/view` - View CV data
+### CV
 
-### Certificate Verification
-- `GET /api/certificates/[id]/hash` - Verify certificate hash
+- `GET /api/cv` — CV data
+- `POST /api/cv/generate` — Generate PDF
+- `GET /api/cv/download` — Download PDF
+- `POST /api/cv/qa` — AI Q&A
+- `GET /api/cv/view` — View CV data
+- `GET /api/cv/data` — CV data endpoint
 
-## 🏗️ Adding New Features
+### Certificates
 
-### New Sections
-1. Create component in `src/components/` (kebab-case naming)
-2. Import and add to appropriate page
-3. Update navigation in `src/components/header.tsx`
-4. Add TypeScript types if needed
+- `GET /api/certificates/[id]/hash` — File hash for verification
 
-### New Document Types
-1. Update `DocumentItem` interface in `src/types/documents.ts`
-2. Add rendering logic to `src/components/document-viewer.tsx`
-3. Update file type detection in `src/utils/file-utils.ts`
-4. Add documents to `src/data/documents-data.ts`
+## Client React conventions
 
-### New API Endpoints
-1. Create route in `src/app/api/`
-2. Implement server actions in `src/app/actions.ts`
-3. Add proper error handling and validation
-4. Update TypeScript types
+Interactive UI follows [`.agents/skills/react-client-expert/SKILL.md`](.agents/skills/react-client-expert/SKILL.md): minimal state, deliberate effects, Biome does not enforce `useEffect` dependency arrays.
 
-## 🚀 Deployment
+Phase 1 refactors (verification hash, theme provider, certificate URL selection, ai-chat scroll/streaming) are done; later phases tracked in [`.cursor/plans/react_client_roadmap_c18c5c6b.plan.md`](.cursor/plans/react_client_roadmap_c18c5c6b.plan.md).
 
-### Supported Platforms
-- **Vercel** (recommended)
-- **Netlify**
-- **AWS Amplify**
-- **Any Node.js hosting provider**
+## E2E testing
 
-### Build Requirements
-- Node.js 18+
-- npm or bun
-- Git for deployment
+- **Browser:** system Brave Beta (`playwright.brave.ts`), not Playwright-downloaded Chromium
+- **Docs:** [tests/e2e/README.md](tests/e2e/README.md), [AGENTS.md](AGENTS.md)
 
-### Environment Variables
-The application uses cross-platform URL construction and doesn't require environment variables for basic functionality.
+## Adding features
+
+### New page section
+
+1. Component in `src/components/` (kebab-case)
+2. Wire into `src/app/.../page.tsx` or homepage
+3. Update `src/components/header.tsx` navigation
+4. Add types under `src/types/` if needed
+
+### New document type
+
+1. `DocumentItem` in `src/types/documents.ts`
+2. Rendering in `document-viewer.tsx`
+3. Metadata in `documents-data.ts`
+
+### New API route
+
+1. Route under `src/app/api/`
+2. Optional server action in `src/app/actions.ts`
+3. Types + error handling
+
+## Deployment
+
+- **Platforms:** Vercel (recommended), Netlify, AWS Amplify, any Node 18+ host
+- **Install / build:** `pnpm install`, `pnpm build`
+- **Env:** Cross-platform URLs; no required env vars for basic operation
+
+## Related documentation
+
+- [README.md](README.md) — Setup and scripts
+- [CONTRIBUTING.md](CONTRIBUTING.md) — Branching and quality bar
+- [CHANGELOG.md](CHANGELOG.md) — Release history
+- [AGENTS.md](AGENTS.md) — Agent skills and conventions

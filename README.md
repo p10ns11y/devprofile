@@ -188,7 +188,7 @@ This project is private and proprietary.
 
 For questions or issues:
 - Review the code and docs above
-- Check `src/guidelines/` for additional project notes
+- See [AGENTS.md](AGENTS.md) and [.agents/README.md](.agents/README.md) for agent-oriented conventions
 - Contact Peramanathan Sathyamoorthy directly
 
 ---
