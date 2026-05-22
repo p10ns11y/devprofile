@@ -49,6 +49,7 @@ export default function CertificateViewComponent() {
       <div className="md:hidden bg-surface1 border-b border-border p-4 flex items-center justify-between">
         <h1 className="text-lg font-semibold text-text1">Certificates</h1>
         <button
+          type="button"
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="p-2 hover:bg-surface3 rounded-lg"
           aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}

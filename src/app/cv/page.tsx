@@ -13,57 +13,6 @@ import cvData from "@/data/cvdata.json";
 
 const Layout = dynamic(() => import("./content-layout"), { ssr: false });
 
-interface CVData {
-  name: string;
-  profile: string;
-  contact: {
-    email: string;
-    phone: string;
-    citizenship: string;
-  };
-  work_experience: Array<{
-    title: string;
-    company: string;
-    location: string;
-    start_date: string;
-    end_date: string;
-    responsibilities: string[];
-    tools: string[];
-  }>;
-  skills: {
-    product: string[];
-    practices: string[];
-  };
-  technologies: Record<string, string[]>;
-  courses: Array<{
-    name: string;
-    url: string;
-  }>;
-  projects: Array<{
-    name: string;
-    key: string;
-    url: string;
-    description: string;
-  }>;
-  publications: Array<{
-    title: string;
-    url: string;
-    doi_url?: string;
-    journal?: {
-      name: string;
-    };
-    conference?: string;
-    first_published?: string;
-    date?: string;
-  }>;
-  education: Array<{
-    degree: string;
-    institution: string;
-    years: string;
-  }>;
-  languages: Record<string, string>;
-}
-
 function MainContent() {
   return (
     <Layout ratios={[34, 21]} gap={1}>

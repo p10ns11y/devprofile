@@ -17,6 +17,7 @@ export default function QuickCVActions() {
       {showQA ? (
         <div className="mb-6">
           <button
+            type="button"
             onClick={() => setShowQA(false)}
             className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200"
           >
@@ -51,6 +52,7 @@ export default function QuickCVActions() {
               </a>
 
               <button
+                type="button"
                 onClick={() => setShowQA(true)}
                 className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg"
               >

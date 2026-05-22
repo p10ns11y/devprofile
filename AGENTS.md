@@ -32,6 +32,7 @@ ln -sf ../../.agents/skills/react-client-expert .cursor/skills/react-client-expe
 - Run commands in the repo root unless noted otherwise.
 - Prefer `pnpm` when `pnpm-lock.yaml` exists.
 - After dependency changes: `pnpm install`, re-run audit, then `pnpm type-check` / `pnpm lint` (Biome) if applicable.
+- **Lint:** `pnpm lint` shows **errors only** (format + unused imports/vars + `type="button"`). `pnpm lint:report` lists optional/warn-level rules. Noisy rules (`noExplicitAny`, a11y overlays, `useEffect` deps) are off — see `biome.json`.
 - **React client UI:** follow [react-client-expert](.agents/skills/react-client-expert/SKILL.md). Biome does not lint `useEffect` dependency arrays (`useExhaustiveDependencies` off).
 
 ## E2E / Playwright

@@ -10,7 +10,7 @@ export function HomeButton({
 }: HomeButtonProps) {
   return (
     <Link href="/">
-      <button className={className}>
+      <button type="button" className={className}>
         <Home className="w-4 h-4" />
         <span>Home</span>
       </button>

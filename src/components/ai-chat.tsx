@@ -219,6 +219,7 @@ export default function AICHAT({ submitAction }: AICHATProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-lg">
                   {exampleQuestions.map((question, index) => (
                     <button
+                      type="button"
                       key={index}
                       onClick={() => setCurrentQuestion(question)}
                       className="p-4 text-left bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-md transition-all duration-200 group"

@@ -141,6 +141,7 @@ export function Header() {
               >
                 {item.href.startsWith("/#") ? (
                   <button
+                    type="button"
                     onClick={() => scrollToSection(item.href)}
                     className="block w-full text-left text-text2 hover:text-brand transition-colors py-2"
                   >

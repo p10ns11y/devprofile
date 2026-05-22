@@ -30,34 +30,34 @@
       "recommended": true,
       "a11y": {
         "recommended": true,
-        "useButtonType": "warn",
-        "noStaticElementInteractions": "warn",
-        "useKeyWithClickEvents": "warn",
-        "noRedundantRoles": "warn"
+        "useButtonType": "error",
+        "noStaticElementInteractions": "off",
+        "useKeyWithClickEvents": "off",
+        "noRedundantRoles": "off"
       },
       "correctness": {
         "useExhaustiveDependencies": "off",
         "noInvalidUseBeforeDeclaration": "warn",
-        "noUnusedImports": "warn",
-        "noUnusedVariables": "warn",
-        "noUnusedFunctionParameters": "warn"
+        "noUnusedImports": "error",
+        "noUnusedVariables": "error",
+        "noUnusedFunctionParameters": "off"
       },
       "suspicious": {
-        "noExplicitAny": "warn",
+        "noExplicitAny": "off",
         "noArrayIndexKey": "off",
-        "noImplicitAnyLet": "warn",
-        "useIterableCallbackReturn": "warn"
+        "noImplicitAnyLet": "off",
+        "useIterableCallbackReturn": "off"
       },
       "style": {
         "useNodejsImportProtocol": "off",
-        "useTemplate": "warn",
-        "noNonNullAssertion": "warn"
+        "useTemplate": "off",
+        "noNonNullAssertion": "off"
       },
       "performance": {
-        "noImgElement": "warn"
+        "noImgElement": "off"
       },
       "complexity": {
-        "useDateNow": "warn"
+        "useDateNow": "off"
       }
     }
   },

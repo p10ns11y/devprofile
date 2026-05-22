@@ -49,6 +49,7 @@ export function ReadingCard({ reading }: ReadingCardProps) {
         ))}
       </div>
       <button
+        type="button"
         onClick={handleReadAloud}
         className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
         aria-label={isReading ? `Stop reading ${reading.title}` : `Read ${reading.title} aloud`}

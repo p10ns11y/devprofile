@@ -186,6 +186,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
         <h3 className="text-lg font-medium text-text1">Preview Not Available</h3>
         <p className="text-text2 text-sm">{document?.name}</p>
         <button
+          type="button"
           onClick={handleDownload}
           className="text-accent-primary hover:text-accent-primary/80 text-sm font-medium"
         >
@@ -274,6 +275,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           {/* Zoom Controls */}
           <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
             <button
+              type="button"
               onClick={handleZoomOut}
               className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Zoom out"
@@ -284,6 +286,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
               {Math.round(scale * 100)}%
             </span>
             <button
+              type="button"
               onClick={handleZoomIn}
               className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Zoom in"
@@ -295,6 +298,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
           {/* Other Controls */}
           <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
             <button
+              type="button"
               onClick={handleRotate}
               className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Rotate"
@@ -302,6 +306,7 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
               <RotateCcw className="w-4 h-4" />
             </button>
             <button
+              type="button"
               onClick={handleDownload}
               className="p-1 md:p-2 hover:bg-surface3 rounded"
               title="Download"

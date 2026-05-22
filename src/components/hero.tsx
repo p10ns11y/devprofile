@@ -109,6 +109,7 @@ export function Hero() {
             >
               <div className="flex items-center justify-center lg:justify-center gap-4 flex-wrap">
                 <button
+                  type="button"
                   onClick={() => scrollToAbout()}
                   className="inline-flex items-center px-6 py-3 bg-brand text-text1 font-medium rounded-lg hover:bg-brand/90 hover:scale-105 transition-all cursor-pointer"
                 >

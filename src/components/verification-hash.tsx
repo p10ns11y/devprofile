@@ -130,6 +130,7 @@ export function VerificationHash({ certificateId }: VerificationHashProps) {
     <>
       <div className="flex items-center justify-between space-x-2 bg-surface3 px-3 py-2 rounded-lg border border-border">
         <button
+          type="button"
           onClick={verifyHash}
           disabled={loading}
           className="flex items-center space-x-2 cursor-pointer disabled:cursor-not-allowed"
@@ -160,6 +161,7 @@ export function VerificationHash({ certificateId }: VerificationHashProps) {
               {displayHash}
             </span>
             <button
+              type="button"
               onClick={copyToClipboard}
               className="text-accent-primary hover:text-accent-primary/80 flex-shrink-0"
               title="Copy expected hash"
@@ -167,6 +169,7 @@ export function VerificationHash({ certificateId }: VerificationHashProps) {
               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             </button>
             <button
+              type="button"
               onClick={() => setShowInfo(true)}
               className="text-accent-primary hover:text-accent-primary/80 flex-shrink-0"
               title="Verification details"
@@ -193,6 +196,7 @@ export function VerificationHash({ certificateId }: VerificationHashProps) {
                 Document Verification
               </h3>
               <button
+                type="button"
                 onClick={() => setShowInfo(false)}
                 className="text-text2 hover:text-text1 p-1"
               >
