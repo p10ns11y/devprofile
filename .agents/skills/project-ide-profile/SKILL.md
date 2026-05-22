@@ -55,6 +55,8 @@ scripts/
 | TypeScript | `typescript`, `tsconfig.json` | Biome; use workspace `typescript.tsdk` | — |
 | Tailwind | `tailwindcss`, `@tailwindcss/postcss` | Tailwind CSS IntelliSense | — |
 | Playwright | `@playwright/test`, `playwright.config.*` | Playwright | — |
+
+**E2E browser (this repo):** Playwright drives **system Brave Beta** (`playwright.brave.ts`), not `playwright install chromium`. See [tests/e2e/README.md](../../../tests/e2e/README.md) and root `AGENTS.md`.
 | pnpm | `pnpm-lock.yaml`, `packageManager` | — | npm-only tooling |
 | Python | `pyproject.toml`, `requirements.txt` | Python, Pylance | (if absent, unwanted Python) |
 | Rust | `Cargo.toml` | rust-analyzer | (if absent, unwanted Rust) |

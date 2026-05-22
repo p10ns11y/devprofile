@@ -139,7 +139,7 @@ Run from repo root. Prefer **official** codemods first; then community.
 | **TypeScript** | `npx typescript-go` / manual | TS 6+ — follow [TS release notes](https://www.typescriptlang.org/docs/handbook/release-notes.html); fix `tsc` errors |
 | **ESLint 9+** | `npx @eslint/migrate-config` | Flat config migration from `.eslintrc` |
 | **Tailwind 3→4** | `npx @tailwindcss/upgrade` | [Upgrade guide](https://tailwindcss.com/docs/upgrade-guide) |
-| **Playwright** | `pnpm exec playwright install` | After `@playwright/test` major bump |
+| **Playwright** | Bump `@playwright/test` only; **do not** `playwright install chromium` | This repo uses **Brave Beta** via `executablePath` ([tests/e2e/README.md](../../../tests/e2e/README.md)) |
 
 **Community / general:**
 

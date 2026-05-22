@@ -30,3 +30,10 @@ ln -sf ../../.agents/skills/upgrade-packages .cursor/skills/upgrade-packages
 - Run commands in the repo root unless noted otherwise.
 - Prefer `pnpm` when `pnpm-lock.yaml` exists.
 - After dependency changes: `pnpm install`, re-run audit, then `pnpm type-check` / `pnpm lint` (Biome) if applicable.
+
+## E2E / Playwright
+
+- **Browser:** system **Brave Beta** (`/usr/bin/brave-browser-beta`), not Playwright-downloaded Chromium. Config: `playwright.config.ts`, `playwright.brave.ts`.
+- **Do not** run `pnpm exec playwright install chromium` for local E2E; use `pnpm exec playwright uninstall` if bundled Chromium was installed earlier.
+- Override path: `BRAVE_BETA_PATH`. Details: [tests/e2e/README.md](tests/e2e/README.md).
+- After `@playwright/test` major bumps: update the package only; reinstall Brave on the machine if needed — **not** `playwright install chromium`.

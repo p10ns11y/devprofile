@@ -52,8 +52,8 @@ git push origin dev
 
 ### Testing
 - Write E2E tests for new features using Playwright
-- Ensure all tests pass before submitting PR
-- Test on multiple browsers and devices
+- Ensure all tests pass before submitting PR (`pnpm test:e2e` uses **Brave Beta** — see [tests/e2e/README.md](tests/e2e/README.md))
+- Desktop + mobile viewport projects run against Brave Beta; do not rely on `playwright install chromium`
 
 ### Feature Flags
 - Use the feature flag system in `src/config/feature-flags.ts` for new features

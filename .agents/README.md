@@ -29,3 +29,9 @@ Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown bo
 | Package upgrades (semver-safe, framework majors + codemods) | [skills/upgrade-packages/SKILL.md](skills/upgrade-packages/SKILL.md) |
 
 When adding a skill, update this table and the root [AGENTS.md](../AGENTS.md) index.
+
+## E2E (Playwright + Brave Beta)
+
+- Local and agent runs use **Brave Beta** as the Chromium driver (`executablePath`), not Playwright’s bundled Chromium.
+- See root [AGENTS.md](../AGENTS.md) (E2E / Playwright) and [tests/e2e/README.md](../tests/e2e/README.md).
+- Uninstall unused Playwright browsers: `pnpm exec playwright uninstall` (drops bundled Chromium for this install).
