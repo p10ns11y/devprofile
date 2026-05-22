@@ -125,8 +125,6 @@ interface HighlightData {
 
 interface AISmartHighlightProps {
   children: string;
-  priority?: "tech" | "action" | "experience" | "balanced";
-  aiIntensity?: number; // 0-1, how heavily to use AI analysis
 }
 
 const SYSTEM_PROMPT = `You are a CV keyword extraction specialist. Extract and categorize key terms from professional descriptions.
@@ -148,11 +146,7 @@ RULES:
 - Keep arrays to 3-5 most relevant terms each
 - Use exact casing from the source text`;
 
-export function AISmartHighlight({
-  children,
-  priority = "balanced",
-  aiIntensity = 0.5,
-}: AISmartHighlightProps) {
+export function AISmartHighlight({ children }: AISmartHighlightProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [_processingMethod, setProcessingMethod] = useState<"ai" | "fallback">("fallback");
   const [_aiSession, setAiSession] = useState<LanguageModel | null>(null);
@@ -195,6 +189,7 @@ export function AISmartHighlight({
     }
   };
 
+  // One-time mount: optional Chrome LanguageModel session; fallback highlighting works without it.
   useEffect(() => {
     setIsMounted(true);
     void initializeAISession();

@@ -46,7 +46,15 @@ console.log(
 
 const child = spawn(
   "pnpm",
-  ["exec", "playwright", "test", "--ui", `--ui-host=${host}`, `--ui-port=${port}`, ...process.argv.slice(2)],
+  [
+    "exec",
+    "playwright",
+    "test",
+    "--ui",
+    `--ui-host=${host}`,
+    `--ui-port=${port}`,
+    ...process.argv.slice(2),
+  ],
   {
     stdio: ["inherit", "pipe", "pipe"],
     env: {

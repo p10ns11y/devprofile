@@ -11,39 +11,41 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 - **📚 Content Hub**: Dynamic multi-page content management system
 - **🎨 Modern UI/UX**: Beautiful shadcn/ui components with responsive design
 - **⚡ Performance Optimized**: Fast loading with Next.js App Router and Turbopack
-- **♿ Accessibility**: WCAG compliant with keyboard navigation and screen reader support
+- **♿ Accessibility**: WCAG-oriented patterns with keyboard navigation
 - **🔒 Production Ready**: Cross-platform deployment support (Vercel, Netlify, AWS)
 - **📱 Mobile-First**: Responsive design optimized for all device sizes
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Next.js 16** - React framework with server-side rendering
-- **React 19** - JavaScript library for building user interfaces
-- **TypeScript** - Type-safe JavaScript
+- **Next.js 16** — React framework with App Router
+- **React 19** — UI library
+- **TypeScript** — Type-safe JavaScript
 
 ### UI & Components
-- **shadcn/ui** - Modern UI components built on Radix UI
-- **Radix UI** - Accessible, high-quality design system
-- **Lucide React** - Beautiful & consistent icon library
-- **Framer Motion** - Production-ready motion library
+- **shadcn/ui** — Components on Radix UI
+- **Radix UI** — Accessible primitives
+- **Lucide React** — Icons
+- **Motion** — Animation (`motion/react`)
 
 ### AI & Document Processing
-- **@react-pdf/renderer** - Create PDF documents using React components
-- **react-pdf** - PDF viewer and rendering in React
-- **@huggingface/transformers** - AI/ML model integration
+- **@react-pdf/renderer** — PDF generation from React
+- **react-pdf** — In-browser PDF viewing
+- **@huggingface/transformers** — Local AI / embeddings (AMA)
 
-### Development Tools
-- **ESLint** - Code linting
-- **PostCSS** - CSS processing
-- **Bun** - Fast JavaScript runtime for scripts
-- **Playwright** - End-to-end testing
+### Tooling
+- **pnpm** — Package manager (`pnpm-lock.yaml`, workspace supply-chain policy)
+- **Biome** — Lint and format (replaces ESLint for this repo)
+- **Bun** — Fast runtime for PDF generation scripts
+- **Playwright** — E2E tests (system **Brave Beta**, not bundled Chromium)
 
 ## 📋 Prerequisites
 
-- **Node.js** 18+ (LTS version recommended)
-- **npm** or **bun** package manager
-- **Git** for version control
+- **Node.js** 18+ (LTS recommended)
+- **pnpm** 9+ ([Corepack](https://pnpm.io/installation): `corepack enable pnpm`)
+- **Brave Beta** (or set `BRAVE_BETA_PATH`) for local E2E — see [tests/e2e/README.md](tests/e2e/README.md)
+- **Bun** (optional, for `generate-pdf` script)
+- **Git**
 
 ## 🚀 Installation
 
@@ -55,86 +57,128 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 
 2. **Install dependencies**
    ```bash
-   # Using npm
-   npm install
-
-   # Or using bun (recommended for faster installation)
-   bun install
+   pnpm install
    ```
+   For stricter supply-chain installs (recommended when changing deps), use [Socket Firewall](https://socket.dev/) or your team's wrapper, e.g. `sfw pnpm install --frozen-lockfile`. Workspace policy lives in `pnpm-workspace.yaml`.
 
-3. **Generate initial CV PDF** (optional, for first deployment)
+3. **Sync IDE profile** (optional, Cursor / VS Code)
    ```bash
-   # Using npm
-   npm run generate-pdf
+   pnpm ide:sync
+   ```
+   Applies `.ide/profile.json` → `.vscode/settings.json`, extension recommendations, and related editor config. Install the **Biome** extension, then reload the window.
 
-   # Or using bun
-   bun run scripts/generate-pdf.tsx
+4. **Generate initial CV PDF** (optional, first deploy)
+   ```bash
+   pnpm run generate-pdf
+   # or: bun scripts/generate-pdf.tsx
    ```
 
 ## 🏃 Development
 
-1. **Start development server**
+1. **Start the dev server**
    ```bash
-   # Using npm
-   npm run dev
-
-   # Or using bun
-   bun run dev
+   pnpm dev
    ```
-   - Opens at `http://localhost:3000`
-   - Hot reload enabled for development
+   - App: `http://localhost:3000`
+   - Hot reload via Turbopack
 
-2. **View the application**
-    - Portfolio: `http://localhost:3000`
-    - CV Page: `http://localhost:3000/cv`
-    - Documents Viewer: `http://localhost:3000/documents`
-    - CV PDF: `http://localhost:3000/cv.pdf`
+2. **Useful routes**
+   - Portfolio: `/`
+   - CV page: `/cv`
+   - Certificates: `/certificates`
+   - Content Hub: `/content-hub`
+   - AMA: `/ama`
+   - CV PDF: `/cv.pdf`
 
 ## 📜 Available Scripts
 
 ```bash
 # Development
-npm run dev          # Start development server
-npm run build        # Build for production (includes PDF generation)
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npm run type-check   # TypeScript type checking
+pnpm dev              # next dev --turbopack
+pnpm build            # generate PDF + SW version + production build
+pnpm start            # production server
 
-# PDF Generation
-npm run generate-pdf # Generate CV PDF using Bun script
+# Quality
+pnpm lint             # Biome — errors only
+pnpm lint:report      # Biome — full diagnostics
+pnpm lint:fix         # Biome — auto-fix (errors only)
+pnpm format           # Biome format --write
+pnpm type-check       # tsc --noEmit
 
-# Testing
-npm run test:e2e     # Run E2E tests with Playwright
+# PDF
+pnpm generate-pdf     # bun scripts/generate-pdf.tsx
+
+# IDE
+pnpm ide:sync         # sync .ide profile → .vscode / Cursor
+
+# E2E (Brave Beta — see tests/e2e/README.md)
+pnpm test:e2e         # all projects (desktop + mobile viewport)
+pnpm test:e2e:headed  # visible Brave window
+pnpm test:e2e:ui      # Playwright UI (opens Brave Beta)
+pnpm test:e2e:debug   # inspector + Brave
 ```
+
+**Dependency / security checks** (after lockfile changes):
+
+```bash
+pnpm audit
+pnpm install
+pnpm type-check && pnpm lint
+```
+
+## 🧪 End-to-end tests
+
+E2E uses **Brave Beta** via `playwright.config.ts` / `playwright.brave.ts`, not Playwright-downloaded Chromium.
+
+```bash
+export BRAVE_BETA_PATH=/path/to/brave-browser-beta   # optional
+pnpm test:e2e
+```
+
+Do **not** run `pnpm exec playwright install chromium` for day-to-day work. Remove unused Playwright browsers: `pnpm exec playwright uninstall`.
+
+Details: [tests/e2e/README.md](tests/e2e/README.md)
+
+## 🤖 Agent skills (AI assistants)
+
+Portable skills for Cursor and other coding agents live under [`.agents/skills/`](.agents/skills/). Index: [AGENTS.md](AGENTS.md) and [.agents/README.md](.agents/README.md).
+
+| Skill | Use when |
+|-------|----------|
+| `fix-dependency-security` | Audit, `sfw`, supply-chain policy |
+| `upgrade-packages` | Dependency upgrades and majors |
+| `audit-allow-builds` | `allowBuilds` / lifecycle scripts |
+| `audit-ide-dependencies` | Editor extension supply-chain |
+| `project-ide-profile` | `pnpm ide:sync`, `.ide/profile.json` |
+| `react-client-expert` | Client React refactors (minimal state/effects) |
 
 ## 🔧 Building for Production
 
 ```bash
-# Build the application (includes PDF generation)
-npm run build
-
-# Start production server
-npm run start
+pnpm build
+pnpm start
 ```
 
 ## 🌐 Deployment
 
-This project is configured for deployment on:
+Configured for:
 - **Vercel** (recommended)
 - **Netlify**
 - **AWS Amplify**
-- **Any Node.js hosting provider**
+- Any Node.js host
 
-### Vercel Deployment
+### Vercel
 1. Push to GitHub
-2. Connect repository to Vercel
-3. Deploy automatically on push
+2. Connect the repository
+3. Deploy on push (use `pnpm install` / `pnpm build` in project settings)
 
 ## 📚 Documentation
 
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Technical architecture, project structure, and customization guide
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines and branching workflow
-- **[CHANGELOG.md](CHANGELOG.md)** - Version history and major updates
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** — Structure and customization
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** — Branching, Biome, React client guidelines, E2E
+- **[CHANGELOG.md](CHANGELOG.md)** — Version history
+- **[AGENTS.md](AGENTS.md)** — Agent conventions and Playwright notes
+- **[tests/e2e/README.md](tests/e2e/README.md)** — Brave Beta, headed/UI/debug modes
 
 ## 📄 License
 
@@ -143,10 +187,10 @@ This project is private and proprietary.
 ## 📞 Support
 
 For questions or issues:
-- Review the existing code and documentation
-- Check `src/guidelines/` for additional project information
+- Review the code and docs above
+- See [AGENTS.md](AGENTS.md) and [.agents/README.md](.agents/README.md) for agent-oriented conventions
 - Contact Peramanathan Sathyamoorthy directly
 
 ---
 
-**Built with 💙 using Next.js 16 & React 19**
+**Built with Next.js 16 & React 19**

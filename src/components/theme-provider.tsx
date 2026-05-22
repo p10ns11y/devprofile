@@ -1,6 +1,14 @@
 "use client";
 
-import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useSyncExternalStore,
+} from "react";
 
 type Theme = "light" | "dim";
 
@@ -10,6 +18,29 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+const themeListeners = new Set<() => void>();
+
+function subscribeTheme(onStoreChange: () => void) {
+  themeListeners.add(onStoreChange);
+  return () => themeListeners.delete(onStoreChange);
+}
+
+function emitThemeChange() {
+  for (const listener of themeListeners) {
+    listener();
+  }
+}
+
+function getThemeSnapshot(): Theme {
+  const saved = localStorage.getItem("theme");
+  if (saved === "light" || saved === "dim") return saved;
+  return "light";
+}
+
+function getServerThemeSnapshot(): Theme {
+  return "light";
+}
 
 export function useTheme() {
   const context = useContext(ThemeContext);
@@ -24,31 +55,20 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const theme = useSyncExternalStore(subscribeTheme, getThemeSnapshot, getServerThemeSnapshot);
 
   useEffect(() => {
-    // Apply theme class for CSS theme switching
     const root = document.documentElement;
     root.classList.remove("light", "dim");
     root.classList.add(theme);
   }, [theme]);
 
-  useEffect(() => {
-    // Load theme from localStorage on mount
-    const savedTheme = localStorage.getItem("theme") as Theme;
-    if (savedTheme && ["light", "dim"].includes(savedTheme)) {
-      setTheme(savedTheme);
-    }
+  const setTheme = useCallback((newTheme: Theme) => {
+    localStorage.setItem("theme", newTheme);
+    emitThemeChange();
   }, []);
 
-  const handleSetTheme = (newTheme: Theme) => {
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
+  const value = useMemo(() => ({ theme, setTheme }), [theme, setTheme]);
 
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme: handleSetTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }

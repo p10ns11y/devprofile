@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2026-05] - Supply-chain hardening, Biome, and agent tooling (PR #42)
+
+### Security & dependencies
+- **pnpm workspace policy:** `minimumReleaseAge`, `blockExoticSubdeps`, `trustPolicy: no-downgrade`, `strictDepBuilds`, explicit `allowBuilds`
+- **Lockfile cleanup:** dependency upgrades and security overrides (ONNX stack, `@next/env`, semver, etc.); smaller tree after removing ESLint toolchain
+
+### Lint & format
+- **Biome 2.4** replaces ESLint + `eslint-config-next` for lint and format
+- Scripts: `pnpm lint`, `lint:report`, `lint:fix`, `format` (see `biome.json`)
+
+### Agent & IDE
+- **Portable skills** under `.agents/skills/` with index in `AGENTS.md` (dependency security, upgrades, allowBuilds, IDE audit, IDE profile, react-client-expert)
+- **`pnpm ide:sync`** — `.ide/profile.json` → `.vscode` settings and extension recommendations (Biome, Tailwind, Playwright)
+
+### E2E (Playwright)
+- **Brave Beta** as Chromium driver (`playwright.brave.ts`); no bundled Chromium for daily use
+- **`pnpm test:e2e:ui`** via `scripts/playwright-ui-brave.mjs` (UI host + open Brave Beta)
+- Mobile viewport fixes and `tests/e2e/helpers/mobile-nav.ts`
+
+### React client (phase 1)
+- Derive verification status and certificate selection without sync effects
+- Theme via `useSyncExternalStore` + memoized context
+- AI chat scroll/streaming effect fixes; remove unused `AISmartHighlight` props
+- Shared `src/lib/certificate-hash.ts`
+
+### Documentation
+- README aligned with pnpm, Biome, Brave E2E, and agent skills
+- Removed stale `memory-bank/`, Cline session export, and empty `src/guidelines/Guidelines.md`
+
+---
+
 ## [2025] - Complete Application Rewrite & Modernization
 
 ### 🏗️ Complete Application Rewrite

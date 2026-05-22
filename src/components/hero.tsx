@@ -97,7 +97,7 @@ export function Hero() {
             >
               <p className="text-2xl md:text-3xl text-text2">Senior Software Engineer</p>
               <p className="text-lg text-text2">
-                <AISmartHighlight priority="balanced">{cvdata.one_liner}</AISmartHighlight>
+                <AISmartHighlight>{cvdata.one_liner}</AISmartHighlight>
               </p>
             </motion.div>
 
