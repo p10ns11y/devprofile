@@ -6,7 +6,7 @@ Portable instructions for coding agents (Cursor, Grok, Hermes, Claude Code, Code
 
 ```
 .agents/skills/<skill-name>/SKILL.md
-.agents/rules/          → symlink to .cursor/rules/ (Cursor always-on rules)
+.agents/rules/          ← canonical; .cursor/rules → .agents/rules (Cursor)
 ```
 
 Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown body).
@@ -37,18 +37,18 @@ Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown bo
 
 When adding a skill, update this table and the root [AGENTS.md](../AGENTS.md) index.
 
-## Cursor rules (`.cursor/rules/`)
+## Agent rules (`.agents/rules/`)
 
-Portable via [.agents/rules](rules) → `.cursor/rules/`.
+Cursor: symlink `.cursor/rules` → `../.agents/rules` (see root [AGENTS.md](../AGENTS.md)).
 
 | Rule | When it applies |
 |------|-----------------|
-| [agent-workflow.mdc](../.cursor/rules/agent-workflow.mdc) | Always — triage, verify, no worktree `cp` |
-| [react-client.mdc](../.cursor/rules/react-client.mdc) | `src/**/*.ts(x)` |
-| [dependencies-and-lockfile.mdc](../.cursor/rules/dependencies-and-lockfile.mdc) | `package.json`, lockfile, workspace |
-| [e2e-playwright-brave.mdc](../.cursor/rules/e2e-playwright-brave.mdc) | E2E / Playwright config |
-| [devcontainer.mdc](../.cursor/rules/devcontainer.mdc) | `.devcontainer/**` |
-| [split-to-prs.mdc](../.cursor/rules/split-to-prs.mdc) | User asks to split branch/PR/changes |
+| [agent-workflow.mdc](rules/agent-workflow.mdc) | Always — triage, verify, no worktree `cp` |
+| [react-client.mdc](rules/react-client.mdc) | `src/**/*.ts(x)` |
+| [dependencies-and-lockfile.mdc](rules/dependencies-and-lockfile.mdc) | `package.json`, lockfile, workspace |
+| [e2e-playwright-brave.mdc](rules/e2e-playwright-brave.mdc) | E2E / Playwright config |
+| [devcontainer.mdc](rules/devcontainer.mdc) | `.devcontainer/**` |
+| [split-to-prs.mdc](rules/split-to-prs.mdc) | User asks to split branch/PR/changes |
 
 ## E2E (Playwright + Brave Beta)
 
