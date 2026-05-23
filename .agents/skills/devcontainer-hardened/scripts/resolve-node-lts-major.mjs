@@ -21,4 +21,5 @@ if (!latest) {
 }
 
 const major = latest.version.replace(/^v/, "").split(".")[0];
-process.stdout.write(major);
+process.stdout.write("LTS major version: " + major + "\n\n");
+process.stdout.write("LTS details: " + JSON.stringify(latest) + "\n\n");
