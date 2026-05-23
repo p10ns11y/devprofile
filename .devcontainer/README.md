@@ -31,7 +31,8 @@ If port 3000 does not open after `pnpm dev`, use the **Ports** panel or run **Fo
 
 ## Image
 
-- **Base:** `node:24-bookworm-slim` (Node 24 LTS, Docker Official Image), digest-pinned in `Dockerfile`
+- **Base:** `node:24-bookworm-slim` (Docker Official Image), digest-pinned in `Dockerfile`
+- **Node major:** `24` — active LTS (Krypton) per [nodejs.org dist index](https://nodejs.org/dist/index.json) when the image was pinned; re-resolve with `.agents/skills/devcontainer-hardened/scripts/resolve-node-lts-major.mjs` before bumping `NODE_VERSION`
 - **User:** `node` (non-root)
 - **Capabilities:** `--cap-drop=ALL`, `no-new-privileges`
 
@@ -53,10 +54,13 @@ pnpm lint
 
 ## Refresh image digest
 
+Re-check LTS major if the pin is old (`node .agents/skills/devcontainer-hardened/scripts/resolve-node-lts-major.mjs`), then:
+
 ```bash
-docker pull node:24-bookworm-slim
-docker inspect --format='{{index .RepoDigests 0}}' node:24-bookworm-slim
-# Update the sha256 in Dockerfile, then Dev Containers: Rebuild Container
+NODE_MAJOR=24  # or output of resolve-node-lts-major.mjs
+docker pull node:${NODE_MAJOR}-bookworm-slim
+docker inspect --format='{{index .RepoDigests 0}}' node:${NODE_MAJOR}-bookworm-slim
+# Update NODE_VERSION / sha256 in Dockerfile, then Dev Containers: Rebuild Container
 ```
 
 ## Troubleshooting

@@ -44,7 +44,7 @@ Pair with [fix-dependency-security](../fix-dependency-security/SKILL.md) (pnpm p
 ```
 - [ ] 1. Read stack: package.json, packageManager, pnpm-workspace.yaml, .ide/profile.json
 - [ ] 2. Choose profile: default (Node+pnpm) | +playwright | +bun (only if user needs PDF script in-container)
-- [ ] 3. Pick base image — **official** `node:<major>-bookworm-slim@sha256:…` only (not `mcr.microsoft.com/devcontainers/*`)
+- [ ] 3. Resolve `<NODE_MAJOR>` ([Step 1](#step-1-resolve-node-major)) — then pick **official** `node:<NODE_MAJOR>-bookworm-slim@sha256:…` (not `mcr.microsoft.com/devcontainers/*`)
 - [ ] 4. Write .devcontainer/devcontainer.json (minimal keys only)
 - [ ] 5. Add Dockerfile only if base cannot satisfy Node/pnpm/corepack
 - [ ] 6. Align customizations.extensions with profile.json recommend (≤4 extensions)
@@ -54,7 +54,35 @@ Pair with [fix-dependency-security](../fix-dependency-security/SKILL.md) (pnpm p
 
 ---
 
-## Step 1: Detect stack
+## Step 1: Resolve Node major
+
+**Always resolve when applying this skill** — do not copy `22`, `24`, or other majors from examples, old commits, or `@types/node` (types often lead the runtime).
+
+### Priority
+
+| Order | Source | How |
+|-------|--------|-----|
+| 1 | `package.json` → `engines.node` | Parse semver range; use the major the repo declares |
+| 2 | Version pin files | `.nvmrc`, `.node-version`, `.tool-versions` (`nodejs …`) if present |
+| 3 | **Current Node.js LTS** | Run [scripts/resolve-node-lts-major.mjs](scripts/resolve-node-lts-major.mjs) (or the one-liner below) at apply time |
+| 4 | Weak hint only | `@types/node` major in `package.json` — confirm against (1–3); never treat types alone as runtime |
+
+### LTS lookup (apply time)
+
+```bash
+node .agents/skills/devcontainer-hardened/scripts/resolve-node-lts-major.mjs
+# prints major only, e.g. 24
+```
+
+Fallback (no script path):
+
+```bash
+node -e "fetch('https://nodejs.org/dist/index.json').then(r=>r.json()).then(rs=>{const l=rs.filter(x=>x.lts).sort((a,b)=>b.date.localeCompare(a.date))[0];process.stdout.write(l.version.replace(/^v/,'').split('.')[0])})"
+```
+
+Record the chosen major in `ARG NODE_VERSION` / `build.args.NODE_VERSION` and in `.devcontainer/README.md` (one line: major + LTS codename from the index entry).
+
+### Detect stack (other signals)
 
 | Signal | Config impact |
 |--------|----------------|
@@ -64,8 +92,6 @@ Pair with [fix-dependency-security](../fix-dependency-security/SKILL.md) (pnpm p
 | `@playwright/test` | **Do not** `playwright install chromium` by default in devprofile; E2E uses **host Brave Beta** ([tests/e2e/README.md](../../../tests/e2e/README.md)) |
 | `bun` in scripts (`generate-pdf`) | Optional `bun` feature; default **omit** (run PDF on host CI) |
 | `pnpm-workspace.yaml` hardening | Mention in README: install must respect `allowBuilds` / `strictDepBuilds` |
-
-Read Node version from `engines` in `package.json` if present; else use current LTS aligned with `@types/node` major.
 
 ---
 
@@ -79,7 +105,7 @@ Only include keys you need. Prefer this shape:
   "build": {
     "dockerfile": "Dockerfile",
     "context": "..",
-    "args": { "NODE_VERSION": "22" }
+    "args": { "NODE_VERSION": "<NODE_MAJOR>" }
   },
   "remoteUser": "node",
   "containerUser": "node",
@@ -107,14 +133,14 @@ Only include keys you need. Prefer this shape:
 Optional image-only setup (no Dockerfile) — still official Node slim, digest-pinned:
 
 ```json
-"image": "node:24-bookworm-slim@sha256:<PINNED_DIGEST>"
+"image": "node:<NODE_MAJOR>-bookworm-slim@sha256:<PINNED_DIGEST>"
 ```
 
-Replace `<PINNED_DIGEST>`:
+Replace `<NODE_MAJOR>` per [Step 1](#step-1-resolve-node-major), then pin `<PINNED_DIGEST>`:
 
 ```bash
-docker pull node:24-bookworm-slim
-docker inspect --format='{{index .RepoDigests 0}}' node:24-bookworm-slim
+docker pull node:<NODE_MAJOR>-bookworm-slim
+docker inspect --format='{{index .RepoDigests 0}}' node:<NODE_MAJOR>-bookworm-slim
 ```
 
 Never use `mcr.microsoft.com/devcontainers/*` unless the user explicitly requires a Feature from that ecosystem. Never leave tags unpinned in committed config.
@@ -134,7 +160,7 @@ Rules:
 Example minimal Dockerfile (repo root context, file at `.devcontainer/Dockerfile`):
 
 ```dockerfile
-ARG NODE_VERSION=24
+ARG NODE_VERSION=<NODE_MAJOR>
 FROM node:${NODE_VERSION}-bookworm-slim@sha256:<PINNED_DIGEST>
 USER root
 RUN apt-get update \
@@ -207,6 +233,7 @@ Document Cursor steps in `.devcontainer/README.md`.
 
 For this repository, start from [templates/devprofile.devcontainer.json](templates/devprofile.devcontainer.json) and [templates/devprofile.Dockerfile](templates/devprofile.Dockerfile).
 
+- **Node major:** run [scripts/resolve-node-lts-major.mjs](scripts/resolve-node-lts-major.mjs) unless `engines.node` / `.nvmrc` already pins the repo; set `ARG NODE_VERSION` and re-pin digest
 - Extensions: mirror `.ide/profile.json` → `biomejs.biome`, `bradlc.vscode-tailwindcss`, `ms-playwright.playwright` (tests authoring only), `EditorConfig.EditorConfig`
 - **Do not** add ESLint, Prettier, Python, Rust extensions
 - `postCreateCommand`: corepack + pnpm from `package.json` `packageManager` field + `pnpm install --frozen-lockfile`
