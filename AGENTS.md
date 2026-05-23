@@ -38,6 +38,7 @@ ln -sf ../../.agents/skills/concurrent-cli-agents .cursor/skills/concurrent-cli-
 - After dependency changes: `pnpm install`, re-run audit, then `pnpm type-check` / `pnpm lint` (Biome) if applicable.
 - **Lint:** `pnpm lint` shows **errors only** (format + unused imports/vars + `type="button"`). `pnpm lint:report` lists optional/warn-level rules. Noisy rules (`noExplicitAny`, a11y overlays, `useEffect` deps) are off — see `biome.json`.
 - **React client UI:** follow [react-client-expert](.agents/skills/react-client-expert/SKILL.md). Biome does not lint `useEffect` dependency arrays (`useExhaustiveDependencies` off).
+- **React refactor backlog:** [`docs/react-client-roadmap.md`](docs/react-client-roadmap.md).
 
 ## E2E / Playwright
 
