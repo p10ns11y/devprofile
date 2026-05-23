@@ -28,6 +28,7 @@ Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown bo
 | Project IDE profile (.ide → .vscode / Cursor hooks) | [skills/project-ide-profile/SKILL.md](skills/project-ide-profile/SKILL.md) |
 | Package upgrades (semver-safe, framework majors + codemods) | [skills/upgrade-packages/SKILL.md](skills/upgrade-packages/SKILL.md) |
 | React client architecture (state, effects, refs, XState; no RSC) | [skills/react-client-expert/SKILL.md](skills/react-client-expert/SKILL.md) |
+| Hardened Dev Container / Codespaces config (minimal, digest-pinned) | [skills/devcontainer-hardened/SKILL.md](skills/devcontainer-hardened/SKILL.md) |
 
 When adding a skill, update this table and the root [AGENTS.md](../AGENTS.md) index.
 

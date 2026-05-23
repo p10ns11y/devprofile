@@ -12,6 +12,7 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 | Per-project IDE settings, extension recommendations, Cursor plugin hooks | [`.agents/skills/project-ide-profile/SKILL.md`](.agents/skills/project-ide-profile/SKILL.md) |
 | Upgrade, update, or bump dependencies; Next/React/TS/Tailwind majors; codemods | [`.agents/skills/upgrade-packages/SKILL.md`](.agents/skills/upgrade-packages/SKILL.md) |
 | React components, hooks, client state, effects, Context, XState; **no RSC** for UI logic | [`.agents/skills/react-client-expert/SKILL.md`](.agents/skills/react-client-expert/SKILL.md) |
+| Dev Containers, Codespaces, hardened `.devcontainer` (minimal blast radius) | [`.agents/skills/devcontainer-hardened/SKILL.md`](.agents/skills/devcontainer-hardened/SKILL.md) |
 
 ## Cursor
 
@@ -25,6 +26,7 @@ ln -sf ../../.agents/skills/audit-ide-dependencies .cursor/skills/audit-ide-depe
 ln -sf ../../.agents/skills/project-ide-profile .cursor/skills/project-ide-profile
 ln -sf ../../.agents/skills/upgrade-packages .cursor/skills/upgrade-packages
 ln -sf ../../.agents/skills/react-client-expert .cursor/skills/react-client-expert
+ln -sf ../../.agents/skills/devcontainer-hardened .cursor/skills/devcontainer-hardened
 ```
 
 ## Conventions
