@@ -6,6 +6,7 @@ Portable instructions for coding agents (Cursor, Grok, Hermes, Claude Code, Code
 
 ```
 .agents/skills/<skill-name>/SKILL.md
+.agents/rules/          → symlink to .cursor/rules/ (Cursor always-on rules)
 ```
 
 Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown body).

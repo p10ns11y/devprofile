@@ -19,7 +19,7 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 
 ## Cursor
 
-**Rules:** [.cursor/rules/](.cursor/rules/) (portable copy via [.agent/rules](.agent/rules) → same directory).
+**Rules:** [.cursor/rules/](.cursor/rules/) (portable copy via [.agents/rules](.agents/rules) → same directory).
 
 To auto-load a skill in Cursor, symlink or copy it into `.cursor/skills/`:
 
