@@ -13,6 +13,7 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 | Upgrade, update, or bump dependencies; Next/React/TS/Tailwind majors; codemods | [`.agents/skills/upgrade-packages/SKILL.md`](.agents/skills/upgrade-packages/SKILL.md) |
 | React components, hooks, client state, effects, Context, XState; **no RSC** for UI logic | [`.agents/skills/react-client-expert/SKILL.md`](.agents/skills/react-client-expert/SKILL.md) |
 | Dev Containers, Codespaces, hardened `.devcontainer` (minimal blast radius) | [`.agents/skills/devcontainer-hardened/SKILL.md`](.agents/skills/devcontainer-hardened/SKILL.md) |
+| Hermes, OpenClaw, Grok Build concurrently; git worktrees; Modal/Daytona/E2B sandboxes | [`.agents/skills/concurrent-cli-agents/SKILL.md`](.agents/skills/concurrent-cli-agents/SKILL.md) |
 
 ## Cursor
 
@@ -27,6 +28,7 @@ ln -sf ../../.agents/skills/project-ide-profile .cursor/skills/project-ide-profi
 ln -sf ../../.agents/skills/upgrade-packages .cursor/skills/upgrade-packages
 ln -sf ../../.agents/skills/react-client-expert .cursor/skills/react-client-expert
 ln -sf ../../.agents/skills/devcontainer-hardened .cursor/skills/devcontainer-hardened
+ln -sf ../../.agents/skills/concurrent-cli-agents .cursor/skills/concurrent-cli-agents
 ```
 
 ## Conventions
