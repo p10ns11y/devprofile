@@ -12,9 +12,9 @@ All notable changes to this project will be documented in this file.
 - **Biome 2.4** replaces ESLint + `eslint-config-next` for lint and format
 - Scripts: `pnpm lint`, `lint:report`, `lint:fix`, `format` (see `biome.json`)
 
-### Agent & IDE
-- **Portable skills** under `.agents/skills/` with index in `AGENTS.md` (dependency security, upgrades, allowBuilds, IDE audit, IDE profile, react-client-expert)
-- **`pnpm ide:sync`** — `.ide/profile.json` → `.vscode` settings and extension recommendations (Biome, Tailwind, Playwright)
+### Agent & editor tooling
+- **Portable skills** under `.agents/skills/` with index in `AGENTS.md` (dependency security, upgrades, allowBuilds, editor extension audit, editor profile, react-client-expert)
+- **`pnpm editor:sync`** — `.editor/profile.json` → `.vscode` settings and extension recommendations (Biome, Tailwind, Playwright)
 
 ### E2E (Playwright)
 - **Brave Beta** as Chromium driver (`playwright.brave.ts`); no bundled Chromium for daily use

@@ -9,14 +9,18 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 | `pnpm audit`, npm vulnerabilities, deprecated packages, supply-chain attacks, `sfw`, install safety | [`.agents/skills/fix-dependency-security/SKILL.md`](.agents/skills/fix-dependency-security/SKILL.md) |
 | `allowBuilds`, postinstall/build scripts, `strictDepBuilds`, `approve-builds`, lifecycle-script risk | [`.agents/skills/audit-allow-builds/SKILL.md`](.agents/skills/audit-allow-builds/SKILL.md) |
 | Cursor/VS Code extensions, IDE plugins, editor supply-chain, MCP tooling deps | [`.agents/skills/audit-ide-dependencies/SKILL.md`](.agents/skills/audit-ide-dependencies/SKILL.md) |
-| Per-project IDE settings, extension recommendations, Cursor plugin hooks | [`.agents/skills/project-ide-profile/SKILL.md`](.agents/skills/project-ide-profile/SKILL.md) |
+| Per-project editor settings (`.editor/profile.json`), extensions, Cursor hooks | [`.agents/skills/project-editor-profile/SKILL.md`](.agents/skills/project-editor-profile/SKILL.md) |
 | Upgrade, update, or bump dependencies; Next/React/TS/Tailwind majors; codemods | [`.agents/skills/upgrade-packages/SKILL.md`](.agents/skills/upgrade-packages/SKILL.md) |
 | React components, hooks, client state, effects, Context, XState; **no RSC** for UI logic | [`.agents/skills/react-client-expert/SKILL.md`](.agents/skills/react-client-expert/SKILL.md) |
 | Dev Containers, Codespaces, hardened `.devcontainer` (minimal blast radius) | [`.agents/skills/devcontainer-hardened/SKILL.md`](.agents/skills/devcontainer-hardened/SKILL.md) |
 | Hermes, OpenClaw, Grok Build concurrently; git worktrees; Modal/Daytona/E2B sandboxes | [`.agents/skills/concurrent-cli-agents/SKILL.md`](.agents/skills/concurrent-cli-agents/SKILL.md) |
 | Git worktrees, commit-then-merge, agent branch integration (not `cp` from worktrees) | [`.agents/skills/git-worktrees/SKILL.md`](.agents/skills/git-worktrees/SKILL.md) |
+| Orchestrating agents: briefs, verify-before-merge, iterative waves, resume work | [`.agents/skills/agent-orchestrator/SKILL.md`](.agents/skills/agent-orchestrator/SKILL.md) |
+| Split a branch or mixed changes into small reviewable PRs | [`.agents/skills/split-to-prs/SKILL.md`](.agents/skills/split-to-prs/SKILL.md) |
 
 ## Cursor
+
+**Rules:** canonical [`.agents/rules/`](.agents/rules/); Cursor loads via [`.cursor/rules`](.cursor/rules) → `.agents/rules`.
 
 To auto-load a skill in Cursor, symlink or copy it into `.cursor/skills/`:
 
@@ -25,13 +29,25 @@ mkdir -p .cursor/skills
 ln -sf ../../.agents/skills/fix-dependency-security .cursor/skills/fix-dependency-security
 ln -sf ../../.agents/skills/audit-allow-builds .cursor/skills/audit-allow-builds
 ln -sf ../../.agents/skills/audit-ide-dependencies .cursor/skills/audit-ide-dependencies
-ln -sf ../../.agents/skills/project-ide-profile .cursor/skills/project-ide-profile
+ln -sf ../../.agents/skills/project-editor-profile .cursor/skills/project-editor-profile
 ln -sf ../../.agents/skills/upgrade-packages .cursor/skills/upgrade-packages
 ln -sf ../../.agents/skills/react-client-expert .cursor/skills/react-client-expert
 ln -sf ../../.agents/skills/devcontainer-hardened .cursor/skills/devcontainer-hardened
 ln -sf ../../.agents/skills/concurrent-cli-agents .cursor/skills/concurrent-cli-agents
 ln -sf ../../.agents/skills/git-worktrees .cursor/skills/git-worktrees
+ln -sf ../../.agents/skills/agent-orchestrator .cursor/skills/agent-orchestrator
+ln -sf ../../.agents/skills/split-to-prs .cursor/skills/split-to-prs
 ```
+
+## Agent workflow (triage first)
+
+Before large or multi-step work, read [agent-orchestrator](.agents/skills/agent-orchestrator/SKILL.md) and **triage**:
+
+- **Single-shot** — one obvious fix, ≤1–2 files, low risk: implement directly, run `pnpm type-check` / `pnpm lint`, no task brief or worktrees.
+- **Light** — small scope, same concern: short outcome + verification bullets in chat, then implement.
+- **Full orchestration** — multiple agents, spikes, merges, or verifying another agent’s “done”: briefs, worktrees, independent verification ([git-worktrees](.agents/skills/git-worktrees/SKILL.md)).
+
+Use common sense; do not over-process trivial requests.
 
 ## Conventions
 

@@ -7,7 +7,7 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 ```
 /
 ├── .agents/skills/              # Portable agent skills (see AGENTS.md)
-├── .ide/                        # IDE profile source (pnpm ide:sync → .vscode)
+├── .editor/                     # Editor profile source (pnpm editor:sync → .vscode)
 ├── public/
 │   ├── cv.pdf                   # Pre-generated CV PDF
 │   ├── certificates/            # Certificate files
@@ -16,7 +16,7 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 │   ├── generate-pdf.tsx
 │   ├── generate-sw-version.mjs
 │   ├── playwright-ui-brave.mjs  # E2E UI without bundled Chromium
-│   └── sync-ide-profile.mjs
+│   └── sync-editor-profile.mjs
 ├── src/
 │   ├── app/
 │   │   ├── actions.ts           # Server actions
@@ -108,7 +108,7 @@ pnpm lint:report       # Biome — full output
 pnpm lint:fix
 pnpm format
 pnpm type-check
-pnpm ide:sync
+pnpm editor:sync
 pnpm generate-pdf
 pnpm test:e2e          # Brave Beta — tests/e2e/README.md
 pnpm test:e2e:headed

@@ -11,7 +11,7 @@ description: >-
 
 Orchestrate **multiple coding agents on one repo** without shared working trees or index corruption. Default to **local git worktrees**; escalate to **cloud sandboxes** when isolation, scale, untrusted code, or missing host deps require it.
 
-Pair with [git-worktrees](../git-worktrees/SKILL.md) (safe commit-then-merge — **never `cp` from worktrees**), [split-to-prs](../split-to-prs/SKILL.md) (merge plans), [devcontainer-hardened](../devcontainer-hardened/SKILL.md) (long-lived dev env), [cli-for-agents](https://cursor.com/docs/agent/skills) patterns (non-interactive CLIs).
+Pair with [agent-orchestrator](../agent-orchestrator/SKILL.md) (briefs, verification, waves), [git-worktrees](../git-worktrees/SKILL.md) (safe commit-then-merge — **never `cp` from worktrees**), [split-to-prs](../split-to-prs/SKILL.md) (merge plans), [devcontainer-hardened](../devcontainer-hardened/SKILL.md) (long-lived dev env), [cli-for-agents](https://cursor.com/docs/agent/skills) patterns (non-interactive CLIs).
 
 ## Principles
 

@@ -1,0 +1,16 @@
+---
+description: E2E tests — Brave Beta only; never Playwright bundled Chromium
+globs: tests/e2e/**,playwright.config.ts,playwright.brave.ts,scripts/playwright-ui-brave.mjs
+alwaysApply: false
+---
+
+# Playwright E2E (Brave Beta)
+
+Details: [tests/e2e/README.md](tests/e2e/README.md) and [AGENTS.md](AGENTS.md) (E2E section).
+
+## Non-negotiables
+
+- Tests use **system Brave Beta** via `playwright.brave.ts` / `executablePath` — **not** Playwright-downloaded Chromium.
+- **Do not** run `pnpm exec playwright install chromium`.
+- Headed / UI runs: `pnpm test:e2e:headed`, `pnpm test:e2e:ui` (Brave via `scripts/playwright-ui-brave.mjs`).
+- Override browser path with `BRAVE_BETA_PATH` when needed.

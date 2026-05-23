@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Project IDE profile",
+  "title": "Project editor profile",
   "type": "object",
   "required": ["name"],
   "properties": {

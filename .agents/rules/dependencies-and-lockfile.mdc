@@ -1,0 +1,17 @@
+---
+description: package.json / lockfile / workspace policy — pnpm, frozen install, audit, allowBuilds
+globs: package.json,pnpm-lock.yaml,pnpm-workspace.yaml
+alwaysApply: false
+---
+
+# Dependencies and lockfile
+
+Load [fix-dependency-security](.agents/skills/fix-dependency-security/SKILL.md) and [audit-allow-builds](.agents/skills/audit-allow-builds/SKILL.md) when changing deps or install policy.
+
+## Non-negotiables
+
+- Use **`pnpm`** only (not `npm install` / `yarn`).
+- After lockfile changes: `pnpm install --frozen-lockfile` (prefer `sfw pnpm install …` when changing deps).
+- Re-run **`pnpm audit`**, then **`pnpm type-check`** and **`pnpm lint`**.
+- Respect **`pnpm-workspace.yaml`**: `allowBuilds`, `strictDepBuilds`, `minimumReleaseAge` — do not weaken policy to “make install work”.
+- Prefer real version upgrades over ignoring audit or deprecation warnings.

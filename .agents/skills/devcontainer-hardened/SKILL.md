@@ -11,7 +11,7 @@ description: >-
 
 Produce **small, explicit** Dev Container configs that prioritize **supply-chain safety** and **failure isolation** — not a kitchen-sink image.
 
-Pair with [fix-dependency-security](../fix-dependency-security/SKILL.md) (pnpm policy, `sfw` installs) and [project-ide-profile](../project-ide-profile/SKILL.md) (extension allowlist).
+Pair with [fix-dependency-security](../fix-dependency-security/SKILL.md) (pnpm policy, `sfw` installs) and [project-editor-profile](../project-editor-profile/SKILL.md) (`.editor` extension allowlist).
 
 ## Design principles (less is more)
 
@@ -22,7 +22,7 @@ Pair with [fix-dependency-security](../fix-dependency-security/SKILL.md) (pnpm p
 5. **No secret sprawl** — no API keys, tokens, or `.env` copies in `devcontainer.json`; use Codespaces/VS Code secret stores if needed later.
 6. **No Docker-in-Docker by default** — do not mount `docker.sock` unless the user explicitly needs it (huge blast radius).
 7. **Frozen installs** — `postCreateCommand` uses `pnpm install --frozen-lockfile` (or `sfw pnpm install --frozen-lockfile` when SFW is available in the image).
-8. **Extension allowlist** — only extensions that match the repo stack (read `.ide/profile.json` or `package.json`); never “install all recommended marketplace packs”.
+8. **Extension allowlist** — only extensions that match the repo stack (read `.editor/profile.json` or `package.json`); never “install all recommended marketplace packs”.
 9. **Explicit ports** — `forwardPorts` lists only ports the app actually uses (e.g. `3000`).
 10. **Recoverable breaks** — prefer **devcontainer Features** over custom Dockerfile layers; if Dockerfile is required, keep it &lt; 15 lines and document why.
 
@@ -42,7 +42,7 @@ Pair with [fix-dependency-security](../fix-dependency-security/SKILL.md) (pnpm p
 ## Workflow checklist
 
 ```
-- [ ] 1. Read stack: package.json, packageManager, pnpm-workspace.yaml, .ide/profile.json
+- [ ] 1. Read stack: package.json, packageManager, pnpm-workspace.yaml, .editor/profile.json
 - [ ] 2. Choose profile: default (Node+pnpm) | +playwright | +bun (only if user needs PDF script in-container)
 - [ ] 3. Resolve `<NODE_MAJOR>` ([Step 1](#step-1-resolve-node-major)) — then pick **official** `node:<NODE_MAJOR>-bookworm-slim@sha256:…` (not `mcr.microsoft.com/devcontainers/*`)
 - [ ] 4. Write .devcontainer/devcontainer.json (minimal keys only)
@@ -234,7 +234,7 @@ Document Cursor steps in `.devcontainer/README.md`.
 For this repository, start from [templates/devprofile.devcontainer.json](templates/devprofile.devcontainer.json) and [templates/devprofile.Dockerfile](templates/devprofile.Dockerfile).
 
 - **Node major:** run [scripts/resolve-node-lts-major.mjs](scripts/resolve-node-lts-major.mjs) unless `engines.node` / `.nvmrc` already pins the repo; set `ARG NODE_VERSION` and re-pin digest
-- Extensions: mirror `.ide/profile.json` → `biomejs.biome`, `bradlc.vscode-tailwindcss`, `ms-playwright.playwright` (tests authoring only), `EditorConfig.EditorConfig`
+- Extensions: mirror `.editor/profile.json` → `biomejs.biome`, `bradlc.vscode-tailwindcss`, `ms-playwright.playwright` (tests authoring only), `EditorConfig.EditorConfig`
 - **Do not** add ESLint, Prettier, Python, Rust extensions
 - `postCreateCommand`: corepack + pnpm from `package.json` `packageManager` field + `pnpm install --frozen-lockfile`
 - No Playwright browser download in `postCreateCommand`

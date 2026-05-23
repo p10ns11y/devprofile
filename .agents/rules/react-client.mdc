@@ -1,0 +1,21 @@
+---
+description: Client React/TS — effects, state, fetching; no mechanical useEffect deps
+globs: src/**/*.tsx,src/**/*.ts
+alwaysApply: false
+---
+
+# React client (this repo)
+
+Load [react-client-expert](.agents/skills/react-client-expert/SKILL.md) for full guidance. Backlog: [docs/react-client-roadmap.md](docs/react-client-roadmap.md).
+
+## Non-negotiables
+
+- Interactive UI logic lives in **client** components (`"use client"` where Next requires it). Do not use async Server Components for UI state.
+- **Derive during render** — no `useState` + `useEffect` to sync derived values.
+- **`useEffect` only** for subscriptions, DOM/imperative APIs, analytics — with cleanup.
+- Prefer **TanStack Query** or **`use()` + Suspense** for data — not `useEffect` + `fetch` + loading booleans.
+- Biome **`useExhaustiveDependencies` is off** — do not widen effect deps to silence tooling; fix the model.
+
+## Verify
+
+`pnpm type-check` and `pnpm lint` after substantive TS/TSX changes.
