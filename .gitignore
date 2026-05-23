@@ -40,3 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.pnpm-store
+
+# concurrent CLI agent worktrees (see .agents/skills/concurrent-cli-agents)
+.worktrees/
+.agents/workspaces.json

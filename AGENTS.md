@@ -12,6 +12,9 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 | Per-project IDE settings, extension recommendations, Cursor plugin hooks | [`.agents/skills/project-ide-profile/SKILL.md`](.agents/skills/project-ide-profile/SKILL.md) |
 | Upgrade, update, or bump dependencies; Next/React/TS/Tailwind majors; codemods | [`.agents/skills/upgrade-packages/SKILL.md`](.agents/skills/upgrade-packages/SKILL.md) |
 | React components, hooks, client state, effects, Context, XState; **no RSC** for UI logic | [`.agents/skills/react-client-expert/SKILL.md`](.agents/skills/react-client-expert/SKILL.md) |
+| Dev Containers, Codespaces, hardened `.devcontainer` (minimal blast radius) | [`.agents/skills/devcontainer-hardened/SKILL.md`](.agents/skills/devcontainer-hardened/SKILL.md) |
+| Hermes, OpenClaw, Grok Build concurrently; git worktrees; Modal/Daytona/E2B sandboxes | [`.agents/skills/concurrent-cli-agents/SKILL.md`](.agents/skills/concurrent-cli-agents/SKILL.md) |
+| Git worktrees, commit-then-merge, agent branch integration (not `cp` from worktrees) | [`.agents/skills/git-worktrees/SKILL.md`](.agents/skills/git-worktrees/SKILL.md) |
 
 ## Cursor
 
@@ -25,6 +28,9 @@ ln -sf ../../.agents/skills/audit-ide-dependencies .cursor/skills/audit-ide-depe
 ln -sf ../../.agents/skills/project-ide-profile .cursor/skills/project-ide-profile
 ln -sf ../../.agents/skills/upgrade-packages .cursor/skills/upgrade-packages
 ln -sf ../../.agents/skills/react-client-expert .cursor/skills/react-client-expert
+ln -sf ../../.agents/skills/devcontainer-hardened .cursor/skills/devcontainer-hardened
+ln -sf ../../.agents/skills/concurrent-cli-agents .cursor/skills/concurrent-cli-agents
+ln -sf ../../.agents/skills/git-worktrees .cursor/skills/git-worktrees
 ```
 
 ## Conventions
@@ -34,6 +40,7 @@ ln -sf ../../.agents/skills/react-client-expert .cursor/skills/react-client-expe
 - After dependency changes: `pnpm install`, re-run audit, then `pnpm type-check` / `pnpm lint` (Biome) if applicable.
 - **Lint:** `pnpm lint` shows **errors only** (format + unused imports/vars + `type="button"`). `pnpm lint:report` lists optional/warn-level rules. Noisy rules (`noExplicitAny`, a11y overlays, `useEffect` deps) are off — see `biome.json`.
 - **React client UI:** follow [react-client-expert](.agents/skills/react-client-expert/SKILL.md). Biome does not lint `useEffect` dependency arrays (`useExhaustiveDependencies` off).
+- **React refactor backlog:** [`docs/react-client-roadmap.md`](docs/react-client-roadmap.md).
 
 ## E2E / Playwright
 

@@ -1,8 +1,9 @@
 "use client";
 
-import { AlertCircle, Download, File, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
+import { Download, File, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
 import { motion } from "motion/react";
-import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { Suspense, useEffect, useState } from "react";
 
 import type { DocumentViewerProps } from "../types/documents";
 import { formatFileSize, getFileIconForViewer } from "../utils/file-utils";
@@ -10,25 +11,22 @@ import { HomeButton } from "./home-button";
 import { LoadingSpinner } from "./loading-spinner";
 import { VerificationHash } from "./verification-hash";
 
-// Dynamic import for PDF components to avoid SSR issues
-const PDFComponents = {
-  Document: null as any,
-  Page: null as any,
-  pdfjs: null as any,
-};
-
-if (typeof window !== "undefined") {
-  // Import PDF.js only on client side
-  const { Document, Page, pdfjs } = require("react-pdf");
-  PDFComponents.Document = Document;
-  PDFComponents.Page = Page;
-  PDFComponents.pdfjs = pdfjs;
-
-  // Configure PDF.js worker only on client side
-  if (PDFComponents.pdfjs) {
-    PDFComponents.pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${PDFComponents.pdfjs.version}/build/pdf.worker.min.mjs`;
+const DocumentViewerPdf = dynamic(
+  () => import("./document-viewer-pdf").then((mod) => mod.DocumentViewerPdf),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex flex-col items-center">
+        <div className="flex items-center justify-center p-8">
+          <div className="text-center space-y-2">
+            <LoadingSpinner />
+            <p className="text-gray-700 dark:text-gray-300">Loading PDF viewer...</p>
+          </div>
+        </div>
+      </div>
+    ),
   }
-}
+);
 
 export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -85,76 +83,31 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
   };
 
   const renderPDF = () => {
-    // Only render PDF component on client to avoid hydration issues
-    if (typeof window === "undefined") {
-      return (
-        <div className="flex flex-col items-center">
-          <div className="flex items-center justify-center p-8">
-            <div className="text-center space-y-2">
-              <LoadingSpinner />
-              <p className="text-gray-700 dark:text-gray-300">Loading PDF viewer...</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
+    if (!document) return null;
 
     return (
-      <div className="flex flex-col items-center">
-        <PDFComponents.Document
-          file={document?.path}
-          onLoadSuccess={onDocumentLoadSuccess}
-          onLoadError={onDocumentLoadError}
-          loading={
+      <Suspense
+        fallback={
+          <div className="flex flex-col items-center">
             <div className="flex items-center justify-center p-8">
               <div className="text-center space-y-2">
                 <LoadingSpinner />
-                <p className="text-text1">Loading PDF...</p>
+                <p className="text-gray-700 dark:text-gray-300">Loading PDF viewer...</p>
               </div>
             </div>
-          }
-          error={
-            <div className="flex items-center justify-center p-8">
-              <div className="text-center space-y-4">
-                <AlertCircle className="w-12 h-12 text-red-400 mx-auto" />
-                <div>
-                  <h3 className="text-lg font-medium text-text1">PDF Load Error</h3>
-                  <p className="text-text2 text-sm">Unable to load the PDF document</p>
-                </div>
-              </div>
-            </div>
-          }
-        >
-          {PDFComponents.Page &&
-            numPages &&
-            Array.from(new Array(numPages), (_el, index) => (
-              <div key={`page_${index + 1}`} className="mb-8 first:mt-0">
-                <PDFComponents.Page
-                  pageNumber={index + 1}
-                  scale={scale}
-                  rotate={rotate}
-                  width={containerWidth}
-                  loading={
-                    <div className="flex items-center justify-center p-8">
-                      <div className="text-center space-y-2">
-                        <LoadingSpinner size="sm" />
-                        <p className="text-text2 text-sm">Loading page {index + 1}...</p>
-                      </div>
-                    </div>
-                  }
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                  className="shadow-lg border border-gray-200"
-                />
-                <div className="text-center mt-2">
-                  <span className="text-xs text-text2">
-                    Page {index + 1} of {numPages}
-                  </span>
-                </div>
-              </div>
-            ))}
-        </PDFComponents.Document>
-      </div>
+          </div>
+        }
+      >
+        <DocumentViewerPdf
+          document={document}
+          numPages={numPages}
+          scale={scale}
+          rotate={rotate}
+          containerWidth={containerWidth}
+          onDocumentLoadSuccess={onDocumentLoadSuccess}
+          onDocumentLoadError={onDocumentLoadError}
+        />
+      </Suspense>
     );
   };
 
