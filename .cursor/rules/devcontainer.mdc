@@ -1,0 +1,17 @@
+---
+description: Hardened Dev Container — minimal image, digest-pinned Node, Anysphere extension
+globs: .devcontainer/**
+alwaysApply: false
+---
+
+# Dev Container
+
+Load [devcontainer-hardened](.agents/skills/devcontainer-hardened/SKILL.md) for full workflow.
+
+## Non-negotiables
+
+- **Minimal** config — small blast radius; no kitchen-sink image or Docker-in-Docker by default.
+- **Official** `node:<major>-bookworm-slim@sha256:…` — resolve LTS major via `scripts/resolve-node-lts-major.mjs` in that skill.
+- **`postCreateCommand`:** `pnpm install --frozen-lockfile` (one line).
+- **Cursor:** `anysphere.remote-containers` — not `ms-vscode-remote.remote-containers`.
+- Pin digest deliberately; document Node major in `.devcontainer/README.md`.

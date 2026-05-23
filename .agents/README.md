@@ -33,8 +33,22 @@ Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown bo
 | Concurrent CLI agents (Hermes, OpenClaw, Grok Build; worktrees + cloud sandboxes) | [skills/concurrent-cli-agents/SKILL.md](skills/concurrent-cli-agents/SKILL.md) |
 | Git worktrees (safe merge, branches vs worktrees, no cp integration) | [skills/git-worktrees/SKILL.md](skills/git-worktrees/SKILL.md) |
 | Agent orchestrator (briefs, verify done, iterative human-like workflow) | [skills/agent-orchestrator/SKILL.md](skills/agent-orchestrator/SKILL.md) |
+| Split to PRs (plan before git writes; recoverable snapshot) | [skills/split-to-prs/SKILL.md](skills/split-to-prs/SKILL.md) |
 
 When adding a skill, update this table and the root [AGENTS.md](../AGENTS.md) index.
+
+## Cursor rules (`.cursor/rules/`)
+
+Portable via [.agents/rules](rules) → `.cursor/rules/`.
+
+| Rule | When it applies |
+|------|-----------------|
+| [agent-workflow.mdc](../.cursor/rules/agent-workflow.mdc) | Always — triage, verify, no worktree `cp` |
+| [react-client.mdc](../.cursor/rules/react-client.mdc) | `src/**/*.ts(x)` |
+| [dependencies-and-lockfile.mdc](../.cursor/rules/dependencies-and-lockfile.mdc) | `package.json`, lockfile, workspace |
+| [e2e-playwright-brave.mdc](../.cursor/rules/e2e-playwright-brave.mdc) | E2E / Playwright config |
+| [devcontainer.mdc](../.cursor/rules/devcontainer.mdc) | `.devcontainer/**` |
+| [split-to-prs.mdc](../.cursor/rules/split-to-prs.mdc) | User asks to split branch/PR/changes |
 
 ## E2E (Playwright + Brave Beta)
 

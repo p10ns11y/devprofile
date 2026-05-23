@@ -23,6 +23,19 @@ Read [agent-orchestrator](.agents/skills/agent-orchestrator/SKILL.md) when work 
 - Run stated verification commands yourself — do not trust "done" without checks on non-trivial work
 - Never integrate worktrees via `cp`; use merge per [git-worktrees](.agents/skills/git-worktrees/SKILL.md)
 
+## Verify (after non-trivial code changes)
+
+From repo root:
+
+```bash
+pnpm type-check
+pnpm lint
+```
+
+If **`package.json`**, **`pnpm-lock.yaml`**, or **`pnpm-workspace.yaml`** changed: also `pnpm audit` (see [fix-dependency-security](.agents/skills/fix-dependency-security/SKILL.md)).
+
+If **E2E** files changed: use Brave Beta workflow — [tests/e2e/README.md](tests/e2e/README.md).
+
 ## Skills index
 
-See [AGENTS.md](AGENTS.md) for when to load domain skills (react-client-expert, fix-dependency-security, etc.).
+See [AGENTS.md](AGENTS.md) for when to load domain skills (react-client-expert, fix-dependency-security, split-to-prs, etc.).

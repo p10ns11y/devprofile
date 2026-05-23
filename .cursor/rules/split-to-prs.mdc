@@ -1,0 +1,20 @@
+---
+description: Split branch or mixed changes into small reviewable PRs — plan before git writes
+alwaysApply: false
+---
+
+# Split to PRs
+
+Load [split-to-prs](.agents/skills/split-to-prs/SKILL.md) when the user wants to split a branch, chat, or pile of changes into multiple PRs.
+
+## Non-negotiables
+
+- **Propose the split plan first** — no branches, commits, push, or PRs until the user approves.
+- **Never discard work** — no `reset --hard`, `clean -fdx`, force-push, or branch delete without explicit approval.
+- **Recoverable snapshot** before moving work (`git stash create` → `refs/backup/pre-split-…`).
+- Stage **named files or hunks only** — never `git add .` / `git add -A`.
+- Independent PRs off default branch; stack only when dependency is real (foundation before consumers).
+
+## After split
+
+Short report: PR titles/URLs and what remains on the original branch.

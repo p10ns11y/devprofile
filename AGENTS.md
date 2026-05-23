@@ -16,6 +16,7 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 | Hermes, OpenClaw, Grok Build concurrently; git worktrees; Modal/Daytona/E2B sandboxes | [`.agents/skills/concurrent-cli-agents/SKILL.md`](.agents/skills/concurrent-cli-agents/SKILL.md) |
 | Git worktrees, commit-then-merge, agent branch integration (not `cp` from worktrees) | [`.agents/skills/git-worktrees/SKILL.md`](.agents/skills/git-worktrees/SKILL.md) |
 | Orchestrating agents: briefs, verify-before-merge, iterative waves, resume work | [`.agents/skills/agent-orchestrator/SKILL.md`](.agents/skills/agent-orchestrator/SKILL.md) |
+| Split a branch or mixed changes into small reviewable PRs | [`.agents/skills/split-to-prs/SKILL.md`](.agents/skills/split-to-prs/SKILL.md) |
 
 ## Cursor
 
@@ -35,6 +36,7 @@ ln -sf ../../.agents/skills/devcontainer-hardened .cursor/skills/devcontainer-ha
 ln -sf ../../.agents/skills/concurrent-cli-agents .cursor/skills/concurrent-cli-agents
 ln -sf ../../.agents/skills/git-worktrees .cursor/skills/git-worktrees
 ln -sf ../../.agents/skills/agent-orchestrator .cursor/skills/agent-orchestrator
+ln -sf ../../.agents/skills/split-to-prs .cursor/skills/split-to-prs
 ```
 
 ## Agent workflow (triage first)
