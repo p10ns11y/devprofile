@@ -11,7 +11,7 @@ description: >-
 
 Orchestrate **multiple coding agents on one repo** without shared working trees or index corruption. Default to **local git worktrees**; escalate to **cloud sandboxes** when isolation, scale, untrusted code, or missing host deps require it.
 
-Pair with [split-to-prs](../split-to-prs/SKILL.md) (merge plans), [devcontainer-hardened](../devcontainer-hardened/SKILL.md) (long-lived dev env), [cli-for-agents](https://cursor.com/docs/agent/skills) patterns (non-interactive CLIs).
+Pair with [git-worktrees](../git-worktrees/SKILL.md) (safe commit-then-merge — **never `cp` from worktrees**), [split-to-prs](../split-to-prs/SKILL.md) (merge plans), [devcontainer-hardened](../devcontainer-hardened/SKILL.md) (long-lived dev env), [cli-for-agents](https://cursor.com/docs/agent/skills) patterns (non-interactive CLIs).
 
 ## Principles
 
@@ -86,10 +86,13 @@ From repo root:
   --tool hermes --slug fix-auth
 
 # List agent worktrees
-.agents/skills/concurrent-cli-agents/scripts/agent-worktree-list.sh
+.agents/skills/git-worktrees/scripts/agent-worktree-list.sh
+
+# Merge agent branch into current branch (after agent committed in worktree)
+.agents/skills/git-worktrees/scripts/agent-worktree-merge.sh --branch agent/hermes/fix-auth
 
 # Remove after merge (keeps branch unless --delete-branch)
-.agents/skills/concurrent-cli-agents/scripts/agent-worktree-remove.sh --path .worktrees/hermes-fix-auth
+.agents/skills/git-worktrees/scripts/agent-worktree-remove.sh --path .worktrees/hermes-fix-auth
 ```
 
 Add `.worktrees/` to `.gitignore` if missing. Copy [templates/.worktreeinclude.example](templates/.worktreeinclude.example) to repo root as `.worktreeinclude` when agents need gitignored files.
@@ -141,16 +144,21 @@ Track active sessions in `.agents/workspaces.json` (gitignored) from [templates/
 
 ## Step 5: Merge and cleanup
 
+Follow [git-worktrees](../git-worktrees/SKILL.md): **commit in each worktree**, then merge — never `cp` files into the primary checkout.
+
 1. Per workspace: `pnpm type-check` / `pnpm lint` (or project equivalents).
-2. Push branch: `git push -u origin agent/<tool>/<slug>`.
-3. Open PR or merge locally; resolve conflicts on a **single** integration worktree, not inside concurrent workers.
-4. `agent-worktree-remove.sh` or `git worktree remove`; destroy cloud sandbox by ID.
-5. Prune stale: `git worktree prune`; Hermes also prunes crashed `.worktrees` on startup.
+2. **`git commit`** on `agent/<tool>/<slug>` inside the worktree before integration.
+3. On integration branch (primary checkout): `agent-worktree-merge.sh --branch agent/<tool>/<slug>` one at a time; resolve conflicts there only.
+4. Push integration branch or open PR per agent branch ([split-to-prs](../split-to-prs/SKILL.md)).
+5. `agent-worktree-remove.sh` after merge; destroy cloud sandbox by ID.
+6. Prune stale: `git worktree prune`; Hermes also prunes crashed `.worktrees` on startup.
 
 ---
 
 ## Anti-patterns
 
+- **Copying (`cp` / write) from `.worktrees/` into the primary checkout** for integration — use merge/cherry-pick ([git-worktrees](../git-worktrees/SKILL.md))
+- Finishing a task without **`git commit` in the worktree** then removing the worktree
 - Two agents editing the same worktree or branch simultaneously
 - `git add -A` on a shared checkout while agents run
 - Cloud sandbox with production credentials or unscoped `docker.sock`
