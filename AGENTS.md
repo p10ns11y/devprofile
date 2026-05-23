@@ -15,8 +15,11 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 | Dev Containers, Codespaces, hardened `.devcontainer` (minimal blast radius) | [`.agents/skills/devcontainer-hardened/SKILL.md`](.agents/skills/devcontainer-hardened/SKILL.md) |
 | Hermes, OpenClaw, Grok Build concurrently; git worktrees; Modal/Daytona/E2B sandboxes | [`.agents/skills/concurrent-cli-agents/SKILL.md`](.agents/skills/concurrent-cli-agents/SKILL.md) |
 | Git worktrees, commit-then-merge, agent branch integration (not `cp` from worktrees) | [`.agents/skills/git-worktrees/SKILL.md`](.agents/skills/git-worktrees/SKILL.md) |
+| Orchestrating agents: briefs, verify-before-merge, iterative waves, resume work | [`.agents/skills/agent-orchestrator/SKILL.md`](.agents/skills/agent-orchestrator/SKILL.md) |
 
 ## Cursor
+
+**Rules:** [.cursor/rules/](.cursor/rules/) (portable copy via [.agent/rules](.agent/rules) → same directory).
 
 To auto-load a skill in Cursor, symlink or copy it into `.cursor/skills/`:
 
@@ -31,7 +34,18 @@ ln -sf ../../.agents/skills/react-client-expert .cursor/skills/react-client-expe
 ln -sf ../../.agents/skills/devcontainer-hardened .cursor/skills/devcontainer-hardened
 ln -sf ../../.agents/skills/concurrent-cli-agents .cursor/skills/concurrent-cli-agents
 ln -sf ../../.agents/skills/git-worktrees .cursor/skills/git-worktrees
+ln -sf ../../.agents/skills/agent-orchestrator .cursor/skills/agent-orchestrator
 ```
+
+## Agent workflow (triage first)
+
+Before large or multi-step work, read [agent-orchestrator](.agents/skills/agent-orchestrator/SKILL.md) and **triage**:
+
+- **Single-shot** — one obvious fix, ≤1–2 files, low risk: implement directly, run `pnpm type-check` / `pnpm lint`, no task brief or worktrees.
+- **Light** — small scope, same concern: short outcome + verification bullets in chat, then implement.
+- **Full orchestration** — multiple agents, spikes, merges, or verifying another agent’s “done”: briefs, worktrees, independent verification ([git-worktrees](.agents/skills/git-worktrees/SKILL.md)).
+
+Use common sense; do not over-process trivial requests.
 
 ## Conventions
 

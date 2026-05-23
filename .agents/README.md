@@ -31,6 +31,7 @@ Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown bo
 | Hardened Dev Container / Codespaces config (minimal, digest-pinned) | [skills/devcontainer-hardened/SKILL.md](skills/devcontainer-hardened/SKILL.md) |
 | Concurrent CLI agents (Hermes, OpenClaw, Grok Build; worktrees + cloud sandboxes) | [skills/concurrent-cli-agents/SKILL.md](skills/concurrent-cli-agents/SKILL.md) |
 | Git worktrees (safe merge, branches vs worktrees, no cp integration) | [skills/git-worktrees/SKILL.md](skills/git-worktrees/SKILL.md) |
+| Agent orchestrator (briefs, verify done, iterative human-like workflow) | [skills/agent-orchestrator/SKILL.md](skills/agent-orchestrator/SKILL.md) |
 
 When adding a skill, update this table and the root [AGENTS.md](../AGENTS.md) index.
 
