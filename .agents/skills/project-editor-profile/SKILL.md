@@ -1,24 +1,24 @@
 ---
-name: project-ide-profile
+name: project-editor-profile
 description: >-
-  Generates IDE-agnostic workspace settings from a .ide/profile.json manifest:
+  Generates editor-agnostic workspace settings from a .editor/profile.json manifest:
   .vscode/settings.json, extensions.json, and Cursor workspaceOpen plugin loading.
   Use when setting up per-project extensions, Cursor plugins, editor defaults, or
   porting workspace config to new repos.
 ---
 
-# Project IDE profile
+# Project editor profile
 
-Maintain a **single manifest** (`.ide/profile.json`) and generate editor files that VS Code, Cursor, and VSCodium all understand. Keeps extensions/plugins **scoped to the stack** instead of loading every global install.
+Maintain a **single manifest** (`.editor/profile.json`) and generate editor files that VS Code, Cursor, and VSCodium all understand. Keeps extensions/plugins **scoped to the stack** instead of loading every global install.
 
-**Example in this repo:** `.ide/profile.json` → run `pnpm ide:sync`.
+**Example in this repo:** `.editor/profile.json` → run `pnpm editor:sync`.
 
 ---
 
 ## Layout
 
 ```
-.ide/
+.editor/
   profile.json           # Project manifest (stack, extensions, cursor plugins, settings)
   defaults.settings.json # Shared baseline merged into every project
 .vscode/                 # Generated — commit to git
@@ -27,7 +27,7 @@ Maintain a **single manifest** (`.ide/profile.json`) and generate editor files t
 .cursor/                 # Generated — commit to git
   hooks.json             # workspaceOpen → load-workspace-plugins.mjs
 scripts/
-  sync-ide-profile.mjs   # Regenerate .vscode + .cursor/hooks.json
+  sync-editor-profile.mjs   # Regenerate .vscode + .cursor/hooks.json
   load-workspace-plugins.mjs  # Hook: emit pluginPaths from profile
 ```
 
@@ -37,11 +37,11 @@ scripts/
 
 ```
 - [ ] 1. Detect stack (package.json, configs, test runners)
-- [ ] 2. Edit .ide/profile.json (extensions, cursor.plugins, settings overrides)
-- [ ] 3. Run: pnpm ide:sync (or node scripts/sync-ide-profile.mjs)
+- [ ] 2. Edit .editor/profile.json (extensions, cursor.plugins, settings overrides)
+- [ ] 3. Run: pnpm editor:sync (or node scripts/sync-editor-profile.mjs)
 - [ ] 4. Reload window; accept recommended extensions when prompted
 - [ ] 5. Confirm Cursor plugins load (hooks) or install missing marketplace plugins
-- [ ] 6. Commit .ide/, .vscode/, .cursor/hooks.json
+- [ ] 6. Commit .editor/, .vscode/, .cursor/hooks.json
 ```
 
 ---
@@ -92,15 +92,15 @@ Minimal shape:
 - **`extensions.recommend`** → `.vscode/extensions.json` `recommendations` (VS Code/Cursor prompt to install).
 - **`extensions.unwanted`** → `unwantedRecommendations` (discourage irrelevant global extensions).
 - **`cursor.plugins`** → resolved under `$CURSOR_HOME/plugins/cache/<publisher>/<name>/<hash>/` by `load-workspace-plugins.mjs` on **workspaceOpen** ([Cursor hooks](https://cursor.com/docs/hooks)).
-- **`settings`** → merged over `.ide/defaults.settings.json` into `.vscode/settings.json`.
+- **`settings`** → merged over `.editor/defaults.settings.json` into `.vscode/settings.json`.
 
 ---
 
 ## Step 3: Generate
 
 ```bash
-pnpm ide:sync
-# or: node scripts/sync-ide-profile.mjs
+pnpm editor:sync
+# or: node scripts/sync-editor-profile.mjs
 ```
 
 Never hand-edit generated `.vscode/settings.json` long-term — change `profile.json` and re-sync.
@@ -112,7 +112,7 @@ Cursor validates `editor.defaultFormatter` against **installed** extensions only
 - `vscode.typescript-language-features` — TS/JS format
 - `vscode.json-language-features` — JSON
 
-Put extension-only keys in `.ide/profile.extensions.json` (merged by `ide:sync` only when that extension exists under `~/.cursor/extensions/`). **devprofile** uses [Biome](https://biomejs.dev) (`biomejs.biome`) for lint + format — not ESLint.
+Put extension-only keys in `.editor/profile.extensions.json` (merged by `editor:sync` only when that extension exists under `~/.cursor/extensions/`). **devprofile** uses [Biome](https://biomejs.dev) (`biomejs.biome`) for lint + format — not ESLint.
 
 ---
 
@@ -146,12 +146,12 @@ Optional: symlink agent skills per [AGENTS.md](../../../AGENTS.md); unrelated to
 
 ## Step 6: New project / extend
 
-1. Copy `.ide/defaults.settings.json` and `scripts/sync-ide-profile.mjs`, `scripts/load-workspace-plugins.mjs`.
-2. Add `"ide:sync": "node scripts/sync-ide-profile.mjs"` to `package.json`.
-3. Author `.ide/profile.json` from stack table above.
-4. Run `pnpm ide:sync` and commit outputs.
+1. Copy `.editor/defaults.settings.json` and `scripts/sync-editor-profile.mjs`, `scripts/load-workspace-plugins.mjs`.
+2. Add `"editor:sync": "node scripts/sync-editor-profile.mjs"` to `package.json`.
+3. Author `.editor/profile.json` from stack table above.
+4. Run `pnpm editor:sync` and commit outputs.
 
-For monorepos, use one profile at the root or per-package profiles with separate sync invocations (`node scripts/sync-ide-profile.mjs` from each package after adjusting paths — extend script if needed).
+For monorepos, use one profile at the root or per-package profiles with separate sync invocations (`node scripts/sync-editor-profile.mjs` from each package after adjusting paths — extend script if needed).
 
 ---
 

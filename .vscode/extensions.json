@@ -1,13 +1,11 @@
 {
   "recommendations": [
-    "anysphere.remote-containers",
     "biomejs.biome",
     "bradlc.vscode-tailwindcss",
     "ms-playwright.playwright",
     "EditorConfig.EditorConfig"
   ],
   "unwantedRecommendations": [
-    "ms-vscode-remote.remote-containers",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "rust-lang.rust-analyzer",

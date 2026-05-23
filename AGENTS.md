@@ -9,7 +9,7 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 | `pnpm audit`, npm vulnerabilities, deprecated packages, supply-chain attacks, `sfw`, install safety | [`.agents/skills/fix-dependency-security/SKILL.md`](.agents/skills/fix-dependency-security/SKILL.md) |
 | `allowBuilds`, postinstall/build scripts, `strictDepBuilds`, `approve-builds`, lifecycle-script risk | [`.agents/skills/audit-allow-builds/SKILL.md`](.agents/skills/audit-allow-builds/SKILL.md) |
 | Cursor/VS Code extensions, IDE plugins, editor supply-chain, MCP tooling deps | [`.agents/skills/audit-ide-dependencies/SKILL.md`](.agents/skills/audit-ide-dependencies/SKILL.md) |
-| Per-project IDE settings, extension recommendations, Cursor plugin hooks | [`.agents/skills/project-ide-profile/SKILL.md`](.agents/skills/project-ide-profile/SKILL.md) |
+| Per-project editor settings (`.editor/profile.json`), extensions, Cursor hooks | [`.agents/skills/project-editor-profile/SKILL.md`](.agents/skills/project-editor-profile/SKILL.md) |
 | Upgrade, update, or bump dependencies; Next/React/TS/Tailwind majors; codemods | [`.agents/skills/upgrade-packages/SKILL.md`](.agents/skills/upgrade-packages/SKILL.md) |
 | React components, hooks, client state, effects, Context, XState; **no RSC** for UI logic | [`.agents/skills/react-client-expert/SKILL.md`](.agents/skills/react-client-expert/SKILL.md) |
 | Dev Containers, Codespaces, hardened `.devcontainer` (minimal blast radius) | [`.agents/skills/devcontainer-hardened/SKILL.md`](.agents/skills/devcontainer-hardened/SKILL.md) |
@@ -25,7 +25,7 @@ mkdir -p .cursor/skills
 ln -sf ../../.agents/skills/fix-dependency-security .cursor/skills/fix-dependency-security
 ln -sf ../../.agents/skills/audit-allow-builds .cursor/skills/audit-allow-builds
 ln -sf ../../.agents/skills/audit-ide-dependencies .cursor/skills/audit-ide-dependencies
-ln -sf ../../.agents/skills/project-ide-profile .cursor/skills/project-ide-profile
+ln -sf ../../.agents/skills/project-editor-profile .cursor/skills/project-editor-profile
 ln -sf ../../.agents/skills/upgrade-packages .cursor/skills/upgrade-packages
 ln -sf ../../.agents/skills/react-client-expert .cursor/skills/react-client-expert
 ln -sf ../../.agents/skills/devcontainer-hardened .cursor/skills/devcontainer-hardened

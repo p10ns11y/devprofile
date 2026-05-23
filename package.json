@@ -21,7 +21,7 @@
     "format": "biome format --write .",
     "generate-pdf": "bun scripts/generate-pdf.tsx",
     "type-check": "tsc --noEmit",
-    "ide:sync": "node scripts/sync-ide-profile.mjs",
+    "editor:sync": "node scripts/sync-editor-profile.mjs",
     "test:e2e": "playwright test",
     "test:e2e:ui": "node scripts/playwright-ui-brave.mjs",
     "test:e2e:headed": "playwright test --headed",

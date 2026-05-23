@@ -25,7 +25,7 @@ Each skill is a directory with a `SKILL.md` file (YAML frontmatter + markdown bo
 | Dependency security (audit, deprecations, SFW, supply chain) | [skills/fix-dependency-security/SKILL.md](skills/fix-dependency-security/SKILL.md) |
 | allowBuilds / lifecycle-script supply-chain audit | [skills/audit-allow-builds/SKILL.md](skills/audit-allow-builds/SKILL.md) |
 | IDE extensions / Cursor plugins (pnpm/npm audit) | [skills/audit-ide-dependencies/SKILL.md](skills/audit-ide-dependencies/SKILL.md) |
-| Project IDE profile (.ide → .vscode / Cursor hooks) | [skills/project-ide-profile/SKILL.md](skills/project-ide-profile/SKILL.md) |
+| Project editor profile (.editor → .vscode / Cursor hooks) | [skills/project-editor-profile/SKILL.md](skills/project-editor-profile/SKILL.md) |
 | Package upgrades (semver-safe, framework majors + codemods) | [skills/upgrade-packages/SKILL.md](skills/upgrade-packages/SKILL.md) |
 | React client architecture (state, effects, refs, XState; no RSC) | [skills/react-client-expert/SKILL.md](skills/react-client-expert/SKILL.md) |
 | Hardened Dev Container / Codespaces config (minimal, digest-pinned) | [skills/devcontainer-hardened/SKILL.md](skills/devcontainer-hardened/SKILL.md) |

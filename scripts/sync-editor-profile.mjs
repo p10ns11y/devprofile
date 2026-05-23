@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generate IDE-agnostic workspace config from .ide/profile.json
+ * Generate editor-agnostic workspace config from .editor/profile.json
  * Outputs: .vscode/settings.json, .vscode/extensions.json, .cursor/hooks.json
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -9,9 +9,9 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const ideDir = join(root, ".ide");
-const profile = JSON.parse(readFileSync(join(ideDir, "profile.json"), "utf8"));
-const defaults = JSON.parse(readFileSync(join(ideDir, "defaults.settings.json"), "utf8"));
+const editorDir = join(root, ".editor");
+const profile = JSON.parse(readFileSync(join(editorDir, "profile.json"), "utf8"));
+const defaults = JSON.parse(readFileSync(join(editorDir, "defaults.settings.json"), "utf8"));
 
 function listInstalledExtensionIds() {
   const extDir = join(process.env.CURSOR_HOME ?? join(homedir(), ".cursor"), "extensions");
@@ -25,7 +25,7 @@ function listInstalledExtensionIds() {
   return ids;
 }
 
-const overlayPath = join(ideDir, "profile.extensions.json");
+const overlayPath = join(editorDir, "profile.extensions.json");
 let overlay = {};
 if (existsSync(overlayPath)) {
   overlay = JSON.parse(readFileSync(overlayPath, "utf8"));

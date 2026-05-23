@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * workspaceOpen hook: resolve Cursor plugin paths from .ide/profile.json
+ * workspaceOpen hook: resolve Cursor plugin paths from .editor/profile.json
  * stdout: { "pluginPaths": ["<absolute>", ...] }
  */
 import { existsSync, readdirSync, readFileSync } from "node:fs";
@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const root = process.env.CURSOR_PROJECT_DIR ?? join(dirname(fileURLToPath(import.meta.url)), "..");
 
-const profilePath = join(root, ".ide", "profile.json");
+const profilePath = join(root, ".editor", "profile.json");
 if (!existsSync(profilePath)) {
   process.stdout.write(JSON.stringify({ pluginPaths: [] }));
   process.exit(0);

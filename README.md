@@ -61,11 +61,11 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
    ```
    For stricter supply-chain installs (recommended when changing deps), use [Socket Firewall](https://socket.dev/) or your team's wrapper, e.g. `sfw pnpm install --frozen-lockfile`. Workspace policy lives in `pnpm-workspace.yaml`.
 
-3. **Sync IDE profile** (optional, Cursor / VS Code)
+3. **Sync editor profile** (optional, Cursor / VS Code)
    ```bash
-   pnpm ide:sync
+   pnpm editor:sync
    ```
-   Applies `.ide/profile.json` → `.vscode/settings.json`, extension recommendations, and related editor config. Install the **Biome** extension, then reload the window.
+   Applies `.editor/profile.json` → `.vscode/settings.json`, extension recommendations, and related editor config. Install the **Biome** extension, then reload the window.
 
 4. **Generate initial CV PDF** (optional, first deploy)
    ```bash
@@ -108,8 +108,8 @@ pnpm type-check       # tsc --noEmit
 # PDF
 pnpm generate-pdf     # bun scripts/generate-pdf.tsx
 
-# IDE
-pnpm ide:sync         # sync .ide profile → .vscode / Cursor
+# Editor profile
+pnpm editor:sync      # sync .editor profile → .vscode / Cursor
 
 # E2E (Brave Beta — see tests/e2e/README.md)
 pnpm test:e2e         # all projects (desktop + mobile viewport)
@@ -149,7 +149,7 @@ Portable skills for Cursor and other coding agents live under [`.agents/skills/`
 | `upgrade-packages` | Dependency upgrades and majors |
 | `audit-allow-builds` | `allowBuilds` / lifecycle scripts |
 | `audit-ide-dependencies` | Editor extension supply-chain |
-| `project-ide-profile` | `pnpm ide:sync`, `.ide/profile.json` |
+| `project-editor-profile` | `pnpm editor:sync`, `.editor/profile.json` |
 | `react-client-expert` | Client React refactors (minimal state/effects) |
 
 ## 🔧 Building for Production
