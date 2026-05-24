@@ -19,7 +19,7 @@ export function Header() {
     { name: "Accomplishments", href: "/#accomplishments" },
     { name: "Certificates", href: "/certificates" },
     { name: "Experience", href: "/#experience" },
-    { name: "Content Hub", href: "/content-hub" },
+    { name: "X", href: "/x" },
     // { name: 'Contact', href: '/#contact' }, // Testing sw cache busting
   ];
 

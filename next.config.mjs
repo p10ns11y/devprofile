@@ -4,6 +4,20 @@ import withVercelToolbar from "@vercel/toolbar/plugins/next";
 const nextConfig = {
   images: {},
   transpilePackages: ["@react-pdf/renderer"],
+  async redirects() {
+    return [
+      {
+        source: "/content-hub",
+        destination: "/x",
+        permanent: false,
+      },
+      {
+        source: "/content-hub/:path*",
+        destination: "/x",
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       {

@@ -25,7 +25,7 @@ const EXTERNAL_ASSETS = [
 ];
 
 // Routes that should be cached for offline access
-const CRITICAL_PAGES = ["/", "/cv", "/ama", "/content-hub"];
+const CRITICAL_PAGES = ["/", "/cv", "/ama", "/x"];
 
 self.addEventListener("install", (event) => {
   console.log(`[SW] Installing version: ${CACHE_VERSION}`);

@@ -17,8 +17,8 @@ test.describe("Homepage", () => {
     await page.goto("/");
 
     await openMobileMenuIfNeeded(page, isMobile);
-    await page.getByRole("link", { name: "Content Hub", exact: true }).click();
-    await expect(page).toHaveURL(/\/content-hub/);
+    await page.getByRole("link", { name: "X", exact: true }).click();
+    await expect(page).toHaveURL(/\/x$/);
 
     await page.goBack();
     await expect(page).toHaveURL("/");

@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "motion/react";
 import Link from "next/link";
 import cvdata from "../data/cvdata.json";
