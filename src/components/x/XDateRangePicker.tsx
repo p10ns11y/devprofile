@@ -7,10 +7,9 @@ import { XSearchFilterLinks } from "@/components/x/XSearchFilterLinks";
 import {
   createIntervalFromStartDate,
   getInclusiveEndDate,
+  getTodayIso,
   X_SEARCH_START,
 } from "@/lib/x-search/intervals";
-
-const isoDatePattern = /^\d{4}-\d{2}-\d{2}$/;
 
 interface XDateRangePickerProps {
   className?: string;
@@ -20,18 +19,7 @@ export function XDateRangePicker({ className }: XDateRangePickerProps) {
   const [startDate, setStartDate] = useState(X_SEARCH_START);
   const interval = createIntervalFromStartDate(startDate);
   const inclusiveEnd = interval ? getInclusiveEndDate(interval.until) : null;
-
-  const handleStartChange = (value: string) => {
-    if (value === "" || isoDatePattern.test(value) || /^\d{0,4}(-\d{0,2}){0,2}$/.test(value)) {
-      setStartDate(value);
-    }
-  };
-
-  const handleStartBlur = () => {
-    if (!createIntervalFromStartDate(startDate)) {
-      setStartDate(X_SEARCH_START);
-    }
-  };
+  const today = getTodayIso();
 
   return (
     <section
@@ -56,15 +44,16 @@ export function XDateRangePicker({ className }: XDateRangePickerProps) {
             </label>
             <Input
               id="x-start-date"
-              type="text"
-              inputMode="numeric"
-              placeholder="YYYY-MM-DD"
-              spellCheck={false}
-              maxLength={10}
+              type="date"
+              min={X_SEARCH_START}
+              max={today}
               className="h-8 font-mono text-xs"
               value={startDate}
-              onChange={(event) => handleStartChange(event.target.value)}
-              onBlur={handleStartBlur}
+              onChange={(event) => {
+                if (event.target.value) {
+                  setStartDate(event.target.value);
+                }
+              }}
             />
           </div>
 
