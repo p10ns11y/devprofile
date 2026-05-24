@@ -1,3 +1,10 @@
+import {
+  addUtcDaysIso,
+  compareIsoDates,
+  formatRangeLabel,
+  getTodayIso,
+} from "@/lib/x-search/dates";
+
 export const X_SEARCH_START = "2024-12-01";
 export const X_SEARCH_INTERVAL_DAYS = 8;
 export const X_SEARCH_USERNAME = "peramanathan";
@@ -11,42 +18,8 @@ export interface XSearchInterval {
   index: number;
 }
 
-function parseUtcDate(iso: string): Date {
-  const [year, month, day] = iso.split("-").map(Number);
-  return new Date(Date.UTC(year, month - 1, day));
-}
-
-function formatIso(date: Date): string {
-  return date.toISOString().slice(0, 10);
-}
-
-function addUtcDays(date: Date, days: number): Date {
-  const next = new Date(date);
-  next.setUTCDate(next.getUTCDate() + days);
-  return next;
-}
-
-function formatRangeLabel(since: Date, untilExclusive: Date): string {
-  const lastDay = addUtcDays(untilExclusive, -1);
-  const sameYear = since.getUTCFullYear() === lastDay.getUTCFullYear();
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  });
-  const yearFormatter = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    timeZone: "UTC",
-  });
-
-  const sinceLabel = formatter.format(since);
-  const untilLabel = formatter.format(lastDay);
-
-  if (sameYear) {
-    return `${sinceLabel} – ${untilLabel}, ${yearFormatter.format(since)}`;
-  }
-
-  return `${sinceLabel}, ${yearFormatter.format(since)} – ${untilLabel}, ${yearFormatter.format(lastDay)}`;
+export function getInclusiveEndDate(until: string): string {
+  return addUtcDaysIso(until, -1);
 }
 
 export function buildXSearchUrl(since: string, until: string, filter: "top" | "live"): string {
@@ -55,31 +28,56 @@ export function buildXSearchUrl(since: string, until: string, filter: "top" | "l
   return `https://x.com/search?${params.toString()}`;
 }
 
-export function generateXSearchIntervals(endDate: Date = new Date()): XSearchInterval[] {
-  const start = parseUtcDate(X_SEARCH_START);
-  const end = parseUtcDate(formatIso(endDate));
+export { getTodayIso };
+
+export function createIntervalFromStartDate(startDate: string): XSearchInterval | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate)) {
+    return null;
+  }
+
+  if (
+    compareIsoDates(startDate, X_SEARCH_START) < 0 ||
+    compareIsoDates(startDate, getTodayIso()) > 0
+  ) {
+    return null;
+  }
+
+  const since = startDate;
+  const until = addUtcDaysIso(since, X_SEARCH_INTERVAL_DAYS);
+
+  return {
+    since,
+    until,
+    label: formatRangeLabel(since, until),
+    urlTop: buildXSearchUrl(since, until, "top"),
+    urlLive: buildXSearchUrl(since, until, "live"),
+    index: 0,
+  };
+}
+
+export function generateXSearchIntervals(endDateIso: string = getTodayIso()): XSearchInterval[] {
   const intervals: XSearchInterval[] = [];
-  let cursor = start;
+  let cursor = X_SEARCH_START;
   let index = 1;
 
-  while (cursor <= end) {
-    const since = formatIso(cursor);
-    const untilExclusive = addUtcDays(cursor, X_SEARCH_INTERVAL_DAYS);
+  while (compareIsoDates(cursor, endDateIso) <= 0) {
+    const since = cursor;
+    const untilExclusive = addUtcDaysIso(cursor, X_SEARCH_INTERVAL_DAYS);
     const until =
-      untilExclusive > addUtcDays(end, 1)
-        ? formatIso(addUtcDays(end, 1))
-        : formatIso(untilExclusive);
+      compareIsoDates(untilExclusive, addUtcDaysIso(endDateIso, 1)) > 0
+        ? addUtcDaysIso(endDateIso, 1)
+        : untilExclusive;
 
     intervals.push({
       since,
       until,
-      label: formatRangeLabel(cursor, parseUtcDate(until)),
+      label: formatRangeLabel(since, until),
       urlTop: buildXSearchUrl(since, until, "top"),
       urlLive: buildXSearchUrl(since, until, "live"),
       index,
     });
 
-    cursor = parseUtcDate(until);
+    cursor = until;
     index += 1;
   }
 

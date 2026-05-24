@@ -4,8 +4,9 @@ test.describe("X Search Page", () => {
   test("should load x search page", async ({ page }) => {
     await page.goto("/x");
 
-    await expect(page.getByRole("heading", { name: "Posts on X" })).toBeVisible();
-    await expect(page.getByText("@peramanathan")).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Posts on X of @peramanathan/i })).toBeVisible();
+    await expect(page.getByText("Browse top posts and live activity on X")).toBeVisible();
+    await expect(page.getByText("Recent", { exact: true })).toBeVisible();
   });
 
   test("should display search interval cards", async ({ page }) => {
@@ -31,6 +32,19 @@ test.describe("X Search Page", () => {
     await expect(firstLive).toHaveAttribute("target", "_blank");
   });
 
+  test("should update end date when start date changes", async ({ page }) => {
+    await page.goto("/x");
+
+    const startInput = page.getByLabel("Start date");
+    await startInput.fill("2025-01-01");
+
+    await expect(page.getByText("2025-01-08")).toBeVisible();
+    await expect(page.getByText(/until 2025-01-09/)).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Search top posts from Jan 1, 2025/i })
+    ).toBeVisible();
+  });
+
   test("should have header navigation", async ({ page, isMobile }) => {
     await page.goto("/x");
 
@@ -44,6 +58,6 @@ test.describe("X Search Page", () => {
     await page.goto("/content-hub");
 
     await expect(page).toHaveURL(/\/x$/);
-    await expect(page.getByRole("heading", { name: "Posts on X" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Posts on X of @peramanathan/i })).toBeVisible();
   });
 });
