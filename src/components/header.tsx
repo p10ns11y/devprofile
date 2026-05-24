@@ -1,16 +1,23 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
+import { X as CloseIcon, Menu } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useState } from "react";
 import cvdata from "../data/cvdata.json";
+import { Icon, type IconName } from "./icon";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 
+type NavItem = {
+  name: string;
+  href: string;
+  icon?: IconName;
+};
+
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navItems = [
+  const navItems: NavItem[] = [
     { name: "Home", href: "/#home" },
     { name: "About", href: "/#about" },
     { name: "CV", href: "/cv" },
@@ -19,7 +26,7 @@ export function Header() {
     { name: "Accomplishments", href: "/#accomplishments" },
     { name: "Certificates", href: "/certificates" },
     { name: "Experience", href: "/#experience" },
-    { name: "Content Hub", href: "/content-hub" },
+    { name: "Posts on X", href: "/x", icon: "X" },
     // { name: 'Contact', href: '/#contact' }, // Testing sw cache busting
   ];
 
@@ -46,6 +53,9 @@ export function Header() {
     // No need for special cases
   };
 
+  const navControlClass = "inline-flex items-center leading-none text-text2 transition-colors";
+  const navIconClass = "block size-[1em] shrink-0 fill-current";
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -62,29 +72,41 @@ export function Header() {
           {cvdata.name_with_initial}
         </motion.div>
 
-        <div className="hidden text-[0.9em] md:flex flex-1 justify-between">
+        <div className="hidden text-[0.9em] md:flex flex-1 items-center justify-between">
           {navItems.map((item, index) => (
             <motion.div
               key={item.name}
+              className="flex items-center"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               {item.href.startsWith("/#") ? (
                 <motion.button
+                  type="button"
                   whileHover={{ scale: 1.1, color: "var(--color-brand)", cursor: "pointer" }}
                   onClick={() => scrollToSection(item.href)}
-                  className="text-text2 hover:text-brand"
+                  className={`${navControlClass} hover:text-brand`}
                 >
                   {item.name}
                 </motion.button>
               ) : (
-                <Link href={item.href} prefetch target={item.href === "/cv" ? "_blank" : "_self"}>
+                <Link
+                  href={item.href}
+                  prefetch
+                  target={item.href === "/cv" ? "_blank" : "_self"}
+                  aria-label={item.icon ? item.name : undefined}
+                  className={`${navControlClass} hover:text-text1`}
+                >
                   <motion.span
                     whileHover={{ scale: 1.1, color: "var(--color-brand)", cursor: "pointer" }}
-                    className="text-text2 hover:text-text1"
+                    className="inline-flex items-center"
                   >
-                    {item.name}
+                    {item.icon ? (
+                      <Icon name={item.icon} className={navIconClass} aria-hidden="true" />
+                    ) : (
+                      item.name
+                    )}
                   </motion.span>
                 </Link>
               )}
@@ -100,7 +122,7 @@ export function Header() {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         >
-          {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isMenuOpen ? <CloseIcon className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </Button>
 
         <div className="hidden md:flex items-center space-x-4">
@@ -152,6 +174,7 @@ export function Header() {
                     href={item.href}
                     prefetch
                     target={item.href === "/cv/web-view" ? "_blank" : "_self"}
+                    aria-label={item.icon ? item.name : undefined}
                   >
                     <span
                       onClick={() => setIsMenuOpen(false)}
@@ -161,9 +184,20 @@ export function Header() {
                           setIsMenuOpen(false);
                         }
                       }}
-                      className="block w-full text-left text-text2 hover:text-brand transition-colors py-2"
+                      className="flex w-full items-center gap-2 text-left text-text2 hover:text-brand transition-colors py-2"
                     >
-                      {item.name}
+                      {item.icon ? (
+                        <>
+                          <Icon
+                            name={item.icon}
+                            className="h-4 w-4 fill-current"
+                            aria-hidden="true"
+                          />
+                          {item.name}
+                        </>
+                      ) : (
+                        item.name
+                      )}
                     </span>
                   </Link>
                 )}

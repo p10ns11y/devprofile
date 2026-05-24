@@ -12,9 +12,8 @@ test.describe("Global Navigation & Layout", () => {
     await expect(page.getByRole("heading", { name: "AI Assistant", exact: true })).toBeVisible();
     await expect(page.getByRole("link", { name: "Back" })).toBeVisible();
 
-    await page.goto("/content-hub");
-    await expect(page.getByRole("heading", { name: "Content Hub" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
+    await page.goto("/x");
+    await expect(page.getByRole("heading", { name: /Posts on X of @peramanathan/i })).toBeVisible();
   });
 
   test("should have consistent footer across pages", async ({ page }) => {
