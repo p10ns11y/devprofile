@@ -2,10 +2,34 @@
 
 This repository includes **portable agent skills** under [`.agents/skills/`](.agents/skills/).
 
+## Agent Skills — Connected System
+
+This project uses a **two-skill connected system**:
+
+- **`ai-optimization`** — World-class **fission engine** (token-efficient pruning + compression). Use for speed.
+- **`fusion-sage`** — **Fusion reactor** built on top (synthesis, surplus generation, self-improvement). Use for architecture, long-term value, and compounding returns.
+
+**Recommended Setup**:
+1. Load `.agents/rules/fusion-sage.mdc` in `.cursor/rules/` (`alwaysApply: true` — routes both skills)
+2. Optional: `.agents/rules/ai-optimization.mdc` (`alwaysApply: false` — fission-only via `/fission`)
+3. Both skills live in `.agents/skills/`; symlink into `.cursor/skills/`
+4. The fusion rule intelligently routes between fission and fusion and applies the hybrid response format.
+
+**Quick Commands**:
+- Normal work → Let it auto-decide
+- Architecture / future-proofing → Say "use fusion" or "ignite"
+- Pure speed → Say "just fission"
+
+**Philosophy**: Fission keeps you fast. Fusion makes you unstoppable.
+
+See [fusion-sage/SKILL.md](.agents/skills/fusion-sage/SKILL.md) and [ai-optimization/SKILL.md](.agents/skills/ai-optimization/SKILL.md) for details.
+
 ## Skills index
 
 | When the user asks about… | Read |
 |---------------------------|------|
+| Token efficiency, context compression, large codebases, "too many tokens" | [`.agents/skills/ai-optimization/SKILL.md`](.agents/skills/ai-optimization/SKILL.md) (+ [devprofile-typescript](.agents/skills/ai-optimization/references/devprofile-typescript.md)) |
+| Architecture synthesis, surplus generation, self-improvement, "use fusion" | [`.agents/skills/fusion-sage/SKILL.md`](.agents/skills/fusion-sage/SKILL.md) (+ [devprofile-fusion-playbook](.agents/skills/fusion-sage/references/devprofile-fusion-playbook.md)) |
 | `pnpm audit`, npm vulnerabilities, deprecated packages, supply-chain attacks, `sfw`, install safety | [`.agents/skills/fix-dependency-security/SKILL.md`](.agents/skills/fix-dependency-security/SKILL.md) |
 | `allowBuilds`, postinstall/build scripts, `strictDepBuilds`, `approve-builds`, lifecycle-script risk | [`.agents/skills/audit-allow-builds/SKILL.md`](.agents/skills/audit-allow-builds/SKILL.md) |
 | Cursor/VS Code extensions, IDE plugins, editor supply-chain, MCP tooling deps | [`.agents/skills/audit-ide-dependencies/SKILL.md`](.agents/skills/audit-ide-dependencies/SKILL.md) |
@@ -20,12 +44,14 @@ This repository includes **portable agent skills** under [`.agents/skills/`](.ag
 
 ## Cursor
 
-**Rules:** canonical [`.agents/rules/`](.agents/rules/); Cursor loads via [`.cursor/rules`](.cursor/rules) → `.agents/rules`.
+**Rules:** canonical [`.agents/rules/`](.agents/rules/); Cursor loads via [`.cursor/rules`](.cursor/rules) → `.agents/rules`. For the connected system, enable **`fusion-sage.mdc`** (routes to `ai-optimization` + `fusion-sage`).
 
 To auto-load a skill in Cursor, symlink or copy it into `.cursor/skills/`:
 
 ```bash
 mkdir -p .cursor/skills
+ln -sf ../../.agents/skills/ai-optimization .cursor/skills/ai-optimization
+ln -sf ../../.agents/skills/fusion-sage .cursor/skills/fusion-sage
 ln -sf ../../.agents/skills/fix-dependency-security .cursor/skills/fix-dependency-security
 ln -sf ../../.agents/skills/audit-allow-builds .cursor/skills/audit-allow-builds
 ln -sf ../../.agents/skills/audit-ide-dependencies .cursor/skills/audit-ide-dependencies
