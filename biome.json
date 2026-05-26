@@ -15,7 +15,9 @@
       "!**/test-results",
       "!public/offline.html",
       "!public/sw.js",
-      "!**/.vscode"
+      "!**/.vscode",
+      "!src/data/qa-index.json",
+      "!tests/qa/last-eval-report.json"
     ]
   },
   "formatter": {

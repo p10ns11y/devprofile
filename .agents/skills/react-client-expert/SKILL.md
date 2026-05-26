@@ -137,11 +137,69 @@ Prefer [React docs — You Might Not Need an Effect](https://react.dev/learn/you
 | Form field tied to DOM | Controlled input **or** uncontrolled + ref | Duplicating DOM value in state |
 | Shared remote/server data | **TanStack Query**; simple read: **`use(promise)`** + Suspense | Manual `useEffect` + `useState` fetch |
 | One-off suspendable read (promise from parent) | **`use(promise)`** inside `<Suspense>` | `useEffect` + loading boolean |
+| **Interconnected form + async UI** (question, result, loading, error) | **`useReducer`** + **status enum** (`idle` / `loading` / `error` / `success`) | Separate `useState` booleans that must stay in sync |
 | Multi-step UI, guards, async orchestration | **XState** (or similar FSM/store) | Chains of `useEffect` + boolean flags |
 | High-frequency updates (pointer, scroll) | Ref + direct DOM / rAF; **not** context | `setState` on every move |
 | Theme / auth “read mostly” | Context with stable value + split providers | One giant context updated often |
 
 **Rule:** If you can write `const visible = isOpen && items.length > 0`, do not add `useState(visible)` and sync in an effect.
+
+### `useReducer` for form + async submit flows
+
+When several pieces of UI state change together on submit (input value, active selection, loading, error message, result payload), prefer a **single reducer** over scattered `useState` calls.
+
+Use a **status enum** instead of independent `loading` / `error` booleans — they encode mutually exclusive phases and prevent impossible combinations (`loading && error`).
+
+```tsx
+type Status = "idle" | "loading" | "error" | "success";
+
+type State = {
+  question: string;
+  status: Status;
+  result: Result | null;
+  error: string | null;
+  activeQuestion: string | null;
+};
+
+type Action =
+  | { type: "SET_QUESTION"; question: string }
+  | { type: "SUBMIT_START"; question: string }
+  | { type: "SUBMIT_SUCCESS"; result: Result }
+  | { type: "SUBMIT_ERROR"; error: string }
+  | { type: "RESET" };
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "SET_QUESTION":
+      return { ...state, question: action.question };
+    case "SUBMIT_START":
+      return {
+        ...state,
+        question: action.question,
+        activeQuestion: action.question,
+        status: "loading",
+        result: null,
+        error: null,
+      };
+    case "SUBMIT_SUCCESS":
+      return { ...state, status: "success", result: action.result };
+    case "SUBMIT_ERROR":
+      return { ...state, status: "error", error: action.error };
+    case "RESET":
+      return initialState;
+    default:
+      return state;
+  }
+}
+```
+
+**When to stop at `useReducer` vs graduate to XState / React Query:**
+
+- **`useReducer`** — one feature, one submit flow, no shared cache, transitions are linear (idle → loading → success/error). Colocate reducer in `feature-state.ts`.
+- **React Query `useMutation`** — same flow but you want retries, dedupe, or invalidation after submit.
+- **XState** — guards, parallel states, cancellation, debounced transitions, or graphs too large for a flat enum.
+
+Derive UI flags from status during render: `const isLoading = status === "loading"` — do not store `loading` as separate state.
 
 ---
 
@@ -265,6 +323,7 @@ Default: **no** memoization until profiling or obvious child cost.
 ## Review checklist (PR / refactor)
 
 - [ ] Can any `useState` + `useEffect` pair become a derive or `key` reset?
+- [ ] Does interconnected submit/async UI use `useReducer` + status enum instead of boolean soup?
 - [ ] Does each `useEffect` have cleanup where it subscribes or schedules work?
 - [ ] Would a machine/store shrink boolean soup?
 - [ ] Is context update frequency safe for all consumers?
@@ -292,6 +351,16 @@ const fullName = `${first} ${last}`;
 useEffect(() => { fetch(url).then(setData); }, [url]);
 
 // ✅ AbortController + loading/error in machine or query hook
+```
+
+```tsx
+// ❌ Scattered submit state
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState<string | null>(null);
+const [result, setResult] = useState<Result | null>(null);
+// each handler must remember to flip all four — easy to desync
+
+// ✅ useReducer + status enum — see [useReducer for form + async submit flows](#usereducer-for-form--async-submit-flows)
 ```
 
 ```tsx

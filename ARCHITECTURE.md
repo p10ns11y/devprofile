@@ -19,26 +19,23 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 │   └── sync-editor-profile.mjs
 ├── src/
 │   ├── app/
-│   │   ├── actions.ts           # Server actions
 │   │   ├── api/
 │   │   │   ├── cv/              # CV data, PDF, QA, download, view
 │   │   │   └── certificates/    # Hash verification API
-│   │   ├── ama/                 # AI AMA chat
+│   │   ├── qa/                  # Profile Q&A page
 │   │   ├── certificates/        # Certificate viewer (URL ?id=)
 │   │   ├── content-hub/         # Dynamic content pages
 │   │   ├── cv/
 │   │   ├── accomplishments/
-│   │   ├── quick-cv-actions/
 │   │   ├── layout.tsx
 │   │   └── page.tsx             # Homepage (client-heavy)
 │   ├── components/
 │   │   ├── ui/                  # shadcn/ui
 │   │   ├── content-hub/
-│   │   ├── ai-chat.tsx
+│   │   ├── profile-qa.tsx       # Q&A UI (client)
 │   │   ├── document-viewer.tsx
 │   │   ├── verification-hash.tsx
 │   │   └── ...
-│   ├── config/feature-flags.ts
 │   ├── data/cvdata.json
 │   ├── data/documents-data.ts
 │   ├── hooks/
@@ -66,9 +63,8 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 | `/certificates` | Document viewer (certificates; `?id=` selection) |
 | `/content-hub` | Content hub index |
 | `/content-hub/[page]` | Content hub pages |
-| `/ama` | AI assistant |
+| `/qa` | Profile Q&A — interview-style questions from CV + curated notes |
 | `/accomplishments` | Accomplishments |
-| `/quick-cv-actions` | Quick CV actions |
 
 ## Customization
 
@@ -90,10 +86,10 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 - Tailwind: `tailwind.config.ts` (v4 + PostCSS)
 - Theme: `src/components/theme-provider.tsx` (`light` / `dim`)
 
-## Feature flags
+## Vercel feature flags
 
-- **Location:** `src/config/feature-flags.ts`
-- Toggles for in-development features (e.g. AMA) and user-facing disclaimers
+- **Location:** `src/app/flags.ts` (Vercel Flags Explorer via `.well-known/vercel/flags`)
+- Used for optional UI toggles (e.g. documents, skills section)
 
 ## Development scripts
 
@@ -110,6 +106,8 @@ pnpm format
 pnpm type-check
 pnpm editor:sync
 pnpm generate-pdf
+pnpm build-qa-index    # qa-index.json (also runs in pnpm build)
+pnpm qa:eval           # golden retrieval eval — tests/qa/README.md
 pnpm test:e2e          # Brave Beta — tests/e2e/README.md
 pnpm test:e2e:headed
 pnpm test:e2e:ui
@@ -122,7 +120,7 @@ pnpm test:e2e:ui
 - `GET /api/cv` — CV data
 - `POST /api/cv/generate` — Generate PDF
 - `GET /api/cv/download` — Download PDF
-- `POST /api/cv/qa` — AI Q&A
+- `POST /api/cv/qa` — Profile Q&A: hybrid retrieval (`qa-index.json`), routed generation (`golden-match` \| `template` \| optional `ollama` when `OLLAMA_BASE_URL` is set). Response: `{ answer, details, strategy? }`.
 - `GET /api/cv/view` — View CV data
 - `GET /api/cv/data` — CV data endpoint
 
@@ -134,7 +132,7 @@ pnpm test:e2e:ui
 
 Interactive UI follows [`.agents/skills/react-client-expert/SKILL.md`](.agents/skills/react-client-expert/SKILL.md): minimal state, deliberate effects, Biome does not enforce `useEffect` dependency arrays.
 
-Phase 1 refactors (verification hash, theme provider, certificate URL selection, ai-chat scroll/streaming) are done; later phases tracked in [`.cursor/plans/react_client_roadmap_c18c5c6b.plan.md`](.cursor/plans/react_client_roadmap_c18c5c6b.plan.md).
+Phase 1 refactors (verification hash, theme provider, certificate URL selection) are done; Profile Q&A uses `useReducer` in `profile-qa-state.ts`. Later phases tracked in [`.cursor/plans/react_client_roadmap_c18c5c6b.plan.md`](.cursor/plans/react_client_roadmap_c18c5c6b.plan.md).
 
 ## E2E testing
 
