@@ -104,3 +104,5 @@ pnpm lint
 ```
 
 E2E file changes: see [tests/e2e/README.md](tests/e2e/README.md) — Brave Beta, not `playwright install chromium`.
+
+**Fusion handoff:** architecture or 3+ related queries → [devprofile-fusion-playbook.md](../../fusion-sage/references/devprofile-fusion-playbook.md) via [fusion-sage.mdc](.agents/rules/fusion-sage.mdc).

@@ -1,24 +1,31 @@
-# `.cursor/rules` — Context Sage Edition
+# `.cursor/rules` — Context Sage Edition (fission-only fallback)
 
-Copy this file to **`.cursor/rules/ai-optimization.mdc`** (not project-root `.cursorrules`).
+**devprofile:** use [`.agents/rules/fusion-sage.mdc`](.agents/rules/fusion-sage.mdc) as the primary router (`alwaysApply: true`). Copy this template only for fission-only mode.
+
+Copy to **`.cursor/rules/ai-optimization.mdc`** (`alwaysApply: false`).
 
 In repos that keep portable rules under `.agents/rules/`, mirror the same file there and symlink into Cursor:
 
 ```bash
 mkdir -p .cursor/rules .agents/rules
 cp .agents/skills/ai-optimization/assets/cursorrules-template.md .agents/rules/ai-optimization.mdc
-# edit frontmatter + project-specific Language Defaults, then:
+# Set alwaysApply: false in frontmatter; edit project-specific Language Defaults, then:
 ln -sf ../../.agents/rules/ai-optimization.mdc .cursor/rules/ai-optimization.mdc
+ln -sf ../../.agents/rules/fusion-sage.mdc .cursor/rules/fusion-sage.mdc
 ```
 
-Load the skill in Cursor: `ln -sf ../../.agents/skills/ai-optimization .cursor/skills/ai-optimization`
+Load skills in Cursor:
+```bash
+ln -sf ../../.agents/skills/ai-optimization .cursor/skills/ai-optimization
+ln -sf ../../.agents/skills/fusion-sage .cursor/skills/fusion-sage
+```
 
 ---
 
 ```mdc
 ---
-description: AI token optimizer
-alwaysApply: true
+description: AI token optimizer (fission-only — use fusion-sage.mdc as primary router)
+alwaysApply: false
 ---
 
 You are Context Sage, the world's most token-efficient coding assistant.

@@ -1,6 +1,6 @@
 ---
-name: context-sage
-description: Use for coding tasks in large codebases (JS, TS, Node.js, Rust, Python, ML/AI) inside Cursor, Grok Build, Windsurf or any AI IDE. Automatically applies advanced context pruning, hierarchical summarization, language-specific compression and strict token budgeting to maximize AI response quality while minimizing tokens used. Trigger on any feature implementation, debugging, refactoring or architecture questions.
+name: ai-optimization
+description: Fission engine for token-efficient coding (JS, TS, Node.js, Rust, Python, ML/AI). Pruning, compression, strict token budgeting. Pair with fusion-sage for synthesis and surplus. Trigger on implementation, debugging, refactoring; hand off architecture to fusion-sage.
 ---
 
 # Context Sage — The Intelligent Token Optimizer
@@ -91,23 +91,38 @@ description: Use for coding tasks in large codebases (JS, TS, Node.js, Rust, Pyt
    ```
 
 2. **Project Snapshot** (2-4 lines max):
-   "Clean Architecture monorepo. Core domain in /src/domain. API layer in /apps/api (NestJS). ML inference service in /services/inference (FastAPI)."
+   "Next.js 16 portfolio under `src/`. Client components for interactive UI. CV/Q&A via embeddings, content hub, X search. E2E: Brave Beta at repo root (`playwright.brave.ts`). Verify: `pnpm type-check`, `pnpm lint`."
 
 3. **Selected Context** (structured, scannable):
    Use markdown with language-specific folding hints.
 
-4. **Actionable Response**:
+4. **Action**:
    - Lead with the change or answer.
    - Provide code in smallest possible diff or addition.
    - Explicitly state assumptions.
 
-5. **Footer**:
+   ```
+   ## Action
+   [Your code / diff / explanation here — minimal]
+
+   ## Token Note
+   This used ~Xk tokens. Expand any symbol with "expand <name>".
+   ```
+
+5. **When to hand off to Fusion Sage**:
+   - Task involves architecture or long-term design
+   - User says "make it better for the future" or "design the reactor"
+   - After 3+ related queries → suggest running `/fusion`
+
+6. **Footer** (optional, when not using full fusion response):
    "Token-optimized. Need deeper context on any symbol? Say 'expand UserService' or 'show full auth flow'."
 
 ## IDE Integration Recipes
 
 **Cursor**:
-- Copy [assets/cursorrules-template.md](assets/cursorrules-template.md) to `.cursor/rules/ai-optimization.mdc` (see template for frontmatter and `.agents/rules/` mirror). Symlink skill: `.cursor/skills/ai-optimization` → `.agents/skills/ai-optimization`.
+- Primary router: copy or symlink [`.agents/rules/fusion-sage.mdc`](../../rules/fusion-sage.mdc) → `.cursor/rules/fusion-sage.mdc` (`alwaysApply: true`).
+- Fission-only fallback: [assets/cursorrules-template.md](assets/cursorrules-template.md) → `.cursor/rules/ai-optimization.mdc` (`alwaysApply: false`).
+- Symlink skills: `.cursor/skills/ai-optimization`, `.cursor/skills/fusion-sage` → `.agents/skills/…`.
 
 **Grok Build**:
 - Prefix messages with `/context-sage` or just rely on the loaded skill.
@@ -118,6 +133,11 @@ description: Use for coding tasks in large codebases (JS, TS, Node.js, Rust, Pyt
 ## Accuracy Guardrails (Never Trade Correctness for Tokens)
 
 Compression saves tokens; omission causes bugs. Apply these before dropping or summarizing context.
+
+- Never compress: auth, security, payments, migrations, CI/E2E config, or files you will edit.
+- Debug / flaky tests: read full suspect files + config + related tests.
+- Before editing summarized code: read the full file first.
+- Multi-file changes: note callers/tests, state assumptions.
 
 ### Never compress — read full files
 - Auth, security, payments, permissions, secrets handling
@@ -155,4 +175,7 @@ After every successful interaction:
 - Increase their future relevance score.
 - If user requested "expand" on something we summarized → lower compression level next time for similar queries.
 
-This skill turns every coding conversation into a masterclass in efficient communication.
+---
+
+**This is the efficient fission engine.**  
+**For the full fusion reactor (synthesis + surplus + self-improvement), load [fusion-sage](../fusion-sage/SKILL.md) alongside this skill.**
