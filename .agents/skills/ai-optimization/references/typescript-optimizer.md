@@ -1,5 +1,7 @@
 # TypeScript / JavaScript Optimizer Reference
 
+Portable defaults. **devprofile** overlay: [devprofile-typescript.md](devprofile-typescript.md).
+
 ## Extraction Strategy (no full parser needed in basic mode)
 - Scan for `export interface`, `export type`, `export class`, `export function`, `export const`
 - Keep full type definitions (they are usually small and high signal)

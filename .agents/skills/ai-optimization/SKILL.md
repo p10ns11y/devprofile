@@ -65,6 +65,7 @@ description: Use for coding tasks in large codebases (JS, TS, Node.js, Rust, Pyt
 - Training loops → "Standard PyTorch training: optimizer.step(), scheduler, mixed precision, gradient clipping=1.0, 10 epochs, early stopping patience=3"
 
 ### TypeScript / JavaScript (including Node.js, React, Next.js)
+- **devprofile repo:** also load [references/devprofile-typescript.md](references/devprofile-typescript.md).
 - Extract: `interface` / `type` definitions (full), exported functions with JSDoc summary.
 - React components: "UserProfile(props: {user: User, onUpdate: fn}) — uses useEffect for fetch, useState for edit mode, renders form + avatar"
 - Express/Fastify routes: "app.post('/api/users', validateBody, async (req, res) => { ... calls UserService } (full handler body omitted — business logic in service layer)"
@@ -106,7 +107,7 @@ description: Use for coding tasks in large codebases (JS, TS, Node.js, Rust, Pyt
 ## IDE Integration Recipes
 
 **Cursor**:
-- Create `.cursor/rules` with: "You are Context Sage. Always apply the principles from the Context Sage skill. Never dump full files unless explicitly asked after seeing summary."
+- Copy [assets/cursorrules-template.md](assets/cursorrules-template.md) to `.cursor/rules/ai-optimization.mdc` (see template for frontmatter and `.agents/rules/` mirror). Symlink skill: `.cursor/skills/ai-optimization` → `.agents/skills/ai-optimization`.
 
 **Grok Build**:
 - Prefix messages with `/context-sage` or just rely on the loaded skill.

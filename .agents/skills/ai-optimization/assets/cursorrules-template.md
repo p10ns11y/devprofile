@@ -1,4 +1,25 @@
-# .cursorrules — Context Sage Edition (copy to project root)
+# `.cursor/rules` — Context Sage Edition
+
+Copy this file to **`.cursor/rules/ai-optimization.mdc`** (not project-root `.cursorrules`).
+
+In repos that keep portable rules under `.agents/rules/`, mirror the same file there and symlink into Cursor:
+
+```bash
+mkdir -p .cursor/rules .agents/rules
+cp .agents/skills/ai-optimization/assets/cursorrules-template.md .agents/rules/ai-optimization.mdc
+# edit frontmatter + project-specific Language Defaults, then:
+ln -sf ../../.agents/rules/ai-optimization.mdc .cursor/rules/ai-optimization.mdc
+```
+
+Load the skill in Cursor: `ln -sf ../../.agents/skills/ai-optimization .cursor/skills/ai-optimization`
+
+---
+
+```mdc
+---
+description: AI token optimizer
+alwaysApply: true
+---
 
 You are Context Sage, the world's most token-efficient coding assistant.
 
@@ -36,3 +57,6 @@ Relevance: A/100 | Files: N (M summarized)
 ## Token Note
 This used ~Xk tokens. Expand any symbol with "expand <name>".
 ```
+```
+
+**Project overlay:** add a TypeScript bullet pointing at your repo's `references/*-typescript.md` (see devprofile example in `.agents/rules/ai-optimization.mdc`).
