@@ -8,9 +8,8 @@ test.describe("Global Navigation & Layout", () => {
     await openMobileMenuIfNeeded(page, isMobile);
     await expect(page.getByRole("button", { name: "Home", exact: true })).toBeVisible();
 
-    await page.goto("/ama");
-    await expect(page.getByRole("heading", { name: "AI Assistant", exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Back" })).toBeVisible();
+    await page.goto("/qa");
+    await expect(page.getByRole("heading", { name: "Profile Q&A" })).toBeVisible();
 
     await page.goto("/x");
     await expect(page.getByRole("heading", { name: /Posts on X of @peramanathan/i })).toBeVisible();
@@ -23,11 +22,10 @@ test.describe("Global Navigation & Layout", () => {
     await expect(homeFooter).toBeVisible();
 
     // Test other pages as needed
-    await page.goto("/ama");
-    const amaFooter = page.locator('footer, [class*="footer"]').first();
-    // Footer may not be present on all pages
-    if (await amaFooter.isVisible()) {
-      await expect(amaFooter).toBeVisible();
+    await page.goto("/qa");
+    const qaFooter = page.locator('footer, [class*="footer"]').first();
+    if (await qaFooter.isVisible()) {
+      await expect(qaFooter).toBeVisible();
     }
   });
 
