@@ -29,30 +29,40 @@
  * @see src/config/feature-flags.ts (qaReactor)
  */
 
-// PR 4: Abuse Defense Layer (4-Layer Gate + Golden Fallback)
-// Non-bypassable first gate. checkAbuse implements exact sketch layers (headers-only L1/3 per Q4).
-// Golden helpers use packet.goldenExamples in Q6 human tone. Strict isolation (no Collections/retrieval).
+// PR 5: 6 specialized Collections-backed tools + registry (validation-gated skeletons)
 export {
-  type CheckAbuseContext,
-  checkAbuse,
-  resetAbuseStateForTests,
-} from "./abuse-defense";
-export { computeGoldenFallback, getGoldenFallbackDetails } from "./golden-fallback";
-export type { ProfileSources } from "./persona-compiler"; // for pure-core callers (review #10; tests + future reactor)
-// PR 2: Persona Compiler (pure + packet generation)
-export { compileProfilePacket, compileProfilePacketFromSources } from "./persona-compiler";
+  aiPersonaTools,
+  educationAndBackgroundTool,
+  personaToolRegistry,
+  personaTools,
+  principlesAndPhilosophyTool,
+  profileSearchTool,
+  projectsTool,
+  skillsTool,
+  workExperienceTool,
+} from "./persona-tools";
 // Re-export core types (the only concrete artifact in PR 1)
 // (sorted to satisfy biome organizeImports)
 export type {
   AbuseConfig,
   AbuseResult,
+  CollectionRef,
+  IngestResult,
   PersonaTool,
   PersonaToolRegistry,
   ProfilePacket,
+  SearchResult,
 } from "./types";
-
-// Placeholder comments for remaining future modules (PR 3/5/6 — still minimal)
-// export { collectionsClient } from './xai-collections';
+// Placeholder comments for future modules (no files created in this PR to keep minimal)
+// export { compileProfilePacket } from './persona-compiler';
+export {
+  collectionsClient,
+  XaiCollectionsApiError,
+  XaiCollectionsConfigError,
+  XaiCollectionsError,
+  XaiCollectionsTimeoutError,
+} from "./xai-collections";
+// export { checkAbuse } from './abuse-defense';
 // export { runProfileQA } from './persona-reactor';
 
 // Feature flag key for consumers (single source; avoids magic strings)
