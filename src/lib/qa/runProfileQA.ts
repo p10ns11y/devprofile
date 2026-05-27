@@ -5,7 +5,7 @@
  * Thin delegation to runProfileQAReactor (defense-first, durable, Collections + tools).
  *
  * PR7: this is the single call site for the reactor path. Dual-path decision + legacy
- * preservation lives in the two live surfaces (route.ts for /api/cv/qa, actions.ts for AMA).
+ * preservation lives in the two live surfaces (route.ts + actions.ts for the /qa page).
  * Flag hook (isQARectorEnabled) + collect/toLegacyCompatible helpers exported for them.
  *
  * When qaReactor flag (or ENABLE_XAI_REACTOR) is OFF: zero calls here, legacy executes
@@ -18,7 +18,9 @@
  */
 
 import { runProfileQAReactor } from './persona-reactor';
-import { isFeatureEnabled } from '@/config/feature-flags';
+// Feature flag system (src/config/feature-flags.ts) was removed in PR #48.
+// Reactor is now controlled solely by the ENABLE_XAI_REACTOR environment variable
+// for simplicity on the new /qa surface.
 
 // ProfilePacket type lives in ./types (re-exported via barrel + PR2 stub for consumers that need it).
 // No direct use in this thin surface file.
@@ -71,29 +73,23 @@ export { runProfileQAReactor } from './persona-reactor';
 export type { ProfileQAResponse, LegacyQAResponse };
 
 /**
- * PR7: Dual-path feature flag + env switch (single source of truth for callers in route + actions).
+ * Dual-path for the /qa page (post PR #48).
  *
- * Exact per PR1 (feature-flags.ts qaReactor + lib/qa/index.ts QA_REACTOR_FLAG),
- * .env.example (ENABLE_XAI_REACTOR), and design:
- * - Off by default (qaReactor.enabled=false + env=false) → zero production risk.
- * - ENABLE_XAI_REACTOR=true is explicit dev bypass (takes precedence).
- * - When off: callers execute legacy path byte-for-byte (zero new logs, zero behavior change).
- * - When on: callers delegate to runProfileQA (reactor).
+ * - By default: uses the simple/legacy path (byte-identical to pre-reactor behavior).
+ * - When ENABLE_XAI_REACTOR=true: uses the full agentic reactor (Collections + tools + 4-layer defense + golden fallback).
  *
- * 6 User Decisions honored (Q1 low-price live model, Q2 lightweight durable, Q3 Collections sole,
- * Q4 headers-only, Q5 manual ingest, Q6 real-human tone) via the reactor.
+ * This is the simplified control mechanism after removal of src/config/feature-flags.ts.
+ * The env var gives explicit, low-risk control for development and staged rollouts.
  */
 export function isQARectorEnabled(): boolean {
-  // Env override for explicit server/dev control (per .env.example)
-  if (process.env.ENABLE_XAI_REACTOR === "true") {
-    return true;
-  }
-  // The qaReactor flag (PR1). Never a magic string in decision sites.
-  // Using any-cast for the key because isFeatureEnabled uses keyof typeof FEATURE_FLAGS.
-  return isFeatureEnabled("qaReactor" as any);
+  // Simplified after PR #48 removed the complex feature-flags.ts system.
+  // The reactor (advanced agentic path with defense layers, Collections tools, etc.)
+  // is enabled only via this explicit env var. This keeps the /qa page simple by default.
+  return process.env.ENABLE_XAI_REACTOR === "true";
 }
 
-// Canonical key re-export for clean consumption (future importers can use from here too)
+// Kept for backward compatibility with tests and any external references.
+// No longer tied to a feature flag system (removed in PR #48).
 export const QA_REACTOR_FLAG = "qaReactor" as const;
 
 /**
@@ -123,7 +119,12 @@ export async function collectFullText(
  */
 export async function toLegacyCompatible(
   res: ProfileQAResponse | LegacyQAResponse
-): Promise<{ answer: string; details: any[] }> {
+): Promise<{ answer: string; details: any[]; isGolden?: boolean; defense?: any; version?: string }> {
   const answer = await collectFullText(res);
-  return { answer, details: [] };
+  // Preserve reactor observability fields for the new /qa UI (post PR #48)
+  const isGolden = 'isGolden' in res ? res.isGolden : undefined;
+  const defense = 'defense' in res ? res.defense : undefined;
+  const version = 'version' in res ? res.version : undefined;
+
+  return { answer, details: [], isGolden, defense, version };
 }

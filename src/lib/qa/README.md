@@ -9,12 +9,12 @@ This directory is the **sole home** for the new reactor. Legacy QA (`src/utils/q
 ```
 Client surfaces (PR8)
 ├── src/app/quick-cv-actions/page.tsx          ← dedicated demo surface + conditional reactor badge (client flag)
-└── src/components/question-answer.tsx         ← shared QA form (used by quick-cv + AMA indirectly)
+└── src/components/question-answer.tsx         ← legacy shared QA form (kept for compatibility)
     └── fetch(/api/cv/qa)  OR  server action askQuestion (actions.ts)
 
 Dual-path decision (PR7, never changes legacy source)
 ├── src/app/api/cv/qa/route.ts                 ← if (isQARectorEnabled()) { runProfileQA + toLegacyCompatible or stream } else { exact pre-PR7 legacy }
-└── src/app/actions.ts (askQuestion)           ← identical guard for AMA / direct callers
+└── src/app/actions.ts (askQuestion)           ← guard for /qa + quick-cv-actions (dual-path)
 
 Reactor core (defense-first, Collections-only)
 src/lib/qa/
@@ -63,7 +63,7 @@ src/lib/qa/
    - No code paths in legacy touched since PR1.
 
 2. **Call sites updated in PR7 (do not touch again)**:
-   - `/api/cv/qa` POST (QuestionAnswer fetch + AMA streaming clients)
+   - `/api/cv/qa` POST (new ProfileQA on /qa + other clients)
    - `askQuestion` server action (AMA page + quick-cv-actions)
 
 3. **Response compatibility**:

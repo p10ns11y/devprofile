@@ -11,22 +11,16 @@
  *   - Most-frequently-asked fallback (non-retrieval)
  * These never touch persona retrieval or Collections ingest.
  *
- * Subsequent PRs add (behind qaReactor flag, disabled by default):
- * - persona-compiler.ts (PR2; stub present for PR6 skeleton alignment)
- * - xai-collections.ts (PR3; real)
- * - abuse-defense.ts (PR4; stub present for PR6)
- * - persona-tools.ts (PR5; real)
- * - persona-reactor.ts (PR6; real) + runProfileQA.ts
- * - durable-retry lightweight (Q2 shim present for PR6)
+ * The reactor behavior on the /qa page (introduced in PR #48) is controlled by the
+ * ENABLE_XAI_REACTOR environment variable (see runProfileQA.ts).
  *
- * Import pattern (future):
+ * When enabled: full agentic path with xAI Collections, specialized tools, and defense layers.
+ * When disabled (default): simple/legacy path for zero risk.
+ *
+ * Import pattern:
  *   import { ProfilePacket, checkAbuse, ... } from '@/lib/qa';
  *
- * Legacy reactor (src/utils/qa-utils.ts + /api/cv/qa/route.ts) remains untouched
- * until PR7 dual-path wiring. This preserves instant fallback.
- *
  * @see .grok/plans/phase-1-xai-agentic-profile-qa-reactor-design.md
- * @see src/config/feature-flags.ts (qaReactor)
  */
 
 export type { PersonaToolName } from "./persona-tools";
@@ -79,7 +73,7 @@ export {
 // export { runProfileQA, runProfileQAReactor } from './persona-reactor';
 
 
-// Feature flag key for consumers (single source; avoids magic strings)
+// Kept for test compatibility. The actual toggle is now the ENABLE_XAI_REACTOR env var.
 export const QA_REACTOR_FLAG = "qaReactor" as const;
 
 // Boundary enforcement (dev-time signal; runtime checks live in reactor PR)
