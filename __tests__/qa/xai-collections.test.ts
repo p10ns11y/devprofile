@@ -13,6 +13,9 @@
  *
  * Covers the exact surface + Q5 manual-ingest constraint (ingest works in client for helper;
  * no auto wiring exists or is tested here).
+ *
+ * Note on env restore (Low from re-review): critical timeout path + first test use explicit restore;
+ * other cases rely on final global origEnv restore (sufficient for this PR1-style scaffolding; full harness is future work).
  */
 
 import assert from "node:assert/strict";

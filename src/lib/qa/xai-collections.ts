@@ -17,8 +17,8 @@
  * - XAI_MANAGEMENT_API_KEY (preferred for create/ingest; falls back to XAI_API_KEY)
  *
  * Bases (2026 per design/docs):
- * - Management: https://management-api.x.ai/v1 (create, documents add/poll)
- * - API: https://api.x.ai/v1 (documents/search, files upload)
+ * - Management: https://management-api.x.ai (create, documents add/poll)
+ * - API: https://api.x.ai (documents/search, files upload)
  *
  * Error types + structured econ logging (payload lens, durations, request ids, status).
  * Mocks in tests override global fetch; never uses real keys in test runs.
@@ -74,12 +74,8 @@ export class XaiCollectionsTimeoutError extends XaiCollectionsError {
 const MANAGEMENT_BASE = "https://management-api.x.ai";
 const API_BASE = "https://api.x.ai";
 
-const DEFAULT_POLL_TIMEOUT_MS = process.env.XAI_TEST_POLL_TIMEOUT_MS
-  ? Number(process.env.XAI_TEST_POLL_TIMEOUT_MS)
-  : 180_000;
-const DEFAULT_POLL_INTERVAL_MS = process.env.XAI_TEST_POLL_INTERVAL_MS
-  ? Number(process.env.XAI_TEST_POLL_INTERVAL_MS)
-  : 3_000;
+const DEFAULT_POLL_TIMEOUT_MS = 180_000;
+const DEFAULT_POLL_INTERVAL_MS = 3_000;
 const DEFAULT_SEARCH_K = 8;
 
 function getApiKey(): string {
@@ -271,7 +267,15 @@ class XaiCollectionsClient {
 
     // 3) Poll until PROCESSED (or timeout/failed)
     const pollUrl = `${MANAGEMENT_BASE}/v1/collections/${collId}/documents/${fileId}`;
-    const deadline = Date.now() + DEFAULT_POLL_TIMEOUT_MS;
+    // New High fix (Round 2): lazy read of test poll overrides here (after any env sets in the calling test case).
+    // This makes the documented `npx tsx __tests__/qa/...` invocation use tiny values without shell pre-set or new public API.
+    // Also includes NaN guard for the companion Low.
+    const nT = Number(process.env.XAI_TEST_POLL_TIMEOUT_MS);
+    const nI = Number(process.env.XAI_TEST_POLL_INTERVAL_MS);
+    const pollTimeout = Number.isFinite(nT) && nT > 0 ? nT : DEFAULT_POLL_TIMEOUT_MS;
+    const pollInterval = Number.isFinite(nI) && nI > 0 ? nI : DEFAULT_POLL_INTERVAL_MS;
+
+    const deadline = Date.now() + pollTimeout;
     let attempt = 0;
 
     while (Date.now() < deadline) {
@@ -295,7 +299,7 @@ class XaiCollectionsClient {
         );
       }
       // still PROCESSING or UNKNOWN -> sleep
-      await sleep(DEFAULT_POLL_INTERVAL_MS);
+      await sleep(pollInterval);
     }
 
     throw new XaiCollectionsTimeoutError(
