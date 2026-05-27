@@ -26,14 +26,7 @@ import {
   QA_REACTOR_FLAG,
 } from "@/lib/qa";
 
-// Smoke: flag constant
-assert.equal(QA_REACTOR_FLAG, "qaReactor");
-
-// Smoke: comment contains the critical invariant (enforces review)
-assert.match(NO_LOCAL_VECTORS_COMMENT, /xAI Collections is the sole substrate/);
-assert.match(NO_LOCAL_VECTORS_COMMENT, /No local vectors in reactor path/);
-
-// Type-level smoke (these would fail to compile if interfaces broken)
+// Type-level smoke only (compile-time only; safe on any import)
 const _examplePacket: ProfilePacket = {
   version: "v1-2026-05",
   compiledAt: new Date().toISOString(),
@@ -62,4 +55,24 @@ const _exampleTool: PersonaTool = {
   execute: async () => "result",
 };
 
-console.log("✅ qa types scaffolding smoke tests passed (assert + type surface)");
+/**
+ * Runtime smoke tests (asserts + console). Safe to import the module for types only.
+ * Call explicitly for manual execution:
+ *   npx tsx __tests__/qa/types.test.ts
+ * Or: if (process.env.NODE_ENV === 'test') runQaTypesSmokeTests();
+ */
+export function runQaTypesSmokeTests() {
+  // Smoke: flag constant
+  assert.equal(QA_REACTOR_FLAG, "qaReactor");
+
+  // Smoke: comment contains the critical invariant (enforces review)
+  assert.match(NO_LOCAL_VECTORS_COMMENT, /xAI Collections is the sole substrate/);
+  assert.match(NO_LOCAL_VECTORS_COMMENT, /No local vectors in reactor path/);
+
+  console.log("✅ qa types scaffolding smoke tests passed (assert + type surface)");
+}
+
+// Execute only when run directly (tsx / ts-node / node on compiled) — never on plain import
+if (process.argv[1]?.endsWith("types.test.ts") || process.argv[1]?.endsWith("types.test.js")) {
+  runQaTypesSmokeTests();
+}

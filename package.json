@@ -32,16 +32,16 @@
     "qa:pipeline": "node scripts/parse-golden-qa.mjs && node scripts/build-qa-index.mjs && node scripts/qa-eval.mjs"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.0",
     "@huggingface/transformers": "^4.2.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@react-pdf/renderer": "^4.5.1",
     "@vercel/speed-insights": "^2.0.0",
     "@vercel/toolbar": "^0.2.6",
+    "ai": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "flags": "^4.0.6",
-    "@ai-sdk/openai": "^3.0.0",
-    "ai": "^6.0.0",
     "lucide-react": "^1.16.0",
     "motion": "^12.40.0",
     "next": "16.2.6",
