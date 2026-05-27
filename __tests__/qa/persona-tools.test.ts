@@ -22,12 +22,21 @@
  * This file + persona-tools.ts deliver the complete standalone testable module per PR5 design.
  * When validation completes, only descriptions + minor shaping will change; these tests
  * will continue to pass with zero or trivial updates.
+ *
+ * Test harness notes (PR1 scaffolding style):
+ * - Direct singleton mutation of collectionsClient.search (with strict finally-restore) is
+ *   intentional and matches xai-collections.test.ts exactly. Acceptable for sequential minimal
+ *   harness; documented here as future parallel test risk if the suite evolves.
  */
 
 import assert from "node:assert/strict";
 
 // Import the full public surface from the barrel (validates exports + @/ alias + types)
 import {
+  // Test-only: direct access to pure citation/empty formatting helper
+  __TEST_ONLY_formatSearchResults,
+  // Test-only: exact prefixes (single source of truth, eliminates duplication + enables strong asserts)
+  __TEST_ONLY_TOOL_PREFIXES__,
   aiPersonaTools,
   collectionsClient,
   type PersonaTool,
@@ -158,18 +167,10 @@ export async function runPersonaToolsTests() {
         assert.match(out, /\[1\]/);
         assert.match(out, /Citations: collections:\/\/coll_abc/);
         // Verify specialization prefix reached the client (the coherence mechanism)
+        // Uses single source of truth from __TEST_ONLY_TOOL_PREFIXES__ (DRY + exact ^...$ for all 6).
         assert.ok(searchCalls.length >= 1);
-        const prefix =
-          name === "profileSearch"
-            ? "professional profile"
-            : name === "workExperience"
-              ? "work experience Oneflow"
-              : name === "educationAndBackground"
-                ? "education background thesis"
-                : name === "principlesAndPhilosophy"
-                  ? "principles philosophy"
-                  : name.toLowerCase();
-        assert.match(searchCalls[0].query, new RegExp(prefix));
+        const expectedPrefix = __TEST_ONLY_TOOL_PREFIXES__[name];
+        assert.match(searchCalls[0].query, new RegExp(`^${expectedPrefix}: `));
       } finally {
         restoreSearch();
       }
@@ -265,6 +266,22 @@ export async function runPersonaToolsTests() {
       assert.equal(typeof t.execute, "function");
       assert.ok(t.description.length > 40, `description for ${key} should be rich`);
     }
+  });
+
+  // --- Direct tests for pure helpers (formatSearchResults) — isolated coverage of citation/empty logic ---
+  await test("formatSearchResults handles empty chunks gracefully (pure helper, direct)", () => {
+    const out = __TEST_ONLY_formatSearchResults({ chunks: [], citations: [] } as any);
+    assert.match(out, /No matching excerpts/);
+  });
+
+  await test("formatSearchResults includes metadata + citations when present (pure helper, direct)", () => {
+    const out = __TEST_ONLY_formatSearchResults({
+      chunks: [{ text: "foo bar", metadata: { section: "Experience" }, score: 0.87 }],
+      citations: ["collections://c/f1"],
+    } as any);
+    assert.match(out, /foo bar/);
+    assert.match(out, /section/);
+    assert.match(out, /Citations: collections:\/\/c\/f1/);
   });
 
   // --- ai tool surface sanity (they are real ai.tool() objects consumable by streamText) ---

@@ -24,6 +24,15 @@
  * The reactor (PR6) will import the registry (or aiPersonaTools) for one-shot registration
  * into streamText + step-bounded tool loops.
  *
+ * Implementation Notes (design fidelity):
+ * - Adapted from design sketch (lines ~223-230) for real ai@^6.0.0 (inputSchema + ReturnType
+ *   inference in isolated module; the `any` for ToolPair is the minimal documented escape).
+ * - k=5 chosen as compromise between design example (4) and client DEFAULT_SEARCH_K (8).
+ * - Citations + empty handling centralized in formatSearchResults for consistency across all 6.
+ * - "no collection_ids" client warning is emitted on every call (skeleton phase; PR6 will
+ *   supply collection context). Synthesized citations fallback (client:349) not hit until then.
+ * - Full citation URIs + filters will be populated once PR6 supplies collection context (TODO).
+ *
  * @see .grok/plans/phase-1-xai-agentic-profile-qa-reactor-design.md (Proposed Design § Agentic Tools, PR5 plan, Q6)
  * @see src/lib/qa/types.ts (PersonaTool, PersonaToolRegistry, tone guidance)
  * @see src/lib/qa/xai-collections.ts (the client these tools exclusively call)
@@ -62,6 +71,10 @@ function formatSearchResults(result: SearchResult): string {
 
   return body + cites;
 }
+
+// Test-only export of pure helper for isolated unit tests (Issue 6 review feedback).
+// Zero runtime cost; not part of public API.
+export { formatSearchResults as __TEST_ONLY_formatSearchResults };
 
 // -----------------------------------------------------------------------------
 // Tool factory (keeps the module tiny, consistent, and reviewable)
@@ -221,6 +234,19 @@ export const aiPersonaTools = {
   projects: projectsPair.aiTool,
   educationAndBackground: educationAndBackgroundPair.aiTool,
   principlesAndPhilosophy: principlesAndPhilosophyPair.aiTool,
+} as const;
+
+// -----------------------------------------------------------------------------
+// Test-only helpers (single source of truth for shaping fidelity in tests only)
+// Never used at runtime. Enables DRY exact ^prefix$ asserts post-validation.
+// -----------------------------------------------------------------------------
+export const __TEST_ONLY_TOOL_PREFIXES__ = {
+  profileSearch: "professional profile",
+  workExperience: "work experience Oneflow",
+  skills: "skills expertise",
+  projects: "projects portfolio",
+  educationAndBackground: "education background thesis",
+  principlesAndPhilosophy: "principles philosophy",
 } as const;
 
 // -----------------------------------------------------------------------------

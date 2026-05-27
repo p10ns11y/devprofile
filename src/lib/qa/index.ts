@@ -29,8 +29,11 @@
  * @see src/config/feature-flags.ts (qaReactor)
  */
 
+export type { PersonaToolName } from "./persona-tools";
 // PR 5: 6 specialized Collections-backed tools + registry (validation-gated skeletons)
 export {
+  __TEST_ONLY_formatSearchResults,
+  __TEST_ONLY_TOOL_PREFIXES__,
   aiPersonaTools,
   educationAndBackgroundTool,
   personaToolRegistry,
