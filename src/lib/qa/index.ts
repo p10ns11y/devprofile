@@ -39,8 +39,10 @@ export type {
   ProfilePacket,
 } from "./types";
 
+// PR 2: Persona Compiler (pure + packet generation)
+export { compileProfilePacket, compileProfilePacketFromSources } from "./persona-compiler";
+
 // Placeholder comments for future modules (no files created in this PR to keep minimal)
-// export { compileProfilePacket } from './persona-compiler';
 // export { collectionsClient } from './xai-collections';
 // export { checkAbuse } from './abuse-defense';
 // export { runProfileQA } from './persona-reactor';
