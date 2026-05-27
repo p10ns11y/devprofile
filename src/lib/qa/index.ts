@@ -12,12 +12,12 @@
  * These never touch persona retrieval or Collections ingest.
  *
  * Subsequent PRs add (behind qaReactor flag, disabled by default):
- * - persona-compiler.ts
- * - xai-collections.ts
- * - abuse-defense.ts
- * - golden-fallback.ts
- * - persona-tools.ts
- * - persona-reactor.ts (runProfileQA)
+ * - persona-compiler.ts (PR2; stub present for PR6 skeleton alignment)
+ * - xai-collections.ts (PR3; real)
+ * - abuse-defense.ts (PR4; stub present for PR6)
+ * - persona-tools.ts (PR5; real)
+ * - persona-reactor.ts (PR6; real) + runProfileQA.ts
+ * - durable-retry lightweight (Q2 shim present for PR6)
  *
  * Import pattern (future):
  *   import { ProfilePacket, checkAbuse, ... } from '@/lib/qa';
@@ -56,8 +56,17 @@ export type {
   ProfilePacket,
   SearchResult,
 } from "./types";
-// Placeholder comments for future modules (no files created in this PR to keep minimal)
-// export { compileProfilePacket } from './persona-compiler';
+// PR2/PR4/Q2 skeleton shims for PR6 validation-gate alignment (High Issues 1+2 closure).
+// These are minimal TODO stubs only (see each file header). Full implementations live on
+// sibling PR2/PR4 branches (plan: c53ba184, b59206f). In combined tree: delete shims
+// and import real surface. This lets persona-reactor.ts + test import + tsc + run
+// against *present* PR3 (xai-collections) + PR5 (persona-tools + aiPersonaTools) only.
+// Barrel re-exports keep consumers able to `import { ... } from '@/lib/qa'`.
+export { compileProfilePacketFromSources } from "./persona-compiler";
+export { checkAbuse, computeGoldenFallback } from "./abuse-defense";
+export { withLightweightRetry } from "./durable-retry";
+
+// Real modules (PR3 present; PR1 types)
 export {
   collectionsClient,
   XaiCollectionsApiError,
@@ -65,8 +74,10 @@ export {
   XaiCollectionsError,
   XaiCollectionsTimeoutError,
 } from "./xai-collections";
-// export { checkAbuse } from './abuse-defense';
-// export { runProfileQA } from './persona-reactor';
+
+// Future (PR6 public surface wired in PR7; PR4/PR2 real when merged):
+// export { runProfileQA, runProfileQAReactor } from './persona-reactor';
+
 
 // Feature flag key for consumers (single source; avoids magic strings)
 export const QA_REACTOR_FLAG = "qaReactor" as const;

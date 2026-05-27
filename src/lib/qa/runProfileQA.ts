@@ -15,7 +15,8 @@
  */
 
 import { runProfileQAReactor } from './persona-reactor';
-import type { ProfilePacket } from './persona-compiler'; // for typing only
+// ProfilePacket type lives in ./types (re-exported via barrel + PR2 stub for consumers that need it).
+// No direct use in this thin surface file.
 
 // Legacy shape (current /api/cv/qa + qa-utils) for smooth transition
 export interface LegacyQAResponse {

@@ -17,21 +17,27 @@
 import { streamText, type StreamTextResult, type ToolSet } from 'ai';
 // NOTE: @ai-sdk/xai provider assumed available (added alongside AI SDK in PR surface).
 // In practice: import { xai } from '@ai-sdk/xai';
-import type { ProfilePacket } from './persona-compiler';
-import { compileProfilePacketFromSources } from './persona-compiler';
-import { collectionsClient } from './xai-collections-client';
-import { checkAbuse, computeGoldenFallback } from './abuse-defense';
-// PR5 surface — 6 thin tools already wired to Collections search + registry
-import { aiPersonaTools, type PersonaToolRegistry } from './persona-tools'; // or personaToolRegistry.getAll()
-import { withLightweightRetry } from './durable-retry'; // minimal wrapper (exponential backoff, 2-3 attempts, no Workflow DevKit)
+// High fix (review 80eccd53-pr-6): imports aligned to present surface (PR3 xai-collections + stubs for PR2/PR4/Q2 on sibling branches).
+// Stubs (persona-compiler.ts, abuse-defense.ts, durable-retry.ts) are thin shims only — see their headers.
+// ProfilePacket type also re-exported from ./types (and barrel).
+import type { ProfilePacket } from './persona-compiler'; // via PR2 stub (or ./types re-export)
+import { compileProfilePacketFromSources } from './persona-compiler'; // PR2 stub shim
+import { collectionsClient } from './xai-collections'; // PR3 real (was wrong -client name)
+import { checkAbuse, computeGoldenFallback } from './abuse-defense'; // PR4 stub shim
+// PR5 surface — exact 6 thin Collections-backed tools (see persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__)
+import { aiPersonaTools, type PersonaToolRegistry } from './persona-tools';
+import { withLightweightRetry } from './durable-retry'; // Q2 lightweight shim (per user decision; no full Workflow DevKit)
 
-// 5 sources for PR2 compiler (per design + data/persona)
+// 5 sources for PR2 compiler (exact per design §23 + PR2 plan).
+// High fix: made resilient for skeleton (missing MDs in this worktree's src/data; only cvdata.json + documents-data.ts + cvdata.toon present).
+// Real sources (golden-qa.md, casual-qa.md, top-three-achievements.md, data/persona/ps-profile-v1.md) belong in combined tree / PR2.
+// Fallback to '' on load failure + clear doc. Overridable for tests if needed in future.
 const PROFILE_SOURCES = [
   { name: 'cvdata.json', content: () => import('@/data/cvdata.json').then(m => JSON.stringify(m.default)) },
-  { name: 'golden-qa.md', content: () => import('@/data/golden-qa.md').then(m => m.default) },
-  { name: 'casual-qa.md', content: () => import('@/data/casual-qa.md').then(m => m.default) },
-  { name: 'top-three-achievements.md', content: () => import('@/data/top-three-achievements.md').then(m => m.default) },
-  { name: 'ps-profile-v1.md', content: () => import('@/data/persona/ps-profile-v1.md').then(m => m.default) },
+  { name: 'golden-qa.md', content: () => import('@/data/golden-qa.md').then(m => m.default).catch(() => '') },
+  { name: 'casual-qa.md', content: () => import('@/data/casual-qa.md').then(m => m.default).catch(() => '') },
+  { name: 'top-three-achievements.md', content: () => import('@/data/top-three-achievements.md').then(m => m.default).catch(() => '') },
+  { name: 'ps-profile-v1.md', content: () => import('@/data/persona/ps-profile-v1.md').then(m => m.default).catch(() => '') },
 ];
 
 // Simple in-memory packet cache (versioned). Production would use edge cache / Collections metadata.
@@ -39,28 +45,30 @@ let cachedPacket: ProfilePacket | null = null;
 let packetCacheVersion: string | null = null;
 
 async function getOrLoadProfilePacket(): Promise<ProfilePacket> {
-  // Lightweight ensure: if not present in Collections, compiler + ingest (manual for Phase 1 per Q5)
+  // Fission cold load only.
   if (cachedPacket && packetCacheVersion) {
     // In real: could do collectionsClient.headCheck(version) for staleness
     return cachedPacket;
   }
 
-  // Load raw sources (fission: only on cold start or invalidation)
+  // Load raw sources (resilient per High Issue 4)
   const rawSources = await Promise.all(
     PROFILE_SOURCES.map(async (s) => ({
       name: s.name,
-      content: await s.content(),
+      content: await s.content().catch(() => ''),
     }))
   );
 
   const packet = compileProfilePacketFromSources(rawSources);
 
-  // Lightweight Collections sync (PR3 client) — only if needed, no auto heavy ingest
+  // Lightweight Collections sync (PR3 client) — ensureCollection only.
+  // High fix (Issue 2): real surface is ensureCollectionForVersion(version); no ensureIngest (ingestPacket is manual-only per Q5 + client header).
+  // Reactor never auto-calls heavy ingest in Phase 1. ensureCollection is cheap + safe here.
   try {
-    await collectionsClient.ensureIngest(packet); // thin ensure, respects manual Phase 1
+    await collectionsClient.ensureCollectionForVersion(packet.version);
   } catch (e) {
-    // Graceful: continue with packet for golden path; log only
-    console.warn('[reactor] collectionsClient.ensureIngest non-fatal (manual ingest path):', e);
+    // Graceful: continue (golden path still works). Full manual ingest via console.x.ai / scripts (Q5).
+    logReactor('ingest', 'ensureCollectionForVersion non-fatal (manual ingest path per Q5)', { error: String(e) });
   }
 
   cachedPacket = packet;
@@ -142,13 +150,15 @@ export async function runPersonaQA(
   const systemPrompt = buildSystemPrompt(packet);
 
   // Wire the 6 PR5 tools (Collections-backed, thin, registered for tool-calling loop)
-  const tools: ToolSet = aiPersonaTools; // or personaToolRegistry.getToolSetForStreamText()
+  // Exact keys: profileSearch, workExperience, skills, projects, educationAndBackground, principlesAndPhilosophy
+  // Matches persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__ (PR5)
+  const tools: ToolSet = aiPersonaTools;
 
   // Model selection per Q1: low-price for live reactor generation path
   // (strong model reserved for curation/validation in separate flows)
   const model = getLiveResponseModel(); // e.g. cheap Grok variant via xai provider
 
-  // True streaming via AI SDK streamText (with tool loop: stepCountIs(5) pattern from canary keep)
+  // True streaming via AI SDK streamText (maxSteps:5 for bounded tool-calling loop per canary pattern)
   const generationFn = async () => {
     const result: StreamTextResult<any, any> = await streamText({
       model,
@@ -185,8 +195,15 @@ export async function runPersonaQA(
 // --- Helpers (minimal, fission-efficient) ---
 
 function hashQuestion(q: string): string {
-  // Simple stable hash for logs (no crypto needed for skeleton)
-  return Buffer.from(q.trim().toLowerCase()).toString('base64').slice(0, 16);
+  // Simple stable hash for logs (no crypto needed for skeleton).
+  // High/Medium fix: cross-platform (no Node Buffer) to avoid edge runtime issues in PR7+.
+  // Pure JS; sufficient for log correlation.
+  const s = q.trim().toLowerCase();
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = (h * 31 + s.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h).toString(36).slice(0, 16);
 }
 
 function buildSystemPrompt(packet: ProfilePacket): string {
@@ -216,6 +233,7 @@ function getLiveResponseModel() {
   // Per Q1: low-price for live responses. Strong model only for offline curation/validation.
   // In real: return xai('grok-3-mini') or equivalent cheap/fast variant available via Cursor/X Premium+.
   // Skeleton uses a string identifier; provider wiring happens at call site or in thin wrapper.
+  // @ts-expect-error - any escape for skeleton; real @ai-sdk/xai provider in PR7 wiring (echoes past #269)
   return { modelId: 'grok-low-price-live' } as any; // resolved by @ai-sdk/xai in consuming layer
 }
 
