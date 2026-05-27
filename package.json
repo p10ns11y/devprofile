@@ -40,13 +40,16 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "flags": "^4.0.6",
+    "@ai-sdk/openai": "^3.0.0",
+    "ai": "^6.0.0",
     "lucide-react": "^1.16.0",
     "motion": "^12.40.0",
     "next": "16.2.6",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-pdf": "^10.4.1",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "zod": "^4.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
