@@ -1,47 +1,135 @@
 /**
- * Agentic Tools: 6 Specialized Collections-Backed Tools (PR 5).
+ * Agentic Tools: 6 Specialized Tools (PR 5).
  *
- * Ports the exact 6-tool pattern from the canary that delivered coherent, grounded,
- * high-quality answers. Each tool is a *thin* wrapper around the PR3 collectionsClient
- * (search only; specialization via query prefix/shaping + rich description).
+ * Each tool is a thin wrapper around a search backend.
+ * - In normal / production mode: uses xAI Collections (via collectionsClient).
+ * - In local dev: when USE_LOCAL_PROFILE_DATA=true (or no XAI_MANAGEMENT_API_KEY),
+ *   uses an in-memory search over the ProfilePacket + src/data/persona files.
  *
- * - No direct Grok calls inside tools.
- * - No vector/embed/local index code whatsoever (sole substrate invariant).
- * - Rich, human-sounding descriptions (warm, professional, light sparkle per Q6 tone
- *   guidance baked into ProfilePacket and types.ts) to help Grok route correctly.
- * - Returns grounded text + citations for the LLM context.
- * - Fully standalone + unit-testable with a mocked client (no real keys, no network).
+ * This allows full reactor + tool-calling development locally without exposing
+ * management keys or requiring a live Collections collection.
  *
- * SKELETON STATUS (validation gate): Per explicit design rule, PR5 is the first "heavy"
- * implementation PR and is gated behind the filled 45-question validation template
- * (>=70% shippable bar on narrative cases) + economics sign-off + design update.
- * This file delivers the *complete contract*, thin impl scaffolding, and full test
- * coverage now so that post-validation enrichment (exact phrasing, packet.toolSystemPrompt
- * integration, refined k/shaping, additional edge behavior) is a minimal, safe delta
- * before PR6 reactor wiring. All current descriptions are high-signal initial ports
- * adapted from canary + design bullets; they already feel human and route well.
- *
- * The reactor (PR6) will import the registry (or aiPersonaTools) for one-shot registration
- * into streamText + step-bounded tool loops.
- *
- * Implementation Notes (design fidelity):
- * - Adapted from design sketch (lines ~223-230) for real ai@^6.0.0 (inputSchema + ReturnType
- *   inference in isolated module; the `any` for ToolPair is the minimal documented escape).
- * - k=5 chosen as compromise between design example (4) and client DEFAULT_SEARCH_K (8).
- * - Citations + empty handling centralized in formatSearchResults for consistency across all 6.
- * - "no collection_ids" client warning is emitted on every call (skeleton phase; PR6 will
- *   supply collection context). Synthesized citations fallback (client:349) not hit until then.
- * - Full citation URIs + filters will be populated once PR6 supplies collection context (TODO).
- *
- * @see .grok/plans/phase-1-xai-agentic-profile-qa-reactor-design.md (Proposed Design § Agentic Tools, PR5 plan, Q6)
- * @see src/lib/qa/types.ts (PersonaTool, PersonaToolRegistry, tone guidance)
- * @see src/lib/qa/xai-collections.ts (the client these tools exclusively call)
+ * The reactor (PR6) registers the tools via aiPersonaTools or personaToolRegistry.
  */
 
 import { tool } from "ai";
 import { z } from "zod";
-import type { PersonaTool, PersonaToolRegistry, SearchResult } from "./types";
+import type { PersonaTool, PersonaToolRegistry, ProfilePacket, SearchResult } from "./types";
 import { collectionsClient } from "./xai-collections";
+import { readFileSync } from "fs";
+import { join } from "path";
+
+// -----------------------------------------------------------------------------
+// Local dev search (used when USE_LOCAL_PROFILE_DATA=true or no management key)
+// This lets you develop the reactor + tools without exposing XAI_MANAGEMENT_API_KEY
+// or hitting real Collections.
+// -----------------------------------------------------------------------------
+let localPacketCache: ProfilePacket | null = null;
+
+function getLocalPacket(): ProfilePacket | null {
+  if (localPacketCache) return localPacketCache;
+
+  try {
+    const DATA_DIR = join(process.cwd(), "src/data");
+    const PERSONA_DIR = join(DATA_DIR, "persona");
+
+    const read = (p: string) => readFileSync(p, "utf8");
+
+    const psProfile = read(join(PERSONA_DIR, "ps-profile-v1.md"));
+    const golden = read(join(DATA_DIR, "golden-qa.md"));
+    const casual = read(join(DATA_DIR, "casual-qa.md"));
+    const top3 = read(join(DATA_DIR, "top-three-achievements.md"));
+
+    // Build a usable local packet from the same sources the real compiler uses
+    const packet: ProfilePacket = {
+      version: "local-dev",
+      compiledAt: new Date().toISOString(),
+      coreIdentity: psProfile,
+      principles: [], // can be extracted from psProfile if needed
+      topAchievements: [
+        { title: "Top Achievements (local)", narrative: top3 },
+      ],
+      experienceHighlights: [],
+      signatureProjects: [],
+      goldenExamples: [], // could parse from golden + casual
+      structuredSnapshot: {},
+      ingestDocument: [psProfile, golden, casual, top3].join("\n\n---\n\n"),
+      toolSystemPrompt: "",
+    };
+    localPacketCache = packet;
+    return packet;
+  } catch {
+    return null;
+  }
+}
+
+function localSearch(query: string, k = 5): SearchResult {
+  const packet = getLocalPacket();
+  if (!packet) {
+    return { chunks: [], citations: [] };
+  }
+
+  const q = query.toLowerCase();
+
+  // Primary sources for local dev (same files the real packet is built from)
+  const DATA_DIR = join(process.cwd(), "src/data");
+  const sources: Array<{ text: string; section: string }> = [
+    { text: packet.coreIdentity, section: "ps-profile-v1" },
+    { text: packet.ingestDocument, section: "ingest-document" },
+    { text: readFileSafe(join(DATA_DIR, "golden-qa.md")), section: "golden-qa" },
+    { text: readFileSafe(join(DATA_DIR, "casual-qa.md")), section: "casual-qa" },
+    { text: readFileSafe(join(DATA_DIR, "top-three-achievements.md")), section: "top-achievements" },
+  ];
+
+  const scored = sources
+    .map((s) => {
+      const textLower = s.text.toLowerCase();
+      const score = q.split(/\s+/).reduce((acc, word) => {
+        if (word.length < 3) return acc;
+        return acc + (textLower.match(new RegExp(word, "g")) || []).length;
+      }, 0);
+      return { ...s, score };
+    })
+    .filter((s) => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, k);
+
+  return {
+    chunks: scored.map((s) => ({ text: s.text.slice(0, 1200), metadata: { section: s.section } })),
+    citations: [],
+  };
+}
+
+function readFileSafe(p: string): string {
+  try {
+    return readFileSync(p, "utf8");
+  } catch {
+    return "";
+  }
+}
+
+function getSearchExecutor() {
+  // For real Collections search we only need XAI_API_KEY (search uses the regular API key).
+  // Management key is only required for ensure/ingest operations.
+  const forceLocal = process.env.USE_LOCAL_PROFILE_DATA === "true";
+  const hasApiKey = !!process.env.XAI_API_KEY;
+
+  if (forceLocal || !hasApiKey) {
+    return (q: string, opts?: { k?: number }) => localSearch(q, opts?.k);
+  }
+
+  // When using real Collections + XAI_PROFILE_COLLECTION, scope searches to that collection.
+  // Note: XAI_PROFILE_COLLECTION can be either the collection *name* or *ID*.
+  // If you only have the name, the Collections search may still work if your key has visibility.
+  const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
+  const searchOpts: any = { k: opts?.k };
+
+  if (manualCollection) {
+    searchOpts.filters = { collection_ids: [manualCollection] };
+  }
+
+  return (q: string, opts?: { k?: number }) => collectionsClient.search(q, searchOpts);
+}
 
 // -----------------------------------------------------------------------------
 // Shared formatting (citation handling + consistent shape for LLM consumption)
@@ -95,13 +183,16 @@ function createSpecializedTool(
     query: z.string().describe(queryDescribe),
   });
 
+  const search = getSearchExecutor();
+
   // The pure execute (easy to unit test directly with mocked client)
   const execute = async ({ query }: { query: string }) => {
     const q = (query ?? "").trim();
     if (!q) {
       return "Please provide a specific, non-empty query for this persona tool.";
     }
-    const res = await collectionsClient.search(`${queryPrefix}: ${q}`, { k: DEFAULT_K });
+    // In local dev mode this calls the in-memory packet search instead of Collections
+    const res = await search(`${queryPrefix}: ${q}`, { k: DEFAULT_K });
     return formatSearchResults(res);
   };
 
