@@ -1,4 +1,5 @@
-import { chunks, extractor, generateAnswer, prepareData, qaCache } from "@/utils/qa-utils";
+import { runProfileQA } from "@/lib/qa/profile-qa-generator";
+import { qaCache } from "@/utils/qa-utils";
 
 export async function POST(request: Request) {
   try {
@@ -10,9 +11,6 @@ export async function POST(request: Request) {
       });
     }
 
-    await prepareData();
-
-    // Check if the question is already in the cache
     if (qaCache.has(question)) {
       const cachedResponse = qaCache.get(question);
       return new Response(JSON.stringify(cachedResponse), {
@@ -21,34 +19,7 @@ export async function POST(request: Request) {
       });
     }
 
-    // Embed the query and find similar chunks
-    const queryEmbedding = await extractor(question, { pooling: "mean", normalize: true });
-    const queryVec = Array.from(queryEmbedding.data as number[]);
-
-    // Cosine similarity calculation
-    const similarities = chunks.map((chunk, i) => ({
-      index: i,
-      similarity: cosineSimilarity(queryVec, chunk.embedding),
-    }));
-
-    similarities.sort((a, b) => b.similarity - a.similarity);
-
-    const topK = 3;
-    const results = similarities.slice(0, topK).map((sim) => ({
-      text: chunks[sim.index].text,
-      section: chunks[sim.index].section,
-      similarity: sim.similarity,
-    }));
-
-    // Generate answer
-    const answer = await generateAnswer(question, results);
-
-    const response = {
-      answer,
-      details: results,
-    };
-
-    // Cache the response
+    const response = await runProfileQA(question);
     qaCache.set(question, response);
 
     return new Response(JSON.stringify(response), {
@@ -62,17 +33,4 @@ export async function POST(request: Request) {
       headers: { "Content-Type": "application/json" },
     });
   }
-}
-
-// Cosine similarity utility (extracted from utils for this route)
-function cosineSimilarity(a: number[], b: number[]): number {
-  let dot = 0;
-  let aMag = 0;
-  let bMag = 0;
-  for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    aMag += a[i] * a[i];
-    bMag += b[i] * b[i];
-  }
-  return dot / (Math.sqrt(aMag) * Math.sqrt(bMag));
 }

@@ -3,6 +3,7 @@
 import { ChevronDown } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import cvdata from "@/data/cvdata.json";
 import { AISmartHighlight } from "./ai-smart-highlight";
@@ -125,12 +126,12 @@ export function Hero() {
                   View CV
                 </a>
 
-                {/* <Link
-                  href="/ama"
-                  className="inline-flex items-center px-6 py-3 bg-pink-600 text-white font-medium rounded-lg hover:bg-pink-700 transition-colors"
+                <Link
+                  href="/qa"
+                  className="inline-flex items-center px-6 py-3 bg-brand text-text1 font-medium rounded-lg hover:bg-brand/90 transition-colors"
                 >
-                  🤖 Ask AI
-                </Link> */}
+                  Profile Q&amp;A
+                </Link>
               </div>
 
               <SocialLinks />

@@ -1,11 +1,11 @@
 
 # Peramanathan Sathyamoorthy CV & Portfolio
 
-A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's professional portfolio as a Senior Software Engineer. Built with Next.js 16 App Router, featuring AI-powered AMA chatbot, interactive document viewing, and automated PDF CV generation.
+A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's professional portfolio as a Senior Software Engineer. Built with Next.js 16 App Router, featuring profile Q&A, interactive document viewing, and automated PDF CV generation.
 
 ## ✨ Features
 
-- **🤖 AI-Powered AMA Chat**: Ask intelligent questions about Peramanathan's background and experience
+- **💬 Profile Q&A**: Ask interview-style questions about experience, grounded in CV data and curated notes
 - **📄 Dynamic PDF Generation**: Server-side PDF creation with professional styling
 - **👁️ Interactive Document Viewer**: Inline PDF viewing with full browser integration
 - **📚 Content Hub**: Dynamic multi-page content management system
@@ -31,7 +31,7 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 ### AI & Document Processing
 - **@react-pdf/renderer** — PDF generation from React
 - **react-pdf** — In-browser PDF viewing
-- **@huggingface/transformers** — Local AI / embeddings (AMA)
+- **@huggingface/transformers** — Local embeddings (Profile Q&A retrieval)
 
 ### Tooling
 - **pnpm** — Package manager (`pnpm-lock.yaml`, workspace supply-chain policy)
@@ -61,6 +61,8 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
    ```
    For stricter supply-chain installs (recommended when changing deps), use [Socket Firewall](https://socket.dev/) or your team's wrapper, e.g. `sfw pnpm install --frozen-lockfile`. Workspace policy lives in `pnpm-workspace.yaml`.
 
+   Optional Profile Q&A Ollama (narrative answers): copy `.env.local.example` → `.env.local`, set `OLLAMA_BASE_URL`, then restart `pnpm dev`. See [tests/qa/README.md](tests/qa/README.md).
+
 3. **Sync editor profile** (optional, Cursor / VS Code)
    ```bash
    pnpm editor:sync
@@ -87,7 +89,7 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
    - CV page: `/cv`
    - Certificates: `/certificates`
    - Content Hub: `/content-hub`
-   - AMA: `/ama`
+   - Profile Q&A: `/qa`
    - CV PDF: `/cv.pdf`
 
 ## 📜 Available Scripts

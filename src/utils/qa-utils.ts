@@ -11,7 +11,6 @@ export interface Chunk {
 // Global cache for embeddings and models
 export const chunks: Chunk[] = [];
 export let extractor: any = null;
-export let generator: any = null;
 
 // Cache for QA responses
 export const qaCache = new Map<string, { answer: string; details: any[] }>();
@@ -39,7 +38,6 @@ export async function prepareData() {
   if (extractor && chunks.length > 0) return; // Already prepared
 
   extractor = await pipeline("feature-extraction", "Xenova/all-MiniLM-L6-v2");
-  generator = await pipeline("text-generation", "Xenova/distilgpt2");
 
   // Comprehensive data flattening with ALL cvdata sections
   const dataEntries: { section: string; content: string; metadata?: any }[] = [];

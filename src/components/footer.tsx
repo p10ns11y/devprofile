@@ -38,6 +38,12 @@ export function Footer() {
             >
               Certificates
             </Link>
+            <Link
+              href="/qa"
+              className="inline-flex items-center px-4 py-2 text-text1 hover:text-brand transition-colors"
+            >
+              Profile Q&amp;A
+            </Link>
             {/* <span className="text-muted-foreground">•</span> */}
             <a
               href="/cv.pdf"
@@ -55,13 +61,6 @@ export function Footer() {
             >
               Download PDF
             </a>
-            {/* <span className="text-muted-foreground">•</span> */}
-            {/* <Link
-              href="/ama"
-              className="inline-flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
-            >
-              🤖 Ask AI
-            </Link> */}
           </div>
 
           <motion.div

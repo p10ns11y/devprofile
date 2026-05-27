@@ -25,6 +25,7 @@ export function Header() {
     { name: "Projects", href: "/#projects" },
     { name: "Accomplishments", href: "/#accomplishments" },
     { name: "Certificates", href: "/certificates" },
+    { name: "Profile Q&A", href: "/qa" },
     { name: "Experience", href: "/#experience" },
     { name: "Posts on X", href: "/x", icon: "X" },
     // { name: 'Contact', href: '/#contact' }, // Testing sw cache busting

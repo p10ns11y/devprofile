@@ -4,13 +4,13 @@ Load with [fusion-playbooks.md](../fusion-playbooks.md) and fission overlay [dev
 
 ## Project snapshot (fusion context)
 
-Next.js 16 portfolio: **client UI for interactivity** (no async RSC for state). Domains: **CV/PDF**, **AMA Q&A** (embeddings), **content hub**, **X search**, **certificates**, **E2E (Brave Beta)**. Agent tooling: **ai-optimization** (fission) + **fusion-sage** (this playbook).
+Next.js 16 portfolio: **client UI for interactivity** (no async RSC for state). Domains: **CV/PDF**, **Profile Q&A** (hybrid retrieval), **content hub**, **X search**, **certificates**, **E2E (Brave Beta)**. Agent tooling: **ai-optimization** (fission) + **fusion-sage** (this playbook).
 
 ## High-stability fusion targets (iron-peak candidates)
 
 | Domain | Source files (≥2 required) | Fused abstraction |
 |---|---|---|
-| **CV Q&A** | `src/utils/qa-utils.ts`, `src/app/api/cv/qa/route.ts`, `src/components/ai-chat.tsx` | `CvQaReactor` — embed → cache → retrieve → generate |
+| **CV Q&A** | `src/lib/qa/profile-qa-generator.ts`, `src/app/api/cv/qa/route.ts`, `src/components/profile-qa.tsx` | `CvQaReactor` — retrieve → route → generate |
 | **Document viewing** | `document-viewer.tsx`, `document-viewer-pdf.tsx`, `src/app/api/cv/**` | `DocumentViewReactor` — PDF/react-pdf + sidebar + download |
 | **Content hub** | `src/lib/content-hub/data.ts`, `ContentHubLayout`, `*Card.tsx` | `ContentHubReactor` — data + layout + card variants |
 | **X search** | `src/lib/x-search/*`, `src/components/x/*`, `src/app/x/page.tsx` | `XSearchReactor` — date ranges, sections, filter links |

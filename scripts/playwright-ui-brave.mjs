@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { spawn } from "node:child_process";
 /**
  * Playwright UI without installing Playwright Chromium:
  * - Test browsers: Brave Beta (playwright.config.ts launchOptions)
@@ -8,7 +9,6 @@
  * `playwright install chromium`). This script avoids that with --ui-host/--ui-port.
  */
 import { existsSync } from "node:fs";
-import { spawn } from "node:child_process";
 
 const brave = process.env.BRAVE_BETA_PATH ?? "/usr/bin/brave-browser-beta";
 const host = process.env.PLAYWRIGHT_UI_HOST ?? "127.0.0.1";

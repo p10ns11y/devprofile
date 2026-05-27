@@ -13,7 +13,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npm run generate-pdf && node scripts/generate-sw-version.mjs && next build",
+    "build": "npm run generate-pdf && node scripts/build-qa-index.mjs && node scripts/generate-sw-version.mjs && next build",
     "start": "next start",
     "lint": "biome check . --diagnostic-level=error",
     "lint:report": "biome check . --max-diagnostics=none",
@@ -25,7 +25,11 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "node scripts/playwright-ui-brave.mjs",
     "test:e2e:headed": "playwright test --headed",
-    "test:e2e:debug": "playwright test --debug"
+    "test:e2e:debug": "playwright test --debug",
+    "parse-golden-qa": "node scripts/parse-golden-qa.mjs",
+    "build-qa-index": "node scripts/build-qa-index.mjs",
+    "qa:eval": "node scripts/qa-eval.mjs",
+    "qa:pipeline": "node scripts/parse-golden-qa.mjs && node scripts/build-qa-index.mjs && node scripts/qa-eval.mjs"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",
@@ -59,5 +63,5 @@
   "trustedDependencies": [
     "@vercel/speed-insights"
   ],
-  "packageManager": "pnpm@11.2.2+sha512.36e6621fad506178936455e70247b8808ef4ec25797a9f437a93281a020484e2607f6a469a22e982987c3dbb8866e3071514ab10a4a1749e06edcd1ec118436f"
+  "packageManager": "pnpm@11.3.0+sha512.2c403d6594527287672b1f7056343a1f7c3634036a67ffabfcc2b3d7595d843768f8787148d1b57cf7956c90606bbd192857c363af19e96d2d0ec9ec5741d215"
 }
