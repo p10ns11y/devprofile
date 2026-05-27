@@ -71,11 +71,15 @@ export class XaiCollectionsTimeoutError extends XaiCollectionsError {
 // Config + constants (clear errors; manual-ingest constraint enforced in docs)
 // -----------------------------------------------------------------------------
 
-const MANAGEMENT_BASE = "https://management-api.x.ai/v1";
-const API_BASE = "https://api.x.ai/v1";
+const MANAGEMENT_BASE = "https://management-api.x.ai";
+const API_BASE = "https://api.x.ai";
 
-const DEFAULT_POLL_TIMEOUT_MS = 180_000;
-const DEFAULT_POLL_INTERVAL_MS = 3_000;
+const DEFAULT_POLL_TIMEOUT_MS = process.env.XAI_TEST_POLL_TIMEOUT_MS
+  ? Number(process.env.XAI_TEST_POLL_TIMEOUT_MS)
+  : 180_000;
+const DEFAULT_POLL_INTERVAL_MS = process.env.XAI_TEST_POLL_INTERVAL_MS
+  ? Number(process.env.XAI_TEST_POLL_INTERVAL_MS)
+  : 3_000;
 const DEFAULT_SEARCH_K = 8;
 
 function getApiKey(): string {
@@ -184,6 +188,8 @@ class XaiCollectionsClient {
         `collections:ensure list attempt (may be empty or first run): ${(e as Error).message}`
       );
     }
+
+    // Note (racy ensure / TOCTOU): list-then-create is acceptable for Phase 1 manual use (single-user console/script). Concurrent new-version creates are not a supported path.
 
     // Create (minimal config; server defaults for chunk/index are acceptable for persona MD)
     const createUrl = `${MANAGEMENT_BASE}/v1/collections`;

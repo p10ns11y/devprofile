@@ -146,7 +146,6 @@ export async function runXaiCollectionsTests() {
       const ref = await collectionsClient.ensureCollectionForVersion("v1-2026-05");
       assert.equal(ref.id, "coll_existing_123");
       assert.match(ref.name, /ps-profile/);
-      passed++; // counted inside
     } finally {
       restoreFetch();
     }
@@ -235,6 +234,12 @@ export async function runXaiCollectionsTests() {
   await test("ingestPacket throws TIMEOUT on long poll (mocked)", async () => {
     process.env.XAI_API_KEY = "test_key_no_real";
     process.env.XAI_MANAGEMENT_API_KEY = "test_mgmt_key";
+    // High #2 fix: env override makes this test <1s wall time (tiny timeout + fast interval)
+    // while keeping exact PR1 minimal-assert style + no new exports/API surface.
+    const prevT = process.env.XAI_TEST_POLL_TIMEOUT_MS;
+    const prevI = process.env.XAI_TEST_POLL_INTERVAL_MS;
+    process.env.XAI_TEST_POLL_TIMEOUT_MS = "50";
+    process.env.XAI_TEST_POLL_INTERVAL_MS = "5";
     installMockFetch(async (url, init) => {
       if (url.includes("/v1/files")) return makeJsonResponse({ id: "file_t" });
       if (url.includes("/documents/") && init?.method === "POST") return makeJsonResponse({});
@@ -266,6 +271,10 @@ export async function runXaiCollectionsTests() {
       );
     } finally {
       restoreFetch();
+      if (prevT === undefined) delete process.env.XAI_TEST_POLL_TIMEOUT_MS;
+      else process.env.XAI_TEST_POLL_TIMEOUT_MS = prevT;
+      if (prevI === undefined) delete process.env.XAI_TEST_POLL_INTERVAL_MS;
+      else process.env.XAI_TEST_POLL_INTERVAL_MS = prevI;
     }
   });
 
