@@ -15,8 +15,10 @@
  */
 
 import { streamText, type StreamTextResult, type ToolSet } from 'ai';
-// NOTE: @ai-sdk/xai provider assumed available (added alongside AI SDK in PR surface).
-// In practice: import { xai } from '@ai-sdk/xai';
+import { xai } from '@ai-sdk/xai';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
 // High fix (review 80eccd53-pr-6): imports aligned to present surface (PR3 xai-collections + stubs for PR2/PR4/Q2 on sibling branches).
 // Stubs (persona-compiler.ts, abuse-defense.ts, durable-retry.ts) are thin shims only — see their headers.
 // ProfilePacket type also re-exported from ./types (and barrel).
@@ -28,16 +30,36 @@ import { checkAbuse, computeGoldenFallback } from './abuse-defense'; // PR4 stub
 import { aiPersonaTools, type PersonaToolRegistry } from './persona-tools';
 import { withLightweightRetry } from './durable-retry'; // Q2 lightweight shim (per user decision; no full Workflow DevKit)
 
-// 5 sources for PR2 compiler (exact per design §23 + PR2 plan).
-// High fix: made resilient for skeleton (missing MDs in this worktree's src/data; only cvdata.json + documents-data.ts + cvdata.toon present).
-// Real sources (golden-qa.md, casual-qa.md, top-three-achievements.md, data/persona/ps-profile-v1.md) belong in combined tree / PR2.
-// Fallback to '' on load failure + clear doc. Overridable for tests if needed in future.
+// Data sources for the ProfilePacket compiler.
+// Using fs.readFileSync instead of dynamic imports because Turbopack does not support
+// importing .md files as modules out of the box (unlike webpack with raw-loader).
+// This code runs in server contexts only (API routes / server actions), so fs is safe.
+const DATA_DIR = join(process.cwd(), 'src/data');
+const PERSONA_DIR = join(DATA_DIR, 'persona');
+
+function readFileSafe(filePath: string): string {
+  try {
+    return readFileSync(filePath, 'utf8');
+  } catch {
+    return '';
+  }
+}
+
+function readJsonAsString(filePath: string): string {
+  try {
+    const raw = readFileSync(filePath, 'utf8');
+    return JSON.stringify(JSON.parse(raw));
+  } catch {
+    return '{}';
+  }
+}
+
 const PROFILE_SOURCES = [
-  { name: 'cvdata.json', content: () => import('@/data/cvdata.json').then(m => JSON.stringify(m.default)) },
-  { name: 'golden-qa.md', content: () => import('@/data/golden-qa.md').then(m => m.default).catch(() => '') },
-  { name: 'casual-qa.md', content: () => import('@/data/casual-qa.md').then(m => m.default).catch(() => '') },
-  { name: 'top-three-achievements.md', content: () => import('@/data/top-three-achievements.md').then(m => m.default).catch(() => '') },
-  { name: 'ps-profile-v1.md', content: () => import('@/data/persona/ps-profile-v1.md').then(m => m.default).catch(() => '') },
+  { name: 'cvdata.json', content: () => readJsonAsString(join(DATA_DIR, 'cvdata.json')) },
+  { name: 'golden-qa.md', content: () => readFileSafe(join(DATA_DIR, 'golden-qa.md')) },
+  { name: 'casual-qa.md', content: () => readFileSafe(join(DATA_DIR, 'casual-qa.md')) },
+  { name: 'top-three-achievements.md', content: () => readFileSafe(join(DATA_DIR, 'top-three-achievements.md')) },
+  { name: 'ps-profile-v1.md', content: () => readFileSafe(join(PERSONA_DIR, 'ps-profile-v1.md')) },
 ];
 
 // Simple in-memory packet cache (versioned). Production would use edge cache / Collections metadata.
@@ -51,24 +73,37 @@ async function getOrLoadProfilePacket(): Promise<ProfilePacket> {
     return cachedPacket;
   }
 
-  // Load raw sources (resilient per High Issue 4)
-  const rawSources = await Promise.all(
-    PROFILE_SOURCES.map(async (s) => ({
-      name: s.name,
-      content: await s.content().catch(() => ''),
-    }))
-  );
+  // Load raw sources synchronously (safe on server)
+  const rawSources = PROFILE_SOURCES.map((s) => ({
+    name: s.name,
+    content: s.content(),
+  }));
 
   const packet = compileProfilePacketFromSources(rawSources);
 
-  // Lightweight Collections sync (PR3 client) — ensureCollection only.
-  // High fix (Issue 2): real surface is ensureCollectionForVersion(version); no ensureIngest (ingestPacket is manual-only per Q5 + client header).
-  // Reactor never auto-calls heavy ingest in Phase 1. ensureCollection is cheap + safe here.
-  try {
-    await collectionsClient.ensureCollectionForVersion(packet.version);
-  } catch (e) {
-    // Graceful: continue (golden path still works). Full manual ingest via console.x.ai / scripts (Q5).
-    logReactor('ingest', 'ensureCollectionForVersion non-fatal (manual ingest path per Q5)', { error: String(e) });
+  // Collections sync is skipped in local dev mode.
+  // When USE_LOCAL_PROFILE_DATA=true (or no XAI_MANAGEMENT_API_KEY), the tools
+  // automatically use an in-memory search over src/data/persona + the other source files.
+  // This lets you develop the full reactor + tool calling loop locally without any xAI keys.
+  // Collections ensure/create is only needed if you want the reactor to auto-provision the collection.
+  // For local development where you have **already manually uploaded** the document (e.g. "ps-profile-v1.md"),
+  // you can skip this entirely by setting XAI_PROFILE_COLLECTION.
+  const useLocalData = process.env.USE_LOCAL_PROFILE_DATA === "true";
+  const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
+  const hasApiKeyForSearch = !!process.env.XAI_API_KEY;
+
+  if (!useLocalData && manualCollection && hasApiKeyForSearch) {
+    // Manual mode: skip ensure/create completely. Read-only search against your pre-uploaded collection.
+    logReactor('ingest', `using manual collection via XAI_PROFILE_COLLECTION=${manualCollection} (no create attempted)`);
+  } else if (!useLocalData && hasApiKeyForSearch) {
+    // Auto mode: try to ensure the collection exists (requires management perms)
+    try {
+      await collectionsClient.ensureCollectionForVersion(packet.version);
+    } catch (e) {
+      logReactor('ingest', 'ensureCollectionForVersion non-fatal (manual ingest path per Q5)', { error: String(e) });
+    }
+  } else if (useLocalData) {
+    logReactor('ingest', 'skipped Collections (USE_LOCAL_PROFILE_DATA=true)');
   }
 
   cachedPacket = packet;
@@ -154,9 +189,9 @@ export async function runPersonaQA(
   // Matches persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__ (PR5)
   const tools: ToolSet = aiPersonaTools;
 
-  // Model selection per Q1: low-price for live reactor generation path
-  // (strong model reserved for curation/validation in separate flows)
-  const model = getLiveResponseModel(); // e.g. cheap Grok variant via xai provider
+  // Model selection — using the model from XAI_MODEL (or grok-2-1212 as fallback).
+  // Users with access to newer models (e.g. grok-4.3, grok-3, etc.) should set XAI_MODEL accordingly.
+  const model = getLiveResponseModel();
 
   // True streaming via AI SDK streamText (maxSteps:5 for bounded tool-calling loop per canary pattern)
   const generationFn = async () => {
@@ -178,17 +213,104 @@ export async function runPersonaQA(
     version: packet.version,
   });
 
-  logReactor('generation', 'streamText started (durable + tools wired)', {
-    model: 'low-price-grok-variant',
+  const effectiveModel = process.env.XAI_MODEL || 'grok-2-1212';
+  logReactor('generation', 'streamText completed (durable + tools wired)', {
+    model: effectiveModel,
     toolsCount: Object.keys(tools).length,
   });
 
-  // Return streaming shape suitable for eventual route (PR7 wires to Response)
-  // The consumer can do `for await (const delta of result.textStream) ...` or use .toDataStreamResponse()
+  // === Rich observability into what the model actually did ===
+  let steps: any[] = [];
+  try {
+    steps = (await result.steps) || [];
+    logReactor('generation', 'steps received', {
+      stepCount: steps.length,
+      lastStepHasText: !!steps[steps.length - 1]?.text,
+      toolCallsInLastStep: steps[steps.length - 1]?.toolCalls?.length ?? 0,
+      toolResultsInLastStep: steps[steps.length - 1]?.toolResults?.length ?? 0,
+    });
+
+    // Log the actual tool results for debugging (very important for "context not reaching model")
+    const lastToolResults = steps[steps.length - 1]?.toolResults || [];
+    if (lastToolResults.length > 0) {
+      logReactor('generation', 'tool results summary', {
+        count: lastToolResults.length,
+        previews: lastToolResults.map((tr: any) => ({
+          tool: tr.toolName,
+          resultLength: (tr.result || '').length,
+          preview: String(tr.result || '').slice(0, 200),
+        })),
+      });
+    }
+  } catch (e) {
+    logReactor('generation', 'could not inspect steps', { error: String(e) });
+  }
+
+  // Reliably extract final text
+  let finalText = '';
+  try {
+    finalText = await result.text;
+    logReactor('generation', 'final text extracted via result.text', {
+      length: finalText?.length ?? 0,
+      preview: finalText?.slice(0, 150) || '(empty)',
+    });
+  } catch (e) {
+    logReactor('generation', 'failed to extract result.text', { error: String(e) });
+  }
+
+  // Strong fallback: synthesize from all tool results across steps if model gave no final text
+  if (!finalText || finalText.trim().length < 20) {
+    const allToolResults: string[] = [];
+    for (const step of steps) {
+      const results = step?.toolResults || [];
+      for (const tr of results) {
+        if (tr?.result) allToolResults.push(String(tr.result));
+      }
+    }
+
+    if (allToolResults.length > 0) {
+      finalText = `Based on the information I retrieved:\n\n${allToolResults.join('\n\n---\n\n')}`;
+      logReactor('generation', 'synthesized final answer from all tool results', {
+        toolResultCount: allToolResults.length,
+      });
+    }
+  }
+
+  // Last resort: if the model produced no final text at all, synthesize a useful response from whatever the tools returned
+  if (!finalText || finalText.trim().length < 10) {
+    const allToolResults: string[] = [];
+    for (const step of steps) {
+      const results = step?.toolResults || [];
+      for (const tr of results) {
+        if (tr?.result) allToolResults.push(`[${tr.toolName || 'tool'}] ${tr.result}`);
+      }
+    }
+
+    if (allToolResults.length > 0) {
+      finalText = `Here is what I found using my profile tools:\n\n${allToolResults.join('\n\n')}\n\n(Note: The model did not produce a synthesized narrative on this attempt.)`;
+      logReactor('generation', 'built answer directly from tool results (model gave no final text)', {
+        toolResultCount: allToolResults.length,
+      });
+    } else {
+      finalText = "I used my specialized profile tools to look up information, but wasn't able to generate a complete narrative answer this time. The tool results may contain relevant details.";
+      logReactor('generation', 'no usable text produced after tools — using placeholder', {});
+    }
+  }
+
+  // Collect tool results so the new /qa UI can show "Retrieved information"
+  const toolResultsForUI = steps.flatMap((step: any) =>
+    (step?.toolResults || []).map((tr: any) => ({
+      toolName: tr.toolName,
+      result: tr.result,
+    }))
+  );
+
+  // Return answer + tool results for the /qa JSON path (PR48 UI compatible shape)
   return {
-    stream: result.textStream, // AsyncIterable<string> — true streaming
+    stream: result.textStream,
+    answer: finalText,
     version: packet.version,
-    // toolCalls can be observed via result.toolCalls if needed for logging
+    toolResults: toolResultsForUI,
   };
 }
 
@@ -230,11 +352,18 @@ function buildSystemPrompt(packet: ProfilePacket): string {
 }
 
 function getLiveResponseModel() {
-  // Per Q1: low-price for live responses. Strong model only for offline curation/validation.
-  // In real: return xai('grok-3-mini') or equivalent cheap/fast variant available via Cursor/X Premium+.
-  // Skeleton uses a string identifier; provider wiring happens at call site or in thin wrapper.
-  // @ts-expect-error - any escape for skeleton; real @ai-sdk/xai provider in PR7 wiring (echoes past #269)
-  return { modelId: 'grok-low-price-live' } as any; // resolved by @ai-sdk/xai in consuming layer
+  // Model selection for the reactor.
+  //
+  // Different xAI accounts have access to different models.
+  // Set XAI_MODEL to whatever model your account can actually use.
+  //
+  // Common options:
+  //   grok-2-1212
+  //   grok-3 / grok-3-mini
+  //   grok-4.3     (used by some accounts)
+  const modelId = process.env.XAI_MODEL || 'grok-2-1212';
+
+  return xai(modelId);
 }
 
 // Export for runProfileQA.ts (public surface)

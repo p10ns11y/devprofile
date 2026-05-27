@@ -15,6 +15,7 @@
  * Env:
  * - XAI_API_KEY (required for search + general; get from console.x.ai)
  * - XAI_MANAGEMENT_API_KEY (preferred for create/ingest; falls back to XAI_API_KEY)
+ * - XAI_PROFILE_COLLECTION (optional, for manual ingest cases — e.g. when you uploaded "ps-profile-v1.md" manually)
  *
  * Bases (2026 per design/docs):
  * - Management: https://management-api.x.ai (create, documents add/poll)
@@ -102,6 +103,23 @@ function collectionNameForVersion(version: string): string {
   return `ps-profile-${safe}`;
 }
 
+/**
+ * Returns the target collection name.
+ * If XAI_PROFILE_COLLECTION is set, use that (ideal for local dev with manually uploaded data).
+ * Otherwise derive from the packet version.
+ *
+ * For local development where you have already uploaded "ps-profile-v1.md" manually:
+ *   - Set XAI_PROFILE_COLLECTION to your collection name (or ID)
+ *   - The reactor will skip ensure/create and only perform read-only search.
+ */
+function getTargetCollectionName(version: string): string {
+  const manual = process.env.XAI_PROFILE_COLLECTION?.trim();
+  if (manual) {
+    return manual;
+  }
+  return collectionNameForVersion(version);
+}
+
 async function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
@@ -165,7 +183,8 @@ class XaiCollectionsClient {
   async ensureCollectionForVersion(version: string): Promise<CollectionRef> {
     if (!version) throw new XaiCollectionsConfigError("version is required");
     const mgmtKey = getManagementKey();
-    const name = collectionNameForVersion(version);
+    const name = getTargetCollectionName(version);
+    // If XAI_PROFILE_COLLECTION was used, we still list/create under that name for consistency.
 
     // List with filter (supported per docs)
     const listUrl = `${MANAGEMENT_BASE}/v1/collections?filter=collection_name:"${name}"&limit=5`;
