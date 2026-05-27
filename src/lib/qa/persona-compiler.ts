@@ -16,6 +16,10 @@
  * Deterministic: same sources + fixed compiledAt => identical packet (modulo
  * compiledAt when using the loader variant).
  *
+ * Source format contract (for extractors): ps-profile-v1.md (## sections + bullets),
+ * golden-qa.md + casual-qa.md + top-three ( **N?. Q: / **A: pairs), cvdata.json (known shape).
+ * See validatePacketShape + parse* helpers. Minor drift surfaces in dev/test (review #2/#11).
+ *
  * @see .grok/plans/phase-1-xai-agentic-profile-qa-reactor-design.md (PR2 + packet shape)
  * @see src/lib/qa/types.ts
  */
@@ -37,7 +41,13 @@ function loadText(relPath: string): string {
   return readFileSync(full, "utf8");
 }
 
-/** Convenience loader. Uses real sources on disk. */
+/**
+ * Convenience loader. Uses real sources on disk (readFileSync).
+ * Non-deterministic by default (wall-clock compiledAt + CWD for paths).
+ * Prefer compileProfilePacketFromSources (pure, injectable, fixed time) for production
+ * paths, tests, and determinism guarantees (see review #5). Loader is for dev/internal use.
+ * Pass explicit compiledAt for reproducible packets from this entrypoint.
+ */
 export function compileProfilePacket(
   version: ProfilePacket["version"] = "v1-2026-05",
   compiledAt: string = new Date().toISOString()
@@ -124,7 +134,16 @@ export function compileProfilePacketFromSources(
     toolSystemPrompt,
   };
 
-  // Freeze for purity / accidental mutation protection (deep)
+  // Post-assembly validation (review #2): defensive check against source format contract.
+  // Guarantees minima; throws with guidance only in test/dev (preserves prod purity).
+  validatePacketShape(packet);
+
+  // Freeze for purity / accidental mutation protection (deep).
+  // Intentional: this is the *final* step of the pure builder (review #4).
+  // It mutates only the freshly-constructed local graph before return (no caller-visible
+  // side effects beyond the returned value). Standard deep-freeze pattern for immutable
+  // contract. A non-mutating clone+freeze would add unnecessary allocations for this
+  // tiny packet with zero observable benefit. Documented here for purity hygiene.
   return deepFreeze(packet);
 }
 
@@ -223,8 +242,10 @@ function extractSignatureProjects(cv: typeof cvdata, ps: string): ProfilePacket[
       merged.push(c);
     }
   }
-  // Always ensure premflow + arch-machine + Grok Dia + Zod (from persona stories)
-  const mustHave = [
+  // Always ensure premflow + arch-machine + Grok Dia + Zod (from persona stories).
+  // Defensive completeness (review #7): these live in ps-profile narrative but may be missed
+  // by section parsers on minor MD drift. Sync with ps-profile-v1.md on evolution. Objects match exact shape.
+  const mustHave: ProfilePacket["signatureProjects"] = [
     { name: "premflow", description: "<300-line C CLI for notes/tasks/pomodoros/daily review. Instant, zero deps, muscle memory. Protects deep work in Dad mode.", tech: ["C"] },
     { name: "arch-machine", description: "One-command hardened Arch Linux bootstrap with ROCm/K8s/security audits for ML/AI workstations. Quiet infrastructure.", tech: ["Arch Linux", "Bash", "ROCm"] },
     { name: "Grok Dia", description: "Browser extension for instant contextual Grok queries on any page with full selection context. Research velocity.", tech: ["Browser Extension", "AI"] },
@@ -232,10 +253,35 @@ function extractSignatureProjects(cv: typeof cvdata, ps: string): ProfilePacket[
   ];
   for (const m of mustHave) {
     if (!merged.some((x) => x.name.toLowerCase().includes(m.name.toLowerCase()))) {
-      merged.push(m as any);
+      merged.push(m);  // now correctly typed, no cast
     }
   }
   return merged.slice(0, 6);
+}
+
+// -----------------------------------------------------------------------------
+// Post-extraction validation (addresses review #2 brittleness)
+// Pure, defensive: enforces design minima on the assembled packet.
+// Throws with actionable message only in non-prod (test/dev) to surface format drift early.
+// In prod: silent best-effort (preserves purity + no new failure modes for reactor).
+// Callers (tests + future reactor) get clear diagnostics if canonical sources ever change.
+// -----------------------------------------------------------------------------
+function validatePacketShape(p: ProfilePacket): void {
+  const issues: string[] = [];
+  if (p.goldenExamples.length < 8) issues.push(`goldenExamples.length=${p.goldenExamples.length} < 8 (expected 8-12 from golden+casual+ps)`);
+  if (p.topAchievements.length !== 3) issues.push(`topAchievements.length=${p.topAchievements.length} !== 3`);
+  if (p.principles.length < 3) issues.push(`principles.length=${p.principles.length} < 3`);
+  if (!p.toolSystemPrompt.includes("Responses must feel like a real human")) issues.push("toolSystemPrompt missing exact Q6 tone sentence");
+  if (p.ingestDocument.length < 2000) issues.push(`ingestDocument too short (${p.ingestDocument.length} chars; expected full ps-profile)`);
+  if (issues.length > 0) {
+    const msg = `Persona compiler produced degraded packet (source format contract drift?):\n- ${issues.join("\n- ")}\n` +
+      "Sources: data/persona/ps-profile-v1.md + src/data/{golden-qa,casual-qa,top-three-achievements}.md must match documented structure.\n" +
+      "See extract* helpers and parseQAPairs for heading/Q-A expectations.";
+    if (typeof process !== "undefined" && process.env?.NODE_ENV !== "production") {
+      throw new Error(msg);
+    }
+    // Prod: best-effort (no throw); downstream (PR4 golden fallback, PR6 reactor) can observe via logs if added later.
+  }
 }
 
 function parseSignatureProjectsFromPs(ps: string): ProfilePacket["signatureProjects"] {
@@ -287,8 +333,10 @@ function extractGoldenExamples(golden: string, casual: string, ps: string): Arra
 
 function parseQAPairs(md: string, max: number): Array<{ q: string; a: string }> {
   const pairs: Array<{ q: string; a: string }> = [];
-  // Robust across the two files + ps embedded style: **Q: ...** \n **A: ...**
-  const regex = /\*\*Q:\s*([\s\S]*?)\*\*\s*\n\*\*A:\s*([\s\S]*?)(?=\n\*\*Q:|\n\n(?=\*\*Q)|\n---|$)/g;
+  // Accepts golden-qa.md + ps-embedded "**Q: ...**" style,
+  // plus casual-qa.md "**N. Q: ...**" / "**A:**" (and variants with optional number prefix).
+  // This makes all three sources contribute tone anchors (fixes prior silent loss of casual).
+  const regex = /\*\*(?:\d+\.\s*)?Q:\s*([\s\S]*?)\*\*\s*\n\*\*A:\s*([\s\S]*?)(?=\n\*\*(?:\d+\.\s*)?Q:|\n\n(?=\*\*Q)|\n---|$)/g;
   let m: RegExpExecArray | null;
   while ((m = regex.exec(md)) !== null && pairs.length < max) {
     const q = m[1].replace(/\s+/g, " ").trim();
@@ -399,7 +447,8 @@ function deepFreeze<T>(obj: T): T {
     if (Array.isArray(obj)) {
       obj.forEach(deepFreeze);
     } else {
-      Object.values(obj as any).forEach(deepFreeze);
+      // Safe recursion over own values (intentional for the tiny packet graph)
+      Object.values(obj as unknown as Record<string, unknown>).forEach(deepFreeze);
     }
   }
   return obj;

@@ -41,6 +41,7 @@ export type {
 
 // PR 2: Persona Compiler (pure + packet generation)
 export { compileProfilePacket, compileProfilePacketFromSources } from "./persona-compiler";
+export type { ProfileSources } from "./persona-compiler"; // for pure-core callers (review #10; tests + future reactor)
 
 // Placeholder comments for future modules (no files created in this PR to keep minimal)
 // export { collectionsClient } from './xai-collections';
