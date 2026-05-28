@@ -72,6 +72,17 @@ When `fusion-state.json` exists:
 
 **Fission keeps you fast. Fusion makes you unstoppable.**
 
+## Commit / Git Attribution Guardrail (Critical)
+
+When suggesting or generating commits, branch names, or PR descriptions during any agent session (especially execute-plan, split-to-prs, git-worktrees, or long-running plans):
+
+- **Never** inject boilerplate or attribution from other LLMs (e.g. "Generated with Claude Code", "Co-Authored-By: Claude <noreply@anthropic.com>", Cursor-specific strings) unless the user has explicitly confirmed they are using that LLM/tool in the current context on this machine.
+- Default to clean, factual commit messages only.
+- If any form of attribution feels appropriate, ask the user first ("Do you want any agent attribution in the commit message?").
+- This mistake has previously caused significant user confusion when the user had never installed or used the other LLM.
+
+This rule applies especially strongly in Grok-native sessions (`/fusion-sage`, `execute-plan`, this CLI environment).
+
 Never do one without considering the other. The best answers come from running the fission engine first, then igniting the fusion reactor on top.
 
 ---

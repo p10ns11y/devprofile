@@ -8,7 +8,7 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 - **💬 Profile Q&A**: Ask interview-style questions about experience, grounded in CV data and curated notes
 - **📄 Dynamic PDF Generation**: Server-side PDF creation with professional styling
 - **👁️ Interactive Document Viewer**: Inline PDF viewing with full browser integration
-- **📚 Content Hub**: Dynamic multi-page content management system
+- **🔍 X search**: Curated X/Twitter post search by date range (`/x`; `/content-hub` redirects here)
 - **🎨 Modern UI/UX**: Beautiful shadcn/ui components with responsive design
 - **⚡ Performance Optimized**: Fast loading with Next.js App Router and Turbopack
 - **♿ Accessibility**: WCAG-oriented patterns with keyboard navigation
@@ -63,6 +63,8 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 
    Optional Profile Q&A Ollama (narrative answers): copy `.env.local.example` → `.env.local`, set `OLLAMA_BASE_URL`, then restart `pnpm dev`. See [tests/qa/README.md](tests/qa/README.md).
 
+   Optional xAI Agentic QA Reactor: see [xAI Agentic QA Reactor](#-xai-agentic-qa-reactor-optional).
+
 3. **Sync editor profile** (optional, Cursor / VS Code)
    ```bash
    pnpm editor:sync
@@ -88,8 +90,11 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
    - Portfolio: `/`
    - CV page: `/cv`
    - Certificates: `/certificates`
-   - Content Hub: `/content-hub`
+   - X search: `/x` (`/content-hub` redirects here; hub UI hidden)
    - Profile Q&A: `/qa`
+
+   **Default `/qa` (no reactor):** uses [`src/data/qa-index.json`](src/data/qa-index.json) (git-tracked; regenerated on every `pnpm build`). For dev-only refresh: `pnpm build-qa-index` — see [tests/qa/README.md](tests/qa/README.md).
+
    - CV PDF: `/cv.pdf`
 
 ## 📜 Available Scripts
@@ -140,6 +145,39 @@ pnpm test:e2e
 Do **not** run `pnpm exec playwright install chromium` for day-to-day work. Remove unused Playwright browsers: `pnpm exec playwright uninstall`.
 
 Details: [tests/e2e/README.md](tests/e2e/README.md)
+
+## 💬 xAI Agentic QA Reactor (optional)
+
+Agentic Profile Q&A on `/qa` using xAI Collections + Grok (flag-gated). **Default `/qa`** uses [`src/data/qa-index.json`](src/data/qa-index.json) (git-tracked, synced on `pnpm build`) when the reactor is off or on fallback.
+
+Copy `.env.example` → `.env.local` and set:
+
+| Variable | Required | Notes |
+|----------|----------|--------|
+| `XAI_API_KEY` | Yes | **Chat** — Grok model inference for reactor answers ([console.x.ai](https://console.x.ai)) |
+| `XAI_MANAGEMENT_API_KEY` | Recommended | **Collections** — read-only search against `XAI_PROFILE_COLLECTION` (preferred over reusing the chat key) |
+| `XAI_PROFILE_COLLECTION` | Yes | Collection **name or ID** from console.x.ai |
+| `ENABLE_XAI_REACTOR` | Yes | `true` to enable the agentic path |
+| `XAI_MODEL` | Recommended | e.g. `grok-4.3` — must match a model your account can use |
+
+**Two keys, two roles:** `XAI_API_KEY` is for **chat** (Grok). `XAI_MANAGEMENT_API_KEY` is for **Collections** (search/list). Use a **read-only** collections key so a leak only exposes content you already published. Upload/sync stays in console.x.ai or an external tool — not this app.
+
+**Collections setup:** Create a Collection and upload profile sources (minimum: `src/data/persona/ps-profile-v1.md`; optional: `src/data/cvdata.json`, `golden-qa.md`, `casual-qa.md`, `top-three-achievements.md`). Set `XAI_PROFILE_COLLECTION` to its name or ID. Runtime reads live collection content via the Collections API on each request.
+
+**Development** (with keys and collection in `.env.local`):
+
+```bash
+ENABLE_XAI_REACTOR=true XAI_MODEL=grok-4.3 pnpm dev --turbopack
+```
+
+**Test production build locally** (after `pnpm build`; same vars in `.env.local`):
+
+```bash
+pnpm build
+ENABLE_XAI_REACTOR=true XAI_MODEL=grok-4.3 pnpm start
+```
+
+More detail: [src/lib/qa/README.md](src/lib/qa/README.md), [.env.example](.env.example), [docs/phase-1-xai-agentic-profile-qa-reactor.md](docs/phase-1-xai-agentic-profile-qa-reactor.md).
 
 ## 🤖 Agent skills (AI assistants)
 

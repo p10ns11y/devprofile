@@ -2,22 +2,30 @@
 
 Golden Q&A is parsed from [`src/data/golden-qa.md`](../../src/data/golden-qa.md) and [`src/data/casual-qa.md`](../../src/data/casual-qa.md).
 
-```bash
-# Full pipeline (parse → embed index → eval)
-npm run qa:pipeline
+## QA index (dev + production)
 
-# Or step by step
-npm run parse-golden-qa
-npm run build-qa-index   # ~15s, writes src/data/qa-index.json
-npm run qa:eval
+The **default** `/qa` path loads [`src/data/qa-index.json`](../../src/data/qa-index.json) at runtime — same in `pnpm dev` and `pnpm start`. The file is **git-tracked** and **regenerated on every `pnpm build`** so CV/golden changes cannot be missed.
+
+```bash
+pnpm build             # includes build-qa-index (always sync)
+pnpm build-qa-index     # standalone ~15s (MiniLM / transformers locally)
+pnpm qa:pipeline       # parse → index → eval (when tuning retrieval)
 ```
 
-## Artifacts
+Optional: after `pnpm qa:pipeline`, commit updated artifacts:
 
-- **`tests/qa/qa-golden.jsonl`** — generated golden set (50 pairs).
-- **`src/data/qa-index.json`** — build artifact (contextual chunks + embeddings + BM25).
+```bash
+git add src/data/qa-index.json tests/qa/qa-golden.jsonl tests/qa/last-eval-report.json
+```
+
+The **xAI reactor** (`ENABLE_XAI_REACTOR=true`) uses live Collections search; it does not read `qa-index.json`.
+
+## Artifacts (track in git)
+
+- **`tests/qa/qa-golden.jsonl`** — parsed golden set.
+- **`src/data/qa-index.json`** — precomputed chunks + embeddings + BM25 for default `/qa` (synced on `pnpm build`).
 - **`tests/qa/last-eval-report.json`** — latest retrieval metrics.
-- **`tests/qa/last-failures.json`** — written when eval finds retrieval failures (Phase 3).
+- **`tests/qa/last-failures.json`** — written when eval finds retrieval failures.
 
 ## CI gate
 
