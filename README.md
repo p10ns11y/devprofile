@@ -41,8 +41,8 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 
 ## 📋 Prerequisites
 
-- **Node.js** 18+ (LTS recommended)
-- **pnpm** 9+ ([Corepack](https://pnpm.io/installation): `corepack enable pnpm`)
+- **Node.js** 24+ (LTS recommended)
+- **pnpm** 11+ ([Corepack](https://pnpm.io/installation): `corepack enable pnpm`)
 - **Brave Beta** (or set `BRAVE_BETA_PATH`) for local E2E — see [tests/e2e/README.md](tests/e2e/README.md)
 - **Bun** (optional, for `generate-pdf` script)
 - **Git**
@@ -106,10 +106,11 @@ pnpm build            # generate PDF + SW version + production build
 pnpm start            # production server
 
 # Quality
-pnpm lint             # Biome — errors only
-pnpm lint:report      # Biome — full diagnostics
-pnpm lint:fix         # Biome — auto-fix (errors only)
-pnpm format           # Biome format --write
+pnpm lint             # Biome lint only (errors) — best practices, correctness, unused vars/imports
+pnpm lint:report      # Biome lint — full diagnostics
+pnpm lint:fix         # Biome lint --write (errors only)
+pnpm format           # Biome format --write (pure formatting: indent, quotes, semicolons, etc.)
+pnpm imports:fix      # Organize imports only (assist action)
 pnpm type-check       # tsc --noEmit
 
 # PDF

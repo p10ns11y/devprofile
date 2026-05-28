@@ -23,6 +23,15 @@
  * @see .grok/plans/phase-1-xai-agentic-profile-qa-reactor-design.md
  */
 
+export { checkAbuse, computeGoldenFallback } from "./abuse-defense";
+export { withLightweightRetry } from "./durable-retry";
+// PR2/PR4/Q2 skeleton shims for PR6 validation-gate alignment (High Issues 1+2 closure).
+// These are minimal TODO stubs only (see each file header). Full implementations live on
+// sibling PR2/PR4 branches (plan: c53ba184, b59206f). In combined tree: delete shims
+// and import real surface. This lets persona-reactor.ts + test import + tsc + run
+// against *present* PR3 (xai-collections) + PR5 (persona-tools + aiPersonaTools) only.
+// Barrel re-exports keep consumers able to `import { ... } from '@/lib/qa'`.
+export { compileProfilePacketFromSources } from "./persona-compiler";
 export type { PersonaToolName } from "./persona-tools";
 // PR 5: 6 specialized Collections-backed tools + registry (validation-gated skeletons)
 export {
@@ -50,15 +59,6 @@ export type {
   ProfilePacket,
   SearchResult,
 } from "./types";
-// PR2/PR4/Q2 skeleton shims for PR6 validation-gate alignment (High Issues 1+2 closure).
-// These are minimal TODO stubs only (see each file header). Full implementations live on
-// sibling PR2/PR4 branches (plan: c53ba184, b59206f). In combined tree: delete shims
-// and import real surface. This lets persona-reactor.ts + test import + tsc + run
-// against *present* PR3 (xai-collections) + PR5 (persona-tools + aiPersonaTools) only.
-// Barrel re-exports keep consumers able to `import { ... } from '@/lib/qa'`.
-export { compileProfilePacketFromSources } from "./persona-compiler";
-export { checkAbuse, computeGoldenFallback } from "./abuse-defense";
-export { withLightweightRetry } from "./durable-retry";
 
 // Real modules (PR3 present; PR1 types)
 export {
@@ -71,7 +71,6 @@ export {
 
 // Future (PR6 public surface wired in PR7; PR4/PR2 real when merged):
 // export { runProfileQA, runProfileQAReactor } from './persona-reactor';
-
 
 // Kept for test compatibility. The actual toggle is now the ENABLE_XAI_REACTOR env var.
 export const QA_REACTOR_FLAG = "qaReactor" as const;

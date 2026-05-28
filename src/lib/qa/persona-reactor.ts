@@ -14,51 +14,57 @@
  * No full E2E (PR8), no new heavy deps beyond AI SDK (assumed via prior PR surface).
  */
 
-import { streamText, type StreamTextResult, type ToolSet, stepCountIs } from 'ai';
-import { xai } from '@ai-sdk/xai';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-
+import { xai } from "@ai-sdk/xai";
+import { type StreamTextResult, stepCountIs, streamText, type ToolSet } from "ai";
+import { readFileSync } from "fs";
+import { join } from "path";
+import { checkAbuse, computeGoldenFallback } from "./abuse-defense"; // PR4 stub shim
+import { withLightweightRetry } from "./durable-retry"; // Q2 lightweight shim (per user decision; no full Workflow DevKit)
 // High fix (review 80eccd53-pr-6): imports aligned to present surface (PR3 xai-collections + stubs for PR2/PR4/Q2 on sibling branches).
 // Stubs (persona-compiler.ts, abuse-defense.ts, durable-retry.ts) are thin shims only — see their headers.
 // ProfilePacket type also re-exported from ./types (and barrel).
-import type { ProfilePacket } from './persona-compiler'; // via PR2 stub (or ./types re-export)
-import { compileProfilePacketFromSources } from './persona-compiler'; // PR2 stub shim
-import { checkAbuse, computeGoldenFallback } from './abuse-defense'; // PR4 stub shim
+import type { ProfilePacket } from "./persona-compiler"; // via PR2 stub (or ./types re-export)
+import { compileProfilePacketFromSources } from "./persona-compiler"; // PR2 stub shim
 // PR5 surface — exact 6 thin Collections-backed tools (see persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__)
-import { aiPersonaTools, resetManualToolResultsCollector, getManualToolResults } from './persona-tools';
-import { withLightweightRetry } from './durable-retry'; // Q2 lightweight shim (per user decision; no full Workflow DevKit)
+import {
+  aiPersonaTools,
+  getManualToolResults,
+  resetManualToolResultsCollector,
+} from "./persona-tools";
 
 // Data sources for the ProfilePacket compiler.
 // Using fs.readFileSync instead of dynamic imports because Turbopack does not support
 // importing .md files as modules out of the box (unlike webpack with raw-loader).
 // This code runs in server contexts only (API routes / server actions), so fs is safe.
-const DATA_DIR = join(process.cwd(), 'src/data');
-const PERSONA_DIR = join(DATA_DIR, 'persona');
+const DATA_DIR = join(process.cwd(), "src/data");
+const PERSONA_DIR = join(DATA_DIR, "persona");
 
 function readFileSafe(filePath: string): string {
   try {
-    return readFileSync(filePath, 'utf8');
+    return readFileSync(filePath, "utf8");
   } catch {
-    return '';
+    return "";
   }
 }
 
 function readJsonAsString(filePath: string): string {
   try {
-    const raw = readFileSync(filePath, 'utf8');
+    const raw = readFileSync(filePath, "utf8");
     return JSON.stringify(JSON.parse(raw));
   } catch {
-    return '{}';
+    return "{}";
   }
 }
 
 const PROFILE_SOURCES = [
-  { name: 'cvdata.json', content: () => readJsonAsString(join(DATA_DIR, 'cvdata.json')) },
-  { name: 'golden-qa.md', content: () => readFileSafe(join(DATA_DIR, 'golden-qa.md')) },
-  { name: 'casual-qa.md', content: () => readFileSafe(join(DATA_DIR, 'casual-qa.md')) },
-  { name: 'top-three-achievements.md', content: () => readFileSafe(join(DATA_DIR, 'top-three-achievements.md')) },
-  { name: 'ps-profile-v1.md', content: () => readFileSafe(join(PERSONA_DIR, 'ps-profile-v1.md')) },
+  { name: "cvdata.json", content: () => readJsonAsString(join(DATA_DIR, "cvdata.json")) },
+  { name: "golden-qa.md", content: () => readFileSafe(join(DATA_DIR, "golden-qa.md")) },
+  { name: "casual-qa.md", content: () => readFileSafe(join(DATA_DIR, "casual-qa.md")) },
+  {
+    name: "top-three-achievements.md",
+    content: () => readFileSafe(join(DATA_DIR, "top-three-achievements.md")),
+  },
+  { name: "ps-profile-v1.md", content: () => readFileSafe(join(PERSONA_DIR, "ps-profile-v1.md")) },
 ];
 
 // Simple in-memory packet cache (versioned). Production would use edge cache / Collections metadata.
@@ -108,7 +114,7 @@ async function getOrLoadProfilePacket(): Promise<ProfilePacket> {
 
 // Observability helper (logs with version + layer — strict invariant)
 function logReactor(layer: string, msg: string, meta: Record<string, unknown> = {}) {
-  const version = packetCacheVersion || 'v0-unloaded';
+  const version = packetCacheVersion || "v0-unloaded";
   console.log(`[persona-reactor][v:${version}][${layer}] ${msg}`, meta);
 }
 
@@ -122,10 +128,10 @@ async function runWithDurableExecution<T>(
     backoffMs: 250,
     retryOn: (err) => {
       // Only transient (network, 429 on Grok side, tool timeout). Never retry abuse blocks.
-      return !String(err).includes('abuse') && !String(err).includes('blocked');
+      return !String(err).includes("abuse") && !String(err).includes("blocked");
     },
     onRetry: (attempt, err) => {
-      logReactor('durable', `retry attempt ${attempt}`, { context, error: String(err) });
+      logReactor("durable", `retry attempt ${attempt}`, { context, error: String(err) });
     },
   });
 }
@@ -163,7 +169,7 @@ export async function runPersonaQA(
   const packet = await getOrLoadProfilePacket();
 
   if (defense.blocked) {
-    logReactor('defense', 'blocked — zero Collections/Grok cost', {
+    logReactor("defense", "blocked — zero Collections/Grok cost", {
       reason: defense.reason,
       layer: defense.layer,
       questionHash: hashQuestion(question),
@@ -179,7 +185,7 @@ export async function runPersonaQA(
   }
 
   // Passed defense — now safe to touch Collections or Grok (fission gate succeeded)
-  logReactor('defense', 'passed', { layer: 'all' });
+  logReactor("defense", "passed", { layer: "all" });
 
   // Ensure packet is warm in Collections (lightweight, already attempted in getOrLoad)
   // Retrieval always via Collections client (Q3: Pure Collections main path)
@@ -216,8 +222,8 @@ export async function runPersonaQA(
     version: packet.version,
   });
 
-  const effectiveModel = process.env.XAI_MODEL || 'grok-2-1212';
-  logReactor('generation', 'streamText completed (durable + tools wired)', {
+  const effectiveModel = process.env.XAI_MODEL || "grok-2-1212";
+  logReactor("generation", "streamText completed (durable + tools wired)", {
     model: effectiveModel,
     toolsCount: Object.keys(tools).length,
   });
@@ -226,7 +232,7 @@ export async function runPersonaQA(
   let steps: any[] = [];
   try {
     steps = (await result.steps) || [];
-    logReactor('generation', 'steps received', {
+    logReactor("generation", "steps received", {
       stepCount: steps.length,
       lastStepHasText: !!steps[steps.length - 1]?.text,
       toolCallsInLastStep: steps[steps.length - 1]?.toolCalls?.length ?? 0,
@@ -236,39 +242,41 @@ export async function runPersonaQA(
     // Log the actual tool results for debugging (very important for "context not reaching model")
     const lastToolResults = steps[steps.length - 1]?.toolResults || [];
     if (lastToolResults.length > 0) {
-      logReactor('generation', 'tool results summary', {
+      logReactor("generation", "tool results summary", {
         count: lastToolResults.length,
         previews: lastToolResults.map((tr: any) => ({
           tool: tr.toolName,
-          resultLength: (tr.result || '').length,
-          preview: String(tr.result || '').slice(0, 200),
+          resultLength: (tr.result || "").length,
+          preview: String(tr.result || "").slice(0, 200),
         })),
       });
     }
   } catch (e) {
-    logReactor('generation', 'could not inspect steps', { error: String(e) });
+    logReactor("generation", "could not inspect steps", { error: String(e) });
   }
 
   // Reliably extract final text
-  let finalText = '';
+  let finalText = "";
   try {
     finalText = await result.text;
-    logReactor('generation', 'final text extracted via result.text', {
+    logReactor("generation", "final text extracted via result.text", {
       length: finalText?.length ?? 0,
-      preview: finalText?.slice(0, 150) || '(empty)',
+      preview: finalText?.slice(0, 150) || "(empty)",
     });
   } catch (e) {
-    logReactor('generation', 'failed to extract result.text', { error: String(e) });
+    logReactor("generation", "failed to extract result.text", { error: String(e) });
   }
 
   // Strong fallback: synthesize from all tool results across steps if model gave no final text
   // For manual collection, we now prefer our own collector (the data is verifiably there).
-  const effectiveToolResults = manualCollection ? getManualToolResults() : steps.flatMap((step: any) =>
-    (step?.toolResults || []).map((tr: any) => ({
-      toolName: tr.toolName,
-      result: tr.result,
-    }))
-  );
+  const effectiveToolResults = manualCollection
+    ? getManualToolResults()
+    : steps.flatMap((step: any) =>
+        (step?.toolResults || []).map((tr: any) => ({
+          toolName: tr.toolName,
+          result: tr.result,
+        }))
+      );
 
   if (!finalText || finalText.trim().length < 20) {
     const allToolResults: string[] = [];
@@ -277,10 +285,10 @@ export async function runPersonaQA(
     }
 
     if (allToolResults.length > 0) {
-      finalText = `Based on the information I retrieved:\n\n${allToolResults.join('\n\n---\n\n')}`;
-      logReactor('generation', 'synthesized final answer from all tool results', {
+      finalText = `Based on the information I retrieved:\n\n${allToolResults.join("\n\n---\n\n")}`;
+      logReactor("generation", "synthesized final answer from all tool results", {
         toolResultCount: allToolResults.length,
-        source: manualCollection ? 'manual-collector' : 'sdk-steps',
+        source: manualCollection ? "manual-collector" : "sdk-steps",
       });
     }
   }
@@ -289,18 +297,23 @@ export async function runPersonaQA(
   if (!finalText || finalText.trim().length < 10) {
     const allToolResults: string[] = [];
     for (const tr of effectiveToolResults) {
-      if (tr?.result) allToolResults.push(`[${tr.toolName || 'tool'}] ${tr.result}`);
+      if (tr?.result) allToolResults.push(`[${tr.toolName || "tool"}] ${tr.result}`);
     }
 
     if (allToolResults.length > 0) {
-      finalText = `Here is what I found using my profile tools:\n\n${allToolResults.join('\n\n')}\n\n(Note: The model did not produce a synthesized narrative on this attempt.)`;
-      logReactor('generation', 'built answer directly from tool results (model gave no final text)', {
-        toolResultCount: allToolResults.length,
-        source: manualCollection ? 'manual-collector' : 'sdk-steps',
-      });
+      finalText = `Here is what I found using my profile tools:\n\n${allToolResults.join("\n\n")}\n\n(Note: The model did not produce a synthesized narrative on this attempt.)`;
+      logReactor(
+        "generation",
+        "built answer directly from tool results (model gave no final text)",
+        {
+          toolResultCount: allToolResults.length,
+          source: manualCollection ? "manual-collector" : "sdk-steps",
+        }
+      );
     } else {
-      finalText = "I used my specialized profile tools to look up information, but wasn't able to generate a complete narrative answer this time. The tool results may contain relevant details.";
-      logReactor('generation', 'no usable text produced after tools — using placeholder', {});
+      finalText =
+        "I used my specialized profile tools to look up information, but wasn't able to generate a complete narrative answer this time. The tool results may contain relevant details.";
+      logReactor("generation", "no usable text produced after tools — using placeholder", {});
     }
   }
 
@@ -345,24 +358,28 @@ function hashQuestion(q: string): string {
 function buildSystemPrompt(packet: ProfilePacket): string {
   // Q6 real human tone: warm/professional + light sparkle
   // Anchored in packet.toolSystemPrompt + goldenExamples for voice consistency
-  const base = packet.toolSystemPrompt || '';
-  const toneAnchor = packet.goldenExamples?.slice(0, 2).map((ex) => `Example Q: ${ex.q}\nExample A: ${ex.a}`).join('\n\n') || '';
+  const base = packet.toolSystemPrompt || "";
+  const toneAnchor =
+    packet.goldenExamples
+      ?.slice(0, 2)
+      .map((ex) => `Example Q: ${ex.q}\nExample A: ${ex.a}`)
+      .join("\n\n") || "";
 
   return [
-    'You are Peramanathan Sathyamoorthy answering in first person.',
-    'Tone: warm, professional, quietly confident, with occasional light sparkle and dry wit.',
-    'Never sound corporate or salesy. Sound like a thoughtful senior engineer who has lived the stories.',
-    'Use the provided tools (Collections-backed) for every factual or specific detail. Ground every claim.',
-    'When a tool returns relevant passages, synthesize — do not quote verbatim unless short and attributed.',
-    'If nothing relevant, say so honestly and offer the closest related insight from profile.',
-    '',
+    "You are Peramanathan Sathyamoorthy answering in first person.",
+    "Tone: warm, professional, quietly confident, with occasional light sparkle and dry wit.",
+    "Never sound corporate or salesy. Sound like a thoughtful senior engineer who has lived the stories.",
+    "Use the provided tools (Collections-backed) for every factual or specific detail. Ground every claim.",
+    "When a tool returns relevant passages, synthesize — do not quote verbatim unless short and attributed.",
+    "If nothing relevant, say so honestly and offer the closest related insight from profile.",
+    "",
     base,
-    '',
-    'Voice anchors from prior high-signal answers (use for tone, never copy):',
+    "",
+    "Voice anchors from prior high-signal answers (use for tone, never copy):",
     toneAnchor,
-    '',
-    'End substantive answers with a brief, natural closer that invites the next real question (no CTA spam).',
-  ].join('\n');
+    "",
+    "End substantive answers with a brief, natural closer that invites the next real question (no CTA spam).",
+  ].join("\n");
 }
 
 function getLiveResponseModel() {
@@ -375,7 +392,7 @@ function getLiveResponseModel() {
   //   grok-2-1212
   //   grok-3 / grok-3-mini
   //   grok-4.3     (used by some accounts)
-  const modelId = process.env.XAI_MODEL || 'grok-2-1212';
+  const modelId = process.env.XAI_MODEL || "grok-2-1212";
 
   return xai(modelId);
 }

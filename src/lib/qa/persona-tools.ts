@@ -12,11 +12,11 @@
  */
 
 import { tool } from "ai";
+import { readFileSync } from "fs";
+import { join } from "path";
 import { z } from "zod";
 import type { PersonaTool, PersonaToolRegistry, ProfilePacket, SearchResult } from "./types";
 import { collectionsClient } from "./xai-collections";
-import { readFileSync } from "fs";
-import { join } from "path";
 
 // -----------------------------------------------------------------------------
 // Local dev search (used when USE_LOCAL_PROFILE_DATA=true or no management key)
@@ -44,9 +44,7 @@ function getLocalPacket(): ProfilePacket | null {
       compiledAt: new Date().toISOString(),
       coreIdentity: psProfile,
       principles: [], // can be extracted from psProfile if needed
-      topAchievements: [
-        { title: "Top Achievements (local)", narrative: top3 },
-      ],
+      topAchievements: [{ title: "Top Achievements (local)", narrative: top3 }],
       experienceHighlights: [],
       signatureProjects: [],
       goldenExamples: [], // could parse from golden + casual
@@ -76,7 +74,10 @@ function localSearch(query: string, k = 5): SearchResult {
     { text: packet.ingestDocument, section: "ingest-document" },
     { text: readFileSafe(join(DATA_DIR, "golden-qa.md")), section: "golden-qa" },
     { text: readFileSafe(join(DATA_DIR, "casual-qa.md")), section: "casual-qa" },
-    { text: readFileSafe(join(DATA_DIR, "top-three-achievements.md")), section: "top-achievements" },
+    {
+      text: readFileSafe(join(DATA_DIR, "top-three-achievements.md")),
+      section: "top-achievements",
+    },
   ];
 
   const scored = sources
@@ -163,14 +164,16 @@ function formatSearchResults(result: SearchResult): string {
   }
 
   // Build body, but be extremely defensive: never let completely empty text win if we have data.
-  let body = chunks
+  const body = chunks
     .map((chunk, index) => {
       let text = (chunk.text || "").trim();
 
       // Last-ditch recovery: pull from metadata if the main text extraction somehow missed it
       if (!text && chunk.metadata) {
         const meta = chunk.metadata as any;
-        text = (meta.chunk_content || meta.content || meta.text || meta.value || "").toString().trim();
+        text = (meta.chunk_content || meta.content || meta.text || meta.value || "")
+          .toString()
+          .trim();
       }
 
       if (!text) {
@@ -220,7 +223,7 @@ export function resetManualToolResultsCollector() {
 
 export function recordManualToolResult(toolName: string, result: string) {
   if (process.env.XAI_PROFILE_COLLECTION) {
-    manualToolResults.push({ toolName, result: String(result || '') });
+    manualToolResults.push({ toolName, result: String(result || "") });
   }
 }
 
@@ -263,7 +266,9 @@ function createSpecializedTool(
     // This is the structural change after repeated "resultLength: 0" failures despite good data.
     const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
     if (manualCollection) {
-      console.log(`[tool-debug:${name}] queryPrefix="${queryPrefix}" qLen=${q.length} formattedLen=${formatted.length} preview=${formatted.slice(0, 180)}`);
+      console.log(
+        `[tool-debug:${name}] queryPrefix="${queryPrefix}" qLen=${q.length} formattedLen=${formatted.length} preview=${formatted.slice(0, 180)}`
+      );
       recordManualToolResult(name, formatted);
     }
 

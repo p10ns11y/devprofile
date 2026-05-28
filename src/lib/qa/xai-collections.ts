@@ -358,13 +358,20 @@ class XaiCollectionsClient {
 
     // One-time debug when using manual collection so we can see the actual response shape
     // from the real API for the user's uploaded documents.
-    if (collectionIds.length > 0 && rawMatches.length > 0 && !(globalThis as any).__xai_collections_search_shape_logged) {
+    if (
+      collectionIds.length > 0 &&
+      rawMatches.length > 0 &&
+      !(globalThis as any).__xai_collections_search_shape_logged
+    ) {
       (globalThis as any).__xai_collections_search_shape_logged = true;
       const sample = rawMatches[0];
-      console.log('[collections:search] raw match shape (first result, for debugging manual collection):', {
-        keys: Object.keys(sample || {}),
-        sample: JSON.stringify(sample).slice(0, 600),
-      });
+      console.log(
+        "[collections:search] raw match shape (first result, for debugging manual collection):",
+        {
+          keys: Object.keys(sample || {}),
+          sample: JSON.stringify(sample).slice(0, 600),
+        }
+      );
     }
 
     // Robust text extraction for real xAI Collections /v1/documents/search responses.
@@ -373,7 +380,16 @@ class XaiCollectionsClient {
       if (!m) return "";
 
       // Primary known fields from real xAI Collections responses (especially manual uploads)
-      const direct = m.chunk_content || m.content || m.chunk || m.text || m.page_content || m.document_text || m.chunk_text || m.snippet || m.value;
+      const direct =
+        m.chunk_content ||
+        m.content ||
+        m.chunk ||
+        m.text ||
+        m.page_content ||
+        m.document_text ||
+        m.chunk_text ||
+        m.snippet ||
+        m.value;
       if (typeof direct === "string" && direct.trim().length > 0) {
         return direct;
       }
@@ -396,7 +412,13 @@ class XaiCollectionsClient {
         for (const [key, val] of Object.entries(m)) {
           if (typeof val === "string" && val.trim().length > 20) {
             const lower = key.toLowerCase();
-            if (lower.includes("content") || lower.includes("text") || lower.includes("chunk") || lower.includes("body") || lower.includes("value")) {
+            if (
+              lower.includes("content") ||
+              lower.includes("text") ||
+              lower.includes("chunk") ||
+              lower.includes("body") ||
+              lower.includes("value")
+            ) {
               return val;
             }
           }

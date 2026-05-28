@@ -99,10 +99,11 @@ Use **pnpm** (see `package.json`). Prefer `sfw pnpm install` when changing depen
 pnpm dev
 pnpm build
 pnpm start
-pnpm lint              # Biome — errors only
-pnpm lint:report       # Biome — full output
-pnpm lint:fix
-pnpm format
+pnpm lint              # Biome lint only (errors) — correctness, best practices, unused vars/imports
+pnpm lint:report       # Biome lint — full output
+pnpm lint:fix          # Biome lint --write
+pnpm format            # Biome format only (pure editor formatting)
+pnpm imports:fix       # Organize imports only (assist)
 pnpm type-check
 pnpm editor:sync
 pnpm generate-pdf

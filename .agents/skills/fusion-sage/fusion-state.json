@@ -7,11 +7,7 @@
       "id": "brave-e2e-reactor",
       "name": "BraveE2eReactor",
       "stability_score": 92,
-      "source_files": [
-        "playwright.brave.ts",
-        "playwright.config.ts",
-        "tests/e2e/global-setup.ts"
-      ],
+      "source_files": ["playwright.brave.ts", "playwright.config.ts", "tests/e2e/global-setup.ts"],
       "related_concepts": ["connected-reactor"],
       "usage_count": 0,
       "compressed_representation": "BRAVE_BETA_EXECUTABLE from env|default. braveBetaLaunchOptions() returns { executablePath } only (IDE-safe). assertBraveBetaInstalled() in globalSetup at test run. Type: PlaywrightTestConfig['use']['launchOptions'] — not LaunchOptions from @playwright/test.",
