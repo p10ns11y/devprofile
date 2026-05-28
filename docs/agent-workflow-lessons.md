@@ -78,6 +78,26 @@ Long plans that span multiple Grok sessions + the user's own terminals will have
 - Treating worktree branches as directly usable by the user without explicit fetch + rename guidance.
 - Under-documenting the final "how do I turn this into my Graphite stack?" step for the user.
 
+## 6. Commit Message Attribution Pollution (Cross-LLM Boilerplate)
+
+**The problem**: During a long `execute-plan` + Graphite redistribution session, the agent suggested commit messages containing standard Claude Code boilerplate:
+
+```
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+The user had **never installed or used Claude** on the machine. This created significant confusion about who actually performed the git work (the user + Grok via this CLI) and made the history look like Claude had been involved.
+
+**Root cause**: The agent reused a common commit message template from Cursor + Claude Code workflows without checking the user's actual toolchain or environment.
+
+**Recommendations**:
+- Never inject attribution or boilerplate from other LLMs (Claude, Cursor, etc.) into commit messages, PR descriptions, or suggested git commands unless the user has explicitly confirmed they are using that tool in the current context.
+- When suggesting commit messages during agent-driven git work (execute-plan, split-to-prs, manual stack cleanup, etc.), use clean, factual messages only. If attribution is desired, ask the user first or default to neutral language ("Assisted by Grok Build" is acceptable only if the user is in a Grok-native session).
+- Add an explicit check in agent prompts for long-running git-heavy work: "Confirm the user's primary agent/LLM environment before suggesting any commit message templates."
+- This lesson applies especially to `execute-plan`, `split-to-prs`, `git-worktrees`, and `agent-orchestrator` skills.
+
 ## Future Improvements (for skills & rules)
 
 These lessons should feed into:
@@ -86,6 +106,7 @@ These lessons should feed into:
 - Better defaults or prompts in `execute-plan` for the "stack assembly" phase (including explicit gt handoff instructions).
 - Possibly a lightweight rule or checklist item: "When producing a long-lived feature/integration branch, always propose a `-stack` or plan-ID-prefixed name and confirm with the user."
 - **Disk hygiene tooling** (done): The new `agent-worktree-clean.sh` + "Disk hygiene" section in `git-worktrees` directly addresses the `~/.grok/worktrees/` bloat problem called out in Lesson 1. After any plan with 5+ PRs, run the cleaner.
+- **Commit message hygiene** (added): `.agents/rules/fusion-sage.mdc`, `.agents/rules/agent-workflow.mdc`, and `.agents/rules/split-to-prs.mdc` now contain the rule against injecting other-LLM boilerplate into commits. The lesson is also captured here as Lesson 6.
 
 ---
 
