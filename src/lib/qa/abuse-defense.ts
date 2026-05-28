@@ -36,7 +36,7 @@ export async function checkAbuse(
   question: string,
   ctx: Record<string, unknown> = {}
 ): Promise<AbuseResult> {
-  // @ts-expect-error - PR4 stub surface; real has 4 cheap-first layers + KV + headers-only (Q4)
+  // PR4 stub surface; real has 4 cheap-first layers + KV + headers-only (Q4).
   // In skeleton: tests mutate the module to inject real behavior.
   return { blocked: false };
 }
@@ -50,7 +50,7 @@ export function computeGoldenFallback(
   question: string,
   packet: ProfilePacket
 ): { answer: string; isGolden: true } {
-  // @ts-expect-error - PR4 stub; real fuses packet data + Q6 voice
+  // PR4 stub; real fuses packet data + Q6 voice
   return {
     answer: `Golden (Q6 tone stub from PR4): I have thought deeply about "${question}". From my experience building quiet infrastructure, respecting human attention, and Dad-mode realities, the answer is: focus on the 20% that compounds. (Full high-signal golden from real packet + golden-qa.md in combined tree.)`,
     isGolden: true,

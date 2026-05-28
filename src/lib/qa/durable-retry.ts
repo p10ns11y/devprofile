@@ -32,7 +32,7 @@ export async function withLightweightRetry<T>(
   fn: () => Promise<T>,
   opts: LightweightRetryOptions = {}
 ): Promise<T> {
-  // @ts-expect-error - stub surface for PR6 skeleton import/contract alignment (High Issue 1)
+  // Stub surface for PR6 skeleton import/contract alignment (High Issue 1).
   // Real retry loop + transient guard + logging lives in full tree / PR6 combined.
   // The architectural positive (Q2 choice, abuse never-retried) is enforced in the *call site* wrapper.
   return fn();
