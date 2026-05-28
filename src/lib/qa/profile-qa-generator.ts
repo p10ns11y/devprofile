@@ -41,13 +41,52 @@ function cosineSimilarity(a: number[], b: number[]): number {
 
 export function findGoldenMatch(
   index: QAIndex,
-  queryVec: number[]
+  queryVec: number[] | null,
+  question?: string
+): { entry: GoldenQuestionEntry; similarity: number } | null {
+  if (queryVec) {
+    let best: { entry: GoldenQuestionEntry; similarity: number } | null = null;
+
+    for (const entry of index.goldenQuestions) {
+      const sim = cosineSimilarity(queryVec, entry.questionEmbedding);
+      if (sim >= QA_ROUTER.GOLDEN_MATCH_THRESHOLD && (!best || sim > best.similarity)) {
+        best = { entry, similarity: sim };
+      }
+    }
+
+    if (best) return best;
+  }
+
+  if (!question) return null;
+  return findGoldenMatchByKeyword(index, question);
+}
+
+function tokenOverlapScore(a: string, b: string): number {
+  const wordsA = new Set(
+    a
+      .toLowerCase()
+      .split(/\W+/)
+      .filter((w) => w.length > 3)
+  );
+  const wordsB = b
+    .toLowerCase()
+    .split(/\W+/)
+    .filter((w) => w.length > 3);
+  if (wordsA.size === 0 || wordsB.length === 0) return 0;
+  const shared = wordsB.filter((w) => wordsA.has(w)).length;
+  return shared / Math.max(wordsA.size, wordsB.length);
+}
+
+/** Keyword fallback when query embeddings are unavailable (serverless prod). */
+function findGoldenMatchByKeyword(
+  index: QAIndex,
+  question: string
 ): { entry: GoldenQuestionEntry; similarity: number } | null {
   let best: { entry: GoldenQuestionEntry; similarity: number } | null = null;
 
   for (const entry of index.goldenQuestions) {
-    const sim = cosineSimilarity(queryVec, entry.questionEmbedding);
-    if (sim >= QA_ROUTER.GOLDEN_MATCH_THRESHOLD && (!best || sim > best.similarity)) {
+    const sim = tokenOverlapScore(question, entry.question);
+    if (sim >= 0.6 && (!best || sim > best.similarity)) {
       best = { entry, similarity: sim };
     }
   }
@@ -216,7 +255,7 @@ export async function runProfileQA(question: string): Promise<QAResponse> {
   const queryVec = await embedQueryForIndex(index, question);
   const context = retrieveFromIndex(index, queryVec, question);
 
-  const golden = findGoldenMatch(index, queryVec);
+  const golden = findGoldenMatch(index, queryVec, question);
   if (golden) {
     return {
       answer: golden.entry.idealAnswer,

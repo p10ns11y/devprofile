@@ -63,6 +63,8 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 
    Optional Profile Q&A Ollama (narrative answers): copy `.env.local.example` → `.env.local`, set `OLLAMA_BASE_URL`, then restart `pnpm dev`. See [tests/qa/README.md](tests/qa/README.md).
 
+   Optional xAI Agentic QA Reactor: see [xAI Agentic QA Reactor](#-xai-agentic-qa-reactor-optional).
+
 3. **Sync editor profile** (optional, Cursor / VS Code)
    ```bash
    pnpm editor:sync
@@ -90,6 +92,9 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
    - Certificates: `/certificates`
    - Content Hub: `/content-hub`
    - Profile Q&A: `/qa`
+
+   **Default `/qa` (no reactor):** uses [`src/data/qa-index.json`](src/data/qa-index.json) (git-tracked; regenerated on every `pnpm build`). For dev-only refresh: `pnpm build-qa-index` — see [tests/qa/README.md](tests/qa/README.md).
+
    - CV PDF: `/cv.pdf`
 
 ## 📜 Available Scripts
@@ -140,6 +145,38 @@ pnpm test:e2e
 Do **not** run `pnpm exec playwright install chromium` for day-to-day work. Remove unused Playwright browsers: `pnpm exec playwright uninstall`.
 
 Details: [tests/e2e/README.md](tests/e2e/README.md)
+
+## 💬 xAI Agentic QA Reactor (optional)
+
+Agentic Profile Q&A on `/qa` using xAI Collections + Grok (flag-gated). **Default `/qa`** uses [`src/data/qa-index.json`](src/data/qa-index.json) (git-tracked, synced on `pnpm build`) when the reactor is off or on fallback.
+
+Copy `.env.example` → `.env.local` and set:
+
+| Variable | Required | Notes |
+|----------|----------|--------|
+| `XAI_API_KEY` | Yes | **Read-only** — Collections search + Grok chat ([console.x.ai](https://console.x.ai)) |
+| `XAI_PROFILE_COLLECTION` | Yes | Collection **name or ID** — point at your collection in console.x.ai |
+| `ENABLE_XAI_REACTOR` | Yes | `true` to enable the agentic path |
+| `XAI_MODEL` | Recommended | e.g. `grok-4.3` — must match a model your account can use |
+
+**Security — read-only only:** This repo never uses write/management API keys. Populate the Collection in [console.x.ai](https://console.x.ai) (or a separate personal tool outside this project). A read-only key can only query content you published there.
+
+**Collections setup:** Create a Collection and upload profile sources (minimum: `src/data/persona/ps-profile-v1.md`; optional: `src/data/cvdata.json`, `golden-qa.md`, `casual-qa.md`, `top-three-achievements.md`). Set `XAI_PROFILE_COLLECTION` to its name or ID. The app does not upload or sync — it reads live collection content via the xAI API on each request, so whatever is in the Collection (however you updated it) is what `/qa` uses at runtime.
+
+**Development** (with `XAI_API_KEY` and `XAI_PROFILE_COLLECTION` in `.env.local`):
+
+```bash
+ENABLE_XAI_REACTOR=true XAI_MODEL=grok-4.3 pnpm dev --turbopack
+```
+
+**Test production build locally** (after `pnpm build`; same vars in `.env.local`):
+
+```bash
+pnpm build
+ENABLE_XAI_REACTOR=true XAI_MODEL=grok-4.3 pnpm start
+```
+
+More detail: [src/lib/qa/README.md](src/lib/qa/README.md), [.env.example](.env.example), [docs/phase-1-xai-agentic-profile-qa-reactor.md](docs/phase-1-xai-agentic-profile-qa-reactor.md).
 
 ## 🤖 Agent skills (AI assistants)
 

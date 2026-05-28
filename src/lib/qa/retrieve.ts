@@ -92,13 +92,42 @@ function chunkIndexById(index: QAIndex): Map<string, number> {
   return map;
 }
 
-/** Hybrid BM25 + dense retrieval with RRF fusion. */
+/** BM25-only retrieval when query embeddings are unavailable (e.g. serverless prod). */
+function retrieveBm25Only(index: QAIndex, question: string, topK: number): RetrievedChunk[] {
+  const idToIndex = chunkIndexById(index);
+  const queryTokens = tokenize(question);
+  const stats = buildBm25Stats(index);
+
+  return index.bm25
+    .map((doc) => ({
+      index: idToIndex.get(doc.id) ?? -1,
+      score: bm25Score(queryTokens, doc.tokens, stats),
+    }))
+    .filter((r) => r.index >= 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, topK)
+    .map(({ index: chunkIndex, score }) => {
+      const chunk = index.chunks[chunkIndex];
+      return {
+        id: chunk.id,
+        text: chunk.text,
+        section: chunk.section,
+        source: chunk.source,
+        similarity: Math.min(1, score / 10),
+      };
+    });
+}
+
+/** Hybrid BM25 + dense retrieval with RRF fusion. Falls back to BM25-only when queryVec is null. */
 export function retrieveFromIndex(
   index: QAIndex,
-  queryVec: number[],
+  queryVec: number[] | null,
   question: string,
   topK = QA_ROUTER.RETRIEVAL_TOP_K
 ): RetrievedChunk[] {
+  if (!queryVec || queryVec.length === 0) {
+    return retrieveBm25Only(index, question, topK);
+  }
   const idToIndex = chunkIndexById(index);
   const queryTokens = tokenize(question);
   const stats = buildBm25Stats(index);
@@ -143,7 +172,7 @@ export function retrieveFromIndex(
 /** Load index, embed question, hybrid retrieve. */
 export async function retrieveContext(question: string): Promise<{
   index: QAIndex;
-  queryVec: number[];
+  queryVec: number[] | null;
   chunks: RetrievedChunk[];
 }> {
   const index = loadQAIndex();

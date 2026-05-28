@@ -1,4 +1,3 @@
-import { pipeline } from "@huggingface/transformers";
 import cvdata from "@/data/cvdata.json";
 
 // Type for vector data
@@ -12,8 +11,8 @@ export interface Chunk {
 export const chunks: Chunk[] = [];
 export let extractor: any = null;
 
-// Cache for QA responses
-export const qaCache = new Map<string, { answer: string; details: any[] }>();
+// Cache for QA responses (legacy prepareData path; prefer @/lib/qa/qa-cache for route)
+export { qaCache } from "@/lib/qa/qa-cache";
 
 /**
  * Maps unified project types to meaningful section names for QA system
@@ -37,6 +36,7 @@ function mapProjectTypeToSection(type: string): string {
 export async function prepareData() {
   if (extractor && chunks.length > 0) return; // Already prepared
 
+  const { pipeline } = await import("@huggingface/transformers");
   extractor = await pipeline("feature-extraction", "Xenova/all-MiniLM-L6-v2");
 
   // Comprehensive data flattening with ALL cvdata sections

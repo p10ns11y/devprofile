@@ -1,11 +1,10 @@
-import { runProfileQA as runSimpleQa } from "@/lib/qa/profile-qa-generator";
-import { qaCache } from "@/utils/qa-utils";
+import { qaCache } from "@/lib/qa/qa-cache";
 
 /**
  * 8-PRs Reactor integration (optional advanced path)
  *
  * - Default: Pure simple path from PR #48 (hybrid retrieval + golden matching + optional Ollama).
- *   → No xAI Collections, no @ai-sdk/xai, no heavy reactor code is even loaded.
+ *   → Loaded via dynamic import only when needed (avoids @huggingface/transformers at module init).
  *
  * - When ENABLE_XAI_REACTOR=true: Dynamically loads the full agentic reactor
  *   (xAI Collections + AI SDK + persona tools + defense layers).
@@ -28,6 +27,11 @@ async function getReactorFunctionsIfEnabled() {
     console.error("[qa] Failed to dynamically load reactor modules", e);
     return null;
   }
+}
+
+async function runSimpleQaPath(question: string) {
+  const { runProfileQA } = await import("@/lib/qa/profile-qa-generator");
+  return runProfileQA(question);
 }
 
 export async function POST(request: Request) {
@@ -112,7 +116,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const response = await runSimpleQa(question);
+    const response = await runSimpleQaPath(question);
     qaCache.set(question, response);
 
     return new Response(JSON.stringify(response), {

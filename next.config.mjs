@@ -4,6 +4,7 @@ import withVercelToolbar from "@vercel/toolbar/plugins/next";
 const nextConfig = {
   images: {},
   transpilePackages: ["@react-pdf/renderer"],
+  serverExternalPackages: ["@huggingface/transformers", "onnxruntime-node"],
   async redirects() {
     return [
       {
