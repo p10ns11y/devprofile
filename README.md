@@ -8,7 +8,7 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 - **💬 Profile Q&A**: Ask interview-style questions about experience, grounded in CV data and curated notes
 - **📄 Dynamic PDF Generation**: Server-side PDF creation with professional styling
 - **👁️ Interactive Document Viewer**: Inline PDF viewing with full browser integration
-- **📚 Content Hub**: Dynamic multi-page content management system
+- **🔍 X search**: Curated X/Twitter post search by date range (`/x`; `/content-hub` redirects here)
 - **🎨 Modern UI/UX**: Beautiful shadcn/ui components with responsive design
 - **⚡ Performance Optimized**: Fast loading with Next.js App Router and Turbopack
 - **♿ Accessibility**: WCAG-oriented patterns with keyboard navigation
@@ -90,7 +90,7 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
    - Portfolio: `/`
    - CV page: `/cv`
    - Certificates: `/certificates`
-   - Content Hub: `/content-hub`
+   - X search: `/x` (`/content-hub` redirects here; hub UI hidden)
    - Profile Q&A: `/qa`
 
    **Default `/qa` (no reactor):** uses [`src/data/qa-index.json`](src/data/qa-index.json) (git-tracked; regenerated on every `pnpm build`). For dev-only refresh: `pnpm build-qa-index` — see [tests/qa/README.md](tests/qa/README.md).
@@ -154,16 +154,17 @@ Copy `.env.example` → `.env.local` and set:
 
 | Variable | Required | Notes |
 |----------|----------|--------|
-| `XAI_API_KEY` | Yes | **Read-only** — Collections search + Grok chat ([console.x.ai](https://console.x.ai)) |
-| `XAI_PROFILE_COLLECTION` | Yes | Collection **name or ID** — point at your collection in console.x.ai |
+| `XAI_API_KEY` | Yes | **Chat** — Grok model inference for reactor answers ([console.x.ai](https://console.x.ai)) |
+| `XAI_MANAGEMENT_API_KEY` | Recommended | **Collections** — read-only search against `XAI_PROFILE_COLLECTION` (preferred over reusing the chat key) |
+| `XAI_PROFILE_COLLECTION` | Yes | Collection **name or ID** from console.x.ai |
 | `ENABLE_XAI_REACTOR` | Yes | `true` to enable the agentic path |
 | `XAI_MODEL` | Recommended | e.g. `grok-4.3` — must match a model your account can use |
 
-**Security — read-only only:** This repo never uses write/management API keys. Populate the Collection in [console.x.ai](https://console.x.ai) (or a separate personal tool outside this project). A read-only key can only query content you published there.
+**Two keys, two roles:** `XAI_API_KEY` is for **chat** (Grok). `XAI_MANAGEMENT_API_KEY` is for **Collections** (search/list). Use a **read-only** collections key so a leak only exposes content you already published. Upload/sync stays in console.x.ai or an external tool — not this app.
 
-**Collections setup:** Create a Collection and upload profile sources (minimum: `src/data/persona/ps-profile-v1.md`; optional: `src/data/cvdata.json`, `golden-qa.md`, `casual-qa.md`, `top-three-achievements.md`). Set `XAI_PROFILE_COLLECTION` to its name or ID. The app does not upload or sync — it reads live collection content via the xAI API on each request, so whatever is in the Collection (however you updated it) is what `/qa` uses at runtime.
+**Collections setup:** Create a Collection and upload profile sources (minimum: `src/data/persona/ps-profile-v1.md`; optional: `src/data/cvdata.json`, `golden-qa.md`, `casual-qa.md`, `top-three-achievements.md`). Set `XAI_PROFILE_COLLECTION` to its name or ID. Runtime reads live collection content via the Collections API on each request.
 
-**Development** (with `XAI_API_KEY` and `XAI_PROFILE_COLLECTION` in `.env.local`):
+**Development** (with keys and collection in `.env.local`):
 
 ```bash
 ENABLE_XAI_REACTOR=true XAI_MODEL=grok-4.3 pnpm dev --turbopack

@@ -84,17 +84,18 @@ async function getOrLoadProfilePacket(): Promise<ProfilePacket> {
   // personal tool outside this repo). Never call ensure/create/ingest from the reactor path.
   const useLocalData = process.env.USE_LOCAL_PROFILE_DATA === "true";
   const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
-  const hasApiKeyForSearch = !!process.env.XAI_API_KEY;
+  const hasCollectionsKey =
+    !!process.env.XAI_MANAGEMENT_API_KEY?.trim() || !!process.env.XAI_API_KEY;
 
-  if (!useLocalData && manualCollection && hasApiKeyForSearch) {
+  if (!useLocalData && manualCollection && hasCollectionsKey) {
     logReactor(
       "ingest",
       `read-only search via XAI_PROFILE_COLLECTION=${manualCollection} (no create/upload in this app)`
     );
-  } else if (!useLocalData && hasApiKeyForSearch && !manualCollection) {
+  } else if (!useLocalData && hasCollectionsKey && !manualCollection) {
     logReactor(
       "ingest",
-      "XAI_PROFILE_COLLECTION unset — set it to a collection you uploaded in console.x.ai (read-only mode; no auto ensure/create)"
+      "Set XAI_PROFILE_COLLECTION to a collection uploaded in console.x.ai (read-only: XAI_MANAGEMENT_API_KEY for search, XAI_API_KEY for chat)"
     );
   } else if (useLocalData) {
     logReactor("ingest", "skipped Collections (USE_LOCAL_PROFILE_DATA=true)");

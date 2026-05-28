@@ -92,11 +92,12 @@ src/lib/qa/
 | Variable | Purpose |
 |----------|---------|
 | `ENABLE_XAI_REACTOR=true` | Turn on dual-path delegation in `/api/cv/qa` |
-| `XAI_API_KEY` | **Read-only** — Grok chat + Collections **search** only |
+| `XAI_API_KEY` | **Chat** — Grok model inference (AI SDK) |
+| `XAI_MANAGEMENT_API_KEY` | **Collections** — read-only search against `XAI_PROFILE_COLLECTION` (recommended; falls back to `XAI_API_KEY` if unset) |
 | `XAI_PROFILE_COLLECTION` | Collection name/ID in [console.x.ai](https://console.x.ai) |
 | `XAI_MODEL` | e.g. `grok-4.3` (must match your account) |
 
-**Do not set write/management keys in this project.**
+**Key separation:** Chat and Collections use different env vars. Scope the management key **read-only** (search/list only) so it cannot create collections or upload files from this app.
 
 **Collections (one-time setup + external updates):**
 

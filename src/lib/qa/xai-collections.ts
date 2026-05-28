@@ -10,7 +10,10 @@
  * - Do not configure write/management API keys here; read-only limits blast radius to public profile content.
  * - Reactor path never calls ensureCollectionForVersion or ingestPacket (see persona-reactor.ts).
  *
- * Set XAI_PROFILE_COLLECTION to the collection name or ID; no in-app upload or sync.
+ * Env (see .env.example):
+ * - XAI_API_KEY — Grok **chat** / model inference (AI SDK streamText)
+ * - XAI_MANAGEMENT_API_KEY — **Collections** search/list (read-only recommended); falls back to XAI_API_KEY if unset
+ * - XAI_PROFILE_COLLECTION — target collection name or ID
  *
  * Bases (2026 per design/docs):
  * - Management: https://management-api.x.ai (create, documents add/poll)
@@ -329,7 +332,7 @@ class XaiCollectionsClient {
     if (!query || query.trim().length === 0) {
       throw new XaiCollectionsConfigError("search requires non-empty query");
     }
-    const apiKey = getApiKey();
+    const apiKey = getManagementKey();
     const collectionIds = opts?.filters?.collection_ids || [];
     if (collectionIds.length === 0) {
       // Allow caller to pass via filters; for direct use ensure first.

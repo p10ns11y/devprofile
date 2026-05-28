@@ -123,15 +123,15 @@ function readFileSafe(p: string): string {
 }
 
 function createSearchExecutor() {
-  // For real Collections search we only need XAI_API_KEY (search uses the regular API key).
-  // Management key is only required for ensure/ingest operations.
+  // Collections search uses XAI_MANAGEMENT_API_KEY (read-only recommended); falls back to XAI_API_KEY.
   const forceLocal = process.env.USE_LOCAL_PROFILE_DATA === "true";
-  const hasApiKey = !!process.env.XAI_API_KEY;
+  const hasCollectionsKey =
+    !!process.env.XAI_MANAGEMENT_API_KEY?.trim() || !!process.env.XAI_API_KEY;
   const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
 
-  // Explicit local dev mode (or no search key) → use the in-memory local packet search.
+  // Explicit local dev mode (or no collections key) → use the in-memory local packet search.
   // This is the only path that should bypass real Collections.
-  if (forceLocal || !hasApiKey) {
+  if (forceLocal || !hasCollectionsKey) {
     return (q: string, opts?: { k?: number }) => localSearch(q, opts?.k);
   }
 

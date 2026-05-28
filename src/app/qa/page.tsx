@@ -41,8 +41,8 @@ export default function ProfileQAPage() {
 
             <p className="text-lg leading-relaxed text-text2">
               Ask interview-style questions about {cvdata.name.split(" ")[0]}&apos;s experience,
-              projects, and tooling. Answers are grounded in CV data and curated profile notes — not
-              a generic chatbot.
+              projects, and tooling. Answers are grounded in CV data and curated profile notes —
+              powered by xAI Grok and Collections, with a local hybrid fallback.
             </p>
 
             <motion.div
@@ -53,10 +53,10 @@ export default function ProfileQAPage() {
             >
               <span className="inline-flex items-center gap-1.5 rounded-full border border-border/40 bg-surface2 px-3 py-1">
                 <Sparkles className="size-3.5 text-brand" aria-hidden />
-                Hybrid retrieval
+                xAI Grok + Collections
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-border/40 bg-surface2 px-3 py-1">
-                No paid APIs
+                Hybrid retrieval fallback
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-border/40 bg-surface2 px-3 py-1">
                 Optional Ollama

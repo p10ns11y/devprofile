@@ -12,7 +12,7 @@ All PR plans, interfaces, invariants ("xAI Collections sole substrate", "no loca
 - New deps: `ai`, `@ai-sdk/openai`, `zod`
 - Feature flag: `qaReactor` (disabled by default) in `src/config/feature-flags.ts`
 - Core types + skeleton: `src/lib/qa/{types.ts,index.ts}`
-- Env: read-only `XAI_API_KEY`, `XAI_PROFILE_COLLECTION`, `ENABLE_XAI_REACTOR` (see `.env.example`) — no write keys in this repo
+- Env: `XAI_API_KEY` (chat), `XAI_MANAGEMENT_API_KEY` (collections, read-only recommended), `XAI_PROFILE_COLLECTION`, `ENABLE_XAI_REACTOR` (see `.env.example`)
 - This PR touches only foundations (no route impact). PRs 2-8 build on it.
 
 See the design doc for the full DAG, exact file lists per PR, and the hard validation gate before PR 5.
