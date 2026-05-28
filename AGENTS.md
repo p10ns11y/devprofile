@@ -105,3 +105,11 @@ See [`docs/agent-workflow-lessons.md`](docs/agent-workflow-lessons.md) for detai
 - Override path: `BRAVE_BETA_PATH`. Details: [tests/e2e/README.md](tests/e2e/README.md).
 - After `@playwright/test` major bumps: update the package only; reinstall Brave on the machine if needed — **not** `playwright install chromium` for tests.
 - **Headed / UI:** `pnpm test:e2e:headed`, test runs, and `pnpm test:e2e:ui` all use **Brave Beta** (`launchOptions.executablePath`; UI panel opened via `brave-browser-beta` in `scripts/playwright-ui-brave.mjs`).
+
+## Agent Attribution & Commit Message Hygiene
+
+When any agent (Grok, fusion-sage, execute-plan, split-to-prs, etc.) suggests or generates commits:
+
+- Never inject boilerplate from other LLMs ("Generated with Claude Code", "Co-Authored-By: Claude", etc.) unless the user has explicitly confirmed they are using that LLM on this machine in the current context.
+- Prefer clean factual messages. Ask before adding any attribution.
+- This rule is recorded in `docs/agent-workflow-lessons.md` (Lesson 6) and `.agents/rules/fusion-sage.mdc`.

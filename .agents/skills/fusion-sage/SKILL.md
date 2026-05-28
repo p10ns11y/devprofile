@@ -116,6 +116,7 @@ This used ~Xk tokens. Expand any fused concept with "expand <name>".
 - Never invent APIs (still sacred)
 - **New**: Every fused abstraction must be traceable back to at least 2 concrete source locations.
 - **New**: If fusion would increase short-term token cost but decrease long-term cost by >3×, still propose it (with clear Q calculation).
+- **Commit / Git Attribution**: Never inject boilerplate from other LLMs ("Generated with Claude Code", "Co-Authored-By: Claude", etc.) into commit messages or suggestions unless the user has explicitly confirmed they are using that LLM on this machine. Default to clean factual messages. Record this as a permanent guardrail (see also `docs/agent-workflow-lessons.md` Lesson 6).
 
 ## IDE Integration (Enhanced)
 - **Cursor (devprofile)**: `.cursor/rules/fusion-sage.mdc` (`alwaysApply: true`) routes fission + fusion; `.cursor/rules/ai-optimization.mdc` is fission-only fallback (`alwaysApply: false`).

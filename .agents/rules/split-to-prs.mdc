@@ -14,6 +14,7 @@ Load [split-to-prs](.agents/skills/split-to-prs/SKILL.md) when the user wants to
 - **Recoverable snapshot** before moving work (`git stash create` → `refs/backup/pre-split-…`).
 - Stage **named files or hunks only** — never `git add .` / `git add -A`.
 - Independent PRs off default branch; stack only when dependency is real (foundation before consumers).
+- **Commit message hygiene**: Never suggest or include boilerplate from other LLMs ("Generated with Claude Code", "Co-Authored-By: Claude", etc.) when creating commits during the split. Use clean factual messages only. See `docs/agent-workflow-lessons.md` Lesson 6.
 
 ## After split
 
