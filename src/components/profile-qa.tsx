@@ -218,7 +218,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
                   )}
                 </p>
 
-                {result.details.length > 0 && (
+                {(result.details?.length ?? 0) > 0 && (
                   <div className="space-y-4 border-t border-border/20 pt-6">
                     <h4 className="font-medium text-text1">Retrieved information</h4>
                     <div className="space-y-3">
