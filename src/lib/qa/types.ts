@@ -184,3 +184,18 @@ export interface PersonaTool {
 }
 
 export type PersonaToolRegistry = Record<string, PersonaTool>;
+
+// -----------------------------------------------------------------------------
+// xAI Collections (PR3 client shapes)
+// -----------------------------------------------------------------------------
+
+export interface CollectionRef {
+  id: string;
+  name: string;
+}
+
+export interface IngestResult {
+  collectionId: string;
+  fileId: string;
+  status: string;
+}

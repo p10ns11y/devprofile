@@ -98,12 +98,13 @@ function localSearch(query: string, k = 5): SearchResult {
   // query (very common), still return the main profile content so the reactor has
   // *something* to work with during development. This makes the full tool-calling +
   // generation loop testable locally without requiring perfect semantic matches.
-  let finalSources = scored;
+  let finalSources: Array<{ text: string; section: string; score: number }> = scored;
   if (finalSources.length === 0) {
     // Prefer the core profile + combined ingest document
     finalSources = sources
       .filter((s) => ["ps-profile-v1", "ingest-document"].includes(s.section))
-      .slice(0, k);
+      .slice(0, k)
+      .map((s) => ({ ...s, score: 0 }));
   }
 
   return {

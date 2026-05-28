@@ -34,6 +34,11 @@ export interface LegacyQAResponse {
   version?: string;
 }
 
+export interface ProfileQAToolResult {
+  toolName: string;
+  result: string;
+}
+
 // Streaming-capable response (for future route that does direct streaming to client)
 export interface ProfileQAResponse {
   stream?: AsyncIterable<string>;
@@ -41,6 +46,8 @@ export interface ProfileQAResponse {
   isGolden?: boolean;
   defense?: { blocked: boolean; reason?: string; layer?: string };
   version: string;
+  /** Tool-grounded passages for the /qa UI "Retrieved information" panel */
+  toolResults?: ProfileQAToolResult[];
 }
 
 /**
@@ -68,9 +75,6 @@ export async function runProfileQA(
 
 // Re-export the reactor core for direct use in tests / advanced consumers
 export { runProfileQAReactor } from './persona-reactor';
-
-// Type exports for consumers (PR7+)
-export type { ProfileQAResponse, LegacyQAResponse };
 
 /**
  * Dual-path for the /qa page (post PR #48).

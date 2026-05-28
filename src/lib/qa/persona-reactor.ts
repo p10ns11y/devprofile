@@ -27,7 +27,7 @@ import { compileProfilePacketFromSources } from './persona-compiler'; // PR2 stu
 import { collectionsClient } from './xai-collections'; // PR3 real (was wrong -client name)
 import { checkAbuse, computeGoldenFallback } from './abuse-defense'; // PR4 stub shim
 // PR5 surface — exact 6 thin Collections-backed tools (see persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__)
-import { aiPersonaTools, type PersonaToolRegistry, resetManualToolResultsCollector, getManualToolResults } from './persona-tools';
+import { aiPersonaTools, resetManualToolResultsCollector, getManualToolResults } from './persona-tools';
 import { withLightweightRetry } from './durable-retry'; // Q2 lightweight shim (per user decision; no full Workflow DevKit)
 
 // Data sources for the ProfilePacket compiler.
@@ -152,6 +152,7 @@ export async function runPersonaQA(
   defense?: { blocked: boolean; reason?: string; layer?: string };
   version: string;
   toolCalls?: any[];
+  toolResults?: Array<{ toolName: string; result: string }>;
 }> {
   // === DEFENSE FIRST, NON-BYPASSABLE (per PR4 + design invariant #2) ===
   // This is the very first executable statement in the happy path.

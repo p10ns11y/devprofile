@@ -56,8 +56,10 @@ export async function POST(request: Request) {
 
           // Always compute details first (from reactor tool results) so we can log it safely
           // This makes the response compatible with the new ProfileQA UI (from PR #48)
-          const details = (reactorRes.toolResults || []).map((tr: any, i: number) => ({
-            text: String(tr.result || '(no content returned by tool)'),
+          const toolResults =
+            "toolResults" in reactorRes && reactorRes.toolResults ? reactorRes.toolResults : [];
+          const details = toolResults.map((tr, i) => ({
+            text: String(tr.result || "(no content returned by tool)"),
             section: tr.toolName || `tool-${i}`,
             similarity: 1,
           }));

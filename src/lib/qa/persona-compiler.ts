@@ -35,7 +35,7 @@ import type { ProfilePacket } from './types';
 export function compileProfilePacketFromSources(
   rawSources: Array<{ name: string; content: string }>
 ): ProfilePacket {
-  // @ts-expect-error - PR2 stub surface only; real returns richer fused packet
+  // PR2 stub surface only; real returns richer fused packet
   // (coreIdentity, principles, experienceHighlights, ingestDocument etc. populated from sources)
   return {
     version: 'v1-2026-05-stub',
