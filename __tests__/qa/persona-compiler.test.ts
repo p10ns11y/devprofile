@@ -36,7 +36,7 @@ import type { ProfilePacket } from "@/lib/qa/types";
 const REPO_ROOT = process.cwd();
 const load = (p: string) => readFileSync(path.join(REPO_ROOT, p), "utf8");
 
-const psProfileMd = load("data/persona/ps-profile-v1.md");
+const psProfileMd = load("src/data/persona/ps-profile-v1.md");
 const goldenMd = load("src/data/golden-qa.md");
 const casualMd = load("src/data/casual-qa.md");
 const top3Md = load("src/data/top-three-achievements.md");

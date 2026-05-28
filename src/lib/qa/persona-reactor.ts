@@ -14,7 +14,7 @@
  * No full E2E (PR8), no new heavy deps beyond AI SDK (assumed via prior PR surface).
  */
 
-import { streamText, type StreamTextResult, type ToolSet } from 'ai';
+import { streamText, type StreamTextResult, type ToolSet, stepCountIs } from 'ai';
 import { xai } from '@ai-sdk/xai';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -27,7 +27,7 @@ import { compileProfilePacketFromSources } from './persona-compiler'; // PR2 stu
 import { collectionsClient } from './xai-collections'; // PR3 real (was wrong -client name)
 import { checkAbuse, computeGoldenFallback } from './abuse-defense'; // PR4 stub shim
 // PR5 surface — exact 6 thin Collections-backed tools (see persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__)
-import { aiPersonaTools, type PersonaToolRegistry } from './persona-tools';
+import { aiPersonaTools, type PersonaToolRegistry, resetManualToolResultsCollector, getManualToolResults } from './persona-tools';
 import { withLightweightRetry } from './durable-retry'; // Q2 lightweight shim (per user decision; no full Workflow DevKit)
 
 // Data sources for the ProfilePacket compiler.
@@ -157,6 +157,13 @@ export async function runPersonaQA(
   // This is the very first executable statement in the happy path.
   const defense = await checkAbuse(question, ctx);
 
+  // Own our tool results for the manual collection path (structural fix after many empty-result iterations).
+  // The AI SDK's steps.toolResults has repeatedly failed to surface real content from Collections.
+  const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
+  if (manualCollection) {
+    resetManualToolResultsCollector();
+  }
+
   const packet = await getOrLoadProfilePacket();
 
   if (defense.blocked) {
@@ -193,16 +200,16 @@ export async function runPersonaQA(
   // Users with access to newer models (e.g. grok-4.3, grok-3, etc.) should set XAI_MODEL accordingly.
   const model = getLiveResponseModel();
 
-  // True streaming via AI SDK streamText (maxSteps:5 for bounded tool-calling loop per canary pattern)
+  // True streaming via AI SDK streamText.
+  // Using stopWhen: stepCountIs(5) to match the pattern that worked reliably in the canary chat route (PR #33).
   const generationFn = async () => {
     const result: StreamTextResult<any, any> = await streamText({
       model,
       system: systemPrompt,
-      prompt: question, // or messages for multi-turn later
+      prompt: question,
       tools,
-      maxSteps: 5, // allows tool calling loop (search → reason → more search if needed)
-      temperature: 0.7, // light sparkle without losing professionalism
-      // onChunk, onToolCall etc for observability in real impl
+      stopWhen: stepCountIs(5), // modern API (matches working canary chat route pattern)
+      temperature: 0.7,
     });
 
     return result;
@@ -259,19 +266,25 @@ export async function runPersonaQA(
   }
 
   // Strong fallback: synthesize from all tool results across steps if model gave no final text
+  // For manual collection, we now prefer our own collector (the data is verifiably there).
+  const effectiveToolResults = manualCollection ? getManualToolResults() : steps.flatMap((step: any) =>
+    (step?.toolResults || []).map((tr: any) => ({
+      toolName: tr.toolName,
+      result: tr.result,
+    }))
+  );
+
   if (!finalText || finalText.trim().length < 20) {
     const allToolResults: string[] = [];
-    for (const step of steps) {
-      const results = step?.toolResults || [];
-      for (const tr of results) {
-        if (tr?.result) allToolResults.push(String(tr.result));
-      }
+    for (const tr of effectiveToolResults) {
+      if (tr?.result) allToolResults.push(String(tr.result));
     }
 
     if (allToolResults.length > 0) {
       finalText = `Based on the information I retrieved:\n\n${allToolResults.join('\n\n---\n\n')}`;
       logReactor('generation', 'synthesized final answer from all tool results', {
         toolResultCount: allToolResults.length,
+        source: manualCollection ? 'manual-collector' : 'sdk-steps',
       });
     }
   }
@@ -279,17 +292,15 @@ export async function runPersonaQA(
   // Last resort: if the model produced no final text at all, synthesize a useful response from whatever the tools returned
   if (!finalText || finalText.trim().length < 10) {
     const allToolResults: string[] = [];
-    for (const step of steps) {
-      const results = step?.toolResults || [];
-      for (const tr of results) {
-        if (tr?.result) allToolResults.push(`[${tr.toolName || 'tool'}] ${tr.result}`);
-      }
+    for (const tr of effectiveToolResults) {
+      if (tr?.result) allToolResults.push(`[${tr.toolName || 'tool'}] ${tr.result}`);
     }
 
     if (allToolResults.length > 0) {
       finalText = `Here is what I found using my profile tools:\n\n${allToolResults.join('\n\n')}\n\n(Note: The model did not produce a synthesized narrative on this attempt.)`;
       logReactor('generation', 'built answer directly from tool results (model gave no final text)', {
         toolResultCount: allToolResults.length,
+        source: manualCollection ? 'manual-collector' : 'sdk-steps',
       });
     } else {
       finalText = "I used my specialized profile tools to look up information, but wasn't able to generate a complete narrative answer this time. The tool results may contain relevant details.";
@@ -298,12 +309,19 @@ export async function runPersonaQA(
   }
 
   // Collect tool results so the new /qa UI can show "Retrieved information"
-  const toolResultsForUI = steps.flatMap((step: any) =>
-    (step?.toolResults || []).map((tr: any) => ({
-      toolName: tr.toolName,
-      result: tr.result,
-    }))
-  );
+  // Changed approach: for manual collection dev, use our self-owned collector (proven to have the real data)
+  // instead of relying on the flaky AI SDK steps.toolResults.
+  let toolResultsForUI: Array<{ toolName: string; result: string }>;
+  if (manualCollection) {
+    toolResultsForUI = getManualToolResults();
+  } else {
+    toolResultsForUI = steps.flatMap((step: any) =>
+      (step?.toolResults || []).map((tr: any) => ({
+        toolName: tr.toolName,
+        result: tr.result,
+      }))
+    );
+  }
 
   // Return answer + tool results for the /qa JSON path (PR48 UI compatible shape)
   return {

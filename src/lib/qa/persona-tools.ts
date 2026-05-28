@@ -94,8 +94,23 @@ function localSearch(query: string, k = 5): SearchResult {
     .sort((a, b) => b.score - a.score)
     .slice(0, k);
 
+  // Local dev fallback: if the naive keyword search found nothing for this specialized
+  // query (very common), still return the main profile content so the reactor has
+  // *something* to work with during development. This makes the full tool-calling +
+  // generation loop testable locally without requiring perfect semantic matches.
+  let finalSources = scored;
+  if (finalSources.length === 0) {
+    // Prefer the core profile + combined ingest document
+    finalSources = sources
+      .filter((s) => ["ps-profile-v1", "ingest-document"].includes(s.section))
+      .slice(0, k);
+  }
+
   return {
-    chunks: scored.map((s) => ({ text: s.text.slice(0, 1200), metadata: { section: s.section } })),
+    chunks: finalSources.map((s) => ({
+      text: s.text.slice(0, 1200),
+      metadata: { section: s.section, local_fallback: scored.length === 0 },
+    })),
     citations: [],
   };
 }
@@ -108,27 +123,32 @@ function readFileSafe(p: string): string {
   }
 }
 
-function getSearchExecutor() {
+function createSearchExecutor() {
   // For real Collections search we only need XAI_API_KEY (search uses the regular API key).
   // Management key is only required for ensure/ingest operations.
   const forceLocal = process.env.USE_LOCAL_PROFILE_DATA === "true";
   const hasApiKey = !!process.env.XAI_API_KEY;
+  const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
 
+  // Explicit local dev mode (or no search key) → use the in-memory local packet search.
+  // This is the only path that should bypass real Collections.
   if (forceLocal || !hasApiKey) {
     return (q: string, opts?: { k?: number }) => localSearch(q, opts?.k);
   }
 
-  // When using real Collections + XAI_PROFILE_COLLECTION, scope searches to that collection.
-  // Note: XAI_PROFILE_COLLECTION can be either the collection *name* or *ID*.
-  // If you only have the name, the Collections search may still work if your key has visibility.
-  const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
-  const searchOpts: any = { k: opts?.k };
+  // Real remote Collections path.
+  // If XAI_PROFILE_COLLECTION is set, we still hit the real API but scope the
+  // search to that collection (the intended "manual collection + search-only key" dev story).
+  return (q: string, opts?: { k?: number }) => {
+    const searchOpts: any = { k: opts?.k };
 
-  if (manualCollection) {
-    searchOpts.filters = { collection_ids: [manualCollection] };
-  }
+    if (manualCollection) {
+      // Use the actual collection the user uploaded (e.g. collection_8dc7b08a-...)
+      searchOpts.filters = { collection_ids: [manualCollection] };
+    }
 
-  return (q: string, opts?: { k?: number }) => collectionsClient.search(q, searchOpts);
+    return collectionsClient.search(q, searchOpts);
+  };
 }
 
 // -----------------------------------------------------------------------------
@@ -137,18 +157,34 @@ function getSearchExecutor() {
 const DEFAULT_K = 5;
 
 function formatSearchResults(result: SearchResult): string {
-  if (!result.chunks || result.chunks.length === 0) {
+  const chunks = result?.chunks || [];
+
+  if (chunks.length === 0) {
     return "No matching excerpts found in the profile collection for this query.";
   }
 
-  const body = result.chunks
+  // Build body, but be extremely defensive: never let completely empty text win if we have data.
+  let body = chunks
     .map((chunk, index) => {
+      let text = (chunk.text || "").trim();
+
+      // Last-ditch recovery: pull from metadata if the main text extraction somehow missed it
+      if (!text && chunk.metadata) {
+        const meta = chunk.metadata as any;
+        text = (meta.chunk_content || meta.content || meta.text || meta.value || "").toString().trim();
+      }
+
+      if (!text) {
+        // Absolute fallback so the model at least knows something was retrieved
+        text = "(content available in raw metadata)";
+      }
+
       const score = typeof chunk.score === "number" ? ` (score: ${chunk.score.toFixed(3)})` : "";
-      const meta =
+      const metaStr =
         chunk.metadata && Object.keys(chunk.metadata).length > 0
           ? ` ${JSON.stringify(chunk.metadata)}`
           : "";
-      return `[${index + 1}] ${chunk.text}${score}${meta}`;
+      return `[${index + 1}] ${text}${score}${metaStr}`;
     })
     .join("\n\n---\n\n");
 
@@ -157,12 +193,41 @@ function formatSearchResults(result: SearchResult): string {
       ? `\n\nCitations: ${result.citations.join(" ")}`
       : "";
 
-  return body + cites;
+  const final = (body + cites).trim();
+
+  // Never return a truly empty string to the model when we had hits
+  if (!final) {
+    return "Retrieved relevant excerpts from the profile collection (see tool metadata for details).";
+  }
+
+  return final;
 }
 
 // Test-only export of pure helper for isolated unit tests (Issue 6 review feedback).
 // Zero runtime cost; not part of public API.
 export { formatSearchResults as __TEST_ONLY_formatSearchResults };
+
+// -----------------------------------------------------------------------------
+// Manual Collection Tool Result Collector (thorough fix for "still same issue")
+// When XAI_PROFILE_COLLECTION is set, the old AI SDK steps.toolResults path has
+// proven unreliable for surfacing actual content to both the model and the UI.
+// We now own the successful tool outputs ourselves for the manual collection dev path.
+// This is the changed approach after many iterations.
+const manualToolResults: Array<{ toolName: string; result: string }> = [];
+
+export function resetManualToolResultsCollector() {
+  manualToolResults.length = 0;
+}
+
+export function recordManualToolResult(toolName: string, result: string) {
+  if (process.env.XAI_PROFILE_COLLECTION) {
+    manualToolResults.push({ toolName, result: String(result || '') });
+  }
+}
+
+export function getManualToolResults() {
+  return [...manualToolResults];
+}
 
 // -----------------------------------------------------------------------------
 // Tool factory (keeps the module tiny, consistent, and reviewable)
@@ -183,7 +248,7 @@ function createSpecializedTool(
     query: z.string().describe(queryDescribe),
   });
 
-  const search = getSearchExecutor();
+  const search = createSearchExecutor();
 
   // The pure execute (easy to unit test directly with mocked client)
   const execute = async ({ query }: { query: string }) => {
@@ -191,9 +256,19 @@ function createSpecializedTool(
     if (!q) {
       return "Please provide a specific, non-empty query for this persona tool.";
     }
-    // In local dev mode this calls the in-memory packet search instead of Collections
+
     const res = await search(`${queryPrefix}: ${q}`, { k: DEFAULT_K });
-    return formatSearchResults(res);
+    const formatted = formatSearchResults(res);
+
+    // Thorough debugging + self-owned result collection for manual collection path.
+    // This is the structural change after repeated "resultLength: 0" failures despite good data.
+    const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
+    if (manualCollection) {
+      console.log(`[tool-debug:${name}] queryPrefix="${queryPrefix}" qLen=${q.length} formattedLen=${formatted.length} preview=${formatted.slice(0, 180)}`);
+      recordManualToolResult(name, formatted);
+    }
+
+    return formatted;
   };
 
   const aiTool = tool({

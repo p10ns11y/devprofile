@@ -3,7 +3,7 @@
  *
  * Full implementation of compileProfilePacketFromSources (5-source fusion from
  * cvdata.json + golden-qa.md + casual-qa.md + top-three-achievements.md +
- * data/persona/ps-profile-v1.md per design) + rich ProfilePacket construction
+ * src/data/persona/ps-profile-v1.md (consolidated location) + rich ProfilePacket construction
  * lives on the PR2 branch (c53ba184 per plan JSON). 
  *
  * This minimal barrel shim closes the import/contract gap (High Issue 1) so the

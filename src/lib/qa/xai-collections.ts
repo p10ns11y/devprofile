@@ -357,11 +357,76 @@ class XaiCollectionsClient {
 
     const durationMs = Date.now() - start;
     const rawMatches = data.matches || data.results || [];
-    const chunks = rawMatches.map((m: any) => ({
-      text: (m.content || m.chunk || m.text || "").toString(),
-      metadata: m.metadata || m.fields || undefined,
-      score: typeof m.score === "number" ? m.score : undefined,
-    }));
+
+    // One-time debug when using manual collection so we can see the actual response shape
+    // from the real API for the user's uploaded documents.
+    if (collectionIds.length > 0 && rawMatches.length > 0 && !(globalThis as any).__xai_collections_search_shape_logged) {
+      (globalThis as any).__xai_collections_search_shape_logged = true;
+      const sample = rawMatches[0];
+      console.log('[collections:search] raw match shape (first result, for debugging manual collection):', {
+        keys: Object.keys(sample || {}),
+        sample: JSON.stringify(sample).slice(0, 600),
+      });
+    }
+
+    // Robust text extraction for real xAI Collections /v1/documents/search responses.
+    // Different document types and upload methods can put the chunk text under different keys.
+    function extractText(m: any): string {
+      if (!m) return "";
+
+      // Primary known fields from real xAI Collections responses (especially manual uploads)
+      const direct = m.chunk_content || m.content || m.chunk || m.text || m.page_content || m.document_text || m.chunk_text || m.snippet || m.value;
+      if (typeof direct === "string" && direct.trim().length > 0) {
+        return direct;
+      }
+
+      // Try nested common locations
+      const nestedCandidates = [
+        m?.chunk?.text,
+        m?.chunk?.content,
+        m?.content?.text,
+        m?.metadata?.text,
+        m?.fields?.text,
+        m?.fields?.content,
+      ];
+      for (const c of nestedCandidates) {
+        if (typeof c === "string" && c.trim().length > 0) return c;
+      }
+
+      // Last resort: look for any key that smells like content
+      if (typeof m === "object") {
+        for (const [key, val] of Object.entries(m)) {
+          if (typeof val === "string" && val.trim().length > 20) {
+            const lower = key.toLowerCase();
+            if (lower.includes("content") || lower.includes("text") || lower.includes("chunk") || lower.includes("body") || lower.includes("value")) {
+              return val;
+            }
+          }
+        }
+
+        // Absolute last resort: stringify the whole object (better than nothing for the model)
+        const s = JSON.stringify(m);
+        if (s.length < 1500) return s;
+      }
+
+      return "";
+    }
+
+    const chunks = rawMatches.map((m: any) => {
+      let text = extractText(m);
+
+      // Extra safety net specifically for manual collection uploads via console.x.ai
+      // The primary field we saw in real responses is chunk_content.
+      if ((!text || text.trim().length === 0) && typeof m.chunk_content === "string") {
+        text = m.chunk_content;
+      }
+
+      return {
+        text: (text || "").slice(0, 2000),
+        metadata: m.metadata || m.fields || m,
+        score: typeof m.score === "number" ? m.score : undefined,
+      };
+    });
 
     // Citations: prefer server, else synthesize collections:// URIs (design format)
     let citations: string[] = data.citations || [];

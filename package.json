@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.0",
+    "@ai-sdk/xai": "^3.0.92",
     "@huggingface/transformers": "^4.2.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@react-pdf/renderer": "^4.5.1",

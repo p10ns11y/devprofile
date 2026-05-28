@@ -167,6 +167,15 @@ export interface AbuseResult {
 // Tool Shapes (for the 6 specialized Collections-backed tools)
 // -----------------------------------------------------------------------------
 
+export interface SearchResult {
+  chunks: Array<{
+    text: string;
+    metadata?: Record<string, unknown>;
+    score?: number;
+  }>;
+  citations: string[];
+}
+
 export interface PersonaTool {
   name: string;
   description: string;
