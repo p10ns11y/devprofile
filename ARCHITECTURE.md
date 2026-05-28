@@ -106,7 +106,7 @@ pnpm format
 pnpm type-check
 pnpm editor:sync
 pnpm generate-pdf
-pnpm build-qa-index    # qa-index.json (also runs in pnpm build)
+pnpm build-qa-index    # qa-index.json (also runs in every pnpm build)
 pnpm qa:eval           # golden retrieval eval — tests/qa/README.md
 pnpm test:e2e          # Brave Beta — tests/e2e/README.md
 pnpm test:e2e:headed

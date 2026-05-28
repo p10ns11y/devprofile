@@ -6,7 +6,7 @@
  * - AI SDK streamText + lightweight retry wrapper (Q2 decision: no full Workflow DevKit in Phase 1)
  * - Pulls versioned ProfilePacket via PR2 compiler (cached)
  * - Wires 6 thin Collections-backed tools via aiPersonaTools (PR5)
- * - Uses PR3 collectionsClient for lightweight ensure/ingest (manual ingest per Q5)
+ * - Uses PR3 collectionsClient via persona-tools (read-only search when XAI_PROFILE_COLLECTION set)
  * - True streaming, Collections-only retrieval, observability (version + layer logs), graceful golden degradation
  * - Real human tone (warm/professional + light sparkle) per Q6 — especially golden + system prompts
  *
@@ -24,7 +24,6 @@ import { join } from 'path';
 // ProfilePacket type also re-exported from ./types (and barrel).
 import type { ProfilePacket } from './persona-compiler'; // via PR2 stub (or ./types re-export)
 import { compileProfilePacketFromSources } from './persona-compiler'; // PR2 stub shim
-import { collectionsClient } from './xai-collections'; // PR3 real (was wrong -client name)
 import { checkAbuse, computeGoldenFallback } from './abuse-defense'; // PR4 stub shim
 // PR5 surface — exact 6 thin Collections-backed tools (see persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__)
 import { aiPersonaTools, resetManualToolResultsCollector, getManualToolResults } from './persona-tools';
@@ -81,29 +80,24 @@ async function getOrLoadProfilePacket(): Promise<ProfilePacket> {
 
   const packet = compileProfilePacketFromSources(rawSources);
 
-  // Collections sync is skipped in local dev mode.
-  // When USE_LOCAL_PROFILE_DATA=true (or no XAI_MANAGEMENT_API_KEY), the tools
-  // automatically use an in-memory search over src/data/persona + the other source files.
-  // This lets you develop the full reactor + tool calling loop locally without any xAI keys.
-  // Collections ensure/create is only needed if you want the reactor to auto-provision the collection.
-  // For local development where you have **already manually uploaded** the document (e.g. "ps-profile-v1.md"),
-  // you can skip this entirely by setting XAI_PROFILE_COLLECTION.
+  // Collections: read-only in this app. Upload/sync is manual via console.x.ai (or a separate
+  // personal tool outside this repo). Never call ensure/create/ingest from the reactor path.
   const useLocalData = process.env.USE_LOCAL_PROFILE_DATA === "true";
   const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
   const hasApiKeyForSearch = !!process.env.XAI_API_KEY;
 
   if (!useLocalData && manualCollection && hasApiKeyForSearch) {
-    // Manual mode: skip ensure/create completely. Read-only search against your pre-uploaded collection.
-    logReactor('ingest', `using manual collection via XAI_PROFILE_COLLECTION=${manualCollection} (no create attempted)`);
-  } else if (!useLocalData && hasApiKeyForSearch) {
-    // Auto mode: try to ensure the collection exists (requires management perms)
-    try {
-      await collectionsClient.ensureCollectionForVersion(packet.version);
-    } catch (e) {
-      logReactor('ingest', 'ensureCollectionForVersion non-fatal (manual ingest path per Q5)', { error: String(e) });
-    }
+    logReactor(
+      "ingest",
+      `read-only search via XAI_PROFILE_COLLECTION=${manualCollection} (no create/upload in this app)`
+    );
+  } else if (!useLocalData && hasApiKeyForSearch && !manualCollection) {
+    logReactor(
+      "ingest",
+      "XAI_PROFILE_COLLECTION unset — set it to a collection you uploaded in console.x.ai (read-only mode; no auto ensure/create)"
+    );
   } else if (useLocalData) {
-    logReactor('ingest', 'skipped Collections (USE_LOCAL_PROFILE_DATA=true)');
+    logReactor("ingest", "skipped Collections (USE_LOCAL_PROFILE_DATA=true)");
   }
 
   cachedPacket = packet;

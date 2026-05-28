@@ -80,15 +80,37 @@ src/lib/qa/
    - `computeGoldenFallback` uses real PR2 packet + Q6 tone (warm, professional, sparkle).
    - E2E/unit tests use "ignore all previous...", "bomb", short queries as triggers.
 
-6. **Post-PR8 surplus (automation deferred per Q5)**:
-   - `scripts/manual-ingest.ts` + `ingestPacket` for console.x.ai direct uploads.
-   - No auto-ingest in reactor.
+6. **Collections (read-only at runtime)**:
+   - Upload/sync automation belongs in console.x.ai or a **separate personal tool**, not this deployed app.
+   - `scripts/manual-ingest.ts` is a deprecated stub — do not run with write keys here.
+   - Reactor queries live collection content via the xAI API; no in-app sync needed.
 
 ## Enabling for Development / Testing
 
+**Required in `.env.local` for real reactor runs:**
+
+| Variable | Purpose |
+|----------|---------|
+| `ENABLE_XAI_REACTOR=true` | Turn on dual-path delegation in `/api/cv/qa` |
+| `XAI_API_KEY` | **Read-only** — Grok chat + Collections **search** only |
+| `XAI_PROFILE_COLLECTION` | Collection name/ID in [console.x.ai](https://console.x.ai) |
+| `XAI_MODEL` | e.g. `grok-4.3` (must match your account) |
+
+**Do not set write/management keys in this project.**
+
+**Collections (one-time setup + external updates):**
+
+1. In console.x.ai, create a Collection with only what you are willing to expose via `/qa`.
+2. Upload profile sources (minimum: `src/data/persona/ps-profile-v1.md`; optional: `cvdata.json`, `golden-qa.md`, `casual-qa.md`, `top-three-achievements.md`).
+3. Set `XAI_PROFILE_COLLECTION` to that collection's name or ID.
+4. Update files in the console (or your external tool) when content changes — the app always reads current collection state through the API at request time; no sync step in this repo.
+
 ```bash
-# Full reactor (requires XAI_API_KEY + real @ai-sdk/xai wiring in consuming tree)
-ENABLE_XAI_REACTOR=true XAI_API_KEY=... pnpm dev
+# Dev (Turbopack)
+ENABLE_XAI_REACTOR=true XAI_MODEL=grok-4.3 pnpm dev --turbopack
+
+# Production build locally (after pnpm build)
+ENABLE_XAI_REACTOR=true XAI_MODEL=grok-4.3 pnpm start
 
 # E2E reactor coverage (headers + defense when PR4 live)
 ENABLE_XAI_REACTOR=true XAI_API_KEY=... pnpm test:e2e --project=brave-beta -g "qa-reactor"

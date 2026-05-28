@@ -1,6 +1,8 @@
 /**
  * Build qa-index.json: contextual chunks + embeddings (local MiniLM).
- * Run after parse-golden-qa: pnpm build-qa-index
+ * Runs on every `pnpm build` so the index stays in sync with CV/golden sources (no manual step).
+ * Output is also committed to git for dev/prod parity when running without a full build.
+ * Run standalone: pnpm build-qa-index (or pnpm qa:pipeline after source edits + eval).
  */
 import { mkdirSync, writeFileSync } from "fs";
 import { dirname, resolve } from "path";

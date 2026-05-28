@@ -3,8 +3,7 @@
  *
  * Each tool is a thin wrapper around a search backend.
  * - In normal / production mode: uses xAI Collections (via collectionsClient).
- * - In local dev: when USE_LOCAL_PROFILE_DATA=true (or no XAI_MANAGEMENT_API_KEY),
- *   uses an in-memory search over the ProfilePacket + src/data/persona files.
+ * - In local dev: when USE_LOCAL_PROFILE_DATA=true, uses in-memory search over persona files.
  *
  * This allows full reactor + tool-calling development locally without exposing
  * management keys or requiring a live Collections collection.
@@ -21,8 +20,7 @@ import { join } from "path";
 
 // -----------------------------------------------------------------------------
 // Local dev search (used when USE_LOCAL_PROFILE_DATA=true or no management key)
-// This lets you develop the reactor + tools without exposing XAI_MANAGEMENT_API_KEY
-// or hitting real Collections.
+// Local dev search when USE_LOCAL_PROFILE_DATA=true (no xAI keys required).
 // -----------------------------------------------------------------------------
 let localPacketCache: ProfilePacket | null = null;
 

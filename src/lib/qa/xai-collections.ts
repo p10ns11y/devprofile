@@ -2,20 +2,15 @@
  * xAI Collections Thin Client (PR 3).
  *
  * Zero-dependency (beyond native fetch) client for the sole allowed substrate.
- * Implements ensureCollectionForVersion, ingestPacket (management), search helper.
+ * Implements search (production path) plus ensure/ingest helpers retained for unit tests only.
  *
- * CRITICAL (per design + User Decision 5 / Q5):
- * - Phase 1 ingest is MANUAL/DIRECT via console.x.ai only.
- * - This client supports the ops for the manual-ingest helper script (scripts/)
- *   and future Post-PR8 automation. The reactor path (PR6+) MUST NOT auto-call
- *   ingestPacket (ingestIfNeeded is intentionally omitted here).
- * - All Collections traffic (create, upload, poll, search) lives ONLY in this module.
- * - xAI Collections is the SOLE substrate: no local vectors ever in reactor path.
+ * CRITICAL — deployed app policy:
+ * - This portfolio app uses **read-only** xAI access: Collections search + Grok chat only.
+ * - Populate the Collection in console.x.ai (or an external tool); runtime search always reads live content via the API.
+ * - Do not configure write/management API keys here; read-only limits blast radius to public profile content.
+ * - Reactor path never calls ensureCollectionForVersion or ingestPacket (see persona-reactor.ts).
  *
- * Env:
- * - XAI_API_KEY (required for search + general; get from console.x.ai)
- * - XAI_MANAGEMENT_API_KEY (preferred for create/ingest; falls back to XAI_API_KEY)
- * - XAI_PROFILE_COLLECTION (optional, for manual ingest cases — e.g. when you uploaded "ps-profile-v1.md" manually)
+ * Set XAI_PROFILE_COLLECTION to the collection name or ID; no in-app upload or sync.
  *
  * Bases (2026 per design/docs):
  * - Management: https://management-api.x.ai (create, documents add/poll)
