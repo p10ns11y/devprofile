@@ -127,6 +127,7 @@ Orchestrator **may** implement only when the task is trivial or verification fai
 - [ ] 2. Decompose — spike vs implementation waves; disjoint file ownership
 - [ ] 3. Write task brief (template below) — outcome, standards, verification commands
 - [ ] 4. Create workspace — worktree or sandbox; record in brief
+- [ ] 5. After the work is done (especially multi-worker or execute-plan style): run global cleanup with `git-worktrees/scripts/agent-worktree-clean.sh` (see git-worktrees "Disk hygiene" section)
 - [ ] 5. Delegate — paste brief; point to AGENTS.md + domain skills
 - [ ] 6. Worker claims done → orchestrator verifies (never accept on claim alone)
 - [ ] 7. Pass → integrate (merge order); fail → narrow fix brief → back to 6
@@ -256,6 +257,21 @@ Add task-specific acceptance (E2E path, screenshot, API response) in the brief.
 - One mega-prompt for unrelated files and agents
 - Re-delegating full scope on resume instead of gap-only brief
 - Orchestrator implementing large features while also “verifying” the same diff without separation
+- Choosing “natural” feature branch names for the final integration/stack output of a long plan (high risk of collision with user’s pre-existing local branch of the same name)
+
+## Long-running plans and final stack handoff (execute-plan patterns)
+
+For multi-session efforts that produce many reviewed PRs and must eventually become a Graphite stack the user manages:
+
+- **Naming discipline for the final branch**: Never reuse a plausible user feature name (e.g. `feature/xai-agentic-profile-qa-reactor`). Collisions with the user’s existing local work are expensive. Default to `-stack`, plan-ID prefixes (`ep/<id>-...`), or clearly artificial names. Confirm the name with the user before the final push.
+- **Environment reality**: The orchestrator session runs in a `.grok` worktree. The user’s primary terminal (where `gt` is authenticated and they run `gt submit --stack`, `gt restack`, etc.) is usually elsewhere. Plan for an explicit handoff instead of assuming the agent can complete the Graphite submission.
+- **What the agent should leave the user**: 
+  - A clean pushed branch containing the full reviewed work (linear is acceptable).
+  - The list of original clean `execute-plan/...-pr-N-*` branches (with their final SHAs).
+  - Clear instructions: “Fetch in your main terminal, then either `gt submit --stack` on the linear result or use `gt split --by-commit` / manual level branches if you want a true multi-level Graphite stack.”
+- Document the two common final paths so the user can choose.
+
+These patterns were heavily exercised during an 8-PR execute-plan + Graphite stack effort. See `docs/agent-workflow-lessons.md` for the detailed write-up.
 
 ---
 

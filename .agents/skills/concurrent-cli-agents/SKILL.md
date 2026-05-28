@@ -34,6 +34,7 @@ Pair with [agent-orchestrator](../agent-orchestrator/SKILL.md) (briefs, verifica
 - [ ] 5. Run agents with repo skills loaded (AGENTS.md); non-interactive flags for automation
 - [ ] 6. Validate each workspace (lint/type-check scoped to touched areas)
 - [ ] 7. Merge or open PRs per branch; prune worktrees / destroy sandboxes
+- [ ] 8. After execute-plan or 4+ concurrent agents: run `git-worktrees/scripts/agent-worktree-clean.sh --prune` to reclaim `~/.grok/worktrees/` (often several GB)
 ```
 
 ---
@@ -151,7 +152,10 @@ Follow [git-worktrees](../git-worktrees/SKILL.md): **commit in each worktree**, 
 3. On integration branch (primary checkout): `agent-worktree-merge.sh --branch agent/<tool>/<slug>` one at a time; resolve conflicts there only.
 4. Push integration branch or open PR per agent branch ([split-to-prs](../split-to-prs/SKILL.md)).
 5. `agent-worktree-remove.sh` after merge; destroy cloud sandbox by ID.
-6. Prune stale: `git worktree prune`; Hermes also prunes crashed `.worktrees` on startup.
+6. Prune stale repo-local worktrees: `git worktree prune`.
+7. **Global hygiene (critical after big runs)**: run
+   `.agents/skills/git-worktrees/scripts/agent-worktree-clean.sh --prune`
+   to remove orphaned full clones under `~/.grok/worktrees/` (the main disk consumer after execute-plan, best-of-n, or heavy concurrent Grok sessions). The script safely preserves per-task branches first.
 
 ---
 
