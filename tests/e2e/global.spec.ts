@@ -9,7 +9,7 @@ test.describe("Global Navigation & Layout", () => {
     await expect(page.getByRole("button", { name: "Home", exact: true })).toBeVisible();
 
     await page.goto("/qa");
-    await expect(page.getByRole("heading", { name: "Profile Q&A" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Q&A", level: 1 })).toBeVisible();
 
     await page.goto("/x");
     await expect(page.getByRole("heading", { name: /Posts on X of @peramanathan/i })).toBeVisible();

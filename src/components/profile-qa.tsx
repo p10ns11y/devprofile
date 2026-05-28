@@ -55,49 +55,19 @@ export function ProfileQA({ className }: ProfileQAProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.15 }}
+      transition={{ duration: 0.35 }}
       className={className}
     >
       <Card className="rad-shadow border-border/30 bg-surface2/80 backdrop-blur-sm">
-        <CardHeader className="space-y-3">
-          <CardTitle className="text-xl font-semibold text-text1">Ask a question</CardTitle>
-        </CardHeader>
-
-        <CardContent className="space-y-6">
-          <div className="space-y-3">
-            <p className="text-sm font-medium text-text1">Suggested questions</p>
-            <div className="flex flex-wrap gap-2">
-              {SUGGESTED_QUESTIONS.map((suggestion, index) => (
-                <motion.button
-                  key={suggestion}
-                  type="button"
-                  disabled={loading}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.25, delay: index * 0.03 }}
-                  whileHover={{ scale: loading ? 1 : 1.02 }}
-                  whileTap={{ scale: loading ? 1 : 0.98 }}
-                  onClick={() => askQuestion(suggestion)}
-                  className={`rounded-full border px-3 py-1.5 text-left text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
-                    activeQuestion === suggestion
-                      ? "border-brand/60 bg-brand/10 text-text1"
-                      : "border-border/40 bg-surface1 text-text1 hover:border-brand/40 hover:bg-surface3"
-                  }`}
-                >
-                  {suggestion}
-                </motion.button>
-              ))}
-            </div>
-          </div>
-
-          <form onSubmit={handleAsk} className="space-y-4">
-            <div className="space-y-2">
-              <label htmlFor="profile-qa-question" className="text-sm font-medium text-text1">
-                Your question
-              </label>
-              <div className="relative">
+        <CardContent className="space-y-4 pt-6">
+          <form onSubmit={handleAsk} className="space-y-2">
+            <label htmlFor="profile-qa-question" className="text-sm font-medium text-text1">
+              Your question
+            </label>
+            <div className="flex items-stretch gap-2">
+              <div className="relative min-w-0 flex-1">
                 <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-text2" />
                 <Input
                   id="profile-qa-question"
@@ -105,29 +75,51 @@ export function ProfileQA({ className }: ProfileQAProps) {
                   value={question}
                   onChange={(e) => dispatch({ type: "SET_QUESTION", question: e.target.value })}
                   placeholder="e.g., What is your experience with React and TypeScript?"
-                  className="bg-surface1 pl-9"
+                  className="h-full bg-surface1 pl-9"
                   disabled={loading}
+                  autoFocus
                 />
               </div>
+              <Button
+                type="submit"
+                disabled={loading || !question.trim()}
+                className="shrink-0 bg-brand text-text1 hover:bg-brand/90"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="size-4 animate-spin" />
+                    Thinking…
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="size-4" />
+                    Quest
+                  </>
+                )}
+              </Button>
             </div>
-            <Button
-              type="submit"
-              disabled={loading || !question.trim()}
-              className="bg-brand text-text1 hover:bg-brand/90"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="size-4 animate-spin" />
-                  Thinking…
-                </>
-              ) : (
-                <>
-                  <Sparkles className="size-4" />
-                  Ask
-                </>
-              )}
-            </Button>
           </form>
+
+          <div className="rounded-lg border border-border/25 bg-surface1/50 px-3 py-2.5">
+            <p className="mb-1.5 text-xs font-medium text-text2">Suggested questions</p>
+            <div className="flex flex-wrap gap-1.5">
+              {SUGGESTED_QUESTIONS.map((suggestion) => (
+                <button
+                  key={suggestion}
+                  type="button"
+                  disabled={loading}
+                  onClick={() => askQuestion(suggestion)}
+                  className={`rounded-md border px-2 py-1 text-left text-xs leading-snug transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+                    activeQuestion === suggestion
+                      ? "border-brand/60 bg-brand/10 text-text1"
+                      : "border-border/30 bg-surface2/80 text-text2 hover:border-brand/40 hover:text-text1"
+                  }`}
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          </div>
         </CardContent>
       </Card>
 
@@ -174,8 +166,8 @@ export function ProfileQA({ className }: ProfileQAProps) {
             className="mt-6 rounded-xl border border-dashed border-border/50 bg-surface2/40 px-6 py-10 text-center"
           >
             <MessageSquareText className="mx-auto mb-3 size-8 text-text2/60" aria-hidden />
-            <p className="text-text2">
-              Pick a suggested question or type your own to see an answer with retrieved sources.
+            <p className="text-sm text-text2">
+              Type a question above or pick a suggestion to see an answer with retrieved sources.
             </p>
           </motion.div>
         )}
