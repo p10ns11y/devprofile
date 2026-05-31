@@ -57,6 +57,7 @@
     "**/playwright-report": true,
     "**/test-results": true
   },
+  "markdown.preview.security.level": "allowInsecureContent",
   "search.exclude": {
     "**/node_modules": true,
     "**/pnpm-lock.yaml": true,

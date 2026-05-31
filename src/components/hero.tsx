@@ -132,6 +132,13 @@ export function Hero() {
                 >
                   Profile Q&amp;A
                 </Link>
+
+                <Link
+                  href="/status/code/200"
+                  className="inline-flex items-center px-6 py-3 bg-surface3 text-text1 font-medium rounded-lg hover:bg-surface4 hover:text-brand transition-colors"
+                >
+                  Live GitHub activity
+                </Link>
               </div>
 
               <SocialLinks />
