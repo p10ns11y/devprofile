@@ -10,7 +10,6 @@
     "_worker.js",
     ".open-next/"
   ],
-  "type": "module",
   "scripts": {
     "dev": "node scripts/sync-github-dashboard-cache.mjs && next dev --turbopack",
     "build": "npm run generate-pdf && node scripts/build-qa-index.mjs && node scripts/generate-sw-version.mjs && node scripts/sync-github-dashboard-cache.mjs && next build",
@@ -30,7 +29,12 @@
     "parse-golden-qa": "node scripts/parse-golden-qa.mjs",
     "build-qa-index": "node scripts/build-qa-index.mjs",
     "qa:eval": "node scripts/qa-eval.mjs",
-    "qa:pipeline": "node scripts/parse-golden-qa.mjs && node scripts/build-qa-index.mjs && node scripts/qa-eval.mjs"
+    "qa:pipeline": "node scripts/parse-golden-qa.mjs && node scripts/build-qa-index.mjs && node scripts/qa-eval.mjs",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
+    "test:unit:cov": "vitest run --coverage",
+    "test:qa": "vitest run src/lib/qa src/app/api/cv/qa",
+    "test:golden": "QA_EVAL_STRICT=1 pnpm qa:pipeline"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.0",
@@ -60,10 +64,12 @@
     "@types/node": "^25.9.1",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
+    "@vitest/coverage-v8": "^3.2.4",
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.15",
     "tailwindcss": "^4.3.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^3.2.4"
   },
   "trustedDependencies": [
     "@vercel/speed-insights"

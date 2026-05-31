@@ -12,143 +12,46 @@
  */
 
 import { tool } from "ai";
-import { readFileSync } from "fs";
-import { join } from "path";
 import { z } from "zod";
-import type { PersonaTool, PersonaToolRegistry, ProfilePacket, SearchResult } from "./types";
-import { collectionsClient } from "./xai-collections";
+import { searchProfile } from "./agentic/tools/search-backend";
+import {
+  mergeRetrievedChunks,
+  searchResultToDetails,
+} from "./shared/map-search-to-details";
+import type { PersonaTool, PersonaToolRegistry, RetrievedChunk, SearchResult } from "./types";
 
 // -----------------------------------------------------------------------------
-// Local dev search (used when USE_LOCAL_PROFILE_DATA=true or no management key)
-// Local dev search when USE_LOCAL_PROFILE_DATA=true (no xAI keys required).
+// Retrieved chunk collector — structured passages for UI "Retrieved information"
 // -----------------------------------------------------------------------------
-let localPacketCache: ProfilePacket | null = null;
+const retrievedChunksCollector: RetrievedChunk[] = [];
 
-function getLocalPacket(): ProfilePacket | null {
-  if (localPacketCache) return localPacketCache;
+export function resetRetrievedChunksCollector() {
+  retrievedChunksCollector.length = 0;
+}
 
+export function recordRetrievedChunks(toolName: string, result: SearchResult) {
+  retrievedChunksCollector.push(...searchResultToDetails(result, toolName));
+}
+
+export function getRetrievedChunksForUI(): RetrievedChunk[] {
+  return mergeRetrievedChunks(retrievedChunksCollector);
+}
+
+/**
+ * Run one profile search before streamText so retrieval + UI chunks exist even when
+ * Grok skips tool calls (common cause of the empty-narrative placeholder).
+ */
+export async function preflightProfileRetrieval(query: string): Promise<void> {
   try {
-    const DATA_DIR = join(process.cwd(), "src/data");
-    const PERSONA_DIR = join(DATA_DIR, "persona");
-
-    const read = (p: string) => readFileSync(p, "utf8");
-
-    const psProfile = read(join(PERSONA_DIR, "ps-profile-v1.md"));
-    const golden = read(join(DATA_DIR, "golden-qa.md"));
-    const casual = read(join(DATA_DIR, "casual-qa.md"));
-    const top3 = read(join(DATA_DIR, "top-three-achievements.md"));
-
-    // Build a usable local packet from the same sources the real compiler uses
-    const packet: ProfilePacket = {
-      version: "local-dev",
-      compiledAt: new Date().toISOString(),
-      coreIdentity: psProfile,
-      principles: [], // can be extracted from psProfile if needed
-      topAchievements: [{ title: "Top Achievements (local)", narrative: top3 }],
-      experienceHighlights: [],
-      signatureProjects: [],
-      goldenExamples: [], // could parse from golden + casual
-      structuredSnapshot: {},
-      ingestDocument: [psProfile, golden, casual, top3].join("\n\n---\n\n"),
-      toolSystemPrompt: "",
-    };
-    localPacketCache = packet;
-    return packet;
-  } catch {
-    return null;
+    const result = await searchProfile(query, { k: 5 });
+    recordRetrievedChunks("profileSearch", result);
+    recordManualToolResult("profileSearch", formatSearchResults(result));
+  } catch (error) {
+    console.warn(
+      "[persona-reactor] preflight retrieval failed",
+      error instanceof Error ? error.message : error
+    );
   }
-}
-
-function localSearch(query: string, k = 5): SearchResult {
-  const packet = getLocalPacket();
-  if (!packet) {
-    return { chunks: [], citations: [] };
-  }
-
-  const q = query.toLowerCase();
-
-  // Primary sources for local dev (same files the real packet is built from)
-  const DATA_DIR = join(process.cwd(), "src/data");
-  const sources: Array<{ text: string; section: string }> = [
-    { text: packet.coreIdentity, section: "ps-profile-v1" },
-    { text: packet.ingestDocument, section: "ingest-document" },
-    { text: readFileSafe(join(DATA_DIR, "golden-qa.md")), section: "golden-qa" },
-    { text: readFileSafe(join(DATA_DIR, "casual-qa.md")), section: "casual-qa" },
-    {
-      text: readFileSafe(join(DATA_DIR, "top-three-achievements.md")),
-      section: "top-achievements",
-    },
-  ];
-
-  const scored = sources
-    .map((s) => {
-      const textLower = s.text.toLowerCase();
-      const score = q.split(/\s+/).reduce((acc, word) => {
-        if (word.length < 3) return acc;
-        return acc + (textLower.match(new RegExp(word, "g")) || []).length;
-      }, 0);
-      return { ...s, score };
-    })
-    .filter((s) => s.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .slice(0, k);
-
-  // Local dev fallback: if the naive keyword search found nothing for this specialized
-  // query (very common), still return the main profile content so the reactor has
-  // *something* to work with during development. This makes the full tool-calling +
-  // generation loop testable locally without requiring perfect semantic matches.
-  let finalSources: Array<{ text: string; section: string; score: number }> = scored;
-  if (finalSources.length === 0) {
-    // Prefer the core profile + combined ingest document
-    finalSources = sources
-      .filter((s) => ["ps-profile-v1", "ingest-document"].includes(s.section))
-      .slice(0, k)
-      .map((s) => ({ ...s, score: 0 }));
-  }
-
-  return {
-    chunks: finalSources.map((s) => ({
-      text: s.text.slice(0, 1200),
-      metadata: { section: s.section, local_fallback: scored.length === 0 },
-    })),
-    citations: [],
-  };
-}
-
-function readFileSafe(p: string): string {
-  try {
-    return readFileSync(p, "utf8");
-  } catch {
-    return "";
-  }
-}
-
-function createSearchExecutor() {
-  // Collections search uses XAI_MANAGEMENT_API_KEY (read-only recommended); falls back to XAI_API_KEY.
-  const forceLocal = process.env.USE_LOCAL_PROFILE_DATA === "true";
-  const hasCollectionsKey =
-    !!process.env.XAI_MANAGEMENT_API_KEY?.trim() || !!process.env.XAI_API_KEY;
-  const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
-
-  // Explicit local dev mode (or no collections key) → use the in-memory local packet search.
-  // This is the only path that should bypass real Collections.
-  if (forceLocal || !hasCollectionsKey) {
-    return (q: string, opts?: { k?: number }) => localSearch(q, opts?.k);
-  }
-
-  // Real remote Collections path.
-  // If XAI_PROFILE_COLLECTION is set, we still hit the real API but scope the
-  // search to that collection (the intended "manual collection + search-only key" dev story).
-  return (q: string, opts?: { k?: number }) => {
-    const searchOpts: any = { k: opts?.k };
-
-    if (manualCollection) {
-      // Use the actual collection the user uploaded (e.g. collection_8dc7b08a-...)
-      searchOpts.filters = { collection_ids: [manualCollection] };
-    }
-
-    return collectionsClient.search(q, searchOpts);
-  };
 }
 
 // -----------------------------------------------------------------------------
@@ -250,29 +153,31 @@ function createSpecializedTool(
     query: z.string().describe(queryDescribe),
   });
 
-  const search = createSearchExecutor();
-
-  // The pure execute (easy to unit test directly with mocked client)
   const execute = async ({ query }: { query: string }) => {
     const q = (query ?? "").trim();
     if (!q) {
       return "Please provide a specific, non-empty query for this persona tool.";
     }
 
-    const res = await search(`${queryPrefix}: ${q}`, { k: DEFAULT_K });
-    const formatted = formatSearchResults(res);
+    try {
+      const res = await searchProfile(`${queryPrefix}: ${q}`, { k: DEFAULT_K });
+      recordRetrievedChunks(name, res);
+      const formatted = formatSearchResults(res);
 
-    // Thorough debugging + self-owned result collection for manual collection path.
-    // This is the structural change after repeated "resultLength: 0" failures despite good data.
-    const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
-    if (manualCollection) {
-      console.log(
-        `[tool-debug:${name}] queryPrefix="${queryPrefix}" qLen=${q.length} formattedLen=${formatted.length} preview=${formatted.slice(0, 180)}`
-      );
-      recordManualToolResult(name, formatted);
+      const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
+      if (manualCollection) {
+        console.log(
+          `[tool-debug:${name}] queryPrefix="${queryPrefix}" qLen=${q.length} formattedLen=${formatted.length} preview=${formatted.slice(0, 180)}`
+        );
+        recordManualToolResult(name, formatted);
+      }
+
+      return formatted;
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`[tool:${name}] search failed: ${msg}`);
+      return `Search temporarily unavailable for this tool (${msg}). Try rephrasing or ask a broader question.`;
     }
-
-    return formatted;
   };
 
   const aiTool = tool({

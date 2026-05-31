@@ -5,7 +5,7 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 
 ## ✨ Features
 
-- **💬 Profile Q&A**: Ask interview-style questions about experience, grounded in CV data and curated notes
+- **💬 Profile Q&A**: Ask interview-style questions about experience, grounded in CV data and curated notes — see [Profile Q&A architecture](#-profile-qa-architecture) and [`src/lib/qa/README.md`](src/lib/qa/README.md)
 - **📄 Dynamic PDF Generation**: Server-side PDF creation with professional styling
 - **👁️ Interactive Document Viewer**: Inline PDF viewing with full browser integration
 - **🔍 X search**: Curated X/Twitter post search by date range (`/x`; `/content-hub` redirects here)
@@ -93,9 +93,66 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
    - X search: `/x` (`/content-hub` redirects here; hub UI hidden)
    - Profile Q&A: `/qa`
 
-   **Default `/qa` (no reactor):** uses [`src/data/qa-index.json`](src/data/qa-index.json) (git-tracked; regenerated on every `pnpm build`). For dev-only refresh: `pnpm build-qa-index` — see [tests/qa/README.md](tests/qa/README.md).
+   **Default `/qa` (no reactor):** uses [`src/data/qa-index.json`](src/data/qa-index.json) (git-tracked; regenerated on every `pnpm build`). For dev-only refresh: `pnpm build-qa-index`.
 
    - CV PDF: `/cv.pdf`
+
+## 💬 Profile Q&A architecture
+
+Visitors use **`/qa`** and **`POST /api/cv/qa`**. All server logic lives in [`src/lib/qa/`](src/lib/qa/) — full design, env vars, troubleshooting, and BDD tests are documented in **[`src/lib/qa/README.md`](src/lib/qa/README.md)**.
+
+### Big picture
+
+One JSON contract for the UI: `{ answer, details[] }`. Two backends, selected by `ENABLE_XAI_REACTOR`:
+
+```mermaid
+flowchart LR
+  subgraph visitor [Visitor]
+    QA["/qa page"]
+  end
+
+  subgraph api [API]
+    Route["POST /api/cv/qa"]
+    GW["handleQaRequest"]
+  end
+
+  subgraph paths [Backends]
+    Local["Local-index default"]
+    Agentic["Agentic optional"]
+  end
+
+  subgraph local_detail [Local-index]
+    Index["qa-index.json"]
+    Retrieve["BM25 + embeddings"]
+    Golden["golden-routing"]
+    Gen["template / Ollama"]
+  end
+
+  subgraph agentic_detail [Agentic]
+    Defense["abuse-defense first"]
+    Prefetch["preflight search"]
+    Grok["Grok + 6 tools"]
+    Coll["xAI Collections or local files"]
+  end
+
+  QA --> Route --> GW
+  GW -->|reactor off or fallback| Local
+  GW -->|ENABLE_XAI_REACTOR=true| Agentic
+  Local --> Index --> Retrieve --> Golden --> Gen
+  Agentic --> Defense --> Prefetch --> Grok
+  Grok --> Coll
+  Gen --> GW
+  Grok --> GW
+```
+
+| Path | When | Retrieval | Answer |
+|------|------|-----------|--------|
+| **Local-index** | Default; also fallback if agentic fails or returns empty placeholder | Pre-built [`qa-index.json`](src/data/qa-index.json) (hybrid RRF) | Curated golden text, CV templates, or optional Ollama |
+| **Agentic** | `ENABLE_XAI_REACTOR=true` + `XAI_API_KEY` | xAI Collections API or bundled persona files | Grok (`streamText` + tools), with preflight search and chunk synthesis if the model is silent |
+
+**Agent skills / agents:** load [`src/lib/qa/README.md`](src/lib/qa/README.md) for module layout, production vs branch notes, and env tuning (`XAI_MODEL`, `XAI_MAX_OUTPUT_TOKENS`, etc.).
+
+Optional xAI reactor setup: [xAI Agentic QA Reactor](#-xai-agentic-qa-reactor-optional) below.
 
 ## 📜 Available Scripts
 
@@ -160,6 +217,8 @@ Copy `.env.example` → `.env.local` and set:
 | `XAI_PROFILE_COLLECTION` | Yes | Collection **name or ID** from console.x.ai |
 | `ENABLE_XAI_REACTOR` | Yes | `true` to enable the agentic path |
 | `XAI_MODEL` | Recommended | e.g. `grok-4.3` — must match a model your account can use |
+| `XAI_MAX_OUTPUT_TOKENS` | Optional | Default `400` — short essence answers |
+| `XAI_REASONING_EFFORT` | Optional | `low` (default) or `high` |
 
 **Two keys, two roles:** `XAI_API_KEY` is for **chat** (Grok). `XAI_MANAGEMENT_API_KEY` is for **Collections** (search/list). Use a **read-only** collections key so a leak only exposes content you already published. Upload/sync stays in console.x.ai or an external tool — not this app.
 
@@ -178,7 +237,7 @@ pnpm build
 ENABLE_XAI_REACTOR=true XAI_MODEL=grok-4.3 pnpm start
 ```
 
-More detail: [src/lib/qa/README.md](src/lib/qa/README.md), [.env.example](.env.example), [docs/phase-1-xai-agentic-profile-qa-reactor.md](docs/phase-1-xai-agentic-profile-qa-reactor.md).
+**Deep dive:** [`src/lib/qa/README.md`](src/lib/qa/README.md) (architecture diagrams, request flows, troubleshooting, tests). Also [.env.example](.env.example), [docs/phase-1-xai-agentic-profile-qa-reactor.md](docs/phase-1-xai-agentic-profile-qa-reactor.md).
 
 ## 🤖 Agent skills (AI assistants)
 
@@ -215,7 +274,9 @@ Configured for:
 
 ## 📚 Documentation
 
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** — Structure and customization
+- **[src/lib/qa/README.md](src/lib/qa/README.md)** — Profile Q&A library: dual-path architecture, env vars, production troubleshooting, BDD tests
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** — App structure and customization
+- **[docs/vercel-err-require-esm-next-16.2.md](docs/vercel-err-require-esm-next-16.2.md)** — Vercel `ERR_REQUIRE_ESM` on Next 16.2
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** — Branching, Biome, React client guidelines, E2E
 - **[CHANGELOG.md](CHANGELOG.md)** — Version history
 - **[AGENTS.md](AGENTS.md)** — Agent conventions and Playwright notes

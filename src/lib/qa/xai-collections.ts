@@ -167,6 +167,11 @@ async function fetchJson<T>(
       (body as any)?.message ||
       (typeof body === "string" ? body : JSON.stringify(body)) ||
       `HTTP ${res.status}`;
+    if (res.status >= 400 && res.status < 500) {
+      console.error(
+        `collections:${label} client error status=${res.status} body=${typeof body === "string" ? body : JSON.stringify(body)}`
+      );
+    }
     throw new XaiCollectionsApiError(`collections ${label} failed: ${msg}`, res.status, body);
   }
 
@@ -332,7 +337,8 @@ class XaiCollectionsClient {
     if (!query || query.trim().length === 0) {
       throw new XaiCollectionsConfigError("search requires non-empty query");
     }
-    const apiKey = getManagementKey();
+    // Search lives on api.x.ai and uses the standard xAI API key (not management-api.x.ai).
+    const apiKey = getApiKey();
     const collectionIds = opts?.filters?.collection_ids || [];
     if (collectionIds.length === 0) {
       // Allow caller to pass via filters; for direct use ensure first.
@@ -343,7 +349,7 @@ class XaiCollectionsClient {
     const body = {
       query: query.trim(),
       source: { collection_ids: collectionIds },
-      max_num_results: opts?.k ?? DEFAULT_SEARCH_K,
+      limit: opts?.k ?? DEFAULT_SEARCH_K,
     };
 
     const start = Date.now();
@@ -458,7 +464,7 @@ class XaiCollectionsClient {
     }
 
     console.log(
-      `collections:search qLen=${query.length} k=${body.max_num_results} hits=${chunks.length} durationMs=${durationMs} requestId=${requestId ?? "n/a"}`
+      `collections:search qLen=${query.length} k=${body.limit} hits=${chunks.length} durationMs=${durationMs} requestId=${requestId ?? "n/a"}`
     );
 
     return { chunks, citations };

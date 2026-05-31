@@ -19,18 +19,38 @@ import { type StreamTextResult, stepCountIs, streamText, type ToolSet } from "ai
 import { readFileSync } from "fs";
 import { join } from "path";
 import { checkAbuse, computeGoldenFallback } from "./abuse-defense"; // PR4 stub shim
+import { XAI } from "./constants";
+import {
+  resolveXaiMaxOutputTokens,
+  resolveXaiTemperature,
+  xaiStreamTextProviderOptions,
+} from "./config/resolve-xai-generation";
 import { withLightweightRetry } from "./durable-retry"; // Q2 lightweight shim (per user decision; no full Workflow DevKit)
+import { embedQueryForIndex } from "./embed-query";
+import {
+  isGenericIntroAnswer,
+  resolveGoldenAnswer,
+} from "./golden-routing";
+import { loadQAIndex } from "./load-index";
 // High fix (review 80eccd53-pr-6): imports aligned to present surface (PR3 xai-collections + stubs for PR2/PR4/Q2 on sibling branches).
 // Stubs (persona-compiler.ts, abuse-defense.ts, durable-retry.ts) are thin shims only — see their headers.
 // ProfilePacket type also re-exported from ./types (and barrel).
-import type { ProfilePacket } from "./persona-compiler"; // via PR2 stub (or ./types re-export)
-import { compileProfilePacketFromSources } from "./persona-compiler"; // PR2 stub shim
+import type { ProfilePacket } from "./persona-compiler";
+import type { RetrievedChunk } from "./types";
+import { compileProfilePacketFromRawSources } from "./persona-compiler";
 // PR5 surface — exact 6 thin Collections-backed tools (see persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__)
 import {
   aiPersonaTools,
   getManualToolResults,
+  getRetrievedChunksForUI,
+  preflightProfileRetrieval,
   resetManualToolResultsCollector,
+  resetRetrievedChunksCollector,
 } from "./persona-tools";
+import {
+  REACTOR_EMPTY_NARRATIVE_PLACEHOLDER,
+  synthesizeAnswerFromRetrievedChunks,
+} from "./shared/reactor-answer-fallback";
 
 // Data sources for the ProfilePacket compiler.
 // Using fs.readFileSync instead of dynamic imports because Turbopack does not support
@@ -84,7 +104,7 @@ async function getOrLoadProfilePacket(): Promise<ProfilePacket> {
     content: s.content(),
   }));
 
-  const packet = compileProfilePacketFromSources(rawSources);
+  const packet = compileProfilePacketFromRawSources(rawSources);
 
   // Collections: read-only in this app. Upload/sync is manual via console.x.ai (or a separate
   // personal tool outside this repo). Never call ensure/create/ingest from the reactor path.
@@ -101,7 +121,7 @@ async function getOrLoadProfilePacket(): Promise<ProfilePacket> {
   } else if (!useLocalData && hasCollectionsKey && !manualCollection) {
     logReactor(
       "ingest",
-      "Set XAI_PROFILE_COLLECTION to a collection uploaded in console.x.ai (read-only: XAI_MANAGEMENT_API_KEY for search, XAI_API_KEY for chat)"
+      "Set XAI_PROFILE_COLLECTION to a collection uploaded in console.x.ai (read-only: XAI_API_KEY for search + chat)"
     );
   } else if (useLocalData) {
     logReactor("ingest", "skipped Collections (USE_LOCAL_PROFILE_DATA=true)");
@@ -154,6 +174,7 @@ export async function runPersonaQA(
   version: string;
   toolCalls?: any[];
   toolResults?: Array<{ toolName: string; result: string }>;
+  retrievedChunks?: RetrievedChunk[];
 }> {
   // === DEFENSE FIRST, NON-BYPASSABLE (per PR4 + design invariant #2) ===
   // This is the very first executable statement in the happy path.
@@ -161,12 +182,28 @@ export async function runPersonaQA(
 
   // Own our tool results for the manual collection path (structural fix after many empty-result iterations).
   // The AI SDK's steps.toolResults has repeatedly failed to surface real content from Collections.
+  resetRetrievedChunksCollector();
   const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
   if (manualCollection) {
     resetManualToolResultsCollector();
   }
 
   const packet = await getOrLoadProfilePacket();
+
+  const index = loadQAIndex();
+  const queryVec = await embedQueryForIndex(index, question);
+  const earlyGolden = resolveGoldenAnswer(index, question, { queryVec });
+  if (earlyGolden) {
+    logReactor("generation", `golden short-circuit via ${earlyGolden.via}`, {
+      similarity: earlyGolden.similarity,
+      id: earlyGolden.entry.id,
+    });
+    return {
+      answer: earlyGolden.entry.idealAnswer,
+      version: packet.version,
+      retrievedChunks: [],
+    };
+  }
 
   if (defense.blocked) {
     logReactor("defense", "blocked — zero Collections/Grok cost", {
@@ -175,9 +212,9 @@ export async function runPersonaQA(
       questionHash: hashQuestion(question),
     });
     // Graceful golden with real PR2 packet + Q6 tone (warm/professional + sparkle)
-    const golden = computeGoldenFallback(question, packet);
+    const answer = computeGoldenFallback(question, packet);
     return {
-      answer: golden.answer,
+      answer,
       isGolden: true,
       defense,
       version: packet.version,
@@ -187,31 +224,47 @@ export async function runPersonaQA(
   // Passed defense — now safe to touch Collections or Grok (fission gate succeeded)
   logReactor("defense", "passed", { layer: "all" });
 
-  // Ensure packet is warm in Collections (lightweight, already attempted in getOrLoad)
-  // Retrieval always via Collections client (Q3: Pure Collections main path)
+  await preflightProfileRetrieval(question);
+  const preflightChunks = getRetrievedChunksForUI();
+  let retrievalContextBlock = "";
+  if (preflightChunks.length > 0) {
+    retrievalContextBlock =
+      "\n\n## Prefetched profile search (use this to answer; tools may add more)\n" +
+      preflightChunks
+        .slice(0, 4)
+        .map(
+          (c, i) =>
+            `[${i + 1}] (${c.section}, ${(c.similarity * 100).toFixed(0)}% match)\n${c.text.slice(0, 1200)}`
+        )
+        .join("\n\n");
+    logReactor("generation", "preflight retrieval", {
+      chunkCount: preflightChunks.length,
+    });
+  }
 
-  // Build system prompt with real human tone (Q6) + packet toolSystemPrompt + golden tone anchors
-  const systemPrompt = buildSystemPrompt(packet);
+  const systemPrompt = buildSystemPrompt(packet) + retrievalContextBlock;
 
   // Wire the 6 PR5 tools (Collections-backed, thin, registered for tool-calling loop)
   // Exact keys: profileSearch, workExperience, skills, projects, educationAndBackground, principlesAndPhilosophy
   // Matches persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__ (PR5)
   const tools: ToolSet = aiPersonaTools;
 
-  // Model selection — using the model from XAI_MODEL (or grok-2-1212 as fallback).
-  // Users with access to newer models (e.g. grok-4.3, grok-3, etc.) should set XAI_MODEL accordingly.
+  // Model: XAI_MODEL env or XAI.DEFAULT_CHAT_MODEL (see resolveXaiChatModelId).
   const model = getLiveResponseModel();
 
   // True streaming via AI SDK streamText.
   // Using stopWhen: stepCountIs(5) to match the pattern that worked reliably in the canary chat route (PR #33).
   const generationFn = async () => {
+    const maxOutputTokens = resolveXaiMaxOutputTokens();
     const result: StreamTextResult<any, any> = await streamText({
       model,
       system: systemPrompt,
       prompt: question,
       tools,
       stopWhen: stepCountIs(5), // modern API (matches working canary chat route pattern)
-      temperature: 0.7,
+      maxOutputTokens,
+      temperature: resolveXaiTemperature(),
+      providerOptions: xaiStreamTextProviderOptions(),
     });
 
     return result;
@@ -222,10 +275,12 @@ export async function runPersonaQA(
     version: packet.version,
   });
 
-  const effectiveModel = process.env.XAI_MODEL || "grok-2-1212";
+  const effectiveModel = resolveXaiChatModelId();
   logReactor("generation", "streamText completed (durable + tools wired)", {
     model: effectiveModel,
     toolsCount: Object.keys(tools).length,
+    maxOutputTokens: resolveXaiMaxOutputTokens(),
+    reasoningEffort: xaiStreamTextProviderOptions().xai.reasoningEffort,
   });
 
   // === Rich observability into what the model actually did ===
@@ -311,9 +366,32 @@ export async function runPersonaQA(
         }
       );
     } else {
-      finalText =
-        "I used my specialized profile tools to look up information, but wasn't able to generate a complete narrative answer this time. The tool results may contain relevant details.";
-      logReactor("generation", "no usable text produced after tools — using placeholder", {});
+      const chunksForFallback = getRetrievedChunksForUI();
+      const fromChunks = synthesizeAnswerFromRetrievedChunks(chunksForFallback);
+      if (fromChunks) {
+        finalText = fromChunks;
+        logReactor("generation", "synthesized answer from retrieved chunks (no model text)", {
+          chunkCount: chunksForFallback.length,
+        });
+      } else {
+        const goldenFallback = resolveGoldenAnswer(index, question, {
+          queryVec,
+          retrieval: chunksForFallback,
+        });
+        if (goldenFallback) {
+          finalText = goldenFallback.entry.idealAnswer;
+          logReactor("generation", "golden answer after empty model text", {
+            via: goldenFallback.via,
+            similarity: goldenFallback.similarity,
+          });
+        } else {
+          finalText = REACTOR_EMPTY_NARRATIVE_PLACEHOLDER;
+          logReactor("generation", "no usable text produced after tools — using placeholder", {
+            chunkCount: chunksForFallback.length,
+            stepCount: steps.length,
+          });
+        }
+      }
     }
   }
 
@@ -332,12 +410,34 @@ export async function runPersonaQA(
     );
   }
 
-  // Return answer + tool results for the /qa JSON path (PR48 UI compatible shape)
+  const retrievedChunksForUI = getRetrievedChunksForUI();
+
+  let answerOut = finalText;
+  const goldenAfterTools = resolveGoldenAnswer(index, question, {
+    queryVec,
+    retrieval: retrievedChunksForUI,
+  });
+  if (goldenAfterTools?.via === "retrieval") {
+    answerOut = goldenAfterTools.entry.idealAnswer;
+    logReactor("generation", "answer from golden retrieval (panel-aligned)", {
+      similarity: goldenAfterTools.similarity,
+      id: goldenAfterTools.entry.id,
+    });
+  } else if (goldenAfterTools && isGenericIntroAnswer(finalText)) {
+    answerOut = goldenAfterTools.entry.idealAnswer;
+    logReactor("generation", "replaced generic intro with golden match", {
+      via: goldenAfterTools.via,
+      similarity: goldenAfterTools.similarity,
+    });
+  }
+
+  // Return answer + structured chunks for the /qa JSON path (ProfileQA panel)
   return {
     stream: result.textStream,
-    answer: finalText,
+    answer: answerOut,
     version: packet.version,
     toolResults: toolResultsForUI,
+    retrievedChunks: retrievedChunksForUI,
   };
 }
 
@@ -369,32 +469,38 @@ function buildSystemPrompt(packet: ProfilePacket): string {
     "You are Peramanathan Sathyamoorthy answering in first person.",
     "Tone: warm, professional, quietly confident, with occasional light sparkle and dry wit.",
     "Never sound corporate or salesy. Sound like a thoughtful senior engineer who has lived the stories.",
+    "",
+    "Style (mandatory): Orwellian brevity — plain words, short sentences, one clear idea each.",
+    "Give the essence only: what matters, why it matters, one concrete detail if needed.",
+    "Target ~80–150 words unless the question clearly needs more; never pad or repeat.",
+    "No bullet lists unless the visitor asked for a structured comparison or timeline.",
+    "",
     "Use the provided tools (Collections-backed) for every factual or specific detail. Ground every claim.",
-    "When a tool returns relevant passages, synthesize — do not quote verbatim unless short and attributed.",
-    "If nothing relevant, say so honestly and offer the closest related insight from profile.",
+    "When a tool returns relevant passages, distill — do not quote long blocks.",
+    "If nothing relevant, say so honestly in one or two sentences.",
     "",
     base,
     "",
     "Voice anchors from prior high-signal answers (use for tone, never copy):",
     toneAnchor,
     "",
-    "End substantive answers with a brief, natural closer that invites the next real question (no CTA spam).",
+    "Close with at most one short sentence inviting a follow-up (no CTA spam).",
   ].join("\n");
 }
 
-function getLiveResponseModel() {
-  // Model selection for the reactor.
-  //
-  // Different xAI accounts have access to different models.
-  // Set XAI_MODEL to whatever model your account can actually use.
-  //
-  // Common options:
-  //   grok-2-1212
-  //   grok-3 / grok-3-mini
-  //   grok-4.3     (used by some accounts)
-  const modelId = process.env.XAI_MODEL || "grok-2-1212";
+function resolveXaiChatModelId(): string {
+  const explicit = process.env.XAI_MODEL?.trim();
+  if (explicit) return explicit;
 
-  return xai(modelId);
+  console.warn(
+    `[persona-reactor] XAI_MODEL is not set — using default "${XAI.DEFAULT_CHAT_MODEL}". ` +
+      "Set XAI_MODEL in .env.local and Vercel to a model your account supports."
+  );
+  return XAI.DEFAULT_CHAT_MODEL;
+}
+
+function getLiveResponseModel() {
+  return xai(resolveXaiChatModelId());
 }
 
 // Export for runProfileQA.ts (public surface)

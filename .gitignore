@@ -49,4 +49,5 @@ next-env.d.ts
 
 security-audit-*.txt
 .tinfoil/
+log/
 installer.log
