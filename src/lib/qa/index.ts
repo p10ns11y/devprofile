@@ -2,6 +2,10 @@
 
 export { handleQaRequest, QaValidationError } from "./gateway/handle-qa-request";
 export type { QaRequestContext } from "./gateway/handle-qa-request";
+export {
+  findGoldenMatch,
+  resolveGoldenAnswer,
+} from "./golden-routing";
 export { isQARectorEnabled, resolveQaMode, resolveAgenticRetrieval } from "./config/resolve-qa-mode";
 export type { QaMode, AgenticRetrieval } from "./config/resolve-qa-mode";
 

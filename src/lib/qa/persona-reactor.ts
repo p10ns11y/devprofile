@@ -20,6 +20,12 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { checkAbuse, computeGoldenFallback } from "./abuse-defense"; // PR4 stub shim
 import { withLightweightRetry } from "./durable-retry"; // Q2 lightweight shim (per user decision; no full Workflow DevKit)
+import { embedQueryForIndex } from "./embed-query";
+import {
+  isGenericIntroAnswer,
+  resolveGoldenAnswer,
+} from "./golden-routing";
+import { loadQAIndex } from "./load-index";
 // High fix (review 80eccd53-pr-6): imports aligned to present surface (PR3 xai-collections + stubs for PR2/PR4/Q2 on sibling branches).
 // Stubs (persona-compiler.ts, abuse-defense.ts, durable-retry.ts) are thin shims only — see their headers.
 // ProfilePacket type also re-exported from ./types (and barrel).
@@ -172,6 +178,21 @@ export async function runPersonaQA(
   }
 
   const packet = await getOrLoadProfilePacket();
+
+  const index = loadQAIndex();
+  const queryVec = await embedQueryForIndex(index, question);
+  const earlyGolden = resolveGoldenAnswer(index, question, { queryVec });
+  if (earlyGolden) {
+    logReactor("generation", `golden short-circuit via ${earlyGolden.via}`, {
+      similarity: earlyGolden.similarity,
+      id: earlyGolden.entry.id,
+    });
+    return {
+      answer: earlyGolden.entry.idealAnswer,
+      version: packet.version,
+      retrievedChunks: [],
+    };
+  }
 
   if (defense.blocked) {
     logReactor("defense", "blocked — zero Collections/Grok cost", {
@@ -339,10 +360,29 @@ export async function runPersonaQA(
 
   const retrievedChunksForUI = getRetrievedChunksForUI();
 
+  let answerOut = finalText;
+  const goldenAfterTools = resolveGoldenAnswer(index, question, {
+    queryVec,
+    retrieval: retrievedChunksForUI,
+  });
+  if (goldenAfterTools?.via === "retrieval") {
+    answerOut = goldenAfterTools.entry.idealAnswer;
+    logReactor("generation", "answer from golden retrieval (panel-aligned)", {
+      similarity: goldenAfterTools.similarity,
+      id: goldenAfterTools.entry.id,
+    });
+  } else if (goldenAfterTools && isGenericIntroAnswer(finalText)) {
+    answerOut = goldenAfterTools.entry.idealAnswer;
+    logReactor("generation", "replaced generic intro with golden match", {
+      via: goldenAfterTools.via,
+      similarity: goldenAfterTools.similarity,
+    });
+  }
+
   // Return answer + structured chunks for the /qa JSON path (ProfileQA panel)
   return {
     stream: result.textStream,
-    answer: finalText,
+    answer: answerOut,
     version: packet.version,
     toolResults: toolResultsForUI,
     retrievedChunks: retrievedChunksForUI,

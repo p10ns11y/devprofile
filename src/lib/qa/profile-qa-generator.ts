@@ -1,8 +1,9 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 import { generateAnswer } from "@/utils/qa-utils";
-import { OLLAMA, QA_ROUTER } from "./constants";
+import { OLLAMA } from "./constants";
 import { embedQueryForIndex } from "./embed-query";
+import { resolveGoldenAnswer } from "./golden-routing";
 import { loadQAIndex } from "./load-index";
 import { buildOllamaUserPrompt, PROFILE_QA_SYSTEM } from "./qa-prompts";
 import {
@@ -18,81 +19,13 @@ import { getAchievementsAnswer, isAchievementsQuestion } from "./top-achievement
 import type {
   GenerationStrategy,
   GoldenFewShot,
-  GoldenQuestionEntry,
-  QAIndex,
   QAResponse,
   RetrievedChunk,
 } from "./types";
 
+export { findGoldenMatch } from "./golden-routing";
+
 const FEW_SHOT_COUNT = OLLAMA.FEW_SHOT_COUNT;
-
-function cosineSimilarity(a: number[], b: number[]): number {
-  let dot = 0;
-  let aMag = 0;
-  let bMag = 0;
-  for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    aMag += a[i] * a[i];
-    bMag += b[i] * b[i];
-  }
-  const denom = Math.sqrt(aMag) * Math.sqrt(bMag);
-  return denom === 0 ? 0 : dot / denom;
-}
-
-export function findGoldenMatch(
-  index: QAIndex,
-  queryVec: number[] | null,
-  question?: string
-): { entry: GoldenQuestionEntry; similarity: number } | null {
-  if (queryVec) {
-    let best: { entry: GoldenQuestionEntry; similarity: number } | null = null;
-
-    for (const entry of index.goldenQuestions) {
-      const sim = cosineSimilarity(queryVec, entry.questionEmbedding);
-      if (sim >= QA_ROUTER.GOLDEN_MATCH_THRESHOLD && (!best || sim > best.similarity)) {
-        best = { entry, similarity: sim };
-      }
-    }
-
-    if (best) return best;
-  }
-
-  if (!question) return null;
-  return findGoldenMatchByKeyword(index, question);
-}
-
-function tokenOverlapScore(a: string, b: string): number {
-  const wordsA = new Set(
-    a
-      .toLowerCase()
-      .split(/\W+/)
-      .filter((w) => w.length > 3)
-  );
-  const wordsB = b
-    .toLowerCase()
-    .split(/\W+/)
-    .filter((w) => w.length > 3);
-  if (wordsA.size === 0 || wordsB.length === 0) return 0;
-  const shared = wordsB.filter((w) => wordsA.has(w)).length;
-  return shared / Math.max(wordsA.size, wordsB.length);
-}
-
-/** Keyword fallback when query embeddings are unavailable (serverless prod). */
-function findGoldenMatchByKeyword(
-  index: QAIndex,
-  question: string
-): { entry: GoldenQuestionEntry; similarity: number } | null {
-  let best: { entry: GoldenQuestionEntry; similarity: number } | null = null;
-
-  for (const entry of index.goldenQuestions) {
-    const sim = tokenOverlapScore(question, entry.question);
-    if (sim >= 0.6 && (!best || sim > best.similarity)) {
-      best = { entry, similarity: sim };
-    }
-  }
-
-  return best;
-}
 
 function loadGoldenFewShots(): GoldenFewShot[] {
   const path = join(process.cwd(), "tests/qa/qa-golden.jsonl");
@@ -255,12 +188,18 @@ export async function runProfileQA(question: string): Promise<QAResponse> {
   const queryVec = await embedQueryForIndex(index, question);
   const context = retrieveFromIndex(index, queryVec, question);
 
-  const golden = findGoldenMatch(index, queryVec, question);
+  const golden = resolveGoldenAnswer(index, question, { queryVec, retrieval: context });
   if (golden) {
+    const strategy: GenerationStrategy = "golden-match";
+    if (golden.via === "retrieval") {
+      console.info(
+        `[profile-qa] golden via retrieval sim=${golden.similarity.toFixed(3)} id=${golden.entry.id}`
+      );
+    }
     return {
       answer: golden.entry.idealAnswer,
       details: context,
-      strategy: "golden-match",
+      strategy,
     };
   }
 

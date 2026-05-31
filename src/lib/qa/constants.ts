@@ -4,6 +4,13 @@ export const QA_ROUTER = {
   LOW_CONFIDENCE_AVG_SIM: 0.65,
   /** Question ↔ golden question cosine similarity at or above this → return curated answer. */
   GOLDEN_MATCH_THRESHOLD: 0.87,
+  /** Keyword overlap fallback when embeddings unavailable (serverless). */
+  GOLDEN_KEYWORD_THRESHOLD: 0.6,
+  /**
+   * Top retrieved chunk in "Golden Q&A" at or above this → return curated idealAnswer
+   * even when question-embed match is lower (fixes intro template vs 67% panel mismatch).
+   */
+  GOLDEN_RETRIEVAL_MIN_SIM: 0.65,
   GOLDEN_MATCH_TUNE_MIN: 0.85,
   GOLDEN_MATCH_TUNE_MAX: 0.92,
   RETRIEVAL_TOP_K: 5,

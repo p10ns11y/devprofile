@@ -106,7 +106,7 @@ sequenceDiagram
   else cache miss
     G->>P: runLocalIndexQa(q)
     P->>I: hybrid RRF retrieve (BM25 + cosine)
-    P->>P: golden-match / template / Ollama
+    P->>P: golden-routing / template / Ollama
     P-->>G: { answer, details, strategy }
     G->>C: set
   end
@@ -116,7 +116,9 @@ sequenceDiagram
 
 **Retrieval:** `retrieve.ts` — reciprocal rank fusion over pre-built `src/data/qa-index.json` (MiniLM embeddings + BM25).
 
-**Generation strategies:** `golden-match` → curated answer; `template` → `qa-utils`; `ollama` → local LLM when configured and retrieval confidence is sufficient.
+**Generation strategies:** `golden-match` → curated `idealAnswer` from `golden-routing.ts` (question embed ≥ 0.87, keyword overlap, or **Golden Q&A retrieval chunk ≥ 0.65** — avoids generic CV intro when the panel already shows a golden hit); `template` → `qa-utils`; `ollama` → local LLM when configured and retrieval confidence is sufficient.
+
+**Agentic path:** after tools, if top retrieved chunk is Golden Q&A ≥ `GOLDEN_RETRIEVAL_MIN_SIM`, the reactor replaces generic Grok/intro text with the same curated answer (`persona-reactor.ts`).
 
 **Caching:** identical questions return the same payload (`qa-cache.ts`).
 
@@ -296,6 +298,102 @@ Full list: [`.env.example`](../../../.env.example).
 | Default portfolio (no xAI cost) | omit `ENABLE_XAI_REACTOR` |
 | Full reactor + real Collections | `ENABLE_XAI_REACTOR=true`, `XAI_API_KEY`, `XAI_PROFILE_COLLECTION` |
 | Reactor tool loop without Collections | `ENABLE_XAI_REACTOR=true`, `USE_LOCAL_PROFILE_DATA=true` (still needs `XAI_API_KEY` for Grok chat) |
+
+---
+
+## Troubleshooting: generic intro answer vs Golden Q&A panel
+
+### Symptom
+
+The main answer sounds like generic LLM/CV copy:
+
+> Hello! I'm Peramanathan Sathyamoorthy, a Senior Software Engineer with 11+ years… Oneflow AB… TypeScript… 70% reduction… Uppsala… What would you like to know more about my experience, skills, or specific projects?
+
+Meanwhile **Retrieved information** shows a curated **Golden Q&A** card (e.g. “next chapters” / Dad mode in Tamil Nadu) at something like **67.9% match**.
+
+That mismatch is confusing but explainable: **answer** and **details** are produced by different code paths with different thresholds.
+
+### Why the answer is the legacy intro template (not Grok “voice”)
+
+On the **local-index** path (`profile-qa-generator.ts` → `@/utils/qa-utils`), that hello block is almost always **`generateIntroductionAnswer()`** in `src/utils/qa-utils.ts`, not Grok and not your golden markdown.
+
+It runs when `generateAnswer()` classifies the question as an introduction, for example:
+
+- “tell me about yourself”
+- “who are you”
+- “your background”
+- “describe yourself”
+
+```303:315:src/utils/qa-utils.ts
+  if (isIntroductionQuestion) {
+    return enhanceNaturalFlow(generateIntroductionAnswer(cvdata));
+  }
+```
+
+That function stitches **`cvdata.json`** (name, years, Oneflow responsibilities, degree, Stockholm) into a fixed template ending with “What would you like to know more about my experience, skills, or specific projects?”
+
+So it can sound “LLM-like” even though it is **deterministic template text** from the CV JSON.
+
+On the **agentic** path (`persona-reactor.ts` + Grok), the model *can* produce similar generic intros when it leans on the system prompt / packet identity instead of tool output. That is a different mechanism but looks the same in the UI.
+
+**BYOK / AI Gateway does not cause this.** Gateway only affects chat billing/routing if you wire the app to it. This symptom is about **which generator ran** (template vs golden vs Grok), not xAI Collections.
+
+### Why the panel still shows Golden Q&A at ~67.9%
+
+`details[]` comes from **hybrid retrieval** over `qa-index.json` (`retrieve.ts`: BM25 + cosine RRF), or from **tool search** on the agentic path (`persona-tools` → `search-backend`).
+
+Golden rows in the index look like:
+
+```text
+Question: You recently posted about “getting ready for next chapters”…
+Answer: ** After joining Oneflow in April 2017…
+```
+
+The UI label **Golden Q&A** is the chunk `section` from `scripts/build-qa-chunks.mjs`. The **67.9%** is **retrieval relevance** for that chunk (normalized in `map-search-to-details.ts`), not “we chose this as the final answer.”
+
+Historically, the **main answer** only used curated golden text when **question ↔ golden question** similarity was **≥ 0.87** (`QA_ROUTER.GOLDEN_MATCH_THRESHOLD`). A chunk at **67.9%** was shown in the panel but **did not** override the intro template — hence the split brain.
+
+### Two pipelines (split brain)
+
+```mermaid
+flowchart TB
+  Q[Visitor question]
+  Q --> R[retrieve / tools → details panel]
+  Q --> A[answer generator]
+  R --> D["details[] e.g. Golden Q&A 67.9%"]
+  A --> T{golden-match ≥ 0.87?}
+  T -->|yes| G[curated idealAnswer]
+  T -->|no| I{isIntroductionQuestion?}
+  I -->|yes| H["generateIntroductionAnswer() ← generic hello"]
+  I -->|no| O[template / Ollama / Grok]
+```
+
+| Piece | Source | Typical output |
+|-------|--------|----------------|
+| **Retrieved information** | `retrieveFromIndex` or tool `searchProfile` | Top chunks, any section, similarity for display |
+| **Main answer** | `resolveGoldenAnswer` → else `generateAnswer` / Grok | Curated golden, intro template, or synthesized text |
+
+They were not wired together until **`golden-routing.ts`** added a **retrieval gate** (`GOLDEN_RETRIEVAL_MIN_SIM` = 0.65): if the best **Golden Q&A** chunk clears that bar, the same `idealAnswer` is used for the body, not only the panel.
+
+### How to tell which path ran
+
+In DevTools → Network → `POST /api/cv/qa`:
+
+| Signal | Local index | Agentic reactor |
+|--------|-------------|-----------------|
+| Response header `X-QA-Reactor: 1` | Absent | Present |
+| JSON `strategy` | `golden-match` / `template` / `ollama` | Often `reactor` |
+| Answer starts with `Hello! I'm…` + “What would you like to know more about my experience…” | Very likely **template** intro | Unusual unless Grok mimics it or local fallback |
+
+### Fix in this repo
+
+See [`golden-routing.ts`](golden-routing.ts):
+
+- `resolveGoldenAnswer()` — question embed, keyword, or retrieval-backed golden
+- `persona-reactor.ts` — after tools, prefer `idealAnswer` when retrieval surfaced Golden Q&A
+- `profile-qa-generator.ts` — same before template/Ollama
+
+Regression tests: [`golden-routing.test.ts`](golden-routing.test.ts) (next-chapters / 67.9% case).
 
 ---
 
