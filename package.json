@@ -10,7 +10,6 @@
     "_worker.js",
     ".open-next/"
   ],
-  "type": "module",
   "scripts": {
     "dev": "node scripts/sync-github-dashboard-cache.mjs && next dev --turbopack",
     "build": "npm run generate-pdf && node scripts/build-qa-index.mjs && node scripts/generate-sw-version.mjs && node scripts/sync-github-dashboard-cache.mjs && next build",
