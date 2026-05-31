@@ -1,3 +1,4 @@
+import { fetchGitHubJson } from "@/lib/github/client";
 import {
   cardFooter,
   cardHeader,
@@ -22,17 +23,10 @@ export async function GET(request: Request) {
   const limit = Math.min(parseInt(searchParams.get("limit") || "5", 10), 8);
 
   try {
-    const res = await fetch(
+    const data = await fetchGitHubJson<{ items?: GitHubPullRequest[] }>(
       `https://api.github.com/search/issues?q=author:${username}+type:pr&sort=updated&order=desc&per_page=${limit}`,
-      {
-        headers: { Accept: "application/vnd.github.v3+json" },
-        next: { revalidate: 300 },
-      }
+      { next: { revalidate: 300 } }
     );
-
-    if (!res.ok) throw new Error("GitHub API error");
-
-    const data = (await res.json()) as { items?: GitHubPullRequest[] };
     const prs = data.items ?? [];
 
     const svg = generateRecentPRsSVG(prs, username);

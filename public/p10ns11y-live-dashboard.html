@@ -38,8 +38,8 @@
         }
 
         .repo-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            border-color: rgba(99, 102, 241, 0.45);
+            box-shadow: 0 12px 28px -8px rgb(0 0 0 / 0.35);
         }
 
         .stat-badge {
@@ -118,7 +118,7 @@
                     <span class="hidden sm:inline">View on GitHub</span>
                 </a>
 
-                <button onclick="refreshAllData()"
+                <button id="dashboard-refresh-btn" type="button"
                         class="flex items-center gap-x-2 px-4 py-1.5 bg-white text-zinc-950 hover:bg-zinc-100 transition-all rounded-3xl text-sm font-semibold shadow-sm">
                     <i class="fa-solid fa-sync-alt"></i>
                     <span class="hidden sm:inline">Refresh</span>
@@ -189,17 +189,44 @@
                 <span class="text-[10px] px-2 py-0.5 bg-zinc-900 rounded">GitHub REST API v3</span>
             </div>
 
-            <div onclick="showApiInfo()" class="cursor-pointer flex items-center gap-x-1 text-zinc-500 hover:text-zinc-400 text-xs">
+            <div id="api-info-trigger" role="button" tabindex="0"
+                 class="cursor-pointer flex items-center gap-x-1 text-zinc-500 hover:text-zinc-400 text-xs">
                 <i class="fa-solid fa-info-circle"></i>
                 <span>How this works</span>
             </div>
         </div>
 
-        <!-- Main Content: Two Columns -->
-        <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 gap-10">
 
-            <!-- RECENTLY Section -->
-            <div class="xl:col-span-7">
+            <!-- Creative Projects (first) -->
+            <div>
+                <div class="flex items-center justify-between mb-5 px-1">
+                    <div class="flex items-center gap-x-3">
+                        <div class="w-9 h-9 bg-violet-500/10 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-rocket text-violet-400 text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="section-header font-semibold tracking-tight">Creative Projects</h2>
+                            <p class="text-xs text-zinc-500 -mt-0.5">Creative, technically strong — topics from GitHub</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="daily-grid"
+                     class="grid grid-cols-1 sm:grid-cols-2 gap-4 min-h-[200px]">
+                    <!-- Populated by JS -->
+                    <div class="col-span-full flex items-center justify-center py-12">
+                        <div class="flex flex-col items-center">
+                            <i class="fa-solid fa-spinner fa-spin text-3xl text-zinc-600"></i>
+                            <p class="mt-3 text-sm text-zinc-500">Loading creative projects...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recently Pushed -->
+            <div>
                 <div class="flex items-center justify-between mb-5 px-1">
                     <div class="flex items-center gap-x-3">
                         <div class="w-9 h-9 bg-orange-500/10 rounded-2xl flex items-center justify-center">
@@ -221,32 +248,6 @@
                         <div class="flex flex-col items-center">
                             <i class="fa-solid fa-spinner fa-spin text-3xl text-zinc-600"></i>
                             <p class="mt-3 text-sm text-zinc-500">Fetching live data from GitHub...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DAILY DRIVERS & EXPERIMENTS Section -->
-            <div class="xl:col-span-5">
-                <div class="flex items-center justify-between mb-5 px-1">
-                    <div class="flex items-center gap-x-3">
-                        <div class="w-9 h-9 bg-violet-500/10 rounded-2xl flex items-center justify-center">
-                            <i class="fa-solid fa-rocket text-violet-400 text-xl"></i>
-                        </div>
-                        <div>
-                            <h2 class="section-header font-semibold tracking-tight">Creative Projects</h2>
-                            <p class="text-xs text-zinc-500 -mt-0.5">Creative, technically strong — topics from GitHub</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="daily-grid"
-                     class="grid grid-cols-1 gap-4 min-h-[380px]">
-                    <!-- Populated by JS -->
-                    <div class="col-span-full flex items-center justify-center py-12">
-                        <div class="flex flex-col items-center">
-                            <i class="fa-solid fa-spinner fa-spin text-3xl text-zinc-600"></i>
-                            <p class="mt-3 text-sm text-zinc-500">Loading creative projects...</p>
                         </div>
                     </div>
                 </div>
@@ -276,7 +277,11 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module">
+        import * as cache from '/github-dashboard-cache.js';
+
+        const DASHBOARD_USERNAME = cache.DEFAULT_USERNAME;
+
         // Tailwind script
         function initTailwind() {
             document.documentElement.style.setProperty('--accent', '#6366f1');
@@ -342,6 +347,11 @@
             const langColor = getLanguageColor(lang);
 
             const isFork = repo.fork ? true : false;
+            const ownerLogin = repo.owner?.login;
+            const ownerPrefix =
+                ownerLogin && ownerLogin !== DASHBOARD_USERNAME
+                    ? `<span class="text-zinc-500 font-mono text-[11px]">${ownerLogin}/</span>`
+                    : '';
 
             let typeBadge = '';
             if (extraType) {
@@ -356,7 +366,8 @@
 
                     <div class="flex items-start justify-between gap-3">
                         <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-x-2">
+                            <div class="flex items-center gap-x-2 flex-wrap">
+                                ${ownerPrefix}
                                 <span class="font-semibold text-base tracking-tight group-hover:text-indigo-400 transition-colors">${repo.name}</span>
                                 ${isFork ? '<span class="text-[10px] px-1.5 py-px bg-zinc-800 text-zinc-400 rounded">fork</span>' : ''}
                             </div>
@@ -403,65 +414,59 @@
             `;
         }
 
-        const GITHUB_API_HEADERS = {
-            Accept: 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28',
-        };
-
-        const CREATIVE_PROJECT_SLUGS = [
-            'p10ns11y/elomaxz',
-            'p10ns11y/arch-machine',
-            'p10ns11y/thepulimaangani',
-            'p10ns11y/devprofile',
-            'p10ns11y/selfie-sign-in-flow-using-v0-xAI',
-            'p10ns11y/sorkalam-extension',
-            'thecuriousts/premflow',
-        ];
-
-        // Main data loader
-        let allReposCache = [];
-
-        async function fetchGitHubData() {
-            const username = 'p10ns11y';
-
-            try {
-                // 1. Fetch profile
-                const userRes = await fetch(`https://api.github.com/users/${username}`);
-                if (!userRes.ok) throw new Error('Failed to fetch profile');
-                const user = await userRes.json();
-
-                // Update profile UI
-                document.getElementById('profile-bio').innerHTML = user.bio || 'Builder of useful things • Open source tinkerer';
-                document.getElementById('profile-location').innerHTML = user.location || 'Stockholm, Sweden';
-                document.getElementById('profile-followers').innerHTML = user.followers.toLocaleString();
-
-                if (user.avatar_url) {
-                    document.getElementById('avatar-img').src = user.avatar_url;
-                }
-
-                // 2. Fetch all owned repos (max 100)
-                const reposRes = await fetch(
-                    `https://api.github.com/users/${username}/repos?affiliation=owner&per_page=100&sort=pushed&direction=desc`,
-                    { headers: GITHUB_API_HEADERS }
-                );
-                if (!reposRes.ok) throw new Error('Failed to fetch repositories');
-                const repos = await reposRes.json();
-
-                allReposCache = repos;
-
-                // Update last sync time
-                const now = new Date();
-                document.getElementById('last-sync').innerHTML = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
-                return { user, repos };
-
-            } catch (error) {
-                console.error('GitHub API Error:', error);
-                // Fallback UI
-                document.getElementById('last-sync').innerHTML = 'offline (cached)';
-                document.getElementById('last-sync').classList.add('text-rose-400');
-                throw error;
+        function applyUserToProfile(user) {
+            if (!user) return;
+            document.getElementById('profile-bio').innerHTML =
+                user.bio || 'Builder of useful things • Open source tinkerer';
+            document.getElementById('profile-location').innerHTML =
+                user.location || 'Stockholm, Sweden';
+            document.getElementById('profile-followers').innerHTML =
+                user.followers.toLocaleString();
+            if (user.avatar_url) {
+                document.getElementById('avatar-img').src = user.avatar_url;
             }
+        }
+
+        function applySyncTime(fetchedAt) {
+            const el = document.getElementById('last-sync');
+            el.innerHTML = fetchedAt ? cache.formatSyncTime(fetchedAt) : '—';
+            el.classList.remove('text-rose-400');
+        }
+
+        function applySnapshotToUi(snapshot) {
+            applyUserToProfile(snapshot.user);
+            applySyncTime(snapshot.fetchedAt);
+            renderRecently(snapshot.repos);
+            renderCreativeProjectsFromEntries(snapshot.creativeProjects);
+        }
+
+        async function loadAndRenderDashboard(forceRefresh = false) {
+            const result = await cache.loadDashboardData(DASHBOARD_USERNAME, {
+                forceRefresh,
+                onCached: forceRefresh
+                    ? undefined
+                    : (snap) => applySnapshotToUi(snap),
+            });
+            applySnapshotToUi(result);
+            return result;
+        }
+
+        function bindDashboardUi() {
+            document
+                .getElementById('dashboard-refresh-btn')
+                ?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    refreshAllData();
+                });
+
+            const info = document.getElementById('api-info-trigger');
+            info?.addEventListener('click', showApiInfo);
+            info?.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    showApiInfo();
+                }
+            });
         }
 
         // Render Recently section (top non-fork repos by last code push)
@@ -488,47 +493,11 @@
             });
         }
 
-        async function fetchCreativeProject(fullName, reposCache) {
-            const fromList = reposCache.find(
-                (r) => (r.full_name || '').toLowerCase() === fullName.toLowerCase()
-            );
-
-            try {
-                const res = await fetch(`https://api.github.com/repos/${fullName}`, {
-                    headers: GITHUB_API_HEADERS,
-                });
-                if (res.ok) {
-                    const repo = await res.json();
-                    return {
-                        fullName,
-                        repo,
-                        topics: Array.isArray(repo.topics) ? repo.topics : [],
-                    };
-                }
-            } catch (err) {
-                console.warn(`[creative] ${fullName}:`, err);
-            }
-
-            if (fromList) {
-                return {
-                    fullName,
-                    repo: fromList,
-                    topics: Array.isArray(fromList.topics) ? fromList.topics : [],
-                };
-            }
-
-            return { fullName, repo: null, topics: [] };
-        }
-
-        async function renderCreativeProjects(repos) {
+        function renderCreativeProjectsFromEntries(entries) {
             const container = document.getElementById('daily-grid');
             container.innerHTML = '';
 
-            const entries = await Promise.all(
-                CREATIVE_PROJECT_SLUGS.map((fullName) => fetchCreativeProject(fullName, repos))
-            );
-
-            entries.forEach((entry) => {
+            (entries || []).forEach((entry) => {
                 if (!entry.repo) {
                     const shortName = entry.fullName.split('/').pop() || entry.fullName;
                     container.innerHTML += `
@@ -547,39 +516,43 @@
         async function initializeDashboard() {
             initTailwind();
 
+            cache.listenForDashboardUpdates(async () => {
+                const snap = await cache.getSnapshot(DASHBOARD_USERNAME);
+                if (snap) applySnapshotToUi(snap);
+            });
+
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/sw.js', { type: 'module' })
+                    .catch(() => {});
+            }
+            cache.registerDashboardBackgroundSync(DASHBOARD_USERNAME).catch(() => {});
+
             try {
-                const { user, repos } = await fetchGitHubData();
-
-                // Render both sections
-                renderRecently(repos);
-                await renderCreativeProjects(repos);
-
-                // Easter egg: console log
-                console.log('%c[p10ns11y Live] Dashboard initialized with fresh GitHub data', 'color:#64748b');
-
+                const result = await loadAndRenderDashboard(false);
+                console.log(
+                    `%c[p10ns11y Live] Dashboard loaded (${result.source})`,
+                    'color:#64748b'
+                );
             } catch (err) {
-                // Graceful fallback
+                console.error('GitHub API Error:', err);
+                const snap = await cache.getSnapshot(DASHBOARD_USERNAME);
+                if (snap) {
+                    applySnapshotToUi(snap);
+                    document.getElementById('last-sync').innerHTML = 'offline (cached)';
+                    document.getElementById('last-sync').classList.add('text-rose-400');
+                    return;
+                }
+
                 const container = document.getElementById('recently-grid');
                 container.innerHTML = `
                     <div class="col-span-full bg-zinc-900 border border-zinc-800 rounded-3xl p-8 text-center">
                         <i class="fa-solid fa-exclamation-triangle text-4xl text-amber-500 mb-4"></i>
                         <h4 class="font-semibold">Unable to fetch live data</h4>
-                        <p class="text-sm text-zinc-400 mt-2 max-w-xs mx-auto">GitHub API rate limit or network issue. The static view from README is shown below.</p>
-
-                        <div class="mt-6 text-left max-w-md mx-auto text-xs">
-                            <div class="font-mono text-emerald-400">Fallback: Recently pushed from README</div>
-                            <ul class="mt-2 space-y-1 text-zinc-400">
-                                <li>• Adaptate (v2.2.2) — Dynamic Zod validator</li>
-                                <li>• arch-machine — AI-forged Arch Linux fortress</li>
-                                <li>• thepulimaangani — Tamil poetry prosody analyzer</li>
-                                <li>• Rust from First Principles Companion</li>
-                            </ul>
-                        </div>
+                        <p class="text-sm text-zinc-400 mt-2 max-w-xs mx-auto">GitHub API rate limit or network issue.</p>
                     </div>
                 `;
-
-                // Still render creative projects (may show unavailable placeholders)
-                await renderCreativeProjects([]);
+                renderCreativeProjectsFromEntries([]);
             }
 
             // Bonus: keyboard shortcut for refresh
@@ -593,16 +566,13 @@
 
         // Refresh handler
         async function refreshAllData() {
-            const btns = document.querySelectorAll('button');
-            btns.forEach(b => b.disabled = true);
+            const refreshBtn = document.getElementById('dashboard-refresh-btn');
+            if (refreshBtn) refreshBtn.disabled = true;
 
-            const originally = document.getElementById('last-sync').innerHTML;
             document.getElementById('last-sync').innerHTML = 'refreshing...';
 
             try {
-                const { repos } = await fetchGitHubData();
-                renderRecently(repos);
-                await renderCreativeProjects(repos);
+                await loadAndRenderDashboard(true);
 
                 // Success flash
                 const flash = document.createElement('div');
@@ -617,9 +587,10 @@
                 }, 1800);
 
             } catch (e) {
+                console.error('[dashboard] refresh failed', e);
                 alert('Refresh failed. Please check your connection or try again later.');
             } finally {
-                btns.forEach(b => b.disabled = false);
+                if (refreshBtn) refreshBtn.disabled = false;
             }
         }
 
@@ -652,7 +623,7 @@
                     </div>
 
                     <div class="mt-8 pt-6 border-t border-zinc-800 text-xs text-zinc-500">
-                        Rate limit: 60 requests/hour (unauthenticated). For production use, add a GitHub token or deploy behind a serverless function.
+                        On this deploy, data loads from <code>/api/github/dashboard</code> (Vercel + optional <code>GITHUB_TOKEN</code>, CDN ~10 min). IndexedDB caches locally between visits.
                     </div>
 
                     <div class="mt-4 text-center">
@@ -665,20 +636,14 @@
         }
 
         // Boot everything
-        window.onload = () => {
-            initializeDashboard();
+        bindDashboardUi();
+        initializeDashboard();
 
-            // Optional: auto-refresh every 10 minutes if tab is visible
-            setInterval(() => {
-                if (!document.hidden) {
-                    // silent refresh (commented to avoid rate limit spam)
-                    // refreshAllData();
-                }
-            }, 10 * 60 * 1000);
-        }
-
-        // Make refresh globally available
-        window.refreshDashboard = refreshAllData;
+        setInterval(() => {
+            if (!document.hidden) {
+                loadAndRenderDashboard(false).catch(() => {});
+            }
+        }, cache.REFRESH_INTERVAL_MS ?? cache.STALE_MS);
     </script>
 </body>
 </html>

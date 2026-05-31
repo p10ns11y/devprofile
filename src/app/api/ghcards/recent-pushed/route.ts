@@ -1,3 +1,4 @@
+import { fetchGitHubJson } from "@/lib/github/client";
 import {
   cardFooter,
   cardHeader,
@@ -30,17 +31,10 @@ export async function GET(request: Request) {
   );
 
   try {
-    const res = await fetch(
+    const reposJson = await fetchGitHubJson<GitHubRepo[]>(
       `https://api.github.com/users/${username}/repos?affiliation=owner&per_page=100&sort=pushed&direction=desc`,
-      {
-        headers: { Accept: "application/vnd.github.v3+json" },
-        next: { revalidate: 300 },
-      }
+      { next: { revalidate: 300 } }
     );
-
-    if (!res.ok) throw new Error("GitHub API error");
-
-    const reposJson = (await res.json()) as GitHubRepo[];
     const recentRepos = reposJson
       .filter((r) => !r.fork && !r.private)
       .slice(0, limit);

@@ -1,3 +1,4 @@
+import { fetchGitHubJson } from "@/lib/github/client";
 import {
   cardFooter,
   cardHeader,
@@ -25,36 +26,25 @@ export async function GET(request: Request) {
   const username = searchParams.get("username") || "p10ns11y";
 
   try {
-    const [reposRes, prsRes] = await Promise.all([
-      fetch(
+    const [reposJson, prsJson] = await Promise.all([
+      fetchGitHubJson<GitHubRepo[] | { message?: string }>(
         `https://api.github.com/users/${username}/repos?affiliation=owner&per_page=100&sort=pushed&direction=desc`,
-        {
-          headers: { Accept: "application/vnd.github.v3+json" },
-          next: { revalidate: 300 },
-        }
+        { next: { revalidate: 300 } }
       ),
-      fetch(
+      fetchGitHubJson<{ items?: GitHubPullRequest[] } | GitHubPullRequest[]>(
         `https://api.github.com/search/issues?q=author:${username}+type:pr&sort=updated&order=desc&per_page=4`,
-        {
-          headers: { Accept: "application/vnd.github.v3+json" },
-          next: { revalidate: 300 },
-        }
+        { next: { revalidate: 300 } }
       ),
     ]);
 
-    if (!reposRes.ok || !prsRes.ok) {
-      throw new Error("GitHub API error");
-    }
-
-    const reposJson = (await reposRes.json()) as GitHubRepo[] | { message?: string };
     if (!Array.isArray(reposJson)) {
       throw new Error("Unexpected repos response");
     }
 
     const repos = reposJson.filter((r) => !r.fork && !r.private).slice(0, 5);
 
-    const prsJson = (await prsRes.json()) as { items?: GitHubPullRequest[] };
-    const prs = prsJson.items ?? [];
+    const prs =
+      Array.isArray(prsJson) ? prsJson : ((prsJson as { items?: GitHubPullRequest[] }).items ?? []);
 
     const svg = generateOverviewSVG(repos, prs, username);
 

@@ -17,18 +17,9 @@
  * Zero dependencies. Shadow DOM. Fully encapsulated.
  */
 
-class GitHubLiveDashboard extends HTMLElement {
-  /** owner/repo slugs — fetched individually for topics + metadata */
-  static CREATIVE_PROJECT_SLUGS = [
-    'p10ns11y/elomaxz',
-    'p10ns11y/arch-machine',
-    'p10ns11y/thepulimaangani',
-    'p10ns11y/devprofile',
-    'p10ns11y/selfie-sign-in-flow-using-v0-xAI',
-    'p10ns11y/sorkalam-extension',
-    'thecuriousts/premflow',
-  ];
+import * as dashboardCache from '../lib/github/dashboard-cache-client.js';
 
+class GitHubLiveDashboard extends HTMLElement {
   static get observedAttributes() {
     return ['username', 'layout'];
   }
@@ -47,13 +38,15 @@ class GitHubLiveDashboard extends HTMLElement {
     this._abortController = null;
     this._fetchGeneration = 0;
     this._uiBound = false;
+    this._unlistenDashboard = null;
   }
 
-  get githubApiHeaders() {
-    return {
-      Accept: 'application/vnd.github+json',
-      'X-GitHub-Api-Version': '2022-11-28',
-    };
+  _applySnapshot(snapshot) {
+    if (!snapshot) return;
+    this._user = snapshot.user ?? null;
+    this._repos = snapshot.repos ?? [];
+    this._creativeProjects = snapshot.creativeProjects ?? [];
+    this._lastSync = dashboardCache.formatSyncTime(snapshot.fetchedAt);
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -91,7 +84,7 @@ class GitHubLiveDashboard extends HTMLElement {
 
     this._bindUi();
     this.render();
-    this.fetchData();
+    this._initDashboard();
 
     // Refresh shortcut only on the live dashboard page (avoid hijacking browser reload)
     this._keyHandler = (e) => {
@@ -107,7 +100,7 @@ class GitHubLiveDashboard extends HTMLElement {
       if (!document.hidden && !this._loading && !this._isRefreshing) {
         this.fetchData(false);
       }
-    }, 10 * 60 * 1000);
+    }, dashboardCache.REFRESH_INTERVAL_MS);
   }
 
   disconnectedCallback() {
@@ -115,6 +108,21 @@ class GitHubLiveDashboard extends HTMLElement {
     if (this._themeObserver) this._themeObserver.disconnect();
     if (this._interval) clearInterval(this._interval);
     if (this._abortController) this._abortController.abort();
+    if (this._unlistenDashboard) this._unlistenDashboard();
+  }
+
+  async _initDashboard() {
+    this._unlistenDashboard = dashboardCache.listenForDashboardUpdates(async (msg) => {
+      if (msg.username && msg.username !== this._username) return;
+      const snapshot = await dashboardCache.getSnapshot(this._username);
+      if (!snapshot) return;
+      this._applySnapshot(snapshot);
+      this._loading = false;
+      this._isRefreshing = false;
+      this.render();
+    });
+    dashboardCache.registerDashboardBackgroundSync(this._username).catch(() => {});
+    this.fetchData();
   }
 
   get username() {
@@ -167,29 +175,23 @@ class GitHubLiveDashboard extends HTMLElement {
     }, 15000);
 
     try {
-      const headers = this.githubApiHeaders;
-      const signal = this._abortController.signal;
-
-      const [userRes, reposRes] = await Promise.all([
-        fetch(`https://api.github.com/users/${this._username}`, { signal, headers }),
-        fetch(
-          `https://api.github.com/users/${this._username}/repos?affiliation=owner&per_page=100&sort=pushed&direction=desc`,
-          { signal, headers }
-        ),
-      ]);
-
-      if (!userRes.ok || !reposRes.ok) {
-        throw new Error('GitHub API error or rate limit exceeded');
-      }
-
-      this._user = await userRes.json();
-      this._repos = await reposRes.json();
-      await this.loadCreativeProjects();
-
-      const now = new Date();
-      this._lastSync = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const result = await dashboardCache.loadDashboardData(this._username, {
+        forceRefresh: showRefreshing,
+        signal: this._abortController.signal,
+        onCached: (cached) => {
+          if (generation !== this._fetchGeneration) return;
+          this._applySnapshot(cached);
+          this._loading = false;
+          this.render();
+        },
+      });
 
       if (generation !== this._fetchGeneration) return;
+
+      this._applySnapshot(result);
+      if (result.source === 'cache-fallback' && result.error) {
+        this._error = result.error;
+      }
 
       this._loading = false;
       this._isRefreshing = false;
@@ -262,51 +264,22 @@ class GitHubLiveDashboard extends HTMLElement {
     return `<div class="topic-chips">${chips}</div>`;
   }
 
-  async loadCreativeProjects() {
-    const signal = this._abortController?.signal;
-    const headers = this.githubApiHeaders;
-
-    this._creativeProjects = await Promise.all(
-      GitHubLiveDashboard.CREATIVE_PROJECT_SLUGS.map((fullName) =>
-        this.fetchCreativeProject(fullName, headers, signal)
-      )
-    );
-  }
-
-  async fetchCreativeProject(fullName, headers, signal) {
-    const fromList = this._repos.find(
-      (r) => (r.full_name || '').toLowerCase() === fullName.toLowerCase()
-    );
-
-    try {
-      const res = await fetch(`https://api.github.com/repos/${fullName}`, {
-        headers,
-        signal,
-      });
-      if (res.ok) {
-        const repo = await res.json();
-        return {
-          fullName,
-          repo,
-          topics: Array.isArray(repo.topics) ? repo.topics : [],
-        };
-      }
-    } catch {
-      /* use list fallback */
-    }
-
-    if (fromList) {
-      return {
-        fullName,
-        repo: fromList,
-        topics: Array.isArray(fromList.topics) ? fromList.topics : [],
-      };
-    }
-
-    return { fullName, repo: null, topics: [] };
-  }
-
-  renderRepoCard({ href, name, description, language, stars, time, topics = [], badgeHtml = '' }) {
+  renderRepoCard({
+    href,
+    name,
+    description,
+    language,
+    stars,
+    time,
+    topics = [],
+    badgeHtml = '',
+    ownerLogin = null,
+  }) {
+    const showOwner =
+      ownerLogin && ownerLogin.toLowerCase() !== this._username.toLowerCase();
+    const ownerPrefix = showOwner
+      ? `<span class="repo-owner">${this.escapeHtml(ownerLogin)}/</span>`
+      : '';
     const langColor = this.getLanguageColor(language);
     const langStat = language
       ? `<span class="stat"><span class="language-dot" style="background:${langColor}"></span><span>${this.escapeHtml(language)}</span></span>`
@@ -321,7 +294,7 @@ class GitHubLiveDashboard extends HTMLElement {
         <a href="${this.escapeHtml(href)}" target="_blank" rel="noopener noreferrer" class="repo-card">
           <div class="repo-card__head">
             <div class="repo-card__title-row">
-              <span class="repo-name">${this.escapeHtml(name)}</span>
+              <span class="repo-name">${ownerPrefix}${this.escapeHtml(name)}</span>
               ${badgeHtml}
             </div>
             ${desc}
@@ -682,7 +655,7 @@ class GitHubLiveDashboard extends HTMLElement {
           align-items: stretch;
         }
 
-        @media (min-width: 640px) {
+        @media (min-width: 480px) {
           .grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
@@ -763,6 +736,13 @@ class GitHubLiveDashboard extends HTMLElement {
           color: var(--gh-text);
           line-height: 1.3;
           word-break: break-word;
+        }
+
+        .repo-owner {
+          font-weight: 500;
+          font-size: 0.75rem;
+          color: var(--gh-muted);
+          font-family: ui-monospace, monospace;
         }
 
         .repo-desc {
@@ -971,36 +951,6 @@ class GitHubLiveDashboard extends HTMLElement {
             <section class="section-block">
               <div class="section-head">
                 <div class="section-head__left">
-                  <div class="section-icon section-icon--push" aria-hidden="true">⏱</div>
-                  <div>
-                    <h2 class="section-header">Recently Pushed</h2>
-                    <p class="section-sub">Latest code changes (git pushes)</p>
-                  </div>
-                </div>
-                <span class="count-pill">${recentlyPushed.length} repos</span>
-              </div>
-
-              <div class="grid">
-                ${recentlyPushed.length > 0 ? recentlyPushed.map((repo) => {
-                  const forkBadge = repo.fork
-                    ? '<span class="badge experiment-badge">fork</span>'
-                    : '';
-                  return this.renderRepoCard({
-                    href: repo.html_url,
-                    name: repo.name,
-                    description: repo.description,
-                    language: repo.language,
-                    stars: repo.stargazers_count,
-                    time: this.timeAgo(repo.pushed_at || repo.updated_at),
-                    badgeHtml: forkBadge,
-                  });
-                }).join('') : '<div class="grid-item" style="flex: 1 1 100%; max-width: 100%;"><div class="empty-state">No recent pushes found.</div></div>'}
-              </div>
-            </section>
-
-            <section class="section-block">
-              <div class="section-head">
-                <div class="section-head__left">
                   <div class="section-icon section-icon--creative" aria-hidden="true">✦</div>
                   <div>
                     <h2 class="section-header">Creative Projects</h2>
@@ -1030,6 +980,8 @@ class GitHubLiveDashboard extends HTMLElement {
                       `;
                     }
                     const repo = entry.repo;
+                    const ownerLogin =
+                      repo.owner?.login || entry.fullName.split('/')[0] || null;
                     return this.renderRepoCard({
                       href: repo.html_url,
                       name: repo.name,
@@ -1038,9 +990,40 @@ class GitHubLiveDashboard extends HTMLElement {
                       stars: repo.stargazers_count,
                       time: this.timeAgo(repo.pushed_at || repo.updated_at),
                       topics: entry.topics,
+                      ownerLogin,
                     });
                   })
                   .join('')}
+              </div>
+            </section>
+
+            <section class="section-block">
+              <div class="section-head">
+                <div class="section-head__left">
+                  <div class="section-icon section-icon--push" aria-hidden="true">⏱</div>
+                  <div>
+                    <h2 class="section-header">Recently Pushed</h2>
+                    <p class="section-sub">Latest code changes (git pushes)</p>
+                  </div>
+                </div>
+                <span class="count-pill">${recentlyPushed.length} repos</span>
+              </div>
+
+              <div class="grid">
+                ${recentlyPushed.length > 0 ? recentlyPushed.map((repo) => {
+                  const forkBadge = repo.fork
+                    ? '<span class="badge experiment-badge">fork</span>'
+                    : '';
+                  return this.renderRepoCard({
+                    href: repo.html_url,
+                    name: repo.name,
+                    description: repo.description,
+                    language: repo.language,
+                    stars: repo.stargazers_count,
+                    time: this.timeAgo(repo.pushed_at || repo.updated_at),
+                    badgeHtml: forkBadge,
+                  });
+                }).join('') : '<div class="grid-item" style="flex: 1 1 100%; max-width: 100%;"><div class="empty-state">No recent pushes found.</div></div>'}
               </div>
             </section>
           </div>
