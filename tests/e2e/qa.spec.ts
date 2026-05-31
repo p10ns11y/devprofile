@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Profile Q&A (/qa)", () => {
+  // Scenario S1, S2, S3 — visitor submits question and sees answer + retrieved panel
   test("loads QA surface and suggested questions", async ({ page }) => {
     await page.goto("/qa");
 
@@ -11,6 +12,7 @@ test.describe("Profile Q&A (/qa)", () => {
     ).toBeVisible();
   });
 
+  // Scenario S1, S3
   test("submits a question and shows an answer", async ({ page }) => {
     await page.goto("/qa");
 

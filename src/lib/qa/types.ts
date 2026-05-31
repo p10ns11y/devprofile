@@ -1,6 +1,6 @@
 /** Profile QA index and runtime types (from post-PR #48 simple /qa surface). */
 
-export type GenerationStrategy = "golden-match" | "template" | "ollama";
+export type GenerationStrategy = "golden-match" | "template" | "ollama" | "reactor";
 
 export interface RetrievedChunk {
   id?: string;

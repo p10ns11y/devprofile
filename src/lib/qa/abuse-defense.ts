@@ -1,58 +1,118 @@
-/**
- * abuse-defense.ts (checkAbuse + computeGoldenFallback) — PR4 STUB (sibling branch / validation skeleton shim)
- *
- * Full 4-layer abuse defense (edge rate limits, semantic, behavioral, golden corpus)
- * + computeGoldenFallback (high-signal, Q6 tone, zero-cost on block, using real PR2 packet)
- * lives on the PR4 branch (b59206fbf6ebcbfc00bbffe669b5cdd023f94a30 per plan).
- *
- * This minimal shim closes the import gap (High Issue 1) for PR6 skeleton
- * so defense-first + golden zero-cost paths can be exercised (and overridden
- * by the test harness) against present PR3/PR5 modules.
- *
- * The *architectural positive* (defense literally first executable statement at
- * persona-reactor.ts:115, non-bypassable, zero Collections/Grok cost on block)
- * is preserved in the call site + test asserts. Real PR4 impl replaces this.
- *
- * @see .grok/plans/phase-1-xai-agentic-profile-qa-reactor-design.md (PR4, AbuseResult, golden)
- * @see src/lib/qa/types.ts (AbuseResult, AbuseConfig)
- * @see src/lib/qa/index.ts (barrel)
- */
+import { getAbuseConfig } from "@/config/abuse-defense";
+import { computeGoldenFallback, getGoldenFallbackDetails } from "./golden-fallback";
+import type { AbuseResult } from "./types";
 
-// Types for the surface (minimal; real in PR4 + types.ts re-exports some)
-export interface AbuseResult {
-  blocked: boolean;
-  reason?: string;
-  layer?: string; // 'edge' | 'semantic' | 'behavioral' | 'golden'
+export type { AbuseResult } from "./types";
+
+export interface CheckAbuseContext {
+  ip?: string;
+  sessionId?: string;
+  recentQuestions?: string[];
+  headers?: Record<string, string> | Headers;
 }
 
-import type { ProfilePacket } from "./types";
+const edgeBuckets = new Map<string, number[]>();
+const behavioralWindows = new Map<string, string[]>();
 
-/**
- * Stub checkAbuse — default never blocks (happy path for unmocked direct runs).
- * Test harness (persona-reactor.test.ts:98) replaces with mockCheckAbuse that
- * triggers on "bomb"/"ignore" etc. to prove non-bypass + zero-cost golden.
- */
+const SEMANTIC_BLOCK_PATTERNS = [
+  /pizza\s+recipe/i,
+  /ignore\s+all\s+previous\s+instructions/i,
+  /jailbreak/i,
+  /forget\s+system\s+prompt/i,
+  /\bbomb\b/i,
+  /roleplay.*(?:weather|pirate)/i,
+  /quantum\s+emojis/i,
+  /stock\s+prices.*math\s+derivative/i,
+];
+
+const ON_TOPIC_HINTS =
+  /thesis|premflow|oneflow|typescript|playwright|dad\s*mode|professional|career|engineering|zod|cv|profile/i;
+
+export function resetAbuseStateForTests(): void {
+  edgeBuckets.clear();
+  behavioralWindows.clear();
+}
+
+function fingerprint(ctx: CheckAbuseContext): string {
+  const ip =
+    ctx.ip ||
+    (ctx.headers instanceof Headers
+      ? ctx.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+      : ctx.headers?.["x-forwarded-for"]?.split(",")[0]?.trim()) ||
+    "unknown";
+  const ua =
+    ctx.headers instanceof Headers
+      ? ctx.headers.get("user-agent") || ""
+      : ctx.headers?.["user-agent"] || "";
+  return `${ip}|${ua}`;
+}
+
+function checkEdgeRateLimit(fp: string, config: ReturnType<typeof getAbuseConfig>): AbuseResult | null {
+  const now = Date.now();
+  const windowMs = 5 * 60 * 1000;
+  const hits = (edgeBuckets.get(fp) || []).filter((t) => now - t < windowMs);
+  if (hits.length >= config.edge.ipPer5m) {
+    return { blocked: true, reason: "rate-limit", layer: "edge" };
+  }
+  hits.push(now);
+  edgeBuckets.set(fp, hits);
+  return null;
+}
+
+function checkSemantic(question: string): AbuseResult | null {
+  const q = question.trim();
+  if (!q) {
+    return { blocked: true, reason: "off-topic", layer: "semantic" };
+  }
+  for (const pat of SEMANTIC_BLOCK_PATTERNS) {
+    if (pat.test(q)) {
+      return { blocked: true, reason: "prompt-injection", layer: "semantic" };
+    }
+  }
+  return null;
+}
+
+function checkBehavioral(fp: string, question: string, config: ReturnType<typeof getAbuseConfig>): AbuseResult | null {
+  const window = behavioralWindows.get(fp) || [];
+  const normalized = question.trim().toLowerCase();
+  window.push(normalized);
+  if (window.length > config.behavioral.windowSize) {
+    window.shift();
+  }
+  behavioralWindows.set(fp, window);
+
+  const repeats = window.filter((q) => q === normalized).length;
+  if (repeats > config.behavioral.maxRepetition) {
+    return { blocked: true, reason: "behavioral-anomaly", layer: "behavioral" };
+  }
+  return null;
+}
+
 export async function checkAbuse(
   question: string,
-  ctx: Record<string, unknown> = {}
+  ctx: CheckAbuseContext = {}
 ): Promise<AbuseResult> {
-  // PR4 stub surface; real has 4 cheap-first layers + KV + headers-only (Q4).
-  // In skeleton: tests mutate the module to inject real behavior.
+  const config = getAbuseConfig();
+  const fp = fingerprint(ctx);
+
+  const edge = checkEdgeRateLimit(fp, config);
+  if (edge) return edge;
+
+  const semantic = checkSemantic(question);
+  if (semantic) return semantic;
+
+  if (!ON_TOPIC_HINTS.test(question) && question.length > 40) {
+    const looksOffTopic =
+      /pizza|joke|weather|roleplay|quantum|emoji|bomb|ignore|jailbreak/i.test(question);
+    if (looksOffTopic) {
+      return { blocked: true, reason: "low-semantic-relevance", layer: "semantic" };
+    }
+  }
+
+  const behavioral = checkBehavioral(fp, question, config);
+  if (behavioral) return behavioral;
+
   return { blocked: false };
 }
 
-/**
- * Stub golden fallback — Q6 tone, references packet for "real" anchors.
- * Real PR4 version uses packet.goldenExamples + principles for high-fidelity
- * zero-cost answer when abuse blocks (before any Collections or Grok spend).
- */
-export function computeGoldenFallback(
-  question: string,
-  packet: ProfilePacket
-): { answer: string; isGolden: true } {
-  // PR4 stub; real fuses packet data + Q6 voice
-  return {
-    answer: `Golden (Q6 tone stub from PR4): I have thought deeply about "${question}". From my experience building quiet infrastructure, respecting human attention, and Dad-mode realities, the answer is: focus on the 20% that compounds. (Full high-signal golden from real packet + golden-qa.md in combined tree.)`,
-    isGolden: true,
-  };
-}
+export { computeGoldenFallback, getGoldenFallbackDetails };

@@ -61,8 +61,6 @@ test.describe("QA Reactor Surfaces (PR8 integration + E2E)", () => {
     const body = await res.json();
     expect(body).toHaveProperty("answer");
     expect(Array.isArray(body.details)).toBe(true);
-    // No X-QA headers on plain JSON legacy path (or if present, reactor was used)
-    const headers = res.headers();
     // When ENABLE_XAI_REACTOR + stream opt-in below we assert headers; here just shape
   });
 

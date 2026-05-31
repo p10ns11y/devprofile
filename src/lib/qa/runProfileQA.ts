@@ -18,9 +18,8 @@
  */
 
 import { runProfileQAReactor } from "./persona-reactor";
-// Feature flag system (src/config/feature-flags.ts) was removed in PR #48.
-// Reactor is now controlled solely by the ENABLE_XAI_REACTOR environment variable
-// for simplicity on the new /qa surface.
+import { isQARectorEnabled as isReactorEnvEnabled } from "./config/resolve-qa-mode";
+import type { RetrievedChunk } from "./types";
 
 // ProfilePacket type lives in ./types (re-exported via barrel + PR2 stub for consumers that need it).
 // No direct use in this thin surface file.
@@ -48,6 +47,8 @@ export interface ProfileQAResponse {
   version: string;
   /** Tool-grounded passages for the /qa UI "Retrieved information" panel */
   toolResults?: ProfileQAToolResult[];
+  /** Structured chunks with similarity scores for ProfileQA panel (preferred over toolResults) */
+  retrievedChunks?: RetrievedChunk[];
 }
 
 /**
@@ -86,10 +87,7 @@ export { runProfileQAReactor } from "./persona-reactor";
  * The env var gives explicit, low-risk control for development and staged rollouts.
  */
 export function isQARectorEnabled(): boolean {
-  // Simplified after PR #48 removed the complex feature-flags.ts system.
-  // The reactor (advanced agentic path with defense layers, Collections tools, etc.)
-  // is enabled only via this explicit env var. This keeps the /qa page simple by default.
-  return process.env.ENABLE_XAI_REACTOR === "true";
+  return isReactorEnvEnabled();
 }
 
 // Kept for backward compatibility with tests and any external references.

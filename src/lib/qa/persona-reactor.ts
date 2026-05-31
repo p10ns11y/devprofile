@@ -23,13 +23,16 @@ import { withLightweightRetry } from "./durable-retry"; // Q2 lightweight shim (
 // High fix (review 80eccd53-pr-6): imports aligned to present surface (PR3 xai-collections + stubs for PR2/PR4/Q2 on sibling branches).
 // Stubs (persona-compiler.ts, abuse-defense.ts, durable-retry.ts) are thin shims only — see their headers.
 // ProfilePacket type also re-exported from ./types (and barrel).
-import type { ProfilePacket } from "./persona-compiler"; // via PR2 stub (or ./types re-export)
-import { compileProfilePacketFromSources } from "./persona-compiler"; // PR2 stub shim
+import type { ProfilePacket } from "./persona-compiler";
+import type { RetrievedChunk } from "./types";
+import { compileProfilePacketFromRawSources } from "./persona-compiler";
 // PR5 surface — exact 6 thin Collections-backed tools (see persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__)
 import {
   aiPersonaTools,
   getManualToolResults,
+  getRetrievedChunksForUI,
   resetManualToolResultsCollector,
+  resetRetrievedChunksCollector,
 } from "./persona-tools";
 
 // Data sources for the ProfilePacket compiler.
@@ -84,7 +87,7 @@ async function getOrLoadProfilePacket(): Promise<ProfilePacket> {
     content: s.content(),
   }));
 
-  const packet = compileProfilePacketFromSources(rawSources);
+  const packet = compileProfilePacketFromRawSources(rawSources);
 
   // Collections: read-only in this app. Upload/sync is manual via console.x.ai (or a separate
   // personal tool outside this repo). Never call ensure/create/ingest from the reactor path.
@@ -101,7 +104,7 @@ async function getOrLoadProfilePacket(): Promise<ProfilePacket> {
   } else if (!useLocalData && hasCollectionsKey && !manualCollection) {
     logReactor(
       "ingest",
-      "Set XAI_PROFILE_COLLECTION to a collection uploaded in console.x.ai (read-only: XAI_MANAGEMENT_API_KEY for search, XAI_API_KEY for chat)"
+      "Set XAI_PROFILE_COLLECTION to a collection uploaded in console.x.ai (read-only: XAI_API_KEY for search + chat)"
     );
   } else if (useLocalData) {
     logReactor("ingest", "skipped Collections (USE_LOCAL_PROFILE_DATA=true)");
@@ -154,6 +157,7 @@ export async function runPersonaQA(
   version: string;
   toolCalls?: any[];
   toolResults?: Array<{ toolName: string; result: string }>;
+  retrievedChunks?: RetrievedChunk[];
 }> {
   // === DEFENSE FIRST, NON-BYPASSABLE (per PR4 + design invariant #2) ===
   // This is the very first executable statement in the happy path.
@@ -161,6 +165,7 @@ export async function runPersonaQA(
 
   // Own our tool results for the manual collection path (structural fix after many empty-result iterations).
   // The AI SDK's steps.toolResults has repeatedly failed to surface real content from Collections.
+  resetRetrievedChunksCollector();
   const manualCollection = process.env.XAI_PROFILE_COLLECTION?.trim();
   if (manualCollection) {
     resetManualToolResultsCollector();
@@ -175,9 +180,9 @@ export async function runPersonaQA(
       questionHash: hashQuestion(question),
     });
     // Graceful golden with real PR2 packet + Q6 tone (warm/professional + sparkle)
-    const golden = computeGoldenFallback(question, packet);
+    const answer = computeGoldenFallback(question, packet);
     return {
-      answer: golden.answer,
+      answer,
       isGolden: true,
       defense,
       version: packet.version,
@@ -332,12 +337,15 @@ export async function runPersonaQA(
     );
   }
 
-  // Return answer + tool results for the /qa JSON path (PR48 UI compatible shape)
+  const retrievedChunksForUI = getRetrievedChunksForUI();
+
+  // Return answer + structured chunks for the /qa JSON path (ProfileQA panel)
   return {
     stream: result.textStream,
     answer: finalText,
     version: packet.version,
     toolResults: toolResultsForUI,
+    retrievedChunks: retrievedChunksForUI,
   };
 }
 

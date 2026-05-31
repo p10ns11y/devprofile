@@ -1,143 +1,419 @@
-# xAI Agentic Profile QA Reactor — lib/qa (Post-PR8)
+# `@devprofile/qa` — Profile Q&A
 
-**Status (PR8 complete)**: Surface integration, E2E (Brave Beta), observability, migration & docs. PR7 dual-path is production-clean (0 reviewer issues).
+Self-contained server library for the `/qa` page: two retrieval backends behind one HTTP contract, BDD-first tests, and a single visitor-facing JSON shape.
 
-This directory is the **sole home** for the new reactor. Legacy QA (`src/utils/qa-utils.ts` + old `/api/cv/qa` logic) is untouched and bit-for-bit identical when the flag is off.
+**Entry points**
 
-## Architecture after PR8
+| Surface | Role |
+|---------|------|
+| `POST /api/cv/qa` | Thin route → `handleQaRequest` |
+| `@/lib/qa` | Public barrel (gateway, config, types, tools) |
+| `ProfileQA` (`src/components/profile-qa.tsx`) | Client UI — expects `{ answer, details[] }` |
+
+---
+
+## Architecture
+
+```mermaid
+flowchart TB
+  subgraph client [Client]
+    UI["ProfileQA (/qa)"]
+  end
+
+  subgraph api [API layer]
+    Route["route.ts"]
+    GW["gateway/handle-qa-request.ts"]
+  end
+
+  subgraph config [Config]
+    Mode["config/resolve-qa-mode.ts"]
+  end
+
+  subgraph local [Local-index path — default]
+    Gen["profile-qa-generator.ts"]
+    Ret["retrieve.ts"]
+    Idx["qa-index.json + embed-query"]
+    Cache["qa-cache.ts"]
+  end
+
+  subgraph agentic [Agentic path — ENABLE_XAI_REACTOR]
+    Run["runProfileQA.ts"]
+    Reactor["persona-reactor.ts"]
+    Defense["abuse-defense.ts"]
+    Compiler["persona-compiler.ts"]
+    Tools["persona-tools.ts (6 tools)"]
+    Search["agentic/tools/search-backend.ts"]
+    XAI["xai-collections.ts"]
+    Grok["Grok via AI SDK streamText"]
+  end
+
+  subgraph shared [Shared]
+    Mapper["shared/response-mapper.ts"]
+    Details["shared/map-search-to-details.ts"]
+    Types["types.ts"]
+  end
+
+  UI -->|POST question| Route
+  Route --> GW
+  GW --> Mode
+  Mode -->|local-index| Gen
+  Mode -->|agentic| Run
+  Gen --> Ret
+  Gen --> Idx
+  Gen --> Cache
+  Run --> Reactor
+  Reactor --> Defense
+  Reactor --> Compiler
+  Reactor --> Grok
+  Grok --> Tools
+  Tools --> Search
+  Search --> XAI
+  Search -->|USE_LOCAL_PROFILE_DATA| Ret
+  Tools --> Details
+  Gen --> Mapper
+  GW --> Mapper
+  Mapper --> Types
+```
+
+### Design principles
+
+1. **One visitor contract** — `{ answer, details: RetrievedChunk[] }` regardless of backend.
+2. **Dual path, one kill switch** — `ENABLE_XAI_REACTOR`; default path stays local-index.
+3. **Defense-first (agentic only)** — `checkAbuse` before any Grok or Collections spend.
+4. **Colocated BDD** — scenarios in `features/*.feature.test.ts`; unit tests beside modules.
+5. **No local vectors on reactor path** — agentic retrieval uses xAI Collections or file keyword search, not `qa-index.json` embeddings.
+
+---
+
+## Request flows
+
+### Default path (local-index)
+
+```mermaid
+sequenceDiagram
+  participant V as Visitor
+  participant R as /api/cv/qa
+  participant G as handleQaRequest
+  participant C as qa-cache
+  participant P as profile-qa-generator
+  participant I as retrieve + qa-index
+
+  V->>R: POST { question }
+  R->>G: handleQaRequest(q, { ip, headers })
+  G->>C: cache hit?
+  alt cache hit
+    C-->>G: cached QAResponse
+  else cache miss
+    G->>P: runLocalIndexQa(q)
+    P->>I: hybrid RRF retrieve (BM25 + cosine)
+    P->>P: golden-match / template / Ollama
+    P-->>G: { answer, details, strategy }
+    G->>C: set
+  end
+  G-->>R: body + headers
+  R-->>V: 200 JSON
+```
+
+**Retrieval:** `retrieve.ts` — reciprocal rank fusion over pre-built `src/data/qa-index.json` (MiniLM embeddings + BM25).
+
+**Generation strategies:** `golden-match` → curated answer; `template` → `qa-utils`; `ollama` → local LLM when configured and retrieval confidence is sufficient.
+
+**Caching:** identical questions return the same payload (`qa-cache.ts`).
+
+### Agentic path (reactor)
+
+```mermaid
+sequenceDiagram
+  participant V as Visitor
+  participant G as handleQaRequest
+  participant PR as persona-reactor
+  participant D as checkAbuse
+  participant GF as golden-fallback
+  participant ST as streamText + 6 tools
+  participant SB as search-backend
+  participant X as xai-collections
+
+  V->>G: question (reactor enabled)
+  G->>PR: runProfileQA
+  PR->>D: checkAbuse (first)
+  alt blocked
+    D-->>PR: { blocked, reason, layer }
+    PR->>GF: computeGoldenFallback
+    PR-->>G: { answer, isGolden, defense, details: [] }
+  else passed
+    PR->>ST: Grok + tool loop (max 5 steps)
+    ST->>SB: tool execute → searchProfile
+    SB->>X: POST /v1/documents/search (or local files)
+    X-->>SB: SearchResult chunks
+    SB-->>ST: formatted excerpts for model
+    ST-->>PR: answer + retrievedChunks
+    PR-->>G: { answer, retrievedChunks, version }
+  end
+  G->>G: map chunks → details[] (similarity 0–1)
+  G-->>V: 200 JSON (+ X-QA-Reactor header)
+```
+
+**On reactor error:** gateway logs and **falls back to local-index** (same as default path).
+
+**UI grounding:** `shared/map-search-to-details.ts` normalizes xAI scores to 0–1 for the “Retrieved information” `% match` display in `ProfileQA`.
+
+---
+
+## Abuse handling (agentic only)
+
+Runs inside `persona-reactor.ts` before packet compile for Grok. **Not applied** on the default local-index path.
+
+| Layer | Implementation | Default threshold |
+|-------|----------------|-------------------|
+| Edge | In-memory sliding window per `ip \| user-agent` | 12 req / 5 min |
+| Semantic | Regex blocklist + off-topic heuristic | patterns in `abuse-defense.ts` |
+| Behavioral | Repeated identical questions in window | 3 repeats / 5 questions |
+| Hard caps | Config present | **not wired yet** (`ABUSE_IP_PER_DAY`, etc.) |
+
+On block: HTTP **200**, `isGolden: true`, curated `computeGoldenFallback` answer, `details: []`, zero xAI cost.
+
+Config: `src/config/abuse-defense.ts` + `ABUSE_*` env overrides (see `.env.example`).
+
+---
+
+## Response contract
+
+```typescript
+interface QAResponse {
+  answer: string;
+  details: RetrievedChunk[];  // UI “Retrieved information” panel
+  strategy?: "golden-match" | "template" | "ollama" | "reactor";
+  ollamaError?: string;
+}
+
+interface RetrievedChunk {
+  text: string;
+  section: string;      // e.g. "Profile", "golden-qa", tool label
+  similarity: number;   // 0–1 → displayed as % match
+  source?: string;
+}
+```
+
+Agentic responses may also include `version`, `isGolden`, `defense` (passed through by `shared/response-mapper.ts`). Reactor responses add headers `X-QA-Reactor: 1` and `X-QA-Version`.
+
+Visitor assertions: `test/contracts.ts` → `assertQaResponseForVisitor()`.
+
+---
+
+## Module map
 
 ```
-Client surfaces (PR8)
-├── src/app/quick-cv-actions/page.tsx          ← dedicated demo surface + conditional reactor badge (client flag)
-└── src/components/question-answer.tsx         ← legacy shared QA form (kept for compatibility)
-    └── fetch(/api/cv/qa)  OR  server action askQuestion (actions.ts)
-
-Dual-path decision (PR7, never changes legacy source)
-├── src/app/api/cv/qa/route.ts                 ← if (isQARectorEnabled()) { runProfileQA + toLegacyCompatible or stream } else { exact pre-PR7 legacy }
-└── src/app/actions.ts (askQuestion)           ← guard for /qa + quick-cv-actions (dual-path)
-
-Reactor core (defense-first, Collections-only)
 src/lib/qa/
-├── runProfileQA.ts        ← public surface + isQARectorEnabled() + toLegacyCompatible + collectFullText
-├── persona-reactor.ts     ← runProfileQAReactor (streamText + tools + non-bypassable checkAbuse first)
-├── persona-tools.ts       ← 6 Collections-backed tools (PR5)
-├── xai-collections.ts     ← sole substrate client (PR3)
-├── abuse-defense.ts       ← checkAbuse + golden fallback (PR4)
-├── persona-compiler.ts    ← ProfilePacket (PR2)
-├── durable-retry.ts       ← lightweight wrapper (Q2)
-├── types.ts + index.ts    ← contracts + barrel
-└── README.md (this file)
+├── README.md                          ← this file
+├── index.ts                           public barrel
+├── types.ts                           shared + agentic types
+│
+├── gateway/
+│   └── handle-qa-request.ts           visitor orchestration (mode, cache, fallback)
+├── config/
+│   └── resolve-qa-mode.ts             ENABLE_XAI_REACTOR, agentic retrieval mode
+│
+├── features/                          BDD acceptance (write scenarios first)
+│   ├── ask-question.feature.test.ts   S1, S2, S3
+│   ├── cache.feature.test.ts          S4
+│   ├── local-fallback.feature.test.ts S5
+│   ├── agentic-parity.feature.test.ts S6
+│   ├── safe-refusal.feature.test.ts   S7
+│   └── local-profile-data.feature.test.ts S8
+├── test/                              shared test helpers only
+│   ├── contracts.ts
+│   └── bdd.ts
+│
+├── shared/
+│   ├── response-mapper.ts             JSON body + reactor headers
+│   ├── map-search-to-details.ts       SearchResult → RetrievedChunk[]
+│   └── types.contract.test.ts
+│
+├── agentic/
+│   ├── pipeline/
+│   │   ├── run-pipeline.test.ts       S6 (reactor wiring)
+│   │   └── defense.test.ts            S7 (abuse + golden)
+│   └── tools/
+│       ├── search-backend.ts          unified local vs Collections search
+│       └── search-backend.test.ts     S8
+│
+├── # Local-index (flat — target: local-index/)
+├── profile-qa-generator.ts            runLocalIndexQa — default path
+├── retrieve.ts                        hybrid RRF retrieval
+├── load-index.ts, embed-query.ts      index loader + query embedding
+├── qa-router.ts, qa-prompts.ts        strategy + Ollama prompts
+├── qa-cache.ts                        repeat-question cache
+├── suggested-questions.ts             curated prompts for UI
+│
+├── # Agentic core (flat — target: agentic/)
+├── runProfileQA.ts                    public reactor delegate
+├── persona-reactor.ts                 defense → streamText → tool loop
+├── persona-compiler.ts                ProfilePacket from src/data/*
+├── persona-tools.ts                   6 specialized search tools
+├── abuse-defense.ts                   4-layer gate + golden re-exports
+├── golden-fallback.ts                 on-block answers (Q6 tone)
+├── xai-collections.ts                 Collections search client
+├── durable-retry.ts                   lightweight retry wrapper
+│
+└── *.test.ts                          colocated unit tests
 ```
 
-**Invariants (never violated)**:
-- xAI Collections = sole retrieval/embedding substrate.
-- NO local vectors/embeddings/HF models on reactor path.
-- Abuse defense = absolute first executable statement (zero cost on block).
-- Flag (qaReactor + ENABLE_XAI_REACTOR) controls **everything**. Off = byte-identical legacy execution, zero logs, zero risk.
+**Six persona tools** (Collections-backed or local keyword): `profileSearch`, `workExperience`, `skills`, `projects`, `educationAndBackground`, `principlesAndPhilosophy`.
 
-## Feature Flag & Env (single source of truth)
+---
 
-- `src/config/feature-flags.ts` → `qaReactor: { enabled: false, ... }`
-- `isQARectorEnabled()` in `runProfileQA.ts`:
-  - `ENABLE_XAI_REACTOR=true` (env) wins (dev override).
-  - Else falls to the flag.
-- When off (default): callers in route/actions execute **only** the legacy block. Reactor code is never imported/executed.
+## Data sources
 
-## Observability (PR8+)
+| Asset | Used by |
+|-------|---------|
+| `src/data/qa-index.json` | Local-index retrieval (built via `pnpm qa:pipeline`) |
+| `src/data/persona/ps-profile-v1.md` | Compiler, local search, Collections ingest |
+| `src/data/golden-qa.md`, `casual-qa.md`, `top-three-achievements.md` | Compiler, golden match, local search |
+| `src/data/cvdata.json` | Compiler structured snapshot |
+| xAI Collection (`XAI_PROFILE_COLLECTION`) | Agentic search (read-only at runtime) |
 
-- **Logs**: `[persona-reactor][v:VERSION][layer] msg` (defense, generation, durable, etc.)
-- **Response headers** (reactor path):
-  - `X-QA-Reactor: 1`
-  - `X-QA-Version: v1-2026-05` (or current packet version)
-- **UI surfaces** (PR8): tiny conditional emerald badge/panel in `question-answer.tsx` + landing card note in `quick-cv-actions/page.tsx`.
-  - Rendered **only** when `_usedReactor`/`_reactorVersion` (from headers) **or** client `isFeatureEnabled("qaReactor")`.
-  - Includes defense layer + golden fallback indicator.
-  - **Completely absent** in legacy mode (exact DOM + text + styles as pre-PR8).
-- Body responses (non-stream): still `{answer, details:[]}` for compatibility. Future surplus can extend safely.
+---
 
-## Migration Notes (from Legacy to Reactor)
+## Environment
 
-1. **Zero-downtime rollout**:
-   - Default: flag=false → 100% legacy, identical to 2025-era CV QA.
-   - Flip `qaReactor.enabled = true` in source (or set env) → instant reactor for all callers.
-   - No code paths in legacy touched since PR1.
+| Variable | Path | Effect |
+|----------|------|--------|
+| `ENABLE_XAI_REACTOR=true` | gateway | Switch to agentic pipeline |
+| `USE_LOCAL_PROFILE_DATA=true` | agentic tools | File keyword search instead of Collections |
+| `XAI_API_KEY` | Grok + Collections search | Chat and `POST api.x.ai/v1/documents/search` |
+| `XAI_MANAGEMENT_API_KEY` | optional | Management API (create/list only; not used in prod read-only path) |
+| `XAI_PROFILE_COLLECTION` | agentic | Collection ID for scoped search |
+| `XAI_MODEL` | agentic | Grok model id (e.g. `grok-4.3`) |
+| `OLLAMA_BASE_URL` | local-index | Optional local LLM generation |
+| `ABUSE_*` | agentic | Rate limits and behavioral thresholds |
 
-2. **Call sites updated in PR7 (do not touch again)**:
-   - `/api/cv/qa` POST (new ProfileQA on /qa + other clients)
-   - `askQuestion` server action (AMA page + quick-cv-actions)
+Full list: [`.env.example`](../../../.env.example).
 
-3. **Response compatibility**:
-   - All existing clients receive identical shape.
-   - New consumers can read headers or (future) extended body for version/defense.
+### Local development modes
 
-4. **Streaming**:
-   - Opt-in: `?stream=1`, `Accept: text/event-stream`, or `x-qa-stream: true`.
-   - Returns plain text stream + the two X-QA-* headers.
-   - Current UI clients use JSON path (perfect fallback).
+| Goal | Env |
+|------|-----|
+| Default portfolio (no xAI cost) | omit `ENABLE_XAI_REACTOR` |
+| Full reactor + real Collections | `ENABLE_XAI_REACTOR=true`, `XAI_API_KEY`, `XAI_PROFILE_COLLECTION` |
+| Reactor tool loop without Collections | `ENABLE_XAI_REACTOR=true`, `USE_LOCAL_PROFILE_DATA=true` (still needs `XAI_API_KEY` for Grok chat) |
 
-5. **Defense & Golden**:
-   - Blocks before any Collections/Grok spend.
-   - `computeGoldenFallback` uses real PR2 packet + Q6 tone (warm, professional, sparkle).
-   - E2E/unit tests use "ignore all previous...", "bomb", short queries as triggers.
+---
 
-6. **Collections (read-only at runtime)**:
-   - Upload/sync automation belongs in console.x.ai or a **separate personal tool**, not this deployed app.
-   - `scripts/manual-ingest.ts` is a deprecated stub — do not run with write keys here.
-   - Reactor queries live collection content via the xAI API; no in-app sync needed.
+## Testing strategy
 
-## Enabling for Development / Testing
+### Pyramid
 
-**Required in `.env.local` for real reactor runs:**
+```
+  Playwright E2E (thin)          tests/e2e/qa.spec.ts, qa-reactor.spec.ts
+           ▲                     real browser; reactor tests env-gated
+  BDD acceptance (Vitest)        features/*.feature.test.ts  ← write first
+           ▲
+  Colocated unit tests             *.test.ts beside implementation
+           ▲
+  Golden eval (retrieval quality)  pnpm test:golden — recall@5 gate
+```
 
-| Variable | Purpose |
-|----------|---------|
-| `ENABLE_XAI_REACTOR=true` | Turn on dual-path delegation in `/api/cv/qa` |
-| `XAI_API_KEY` | **Chat** — Grok model inference (AI SDK) |
-| `XAI_MANAGEMENT_API_KEY` | **Collections** — read-only search against `XAI_PROFILE_COLLECTION` (recommended; falls back to `XAI_API_KEY` if unset) |
-| `XAI_PROFILE_COLLECTION` | Collection name/ID in [console.x.ai](https://console.x.ai) |
-| `XAI_MODEL` | e.g. `grok-4.3` (must match your account) |
+No Cucumber — Vitest `describe`/`it` with scenario titles and optional `test/bdd.ts` helpers (`feature`, `scenario`).
 
-**Key separation:** Chat and Collections use different env vars. Scope the management key **read-only** (search/list only) so it cannot create collections or upload files from this app.
+### Visitor scenarios (source of truth)
 
-**Collections (one-time setup + external updates):**
+| ID | Outcome | Primary tests |
+|----|---------|---------------|
+| **S1** | Non-empty answer + valid shape | `features/ask-question.feature.test.ts` |
+| **S2** | Suggested question works | `features/ask-question.feature.test.ts` |
+| **S3** | `details[]` with grounding | `features/ask-question.feature.test.ts`, `retrieve.test.ts` |
+| **S4** | Cache hit on repeat | `features/cache.feature.test.ts` |
+| **S5** | Answer when Ollama fails | `features/local-fallback.feature.test.ts` |
+| **S6** | Reactor same JSON + headers | `features/agentic-parity.feature.test.ts`, `run-pipeline.test.ts` |
+| **S7** | Abuse → golden, no model spend | `features/safe-refusal.feature.test.ts`, `defense.test.ts` |
+| **S8** | Local files without Collections keys | `features/local-profile-data.feature.test.ts`, `search-backend.test.ts` |
 
-1. In console.x.ai, create a Collection with only what you are willing to expose via `/qa`.
-2. Upload profile sources (minimum: `src/data/persona/ps-profile-v1.md`; optional: `cvdata.json`, `golden-qa.md`, `casual-qa.md`, `top-three-achievements.md`).
-3. Set `XAI_PROFILE_COLLECTION` to that collection's name or ID.
-4. Update files in the console (or your external tool) when content changes — the app always reads current collection state through the API at request time; no sync step in this repo.
+E2E files document matching scenario IDs in comments.
+
+### Commands
 
 ```bash
-# Dev (Turbopack)
-ENABLE_XAI_REACTOR=true XAI_MODEL=grok-4.3 pnpm dev --turbopack
-
-# Production build locally (after pnpm build)
-ENABLE_XAI_REACTOR=true XAI_MODEL=grok-4.3 pnpm start
-
-# E2E reactor coverage (headers + defense when PR4 live)
-ENABLE_XAI_REACTOR=true XAI_API_KEY=... pnpm test:e2e --project=brave-beta -g "qa-reactor"
+pnpm test:unit              # all Vitest (features + colocated unit)
+pnpm test:unit:watch        # watch mode — develop scenarios first
+pnpm test:unit:cov          # coverage on src/lib/qa/** + route
+pnpm test:golden            # retrieval quality (HF index; optional CI job)
+pnpm type-check && pnpm lint
 ```
 
-See `tests/e2e/qa-reactor.spec.ts` (skips header/defense reactor cases unless env present).
+E2E (Brave Beta only):
 
-## E2E Rules (AGENTS.md)
+```bash
+pnpm test:e2e --project=brave-beta -g qa
+ENABLE_XAI_REACTOR=true XAI_API_KEY=... pnpm test:e2e --project=brave-beta -g qa-reactor
+```
 
-- **Only Brave Beta** (`/usr/bin/brave-browser-beta` or `BRAVE_BETA_PATH`).
-- Never `playwright install chromium`.
-- `pnpm test:e2e`, `pnpm test:e2e:headed`, `pnpm test:e2e:ui` (via brave script) all honor this.
-- qa-reactor.spec.ts follows the same (globalSetup asserts Brave).
+See [`tests/e2e/README.md`](../../../tests/e2e/README.md).
 
-## Rollout & Safety
+### Mocking conventions
 
-- PR8 reviewer bar: perfect fallback on flag=off, meaningful Brave E2E, observability surfaced, docs.
-- After PR8: Graphite stack assembles; canary via env + flag; monitor logs + headers.
-- Legacy path can be deleted only after full migration + validation (post-Phase 1).
+| Concern | Pattern |
+|---------|---------|
+| Reactor / Grok | Hoisted `vi.mock("ai")` + `vi.mock("@ai-sdk/xai")` in `run-pipeline.test.ts` |
+| Gateway agentic | Mock `../runProfileQA` in feature tests (S6–S8) |
+| Collections HTTP | Mock `globalThis.fetch` in `xai-collections.test.ts` |
+| Abuse state | `resetAbuseStateForTests()` in `beforeEach` |
+| Defense isolation | `defense.test.ts` uses real `checkAbuse` + fixture packet |
 
-## Links
+**Rule:** add a colocated unit test only when a scenario needs finer decomposition — not before the acceptance test exists.
 
-- Primary design: `.grok/plans/phase-1-xai-agentic-profile-qa-reactor-design.md` (execute-plan 80eccd53)
-- PR7 summary: dual-path clean (0 issues)
-- Phase overview: `docs/phase-1-xai-agentic-profile-qa-reactor.md`
-- AGENTS.md (Brave E2E, skills)
-- Unit tests: `__tests__/qa/*.test.ts` (defense mocks, tools, reactor contracts)
+### Contract helpers
 
-This README is the canonical post-PR8 migration & architecture reference for lib/qa consumers.
+```typescript
+import { assertQaResponseForVisitor } from "@/lib/qa/test/contracts";
+
+assertQaResponseForVisitor(body); // answer + details shape for ProfileQA
+```
+
+---
+
+## Public API (barrel)
+
+```typescript
+import {
+  handleQaRequest,
+  isQARectorEnabled,
+  resolveQaMode,
+  checkAbuse,
+  compileProfilePacket,
+  collectionsClient,
+  runLocalIndexQa,
+} from "@/lib/qa";
+```
+
+Prefer `handleQaRequest` for new integrations; route and server actions delegate to it.
+
+---
+
+## Verify before merge
+
+```bash
+pnpm type-check
+pnpm lint
+pnpm test:unit
+# when retrieve.ts or qa-index changed:
+pnpm test:golden
+```
+
+---
+
+## Related docs
+
+- [`.cursor/plans/qa_workflow_refactor_0b9c7b12.plan.md`](../../../.cursor/plans/qa_workflow_refactor_0b9c7b12.plan.md) — BDD refactor plan
+- [`.grok/plans/grok-design-doc-7f04db24.md`](../../../.grok/plans/grok-design-doc-7f04db24.md) — technical depth (property tests, CI)
+- [`.grok/plans/phase-1-xai-agentic-profile-qa-reactor-design.md`](../../../.grok/plans/phase-1-xai-agentic-profile-qa-reactor-design.md) — original reactor design
+- [`docs/phase-1-xai-agentic-profile-qa-reactor.md`](../../../docs/phase-1-xai-agentic-profile-qa-reactor.md) — rollout status
+
+---
+
+## Roadmap (not blocking current use)
+
+- Physical folder moves (`local-index/`, full `agentic/` layout)
+- Split `persona-reactor.ts` into pipeline stages
+- Wire hard-cap abuse layer; optional Edge middleware
+- `RetrievalSurface` shared type for dual-path chunk mapping
+- Property tests (`fast-check`) and golden eval in CI
