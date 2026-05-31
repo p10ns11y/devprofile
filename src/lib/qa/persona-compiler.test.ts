@@ -12,38 +12,38 @@ const REPO_ROOT = process.cwd();
 const load = (p: string) => readFileSync(path.join(REPO_ROOT, p), "utf8");
 
 const cvdataStub = {
-  name: "Peramanathan Sathyamoorthy",
+  name: "Test Engineer",
   one_liner: "Senior Software Engineer with 9+ years.",
   short_bio: "Senior engineer, Master's CS + OR.",
   profile:
     "Senior Software Engineer with over 9 years building scalable web apps and leading teams.",
-  contact: { email: "sathyam.peram@gmail.com", phone: "+46 737 641 917", citizenship: "Swedish" },
-  home: { current_location: "Stockholm, Sweden", location: "Stockholm, Sweden" },
-  cv_social_links: { github: "https://github.com/p10ns11y", x: "https://x.com/peramanathan" },
+  contact: { email: "user@example.com", phone: "+1 555 010 0199", citizenship: "Example" },
+  home: { current_location: "Example City, Example Country", location: "Example City" },
+  cv_social_links: { github: "https://github.com/example", x: "https://x.com/example" },
   work_experience: [
     {
       title: "Senior Software Engineer",
-      company: "Oneflow AB, Digital Signature and Contract Management Platform",
-      location: "Stockholm, Sweden",
+      company: "Example Platform Co.",
+      location: "Example City",
       duration: "24 months",
-      responsibilities: ["70% type error reduction via TS migration."],
+      responsibilities: ["Reduced type errors via TS migration."],
       tools: ["TypeScript", "React"],
     },
     {
       title: "Engineering Team Lead",
-      company: "Oneflow AB",
+      company: "Example Platform Co.",
       duration: "15 months",
-      responsibilities: ["JSON rich-text editor +60% satisfaction."],
+      responsibilities: ["Shipped rich-text editor improvements."],
       tools: ["JavaScript", "Playwright", "Zod"],
     },
   ],
   education: [
-    { degree: "Master of Science in Computer Science", institution: "Uppsala University, Sweden" },
+    { degree: "Master of Science in Computer Science", institution: "Example University" },
   ],
   languages: { English: "Proficient", Swedish: "Basic" },
   projects: [
-    { name: "Grok Dia", description: "Contextual AI extension", technologies: ["Browser Extension"] },
-    { name: "latex-cv", description: "LaTeX CV automation", technologies: ["LaTeX", "Rust"] },
+    { name: "sample-extension", description: "Contextual AI extension", technologies: ["Browser Extension"] },
+    { name: "sample-cv-tool", description: "CV automation", technologies: ["LaTeX", "Rust"] },
   ],
 };
 
