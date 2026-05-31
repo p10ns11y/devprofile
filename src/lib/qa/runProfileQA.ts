@@ -17,7 +17,7 @@
  * streaming + golden graceful, versioned observability.
  */
 
-import { runProfileQAReactor } from './persona-reactor';
+import { runProfileQAReactor } from "./persona-reactor";
 // Feature flag system (src/config/feature-flags.ts) was removed in PR #48.
 // Reactor is now controlled solely by the ENABLE_XAI_REACTOR environment variable
 // for simplicity on the new /qa surface.
@@ -74,7 +74,7 @@ export async function runProfileQA(
 }
 
 // Re-export the reactor core for direct use in tests / advanced consumers
-export { runProfileQAReactor } from './persona-reactor';
+export { runProfileQAReactor } from "./persona-reactor";
 
 /**
  * Dual-path for the /qa page (post PR #48).
@@ -102,9 +102,7 @@ export const QA_REACTOR_FLAG = "qaReactor" as const;
  * existing clients (question-answer.tsx, AICHAT, askQuestion callers) when not streaming.
  * Streaming responses are only returned when explicitly requested (see route.ts).
  */
-export async function collectFullText(
-  res: ProfileQAResponse | LegacyQAResponse
-): Promise<string> {
+export async function collectFullText(res: ProfileQAResponse | LegacyQAResponse): Promise<string> {
   if (res.answer) return res.answer;
   if ((res as ProfileQAResponse).stream) {
     let acc = "";
@@ -121,14 +119,18 @@ export async function collectFullText(
  * details: [] (reactor uses tool-grounded retrieval, not legacy cosine chunks).
  * Callers (route/actions) use this for the non-streaming path.
  */
-export async function toLegacyCompatible(
-  res: ProfileQAResponse | LegacyQAResponse
-): Promise<{ answer: string; details: any[]; isGolden?: boolean; defense?: any; version?: string }> {
+export async function toLegacyCompatible(res: ProfileQAResponse | LegacyQAResponse): Promise<{
+  answer: string;
+  details: any[];
+  isGolden?: boolean;
+  defense?: any;
+  version?: string;
+}> {
   const answer = await collectFullText(res);
   // Preserve reactor observability fields for the new /qa UI (post PR #48)
-  const isGolden = 'isGolden' in res ? res.isGolden : undefined;
-  const defense = 'defense' in res ? res.defense : undefined;
-  const version = 'version' in res ? res.version : undefined;
+  const isGolden = "isGolden" in res ? res.isGolden : undefined;
+  const defense = "defense" in res ? res.defense : undefined;
+  const version = "version" in res ? res.version : undefined;
 
   return { answer, details: [], isGolden, defense, version };
 }

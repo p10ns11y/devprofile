@@ -142,7 +142,10 @@ if (
     // Robust check: we pulled a real curated golden example with substance (not the tiny internal default).
     // Avoids brittle exact substring drift on the first goldenExample's answer text.
     const d = getGoldenFallbackDetails("any", packet);
-    assert.ok(d.matched.a.length > 50, "golden fallback should return a real curated example with depth");
+    assert.ok(
+      d.matched.a.length > 50,
+      "golden fallback should return a real curated example with depth"
+    );
 
     // 11. reliable headers fp isolation
     resetAbuseStateForTests();

@@ -93,7 +93,7 @@ See [`docs/agent-workflow-lessons.md`](docs/agent-workflow-lessons.md) for detai
 - Run commands in the repo root unless noted otherwise.
 - Prefer `pnpm` when `pnpm-lock.yaml` exists.
 - After dependency changes: `pnpm install`, re-run audit, then `pnpm type-check` / `pnpm lint` (Biome) if applicable.
-- **Lint:** `pnpm lint` shows **errors only** (format + unused imports/vars + `type="button"`). `pnpm lint:report` lists optional/warn-level rules. Noisy rules (`noExplicitAny`, a11y overlays, `useEffect` deps) are off — see `biome.json`.
+- **Lint:** `pnpm lint` / `lint:fix` / `lint:report` use `biome lint` (linter only — correctness, suspicious, a11y, best practices, unused vars/imports, etc.). Pure formatting (indent, quotes, semicolons, line width, trailing commas, etc.) is handled exclusively by `pnpm format` (`biome format`). Import organizing is an assist action (editor-driven via Biome LSP, or `pnpm imports:fix`). Noisy rules (`noExplicitAny`, a11y overlays, `useEffect` deps) are off — see `biome.json`.
 - **React client UI:** follow [react-client-expert](.agents/skills/react-client-expert/SKILL.md). Biome does not lint `useEffect` dependency arrays (`useExhaustiveDependencies` off).
 - **React refactor backlog:** [`docs/react-client-roadmap.md`](docs/react-client-roadmap.md).
 - After large `execute-plan`, `best-of-n`, or concurrent agent runs: first run `grok worktree gc`, then `.agents/skills/git-worktrees/scripts/agent-worktree-clean.sh --prune` when you need branch preservation (see git-worktrees "Grok CLI worktree management" section).

@@ -25,7 +25,7 @@ export interface AbuseResult {
   layer?: string; // 'edge' | 'semantic' | 'behavioral' | 'golden'
 }
 
-import type { ProfilePacket } from './types';
+import type { ProfilePacket } from "./types";
 
 /**
  * Stub checkAbuse — default never blocks (happy path for unmocked direct runs).

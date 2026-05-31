@@ -46,3 +46,7 @@ next-env.d.ts
 # concurrent CLI agent worktrees (see .agents/skills/concurrent-cli-agents)
 .worktrees/
 .agents/workspaces.json
+
+security-audit-*.txt
+.tinfoil/
+installer.log

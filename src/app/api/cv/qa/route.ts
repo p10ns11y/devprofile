@@ -56,7 +56,10 @@ export async function POST(request: Request) {
             request.headers.get("x-real-ip") ||
             undefined;
 
-          const reactorRes = await reactor.runAgenticReactor(question, { ip, headers: request.headers });
+          const reactorRes = await reactor.runAgenticReactor(question, {
+            ip,
+            headers: request.headers,
+          });
 
           // Always compute details first (from reactor tool results) so we can log it safely
           // This makes the response compatible with the new ProfileQA UI (from PR #48)
@@ -72,7 +75,7 @@ export async function POST(request: Request) {
           const hasDirectAnswer = !!reactorRes.answer;
           const answerLength = reactorRes.answer?.length ?? 0;
 
-          console.log('[qa-reactor] received from reactor:', {
+          console.log("[qa-reactor] received from reactor:", {
             hasAnswer: hasDirectAnswer,
             answerLength,
             detailsCount: details.length,
@@ -83,13 +86,17 @@ export async function POST(request: Request) {
             ? {
                 answer: reactorRes.answer,
                 details,
-                strategy: 'reactor',
+                strategy: "reactor",
                 version: reactorRes.version,
               }
             : await reactor.toLegacyCompatible(reactorRes);
 
           if (hasDirectAnswer) {
-            console.log('[qa-reactor] returning reactor answer in PR48-compatible shape (length:', answerLength, ')');
+            console.log(
+              "[qa-reactor] returning reactor answer in PR48-compatible shape (length:",
+              answerLength,
+              ")"
+            );
           }
 
           return new Response(JSON.stringify(responseBody), {

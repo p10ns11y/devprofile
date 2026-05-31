@@ -54,7 +54,7 @@ git push origin dev
 
 - Interactive UI: client components and hooks per [`.agents/skills/react-client-expert/SKILL.md`](.agents/skills/react-client-expert/SKILL.md) (minimal state, deliberate effects, no RSC for UI logic).
 - Do not “fix” `useEffect` deps to satisfy the linter — `useExhaustiveDependencies` is disabled in Biome; fix the data flow instead.
-- **Lint:** `pnpm lint` = errors only; `pnpm lint:report` = full Biome output. See `AGENTS.md` and `biome.json`.
+- **Lint:** `pnpm lint` / `lint:fix` use Biome linter only (code quality, correctness, best practices). Pure formatting lives in `pnpm format`. See `AGENTS.md` and `biome.json`.
 
 ### Testing
 - Write E2E tests for new features using Playwright

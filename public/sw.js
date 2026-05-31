@@ -1,5 +1,13 @@
 // Service Worker with comprehensive caching strategies
 // Based on https://web.dev/articles/offline-cookbook and https://web.dev/articles/stale-while-revalidate
+import {
+  applyBackgroundFetchToSnapshot,
+  BACKGROUND_FETCH_ID,
+  DEFAULT_USERNAME,
+  refreshDashboardInBackground,
+  SYNC_TAG,
+} from "/github-dashboard-cache.js";
+
 const CACHE_VERSION = "v20250915T091425"; // This will be replaced during build
 
 // Multiple cache stores for different resource types
@@ -185,6 +193,25 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
+// GitHub dashboard: periodic / one-shot background sync + Background Fetch
+self.addEventListener("periodicsync", (event) => {
+  if (event.tag === SYNC_TAG) {
+    event.waitUntil(refreshDashboardInBackground(DEFAULT_USERNAME));
+  }
+});
+
+self.addEventListener("sync", (event) => {
+  if (event.tag === SYNC_TAG) {
+    event.waitUntil(refreshDashboardInBackground(DEFAULT_USERNAME));
+  }
+});
+
+self.addEventListener("backgroundfetchsuccess", (event) => {
+  if (event.tag === BACKGROUND_FETCH_ID) {
+    event.waitUntil(applyBackgroundFetchToSnapshot(event.registration));
+  }
+});
+
 // Force cache refresh
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
@@ -195,5 +222,8 @@ self.addEventListener("message", (event) => {
     caches.keys().then((names) => {
       return Promise.all(names.map((name) => caches.delete(name)));
     });
+  }
+  if (event.data?.type === "GITHUB_DASHBOARD_SYNC_NOW") {
+    event.waitUntil(refreshDashboardInBackground(event.data.username || DEFAULT_USERNAME));
   }
 });
