@@ -333,10 +333,11 @@ E2E files document matching scenario IDs in comments.
 ### Commands
 
 ```bash
-pnpm test:unit              # all Vitest (features + colocated unit)
-pnpm test:unit:watch        # watch mode — develop scenarios first
-pnpm test:unit:cov          # coverage on src/lib/qa/** + route
-pnpm test:golden            # retrieval quality (HF index; optional CI job)
+pnpm test:qa          # lib/qa scenarios (S1–S8) + colocated unit tests + route
+pnpm test:unit        # all Vitest tests under src/
+pnpm test:unit:watch  # develop scenarios first
+pnpm test:unit:cov    # coverage on src/lib/qa/** + route
+pnpm test:golden      # retrieval quality (HF index; optional CI job)
 pnpm type-check && pnpm lint
 ```
 
