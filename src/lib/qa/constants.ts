@@ -1,3 +1,22 @@
+/**
+ * Default Grok chat model when `XAI_MODEL` is unset (local + Vercel).
+ * Override in `.env.local` / Vercel — must match a model your xAI account can call.
+ * @see https://docs.x.ai/docs/models
+ */
+export const XAI = {
+  DEFAULT_CHAT_MODEL: "grok-4-1-fast-reasoning",
+  /**
+   * Cap Grok completion length per step (~300 words). xAI allows much higher;
+   * profile QA should give essence, not essays. Override: XAI_MAX_OUTPUT_TOKENS.
+   */
+  DEFAULT_MAX_OUTPUT_TOKENS: 400,
+  MIN_MAX_OUTPUT_TOKENS: 128,
+  MAX_MAX_OUTPUT_TOKENS: 2048,
+  DEFAULT_TEMPERATURE: 0.45,
+  /** Maps to providerOptions.xai.reasoningEffort (low | high on chat API). */
+  DEFAULT_REASONING_EFFORT: "low",
+} as const;
+
 /** Profile QA routing and matching thresholds (tune via `pnpm qa:eval`). */
 export const QA_ROUTER = {
   /** Average retrieval similarity below this → prefer Ollama when available. */

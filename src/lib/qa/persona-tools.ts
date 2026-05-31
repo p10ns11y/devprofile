@@ -37,6 +37,23 @@ export function getRetrievedChunksForUI(): RetrievedChunk[] {
   return mergeRetrievedChunks(retrievedChunksCollector);
 }
 
+/**
+ * Run one profile search before streamText so retrieval + UI chunks exist even when
+ * Grok skips tool calls (common cause of the empty-narrative placeholder).
+ */
+export async function preflightProfileRetrieval(query: string): Promise<void> {
+  try {
+    const result = await searchProfile(query, { k: 5 });
+    recordRetrievedChunks("profileSearch", result);
+    recordManualToolResult("profileSearch", formatSearchResults(result));
+  } catch (error) {
+    console.warn(
+      "[persona-reactor] preflight retrieval failed",
+      error instanceof Error ? error.message : error
+    );
+  }
+}
+
 // -----------------------------------------------------------------------------
 // Shared formatting (citation handling + consistent shape for LLM consumption)
 // -----------------------------------------------------------------------------

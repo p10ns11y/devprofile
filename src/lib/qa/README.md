@@ -286,6 +286,9 @@ src/lib/qa/
 | `XAI_MANAGEMENT_API_KEY` | optional | Management API (create/list only; not used in prod read-only path) |
 | `XAI_PROFILE_COLLECTION` | agentic | Collection ID for scoped search |
 | `XAI_MODEL` | agentic | Grok model id (e.g. `grok-4.3`) |
+| `XAI_MAX_OUTPUT_TOKENS` | agentic | Completion cap per step (default **400**; clamp 128–2048). Essence-length answers, not essays. |
+| `XAI_REASONING_EFFORT` | agentic | `low` (default) or `high` → `providerOptions.xai.reasoningEffort` |
+| `XAI_TEMPERATURE` | agentic | Default **0.45** for crisp copy |
 | `OLLAMA_BASE_URL` | local-index | Optional local LLM generation |
 | `ABUSE_*` | agentic | Rate limits and behavioral thresholds |
 
@@ -298,6 +301,91 @@ Full list: [`.env.example`](../../../.env.example).
 | Default portfolio (no xAI cost) | omit `ENABLE_XAI_REACTOR` |
 | Full reactor + real Collections | `ENABLE_XAI_REACTOR=true`, `XAI_API_KEY`, `XAI_PROFILE_COLLECTION` |
 | Reactor tool loop without Collections | `ENABLE_XAI_REACTOR=true`, `USE_LOCAL_PROFILE_DATA=true` (still needs `XAI_API_KEY` for Grok chat) |
+
+---
+
+## Production (deployed `main`) vs this branch
+
+| | **Production today** ([peramanathan-sathyamoorthy-cv.vercel.app](https://peramanathan-sathyamoorthy-cv.vercel.app)) | **This branch** (`refactor/qa-bdd-colocated` + uncommitted placeholder fix) |
+|---|----------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| **Deployed code** | `origin/main` (~PR #51 merge) | Not merged yet |
+| **`package.json` `"type": "module"`** | Yes → risk of `ERR_REQUIRE_ESM` on `/api/cv/qa` and RSC routes | Removed (`0f8ffbf`) |
+| **QA route** | Inline reactor/simple split in `route.ts` | Thin `route.ts` → `handleQaRequest` |
+| **Golden panel/answer alignment** | No `golden-routing.ts` | `cf9b957` + retrieval gate |
+| **Preflight `profileSearch`** | No | Yes (before `streamText`) |
+| **Placeholder → local fallback** | No (placeholder returned as success) | Yes (`handle-qa-request.ts`) |
+| **Chunk synthesis when Grok silent** | No | Yes (`reactor-answer-fallback.ts`) |
+| **Live probe** (2026-05-31) | `X-QA-Reactor: 1`, `details: []`, placeholder on every question | Run locally after `pnpm dev` + env below |
+
+### Same Vercel env for both (until you change them)
+
+Production and local branch read the **same variable names**. Set these in **Vercel → Project → Environment Variables** (Production + Preview) and mirror in `.env.local`:
+
+| Variable | Production impact |
+|----------|-------------------|
+| `ENABLE_XAI_REACTOR=true` | Agentic path (currently on — causes placeholder when Grok/tools empty) |
+| `XAI_API_KEY` | Required for Grok `streamText` |
+| `XAI_MODEL` | **Set explicitly** on Vercel and locally. If unset, defaults to `grok-4-1-fast-reasoning` (`constants.ts`); wrong/unavailable model → empty Grok text + placeholder |
+| `XAI_PROFILE_COLLECTION` + read key | Collections search; if missing, code falls back to **local profile files** in the bundle |
+| `USE_LOCAL_PROFILE_DATA=true` | Force local files for tool/preflight search (good for preview) |
+
+**Immediate production relief (no deploy):** set `ENABLE_XAI_REACTOR=false` on Vercel and redeploy env only → site uses **local-index** path (hybrid retrieval + template/Ollama), no Grok placeholder.
+
+**Proper production fix:** merge this branch (at least `0f8ffbf` + golden + placeholder fixes), redeploy, keep reactor env vars aligned with `.env.local`.
+
+### Verify after deploy
+
+```bash
+curl -sS -X POST "https://peramanathan-sathyamoorthy-cv.vercel.app/api/cv/qa" \
+  -H "Content-Type: application/json" \
+  -d '{"question":"What is your email?"}' | jq '.answer, .details | length'
+```
+
+Expect a real answer (or local-path template), and `details` length &gt; 0 when reactor + retrieval work.
+
+---
+
+## Troubleshooting: “wasn't able to generate a complete narrative answer” (all questions)
+
+### Symptom
+
+Every agentic question returns:
+
+> I used my specialized profile tools to look up information, but wasn't able to generate a complete narrative answer this time. The tool results may contain relevant details.
+
+That string is **`REACTOR_EMPTY_NARRATIVE_PLACEHOLDER`** in `shared/reactor-answer-fallback.ts`, set in `persona-reactor.ts` only when **all** of the following fail:
+
+1. Grok `result.text` is empty or very short
+2. No tool results in AI SDK `steps` (and no manual collector rows when `XAI_PROFILE_COLLECTION` is set)
+3. No synthesis from **retrieved chunks** or golden routing
+
+### Common causes
+
+| Cause | What to check |
+|-------|----------------|
+| Grok never calls tools | Logs: `toolResultsInLastStep: 0`, `stepCount` low. Fix: **preflight** `profileSearch` before `streamText` (wired in reactor); set `XAI_MODEL` to a model your account supports (e.g. `grok-4.3`). |
+| Collections search empty | `XAI_PROFILE_COLLECTION`, `XAI_MANAGEMENT_API_KEY` or `XAI_API_KEY` with read scope; collection populated in console.x.ai. |
+| Reactor completes but gateway still shows placeholder | Gateway now **falls back to local-index** when the placeholder is returned (`handle-qa-request.ts`). Redeploy after this fix. |
+| Embeddings unavailable on serverless | `@huggingface/transformers` may fail on Vercel; early golden short-circuit uses BM25-only fallback — preflight/local search still fills chunks. |
+
+### Env checklist (agentic)
+
+```bash
+ENABLE_XAI_REACTOR=true
+XAI_API_KEY=...
+XAI_MODEL=grok-4.3   # or another model your account has
+XAI_PROFILE_COLLECTION=...   # optional; without it, local profile files are used for search
+```
+
+For local reactor dev without Collections: `USE_LOCAL_PROFILE_DATA=true` (still needs `XAI_API_KEY` for chat).
+
+### Logs
+
+Search server logs for `[persona-reactor][generation]`:
+
+- `preflight retrieval` — chunk count should be &gt; 0 for most questions
+- `synthesized answer from retrieved chunks` — fallback succeeded without Grok text
+- `no usable text produced after tools — using placeholder` — still broken; check keys, model, collection
 
 ---
 

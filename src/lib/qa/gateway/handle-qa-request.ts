@@ -1,6 +1,7 @@
 import { qaCache } from "../qa-cache";
 import { isQARectorEnabled, resolveQaMode } from "../config/resolve-qa-mode";
 import { runProfileQA as runLocalIndexQa } from "../profile-qa-generator";
+import { isReactorEmptyNarrativePlaceholder } from "../shared/reactor-answer-fallback";
 import { reactorResponseHeaders, type VisitorQaResponse } from "../shared/response-mapper";
 import type { ProfileQAResponse } from "../runProfileQA";
 import type { QAResponse } from "../types";
@@ -40,7 +41,7 @@ async function runAgenticPath(
 
   const details = detailsFromReactor(reactorRes as ProfileQAResponse);
 
-  if (reactorRes.answer) {
+  if (reactorRes.answer && !isReactorEmptyNarrativePlaceholder(reactorRes.answer)) {
     return {
       answer: reactorRes.answer,
       details,
@@ -49,6 +50,13 @@ async function runAgenticPath(
       isGolden: "isGolden" in reactorRes ? reactorRes.isGolden : undefined,
       defense: "defense" in reactorRes ? reactorRes.defense : undefined,
     };
+  }
+
+  if (reactorRes.answer && isReactorEmptyNarrativePlaceholder(reactorRes.answer)) {
+    console.warn(
+      "[qa-reactor] empty narrative placeholder — falling back to local-index path"
+    );
+    return runLocalPath(question);
   }
 
   const legacy = await import("../runProfileQA").then((m) => m.toLegacyCompatible(reactorRes));
