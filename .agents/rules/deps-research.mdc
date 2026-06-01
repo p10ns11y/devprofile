@@ -1,0 +1,18 @@
+---
+description: Research dependency versions and deprecations before bumping overrides
+globs: package.json,pnpm-workspace.yaml,pnpm-lock.yaml
+alwaysApply: false
+---
+
+# Dependency research before bump
+
+devprofile gold turns for pnpm/deps follow **Grep → Shell/WebSearch → Read → StrReplace**, not blind version bumps.
+
+When changing overrides, workspace deps, or fixing audit/deprecation issues:
+
+1. **Grep** lockfile and workspace for current resolved versions and duplicate pins.
+2. **WebSearch** or package docs for non-deprecated replacement versions when user rejects deprecated pins.
+3. **Read** the consuming package’s `package.json` and breaking-change notes.
+4. **StrReplace** then **Shell** (`pnpm install`, `pnpm audit`) before done.
+
+If the user attached `ai-optimization` or `supply-chain-harden`, follow those skill steps — do not skip install verification.
