@@ -1,16 +1,14 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
+import type { RetrievedChunk } from "../types";
 import {
-  REACTOR_EMPTY_NARRATIVE_PLACEHOLDER,
   isReactorEmptyNarrativePlaceholder,
+  REACTOR_EMPTY_NARRATIVE_PLACEHOLDER,
   synthesizeAnswerFromRetrievedChunks,
 } from "./reactor-answer-fallback";
-import type { RetrievedChunk } from "../types";
 
 describe("reactor-answer-fallback", () => {
   it("detects the empty narrative placeholder", () => {
-    expect(isReactorEmptyNarrativePlaceholder(REACTOR_EMPTY_NARRATIVE_PLACEHOLDER)).toBe(
-      true
-    );
+    expect(isReactorEmptyNarrativePlaceholder(REACTOR_EMPTY_NARRATIVE_PLACEHOLDER)).toBe(true);
     expect(isReactorEmptyNarrativePlaceholder("Something else entirely.")).toBe(false);
   });
 

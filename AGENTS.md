@@ -42,6 +42,7 @@ See [fusion-sage/SKILL.md](.agents/skills/fusion-sage/SKILL.md) and [ai-optimiza
 | Git worktrees, commit-then-merge, agent branch integration (not `cp` from worktrees) | [`.agents/skills/git-worktrees/SKILL.md`](.agents/skills/git-worktrees/SKILL.md) |
 | Orchestrating agents: briefs, verify-before-merge, iterative waves, resume work | [`.agents/skills/agent-orchestrator/SKILL.md`](.agents/skills/agent-orchestrator/SKILL.md) |
 | Split a branch or mixed changes into small reviewable PRs | [`.agents/skills/split-to-prs/SKILL.md`](.agents/skills/split-to-prs/SKILL.md) |
+| BDD/TDD strategy, complex refactor slices, legacy migration, dual-system testability | [`.agents/skills/bdd-strategizer/SKILL.md`](.agents/skills/bdd-strategizer/SKILL.md) (+ rule [bdd-strategizer.mdc](.agents/rules/bdd-strategizer.mdc)) |
 | Long-running execute-plan, worktrees + Graphite stacks, agent vs user terminal friction | [`docs/agent-workflow-lessons.md`](docs/agent-workflow-lessons.md) (plus guidance in `git-worktrees` and `agent-orchestrator` skills) |
 
 ## Cursor
@@ -65,6 +66,7 @@ ln -sf ../../.agents/skills/concurrent-cli-agents .cursor/skills/concurrent-cli-
 ln -sf ../../.agents/skills/git-worktrees .cursor/skills/git-worktrees
 ln -sf ../../.agents/skills/agent-orchestrator .cursor/skills/agent-orchestrator
 ln -sf ../../.agents/skills/split-to-prs .cursor/skills/split-to-prs
+ln -sf ../../.agents/skills/bdd-strategizer .cursor/skills/bdd-strategizer
 ```
 
 ## Agent workflow (triage first)

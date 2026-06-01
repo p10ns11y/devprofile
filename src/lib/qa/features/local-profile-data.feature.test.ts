@@ -1,8 +1,8 @@
-import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
-import { handleQaRequest } from "../gateway/handle-qa-request";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { resolveAgenticRetrieval } from "../config/resolve-qa-mode";
-import { assertQaResponseForVisitor, VISITOR_SCENARIO_IDS } from "../test/contracts";
+import { handleQaRequest } from "../gateway/handle-qa-request";
 import { feature, scenario } from "../test/bdd";
+import { assertQaResponseForVisitor, VISITOR_SCENARIO_IDS } from "../test/contracts";
 
 const mockRunProfileQA = vi.fn();
 
@@ -10,8 +10,7 @@ vi.mock("../runProfileQA", async (importOriginal) => {
   const actual = await importOriginal<typeof import("../runProfileQA")>();
   return {
     ...actual,
-    runProfileQA: (...args: Parameters<typeof actual.runProfileQA>) =>
-      mockRunProfileQA(...args),
+    runProfileQA: (...args: Parameters<typeof actual.runProfileQA>) => mockRunProfileQA(...args),
   };
 });
 

@@ -30,9 +30,7 @@ async function fetchCreativeProject(
   reposList: Record<string, unknown>[]
 ): Promise<CreativeProjectEntry> {
   const fromList = reposList.find(
-    (r) =>
-      String(r.full_name ?? "")
-        .toLowerCase() === fullName.toLowerCase()
+    (r) => String(r.full_name ?? "").toLowerCase() === fullName.toLowerCase()
   );
 
   try {
@@ -58,14 +56,11 @@ async function fetchCreativeProject(
 }
 
 /** Server-side: one snapshot for the live dashboard (used by /api/github/dashboard). */
-export async function fetchDashboardSnapshot(
-  username: string
-): Promise<GitHubDashboardSnapshot> {
+export async function fetchDashboardSnapshot(username: string): Promise<GitHubDashboardSnapshot> {
   const [user, repos] = await Promise.all([
-    fetchGitHubJson<Record<string, unknown>>(
-      `https://api.github.com/users/${username}`,
-      { next: { revalidate: 6 * 60 * 60 } }
-    ),
+    fetchGitHubJson<Record<string, unknown>>(`https://api.github.com/users/${username}`, {
+      next: { revalidate: 6 * 60 * 60 },
+    }),
     fetchGitHubJson<Record<string, unknown>[]>(
       `https://api.github.com/users/${username}/repos?affiliation=owner&per_page=100&sort=pushed&direction=desc`,
       { next: { revalidate: 6 * 60 * 60 } }

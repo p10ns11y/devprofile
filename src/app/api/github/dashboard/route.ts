@@ -1,8 +1,5 @@
-import {
-  fetchDashboardSnapshot,
-  normalizeGitHubUsername,
-} from "@/lib/github/dashboard-snapshot";
 import { hasGitHubToken } from "@/lib/github/client";
+import { fetchDashboardSnapshot, normalizeGitHubUsername } from "@/lib/github/dashboard-snapshot";
 
 /** 6h (~4 origin fetches/day) — keep in sync with REFRESH_INTERVAL_MS in dashboard-cache-client.js */
 export const revalidate = 21600;

@@ -1,8 +1,5 @@
-import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
-import {
-  collectionsClient,
-  XaiCollectionsConfigError,
-} from "./xai-collections";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { collectionsClient, XaiCollectionsConfigError } from "./xai-collections";
 
 const originalFetch = globalThis.fetch;
 

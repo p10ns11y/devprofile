@@ -18,17 +18,13 @@ export const Q6_TONE_GUIDANCE =
   "Responses must feel like a real human — warm, professional, with light subtle humor and sparkle infusion where natural. Never heavy or jokey. Sound like a thoughtful, slightly witty colleague who has the user's best interests in mind.";
 
 function extractPrinciples(psProfileMd: string): string[] {
-  const section = psProfileMd.match(
-    /## Principles & Philosophy[\s\S]*?(?=\n## |\n---|\Z)/
-  )?.[0];
+  const section = psProfileMd.match(/## Principles & Philosophy[\s\S]*?(?=\n## |\n---|Z)/)?.[0];
   if (!section) return [];
   return section.split("\n").filter((l) => l.startsWith("- **"));
 }
 
 function extractTopAchievements(psProfileMd: string): Array<{ title: string; narrative: string }> {
-  const section = psProfileMd.match(
-    /## Top 3 Standout Achievements[\s\S]*?(?=\n## |\n---|\Z)/
-  )?.[0];
+  const section = psProfileMd.match(/## Top 3 Standout Achievements[\s\S]*?(?=\n## |\n---|Z)/)?.[0];
   if (!section) return [];
   const blocks = section.split(/\n\*\*(?=\d+\.)/).slice(1);
   return blocks.map((block) => {
@@ -40,7 +36,7 @@ function extractTopAchievements(psProfileMd: string): Array<{ title: string; nar
 }
 
 function extractCoreIdentity(psProfileMd: string): string {
-  const section = psProfileMd.match(/## Core Identity[\s\S]*?(?=\n## |\n---|\Z)/)?.[0];
+  const section = psProfileMd.match(/## Core Identity[\s\S]*?(?=\n## |\n---|Z)/)?.[0];
   if (!section) return "";
   return section
     .replace(/## Core Identity\n?/, "")
@@ -51,10 +47,13 @@ function extractCoreIdentity(psProfileMd: string): string {
 }
 
 /** Parse **Q: ...** / **A:** blocks from golden + casual markdown. */
-export function extractGoldenExamples(goldenMd: string, casualMd: string): Array<{ q: string; a: string }> {
+export function extractGoldenExamples(
+  goldenMd: string,
+  casualMd: string
+): Array<{ q: string; a: string }> {
   const combined = `${goldenMd}\n\n${casualMd}`;
   const examples: Array<{ q: string; a: string }> = [];
-  const re = /\*\*Q:\s*([^*]+?)\*\*\s*\n+\*\*A:\*\*\s*([\s\S]*?)(?=\n###|\n\*\*Q:|\n---|\Z)/gi;
+  const re = /\*\*Q:\s*([^*]+?)\*\*\s*\n+\*\*A:\*\*\s*([\s\S]*?)(?=\n###|\n\*\*Q:|\n---|Z)/gi;
   let match = re.exec(combined);
   while (match !== null) {
     const q = match[1].trim();
@@ -65,7 +64,9 @@ export function extractGoldenExamples(goldenMd: string, casualMd: string): Array
   return examples.slice(0, 12);
 }
 
-function buildStructuredSnapshot(cvdata: Record<string, unknown>): ProfilePacket["structuredSnapshot"] {
+function buildStructuredSnapshot(
+  cvdata: Record<string, unknown>
+): ProfilePacket["structuredSnapshot"] {
   const contact = (cvdata.contact as Record<string, unknown>) || {};
   const work = (cvdata.work_experience as Array<{ tools?: string[] }>) || [];
   const tech = new Set<string>();
@@ -84,7 +85,9 @@ function buildStructuredSnapshot(cvdata: Record<string, unknown>): ProfilePacket
   };
 }
 
-function buildExperienceHighlights(cvdata: Record<string, unknown>): ProfilePacket["experienceHighlights"] {
+function buildExperienceHighlights(
+  cvdata: Record<string, unknown>
+): ProfilePacket["experienceHighlights"] {
   const work = (cvdata.work_experience as Array<Record<string, unknown>>) || [];
   return work.slice(0, 4).map((w) => ({
     company: String(w.company || ""),
@@ -94,7 +97,9 @@ function buildExperienceHighlights(cvdata: Record<string, unknown>): ProfilePack
   }));
 }
 
-function buildSignatureProjects(cvdata: Record<string, unknown>): ProfilePacket["signatureProjects"] {
+function buildSignatureProjects(
+  cvdata: Record<string, unknown>
+): ProfilePacket["signatureProjects"] {
   const projects = (cvdata.projects as Array<Record<string, unknown>>) || [];
   return projects.map((p) => ({
     name: String(p.name || ""),

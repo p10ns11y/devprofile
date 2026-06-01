@@ -1,4 +1,4 @@
-import { QaValidationError, handleQaRequest } from "@/lib/qa/gateway/handle-qa-request";
+import { handleQaRequest, QaValidationError } from "@/lib/qa/gateway/handle-qa-request";
 
 export async function POST(request: Request) {
   try {

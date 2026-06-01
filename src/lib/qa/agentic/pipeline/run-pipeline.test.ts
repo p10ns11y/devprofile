@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const { mockCheckAbuse, mockStreamText } = vi.hoisted(() => ({
   mockCheckAbuse: vi.fn(async (question: string) => {
@@ -70,8 +70,7 @@ describe(feature("Agentic parity"), () => {
       const res = await runProfileQAReactor("Why does premflow still matter in 2026?", {});
       expect(res.isGolden).toBeUndefined();
       expect(mockCheckAbuse).toHaveBeenCalled();
-      const goldenShortCircuit =
-        typeof res.answer === "string" && res.answer.includes("300 lines");
+      const goldenShortCircuit = typeof res.answer === "string" && res.answer.includes("300 lines");
       if (goldenShortCircuit) {
         expect(mockStreamText).not.toHaveBeenCalled();
       } else {

@@ -1,9 +1,9 @@
-import { qaCache } from "../qa-cache";
 import { isQARectorEnabled, resolveQaMode } from "../config/resolve-qa-mode";
 import { runProfileQA as runLocalIndexQa } from "../profile-qa-generator";
+import { qaCache } from "../qa-cache";
+import type { ProfileQAResponse } from "../runProfileQA";
 import { isReactorEmptyNarrativePlaceholder } from "../shared/reactor-answer-fallback";
 import { reactorResponseHeaders, type VisitorQaResponse } from "../shared/response-mapper";
-import type { ProfileQAResponse } from "../runProfileQA";
 import type { QAResponse } from "../types";
 
 export interface QaRequestContext {
@@ -29,10 +29,7 @@ function detailsFromReactor(reactorRes: ProfileQAResponse): QAResponse["details"
   return mapToolResultsToDetails(toolResults);
 }
 
-async function runAgenticPath(
-  question: string,
-  ctx: QaRequestContext
-): Promise<VisitorQaResponse> {
+async function runAgenticPath(question: string, ctx: QaRequestContext): Promise<VisitorQaResponse> {
   const { runProfileQA } = await import("../runProfileQA");
   const reactorRes = await runProfileQA(question, {
     ip: ctx.ip,
@@ -53,9 +50,7 @@ async function runAgenticPath(
   }
 
   if (reactorRes.answer && isReactorEmptyNarrativePlaceholder(reactorRes.answer)) {
-    console.warn(
-      "[qa-reactor] empty narrative placeholder — falling back to local-index path"
-    );
+    console.warn("[qa-reactor] empty narrative placeholder — falling back to local-index path");
     return runLocalPath(question);
   }
 

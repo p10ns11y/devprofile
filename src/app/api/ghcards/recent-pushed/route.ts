@@ -35,9 +35,7 @@ export async function GET(request: Request) {
       `https://api.github.com/users/${username}/repos?affiliation=owner&per_page=100&sort=pushed&direction=desc`,
       { next: { revalidate: 300 } }
     );
-    const recentRepos = reposJson
-      .filter((r) => !r.fork && !r.private)
-      .slice(0, limit);
+    const recentRepos = reposJson.filter((r) => !r.fork && !r.private).slice(0, limit);
 
     const svg = generateRecentPushedSVG(recentRepos, username);
 
@@ -88,9 +86,7 @@ function generateRecentPushedSVG(repos: GitHubRepo[], username: string) {
       const langColor = getLanguageColor(repo.language);
       const isTop = index === 0;
       const displayName = truncateText(repo.name, col.nameMaxChars);
-      const displayLang = repo.language
-        ? truncateText(repo.language, col.langMaxChars)
-        : null;
+      const displayLang = repo.language ? truncateText(repo.language, col.langMaxChars) : null;
 
       return `
       <g transform="translate(20, ${y})">

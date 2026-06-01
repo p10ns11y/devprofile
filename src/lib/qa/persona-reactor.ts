@@ -19,24 +19,20 @@ import { type StreamTextResult, stepCountIs, streamText, type ToolSet } from "ai
 import { readFileSync } from "fs";
 import { join } from "path";
 import { checkAbuse, computeGoldenFallback } from "./abuse-defense"; // PR4 stub shim
-import { XAI } from "./constants";
 import {
   resolveXaiMaxOutputTokens,
   resolveXaiTemperature,
   xaiStreamTextProviderOptions,
 } from "./config/resolve-xai-generation";
+import { XAI } from "./constants";
 import { withLightweightRetry } from "./durable-retry"; // Q2 lightweight shim (per user decision; no full Workflow DevKit)
 import { embedQueryForIndex } from "./embed-query";
-import {
-  isGenericIntroAnswer,
-  resolveGoldenAnswer,
-} from "./golden-routing";
+import { isGenericIntroAnswer, resolveGoldenAnswer } from "./golden-routing";
 import { loadQAIndex } from "./load-index";
 // High fix (review 80eccd53-pr-6): imports aligned to present surface (PR3 xai-collections + stubs for PR2/PR4/Q2 on sibling branches).
 // Stubs (persona-compiler.ts, abuse-defense.ts, durable-retry.ts) are thin shims only — see their headers.
 // ProfilePacket type also re-exported from ./types (and barrel).
 import type { ProfilePacket } from "./persona-compiler";
-import type { RetrievedChunk } from "./types";
 import { compileProfilePacketFromRawSources } from "./persona-compiler";
 // PR5 surface — exact 6 thin Collections-backed tools (see persona-tools.ts:230 aiPersonaTools + __TEST_ONLY_TOOL_PREFIXES__)
 import {
@@ -51,6 +47,7 @@ import {
   REACTOR_EMPTY_NARRATIVE_PLACEHOLDER,
   synthesizeAnswerFromRetrievedChunks,
 } from "./shared/reactor-answer-fallback";
+import type { RetrievedChunk } from "./types";
 
 // Data sources for the ProfilePacket compiler.
 // Using fs.readFileSync instead of dynamic imports because Turbopack does not support

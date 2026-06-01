@@ -16,12 +16,7 @@ import {
 } from "./qa-router";
 import { retrieveFromIndex } from "./retrieve";
 import { getAchievementsAnswer, isAchievementsQuestion } from "./top-achievements";
-import type {
-  GenerationStrategy,
-  GoldenFewShot,
-  QAResponse,
-  RetrievedChunk,
-} from "./types";
+import type { GenerationStrategy, GoldenFewShot, QAResponse, RetrievedChunk } from "./types";
 
 export { findGoldenMatch } from "./golden-routing";
 

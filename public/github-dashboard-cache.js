@@ -4,9 +4,9 @@
  * for static HTML + service worker (/sw.js).
  */
 
-export const DB_NAME = 'devprofile-github-dashboard';
+export const DB_NAME = "devprofile-github-dashboard";
 export const DB_VERSION = 1;
-export const STORE = 'snapshots';
+export const STORE = "snapshots";
 /**
  * Minimum time between network refreshes (~4× per day).
  * IndexedDB + CDN may serve data longer; manual Refresh always bypasses.
@@ -14,31 +14,29 @@ export const STORE = 'snapshots';
 export const REFRESH_INTERVAL_MS = 6 * 60 * 60 * 1000;
 /** @deprecated Use REFRESH_INTERVAL_MS */
 export const STALE_MS = REFRESH_INTERVAL_MS;
-export const SYNC_TAG = 'github-dashboard-sync';
-export const BACKGROUND_FETCH_ID = 'github-dashboard-fetch';
-export const DEFAULT_USERNAME = 'p10ns11y';
+export const SYNC_TAG = "github-dashboard-sync";
+export const BACKGROUND_FETCH_ID = "github-dashboard-fetch";
+export const DEFAULT_USERNAME = "p10ns11y";
 
 export const GITHUB_API_HEADERS = {
-  Accept: 'application/vnd.github+json',
-  'X-GitHub-Api-Version': '2022-11-28',
+  Accept: "application/vnd.github+json",
+  "X-GitHub-Api-Version": "2022-11-28",
 };
 
 /** Keep in sync with src/lib/github/creative-projects.ts */
 export const CREATIVE_PROJECTS_BY_OWNER = Object.freeze({
   p10ns11y: [
-    'elomaxz',
-    'arch-machine',
-    'thepulimaangani',
-    'devprofile',
-    'selfie-sign-in-flow-using-v0-xAI',
-    'sorkalam-extension',
+    "elomaxz",
+    "arch-machine",
+    "thepulimaangani",
+    "devprofile",
+    "selfie-sign-in-flow-using-v0-xAI",
+    "sorkalam-extension",
   ],
-  thecuriousts: ['premflow'],
+  thecuriousts: ["premflow"],
 });
 
-export function getCreativeProjectSlugs(
-  projectsByOwner = CREATIVE_PROJECTS_BY_OWNER
-) {
+export function getCreativeProjectSlugs(projectsByOwner = CREATIVE_PROJECTS_BY_OWNER) {
   return Object.entries(projectsByOwner).flatMap(([owner, repos]) =>
     repos.map((repo) => `${owner}/${repo}`)
   );
@@ -65,7 +63,7 @@ function openDb() {
 export async function getSnapshot(username) {
   const db = await openDb();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readonly');
+    const tx = db.transaction(STORE, "readonly");
     const req = tx.objectStore(STORE).get(snapshotKey(username));
     req.onsuccess = () => resolve(req.result ?? null);
     req.onerror = () => reject(req.error);
@@ -75,7 +73,7 @@ export async function getSnapshot(username) {
 export async function putSnapshot(username, snapshot) {
   const db = await openDb();
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readwrite');
+    const tx = db.transaction(STORE, "readwrite");
     tx.objectStore(STORE).put(snapshot, snapshotKey(username));
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
@@ -84,8 +82,8 @@ export async function putSnapshot(username, snapshot) {
 
 export function formatSyncTime(fetchedAt) {
   return new Date(fetchedAt).toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }
 
@@ -97,12 +95,12 @@ export function isStale(fetchedAt, maxAgeMs = STALE_MS) {
 /** Same-origin Vercel proxy (token + CDN). Returns null on file:// or external hosts. */
 export function getDashboardApiUrl(username) {
   const origin =
-    typeof self !== 'undefined' && self.location?.origin
+    typeof self !== "undefined" && self.location?.origin
       ? self.location.origin
-      : typeof window !== 'undefined'
+      : typeof window !== "undefined"
         ? window.location?.origin
-        : '';
-  if (!origin || origin === 'null' || origin.startsWith('file:')) {
+        : "";
+  if (!origin || origin === "null" || origin.startsWith("file:")) {
     return null;
   }
   const params = new URLSearchParams({ username });
@@ -111,7 +109,7 @@ export function getDashboardApiUrl(username) {
 
 async function fetchCreativeProject(fullName, reposList, signal) {
   const fromList = reposList.find(
-    (r) => (r.full_name || '').toLowerCase() === fullName.toLowerCase()
+    (r) => (r.full_name || "").toLowerCase() === fullName.toLowerCase()
   );
 
   try {
@@ -151,7 +149,7 @@ export async function fetchGitHubSnapshot(username, options = {}) {
 
   const apiUrl = getDashboardApiUrl(username);
   if (apiUrl) {
-    const res = await fetch(apiUrl, { signal, credentials: 'same-origin' });
+    const res = await fetch(apiUrl, { signal, credentials: "same-origin" });
     if (res.ok) {
       const snapshot = await res.json();
       return {
@@ -181,7 +179,7 @@ export async function fetchGitHubSnapshot(username, options = {}) {
   ]);
 
   if (!userRes.ok || !reposRes.ok) {
-    throw new Error('GitHub API error or rate limit exceeded');
+    throw new Error("GitHub API error or rate limit exceeded");
   }
 
   const user = await userRes.json();
@@ -214,19 +212,19 @@ export async function loadDashboardData(username, options = {}) {
   }
 
   if (cached && !forceRefresh && !isStale(cached.fetchedAt)) {
-    return { ...cached, source: 'cache' };
+    return { ...cached, source: "cache" };
   }
 
   try {
     const fresh = await fetchGitHubSnapshot(username, { signal });
     await putSnapshot(username, fresh);
-    return { ...fresh, source: 'network' };
+    return { ...fresh, source: "network" };
   } catch (err) {
     if (cached) {
       return {
         ...cached,
-        source: 'cache-fallback',
-        error: err?.message || 'Failed to load data',
+        source: "cache-fallback",
+        error: err?.message || "Failed to load data",
       };
     }
     throw err;
@@ -243,14 +241,14 @@ export async function refreshDashboardInBackground(username = DEFAULT_USERNAME) 
   const snapshot = await fetchGitHubSnapshot(username);
   await putSnapshot(username, snapshot);
 
-  if (typeof self !== 'undefined' && self.clients?.matchAll) {
+  if (typeof self !== "undefined" && self.clients?.matchAll) {
     const clients = await self.clients.matchAll({
-      type: 'window',
+      type: "window",
       includeUncontrolled: true,
     });
     for (const client of clients) {
       client.postMessage({
-        type: 'GITHUB_DASHBOARD_UPDATED',
+        type: "GITHUB_DASHBOARD_UPDATED",
         username,
         fetchedAt: snapshot.fetchedAt,
       });
@@ -263,10 +261,7 @@ export async function refreshDashboardInBackground(username = DEFAULT_USERNAME) 
 /**
  * Build snapshot from a completed Background Fetch registration.
  */
-export async function applyBackgroundFetchToSnapshot(
-  registration,
-  username = DEFAULT_USERNAME
-) {
+export async function applyBackgroundFetchToSnapshot(registration, username = DEFAULT_USERNAME) {
   const records = await registration.matchAll();
   let user = null;
   let repos = null;
@@ -279,17 +274,17 @@ export async function applyBackgroundFetchToSnapshot(
 
     const url = record.request.url;
 
-    if (url.includes('/api/github/dashboard')) {
+    if (url.includes("/api/github/dashboard")) {
       const snapshot = await response.json();
       await putSnapshot(username, snapshot);
-      if (typeof self !== 'undefined' && self.clients?.matchAll) {
+      if (typeof self !== "undefined" && self.clients?.matchAll) {
         const clients = await self.clients.matchAll({
-          type: 'window',
+          type: "window",
           includeUncontrolled: true,
         });
         for (const client of clients) {
           client.postMessage({
-            type: 'GITHUB_DASHBOARD_UPDATED',
+            type: "GITHUB_DASHBOARD_UPDATED",
             username,
             fetchedAt: snapshot.fetchedAt,
           });
@@ -300,11 +295,11 @@ export async function applyBackgroundFetchToSnapshot(
 
     const data = await response.json();
 
-    if (url.includes(`/users/${username}`) && !url.includes('/repos')) {
+    if (url.includes(`/users/${username}`) && !url.includes("/repos")) {
       user = data;
     } else if (url.includes(`/users/${username}/repos`)) {
       repos = data;
-    } else if (url.includes('/repos/')) {
+    } else if (url.includes("/repos/")) {
       const match = url.match(/\/repos\/([^/]+\/[^/?]+)/);
       if (match) {
         repoByFullName.set(match[1].toLowerCase(), data);
@@ -319,7 +314,7 @@ export async function applyBackgroundFetchToSnapshot(
   const creativeProjects = getCreativeProjectSlugs().map((fullName) => {
     const repo =
       repoByFullName.get(fullName.toLowerCase()) ||
-      repos.find((r) => (r.full_name || '').toLowerCase() === fullName.toLowerCase());
+      repos.find((r) => (r.full_name || "").toLowerCase() === fullName.toLowerCase());
     return {
       fullName,
       repo: repo || null,
@@ -337,14 +332,14 @@ export async function applyBackgroundFetchToSnapshot(
 
   await putSnapshot(username, snapshot);
 
-  if (typeof self !== 'undefined' && self.clients?.matchAll) {
+  if (typeof self !== "undefined" && self.clients?.matchAll) {
     const clients = await self.clients.matchAll({
-      type: 'window',
+      type: "window",
       includeUncontrolled: true,
     });
     for (const client of clients) {
       client.postMessage({
-        type: 'GITHUB_DASHBOARD_UPDATED',
+        type: "GITHUB_DASHBOARD_UPDATED",
         username,
         fetchedAt: snapshot.fetchedAt,
       });
@@ -357,17 +352,15 @@ export async function applyBackgroundFetchToSnapshot(
 /**
  * Register periodic background sync, one-shot sync, and Background Fetch when supported.
  */
-export async function registerDashboardBackgroundSync(
-  username = DEFAULT_USERNAME
-) {
-  if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) {
+export async function registerDashboardBackgroundSync(username = DEFAULT_USERNAME) {
+  if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) {
     return { periodic: false, backgroundFetch: false, sync: false };
   }
 
-  let reg = await navigator.serviceWorker.getRegistration('/');
+  let reg = await navigator.serviceWorker.getRegistration("/");
   if (!reg) {
     try {
-      reg = await navigator.serviceWorker.register('/sw.js', { type: 'module' });
+      reg = await navigator.serviceWorker.register("/sw.js", { type: "module" });
     } catch {
       return { periodic: false, backgroundFetch: false, sync: false };
     }
@@ -377,15 +370,15 @@ export async function registerDashboardBackgroundSync(
   const cached = await getSnapshot(username);
   const needsRefresh = !cached || isStale(cached.fetchedAt);
 
-  if ('periodicSync' in reg) {
+  if ("periodicSync" in reg) {
     try {
       const perm =
-        typeof PeriodicSyncManager !== 'undefined'
+        typeof PeriodicSyncManager !== "undefined"
           ? await navigator.permissions.query({
-              name: 'periodic-background-sync',
+              name: "periodic-background-sync",
             })
-          : { state: 'prompt' };
-      if (perm.state === 'granted' || perm.state === 'prompt') {
+          : { state: "prompt" };
+      if (perm.state === "granted" || perm.state === "prompt") {
         await reg.periodicSync.register(SYNC_TAG, {
           minInterval: REFRESH_INTERVAL_MS,
         });
@@ -396,7 +389,7 @@ export async function registerDashboardBackgroundSync(
     }
   }
 
-  if ('sync' in reg && needsRefresh) {
+  if ("sync" in reg && needsRefresh) {
     try {
       await reg.sync.register(SYNC_TAG);
       result.sync = true;
@@ -405,11 +398,11 @@ export async function registerDashboardBackgroundSync(
     }
   }
 
-  if ('backgroundFetch' in reg && needsRefresh) {
+  if ("backgroundFetch" in reg && needsRefresh) {
     try {
       const apiUrl = getDashboardApiUrl(username);
       const requests = apiUrl
-        ? [new Request(apiUrl, { credentials: 'same-origin' })]
+        ? [new Request(apiUrl, { credentials: "same-origin" })]
         : [
             new Request(`https://api.github.com/users/${username}`, {
               headers: GITHUB_API_HEADERS,
@@ -427,8 +420,8 @@ export async function registerDashboardBackgroundSync(
           ];
 
       await reg.backgroundFetch.fetch(BACKGROUND_FETCH_ID, requests, {
-        title: 'Syncing GitHub dashboard',
-        icons: [{ sizes: [96, 96], src: '/favicon.ico', type: 'image/png' }],
+        title: "Syncing GitHub dashboard",
+        icons: [{ sizes: [96, 96], src: "/favicon.ico", type: "image/png" }],
       });
       result.backgroundFetch = true;
     } catch {
@@ -440,17 +433,17 @@ export async function registerDashboardBackgroundSync(
 }
 
 export function listenForDashboardUpdates(onUpdate) {
-  if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) {
+  if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) {
     return () => {};
   }
 
   const handler = (event) => {
     const data = event.data;
-    if (data?.type === 'GITHUB_DASHBOARD_UPDATED') {
+    if (data?.type === "GITHUB_DASHBOARD_UPDATED") {
       onUpdate(data);
     }
   };
 
-  navigator.serviceWorker.addEventListener('message', handler);
-  return () => navigator.serviceWorker.removeEventListener('message', handler);
+  navigator.serviceWorker.addEventListener("message", handler);
+  return () => navigator.serviceWorker.removeEventListener("message", handler);
 }

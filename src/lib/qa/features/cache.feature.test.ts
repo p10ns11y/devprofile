@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { qaCache } from "../qa-cache";
 import { handleQaRequest } from "../gateway/handle-qa-request";
+import { qaCache } from "../qa-cache";
 import { feature, scenario } from "../test/bdd";
 import { VISITOR_SCENARIO_IDS } from "../test/contracts";
 

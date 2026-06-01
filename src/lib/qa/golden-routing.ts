@@ -67,10 +67,7 @@ function parseQuestionFromGoldenChunk(text: string): string | null {
   return match?.[1]?.trim() || null;
 }
 
-function lookupGoldenEntry(
-  index: QAIndex,
-  chunk: RetrievedChunk
-): GoldenQuestionEntry | null {
+function lookupGoldenEntry(index: QAIndex, chunk: RetrievedChunk): GoldenQuestionEntry | null {
   if (chunk.id) {
     const byId = index.goldenQuestions.find((e) => e.id === chunk.id);
     if (byId) return byId;
@@ -108,7 +105,10 @@ export function findGoldenMatch(
   let keywordBest: GoldenResolution | null = null;
   for (const entry of index.goldenQuestions) {
     const sim = tokenOverlapScore(question, entry.question);
-    if (sim >= QA_ROUTER.GOLDEN_KEYWORD_THRESHOLD && (!keywordBest || sim > keywordBest.similarity)) {
+    if (
+      sim >= QA_ROUTER.GOLDEN_KEYWORD_THRESHOLD &&
+      (!keywordBest || sim > keywordBest.similarity)
+    ) {
       keywordBest = { entry, similarity: sim, via: "keyword" };
     }
   }
@@ -160,9 +160,7 @@ export function resolveGoldenAnswer(
 ): GoldenResolution | null {
   return (
     findGoldenMatch(index, opts.queryVec ?? null, question) ??
-    (opts.retrieval?.length
-      ? findGoldenFromRetrieval(index, question, opts.retrieval)
-      : null)
+    (opts.retrieval?.length ? findGoldenFromRetrieval(index, question, opts.retrieval) : null)
   );
 }
 
@@ -170,15 +168,11 @@ export function resolveGoldenAnswer(
 export function isGenericIntroAnswer(text: string): boolean {
   const t = text.trim().toLowerCase();
   return (
-    t.startsWith("hello! i'm") &&
-    t.includes("what would you like to know more about my experience")
+    t.startsWith("hello! i'm") && t.includes("what would you like to know more about my experience")
   );
 }
 
-export function shouldPreferGoldenAnswer(
-  modelAnswer: string,
-  golden: GoldenResolution
-): boolean {
+export function shouldPreferGoldenAnswer(modelAnswer: string, golden: GoldenResolution): boolean {
   if (golden.via !== "retrieval") return true;
   if (golden.similarity >= QA_ROUTER.GOLDEN_RETRIEVAL_MIN_SIM) {
     return isGenericIntroAnswer(modelAnswer) || modelAnswer.trim().length < 80;

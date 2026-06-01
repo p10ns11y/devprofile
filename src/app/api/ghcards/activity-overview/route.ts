@@ -1,12 +1,5 @@
 import { fetchGitHubJson } from "@/lib/github/client";
-import {
-  cardFooter,
-  cardHeader,
-  escapeXml,
-  getTimeAgo,
-  prStateBadge,
-  wrapSvg,
-} from "../theme";
+import { cardFooter, cardHeader, escapeXml, getTimeAgo, prStateBadge, wrapSvg } from "../theme";
 
 type GitHubRepo = {
   name: string;
@@ -43,8 +36,9 @@ export async function GET(request: Request) {
 
     const repos = reposJson.filter((r) => !r.fork && !r.private).slice(0, 5);
 
-    const prs =
-      Array.isArray(prsJson) ? prsJson : ((prsJson as { items?: GitHubPullRequest[] }).items ?? []);
+    const prs = Array.isArray(prsJson)
+      ? prsJson
+      : ((prsJson as { items?: GitHubPullRequest[] }).items ?? []);
 
     const svg = generateOverviewSVG(repos, prs, username);
 
@@ -61,11 +55,7 @@ export async function GET(request: Request) {
   }
 }
 
-function generateOverviewSVG(
-  repos: GitHubRepo[],
-  prs: GitHubPullRequest[],
-  username: string
-) {
+function generateOverviewSVG(repos: GitHubRepo[], prs: GitHubPullRequest[], username: string) {
   const width = 720;
   const height = 400;
   const headerHeight = 56;
@@ -91,8 +81,7 @@ function generateOverviewSVG(
       const y = startY + i * rowH;
       const state = pr.pull_request?.merged_at ? "merged" : pr.state;
       const badge = prStateBadge(state);
-      const title =
-        pr.title.length > 36 ? `${pr.title.slice(0, 36)}…` : pr.title;
+      const title = pr.title.length > 36 ? `${pr.title.slice(0, 36)}…` : pr.title;
 
       return `
       <g transform="translate(376, ${y})">

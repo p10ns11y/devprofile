@@ -23,6 +23,7 @@ Read [agent-orchestrator](.agents/skills/agent-orchestrator/SKILL.md) when work 
 - Run stated verification commands yourself — do not trust "done" without checks on non-trivial work
 - Never integrate worktrees via `cp`; use merge per [git-worktrees](.agents/skills/git-worktrees/SKILL.md)
 - **Commit message hygiene**: Never suggest or include boilerplate from other LLMs ("Generated with Claude Code", "Co-Authored-By: Claude", etc.) in commit messages unless the user has explicitly confirmed they are using that LLM on this machine. Default to clean, factual messages. See `docs/agent-workflow-lessons.md` Lesson 6.
+- **Before commit**: Run `pnpm precommit` (imports → format → lint:fix → lint); see [pre-commit-checks](pre-commit-checks.mdc). Add `pnpm type-check` when TS/TSX changed.
 
 ## Verify (after non-trivial code changes)
 
