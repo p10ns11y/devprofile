@@ -8,7 +8,7 @@ export function SocialLinks() {
         <a
           key={social.label}
           href={social.href}
-          className="p-3 rounded-full border border-border hover:bg-surface3 hover:text-brand transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          className="p-3 rounded-full border border-[var(--color-border-subtle)] bg-surface1 hover:bg-surface2 hover:text-[var(--color-link)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-emphasis)]"
           aria-label={social.label}
           target="_blank"
           rel="nofollow noreferrer noopener"

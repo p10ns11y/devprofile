@@ -19,8 +19,10 @@ const sizeClasses: Record<SiteButtonSize, string> = {
 
 const variantClasses: Record<SiteButtonVariant, string> = {
   primary: "bg-brand text-accent-primary-text hover:bg-brand/90 border-transparent",
-  secondary: "bg-surface3 text-text1 hover:bg-surface4 border-transparent",
-  outline: "border-border bg-transparent text-text1 hover:bg-surface3",
+  secondary:
+    "bg-surface-raised text-text1 border border-[var(--color-border-subtle)] shadow-[var(--marketing-shadow-sm)] hover:bg-surface3 hover:border-[color-mix(in_oklch,var(--color-brand-emphasis)_25%,var(--color-border-subtle))]",
+  outline:
+    "border-[var(--color-border-subtle)] bg-transparent text-text1 hover:bg-surface2 hover:border-[color-mix(in_oklch,var(--color-brand-emphasis)_25%,var(--color-border-subtle))]",
 };
 
 type SiteButtonProps = {

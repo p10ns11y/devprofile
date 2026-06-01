@@ -34,6 +34,20 @@
     }
   }
 
+  /* Round 2: elevated bands vs default — highlight only at real transitions, not between stacked elevated sections */
+  [data-section-bg="elevated"] {
+    background-color: var(--color-background-elevated);
+  }
+
+  [data-section="home"] + [data-section-bg="elevated"],
+  :not([data-section-bg="elevated"]) + [data-section-bg="elevated"] {
+    box-shadow: inset 0 1px 0 color-mix(in oklch, white 45%, transparent);
+  }
+
+  [data-section-bg="elevated"]:has(+ :not([data-section-bg="elevated"])) {
+    box-shadow: inset 0 -1px 0 color-mix(in oklch, black 6%, transparent);
+  }
+
   [data-section] a,
   [data-section] p,
   [data-section] li {
@@ -216,9 +230,9 @@
     font-weight: 500;
     line-height: 1.3;
     color: var(--color-text);
-    background-color: var(--color-surface1);
-    border: 1px solid color-mix(in oklch, var(--color-text-disabled) 40%, transparent);
-    box-shadow: 0 1px 1px color-mix(in oklch, var(--color-shadow) 6%, transparent);
+    background-color: var(--color-surface-raised);
+    border: 1px solid var(--color-border-subtle);
+    box-shadow: var(--marketing-shadow-sm);
   }
 
   .about-values {
@@ -241,9 +255,9 @@
     min-width: 0;
     padding: 1rem 1.125rem;
     border-radius: 0.75rem;
-    border: 1px solid color-mix(in oklch, var(--color-text-disabled) 35%, transparent);
-    background-color: var(--color-surface1);
-    box-shadow: 0 1px 2px color-mix(in oklch, var(--color-shadow) 8%, transparent);
+    border: 1px solid var(--color-border-subtle);
+    background-color: var(--color-surface-raised);
+    box-shadow: var(--marketing-shadow-sm);
     transition:
       border-color 0.2s ease,
       box-shadow 0.2s ease,
@@ -252,8 +266,12 @@
 
   @media (hover: hover) {
     .about-value-card:hover {
-      border-color: color-mix(in oklch, var(--brand) 22%, var(--color-text-disabled));
-      box-shadow: 0 6px 16px color-mix(in oklch, var(--color-shadow) 14%, transparent);
+      border-color: color-mix(
+        in oklch,
+        var(--color-brand-emphasis) 35%,
+        var(--color-border-subtle)
+      );
+      box-shadow: var(--marketing-shadow-md);
       transform: translateY(-2px);
     }
   }
@@ -265,8 +283,8 @@
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 0.625rem;
-    background-color: color-mix(in oklch, var(--brand) 12%, transparent);
-    color: var(--brand);
+    background-color: var(--color-brand-subtle);
+    color: var(--color-brand-emphasis);
   }
 
   .about-value-card__title {
@@ -291,13 +309,22 @@
   .credentials-block + .credentials-block {
     margin-top: 2.5rem;
     padding-top: 2rem;
-    border-top: 1px solid color-mix(in oklch, var(--color-text-disabled) 30%, transparent);
+    border-top: 1px solid var(--color-border-subtle);
   }
 
   .credentials-pullquote {
     max-width: 40rem;
     margin-inline: auto;
     margin-bottom: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-border-subtle);
+    background-color: color-mix(
+      in oklch,
+      var(--color-surface-raised) 88%,
+      var(--color-background-elevated)
+    );
+    box-shadow: var(--marketing-shadow-sm);
   }
 
   .credentials-intro {
@@ -307,7 +334,7 @@
   .credentials-pullquote blockquote {
     margin: 0;
     padding-left: 1.25rem;
-    border-left: 3px solid color-mix(in oklch, var(--brand) 70%, transparent);
+    border-left: 3px solid var(--color-brand-emphasis);
   }
 
   .credentials-pullquote blockquote p {
@@ -393,9 +420,9 @@
     padding: 0.75rem 0.625rem;
     text-align: center;
     border-radius: 0.625rem;
-    border: 1px solid color-mix(in oklch, var(--color-text-disabled) 35%, transparent);
-    background-color: var(--color-surface1);
-    box-shadow: 0 1px 2px color-mix(in oklch, var(--color-shadow) 6%, transparent);
+    border: 1px solid var(--color-border-subtle);
+    background-color: var(--color-surface-raised);
+    box-shadow: var(--marketing-shadow-sm);
   }
 
   .experience-timeline-card__year {
@@ -414,7 +441,7 @@
     font-size: 0.6875rem;
     font-weight: 500;
     line-height: 1.35;
-    color: var(--brand);
+    color: var(--color-brand-emphasis);
   }
 
   .experience-roles {
@@ -435,9 +462,9 @@
     min-width: 0;
     padding: 1.25rem 1.5rem;
     border-radius: 0.875rem;
-    border: 1px solid color-mix(in oklch, var(--color-text-disabled) 35%, transparent);
-    background-color: var(--color-surface1);
-    box-shadow: 0 1px 3px color-mix(in oklch, var(--color-shadow) 10%, transparent);
+    border: 1px solid var(--color-border-subtle);
+    background-color: var(--color-surface-raised);
+    box-shadow: var(--marketing-shadow-sm);
   }
 
   @media (min-width: 768px) {
@@ -523,7 +550,7 @@
     width: 0.375rem;
     height: 0.375rem;
     border-radius: 9999px;
-    background-color: var(--brand);
+    background-color: var(--color-brand-emphasis);
   }
 
   .experience-tools {
@@ -550,9 +577,9 @@
   .contact-form-panel {
     padding: clamp(1.25rem, 3vw, 2rem);
     border-radius: 0.875rem;
-    border: 1px solid color-mix(in oklch, var(--color-text-disabled) 35%, transparent);
-    background-color: var(--color-surface2);
-    box-shadow: 0 1px 3px color-mix(in oklch, var(--color-shadow) 10%, transparent);
+    border: 1px solid var(--color-border-subtle);
+    background-color: var(--color-surface-raised);
+    box-shadow: var(--marketing-shadow-sm);
   }
 
   .contact-aside-intro {
@@ -579,9 +606,10 @@
     gap: 1rem;
     padding: 1rem 1.125rem;
     border-radius: 0.75rem;
-    border: 1px solid color-mix(in oklch, var(--color-text-disabled) 35%, transparent);
-    background-color: var(--color-surface2);
+    border: 1px solid var(--color-border-subtle);
+    background-color: var(--color-surface-raised);
     text-decoration: none;
+    box-shadow: var(--marketing-shadow-sm);
     transition:
       border-color 0.2s ease,
       box-shadow 0.2s ease,
@@ -590,8 +618,12 @@
 
   @media (hover: hover) {
     .contact-channel:hover {
-      border-color: color-mix(in oklch, var(--brand) 22%, var(--color-text-disabled));
-      box-shadow: 0 4px 12px color-mix(in oklch, var(--color-shadow) 12%, transparent);
+      border-color: color-mix(
+        in oklch,
+        var(--color-brand-emphasis) 35%,
+        var(--color-border-subtle)
+      );
+      box-shadow: var(--marketing-shadow-md);
       transform: translateY(-1px);
     }
   }
@@ -604,8 +636,8 @@
     height: 2.75rem;
     flex-shrink: 0;
     border-radius: 0.625rem;
-    background-color: color-mix(in oklch, var(--brand) 12%, transparent);
-    color: var(--brand);
+    background-color: var(--color-brand-subtle);
+    color: var(--color-brand-emphasis);
   }
 
   .contact-channel__label {
@@ -623,11 +655,11 @@
   }
 
   .contact-channel:focus-visible {
-    outline: 2px solid var(--brand);
+    outline: 2px solid var(--color-brand-emphasis);
     outline-offset: 2px;
   }
 
-  /* Credentials / learning cards — one surface, neutral meta (not brand-tinted “error” pink) */
+  /* Credentials / learning cards — raised white on elevated band */
   .credential-card {
     display: flex;
     flex-direction: column;
@@ -636,9 +668,9 @@
     min-width: 0;
     padding: 1.25rem;
     border-radius: 0.75rem;
-    border: 1px solid color-mix(in oklch, var(--color-text-disabled) 35%, transparent);
-    background-color: var(--color-surface1);
-    box-shadow: 0 1px 2px color-mix(in oklch, var(--color-shadow) 8%, transparent);
+    border: 1px solid var(--color-border-subtle);
+    background-color: var(--color-surface-raised);
+    box-shadow: var(--marketing-shadow-sm);
     transition:
       border-color 0.2s ease,
       box-shadow 0.2s ease,
@@ -647,8 +679,8 @@
 
   .credential-card:hover,
   .credential-card:has(a:focus-visible) {
-    border-color: color-mix(in oklch, var(--brand) 25%, var(--color-text-disabled));
-    box-shadow: 0 4px 12px color-mix(in oklch, var(--color-shadow) 12%, transparent);
+    border-color: color-mix(in oklch, var(--color-brand-emphasis) 35%, var(--color-border-subtle));
+    box-shadow: var(--marketing-shadow-md);
   }
 
   @media (hover: hover) {
@@ -666,13 +698,13 @@
   }
 
   .credential-card__action:hover {
-    color: var(--brand);
+    color: var(--color-link);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
 
   .credential-card__action:focus-visible {
-    outline: 2px solid var(--brand);
+    outline: 2px solid var(--color-brand-emphasis);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -684,7 +716,12 @@
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 500;
-    background-color: var(--color-background-elevated);
+    background-color: color-mix(
+      in oklch,
+      var(--color-brand-subtle) 40%,
+      var(--color-surface-raised)
+    );
+    border: 1px solid var(--color-border-subtle);
     color: var(--color-text-muted);
   }
 

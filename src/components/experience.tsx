@@ -67,7 +67,10 @@ export function Experience() {
                   <div className="experience-role-card__body min-w-0">
                     <div>
                       <h4 className="experience-detail-label">
-                        <Code className="w-4 h-4 text-brand" aria-hidden="true" />
+                        <Code
+                          className="w-4 h-4 text-[var(--color-brand-emphasis)]"
+                          aria-hidden="true"
+                        />
                         Key achievements
                       </h4>
                       <ul role="list" className="experience-detail-list">

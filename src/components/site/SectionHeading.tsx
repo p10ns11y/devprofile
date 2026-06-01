@@ -24,7 +24,10 @@ export function SectionHeading({
         {title}
       </h2>
       {showUnderline ? (
-        <div className="w-16 h-0.5 bg-brand mx-auto mb-5 opacity-70" aria-hidden="true" />
+        <div
+          className="w-16 h-0.5 mx-auto mb-5 bg-[var(--color-brand-emphasis)] opacity-80"
+          aria-hidden="true"
+        />
       ) : null}
       {description ? (
         <p className="section-lead max-w-2xl mx-auto break-words">{description}</p>

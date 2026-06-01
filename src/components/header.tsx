@@ -48,7 +48,7 @@ export function Header() {
   }, []);
 
   const navControlClass =
-    "inline-flex items-center leading-none text-text2 transition-colors hover:text-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
+    "inline-flex items-center leading-none text-text2 transition-colors hover:text-[var(--color-link)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-emphasis)]";
 
   const renderAnchorItem = (item: NavItem) => (
     <button
@@ -82,14 +82,14 @@ export function Header() {
   );
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-surface1/80 backdrop-blur-md border-b border-border/20 overflow-x-clip">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-surface1/85 backdrop-blur-md border-b border-[var(--color-border-subtle)] overflow-x-clip shadow-[var(--marketing-shadow-sm)]">
       <nav
         aria-label="Primary"
         className="container mx-auto min-w-0 max-w-7xl px-4 sm:px-6 py-4 flex items-center gap-3 sm:gap-4"
       >
         <Link
           href="/#home"
-          className="min-w-0 max-w-[45vw] sm:max-w-none truncate text-md font-semibold text-text1 hover:text-brand transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          className="min-w-0 max-w-[45vw] sm:max-w-none truncate text-md font-semibold text-text1 hover:text-[var(--color-link)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-emphasis)]"
         >
           {cvdata.name_with_initial}
         </Link>
@@ -98,7 +98,7 @@ export function Header() {
           {primaryNav.map(renderAnchorItem)}
           {standaloneNav.map((item) => renderLinkItem(item))}
           <details className="relative group">
-            <summary className="list-none cursor-pointer inline-flex items-center gap-1 text-text2 hover:text-brand transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand [&::-webkit-details-marker]:hidden">
+            <summary className="list-none cursor-pointer inline-flex items-center gap-1 text-text2 hover:text-[var(--color-link)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-emphasis)] [&::-webkit-details-marker]:hidden">
               More
               <ChevronDown className="size-4" aria-hidden="true" />
             </summary>

@@ -35,8 +35,8 @@ html {
   --text-muted-light: oklch(41% 0 0);
   --text-disabled-light-fallback: hsl(0 0% 70.8%);
   --text-disabled-light: oklch(70.8% 0 0);
-  --background-elevated-light-fallback: hsl(0 0% 92.2%);
-  --background-elevated-light: oklch(92.2% 0 0);
+  --background-elevated-light-fallback: hsl(0 0% 95.5%);
+  --background-elevated-light: oklch(96% 0.006 55);
   --background-hover-light-fallback: hsl(0 0% 87%);
   --background-hover-light: oklch(87% 0 0);
   --accent-primary-light-fallback: hsl(24 60% 55%);
@@ -60,8 +60,8 @@ html {
   --text-muted-dim: oklch(41% 0 0);
   --text-disabled-dim-fallback: hsl(0 0% 65%);
   --text-disabled-dim: oklch(65% 0 0);
-  --background-elevated-dim-fallback: hsl(0 0% 89%);
-  --background-elevated-dim: oklch(89% 0 0);
+  --background-elevated-dim-fallback: hsl(0 0% 91%);
+  --background-elevated-dim: oklch(91% 0.006 55);
   --background-hover-dim-fallback: hsl(0 0% 84%);
   --background-hover-dim: oklch(84% 0 0);
   --accent-primary-dim-fallback: hsl(24 50% 50%);
@@ -114,6 +114,16 @@ html {
   --color-surface4: var(--color-background-hover);
   --surface-shadow: var(--color-shadow);
 
+  /* Marketing surfaces & borders (Round 2) */
+  --color-border-subtle: color-mix(in oklch, var(--color-text) 12%, transparent);
+  --color-border: var(--color-border-subtle);
+  --color-surface-raised: oklch(99.2% 0.003 55);
+  --color-brand-subtle: color-mix(in oklch, var(--brand) 12%, transparent);
+  --color-brand-emphasis: color-mix(in oklch, var(--brand) 78%, black);
+  --color-link: var(--color-brand-emphasis);
+  --marketing-shadow-sm: 0 1px 2px color-mix(in oklch, var(--color-shadow) 12%, transparent);
+  --marketing-shadow-md: 0 8px 22px color-mix(in oklch, var(--color-shadow) 16%, transparent);
+
   /* shadcn semantic token mapping */
   --background: var(--color-background);
   --foreground: var(--color-text);
@@ -165,6 +175,14 @@ html {
   --color-surface3: var(--color-background-hover);
   --color-surface4: var(--color-background-hover);
   --surface-shadow: var(--color-shadow);
+  --color-border-subtle: color-mix(in oklch, var(--color-text) 12%, transparent);
+  --color-border: var(--color-border-subtle);
+  --color-surface-raised: oklch(99.2% 0.003 55);
+  --color-brand-subtle: color-mix(in oklch, var(--brand) 12%, transparent);
+  --color-brand-emphasis: color-mix(in oklch, var(--brand) 78%, black);
+  --color-link: var(--color-brand-emphasis);
+  --marketing-shadow-sm: 0 1px 2px color-mix(in oklch, var(--color-shadow) 12%, transparent);
+  --marketing-shadow-md: 0 8px 22px color-mix(in oklch, var(--color-shadow) 16%, transparent);
 }
 
 .dim {
@@ -202,6 +220,14 @@ html {
   --color-surface3: var(--color-background-hover);
   --color-surface4: var(--color-background-hover);
   --surface-shadow: var(--color-shadow);
+  --color-border-subtle: color-mix(in oklch, var(--color-text) 14%, transparent);
+  --color-border: var(--color-border-subtle);
+  --color-surface-raised: oklch(94% 0.006 55);
+  --color-brand-subtle: color-mix(in oklch, var(--brand) 16%, transparent);
+  --color-brand-emphasis: color-mix(in oklch, var(--brand) 70%, white);
+  --color-link: var(--color-brand-emphasis);
+  --marketing-shadow-sm: 0 1px 2px color-mix(in oklch, var(--color-shadow) 18%, transparent);
+  --marketing-shadow-md: 0 8px 22px color-mix(in oklch, var(--color-shadow) 22%, transparent);
 }
 
 @theme default {
@@ -305,7 +331,9 @@ html {
 
 @theme static {
   --color-brand: var(--brand);
-  --color-border: var(--color-text-disabled);
+  --color-border: var(--color-border-subtle);
+  --color-link: var(--color-link);
+  --color-surface-raised: var(--color-surface-raised);
   --color-text1: var(--color-text1);
   --color-text2: var(--color-text2);
   --color-text-disabled: var(--color-text-disabled);

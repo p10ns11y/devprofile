@@ -58,7 +58,7 @@ export function Hero() {
               title="GitRoll CURISM for https://github.com/p10ns11y"
               className="block rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
             >
-              <div className="hero-visual rounded-full overflow-hidden rad-shadow border-4 border-brand/10 relative mx-auto">
+              <div className="hero-visual rounded-full overflow-hidden rad-shadow border-4 border-[var(--color-brand-subtle)] relative mx-auto">
                 <Image
                   src="/images/curism.png"
                   alt="GitRoll CURISM contribution analytics for Peramanathan Sathyamoorthy"
