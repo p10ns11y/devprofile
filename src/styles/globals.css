@@ -11,6 +11,12 @@ html {
   color: var(--color-text1);
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 .rad-shadow {
   border: 1px solid hsl(var(--brand-hue) 5% 70% / 10%);
   box-shadow: 0 1rem 0.5rem -0.5rem;

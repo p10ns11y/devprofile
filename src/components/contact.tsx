@@ -3,7 +3,7 @@
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
-import { fadeUp, motionTransition } from "@/lib/motion";
+import { defaultViewport, fadeUp, motionTransition } from "@/lib/motion";
 import cvdata from "../data/cvdata.json";
 import { SectionHeading } from "./site/SectionHeading";
 import { SectionShell } from "./site/SectionShell";
@@ -62,7 +62,7 @@ export function Contact() {
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={defaultViewport}
         transition={motionTransition(!!shouldReduceMotion)}
       >
         <SectionHeading

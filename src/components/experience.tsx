@@ -2,17 +2,25 @@
 
 import { Calendar, Code, MapPin } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
-import { fadeUp, motionTransition } from "@/lib/motion";
+import {
+  defaultViewport,
+  fadeUp,
+  itemTransition,
+  motionTransition,
+  staggerContainer,
+  staggerItem,
+} from "@/lib/motion";
 import cvdata from "../data/cvdata.json";
 import { AISmartHighlight } from "./ai-smart-highlight";
 import { SectionHeading } from "./site/SectionHeading";
 import { SectionShell } from "./site/SectionShell";
-import { TimelineContent } from "./timeline";
+import { roleAnchorId, TimelineContent } from "./timeline";
 
 const headingId = "experience-heading";
 
 export function Experience() {
   const shouldReduceMotion = useReducedMotion();
+  const reduced = !!shouldReduceMotion;
 
   return (
     <SectionShell id="experience" headingId={headingId} background="elevated">
@@ -20,8 +28,8 @@ export function Experience() {
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        transition={motionTransition(!!shouldReduceMotion)}
+        viewport={defaultViewport}
+        transition={motionTransition(reduced)}
       >
         <SectionHeading
           id={headingId}
@@ -33,10 +41,25 @@ export function Experience() {
         <div className="section-body">
           <TimelineContent />
 
-          <ol role="list" className="experience-roles">
-            {cvdata.work_experience.map((experience) => (
-              <li key={`${experience.company}-${experience.start_date}`}>
-                <article data-card="experience-role" className="experience-role-card">
+          <motion.ol
+            role="list"
+            className="experience-roles"
+            variants={reduced ? undefined : staggerContainer}
+            initial={reduced ? false : "hidden"}
+            whileInView={reduced ? undefined : "visible"}
+            viewport={defaultViewport}
+          >
+            {cvdata.work_experience.map((experience, index) => (
+              <motion.li
+                key={`${experience.company}-${experience.start_date}`}
+                variants={reduced ? undefined : staggerItem}
+                transition={itemTransition(reduced)}
+              >
+                <article
+                  id={roleAnchorId(index)}
+                  data-card="experience-role"
+                  className="experience-role-card"
+                >
                   <div className="experience-role-card__layout">
                     <header className="experience-role-card__aside min-w-0">
                       <h3 className="experience-role-card__title">{experience.title}</h3>
@@ -69,7 +92,7 @@ export function Experience() {
                       <div>
                         <h4 className="experience-detail-label">
                           <Code
-                            className="w-4 h-4 text-[var(--color-brand-emphasis)]"
+                            className="w-4 h-4 text-(--color-brand-emphasis)"
                             aria-hidden="true"
                           />
                           Key achievements
@@ -96,9 +119,9 @@ export function Experience() {
                     </div>
                   </div>
                 </article>
-              </li>
+              </motion.li>
             ))}
-          </ol>
+          </motion.ol>
         </div>
       </motion.div>
     </SectionShell>

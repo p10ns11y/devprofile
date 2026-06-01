@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import cvdata from "@/data/cvdata.json";
 import { getLandingFeaturedCertificates } from "@/data/documents-data";
-import { fadeUp, motionTransition } from "@/lib/motion";
+import { defaultViewport, fadeUp, motionTransition } from "@/lib/motion";
 import { SectionHeading } from "./site/SectionHeading";
 import { SectionShell } from "./site/SectionShell";
 import { SiteButton } from "./site/SiteButton";
@@ -42,7 +42,7 @@ export function Accomplishments() {
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={defaultViewport}
         transition={motionTransition(!!shouldReduceMotion)}
       >
         <SectionHeading id={headingId} title="Credentials" showUnderline />

@@ -554,7 +554,8 @@
     transition:
       border-color 0.2s ease,
       box-shadow 0.2s ease,
-      transform 0.2s ease;
+      transform 0.2s ease,
+      background-color 0.2s ease;
   }
 
   @media (hover: hover) {
@@ -729,10 +730,40 @@
     min-width: 0;
     padding: 0.75rem 0.625rem;
     text-align: center;
+    text-decoration: none;
+    color: inherit;
     border-radius: 0.625rem;
     border: 1px solid var(--color-border-subtle);
     background-color: var(--color-surface-raised);
     box-shadow: var(--marketing-shadow-sm);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  @media (hover: hover) {
+    .experience-timeline-card:hover {
+      border-color: color-mix(
+        in oklch,
+        var(--color-brand-emphasis) 35%,
+        var(--color-border-subtle)
+      );
+      box-shadow: var(--marketing-shadow-md);
+      transform: translateY(-2px);
+    }
+  }
+
+  .experience-timeline-card:focus-visible {
+    outline: 2px solid var(--color-brand-emphasis);
+    outline-offset: 2px;
+  }
+
+  .experience-timeline-card:target,
+  .experience-role-card:target {
+    border-color: color-mix(in oklch, var(--brand) 35%, var(--color-border-subtle));
+    box-shadow: var(--marketing-shadow-md);
   }
 
   .experience-timeline-card__year {
@@ -769,6 +800,15 @@
     border: 1px solid var(--color-border-subtle);
     background-color: var(--color-surface-raised);
     box-shadow: var(--marketing-shadow-sm);
+    scroll-margin-top: calc(var(--header-offset, 5rem) + 1rem);
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  [data-card="experience-role"]:focus-within {
+    outline: 2px solid var(--color-brand-emphasis);
+    outline-offset: 3px;
   }
 
   @media (min-width: 768px) {
@@ -1048,12 +1088,15 @@
     }
   }
 
+  /* Round 6: keep focus/hover transitions; silence decorative motion only */
   @media (prefers-reduced-motion: reduce) {
-    [data-section] *,
-    [data-section] *::before,
-    [data-section] *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
+    .hero-gitroll__halo {
+      filter: none;
+    }
+
+    [data-section] [class*="animate"],
+    [data-section] [style*="animation"] {
+      animation: none !important;
     }
   }
 }

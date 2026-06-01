@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown, X as CloseIcon, Menu } from "lucide-react";
+import { useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import cvdata from "../data/cvdata.json";
@@ -33,19 +34,25 @@ const moreNav: NavItem[] = [
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
-  const scrollToSection = useCallback((href: string) => {
-    const isHomePage = window.location.pathname === "/";
+  const scrollToSection = useCallback(
+    (href: string) => {
+      const isHomePage = window.location.pathname === "/";
 
-    if (href.startsWith("/#")) {
-      if (!isHomePage) {
-        window.location.href = `${window.location.origin}${href}`;
-        return;
+      if (href.startsWith("/#")) {
+        if (!isHomePage) {
+          window.location.href = `${window.location.origin}${href}`;
+          return;
+        }
+        document.querySelector(href.slice(1))?.scrollIntoView({
+          behavior: shouldReduceMotion ? "auto" : "smooth",
+        });
+        setIsMenuOpen(false);
       }
-      document.querySelector(href.slice(1))?.scrollIntoView({ behavior: "smooth" });
-      setIsMenuOpen(false);
-    }
-  }, []);
+    },
+    [shouldReduceMotion]
+  );
 
   const navControlClass =
     "inline-flex items-center leading-none text-text2 transition-colors hover:text-[var(--color-link)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-emphasis)]";
