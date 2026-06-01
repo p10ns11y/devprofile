@@ -1,17 +1,14 @@
+import { roleAnchorId } from "@/lib/experience-anchors";
 import cvdata from "../data/cvdata.json";
-
-export function roleAnchorId(index: number) {
-  return `experience-role-${index}`;
-}
 
 export function TimelineContent() {
   return (
     <div className="experience-timeline-wrap">
       <h3 className="subsection-title subsection-heading">Career at a glance</h3>
       <ol role="list" className="experience-timeline">
-        {cvdata.work_experience.map((exp, index) => (
+        {cvdata.work_experience.map((exp) => (
           <li key={`${exp.company}-${exp.start_date}`}>
-            <a href={`#${roleAnchorId(index)}`} className="experience-timeline-card">
+            <a href={`#${roleAnchorId(exp)}`} className="experience-timeline-card">
               <span className="experience-timeline-card__year">
                 {exp.start_date.split(" ").pop()}
               </span>

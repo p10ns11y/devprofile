@@ -2,6 +2,7 @@
 
 import { Calendar, Code, MapPin } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+import { roleAnchorId } from "@/lib/experience-anchors";
 import {
   defaultViewport,
   fadeUp,
@@ -14,7 +15,7 @@ import cvdata from "../data/cvdata.json";
 import { AISmartHighlight } from "./ai-smart-highlight";
 import { SectionHeading } from "./site/SectionHeading";
 import { SectionShell } from "./site/SectionShell";
-import { roleAnchorId, TimelineContent } from "./timeline";
+import { TimelineContent } from "./timeline";
 
 const headingId = "experience-heading";
 
@@ -49,14 +50,14 @@ export function Experience() {
             whileInView={reduced ? undefined : "visible"}
             viewport={defaultViewport}
           >
-            {cvdata.work_experience.map((experience, index) => (
+            {cvdata.work_experience.map((experience) => (
               <motion.li
                 key={`${experience.company}-${experience.start_date}`}
                 variants={reduced ? undefined : staggerItem}
                 transition={itemTransition(reduced)}
               >
                 <article
-                  id={roleAnchorId(index)}
+                  id={roleAnchorId(experience)}
                   data-card="experience-role"
                   className="experience-role-card"
                 >
