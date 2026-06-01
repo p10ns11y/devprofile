@@ -1,0 +1,17 @@
+---
+description: When to attach fusion-sage or ai-optimization skills
+alwaysApply: true
+---
+
+# Skill routing
+
+Attach skills explicitly when the user invokes them or when intent matches:
+
+| Skill | Attach when |
+|-------|-------------|
+| **fusion-sage** | UI/UX fusion, card layout, refresh bugs, `/fusion-sage` in message |
+| **ai-optimization** | Large refactors, token/context pressure, multi-module QA exploration, `/ai-optimization` |
+
+Do not duplicate skill bodies inline. If the task matches a skill trigger, tell the user to attach it or invoke `/skill-name` — skills correlate with deeper tool use in this repo's history.
+
+For supply-chain or pnpm hardening, use the `supply-chain-harden` skill when creating audit/harden workflows.

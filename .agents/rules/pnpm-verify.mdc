@@ -1,0 +1,15 @@
+---
+description: After pnpm-workspace or package.json dependency changes, run install and audit
+globs: pnpm-workspace.yaml,package.json,pnpm-lock.yaml
+alwaysApply: false
+---
+
+# pnpm change verification
+
+When editing `pnpm-workspace.yaml`, overrides, or dependency versions:
+
+1. Run `pnpm install` and confirm it completes.
+2. For security work, run `pnpm audit` (or project audit script) before claiming hardened.
+3. Do not leave deprecated overrides — prefer bumping to supported versions when asked.
+
+If `engineStrict`, `trustPolicy`, or `minimumReleaseAge` are enabled, treat install failures as blocking — adjust config or document required exceptions.
