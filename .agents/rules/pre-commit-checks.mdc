@@ -1,0 +1,55 @@
+---
+description: Before any git commit — run Biome import organize, format, and lint from repo root
+alwaysApply: true
+---
+
+# Pre-commit checks (agents)
+
+When you **stage or create a commit** (or the user asks to commit), run the full hygiene sequence from the **repository root** before `git commit`. Do not skip because hooks are unavailable unless the user explicitly requests `--no-verify`.
+
+## Required sequence
+
+Run in this order (fixes first, then verify):
+
+```bash
+pnpm imports:fix
+pnpm format
+pnpm lint:fix
+pnpm lint
+```
+
+| Step | Command | Purpose |
+|------|---------|--------|
+| 1 | `pnpm imports:fix` | Organize imports (`biome check --write --only=organizeImports`) |
+| 2 | `pnpm format` | Formatting only (`biome format --write`) |
+| 3 | `pnpm lint:fix` | Auto-fix lint issues (`biome lint --write`) |
+| 4 | `pnpm lint` | Must exit 0 — no remaining lint errors |
+
+Shortcut (same steps):
+
+```bash
+pnpm precommit
+```
+
+## After Biome (when TypeScript sources changed)
+
+Also run:
+
+```bash
+pnpm type-check
+```
+
+Skip `type-check` only for commits that touch no `.ts` / `.tsx` / `.mts` files (e.g. docs-only).
+
+## If the commit fails
+
+- If Biome reformatted or fixed files, **re-stage** those paths and run `pnpm precommit` again.
+- If `pnpm lint` still fails, fix the reported issues — do not commit with known lint errors.
+- Never use `git commit --no-verify` unless the user explicitly asks.
+
+## Scope
+
+- Applies to **devprofile** and any worktree checkout of this repo.
+- Does not replace E2E or `pnpm audit` when those are required by [agent-workflow](agent-workflow.mdc) or [dependencies-and-lockfile](dependencies-and-lockfile.mdc).
+
+See [AGENTS.md](../../AGENTS.md) for how lint, format, and imports are split in Biome.

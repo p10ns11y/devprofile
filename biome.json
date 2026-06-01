@@ -17,7 +17,11 @@
       "!public/sw.js",
       "!**/.vscode",
       "!src/data/qa-index.json",
-      "!tests/qa/last-eval-report.json"
+      "!tests/qa/last-eval-report.json",
+      "!**/*.md",
+      "!**/*.mdc",
+      "!.agents",
+      "!.cursor"
     ]
   },
   "formatter": {
