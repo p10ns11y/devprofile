@@ -82,7 +82,7 @@ export function Header() {
   );
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-surface1/85 backdrop-blur-md border-b border-[var(--color-border-subtle)] overflow-x-clip shadow-[var(--marketing-shadow-sm)]">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-surface1/85 backdrop-blur-md border-b border-(--color-border-subtle) overflow-x-clip shadow-(--marketing-shadow-sm)">
       <nav aria-label="Primary" className="site-container flex items-center gap-3 py-4 sm:gap-4">
         <Link
           href="/#home"

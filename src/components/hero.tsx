@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 import cvdata from "@/data/cvdata.json";
 import { fadeUp, motionTransition } from "@/lib/motion";
 import { AISmartHighlight } from "./ai-smart-highlight";
@@ -9,6 +10,11 @@ import { SiteButton } from "./site/SiteButton";
 import { SocialLinks } from "./social-links";
 
 const gitrollProfileUrl = "https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33";
+
+const heroMoreLinks = [
+  { href: "/qa", label: "Profile Q&A" },
+  { href: "/status/code/200", label: "Live GitHub activity" },
+] as const;
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion();
@@ -21,58 +27,68 @@ export function Hero() {
           initial="hidden"
           animate="visible"
           transition={motionTransition(!!shouldReduceMotion, 0.8)}
-          className="flex flex-col lg:flex-row gap-6 lg:gap-10 items-center min-w-0 w-full"
+          className="hero-layout"
         >
-          <div className="flex-1 min-w-0 text-center lg:text-left space-y-3 sm:space-y-3.5">
-            <p className="hero-greeting">Hello, I&apos;m</p>
-
-            <h1 className="hero-name">{cvdata.name}</h1>
-
-            <p className="hero-role">{cvdata.latest_proffessional_role}</p>
-
-            <p className="hero-lead max-w-2xl mx-auto lg:mx-0">
-              <AISmartHighlight>{cvdata.one_liner}</AISmartHighlight>
-            </p>
-
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 pt-1">
-              <SiteButton href="/#experience">View My Work</SiteButton>
-              <SiteButton variant="secondary" href="/cv">
-                View CV
-              </SiteButton>
-              <SiteButton href="/qa">Profile Q&amp;A</SiteButton>
-              <SiteButton variant="secondary" href="/status/code/200">
-                Live GitHub activity
-              </SiteButton>
+          <div className="hero-copy">
+            <div className="hero-stack">
+              <p className="hero-greeting">Hello, I&apos;m</p>
+              <h1 className="hero-name">{cvdata.name}</h1>
+              <p className="hero-role">{cvdata.latest_proffessional_role}</p>
+              <p className="hero-lead">
+                <AISmartHighlight>{cvdata.one_liner}</AISmartHighlight>
+              </p>
             </div>
 
-            <div className="pt-2">
-              <SocialLinks />
+            <div className="hero-engage">
+              <div className="hero-cta-row">
+                <SiteButton size="lg" href="/#experience" className="hero-cta">
+                  View My Work
+                </SiteButton>
+                <SiteButton size="lg" variant="secondary" href="/cv" className="hero-cta">
+                  View CV
+                </SiteButton>
+              </div>
+
+              <nav className="hero-links" aria-label="More profile links">
+                {heroMoreLinks.map((link) => (
+                  <Link key={link.href} href={link.href} className="hero-link">
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+
+              <div className="hero-social">
+                <SocialLinks size="compact" className="justify-center" />
+              </div>
             </div>
           </div>
 
-          <figure className="shrink-0 mx-auto lg:mx-0 max-w-full">
+          <aside className="hero-aside" aria-label="GitRoll contribution profile">
             <a
               href={gitrollProfileUrl}
               target="_blank"
               rel="nofollow noreferrer noopener"
-              title="GitRoll CURISM for https://github.com/p10ns11y"
-              className="block rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+              className="hero-gitroll"
+              title="Open GitRoll CURISM profile for Peramanathan Sathyamoorthy"
             >
-              <div className="hero-visual rounded-full overflow-hidden rad-shadow border-4 border-[var(--color-brand-subtle)] relative mx-auto">
+              <span className="hero-gitroll__halo" aria-hidden="true" />
+              <span className="hero-gitroll__plate">
                 <Image
                   src="/images/curism.png"
-                  alt="GitRoll CURISM contribution analytics for Peramanathan Sathyamoorthy"
+                  alt="GitRoll CURISM radar chart — contribution analytics across engineering dimensions"
                   fill
-                  sizes="(max-width: 1023px) 176px, 280px"
+                  sizes="(max-width: 1023px) 220px, 360px"
                   loading="eager"
-                  className="object-cover contrast-125"
+                  className="object-contain"
+                  priority
                 />
-              </div>
+              </span>
+              <span className="hero-gitroll__meta">
+                <span className="hero-gitroll__eyebrow">GitRoll · CURISM</span>
+                <span className="hero-gitroll__cta">View contribution profile</span>
+              </span>
             </a>
-            <figcaption className="sr-only">
-              GitRoll CURISM profile visualization for Peramanathan Sathyamoorthy
-            </figcaption>
-          </figure>
+          </aside>
         </motion.div>
       </div>
     </section>
