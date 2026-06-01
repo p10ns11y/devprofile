@@ -69,6 +69,7 @@ work_experience[6]:
     location: "Stockholm, Sweden"
     start_date: January 2016
     end_date: March 2017
+    duration: 15 months
     responsibilities[4]: "Managed AWS cloud infrastructure, reducing operational costs by 40%.","Integrated services like Mandrill, Slack bots, and PayPal, improving platform functionality. Implemented SEO strategies with server-side rendering.",Designed responsive email templates for email clients and browsers.,"Created an intelligent notification and chat bot for onboarding and FAQs. Developed a open source babel plug-in to quickly implement translations to the entire project. Enhanced accessibility with text customization and color filters, aligned with WCAG standards. Experimented advanced features like speech synthesis and recognition, improving accessibility."
     tools[8]: JavaScript,Express,Reactjs,Alt.js,Accessibility,SSR,MongoDB,Babel Plugin(OSS)
   - title: Software Engineer Intern (Summer Project)
@@ -76,6 +77,7 @@ work_experience[6]:
     location: "Stockholm, Sweden"
     start_date: July 2015
     end_date: September 2015
+    duration: 3 months
     responsibilities[3]: Applied MongoDB aggregation and map-reduce to generate structured reports from millions of raw data samples.,Enhanced full-stack dashboard with gulp build and key performance indicators.,Explored migrating tech stack to Reactjs and Eve Python framework.
     tools[6]: MongoDB,AngularJS,Python,Heroku,Laravel (PHP),System Monitoring
 skills:

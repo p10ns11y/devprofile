@@ -20,14 +20,14 @@ export function SectionHeading({
   return (
     <header className={`text-center mb-10 md:mb-12 ${className}`}>
       {eyebrow ? <p className="eyebrow mb-3">{eyebrow}</p> : null}
-      <h2 id={id} className="text-3xl md:text-4xl font-semibold text-text1 mb-4">
+      <h2 id={id} className="section-title mb-4">
         {title}
       </h2>
       {showUnderline ? (
-        <div className="w-20 h-1 bg-brand mx-auto mb-6 opacity-60" aria-hidden="true" />
+        <div className="w-16 h-0.5 bg-brand mx-auto mb-5 opacity-70" aria-hidden="true" />
       ) : null}
       {description ? (
-        <p className="text-text1/80 max-w-2xl mx-auto leading-relaxed break-words">{description}</p>
+        <p className="section-lead max-w-2xl mx-auto break-words">{description}</p>
       ) : null}
     </header>
   );

@@ -8,7 +8,6 @@ import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { AISmartHighlight } from "./ai-smart-highlight";
 import { SectionHeading } from "./site/SectionHeading";
 import { SectionShell } from "./site/SectionShell";
-import { Card, CardContent } from "./ui/card";
 
 const headingId = "about-heading";
 
@@ -57,42 +56,41 @@ export function About() {
         >
           <SectionHeading id={headingId} title="About Me" showUnderline />
 
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-start min-w-0">
-            <div className="space-y-5 min-w-0">
-              <p className="text-lg text-text1 leading-relaxed">
+          <div className="about-layout">
+            <article className="min-w-0" aria-labelledby={`${headingId}-profile`}>
+              <h3 id={`${headingId}-profile`} className="sr-only">
+                Professional summary
+              </h3>
+              <p className="about-profile">
                 <AISmartHighlight>{cvdata.profile}</AISmartHighlight>
               </p>
 
-              <ul role="list" className="flex flex-wrap gap-2">
+              <p className="eyebrow about-focus-label">Focus areas</p>
+              <ul role="list" className="about-skills">
                 {skillPills.map((skill) => (
-                  <li
-                    key={skill}
-                    className="px-3 py-1.5 bg-surface3 text-text1 rounded-full text-sm font-medium"
-                  >
-                    {skill}
+                  <li key={skill}>
+                    <span className="about-skill-pill">{skill}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+
+            <div className="min-w-0">
+              <h3 className="subsection-title mb-3 sm:mb-4">How I work</h3>
+              <ul role="list" className="about-values">
+                {features.map((feature) => (
+                  <li key={feature.title}>
+                    <article data-card="about-value" className="about-value-card">
+                      <div className="about-value-card__icon" aria-hidden="true">
+                        <feature.icon className="w-5 h-5" strokeWidth={1.75} />
+                      </div>
+                      <h4 className="about-value-card__title">{feature.title}</h4>
+                      <p className="about-value-card__desc">{feature.description}</p>
+                    </article>
                   </li>
                 ))}
               </ul>
             </div>
-
-            <ul role="list" className="grid grid-cols-2 gap-3 min-w-0">
-              {features.map((feature) => (
-                <li key={feature.title}>
-                  <Card className="h-full border border-border/30 bg-surface1 shadow-sm">
-                    <CardContent className="p-4 text-center space-y-3">
-                      <div
-                        className="w-10 h-10 bg-brand/10 rounded-full flex items-center justify-center mx-auto"
-                        aria-hidden="true"
-                      >
-                        <feature.icon className="w-5 h-5 text-brand" />
-                      </div>
-                      <h3 className="font-semibold text-sm text-text1">{feature.title}</h3>
-                      <p className="text-xs text-text2 leading-relaxed">{feature.description}</p>
-                    </CardContent>
-                  </Card>
-                </li>
-              ))}
-            </ul>
           </div>
         </motion.div>
       </div>

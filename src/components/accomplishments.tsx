@@ -45,44 +45,34 @@ export function Accomplishments() {
         viewport={{ once: true }}
         transition={motionTransition(!!shouldReduceMotion)}
       >
-        <SectionHeading
-          id={headingId}
-          title="Credentials"
-          description="Proof of self-directed learning I've applied at work and in personal projects—and championed with teams when the fit is right."
-          showUnderline
-        />
+        <SectionHeading id={headingId} title="Credentials" showUnderline />
 
-        <ul role="list" className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-          {certificates.map((cert) => {
-            const displayName =
-              courseMeta.get(cert.name) ?? cert.name.replace(/\.[^.]+$/, "").replace(/-/g, " ");
-            return (
-              <li key={cert.id} className="min-w-0">
-                <article data-card="credential" className="credential-card">
-                  <h3 className="font-semibold text-text1 leading-snug text-base">{displayName}</h3>
-                  {cert.completionDate ? (
-                    <p className="text-xs text-text2">{formatDate(cert.completionDate)}</p>
-                  ) : null}
-                  <Link href={`/certificates?id=${cert.id}`} className="credential-card__action">
-                    View certificate
-                    <ArrowRight className="inline-block size-3.5 ml-1 -mt-0.5" aria-hidden="true" />
-                  </Link>
-                </article>
-              </li>
-            );
-          })}
-        </ul>
+        <figure className="credentials-pullquote">
+          <blockquote cite={`#${headingId}`}>
+            <p>
+              Grok and coding agents cover a lot of theory and build today; a well-designed course
+              is still a great refresher or kick-start when you want structure, depth, or something
+              classic and engaging to anchor on.
+            </p>
+          </blockquote>
+          <figcaption>— {cvdata.name}</figcaption>
+        </figure>
+
+        <p className="section-lead credentials-intro max-w-2xl mx-auto text-center">
+          Proof of self-directed learning I&apos;ve applied at work and in personal projects—and
+          championed with teams when the fit is right.
+        </p>
 
         {externalCourses.length > 0 ? (
-          <div className="mt-10 pt-8 border-t border-border/40">
-            <h3 className="text-lg font-semibold text-text1 mb-4">Additional learning</h3>
-            <ul role="list" className="grid sm:grid-cols-2 gap-4 md:gap-5">
+          <div className="credentials-block">
+            <h3 className="subsection-title mb-4">Recent courses</h3>
+            <ul role="list" className="credentials-grid">
               {externalCourses.map((course) => (
                 <li key={course.name} className="min-w-0">
                   <article data-card="credential" className="credential-card">
-                    <h4 className="font-semibold text-text1 leading-snug">{course.name}</h4>
+                    <h4 className="credential-card__title">{course.name}</h4>
                     {course.completionDate ? (
-                      <p className="text-xs text-text2">{formatDate(course.completionDate)}</p>
+                      <p className="credential-card__date">{formatDate(course.completionDate)}</p>
                     ) : null}
                     <span className="credential-card__tag">{course.domain}</span>
                     <a
@@ -103,11 +93,38 @@ export function Accomplishments() {
           </div>
         ) : null}
 
-        <div className="text-center mt-10">
+        <div className="credentials-block">
+          <h3 className="subsection-title mb-4">Certificates</h3>
+          <ul role="list" className="credentials-grid credentials-grid--featured">
+            {certificates.map((cert) => {
+              const displayName =
+                courseMeta.get(cert.name) ?? cert.name.replace(/\.[^.]+$/, "").replace(/-/g, " ");
+              return (
+                <li key={cert.id} className="min-w-0">
+                  <article data-card="credential" className="credential-card">
+                    <h4 className="credential-card__title">{displayName}</h4>
+                    {cert.completionDate ? (
+                      <p className="credential-card__date">{formatDate(cert.completionDate)}</p>
+                    ) : null}
+                    <Link href={`/certificates?id=${cert.id}`} className="credential-card__action">
+                      View certificate
+                      <ArrowRight
+                        className="inline-block size-3.5 ml-1 -mt-0.5"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </article>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        <footer className="credentials-footer">
           <SiteButton variant="outline" href="/certificates">
             Browse all certificates
           </SiteButton>
-        </div>
+        </footer>
       </motion.div>
     </SectionShell>
   );

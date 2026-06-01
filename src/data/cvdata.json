@@ -134,6 +134,7 @@
       "location": "Stockholm, Sweden",
       "start_date": "January 2016",
       "end_date": "March 2017",
+      "duration": "15 months",
       "responsibilities": [
         "Managed AWS cloud infrastructure, reducing operational costs by 40%.",
         "Integrated services like Mandrill, Slack bots, and PayPal, improving platform functionality. Implemented SEO strategies with server-side rendering.",
@@ -157,6 +158,7 @@
       "location": "Stockholm, Sweden",
       "start_date": "July 2015",
       "end_date": "September 2015",
+      "duration": "3 months",
       "responsibilities": [
         "Applied MongoDB aggregation and map-reduce to generate structured reports from millions of raw data samples.",
         "Enhanced full-stack dashboard with gulp build and key performance indicators.",

@@ -8,7 +8,6 @@ import { AISmartHighlight } from "./ai-smart-highlight";
 import { SectionHeading } from "./site/SectionHeading";
 import { SectionShell } from "./site/SectionShell";
 import { TimelineContent } from "./timeline";
-import { Badge } from "./ui/badge";
 
 const headingId = "experience-heading";
 
@@ -24,66 +23,68 @@ export function Experience() {
         viewport={{ once: true, margin: "-100px" }}
         transition={motionTransition(!!shouldReduceMotion)}
       >
-        <SectionHeading id={headingId} title="Professional Experience" />
+        <SectionHeading
+          id={headingId}
+          title="Professional Experience"
+          description="Nine-plus years building products, leading teams, and shipping scalable systems in startup and product environments."
+          showUnderline
+        />
 
         <TimelineContent />
 
-        <ol role="list" className="space-y-10 mt-12">
+        <ol role="list" className="experience-roles">
           {cvdata.work_experience.map((experience) => (
             <li key={`${experience.company}-${experience.start_date}`}>
-              <article className="bg-surface3/50 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-border/30 rad-shadow min-w-0">
-                <div className="flex flex-col lg:flex-row lg:items-start gap-8 min-w-0">
-                  <header className="lg:w-1/3 min-w-0 space-y-3">
-                    <h3 className="text-xl font-bold text-text1">{experience.title}</h3>
-                    <p className="text-sm text-text2">{experience.company}</p>
-                    <dl className="flex flex-wrap gap-4 text-sm text-text2">
-                      <div className="flex items-center gap-1">
+              <article data-card="experience-role" className="experience-role-card">
+                <div className="experience-role-card__layout">
+                  <header className="experience-role-card__aside min-w-0">
+                    <h3 className="experience-role-card__title">{experience.title}</h3>
+                    <p className="experience-role-card__company">{experience.company}</p>
+                    <dl className="experience-role-card__meta">
+                      <div className="flex items-center gap-1.5 min-w-0">
                         <dt className="sr-only">Location</dt>
-                        <MapPin className="w-3 h-3 shrink-0" aria-hidden="true" />
+                        <MapPin className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                         <dd>{experience.location}</dd>
                       </div>
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center gap-1.5 min-w-0">
                         <dt className="sr-only">Dates</dt>
-                        <Calendar className="w-3 h-3 shrink-0" aria-hidden="true" />
+                        <Calendar className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                         <dd>
                           {experience.start_date} – {experience.end_date}
                         </dd>
                       </div>
-                      <div>
-                        <dt className="sr-only">Duration</dt>
-                        <dd className="bg-surface3 text-text1 px-2 py-1 rounded-md font-medium inline-block">
-                          {experience.duration}
-                        </dd>
-                      </div>
+                      {experience.duration ? (
+                        <div>
+                          <dt className="sr-only">Duration</dt>
+                          <dd>
+                            <span className="surface-pill">{experience.duration}</span>
+                          </dd>
+                        </div>
+                      ) : null}
                     </dl>
                   </header>
 
-                  <div className="lg:w-2/3 min-w-0 space-y-6">
+                  <div className="experience-role-card__body min-w-0">
                     <div>
-                      <h4 className="text-lg font-semibold text-text1 mb-4 flex items-center gap-2">
+                      <h4 className="experience-detail-label">
                         <Code className="w-4 h-4 text-brand" aria-hidden="true" />
                         Key achievements
                       </h4>
-                      <ul role="list" className="space-y-3">
+                      <ul role="list" className="experience-detail-list">
                         {experience.responsibilities.map((responsibility) => (
-                          <li
-                            key={responsibility.slice(0, 48)}
-                            className="text-text1 leading-relaxed pl-4 relative before:content-['•'] before:absolute before:left-0 before:text-brand before:font-bold"
-                          >
+                          <li key={responsibility.slice(0, 48)}>
                             <AISmartHighlight>{responsibility}</AISmartHighlight>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div>
-                      <h4 className="text-lg font-semibold text-text1 mb-3">
-                        Technologies &amp; tools
-                      </h4>
-                      <ul role="list" className="flex flex-wrap gap-2">
+                    <div className="mt-6">
+                      <h4 className="experience-detail-label">Technologies &amp; tools</h4>
+                      <ul role="list" className="experience-tools">
                         {experience.tools.map((tool) => (
                           <li key={tool}>
-                            <Badge variant="outline">{tool}</Badge>
+                            <span className="surface-pill">{tool}</span>
                           </li>
                         ))}
                       </ul>
