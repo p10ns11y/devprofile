@@ -47,7 +47,10 @@ function fingerprint(ctx: CheckAbuseContext): string {
   return `${ip}|${ua}`;
 }
 
-function checkEdgeRateLimit(fp: string, config: ReturnType<typeof getAbuseConfig>): AbuseResult | null {
+function checkEdgeRateLimit(
+  fp: string,
+  config: ReturnType<typeof getAbuseConfig>
+): AbuseResult | null {
   const now = Date.now();
   const windowMs = 5 * 60 * 1000;
   const hits = (edgeBuckets.get(fp) || []).filter((t) => now - t < windowMs);
@@ -72,7 +75,11 @@ function checkSemantic(question: string): AbuseResult | null {
   return null;
 }
 
-function checkBehavioral(fp: string, question: string, config: ReturnType<typeof getAbuseConfig>): AbuseResult | null {
+function checkBehavioral(
+  fp: string,
+  question: string,
+  config: ReturnType<typeof getAbuseConfig>
+): AbuseResult | null {
   const window = behavioralWindows.get(fp) || [];
   const normalized = question.trim().toLowerCase();
   window.push(normalized);
@@ -102,8 +109,9 @@ export async function checkAbuse(
   if (semantic) return semantic;
 
   if (!ON_TOPIC_HINTS.test(question) && question.length > 40) {
-    const looksOffTopic =
-      /pizza|joke|weather|roleplay|quantum|emoji|bomb|ignore|jailbreak/i.test(question);
+    const looksOffTopic = /pizza|joke|weather|roleplay|quantum|emoji|bomb|ignore|jailbreak/i.test(
+      question
+    );
     if (looksOffTopic) {
       return { blocked: true, reason: "low-semantic-relevance", layer: "semantic" };
     }

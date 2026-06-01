@@ -1,39 +1,39 @@
 /**
  * GitHubLiveDashboard - True Native Web Component (2026)
- * 
+ *
  * Usage:
  *   <github-live-dashboard username="p10ns11y"></github-live-dashboard>
- * 
+ *
  * Attributes:
  *   - username: GitHub username (default: p10ns11y)
- * 
+ *
  * Events:
  *   - refresh: Fired after successful data refresh
  *   - error: Fired on fetch error (detail: error message)
- * 
+ *
  * Methods:
  *   - refresh(): Manually trigger data refresh
- * 
+ *
  * Zero dependencies. Shadow DOM. Fully encapsulated.
  */
 
-import * as dashboardCache from '../lib/github/dashboard-cache-client.js';
+import * as dashboardCache from "../lib/github/dashboard-cache-client.js";
 
 class GitHubLiveDashboard extends HTMLElement {
   static get observedAttributes() {
-    return ['username', 'layout'];
+    return ["username", "layout"];
   }
 
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
-    this._username = this.getAttribute('username') || 'p10ns11y';
+    this.attachShadow({ mode: "open" });
+    this._username = this.getAttribute("username") || "p10ns11y";
     this._user = null;
     this._repos = [];
     this._creativeProjects = [];
     this._loading = true;
     this._error = null;
-    this._lastSync = '';
+    this._lastSync = "";
     this._isRefreshing = false;
     this._abortController = null;
     this._fetchGeneration = 0;
@@ -50,25 +50,25 @@ class GitHubLiveDashboard extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'username' && newValue !== oldValue) {
-      this._username = newValue || 'p10ns11y';
+    if (name === "username" && newValue !== oldValue) {
+      this._username = newValue || "p10ns11y";
       this.fetchData();
     }
-    if (name === 'layout' && newValue !== oldValue) {
+    if (name === "layout" && newValue !== oldValue) {
       this.render();
     }
   }
 
   syncSiteTheme() {
-    const theme = document.documentElement.classList.contains('dim') ? 'dim' : 'light';
-    if (this.getAttribute('data-theme') !== theme) {
-      this.setAttribute('data-theme', theme);
+    const theme = document.documentElement.classList.contains("dim") ? "dim" : "light";
+    if (this.getAttribute("data-theme") !== theme) {
+      this.setAttribute("data-theme", theme);
     }
   }
 
   isCompactLayout() {
-    if (this.getAttribute('layout') === 'compact') return true;
-    if (typeof window !== 'undefined' && window.location.pathname.includes('/status/code/200')) {
+    if (this.getAttribute("layout") === "compact") return true;
+    if (typeof window !== "undefined" && window.location.pathname.includes("/status/code/200")) {
       return true;
     }
     return false;
@@ -79,7 +79,7 @@ class GitHubLiveDashboard extends HTMLElement {
     this._themeObserver = new MutationObserver(() => this.syncSiteTheme());
     this._themeObserver.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class'],
+      attributeFilter: ["class"],
     });
 
     this._bindUi();
@@ -88,12 +88,12 @@ class GitHubLiveDashboard extends HTMLElement {
 
     // Refresh shortcut only on the live dashboard page (avoid hijacking browser reload)
     this._keyHandler = (e) => {
-      if (!(e.metaKey || e.ctrlKey) || e.key.toLowerCase() !== 'r') return;
-      if (!window.location.pathname.includes('/status/code/200')) return;
+      if (!(e.metaKey || e.ctrlKey) || e.key.toLowerCase() !== "r") return;
+      if (!window.location.pathname.includes("/status/code/200")) return;
       e.preventDefault();
       this.refresh();
     };
-    document.addEventListener('keydown', this._keyHandler);
+    document.addEventListener("keydown", this._keyHandler);
 
     // Auto-refresh every 10 minutes when visible
     this._interval = setInterval(() => {
@@ -104,7 +104,7 @@ class GitHubLiveDashboard extends HTMLElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener('keydown', this._keyHandler);
+    document.removeEventListener("keydown", this._keyHandler);
     if (this._themeObserver) this._themeObserver.disconnect();
     if (this._interval) clearInterval(this._interval);
     if (this._abortController) this._abortController.abort();
@@ -130,22 +130,22 @@ class GitHubLiveDashboard extends HTMLElement {
   }
 
   set username(val) {
-    this.setAttribute('username', val);
+    this.setAttribute("username", val);
   }
 
   _bindUi() {
     if (this._uiBound || !this.shadowRoot) return;
     this._uiBound = true;
-    this.shadowRoot.addEventListener('click', (e) => {
+    this.shadowRoot.addEventListener("click", (e) => {
       const path = e.composedPath();
       const target = path[0];
       if (!(target instanceof Element)) return;
-      if (target.id === 'refresh-btn' || target.closest('#refresh-btn')) {
+      if (target.id === "refresh-btn" || target.closest("#refresh-btn")) {
         e.preventDefault();
         this.refresh();
         return;
       }
-      if (target.id === 'retry-btn' || target.closest('#retry-btn')) {
+      if (target.id === "retry-btn" || target.closest("#retry-btn")) {
         e.preventDefault();
         this.refresh();
       }
@@ -189,7 +189,7 @@ class GitHubLiveDashboard extends HTMLElement {
       if (generation !== this._fetchGeneration) return;
 
       this._applySnapshot(result);
-      if (result.source === 'cache-fallback' && result.error) {
+      if (result.source === "cache-fallback" && result.error) {
         this._error = result.error;
       }
 
@@ -197,22 +197,26 @@ class GitHubLiveDashboard extends HTMLElement {
       this._isRefreshing = false;
       this.render();
 
-      this.dispatchEvent(new CustomEvent('refresh', {
-        bubbles: true,
-        detail: { user: this._user, repos: this._repos },
-      }));
+      this.dispatchEvent(
+        new CustomEvent("refresh", {
+          bubbles: true,
+          detail: { user: this._user, repos: this._repos },
+        })
+      );
     } catch (err) {
       if (generation !== this._fetchGeneration) return;
 
-      if (err.name !== 'AbortError') {
-        this._error = err.message || 'Failed to load data';
+      if (err.name !== "AbortError") {
+        this._error = err.message || "Failed to load data";
         this._loading = false;
         this._isRefreshing = false;
         this.render();
-        this.dispatchEvent(new CustomEvent('error', {
-          bubbles: true,
-          detail: this._error,
-        }));
+        this.dispatchEvent(
+          new CustomEvent("error", {
+            bubbles: true,
+            detail: this._error,
+          })
+        );
       }
     } finally {
       clearTimeout(timeoutId);
@@ -223,44 +227,61 @@ class GitHubLiveDashboard extends HTMLElement {
   }
 
   timeAgo(dateString) {
-    if (!dateString) return 'N/A';
+    if (!dateString) return "N/A";
     const date = new Date(dateString);
     const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
 
     const intervals = [
-      [31536000, 'y'], [2592000, 'mo'], [86400, 'd'],
-      [3600, 'h'], [60, 'm']
+      [31536000, "y"],
+      [2592000, "mo"],
+      [86400, "d"],
+      [3600, "h"],
+      [60, "m"],
     ];
 
     for (const [secs, label] of intervals) {
       const interval = Math.floor(seconds / secs);
       if (interval >= 1) return `${interval}${label} ago`;
     }
-    return 'just now';
+    return "just now";
   }
 
   getLanguageColor(lang) {
     const colors = {
-      TypeScript: '#3178c6', JavaScript: '#f1e05a', Shell: '#89e051',
-      Rust: '#dea584', Python: '#3572A5', C: '#555555',
-      TeX: '#3D6117', HTML: '#e34c26', CSS: '#563d7c'
+      TypeScript: "#3178c6",
+      JavaScript: "#f1e05a",
+      Shell: "#89e051",
+      Rust: "#dea584",
+      Python: "#3572A5",
+      C: "#555555",
+      TeX: "#3D6117",
+      HTML: "#e34c26",
+      CSS: "#563d7c",
     };
-    return colors[lang] || '#64748b';
+    return colors[lang] || "#64748b";
   }
 
   escapeHtml(str) {
-    if (str == null) return '';
-    return String(str).replace(/[<>&'"]/g, (c) => ({
-      '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;'
-    })[c]);
+    if (str == null) return "";
+    return String(str).replace(
+      /[<>&'"]/g,
+      (c) =>
+        ({
+          "<": "&lt;",
+          ">": "&gt;",
+          "&": "&amp;",
+          "'": "&apos;",
+          '"': "&quot;",
+        })[c]
+    );
   }
 
   renderTopicChips(topics) {
-    if (!topics?.length) return '';
+    if (!topics?.length) return "";
     const chips = topics
       .slice(0, 8)
       .map((topic) => `<span class="topic-chip">${this.escapeHtml(topic)}</span>`)
-      .join('');
+      .join("");
     return `<div class="topic-chips">${chips}</div>`;
   }
 
@@ -272,21 +293,18 @@ class GitHubLiveDashboard extends HTMLElement {
     stars,
     time,
     topics = [],
-    badgeHtml = '',
+    badgeHtml = "",
     ownerLogin = null,
   }) {
-    const showOwner =
-      ownerLogin && ownerLogin.toLowerCase() !== this._username.toLowerCase();
+    const showOwner = ownerLogin && ownerLogin.toLowerCase() !== this._username.toLowerCase();
     const ownerPrefix = showOwner
       ? `<span class="repo-owner">${this.escapeHtml(ownerLogin)}/</span>`
-      : '';
+      : "";
     const langColor = this.getLanguageColor(language);
     const langStat = language
       ? `<span class="stat"><span class="language-dot" style="background:${langColor}"></span><span>${this.escapeHtml(language)}</span></span>`
-      : '';
-    const desc = description
-      ? `<p class="repo-desc">${this.escapeHtml(description)}</p>`
-      : '';
+      : "";
+    const desc = description ? `<p class="repo-desc">${this.escapeHtml(description)}</p>` : "";
     const topicChips = this.renderTopicChips(topics);
 
     return `
@@ -319,13 +337,16 @@ class GitHubLiveDashboard extends HTMLElement {
     this.syncSiteTheme();
     const shadow = this.shadowRoot;
     const recentlyPushed = [...this._repos]
-      .filter(r => !r.fork && !r.private)
-      .sort((a, b) => new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0))
+      .filter((r) => !r.fork && !r.private)
+      .sort(
+        (a, b) =>
+          new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0)
+      )
       .slice(0, 8);
 
     const creativeProjects = this._creativeProjects;
     const compact = this.isCompactLayout();
-    const refreshLabel = this._isRefreshing ? 'Syncing…' : 'Refresh';
+    const refreshLabel = this._isRefreshing ? "Syncing…" : "Refresh";
 
     shadow.innerHTML = `
       <style>
@@ -374,7 +395,7 @@ class GitHubLiveDashboard extends HTMLElement {
         .container {
           max-width: 1280px;
           margin: 0 auto;
-          padding: ${compact ? '0' : '1.5rem 0 2rem'};
+          padding: ${compact ? "0" : "1.5rem 0 2rem"};
         }
 
         .toolbar {
@@ -892,61 +913,74 @@ class GitHubLiveDashboard extends HTMLElement {
       </style>
 
       <div class="container">
-        ${compact ? `
+        ${
+          compact
+            ? `
           <div class="toolbar">
-            <div class="sync-pill">LAST SYNC: <span class="sync-time">${this._lastSync || '—'}</span></div>
+            <div class="sync-pill">LAST SYNC: <span class="sync-time">${this._lastSync || "—"}</span></div>
             <div class="toolbar-actions">
               <span class="hint">Cmd/Ctrl + R</span>
               <a class="btn btn-ghost" href="https://github.com/${this.escapeHtml(this._username)}" target="_blank" rel="noopener noreferrer">GitHub</a>
-              <button id="refresh-btn" type="button" class="btn btn-primary" ${this._isRefreshing ? 'disabled aria-busy="true"' : ''}>${refreshLabel}</button>
+              <button id="refresh-btn" type="button" class="btn btn-primary" ${this._isRefreshing ? 'disabled aria-busy="true"' : ""}>${refreshLabel}</button>
             </div>
           </div>
-        ` : `
+        `
+            : `
           <div class="nav profile">
             <div class="profile__main">
-              ${this._user ? `
+              ${
+                this._user
+                  ? `
                 <img class="avatar" src="${this.escapeHtml(this._user.avatar_url)}" alt="${this.escapeHtml(this._user.login)}">
-              ` : `
+              `
+                  : `
                 <div class="skeleton avatar"></div>
-              `}
+              `
+              }
               <div>
                 <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
-                  <h1 class="profile__name">${this._user ? this.escapeHtml(this._user.name || this._user.login) : 'Loading…'}</h1>
+                  <h1 class="profile__name">${this._user ? this.escapeHtml(this._user.name || this._user.login) : "Loading…"}</h1>
                   <span class="profile__user">${this.escapeHtml(this._username)}</span>
                 </div>
-                <p class="profile__bio">${this._user ? this.escapeHtml(this._user.bio || 'Builder of useful things') : ''}</p>
+                <p class="profile__bio">${this._user ? this.escapeHtml(this._user.bio || "Builder of useful things") : ""}</p>
                 <div class="profile__meta">
-                  ${this._user?.location ? `<span>📍 ${this.escapeHtml(this._user.location)}</span>` : ''}
-                  <span class="profile__followers">👥 ${this._user ? this._user.followers.toLocaleString() : '—'} followers</span>
+                  ${this._user?.location ? `<span>📍 ${this.escapeHtml(this._user.location)}</span>` : ""}
+                  <span class="profile__followers">👥 ${this._user ? this._user.followers.toLocaleString() : "—"} followers</span>
                 </div>
               </div>
             </div>
             <div class="toolbar-actions">
               <a class="btn btn-ghost" href="https://github.com/${this.escapeHtml(this._username)}" target="_blank" rel="noopener noreferrer">GitHub</a>
-              <button id="refresh-btn" type="button" class="btn btn-primary" ${this._isRefreshing ? 'disabled aria-busy="true"' : ''}>${refreshLabel}</button>
+              <button id="refresh-btn" type="button" class="btn btn-primary" ${this._isRefreshing ? 'disabled aria-busy="true"' : ""}>${refreshLabel}</button>
             </div>
           </div>
           <div class="status-row">
-            <div class="sync-pill">LAST SYNC: <span class="sync-time">${this._lastSync || '—'}</span></div>
+            <div class="sync-pill">LAST SYNC: <span class="sync-time">${this._lastSync || "—"}</span></div>
             <span class="hint">Cmd/Ctrl + R · GitHub REST API</span>
           </div>
-        `}
+        `
+        }
 
-        ${this._loading ? `
+        ${
+          this._loading
+            ? `
           <div class="loading-wrap">
             <div>
               <div class="skeleton" style="width:48px;height:48px;border-radius:9999px;margin:0 auto;"></div>
               <p style="margin-top:1rem;">Fetching live data…</p>
             </div>
           </div>
-        ` : this._error ? `
+        `
+            : this._error
+              ? `
           <div class="error-panel">
             <div style="font-size:2rem;margin-bottom:0.75rem;">⚠️</div>
             <h3 style="margin:0 0 0.5rem;">Failed to load dashboard</h3>
             <p>${this.escapeHtml(this._error)}</p>
             <button type="button" class="btn btn-primary" style="margin-top:1.25rem" id="retry-btn">Try again</button>
           </div>
-        ` : `
+        `
+              : `
           <div>
             <section class="section-block">
               <div class="section-head">
@@ -964,7 +998,7 @@ class GitHubLiveDashboard extends HTMLElement {
                 ${creativeProjects
                   .map((entry) => {
                     if (!entry.repo) {
-                      const shortName = entry.fullName.split('/').pop() || entry.fullName;
+                      const shortName = entry.fullName.split("/").pop() || entry.fullName;
                       return `
                         <div class="grid-item">
                           <div class="repo-card repo-card--unavailable">
@@ -980,8 +1014,7 @@ class GitHubLiveDashboard extends HTMLElement {
                       `;
                     }
                     const repo = entry.repo;
-                    const ownerLogin =
-                      repo.owner?.login || entry.fullName.split('/')[0] || null;
+                    const ownerLogin = repo.owner?.login || entry.fullName.split("/")[0] || null;
                     return this.renderRepoCard({
                       href: repo.html_url,
                       name: repo.name,
@@ -993,7 +1026,7 @@ class GitHubLiveDashboard extends HTMLElement {
                       ownerLogin,
                     });
                   })
-                  .join('')}
+                  .join("")}
               </div>
             </section>
 
@@ -1010,24 +1043,31 @@ class GitHubLiveDashboard extends HTMLElement {
               </div>
 
               <div class="grid">
-                ${recentlyPushed.length > 0 ? recentlyPushed.map((repo) => {
-                  const forkBadge = repo.fork
-                    ? '<span class="badge experiment-badge">fork</span>'
-                    : '';
-                  return this.renderRepoCard({
-                    href: repo.html_url,
-                    name: repo.name,
-                    description: repo.description,
-                    language: repo.language,
-                    stars: repo.stargazers_count,
-                    time: this.timeAgo(repo.pushed_at || repo.updated_at),
-                    badgeHtml: forkBadge,
-                  });
-                }).join('') : '<div class="grid-item" style="flex: 1 1 100%; max-width: 100%;"><div class="empty-state">No recent pushes found.</div></div>'}
+                ${
+                  recentlyPushed.length > 0
+                    ? recentlyPushed
+                        .map((repo) => {
+                          const forkBadge = repo.fork
+                            ? '<span class="badge experiment-badge">fork</span>'
+                            : "";
+                          return this.renderRepoCard({
+                            href: repo.html_url,
+                            name: repo.name,
+                            description: repo.description,
+                            language: repo.language,
+                            stars: repo.stargazers_count,
+                            time: this.timeAgo(repo.pushed_at || repo.updated_at),
+                            badgeHtml: forkBadge,
+                          });
+                        })
+                        .join("")
+                    : '<div class="grid-item" style="flex: 1 1 100%; max-width: 100%;"><div class="empty-state">No recent pushes found.</div></div>'
+                }
               </div>
             </section>
           </div>
-        `}
+        `
+        }
 
         <p class="footer-quote">
           Most of what I build starts as a solution to my own daily annoyances — then gets polished and shared.
@@ -1040,11 +1080,11 @@ class GitHubLiveDashboard extends HTMLElement {
 }
 
 // Register the custom element
-if (!customElements.get('github-live-dashboard')) {
-  customElements.define('github-live-dashboard', GitHubLiveDashboard);
+if (!customElements.get("github-live-dashboard")) {
+  customElements.define("github-live-dashboard", GitHubLiveDashboard);
 }
 
 // Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
   module.exports = GitHubLiveDashboard;
 }

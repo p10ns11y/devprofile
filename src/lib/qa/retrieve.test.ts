@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { loadQAIndex } from "./load-index";
 import { embedQueryForIndex } from "./embed-query";
+import { loadQAIndex } from "./load-index";
 import { retrieveFromIndex } from "./retrieve";
 import { feature, scenario } from "./test/bdd";
 

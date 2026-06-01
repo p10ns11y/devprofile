@@ -1,8 +1,8 @@
-import { describe, expect, it, beforeEach, afterEach } from "vitest";
-import { searchProfile } from "./search-backend";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { resolveAgenticRetrieval } from "@/lib/qa/config/resolve-qa-mode";
 import { feature, scenario } from "@/lib/qa/test/bdd";
 import { VISITOR_SCENARIO_IDS } from "@/lib/qa/test/contracts";
+import { searchProfile } from "./search-backend";
 
 describe(feature("Local developer workflow"), () => {
   describe(scenario("S8", VISITOR_SCENARIO_IDS.S8), () => {

@@ -1,8 +1,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { resolveAgenticRetrieval } from "@/lib/qa/config/resolve-qa-mode";
 import type { SearchResult } from "@/lib/qa/types";
 import { collectionsClient } from "@/lib/qa/xai-collections";
-import { resolveAgenticRetrieval } from "@/lib/qa/config/resolve-qa-mode";
 
 let localPacketCache: { ingestDocument: string; coreIdentity: string } | null = null;
 
@@ -48,10 +48,7 @@ function localSearch(query: string, k = 5): SearchResult {
     .sort((a, b) => b.score - a.score)
     .slice(0, k);
 
-  const final =
-    scored.length > 0
-      ? scored
-      : sources.slice(0, k).map((s) => ({ ...s, score: 0 }));
+  const final = scored.length > 0 ? scored : sources.slice(0, k).map((s) => ({ ...s, score: 0 }));
 
   return {
     chunks: final.map((s) => ({

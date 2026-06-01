@@ -14,10 +14,7 @@
 import { tool } from "ai";
 import { z } from "zod";
 import { searchProfile } from "./agentic/tools/search-backend";
-import {
-  mergeRetrievedChunks,
-  searchResultToDetails,
-} from "./shared/map-search-to-details";
+import { mergeRetrievedChunks, searchResultToDetails } from "./shared/map-search-to-details";
 import type { PersonaTool, PersonaToolRegistry, RetrievedChunk, SearchResult } from "./types";
 
 // -----------------------------------------------------------------------------

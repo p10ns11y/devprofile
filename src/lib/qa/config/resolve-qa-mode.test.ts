@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { isQARectorEnabled, resolveAgenticRetrieval, resolveQaMode } from "./resolve-qa-mode";
 
 describe("Scenario: env selects visitor backend", () => {

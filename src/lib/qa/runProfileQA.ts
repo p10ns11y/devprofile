@@ -17,8 +17,8 @@
  * streaming + golden graceful, versioned observability.
  */
 
-import { runProfileQAReactor } from "./persona-reactor";
 import { isQARectorEnabled as isReactorEnvEnabled } from "./config/resolve-qa-mode";
+import { runProfileQAReactor } from "./persona-reactor";
 import type { RetrievedChunk } from "./types";
 
 // ProfilePacket type lives in ./types (re-exported via barrel + PR2 stub for consumers that need it).

@@ -4,8 +4,8 @@ import { describe, expect, it } from "vitest";
 import {
   compileProfilePacket,
   compileProfilePacketFromSources,
-  Q6_TONE_GUIDANCE,
   type ProfileSources,
+  Q6_TONE_GUIDANCE,
 } from "./persona-compiler";
 
 const REPO_ROOT = process.cwd();
@@ -42,7 +42,11 @@ const cvdataStub = {
   ],
   languages: { English: "Proficient", Swedish: "Basic" },
   projects: [
-    { name: "sample-extension", description: "Contextual AI extension", technologies: ["Browser Extension"] },
+    {
+      name: "sample-extension",
+      description: "Contextual AI extension",
+      technologies: ["Browser Extension"],
+    },
     { name: "sample-cv-tool", description: "CV automation", technologies: ["LaTeX", "Rust"] },
   ],
 };

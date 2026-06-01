@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
-  QA_REACTOR_FLAG,
-  NO_LOCAL_VECTORS_COMMENT,
   type AbuseResult,
+  NO_LOCAL_VECTORS_COMMENT,
   type PersonaTool,
   type ProfilePacket,
+  QA_REACTOR_FLAG,
 } from "../index";
 
 describe("Visitor JSON contracts (supports all scenarios)", () => {

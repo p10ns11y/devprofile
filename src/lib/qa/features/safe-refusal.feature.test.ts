@@ -1,7 +1,7 @@
-import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { handleQaRequest } from "../gateway/handle-qa-request";
-import { VISITOR_SCENARIO_IDS } from "../test/contracts";
 import { feature, scenario } from "../test/bdd";
+import { VISITOR_SCENARIO_IDS } from "../test/contracts";
 
 const mockRunProfileQA = vi.fn();
 
@@ -9,8 +9,7 @@ vi.mock("../runProfileQA", async (importOriginal) => {
   const actual = await importOriginal<typeof import("../runProfileQA")>();
   return {
     ...actual,
-    runProfileQA: (...args: Parameters<typeof actual.runProfileQA>) =>
-      mockRunProfileQA(...args),
+    runProfileQA: (...args: Parameters<typeof actual.runProfileQA>) => mockRunProfileQA(...args),
   };
 });
 

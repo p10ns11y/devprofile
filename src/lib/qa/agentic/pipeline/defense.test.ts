@@ -1,15 +1,15 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { describe, expect, it, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { getAbuseConfig } from "@/config/abuse-defense";
 import {
   type CheckAbuseContext,
   checkAbuse,
+  compileProfilePacketFromSources,
   computeGoldenFallback,
   getGoldenFallbackDetails,
-  resetAbuseStateForTests,
-  compileProfilePacketFromSources,
   type ProfileSources,
+  resetAbuseStateForTests,
 } from "@/lib/qa";
 import { feature, scenario } from "@/lib/qa/test/bdd";
 import { VISITOR_SCENARIO_IDS } from "@/lib/qa/test/contracts";

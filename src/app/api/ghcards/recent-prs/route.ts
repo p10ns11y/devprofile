@@ -1,12 +1,5 @@
 import { fetchGitHubJson } from "@/lib/github/client";
-import {
-  cardFooter,
-  cardHeader,
-  escapeXml,
-  getTimeAgo,
-  prStateBadge,
-  wrapSvg,
-} from "../theme";
+import { cardFooter, cardHeader, escapeXml, getTimeAgo, prStateBadge, wrapSvg } from "../theme";
 
 type GitHubPullRequest = {
   title: string;
@@ -58,8 +51,7 @@ function generateRecentPRsSVG(prs: GitHubPullRequest[], username: string) {
       const repoName = pr.repository_url.split("/").pop() ?? "repo";
       const state = pr.pull_request?.merged_at ? "merged" : pr.state;
       const badge = prStateBadge(state);
-      const title =
-        pr.title.length > 52 ? `${pr.title.slice(0, 52)}…` : pr.title;
+      const title = pr.title.length > 52 ? `${pr.title.slice(0, 52)}…` : pr.title;
 
       return `
       <g transform="translate(20, ${y})">

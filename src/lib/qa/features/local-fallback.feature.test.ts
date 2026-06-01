@@ -1,8 +1,8 @@
-import { describe, it, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, it, vi } from "vitest";
 import { handleQaRequest } from "../gateway/handle-qa-request";
-import { assertQaResponseForVisitor, VISITOR_SCENARIO_IDS } from "../test/contracts";
-import { feature, scenario } from "../test/bdd";
 import * as qaRouter from "../qa-router";
+import { feature, scenario } from "../test/bdd";
+import { assertQaResponseForVisitor, VISITOR_SCENARIO_IDS } from "../test/contracts";
 
 describe(feature("Resilient local path"), () => {
   describe(scenario("S5", VISITOR_SCENARIO_IDS.S5), () => {

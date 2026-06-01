@@ -1,7 +1,6 @@
 /** GitHub README–friendly SVG theme (light + dark via prefers-color-scheme). */
 
-export const SVG_FONT =
-  "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif";
+export const SVG_FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif";
 
 export function ghcCardStyles(): string {
   return `<style>
@@ -50,12 +49,7 @@ export function ghcCardStyles(): string {
   </style>`;
 }
 
-export function wrapSvg(
-  width: number,
-  height: number,
-  body: string,
-  extraDefs = ""
-): string {
+export function wrapSvg(width: number, height: number, body: string, extraDefs = ""): string {
   const defs = extraDefs ? `<defs>${extraDefs}</defs>` : "";
   return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
     ${ghcCardStyles()}
@@ -105,9 +99,7 @@ export function prStateBadge(state: string): {
 
 export function getTimeAgo(dateString?: string): string {
   if (!dateString) return "N/A";
-  const seconds = Math.floor(
-    (Date.now() - new Date(dateString).getTime()) / 1000
-  );
+  const seconds = Math.floor((Date.now() - new Date(dateString).getTime()) / 1000);
   const intervals: [number, string][] = [
     [31536000, "y"],
     [2592000, "mo"],
@@ -131,18 +123,11 @@ export function truncateText(text: string, maxChars: number): string {
 export function escapeXml(str: string): string {
   return str.replace(
     /[<>&'"]/g,
-    (c) =>
-      ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" })[
-        c
-      ] as string
+    (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" })[c] as string
   );
 }
 
-export function errorSvg(
-  width: number,
-  height: number,
-  message: string
-): string {
+export function errorSvg(width: number, height: number, message: string): string {
   return wrapSvg(
     width,
     height,

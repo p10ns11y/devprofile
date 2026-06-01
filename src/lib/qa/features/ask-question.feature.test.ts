@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { handleQaRequest } from "../gateway/handle-qa-request";
-import { assertQaResponseForVisitor, VISITOR_SCENARIO_IDS } from "../test/contracts";
 import { feature, scenario } from "../test/bdd";
+import { assertQaResponseForVisitor, VISITOR_SCENARIO_IDS } from "../test/contracts";
 
 describe(feature("Ask a profile question"), () => {
   describe(scenario("S1", VISITOR_SCENARIO_IDS.S1), () => {
@@ -24,10 +24,7 @@ describe(feature("Ask a profile question"), () => {
 describe(feature("Suggested questions"), () => {
   describe(scenario("S2", VISITOR_SCENARIO_IDS.S2), () => {
     it("answers a curated suggested question shape", async () => {
-      const { body } = await handleQaRequest(
-        "Why does premflow still matter in 2026?",
-        {}
-      );
+      const { body } = await handleQaRequest("Why does premflow still matter in 2026?", {});
       assertQaResponseForVisitor(body);
       expect(body.answer.length).toBeGreaterThan(20);
     });

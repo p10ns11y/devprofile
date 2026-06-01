@@ -12,9 +12,7 @@ import type { RetrievedChunk } from "./types";
 describe("golden-routing", () => {
   const index = loadQAIndex();
 
-  const nextChaptersEntry = index.goldenQuestions.find((e) =>
-    e.question.includes("next chapters")
-  );
+  const nextChaptersEntry = index.goldenQuestions.find((e) => e.question.includes("next chapters"));
 
   it("parses ideal answer from golden chunk text", () => {
     const text =

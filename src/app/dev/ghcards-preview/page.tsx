@@ -30,18 +30,14 @@ export default function GhcardsPreviewPage() {
         fontFamily: "system-ui, sans-serif",
       }}
     >
-      <h1 style={{ fontSize: "1.25rem", marginBottom: "0.5rem" }}>
-        GitHub card preview
-      </h1>
+      <h1 style={{ fontSize: "1.25rem", marginBottom: "0.5rem" }}>GitHub card preview</h1>
       <p style={{ color: "#656d76", fontSize: "0.875rem", marginBottom: "2rem" }}>
-        Same-origin embeds for local testing. Profile README on GitHub needs your
-        deployed HTTPS URL, not localhost.
+        Same-origin embeds for local testing. Profile README on GitHub needs your deployed HTTPS
+        URL, not localhost.
       </p>
       {cards.map((card) => (
         <section key={card.src} style={{ marginBottom: "2rem" }}>
-          <h2 style={{ fontSize: "0.95rem", marginBottom: "0.75rem" }}>
-            {card.title}
-          </h2>
+          <h2 style={{ fontSize: "0.95rem", marginBottom: "0.75rem" }}>{card.title}</h2>
           <img
             src={card.src}
             alt={card.title}
