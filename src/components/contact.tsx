@@ -74,7 +74,7 @@ export function Contact() {
 
         <div className="contact-layout">
           <section className="contact-form-panel min-w-0" aria-labelledby={`${headingId}-form`}>
-            <h3 id={`${headingId}-form`} className="subsection-title mb-5">
+            <h3 id={`${headingId}-form`} className="subsection-title subsection-heading">
               Send a message
             </h3>
             <form onSubmit={handleSubmit} data-status={status} className="space-y-5">

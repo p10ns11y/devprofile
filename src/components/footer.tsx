@@ -9,7 +9,7 @@ export function Footer() {
 
   return (
     <footer className="bg-surface2 py-12">
-      <div className="container mx-auto min-w-0 max-w-7xl px-4 sm:px-6 text-center space-y-8">
+      <div className="site-container space-y-8 text-center">
         <p className="text-2xl font-semibold font-[family-name:var(--font-display)] text-text1">
           {cvdata.name_with_initial}
         </p>

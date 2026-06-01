@@ -7,6 +7,16 @@ html {
    * brand + white on buttons → use --color-accent-primary-text ✓
    */
   --header-offset: 5rem;
+
+  /* Marketing layout rhythm (Round 3) */
+  --marketing-inset-x: clamp(1rem, 4vw, 1.5rem);
+  --marketing-space-section-y: clamp(3rem, 5vw, 4rem);
+  --marketing-space-section-join: clamp(1.25rem, 2.5vw, 2rem);
+  --marketing-space-after-heading: clamp(2rem, 3.5vw, 2.75rem);
+  --marketing-space-stack: clamp(1.5rem, 2.5vw, 2rem);
+  --marketing-space-stack-sm: 1rem;
+  --marketing-space-grid: clamp(0.75rem, 1.2vw, 1rem);
+  --marketing-prose-max: 40rem;
   --brand-hover: color-mix(in oklch, var(--brand) 90%, black);
   --font-display: var(--font-instrument-serif, ui-serif, Georgia, serif);
   --font-body: var(--font-dm-sans, ui-sans-serif, system-ui, sans-serif);

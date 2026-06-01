@@ -25,7 +25,7 @@ export function SectionShell({
       aria-labelledby={headingId}
       className={`${bgClass} ${className}`.trim()}
     >
-      <div className="container mx-auto min-w-0 max-w-7xl px-6">{children}</div>
+      <div className="site-container">{children}</div>
     </section>
   );
 }

@@ -83,10 +83,7 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-surface1/85 backdrop-blur-md border-b border-[var(--color-border-subtle)] overflow-x-clip shadow-[var(--marketing-shadow-sm)]">
-      <nav
-        aria-label="Primary"
-        className="container mx-auto min-w-0 max-w-7xl px-4 sm:px-6 py-4 flex items-center gap-3 sm:gap-4"
-      >
+      <nav aria-label="Primary" className="site-container flex items-center gap-3 py-4 sm:gap-4">
         <Link
           href="/#home"
           className="min-w-0 max-w-[45vw] sm:max-w-none truncate text-md font-semibold text-text1 hover:text-[var(--color-link)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-emphasis)]"

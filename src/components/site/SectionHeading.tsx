@@ -18,20 +18,13 @@ export function SectionHeading({
   className = "",
 }: SectionHeadingProps) {
   return (
-    <header className={`text-center mb-10 md:mb-12 ${className}`}>
-      {eyebrow ? <p className="eyebrow mb-3">{eyebrow}</p> : null}
-      <h2 id={id} className="section-title mb-4">
+    <header className={`section-heading ${className}`.trim()}>
+      {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
+      <h2 id={id} className="section-title">
         {title}
       </h2>
-      {showUnderline ? (
-        <div
-          className="w-16 h-0.5 mx-auto mb-5 bg-[var(--color-brand-emphasis)] opacity-80"
-          aria-hidden="true"
-        />
-      ) : null}
-      {description ? (
-        <p className="section-lead max-w-2xl mx-auto break-words">{description}</p>
-      ) : null}
+      {showUnderline ? <div className="section-heading__rule" aria-hidden="true" /> : null}
+      {description ? <p className="section-lead break-words">{description}</p> : null}
     </header>
   );
 }
