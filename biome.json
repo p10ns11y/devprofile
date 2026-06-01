@@ -18,6 +18,7 @@
       "!**/.vscode",
       "!src/data/qa-index.json",
       "!tests/qa/last-eval-report.json",
+      "!sbom.cdx.json",
       "!**/*.md",
       "!**/*.mdc",
       "!.agents",
