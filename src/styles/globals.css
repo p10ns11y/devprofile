@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @import "./brand/theme.css";
+@import "./marketing.css";
 
 html {
   --font-size: 1rem;

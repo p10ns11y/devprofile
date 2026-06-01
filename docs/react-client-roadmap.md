@@ -62,7 +62,8 @@ flowchart TB
 | `app/cv/page.tsx` | — | Dynamic layout import |
 | `app/cv/content-layout.tsx` | — | `matchMedia` subscription OK |
 | `app/cv/view/page.tsx` | — | `next/dynamic` for `@react-pdf/renderer` |
-| `app/content-hub/[page]/page.tsx` | — | Client hub page |
+| `app/accomplishments/page.tsx` | — | Redirect to `/#accomplishments` |
+| ~~`app/content-hub/[page]/page.tsx`~~ | — | **Removed** — see `docs/content-hub-deferred.md` |
 | `app/master-thesis.pdf/page.tsx` | — | PDF route |
 | `components/profile-qa.tsx` | 1 ✅ | `useReducer` + submit-on-click (no effect fetch) |
 | `components/profile-qa-state.ts` | 1 ✅ | QA status enum + `fetchQaAnswer` |
@@ -72,7 +73,7 @@ flowchart TB
 | `components/verification-hash.tsx` | 1 ✅ | Derived verification status |
 | `components/theme-provider.tsx` | 1 ✅ | `useSyncExternalStore` + memoized context |
 | `components/theme-toggle.tsx` | — | Uses theme context |
-| `components/hero.tsx` | — | One-time particle init OK |
+| `components/hero.tsx` | 1 ✅ | CSS gradient mesh; no particle useEffect |
 | `components/sw-register.tsx` | — | SW registration OK |
 | `components/contact.tsx` | — | Local form state OK |
 | `components/header.tsx` | — | Presentation |
@@ -80,7 +81,7 @@ flowchart TB
 | `components/experience.tsx` | — | Presentation |
 | `components/accomplishments.tsx` | — | Presentation |
 | `components/timeline.tsx` | — | Presentation |
-| `components/content-hub/*` | — | Hub UI |
+| ~~`components/content-hub/*`~~ | — | **Removed** — deferred; see `docs/content-hub-deferred.md` |
 
 Modules without `"use client"` that wrap client children (e.g. `certificates/page.tsx`) are listed under server OK above.
 
@@ -143,7 +144,7 @@ Defer homepage split until needed.
 - Do not use **async client components** for interactive UI.
 - Do not widen `useEffect` deps to satisfy linters — fix the model.
 - Do not put messages / streaming / search in Context.
-- Do not add React Query for static in-memory content-hub data until there is a real API.
+- Do not add React Query for static hub data until there is a real API (Content Hub removed — see `docs/content-hub-deferred.md`).
 
 ## Optional dependencies
 

@@ -220,3 +220,27 @@ export const getCertificatesData = (): DocumentItem[] => {
     return dateB - dateA; // Reverse chronological
   });
 };
+
+const landingExcludedCoursePattern = /human trafficking/i;
+const landingExcludedFilenames = new Set([
+  "polaris-ht101-certificate-template.png",
+  "polaris-ht101-social-certificate-template.png",
+]);
+
+function isExcludedFromLandingCertificate(filename: string): boolean {
+  if (landingExcludedFilenames.has(filename)) {
+    return true;
+  }
+  const meta = cvData.certificates.find((cert) => cert.filename === filename);
+  if (!meta) {
+    return false;
+  }
+  return landingExcludedCoursePattern.test(meta.course);
+}
+
+/** Newest certificates for the homepage Credentials grid (curated exclusions). */
+export function getLandingFeaturedCertificates(limit = 4): DocumentItem[] {
+  return getCertificatesData()
+    .filter((cert) => !isExcludedFromLandingCertificate(cert.name))
+    .slice(0, limit);
+}

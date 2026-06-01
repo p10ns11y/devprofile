@@ -36,6 +36,7 @@ See [fusion-sage/SKILL.md](.agents/skills/fusion-sage/SKILL.md) and [ai-optimiza
 | Per-project editor settings (`.editor/profile.json`), extensions, Cursor hooks | [`.agents/skills/project-editor-profile/SKILL.md`](.agents/skills/project-editor-profile/SKILL.md) |
 | Upgrade, update, or bump dependencies; Next/React/TS/Tailwind majors; codemods | [`.agents/skills/upgrade-packages/SKILL.md`](.agents/skills/upgrade-packages/SKILL.md) |
 | React components, hooks, client state, effects, Context, XState; **no RSC** for UI logic | [`.agents/skills/react-client-expert/SKILL.md`](.agents/skills/react-client-expert/SKILL.md) |
+| HTML semantics, WAI-ARIA, WCAG contrast, data-* states, marketing CSS layer | [`.agents/skills/semantic-markup-css/SKILL.md`](.agents/skills/semantic-markup-css/SKILL.md) (+ [devprofile-marketing-css](.agents/skills/semantic-markup-css/references/devprofile-marketing-css.md)) |
 | Dev Containers, Codespaces, hardened `.devcontainer` (minimal blast radius) | [`.agents/skills/devcontainer-hardened/SKILL.md`](.agents/skills/devcontainer-hardened/SKILL.md) |
 | Hermes, OpenClaw, Grok Build concurrently; git worktrees; Modal/Daytona/E2B sandboxes | [`.agents/skills/concurrent-cli-agents/SKILL.md`](.agents/skills/concurrent-cli-agents/SKILL.md) |
 | Disk bloat from agent worktrees / execute-plan orphans (`~/.grok/worktrees/`) | [`.agents/skills/git-worktrees/SKILL.md`](.agents/skills/git-worktrees/SKILL.md) (see "Disk hygiene" section + `agent-worktree-clean.sh`) |
@@ -67,6 +68,7 @@ ln -sf ../../.agents/skills/git-worktrees .cursor/skills/git-worktrees
 ln -sf ../../.agents/skills/agent-orchestrator .cursor/skills/agent-orchestrator
 ln -sf ../../.agents/skills/split-to-prs .cursor/skills/split-to-prs
 ln -sf ../../.agents/skills/bdd-strategizer .cursor/skills/bdd-strategizer
+ln -sf ../../.agents/skills/semantic-markup-css .cursor/skills/semantic-markup-css
 ```
 
 ## Agent workflow (triage first)

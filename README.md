@@ -8,7 +8,7 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 - **💬 Profile Q&A**: Ask interview-style questions about experience, grounded in CV data and curated notes — see [Profile Q&A architecture](#-profile-qa-architecture) and [`src/lib/qa/README.md`](src/lib/qa/README.md)
 - **📄 Dynamic PDF Generation**: Server-side PDF creation with professional styling
 - **👁️ Interactive Document Viewer**: Inline PDF viewing with full browser integration
-- **🔍 X search**: Curated X/Twitter post search by date range (`/x`; `/content-hub` redirects here)
+- **🔍 X search**: Curated X/Twitter post search by date range (`/x`; `/content-hub` redirects here — Content Hub UI removed; see [`docs/content-hub-deferred.md`](docs/content-hub-deferred.md))
 - **🎨 Modern UI/UX**: Beautiful shadcn/ui components with responsive design
 - **⚡ Performance Optimized**: Fast loading with Next.js App Router and Turbopack
 - **♿ Accessibility**: WCAG-oriented patterns with keyboard navigation
@@ -90,7 +90,7 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
    - Portfolio: `/`
    - CV page: `/cv`
    - Certificates: `/certificates`
-   - X search: `/x` (`/content-hub` redirects here; hub UI hidden)
+   - X search: `/x` (`/content-hub` redirects here; Content Hub removed — see `docs/content-hub-deferred.md`)
    - Profile Q&A: `/qa`
 
    **Default `/qa` (no reactor):** uses [`src/data/qa-index.json`](src/data/qa-index.json) (git-tracked; regenerated on every `pnpm build`). For dev-only refresh: `pnpm build-qa-index`.

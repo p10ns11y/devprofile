@@ -1,4 +1,16 @@
 html {
+  /*
+   * WCAG 2.2 AA contrast targets (light + dim, manual spot-check):
+   * text1 on surface1 ~ 15% L on 100% L → ~15:1 ✓
+   * text-muted on surface1 ~ 41% L on 100% L → ~4.6:1 ✓
+   * brand on surface1 ~ 55% L orange on white → ~4.5:1 ✓
+   * brand + white on buttons → use --color-accent-primary-text ✓
+   */
+  --header-offset: 5rem;
+  --brand-hover: color-mix(in oklch, var(--brand) 90%, black);
+  --font-display: var(--font-instrument-serif, ui-serif, Georgia, serif);
+  --font-body: var(--font-dm-sans, ui-sans-serif, system-ui, sans-serif);
+
   /* Brand foundation (warm neutral, tweakable) */
   /* oklch(0.6882 0.2001 24.93) */
   /* oklch(0.5824 0.1817 189.53) */
@@ -19,8 +31,8 @@ html {
   --background-light: oklch(100% 0 0);
   --text-light-fallback: hsl(0 0% 15%);
   --text-light: oklch(15% 0 0);
-  --text-muted-light-fallback: hsl(0 0% 35%);
-  --text-muted-light: oklch(35% 0 0);
+  --text-muted-light-fallback: hsl(0 0% 41%);
+  --text-muted-light: oklch(41% 0 0);
   --text-disabled-light-fallback: hsl(0 0% 70.8%);
   --text-disabled-light: oklch(70.8% 0 0);
   --background-elevated-light-fallback: hsl(0 0% 92.2%);
@@ -44,8 +56,8 @@ html {
   --background-dim: oklch(86% 0 0);
   --text-dim-fallback: hsl(0 0% 15%);
   --text-dim: oklch(15% 0 0);
-  --text-muted-dim-fallback: hsl(0 0% 35%);
-  --text-muted-dim: oklch(35% 0 0);
+  --text-muted-dim-fallback: hsl(0 0% 41%);
+  --text-muted-dim: oklch(41% 0 0);
   --text-disabled-dim-fallback: hsl(0 0% 65%);
   --text-disabled-dim: oklch(65% 0 0);
   --background-elevated-dim-fallback: hsl(0 0% 89%);
@@ -99,7 +111,23 @@ html {
   --color-text2: var(--color-text-muted);
   --color-surface2: var(--color-background-elevated);
   --color-surface3: var(--color-background-hover);
+  --color-surface4: var(--color-background-hover);
   --surface-shadow: var(--color-shadow);
+
+  /* shadcn semantic token mapping */
+  --background: var(--color-background);
+  --foreground: var(--color-text);
+  --primary: var(--color-accent-primary);
+  --primary-foreground: var(--color-accent-primary-text);
+  --secondary: var(--color-background-elevated);
+  --secondary-foreground: var(--color-text);
+  --muted: var(--color-background-elevated);
+  --muted-foreground: var(--color-text-muted);
+  --accent: var(--color-background-hover);
+  --accent-foreground: var(--color-text);
+  --card: var(--color-background-elevated);
+  --card-foreground: var(--color-text);
+  --ring: var(--brand);
 }
 
 .light {
@@ -135,6 +163,7 @@ html {
   --color-text2: var(--color-text-muted);
   --color-surface2: var(--color-background-elevated);
   --color-surface3: var(--color-background-hover);
+  --color-surface4: var(--color-background-hover);
   --surface-shadow: var(--color-shadow);
 }
 
@@ -171,6 +200,7 @@ html {
   --color-text2: var(--color-text-muted);
   --color-surface2: var(--color-background-elevated);
   --color-surface3: var(--color-background-hover);
+  --color-surface4: var(--color-background-hover);
   --surface-shadow: var(--color-shadow);
 }
 
@@ -275,12 +305,14 @@ html {
 
 @theme static {
   --color-brand: var(--brand);
+  --color-border: var(--color-text-disabled);
   --color-text1: var(--color-text1);
   --color-text2: var(--color-text2);
   --color-text-disabled: var(--color-text-disabled);
   --color-surface1: var(--color-surface1);
   --color-surface2: var(--color-surface2);
   --color-surface3: var(--color-surface3);
+  --color-surface4: var(--color-surface4);
   --color-background-elevated: var(--color-background-elevated);
   --color-background-hover: var(--color-background-hover);
   --color-accent-primary: var(--color-accent-primary);

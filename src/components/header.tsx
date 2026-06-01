@@ -1,11 +1,11 @@
 "use client";
 
-import { X as CloseIcon, Menu } from "lucide-react";
-import { motion } from "motion/react";
+import { ChevronDown, X as CloseIcon, Menu } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import cvdata from "../data/cvdata.json";
 import { Icon, type IconName } from "./icon";
+import { SiteButton } from "./site/SiteButton";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 
@@ -15,223 +15,151 @@ type NavItem = {
   icon?: IconName;
 };
 
+const primaryNav: NavItem[] = [
+  { name: "About", href: "/#about" },
+  { name: "Experience", href: "/#experience" },
+];
+
+const standaloneNav: NavItem[] = [
+  { name: "CV", href: "/cv" },
+  { name: "Q&A", href: "/qa" },
+];
+
+const moreNav: NavItem[] = [
+  { name: "Certificates", href: "/certificates" },
+  { name: "Posts on X", href: "/x", icon: "X" },
+  { name: "Live GitHub", href: "/status/code/200" },
+];
+
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navItems: NavItem[] = [
-    { name: "Home", href: "/#home" },
-    { name: "About", href: "/#about" },
-    { name: "CV", href: "/cv" },
-    // { name: 'Skills', href: '/#skills' },
-    { name: "Projects", href: "/#projects" },
-    { name: "Accomplishments", href: "/#accomplishments" },
-    { name: "Certificates", href: "/certificates" },
-    { name: "Q&A", href: "/qa" },
-    { name: "Experience", href: "/#experience" },
-    { name: "Posts on X", href: "/x", icon: "X" },
-    // { name: 'Contact', href: '/#contact' }, // Testing sw cache busting
-  ];
 
-  const scrollToSection = (href: string) => {
-    // Check if we're currently on home page
+  const scrollToSection = useCallback((href: string) => {
     const isHomePage = window.location.pathname === "/";
 
     if (href.startsWith("/#")) {
-      // Anchor link - if not on home page, navigate there first
       if (!isHomePage) {
-        const homeUrl = `${window.location.origin}${href}`;
-        window.location.href = homeUrl;
+        window.location.href = `${window.location.origin}${href}`;
         return;
       }
-
-      // On home page - smooth scroll to section
-      const element = document.querySelector(href.slice(1));
-      element?.scrollIntoView({ behavior: "smooth" });
-      setIsMenuOpen(false); // Close menu after navigation
-      return;
+      document.querySelector(href.slice(1))?.scrollIntoView({ behavior: "smooth" });
+      setIsMenuOpen(false);
     }
+  }, []);
 
-    // Regular navigation for non-anchor links (handled by Link now)
-    // No need for special cases
-  };
+  const navControlClass =
+    "inline-flex items-center leading-none text-text2 transition-colors hover:text-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 
-  const navControlClass = "inline-flex items-center leading-none text-text2 transition-colors";
-  const navIconClass = "block size-[1em] shrink-0 fill-current";
+  const renderAnchorItem = (item: NavItem) => (
+    <button
+      key={item.name}
+      type="button"
+      onClick={() => scrollToSection(item.href)}
+      className={`${navControlClass} py-2 md:py-0`}
+    >
+      {item.name}
+    </button>
+  );
+
+  const renderLinkItem = (item: NavItem, onNavigate?: () => void) => (
+    <Link
+      key={item.name}
+      href={item.href}
+      prefetch
+      onClick={onNavigate}
+      className={`${navControlClass} py-2 md:py-0`}
+      aria-label={item.icon ? item.name : undefined}
+    >
+      {item.icon ? (
+        <span className="inline-flex items-center gap-1.5">
+          <Icon name={item.icon} className="size-4 fill-current" aria-hidden="true" />
+          {item.name}
+        </span>
+      ) : (
+        item.name
+      )}
+    </Link>
+  );
 
   return (
-    <motion.header
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 bg-surface1/80 backdrop-blur-md border-b border-border/20"
-    >
-      <nav className="container mx-auto px-6 py-4 flex items-center justify-between">
-        <motion.div
-          whileHover={{ scale: 1.05, cursor: "pointer" }}
-          className="text-md font-semibold pr-2"
-          onClick={() => scrollToSection("/")}
+    <header className="fixed top-0 left-0 right-0 z-50 bg-surface1/80 backdrop-blur-md border-b border-border/20 overflow-x-clip">
+      <nav
+        aria-label="Primary"
+        className="container mx-auto min-w-0 max-w-7xl px-4 sm:px-6 py-4 flex items-center gap-3 sm:gap-4"
+      >
+        <Link
+          href="/#home"
+          className="min-w-0 max-w-[45vw] sm:max-w-none truncate text-md font-semibold text-text1 hover:text-brand transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
         >
           {cvdata.name_with_initial}
-        </motion.div>
+        </Link>
 
-        <div className="hidden text-[0.9em] md:flex flex-1 items-center justify-between">
-          {navItems.map((item, index) => (
-            <motion.div
-              key={item.name}
-              className="flex items-center"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+        <div className="hidden lg:flex flex-1 min-w-0 items-center justify-center gap-4 xl:gap-6 text-[0.9em]">
+          {primaryNav.map(renderAnchorItem)}
+          {standaloneNav.map((item) => renderLinkItem(item))}
+          <details className="relative group">
+            <summary className="list-none cursor-pointer inline-flex items-center gap-1 text-text2 hover:text-brand transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand [&::-webkit-details-marker]:hidden">
+              More
+              <ChevronDown className="size-4" aria-hidden="true" />
+            </summary>
+            <div
+              role="menu"
+              className="absolute top-full left-0 mt-2 min-w-44 rounded-lg border border-border bg-surface1 p-2 shadow-lg"
             >
-              {item.href.startsWith("/#") ? (
-                <motion.button
-                  type="button"
-                  whileHover={{ scale: 1.1, color: "var(--color-brand)", cursor: "pointer" }}
-                  onClick={() => scrollToSection(item.href)}
-                  className={`${navControlClass} hover:text-brand`}
-                >
-                  {item.name}
-                </motion.button>
-              ) : (
-                <Link
-                  href={item.href}
-                  prefetch
-                  target={item.href === "/cv" ? "_blank" : "_self"}
-                  aria-label={item.icon ? item.name : undefined}
-                  className={`${navControlClass} hover:text-text1`}
-                >
-                  <motion.span
-                    whileHover={{ scale: 1.1, color: "var(--color-brand)", cursor: "pointer" }}
-                    className="inline-flex items-center"
-                  >
-                    {item.icon ? (
-                      <Icon name={item.icon} className={navIconClass} aria-hidden="true" />
-                    ) : (
-                      item.name
-                    )}
-                  </motion.span>
-                </Link>
-              )}
-            </motion.div>
-          ))}
+              {moreNav.map((item) => (
+                <div key={item.name} role="none">
+                  {renderLinkItem(item)}
+                </div>
+              ))}
+            </div>
+          </details>
         </div>
 
-        {/* Mobile menu button */}
+        <div className="hidden lg:flex items-center gap-3 ml-auto shrink-0">
+          <ThemeToggle />
+          <SiteButton variant="outline" href="/#contact">
+            Let&apos;s Talk
+          </SiteButton>
+        </div>
+
         <Button
           variant="ghost"
           size="sm"
-          className="md:hidden ml-auto"
+          className="lg:hidden ml-auto shrink-0"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-expanded={isMenuOpen}
+          aria-controls="site-nav-panel"
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         >
           {isMenuOpen ? <CloseIcon className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </Button>
-
-        <div className="hidden md:flex items-center space-x-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            <ThemeToggle />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <Button variant="outline" onClick={() => scrollToSection("/#contact")}>
-              Let's Talk
-            </Button>
-          </motion.div>
-        </div>
       </nav>
 
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-surface1/95 backdrop-blur-md border-t"
-        >
-          <div className="container mx-auto px-6 py-4 space-y-4">
-            {navItems.map((item, index) => (
-              <motion.div
-                key={item.name}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-              >
-                {item.href.startsWith("/#") ? (
-                  <button
-                    type="button"
-                    onClick={() => scrollToSection(item.href)}
-                    className="block w-full text-left text-text2 hover:text-brand transition-colors py-2"
-                  >
-                    {item.name}
-                  </button>
-                ) : (
-                  <Link
-                    href={item.href}
-                    prefetch
-                    target={item.href === "/cv/web-view" ? "_blank" : "_self"}
-                    aria-label={item.icon ? item.name : undefined}
-                  >
-                    <span
-                      onClick={() => setIsMenuOpen(false)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          setIsMenuOpen(false);
-                        }
-                      }}
-                      className="flex w-full items-center gap-2 text-left text-text2 hover:text-brand transition-colors py-2"
-                    >
-                      {item.icon ? (
-                        <>
-                          <Icon
-                            name={item.icon}
-                            className="h-4 w-4 fill-current"
-                            aria-hidden="true"
-                          />
-                          {item.name}
-                        </>
-                      ) : (
-                        item.name
-                      )}
-                    </span>
-                  </Link>
-                )}
-              </motion.div>
-            ))}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: navItems.length * 0.1 }}
+      <nav
+        id="site-nav-panel"
+        aria-label="Mobile"
+        data-state={isMenuOpen ? "open" : "closed"}
+        className="lg:hidden bg-surface1/95 backdrop-blur-md border-t border-border/20"
+      >
+        <div className="container mx-auto px-6 py-4 space-y-1">
+          {primaryNav.map(renderAnchorItem)}
+          {standaloneNav.map((item) => renderLinkItem(item, () => setIsMenuOpen(false)))}
+          {moreNav.map((item) => renderLinkItem(item, () => setIsMenuOpen(false)))}
+          <div className="pt-4 border-t border-border/20 flex flex-col gap-3">
+            <SiteButton
+              variant="outline"
+              href="/#contact"
+              className="w-full"
+              onClick={() => setIsMenuOpen(false)}
             >
-              <Button
-                variant="outline"
-                onClick={() => {
-                  scrollToSection("/#contact");
-                  setIsMenuOpen(false);
-                }}
-                className="w-full"
-              >
-                Let's Talk
-              </Button>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3, delay: (navItems.length + 1) * 0.1 }}
-              className="flex justify-center pt-4 border-t border-border/20"
-            >
+              Let&apos;s Talk
+            </SiteButton>
+            <div className="flex justify-center">
               <ThemeToggle />
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
-      )}
-    </motion.header>
+        </div>
+      </nav>
+    </header>
   );
 }

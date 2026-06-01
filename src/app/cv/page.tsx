@@ -71,10 +71,7 @@ function MainContent() {
           <h3 className="text-lg font-semibold text-text1 mb-2">Development</h3>
           <div className="flex flex-wrap gap-2">
             {cvData.skills.practices.map((skill, index) => (
-              <span
-                key={index}
-                className="px-3 py-1 bg-accent-secondary/10 text-accent-secondary rounded-full text-sm"
-              >
+              <span key={index} className="px-3 py-1 bg-brand/10 text-brand rounded-full text-sm">
                 {skill}
               </span>
             ))}
@@ -261,7 +258,7 @@ const CVWebView = () => {
               <a
                 href="/api/cv/download"
                 download="peramanathan-sathyamoorthy-cv.pdf"
-                className="inline-flex items-center px-6 py-3 bg-accent-secondary text-accent-secondary-text font-medium rounded-lg hover:bg-accent-secondary/90 transition-colors"
+                className="inline-flex items-center px-6 py-3 bg-brand text-accent-primary-text font-medium rounded-lg hover:bg-brand/90 transition-colors"
               >
                 ⬇️ Download PDF
               </a>

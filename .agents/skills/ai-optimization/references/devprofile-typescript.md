@@ -4,7 +4,7 @@ Load this overlay when working in **devprofile** (Next.js 16 App Router portfoli
 
 ## Project snapshot (~4 lines, always include)
 
-Next.js 16 App Router monorepo-style **single app** under `src/`. `@/*` → `./src/*`. **Client components for interactive UI** — no async RSC for UI state ([react-client-expert](.agents/skills/react-client-expert/SKILL.md)). E2E at repo root: `playwright.config.ts`, `playwright.brave.ts`; specs in `tests/e2e/`. Verify: `pnpm type-check`, `pnpm lint` (Biome, errors only).
+Next.js 16 App Router monorepo-style **single app** under `src/`. `@/*` → `./src/*`. **Client components for interactive UI** — no async RSC for UI state ([react-client-expert](.agents/skills/react-client-expert/SKILL.md)). Marketing shell: `src/components/site/*`, `src/styles/marketing.css`. E2E at repo root: `playwright.config.ts`, `playwright.brave.ts`; specs in `tests/e2e/`. Verify: `pnpm type-check`, `pnpm lint` (Biome, errors only).
 
 ## Relevance scoring (devprofile)
 
@@ -29,10 +29,9 @@ Next.js 16 App Router monorepo-style **single app** under `src/`. `@/*` → `./s
 
 ## Compress aggressively
 
-- **Marketing sections:** `hero.tsx`, `about.tsx`, `experience.tsx`, `skills.tsx`, `projects.tsx` — props + one-line render summary
+- **Marketing sections:** `hero.tsx`, `about.tsx`, `site/*`, `marketing.css` — props + one-line render summary
 - **UI primitives:** `src/components/ui/*` — export signature only unless editing that component
-- **Content hub cards:** component name + key props + data source (`src/lib/content-hub/data.ts`)
-- **Certificate / CV viewers:** "PDF via react-pdf / document-viewer; hash in verification-hash"
+- **Certificate / CV viewers:** "PDF via react-pdf / document-viewer; native `<dialog>` on certificates grid"
 
 ## Module cheat sheet
 
@@ -41,7 +40,7 @@ src/app/           App Router pages + layouts (metadata exports on layouts)
 src/app/api/       Route handlers (POST/GET); no separate controllers folder
 src/components/    Client + presentational; x/ = X/Twitter search UI
 src/hooks/         useIntersectionObserver, etc.
-src/lib/           Domain helpers (content-hub, x-search, certificate-hash)
+src/lib/           Domain helpers (x-search, certificate-hash, motion)
 src/utils/         qa-utils (embeddings CV Q&A), file-utils
 src/data/          documents-data.ts — static content
 tests/e2e/         Playwright specs; global-setup asserts Brave at test run

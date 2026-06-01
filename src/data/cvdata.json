@@ -217,6 +217,7 @@
   "courses": [
     {
       "name": "Cilium AI/ML Security",
+      "completionDate": "2026-03-24",
       "url": "https://www.credly.com/badges/09e29284-43e8-4ea3-aa62-196d977d34d8",
       "domain": "AI/ML Security",
       "type": "course",
@@ -225,6 +226,7 @@
     },
     {
       "name": "HashiCorp Terraform Associate Exam Cram [O'Reilly Live Event] 2 days Live Course",
+      "completionDate": "2024-09-22",
       "url": "https://github.com/p10ns11y/oreilly-terraform-live-course-sessions",
       "domain": "DevOps",
       "type": "live-course",
@@ -232,6 +234,7 @@
     },
     {
       "name": "LangChain Chat with Your Data",
+      "completionDate": "2024-09-11",
       "url": "https://learn.deeplearning.ai/accomplishments/f72f24f1-9ad2-4bc0-b8c2-33cbecb81ec2",
       "domain": "AI",
       "type": "course",
@@ -239,6 +242,7 @@
     },
     {
       "name": "Build LLM Apps with LangChain.js",
+      "completionDate": "2024-09-26",
       "url": "https://learn.deeplearning.ai/accomplishments/14907d64-9ff2-4dc7-b5f7-ce42982f8551?usp=sharing",
       "domain": "AI",
       "proof_of_accomplishment": "accomplishment_url"

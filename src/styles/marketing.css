@@ -1,0 +1,163 @@
+@layer components {
+  [data-section] {
+    scroll-margin-top: var(--header-offset, 5rem);
+    overflow-wrap: anywhere;
+  }
+
+  /* SectionShell vertical rhythm (not applied to hero — no data-section-bg) */
+  [data-section][data-section-bg] {
+    padding-block: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    [data-section][data-section-bg] {
+      padding-block: 4rem;
+    }
+  }
+
+  /* Back-to-back elevated bands (About → Credentials → Experience): one gap, not two */
+  [data-section-bg="elevated"]:has(+ [data-section-bg="elevated"]) {
+    padding-bottom: 1.5rem;
+  }
+
+  [data-section-bg="elevated"] + [data-section-bg="elevated"] {
+    padding-top: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    [data-section-bg="elevated"]:has(+ [data-section-bg="elevated"]) {
+      padding-bottom: 2rem;
+    }
+
+    [data-section-bg="elevated"] + [data-section-bg="elevated"] {
+      padding-top: 2rem;
+    }
+  }
+
+  [data-section] a,
+  [data-section] p,
+  [data-section] li {
+    overflow-wrap: anywhere;
+  }
+
+  [data-state="closed"] {
+    display: none;
+  }
+
+  [data-status="loading"] {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  [data-card="project"]:has(a:hover),
+  [data-card="project"]:has(a:focus-visible) {
+    border-color: color-mix(in oklch, var(--brand) 30%, transparent);
+  }
+
+  [data-card="credential"]:has(a:hover),
+  [data-card="credential"]:has(button:hover),
+  [data-card="credential"]:has(a:focus-visible),
+  [data-card="credential"]:has(button:focus-visible) {
+    border-color: color-mix(in oklch, var(--brand) 30%, transparent);
+  }
+
+  .projects-bento {
+    container-type: inline-size;
+  }
+
+  @container (min-width: 40rem) {
+    .projects-bento > li:first-child {
+      grid-column: span 2;
+    }
+  }
+
+  address {
+    font-style: normal;
+  }
+
+  .eyebrow {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  /* Credentials / learning cards — one surface, neutral meta (not brand-tinted “error” pink) */
+  .credential-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+    min-width: 0;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid color-mix(in oklch, var(--color-text-disabled) 35%, transparent);
+    background-color: var(--color-surface1);
+    box-shadow: 0 1px 2px color-mix(in oklch, var(--color-shadow) 8%, transparent);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .credential-card:hover,
+  .credential-card:has(a:focus-visible) {
+    border-color: color-mix(in oklch, var(--brand) 25%, var(--color-text-disabled));
+    box-shadow: 0 4px 12px color-mix(in oklch, var(--color-shadow) 12%, transparent);
+  }
+
+  .credential-card__action {
+    margin-top: auto;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .credential-card__action:hover {
+    color: var(--brand);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .credential-card__action:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .credential-card__tag {
+    display: inline-flex;
+    width: fit-content;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: var(--color-background-elevated);
+    color: var(--color-text-muted);
+  }
+
+  dialog[data-state="open"]::backdrop {
+    background: color-mix(in oklch, black 50%, transparent);
+  }
+
+  @media (hover: hover) {
+    [data-card="project"] img {
+      filter: grayscale(0.3);
+      transition: filter 0.3s ease;
+    }
+
+    [data-card="project"]:has(a:hover) img {
+      filter: grayscale(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-section] *,
+    [data-section] *::before,
+    [data-section] *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

@@ -24,14 +24,13 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 │   │   │   └── certificates/    # Hash verification API
 │   │   ├── qa/                  # Profile Q&A page
 │   │   ├── certificates/        # Certificate viewer (URL ?id=)
-│   │   ├── content-hub/         # Dynamic content pages
 │   │   ├── cv/
-│   │   ├── accomplishments/
+│   │   ├── accomplishments/     # Redirects to /#accomplishments
 │   │   ├── layout.tsx
 │   │   └── page.tsx             # Homepage (client-heavy)
 │   ├── components/
+│   │   ├── site/                # PageShell, SectionShell, SectionHeading, SiteButton
 │   │   ├── ui/                  # shadcn/ui
-│   │   ├── content-hub/
 │   │   ├── profile-qa.tsx       # Q&A UI (client)
 │   │   ├── document-viewer.tsx
 │   │   ├── verification-hash.tsx
@@ -60,11 +59,10 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 | `/` | Portfolio homepage |
 | `/cv` | CV page |
 | `/cv/view` | CV view variant |
-| `/certificates` | Document viewer (certificates; `?id=` selection) |
-| `/content-hub` | Content hub index |
-| `/content-hub/[page]` | Content hub pages |
+| `/certificates` | Certificate grid + PDF overlay (`?id=` selection) |
+| `/content-hub*` | **Redirect to `/x`** (no app route — see `docs/content-hub-deferred.md`) |
 | `/qa` | Profile Q&A — interview-style questions from CV + curated notes |
-| `/accomplishments` | Accomplishments |
+| `/accomplishments` | Redirect to `/#accomplishments` |
 
 ## Customization
 
