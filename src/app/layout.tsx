@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#000000" />
       </head>
       <body
-        className={`${instrumentSerif.variable} ${dmSans.variable} font-[font-body)] antialiased overflow-x-clip`}
+        className={`${instrumentSerif.variable} ${dmSans.variable} font-(family-name:--font-body) antialiased overflow-x-clip`}
       >
         <ThemeProvider>
           <a
