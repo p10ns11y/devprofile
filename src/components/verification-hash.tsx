@@ -6,9 +6,10 @@ import { deriveVerificationStatus, findCertificateHash } from "@/lib/certificate
 
 interface VerificationHashProps {
   certificateId: string;
+  compact?: boolean;
 }
 
-export function VerificationHash({ certificateId }: VerificationHashProps) {
+export function VerificationHash({ certificateId, compact = false }: VerificationHashProps) {
   const [currentHash, setCurrentHash] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [fetchFailed, setFetchFailed] = useState(false);
@@ -55,7 +56,11 @@ export function VerificationHash({ certificateId }: VerificationHashProps) {
 
   return (
     <>
-      <div className="flex items-center justify-between space-x-2 bg-surface3 px-3 py-2 rounded-lg border border-border">
+      <div
+        className={`flex items-center justify-between gap-1.5 rounded-lg border border-border bg-surface3 ${
+          compact ? "px-2 py-1" : "space-x-2 px-3 py-2"
+        }`}
+      >
         <button
           type="button"
           onClick={verifyHash}
