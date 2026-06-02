@@ -19,6 +19,7 @@
     "lint:fix": "biome lint --write . --diagnostic-level=error",
     "format": "biome format --write .",
     "imports:fix": "biome check --write --only=organizeImports src scripts tests playwright.config.ts playwright.brave.ts vitest.config.ts next.config.mjs",
+    "test:certificates": "vitest run src/lib/certificates src/app/api/certificates",
     "precommit": "pnpm imports:fix && pnpm format && pnpm lint:fix && pnpm lint",
     "generate-pdf": "bun scripts/generate-pdf.tsx",
     "type-check": "tsc --noEmit",
@@ -35,7 +36,8 @@
     "test:unit:watch": "vitest",
     "test:unit:cov": "vitest run --coverage",
     "test:qa": "vitest run src/lib/qa src/app/api/cv/qa",
-    "test:golden": "QA_EVAL_STRICT=1 pnpm qa:pipeline"
+    "test:golden": "QA_EVAL_STRICT=1 pnpm qa:pipeline",
+    "validate-certificates": "node scripts/validate-certificates.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.0",

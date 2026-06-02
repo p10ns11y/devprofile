@@ -9,11 +9,12 @@ import { SectionHeading } from "@/components/site/SectionHeading";
 import cvdata from "@/data/cvdata.json";
 import { getCertificatesData } from "@/data/documents-data";
 import { useDialogFromSearchParam } from "@/hooks/use-dialog-from-search-param";
+import { visibleCertificateIds } from "@/lib/certificates";
 import type { DocumentItem } from "@/types/documents";
 import { formatFileSize } from "@/utils/file-utils";
 
 const certificates = getCertificatesData();
-const certificateIds = new Set(certificates.map((c) => c.id));
+const certificateIds = visibleCertificateIds();
 
 const courseMeta = new Map(cvdata.certificates.map((cert) => [cert.filename, cert.course]));
 

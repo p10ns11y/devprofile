@@ -1,58 +1,72 @@
-import crypto from "crypto";
-import { promises as fs } from "fs";
-import path from "path";
+import crypto from "node:crypto";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 import cvData from "../src/data/cvdata.json";
+import {
+  DEFAULT_CERTIFICATE_HASH_ALGORITHM,
+  resolveCertificateHashAlgorithm,
+} from "../src/lib/certificates/digest/algorithms";
+import { bytesToHex } from "../src/lib/certificates/digest/bytes-to-hex";
+import type { CvCertificateEntry } from "../src/lib/certificates/identity/id";
+
+async function digestFile(
+  algorithm: ReturnType<typeof resolveCertificateHashAlgorithm>,
+  fileBuffer: Buffer
+): Promise<string> {
+  switch (algorithm) {
+    case "sha256":
+      return bytesToHex(new Uint8Array(crypto.createHash("sha256").update(fileBuffer).digest()));
+    case "blake3":
+      throw new Error(
+        "BLAKE3 not configured in calculate-hashes. Register a Node provider or use sha256."
+      );
+  }
+}
 
 async function calculateHashes() {
-  console.log("🔐 Calculating SHA-256 hashes for certificates...\n");
+  console.log("🔐 Calculating certificate digests...\n");
 
-  const certificates = cvData.certificates;
   const updatedCertificates = [];
 
-  for (const cert of certificates) {
+  for (const cert of cvData.certificates as CvCertificateEntry[]) {
     const filePath = path.join(process.cwd(), "public", "certificates", cert.filename);
+    const algorithm = resolveCertificateHashAlgorithm(cert);
 
     try {
-      // Check if file exists
       await fs.access(filePath);
-      console.log(`📄 Processing: ${cert.filename}`);
+      console.log(`📄 Processing: ${cert.filename} (${algorithm})`);
 
-      // Read file and calculate hash
       const fileBuffer = await fs.readFile(filePath);
-      const hash = crypto.createHash("sha256").update(fileBuffer).digest("hex");
+      const hex = await digestFile(algorithm, fileBuffer);
 
-      // Add hash to certificate data
       const updatedCert = {
         ...cert,
-        sha256Hash: hash,
+        hashAlgorithm: cert.hashAlgorithm ?? DEFAULT_CERTIFICATE_HASH_ALGORITHM,
+        ...(algorithm === "sha256" ? { sha256Hash: hex } : {}),
+        ...(algorithm === "blake3" ? { blake3Hash: hex } : {}),
         fileSize: fileBuffer.length,
         lastVerified: new Date().toISOString(),
       };
 
       updatedCertificates.push(updatedCert);
-      console.log(`✅ Hash calculated: ${hash.slice(0, 16)}...`);
+      console.log(`✅ ${algorithm}: ${hex.slice(0, 16)}...`);
     } catch (error) {
       console.error(`❌ Error processing ${cert.filename}:`, error);
-      // Keep original certificate if file not found
       updatedCertificates.push(cert);
     }
   }
 
-  // Update cvdata.json
-  const updatedData = {
-    ...cvData,
-    certificates: updatedCertificates,
-  };
-
   const outputPath = path.join(process.cwd(), "src", "data", "cvdata.json");
   const tempPath = `${outputPath}.tmp`;
 
-  await fs.writeFile(tempPath, JSON.stringify(updatedData, null, 2));
+  await fs.writeFile(
+    tempPath,
+    JSON.stringify({ ...cvData, certificates: updatedCertificates }, null, 2)
+  );
   await fs.rename(tempPath, outputPath);
 
-  console.log("\n🎉 Hash calculation complete!");
+  console.log("\n🎉 Digest calculation complete!");
   console.log(`📊 Processed ${updatedCertificates.length} certificates`);
-  console.log("💾 Hashes saved to cvdata.json");
 }
 
 calculateHashes().catch(console.error);

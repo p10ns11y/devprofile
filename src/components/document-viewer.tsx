@@ -258,7 +258,12 @@ export function DocumentViewer({
       ) : null}
 
       {document.type === "pdf" ? (
-        <VerificationHash key={document.id} certificateId={document.id} compact={embedded} />
+        <VerificationHash
+          key={document.id}
+          certificateId={document.id}
+          documentPath={document.path}
+          compact={embedded}
+        />
       ) : null}
 
       <div className="flex items-center gap-0.5 border-l border-border pl-2">
