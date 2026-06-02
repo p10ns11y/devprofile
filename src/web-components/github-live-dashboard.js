@@ -76,7 +76,13 @@ class GitHubLiveDashboard extends HTMLElement {
 
   connectedCallback() {
     this.syncSiteTheme();
-    this._themeObserver = new MutationObserver(() => this.syncSiteTheme());
+    this._themeObserver = new MutationObserver(() => {
+      const prev = this.getAttribute("data-theme");
+      this.syncSiteTheme();
+      if (this.getAttribute("data-theme") !== prev) {
+        this.render();
+      }
+    });
     this._themeObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
@@ -95,7 +101,7 @@ class GitHubLiveDashboard extends HTMLElement {
     };
     document.addEventListener("keydown", this._keyHandler);
 
-    // Auto-refresh every 10 minutes when visible
+    // Auto-refresh every 6 hours when visible (REFRESH_INTERVAL_MS)
     this._interval = setInterval(() => {
       if (!document.hidden && !this._loading && !this._isRefreshing) {
         this.fetchData(false);
@@ -357,39 +363,25 @@ class GitHubLiveDashboard extends HTMLElement {
           background: transparent;
         }
 
+        /* Inherit devprofile tokens from html.light / html.dim (warm muted light, not dark UI) */
         :host,
-        :host([data-theme="light"]) {
-          color-scheme: light;
-          --gh-text: #1a1a1a;
-          --gh-muted: #5c5c5c;
-          --gh-border: #e0e0e0;
-          --gh-card: #ffffff;
-          --gh-card-hover: #fafafa;
-          --gh-accent: #c2410c;
-          --gh-accent-text: #ffffff;
-          --gh-accent-soft: rgba(194, 65, 12, 0.12);
-          --gh-star: #9a6700;
-          --gh-divider: #ebebeb;
-          --gh-pill: #f5f5f5;
-          --gh-success: #15803d;
-          --gh-panel: #fafafa;
-        }
-
+        :host([data-theme="light"]),
         :host([data-theme="dim"]) {
-          color-scheme: dark;
-          --gh-text: #e8e8e8;
-          --gh-muted: #a3a3a3;
-          --gh-border: #404040;
-          --gh-card: #2a2a2a;
-          --gh-card-hover: #333333;
-          --gh-accent: #ea580c;
-          --gh-accent-text: #1a1a1a;
-          --gh-accent-soft: rgba(234, 88, 12, 0.2);
-          --gh-star: #fbbf24;
-          --gh-divider: #3a3a3a;
-          --gh-pill: #333333;
-          --gh-success: #4ade80;
-          --gh-panel: #242424;
+          color-scheme: light;
+          --gh-text: var(--color-text1, #1a1a1a);
+          --gh-muted: var(--color-text2, #5c5c5c);
+          --gh-border: var(--color-border-subtle, #e0e0e0);
+          --gh-card: var(--color-surface-raised, #ffffff);
+          --gh-card-hover: var(--color-surface2, #f5f5f5);
+          --gh-accent: var(--color-brand-emphasis, #c2410c);
+          --gh-accent-text: var(--color-accent-primary-text, #ffffff);
+          --gh-accent-soft: var(--color-brand-subtle, rgba(194, 65, 12, 0.12));
+          --gh-star: #9a6700;
+          --gh-divider: var(--color-border-subtle, #ebebeb);
+          --gh-pill: var(--color-surface2, #f5f5f5);
+          --gh-success: #15803d;
+          --gh-panel: var(--color-surface2, #fafafa);
+          --gh-shadow: color-mix(in oklch, var(--gh-text) 14%, transparent);
         }
 
         .container {
@@ -652,10 +644,11 @@ class GitHubLiveDashboard extends HTMLElement {
           font-family: ui-monospace, monospace;
         }
 
-        :host([data-theme="light"]) .topic-chip {
-          background: #fff7ed;
-          color: #c2410c;
-          border-color: #fed7aa;
+        :host([data-theme="light"]) .topic-chip,
+        :host([data-theme="dim"]) .topic-chip {
+          background: color-mix(in oklch, var(--gh-accent) 10%, var(--gh-card));
+          color: var(--gh-accent);
+          border-color: color-mix(in oklch, var(--gh-accent) 22%, var(--gh-border));
         }
 
         .count-pill {
@@ -715,7 +708,7 @@ class GitHubLiveDashboard extends HTMLElement {
         .repo-card:hover {
           border-color: var(--gh-accent);
           background: var(--gh-card-hover);
-          box-shadow: 0 0 0 1px var(--gh-accent-soft), 0 12px 28px -8px rgba(0, 0, 0, 0.35);
+          box-shadow: 0 0 0 1px var(--gh-accent-soft), 0 12px 28px -8px var(--gh-shadow);
         }
 
         .repo-card:focus-visible {
@@ -860,7 +853,8 @@ class GitHubLiveDashboard extends HTMLElement {
           border: 1px solid rgba(34, 197, 94, 0.28);
         }
 
-        :host([data-theme="light"]) .daily-badge {
+        :host([data-theme="light"]) .daily-badge,
+        :host([data-theme="dim"]) .daily-badge {
           background: #dcfce7;
           color: #166534;
           border-color: #bbf7d0;
@@ -872,7 +866,8 @@ class GitHubLiveDashboard extends HTMLElement {
           border: 1px solid rgba(168, 85, 247, 0.22);
         }
 
-        :host([data-theme="light"]) .experiment-badge {
+        :host([data-theme="light"]) .experiment-badge,
+        :host([data-theme="dim"]) .experiment-badge {
           background: #f3e8ff;
           color: #7e22ce;
           border-color: #e9d5ff;
