@@ -8,12 +8,13 @@ import { PageShell } from "@/components/site/PageShell";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import cvdata from "@/data/cvdata.json";
 import { getCertificatesData } from "@/data/documents-data";
+import { visibleCertificateIds } from "@/lib/certificate-registry";
 import { useDialogFromSearchParam } from "@/hooks/use-dialog-from-search-param";
 import type { DocumentItem } from "@/types/documents";
 import { formatFileSize } from "@/utils/file-utils";
 
 const certificates = getCertificatesData();
-const certificateIds = new Set(certificates.map((c) => c.id));
+const certificateIds = visibleCertificateIds();
 
 const courseMeta = new Map(cvdata.certificates.map((cert) => [cert.filename, cert.course]));
 

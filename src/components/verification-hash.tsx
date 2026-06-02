@@ -1,50 +1,89 @@
 "use client";
 
 import { Check, Copy, Info, Shield, ShieldCheck, ShieldX, X } from "lucide-react";
-import { useMemo, useState } from "react";
-import { deriveVerificationStatus, findCertificateHash } from "@/lib/certificate-hash";
+import { useState } from "react";
+import { hashAlgorithmLabel } from "@/lib/certificate-hash-algorithms";
+import { digestCertificateBytesInBrowser } from "@/lib/certificate-hash-client";
+import {
+  deriveVerificationStatus,
+  finalizeHostedVerification,
+  type HostedVerificationResult,
+} from "@/lib/certificate-verification";
 
 interface VerificationHashProps {
   certificateId: string;
+  documentPath: string;
   compact?: boolean;
 }
 
-export function VerificationHash({ certificateId, compact = false }: VerificationHashProps) {
-  const [currentHash, setCurrentHash] = useState<string | null>(null);
+type ServerVerifyPayload = Omit<HostedVerificationResult, "clientDigest" | "match" | "clientMatchesExpected"> & {
+  algorithmLabel?: string;
+  timestamp?: string;
+};
+
+export function VerificationHash({
+  certificateId,
+  documentPath,
+  compact = false,
+}: VerificationHashProps) {
+  const [result, setResult] = useState<HostedVerificationResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [fetchFailed, setFetchFailed] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
 
-  const expectedHash = useMemo(() => findCertificateHash(certificateId), [certificateId]);
-  const verificationStatus = deriveVerificationStatus(currentHash, expectedHash, fetchFailed);
+  const verificationStatus = deriveVerificationStatus(result, fetchFailed);
+  const algorithmLabel = result ? hashAlgorithmLabel(result.algorithm) : "SHA-256";
 
-  const verifyHash = async () => {
-    if (currentHash && expectedHash) return;
-
+  const checkHostedFile = async () => {
     setLoading(true);
     setFetchFailed(false);
+    setResult(null);
+
     try {
-      const response = await fetch(`/api/certificates/${certificateId}/hash`);
-      if (response.ok) {
-        const data = await response.json();
-        setCurrentHash(data.hash);
-      } else {
+      const response = await fetch(
+        `/api/certificates/${encodeURIComponent(certificateId)}/verify`,
+        { cache: "no-store" }
+      );
+
+      if (!response.ok) {
         setFetchFailed(true);
+        return;
       }
+
+      const serverPayload = (await response.json()) as ServerVerifyPayload;
+
+      if (!serverPayload.clientSupported) {
+        setFetchFailed(true);
+        return;
+      }
+
+      const fileResponse = await fetch(documentPath, { cache: "no-store" });
+      if (!fileResponse.ok) {
+        setFetchFailed(true);
+        return;
+      }
+
+      const bytes = await fileResponse.arrayBuffer();
+      const clientDigest = await digestCertificateBytesInBrowser(
+        serverPayload.algorithm,
+        bytes
+      );
+
+      setResult(finalizeHostedVerification(serverPayload, clientDigest));
     } catch (error) {
-      console.error("Failed to verify hash:", error);
+      console.error("Failed to check hosted file:", error);
       setFetchFailed(true);
     } finally {
       setLoading(false);
     }
   };
 
-  const copyToClipboard = async () => {
-    if (!expectedHash) return;
+  const copyExpectedDigest = async () => {
+    if (!result?.expectedDigest) return;
 
     try {
-      await navigator.clipboard.writeText(expectedHash);
+      await navigator.clipboard.writeText(result.expectedDigest);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
@@ -52,7 +91,7 @@ export function VerificationHash({ certificateId, compact = false }: Verificatio
     }
   };
 
-  const displayHash = expectedHash ? `${expectedHash.slice(0, 16)}...` : "";
+  const displayHash = result?.expectedDigest ? `${result.expectedDigest.slice(0, 16)}...` : "";
 
   return (
     <>
@@ -63,7 +102,7 @@ export function VerificationHash({ certificateId, compact = false }: Verificatio
       >
         <button
           type="button"
-          onClick={verifyHash}
+          onClick={checkHostedFile}
           disabled={loading}
           className="flex items-center space-x-2 cursor-pointer disabled:cursor-not-allowed"
         >
@@ -78,25 +117,25 @@ export function VerificationHash({ certificateId, compact = false }: Verificatio
           </div>
           <span className="text-sm text-text1 hover:text-accent-primary underline disabled:opacity-50">
             {loading
-              ? "Verifying..."
+              ? "Checking..."
               : verificationStatus === "verified"
                 ? "✓ Verified"
                 : verificationStatus === "failed"
                   ? "✗ Failed"
-                  : "Verify"}
+                  : "Check hosted file"}
           </span>
         </button>
 
-        {expectedHash && (
+        {result?.expectedDigest ? (
           <>
             <span className="text-sm text-text2 font-mono break-all max-w-20 md:max-w-none">
               {displayHash}
             </span>
             <button
               type="button"
-              onClick={copyToClipboard}
+              onClick={copyExpectedDigest}
               className="text-accent-primary hover:text-accent-primary/80 flex-shrink-0"
-              title="Copy expected hash"
+              title="Copy expected digest"
             >
               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             </button>
@@ -109,11 +148,10 @@ export function VerificationHash({ certificateId, compact = false }: Verificatio
               <Info className="w-4 h-4" />
             </button>
           </>
-        )}
+        ) : null}
       </div>
 
-      {/* Info Overlay */}
-      {showInfo && (
+      {showInfo ? (
         <div
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
           onClick={() => setShowInfo(false)}
@@ -125,7 +163,7 @@ export function VerificationHash({ certificateId, compact = false }: Verificatio
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-semibold text-text1 flex items-center gap-2">
                 <Shield className="w-6 h-6 text-accent-primary" />
-                Document Verification
+                Document verification
               </h3>
               <button
                 type="button"
@@ -138,106 +176,77 @@ export function VerificationHash({ certificateId, compact = false }: Verificatio
 
             <div className="space-y-4 text-sm text-text2">
               <div className="bg-surface3 p-4 rounded-lg">
-                <h4 className="font-semibold text-text1 mb-2">SHA-256 Hash</h4>
+                <h4 className="font-semibold text-text1 mb-2">{algorithmLabel} digest</h4>
                 <p>
-                  A cryptographic fingerprint of this document that uniquely identifies its content.
+                  A cryptographic fingerprint of this document. The site publishes the expected
+                  digest; Check hosted file hashes the same file URL shown in the viewer and
+                  compares it to that value.
                 </p>
               </div>
 
               <div>
-                <h4 className="font-semibold text-text1 mb-2">How to Verify</h4>
+                <h4 className="font-semibold text-text1 mb-2">Check hosted file</h4>
                 <p className="mb-3">
-                  Compute the SHA-256 hash of your downloaded document file using built-in tools on
-                  your operating system, then compare it exactly (case-insensitive) to the official
-                  hash below. If they match, the document is authentic and unmodified.
+                  Confirms the certificate file served at this URL matches the digest stored for this
+                  site. It does not hash a file already saved on your device.
                 </p>
+              </div>
 
-                <div className="bg-surface3 p-4 rounded-lg mb-4">
-                  <p className="font-medium text-text1 mb-2">Follow these practical steps:</p>
-                  <ol className="list-decimal list-inside space-y-2 text-xs">
-                    <li>
-                      Ensure you have the exact file (e.g., PDF) downloaded from a trusted
-                      source—double-check the URL and use HTTPS to avoid tampering during transit.
-                    </li>
-                    <li>Open a terminal or command prompt:</li>
-                  </ol>
-
-                  <div className="mt-3 space-y-2">
-                    <div className="bg-surface2 p-2 rounded text-xs font-mono">
+              <div>
+                <h4 className="font-semibold text-text1 mb-2">Verify a download offline</h4>
+                <p className="mb-3">
+                  After downloading, compute the digest locally and compare to the expected value
+                  below.
+                </p>
+                {result?.algorithm === "sha256" ? (
+                  <div className="bg-surface3 p-4 rounded-lg space-y-2 text-xs font-mono">
+                    <div>
                       <strong className="text-accent-primary">Windows:</strong> certutil -hashfile
-                      "path\to\your\file" SHA256
+                      &quot;path\to\file&quot; SHA256
                     </div>
-                    <div className="bg-surface2 p-2 rounded text-xs font-mono">
+                    <div>
                       <strong className="text-accent-primary">macOS:</strong> shasum -a 256
-                      "path/to/your/file"
+                      &quot;path/to/file&quot;
                     </div>
-                    <div className="bg-surface2 p-2 rounded text-xs font-mono">
+                    <div>
                       <strong className="text-accent-primary">Linux:</strong> sha256sum
-                      "path/to/your/file"
+                      &quot;path/to/file&quot;
                     </div>
                   </div>
-
-                  <ol className="list-decimal list-inside space-y-2 text-xs mt-3" start={3}>
-                    <li>
-                      Paste and compare the computed hash to the official one. Use a text editor for
-                      side-by-side comparison to avoid visual errors.
-                    </li>
-                    <li>
-                      If they don't match, redownload from the official source or contact the
-                      issuer—mismatches could indicate corruption, tampering, or a scam (e.g., fake
-                      documents from phishing sites).
-                    </li>
-                  </ol>
-                </div>
-              </div>
-
-              <div className="bg-accent-secondary/10 p-4 rounded-lg border border-accent-secondary/20">
-                <h4 className="font-semibold text-accent-secondary mb-2">⚠️ Risks and Tips</h4>
-                <p className="text-xs text-accent-secondary">
-                  This verifies integrity but not the issuer's authenticity; always cross-check the
-                  hash source (e.g., via official website). Avoid online hash tools for sensitive
-                  files, as uploading exposes content to potential breaches. No current tech makes
-                  hashes "unbreakable," but SHA-256 is secure against practical attacks today—stay
-                  pragmatic and update if vulnerabilities emerge.
-                </p>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-text1 mb-2">Why This Matters</h4>
-                <p>
-                  Any change to the document (even a single character) will produce a completely
-                  different hash, making forgery detectable.
-                </p>
+                ) : (
+                  <p className="text-xs italic">
+                    Use a {algorithmLabel} tool for your platform; this algorithm is not covered by
+                    the built-in OS commands above.
+                  </p>
+                )}
               </div>
 
               <div className="space-y-3">
                 <div className="bg-surface3 p-4 rounded-lg">
-                  <div className="font-medium text-text1 mb-2">Expected Hash (from issuer):</div>
-                  {expectedHash ? (
+                  <div className="font-medium text-text1 mb-2">Expected digest (published):</div>
+                  {result?.expectedDigest ? (
                     <div className="break-all text-xs font-mono bg-surface2 p-2 rounded border select-all">
-                      {expectedHash}
+                      {result.expectedDigest}
                     </div>
                   ) : (
                     <div className="text-text-disabled text-xs italic">
-                      Expected hash not available
+                      Run Check hosted file first
                     </div>
                   )}
                 </div>
 
                 <div className="bg-surface3 p-4 rounded-lg">
-                  <div className="font-medium text-text1 mb-2">Current File Hash:</div>
-                  {currentHash ? (
+                  <div className="font-medium text-text1 mb-2">Hosted file digest (browser):</div>
+                  {result?.clientDigest ? (
                     <div className="break-all text-xs font-mono bg-surface2 p-2 rounded border select-all">
-                      {currentHash}
+                      {result.clientDigest}
                     </div>
                   ) : (
-                    <div className="text-text-disabled text-xs italic">
-                      Click "Verify" to calculate current hash
-                    </div>
+                    <div className="text-text-disabled text-xs italic">Not calculated yet</div>
                   )}
                 </div>
 
-                {verificationStatus && (
+                {verificationStatus ? (
                   <div
                     className={`p-4 rounded-lg border ${
                       verificationStatus === "verified"
@@ -253,27 +262,16 @@ export function VerificationHash({ certificateId, compact = false }: Verificatio
                       }`}
                     >
                       {verificationStatus === "verified"
-                        ? "✅ Verification Successful"
-                        : "❌ Verification Failed"}
+                        ? "Hosted file matches published digest"
+                        : "Digest mismatch"}
                     </div>
-                    <p
-                      className={`text-xs ${
-                        verificationStatus === "verified"
-                          ? "text-accent-secondary"
-                          : "text-accent-primary"
-                      }`}
-                    >
-                      {verificationStatus === "verified"
-                        ? "The document matches the expected hash from the issuer. This certificate is authentic and unmodified."
-                        : "The document hash does not match the expected hash. This could indicate tampering, corruption, or an incorrect file."}
-                    </p>
                   </div>
-                )}
+                ) : null}
               </div>
             </div>
           </div>
         </div>
-      )}
+      ) : null}
     </>
   );
 }
