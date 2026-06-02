@@ -22,4 +22,7 @@ export interface DocumentSidebarProps {
 export interface DocumentViewerProps {
   document: DocumentItem | null;
   loading?: boolean;
+  /** `embedded` = certificate modal: no full-page chrome, single scroll region */
+  variant?: "page" | "embedded";
+  className?: string;
 }

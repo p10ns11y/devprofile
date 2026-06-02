@@ -21,7 +21,7 @@ Living backlog for aligning client UI with [react-client-expert](../.agents/skil
 flowchart TB
   subgraph serverOK [Server boundaries OK today]
     QAPage["qa/page.tsx client + hero"]
-    CertPage["certificates/page.tsx async + flags"]
+    CertPage["certificates/page.tsx"]
     RootLayout["layout.tsx sync"]
   end
   subgraph clientWork [Client trees to align with skill]
@@ -57,12 +57,13 @@ flowchart TB
 |--------|-------|--------|
 | `app/page.tsx` | 4 | Whole homepage client for motion — optional server + islands |
 | `app/qa/page.tsx` | — | Page hero + `ProfileQA` |
-| `app/certificates/page.tsx` | — | Async server + flags |
+| `app/certificates/page.tsx` | — | Server shell + Suspense |
 | `app/certificates/certificate-view.tsx` | 1 ✅ | URL → selection derived (CHANGELOG) |
 | `app/cv/page.tsx` | — | Dynamic layout import |
 | `app/cv/content-layout.tsx` | — | `matchMedia` subscription OK |
 | `app/cv/view/page.tsx` | — | `next/dynamic` for `@react-pdf/renderer` |
-| `app/content-hub/[page]/page.tsx` | — | Client hub page |
+| `app/accomplishments/page.tsx` | — | Redirect to `/#accomplishments` |
+| ~~`app/content-hub/[page]/page.tsx`~~ | — | **Removed** — see `docs/content-hub-deferred.md` |
 | `app/master-thesis.pdf/page.tsx` | — | PDF route |
 | `components/profile-qa.tsx` | 1 ✅ | `useReducer` + submit-on-click (no effect fetch) |
 | `components/profile-qa-state.ts` | 1 ✅ | QA status enum + `fetchQaAnswer` |
@@ -72,7 +73,7 @@ flowchart TB
 | `components/verification-hash.tsx` | 1 ✅ | Derived verification status |
 | `components/theme-provider.tsx` | 1 ✅ | `useSyncExternalStore` + memoized context |
 | `components/theme-toggle.tsx` | — | Uses theme context |
-| `components/hero.tsx` | — | One-time particle init OK |
+| `components/hero.tsx` | 1 ✅ | CSS gradient mesh; no particle useEffect |
 | `components/sw-register.tsx` | — | SW registration OK |
 | `components/contact.tsx` | — | Local form state OK |
 | `components/header.tsx` | — | Presentation |
@@ -80,7 +81,7 @@ flowchart TB
 | `components/experience.tsx` | — | Presentation |
 | `components/accomplishments.tsx` | — | Presentation |
 | `components/timeline.tsx` | — | Presentation |
-| `components/content-hub/*` | — | Hub UI |
+| ~~`components/content-hub/*`~~ | — | **Removed** — deferred; see `docs/content-hub-deferred.md` |
 
 Modules without `"use client"` that wrap client children (e.g. `certificates/page.tsx`) are listed under server OK above.
 
@@ -135,7 +136,7 @@ Defer homepage split until needed.
 - `content-layout.tsx` — `matchMedia` with teardown
 - `document-sidebar.tsx` — external doc list sync if present
 - `hero.tsx` — one-time particle positions on mount
-- `certificates/page.tsx` — async server for flags/disclaimer only
+- `certificates/page.tsx` — thin server shell; client `certificate-view` owns UI
 - Local form state in `contact.tsx`, `profile-qa.tsx` submit handlers
 
 ## What not to do
@@ -143,7 +144,7 @@ Defer homepage split until needed.
 - Do not use **async client components** for interactive UI.
 - Do not widen `useEffect` deps to satisfy linters — fix the model.
 - Do not put messages / streaming / search in Context.
-- Do not add React Query for static in-memory content-hub data until there is a real API.
+- Do not add React Query for static hub data until there is a real API (Content Hub removed — see `docs/content-hub-deferred.md`).
 
 ## Optional dependencies
 

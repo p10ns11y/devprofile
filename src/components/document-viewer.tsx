@@ -3,7 +3,12 @@
 import { Download, File, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
 import { motion } from "motion/react";
 import dynamic from "next/dynamic";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+
+import type { PageDimensions } from "./document-viewer-pdf";
+
+/** Default zoom in certificate modal: fit-to-container, then shrink for margin */
+const EMBEDDED_FIT_RATIO = 0.8;
 
 import type { DocumentViewerProps } from "../types/documents";
 import { formatFileSize, getFileIconForViewer } from "../utils/file-utils";
@@ -28,29 +33,83 @@ const DocumentViewerPdf = dynamic(
   }
 );
 
-export function DocumentViewer({ document, loading }: DocumentViewerProps) {
+export function DocumentViewer({
+  document,
+  loading,
+  variant = "page",
+  className = "",
+}: DocumentViewerProps) {
+  const embedded = variant === "embedded";
+  const contentRef = useRef<HTMLDivElement>(null);
   const [numPages, setNumPages] = useState<number | null>(null);
   const [_pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(1.0);
   const [rotate, setRotate] = useState(0);
   const [containerWidth, setContainerWidth] = useState<number>(800);
+  const [contentSize, setContentSize] = useState({ width: 0, height: 0 });
+  const [pageDimensions, setPageDimensions] = useState<PageDimensions | null>(null);
 
-  // Update container width on resize with reasonable limits
   useEffect(() => {
+    setPageDimensions(null);
+    setScale(1.0);
+    setRotate(0);
+  }, [document?.id]);
+
+  useEffect(() => {
+    const padding = embedded ? 24 : 64;
+    const maxWidth = embedded ? 920 : 800;
+    const minWidth = embedded ? 380 : 300;
+
     const updateWidth = () => {
-      const viewerElement = window.document.querySelector("[data-pdf-viewer]");
+      const viewerElement = embedded
+        ? contentRef.current
+        : window.document.querySelector("[data-pdf-viewer]");
       if (viewerElement) {
-        // Use a reasonable width: min of container width and 800px, with minimum 400px
-        const availableWidth = viewerElement.clientWidth - 64; // Subtract padding
-        const optimalWidth = Math.min(availableWidth, 800); // Max 800px for readability
-        setContainerWidth(Math.max(optimalWidth, 300)); // Min 400px
+        const availableWidth = viewerElement.clientWidth - padding;
+        const optimalWidth = Math.min(availableWidth, maxWidth);
+        setContainerWidth(Math.max(optimalWidth, minWidth));
       }
     };
 
     updateWidth();
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
-  }, []);
+  }, [embedded]);
+
+  useEffect(() => {
+    if (!embedded) return;
+    const node = contentRef.current;
+    if (!node) return;
+
+    const updateSize = () => {
+      setContentSize({ width: node.clientWidth, height: node.clientHeight });
+    };
+
+    updateSize();
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [embedded, document?.id]);
+
+  const pdfRenderWidth = useMemo(() => {
+    if (!embedded || !pageDimensions || contentSize.width <= 0 || contentSize.height <= 0) {
+      return containerWidth;
+    }
+
+    const padding = 16;
+    const availableWidth = contentSize.width - padding;
+    const availableHeight = contentSize.height - padding;
+    if (availableWidth <= 0 || availableHeight <= 0) return containerWidth;
+
+    const sideways = rotate % 180 !== 0;
+    const pageWidth = sideways ? pageDimensions.height : pageDimensions.width;
+    const pageHeight = sideways ? pageDimensions.width : pageDimensions.height;
+
+    const fitScale =
+      Math.min(availableWidth / pageWidth, availableHeight / pageHeight) * EMBEDDED_FIT_RATIO;
+    const fittedWidth = pageWidth * fitScale * scale;
+    return Math.max(Math.min(fittedWidth, availableWidth * scale), 120);
+  }, [embedded, pageDimensions, contentSize, containerWidth, scale, rotate]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -101,11 +160,12 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
         <DocumentViewerPdf
           document={document}
           numPages={numPages}
-          scale={scale}
+          scale={embedded ? 1 : scale}
           rotate={rotate}
-          containerWidth={containerWidth}
+          containerWidth={embedded ? pdfRenderWidth : containerWidth}
           onDocumentLoadSuccess={onDocumentLoadSuccess}
           onDocumentLoadError={onDocumentLoadError}
+          onFirstPageDimensions={embedded ? setPageDimensions : undefined}
         />
       </Suspense>
     );
@@ -189,96 +249,99 @@ export function DocumentViewer({ document, loading }: DocumentViewerProps) {
     );
   }
 
-  return (
-    <div className="h-screen flex flex-col bg-surface1" data-pdf-viewer>
-      {/* Document Header */}
-      <div className="flex flex-col md:flex-row md:items-center p-4 border-b border-border bg-surface1 gap-2 md:gap-0">
-        {/* Left side: Document info */}
-        <div className="flex-1 flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            {getFileIconForViewer(document.type)}
-            <div className="min-w-0">
-              <h3 className="font-medium text-text1 text-sm truncate">{document.name}</h3>
-              <p className="text-xs text-text2 hidden sm:block">
-                {formatFileSize(document.size)} •{document.lastModified.toLocaleDateString()}
-              </p>
-            </div>
-          </div>
-        </div>
+  const controls = (
+    <>
+      {!embedded ? <HomeButton /> : null}
 
-        {/* Right side: Home button and Controls */}
-        <div className="flex flex-wrap items-center justify-end gap-1 md:gap-2">
-          {/* Home Button */}
-          <HomeButton />
+      {document.type === "pdf" && numPages ? (
+        <span className="text-xs text-text2 tabular-nums">{numPages}p</span>
+      ) : null}
 
-          {/* Page Count */}
-          {document.type === "pdf" && numPages && (
-            <div className="text-sm text-text1 px-2 py-1 bg-surface3 rounded md:px-3">
-              {numPages}p
-            </div>
-          )}
+      {document.type === "pdf" ? (
+        <VerificationHash key={document.id} certificateId={document.id} compact={embedded} />
+      ) : null}
 
-          {/* Verification Hash - Desktop */}
-          {document.type === "pdf" && (
-            <div className="hidden md:block">
-              <VerificationHash key={document.id} certificateId={document.id} />
-            </div>
-          )}
-
-          {/* Zoom Controls */}
-          <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
-            <button
-              type="button"
-              onClick={handleZoomOut}
-              className="p-1 md:p-2 hover:bg-surface3 rounded"
-              title="Zoom out"
-            >
-              <ZoomOut className="w-4 h-4" />
-            </button>
-            <span className="text-xs md:text-sm px-1 md:px-2 text-text1">
-              {Math.round(scale * 100)}%
-            </span>
-            <button
-              type="button"
-              onClick={handleZoomIn}
-              className="p-1 md:p-2 hover:bg-surface3 rounded"
-              title="Zoom in"
-            >
-              <ZoomIn className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Other Controls */}
-          <div className="flex items-center border-l pl-1 ml-1 md:border-l md:pl-2 md:ml-2 space-x-1 border-border">
-            <button
-              type="button"
-              onClick={handleRotate}
-              className="p-1 md:p-2 hover:bg-surface3 rounded"
-              title="Rotate"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              onClick={handleDownload}
-              className="p-1 md:p-2 hover:bg-surface3 rounded"
-              title="Download"
-            >
-              <Download className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* Verification Hash - Full width on mobile */}
-        {document.type === "pdf" && (
-          <div className="w-full mt-2 md:hidden">
-            <VerificationHash key={document.id} certificateId={document.id} />
-          </div>
-        )}
+      <div className="flex items-center gap-0.5 border-l border-border pl-2">
+        <button
+          type="button"
+          onClick={handleZoomOut}
+          className="rounded p-1.5 hover:bg-surface3"
+          title="Zoom out"
+        >
+          <ZoomOut className="size-4" />
+        </button>
+        <span className="min-w-10 text-center text-xs text-text1 tabular-nums">
+          {Math.round(scale * 100)}%
+        </span>
+        <button
+          type="button"
+          onClick={handleZoomIn}
+          className="rounded p-1.5 hover:bg-surface3"
+          title="Zoom in"
+        >
+          <ZoomIn className="size-4" />
+        </button>
       </div>
 
-      {/* Document Content */}
-      <div className="flex-1 overflow-auto bg-surface2 p-6">{renderDocumentContent()}</div>
+      <div className="flex items-center gap-0.5 border-l border-border pl-2">
+        <button
+          type="button"
+          onClick={handleRotate}
+          className="rounded p-1.5 hover:bg-surface3"
+          title="Rotate"
+        >
+          <RotateCcw className="size-4" />
+        </button>
+        <button
+          type="button"
+          onClick={handleDownload}
+          className="rounded p-1.5 hover:bg-surface3"
+          title="Download"
+        >
+          <Download className="size-4" />
+        </button>
+      </div>
+    </>
+  );
+
+  const toolbar = embedded ? (
+    <div className="flex shrink-0 flex-wrap items-center justify-center gap-2 border-b border-border bg-surface1 px-3 py-2">
+      {controls}
+    </div>
+  ) : (
+    <div className="flex flex-col gap-2 border-b border-border bg-surface1 p-4 md:flex-row md:items-center md:gap-0">
+      <div className="flex flex-1 items-center space-x-4">
+        <div className="flex items-center space-x-2">
+          {getFileIconForViewer(document.type)}
+          <div className="min-w-0">
+            <h3 className="truncate text-sm font-medium text-text1">{document.name}</h3>
+            <p className="hidden text-xs text-text2 sm:block">
+              {formatFileSize(document.size)} • {document.lastModified.toLocaleDateString()}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center justify-end gap-1 md:gap-2">{controls}</div>
+    </div>
+  );
+
+  return (
+    <div
+      className={`flex flex-col bg-surface1 ${embedded ? "min-h-0 flex-1" : "h-screen"} ${className}`}
+      data-pdf-viewer
+    >
+      {toolbar}
+      <div
+        ref={contentRef}
+        data-pdf-scroll={embedded ? "" : undefined}
+        className={`min-h-0 flex-1 bg-surface2 ${
+          embedded
+            ? "flex flex-col items-center justify-center overflow-auto p-2"
+            : "overflow-y-auto p-6"
+        }`}
+      >
+        {renderDocumentContent()}
+      </div>
     </div>
   );
 }

@@ -1,32 +1,43 @@
-import { motion } from "motion/react";
-
 import { Icon, type IconName } from "@/components/icon";
-
+import { cn } from "@/components/ui/utils";
 import cvdata from "../data/cvdata.json";
 
-export function SocialLinks() {
+type SocialLinksProps = {
+  className?: string;
+  size?: "default" | "compact";
+};
+
+export function SocialLinks({ className, size = "default" }: SocialLinksProps) {
+  const compact = size === "compact";
+
   return (
-    <div className="flex items-center justify-center lg:justify-center gap-4">
-      {cvdata.social_links.map((social, index) => (
-        <motion.a
+    <nav
+      aria-label="Profile links"
+      className={cn(
+        "mx-auto flex w-fit items-center justify-center",
+        compact ? "gap-2" : "gap-3 sm:gap-4",
+        className
+      )}
+    >
+      {cvdata.social_links.map((social) => (
+        <a
           key={social.label}
           href={social.href}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.5,
-            delay: 0.9 + index * 0.1,
-          }}
-          whileHover={{ scale: 1.2, rotate: 5 }}
-          whileTap={{ scale: 0.9 }}
-          className="p-3 rounded-full border border-border hover:bg-accent transition-colors"
+          className={cn(
+            "inline-flex items-center justify-center rounded-full border border-(--color-border-subtle) bg-surface1 text-text1 transition-colors hover:bg-surface2 hover:text-(--color-link) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-brand-emphasis)",
+            compact ? "size-9" : "p-3"
+          )}
           aria-label={social.label}
           target="_blank"
-          rel="nofollow noreferrer noopnener"
+          rel="nofollow noreferrer noopener"
         >
-          <Icon name={social.icon as IconName} className="w-5 h-5" />
-        </motion.a>
+          <Icon
+            name={social.icon as IconName}
+            className={compact ? "size-4" : "size-5"}
+            aria-hidden="true"
+          />
+        </a>
       ))}
-    </div>
+    </nav>
   );
 }

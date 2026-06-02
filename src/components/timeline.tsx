@@ -1,53 +1,23 @@
-"use client";
-
-import { motion } from "motion/react";
+import { roleAnchorId } from "@/lib/experience-anchors";
 import cvdata from "../data/cvdata.json";
 
 export function TimelineContent() {
   return (
-    <div className="flex justify-center py-5">
-      <div className="text-center text-sm text-muted-foreground max-w-4xl">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {cvdata.work_experience.map((exp, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.1,
-              }}
-              className="bg-card/50 rounded-lg p-3 text-xs"
-            >
-              <div className="font-semibold text-foreground mb-1">
-                {exp.start_date.split(" ")[1]}
-              </div>
-              <div className="text-muted-foreground">{exp.title}</div>
-              <div className="text-primary font-medium">{exp.company.split(",")[0]}</div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+    <div className="experience-timeline-wrap">
+      <h3 className="subsection-title subsection-heading">Career at a glance</h3>
+      <ol role="list" className="experience-timeline">
+        {cvdata.work_experience.map((exp) => (
+          <li key={`${exp.company}-${exp.start_date}`}>
+            <a href={`#${roleAnchorId(exp)}`} className="experience-timeline-card">
+              <span className="experience-timeline-card__year">
+                {exp.start_date.split(" ").pop()}
+              </span>
+              <span className="experience-timeline-card__role">{exp.title}</span>
+              <span className="experience-timeline-card__company">{exp.company.split(",")[0]}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
     </div>
-  );
-}
-
-export function Timeline() {
-  return (
-    <section id="Timeline" className="py-20">
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-16 pt-16 border-t border-border"
-        >
-          <h3 className="text-2xl font-bold text-center mb-8">Career Timeline</h3>
-          <TimelineContent />
-        </motion.div>
-      </div>
-    </section>
   );
 }

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @import "./brand/theme.css";
+@import "./marketing.css";
 
 html {
   --font-size: 1rem;
@@ -8,6 +9,12 @@ html {
   block-size: 100%;
   background-color: var(--color-surface1);
   color: var(--color-text1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 .rad-shadow {

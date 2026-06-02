@@ -8,9 +8,9 @@ test.describe("Homepage", () => {
     await expect(page.locator("h1").first()).toBeVisible();
     await openMobileMenuIfNeeded(page, isMobile);
     await expect(page.getByRole("button", { name: "About", exact: true })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Projects", exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: "Experience", exact: true })).toBeVisible();
     await expect(page.locator("#about").getByRole("heading", { name: "About Me" })).toBeVisible();
+    await expect(page.locator("#projects")).toHaveCount(0);
   });
 
   test("should have working navigation links", async ({ page, isMobile }) => {
@@ -29,13 +29,15 @@ test.describe("Homepage", () => {
 
     await expect(page.locator("#home")).toBeVisible();
     await expect(page.locator("h1").first()).toBeVisible();
-    await expect(page.getByRole("button", { name: "View My Work" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "View My Work" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "View CV" })).toBeVisible();
   });
 
-  test("should load projects section", async ({ page }) => {
+  test("should show credentials section", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page.locator("#projects")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Featured Projects" })).toBeVisible();
+    await expect(page.locator("#accomplishments")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Credentials" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Browse all certificates" })).toBeVisible();
   });
 });

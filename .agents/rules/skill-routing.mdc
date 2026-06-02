@@ -11,6 +11,7 @@ Attach skills explicitly when the user invokes them or when intent matches:
 |-------|-------------|
 | **fusion-sage** | UI/UX fusion, card layout, refresh bugs, `/fusion-sage` in message |
 | **ai-optimization** | Large refactors, token/context pressure, multi-module QA exploration, `/ai-optimization` |
+| **semantic-markup-css** | Marketing UI, landing pages, semantics, WAI-ARIA, contrast tokens, native elements, `/semantic-markup-css` |
 
 Do not duplicate skill bodies inline. If the task matches a skill trigger, tell the user to attach it or invoke `/skill-name` — skills correlate with deeper tool use in this repo's history.
 

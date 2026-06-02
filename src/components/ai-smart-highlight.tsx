@@ -277,5 +277,3 @@ export function AISmartHighlight({ children }: AISmartHighlightProps) {
 
   return <span className="ai-smart-highlight">{renderedContent}</span>;
 }
-
-export default AISmartHighlight;

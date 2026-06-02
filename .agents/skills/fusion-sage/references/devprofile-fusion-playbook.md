@@ -12,7 +12,7 @@ Next.js 16 portfolio: **client UI for interactivity** (no async RSC for state). 
 |---|---|---|
 | **CV Q&A** | `src/lib/qa/profile-qa-generator.ts`, `src/app/api/cv/qa/route.ts`, `src/components/profile-qa.tsx` | `CvQaReactor` — retrieve → route → generate |
 | **Document viewing** | `document-viewer.tsx`, `document-viewer-pdf.tsx`, `src/app/api/cv/**` | `DocumentViewReactor` — PDF/react-pdf + sidebar + download |
-| **Content hub** | `src/lib/content-hub/data.ts`, `ContentHubLayout`, `*Card.tsx` | `ContentHubReactor` — data + layout + card variants |
+| **Content hub** | — | `ContentHubReactor` — **deferred** (code removed; `/content-hub` → `/x`; see `docs/content-hub-deferred.md`) |
 | **X search** | `src/lib/x-search/*`, `src/components/x/*`, `src/app/x/page.tsx` | `XSearchReactor` — date ranges, sections, filter links |
 | **E2E Brave** | `playwright.brave.ts`, `playwright.config.ts`, `tests/e2e/global-setup.ts` | `BraveE2eReactor` — IDE-safe launch options + runtime assert |
 | **Agent skills** | `ai-optimization/SKILL.md`, `fusion-sage/SKILL.md`, `fusion-sage.mdc` | `ConnectedReactor` — fission route + fusion surplus |

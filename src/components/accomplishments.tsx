@@ -1,83 +1,154 @@
 "use client";
 
-import { ExternalLink } from "lucide-react";
-import { motion } from "motion/react";
-
+import { ArrowRight, ExternalLink } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+import Link from "next/link";
 import cvdata from "@/data/cvdata.json";
+import { getLandingFeaturedCertificates } from "@/data/documents-data";
+import { defaultViewport, fadeUp, motionTransition } from "@/lib/motion";
+import { SectionHeading } from "./site/SectionHeading";
+import { SectionShell } from "./site/SectionShell";
+import { SiteButton } from "./site/SiteButton";
+
+const headingId = "accomplishments-heading";
+
+const certificates = getLandingFeaturedCertificates(4);
+
+const courseMeta = new Map(cvdata.certificates.map((cert) => [cert.filename, cert.course]));
+
+const externalCourses = cvdata.courses
+  .filter(
+    (course) =>
+      course.proof_of_accomplishment !== "accomplishment_url" ||
+      !course.url.includes("/certificates/")
+  )
+  .sort((a, b) => {
+    const dateA = a.completionDate ? new Date(a.completionDate).getTime() : 0;
+    const dateB = b.completionDate ? new Date(b.completionDate).getTime() : 0;
+    return dateB - dateA;
+  });
+
+function formatDate(date?: string) {
+  if (!date) return null;
+  return new Date(date).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+}
 
 export function Accomplishments() {
-  const renderCourseCard = (
-    course: { name: string; url: string; domain: string; proof_of_accomplishment: string },
-    index: number
-  ) => (
-    <motion.div
-      key={index}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{
-        duration: 0.8,
-        delay: index * 0.15,
-      }}
-      whileHover={{ y: -5 }}
-      className="group flex-1 min-w-72"
-    >
-      <a
-        href={course.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block h-full p-6 rounded-xl border-2 border-border bg-surface3 rad-shadow hover:shadow-xl hover:border-brand/20 transition-all duration-300 cursor-pointer"
-      >
-        <div className="flex flex-col justify-between h-full">
-          <div className="flex-1">
-            <motion.h4
-              whileHover={{ color: "var(--color-brand)" }}
-              className="font-semibold text-lg leading-tight mb-3 text-text1 transition-colors"
-            >
-              {course.name}
-            </motion.h4>
-            <div className="flex items-center justify-between mb-2">
-              <span className="inline-flex items-center px-2 py-1 bg-brand/10 text-brand text-xs font-medium rounded-full">
-                {course.domain}
-              </span>
-            </div>
-            <div className="flex items-center text-text2 hover:text-brand transition-colors">
-              <ExternalLink className="w-4 h-4 mr-2" />
-              <span className="text-sm">
-                View{" "}
-                {course.proof_of_accomplishment === "github_code_repo"
-                  ? "Repository"
-                  : "Certificate"}
-              </span>
-            </div>
-          </div>
-        </div>
-      </a>
-    </motion.div>
-  );
+  const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section id="accomplishments" className="py-20">
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 text-text1">Accomplishments</h3>
-            <p className="text-text2 max-w-2xl mx-auto">
-              Professional certifications and course completions in technology, cloud platforms, and
-              AI
+    <SectionShell id="accomplishments" headingId={headingId} background="elevated">
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={defaultViewport}
+        transition={motionTransition(!!shouldReduceMotion)}
+      >
+        <SectionHeading id={headingId} title="Credentials" showUnderline />
+
+        <div className="section-body">
+          <div className="credentials-prose">
+            <figure className="credentials-pullquote">
+              <blockquote cite={`#${headingId}`}>
+                <p>
+                  Grok and coding agents are becoming mostly sufficient even for advanced work.
+                  Well-crafted courses — built with deliberate team effort and AI assistance — still
+                  offer powerful leverage. They compress extensive research, impose useful
+                  structure, and surface new ways of thinking, saving the learner significant time
+                  and friction. What ultimately matters most is the learner’s own curiosity and
+                  interest. The highest-value courses deliver outcomes that are highly applicable,
+                  pragmatic, and relevant to the current state of the art — creating positive impact
+                  for both the individual and society while remaining cost-effective.
+                </p>
+              </blockquote>
+              <figcaption>— {cvdata.name}</figcaption>
+            </figure>
+
+            <p className="section-lead credentials-intro">
+              Proof of self-directed learning I&apos;ve applied at work and in personal projects—and
+              championed with teams when the fit is right.
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-6">
-            {cvdata.courses.map((course, index) => renderCourseCard(course, index))}
+          {externalCourses.length > 0 ? (
+            <div className="credentials-block">
+              <h3 className="subsection-title subsection-heading" data-align="center">
+                Recent courses
+              </h3>
+              <ul role="list" className="credentials-grid" data-grid="featured">
+                {externalCourses.map((course) => (
+                  <li key={course.name} className="min-w-0">
+                    <article data-card="credential" className="credential-card">
+                      <h4 className="credential-card__title">{course.name}</h4>
+                      <span className="credential-card__tag">{course.domain}</span>
+                      <div className="credential-card__foot">
+                        {course.completionDate ? (
+                          <p className="credential-card__date">
+                            {formatDate(course.completionDate)}
+                          </p>
+                        ) : (
+                          <span className="credential-card__date" data-empty aria-hidden="true" />
+                        )}
+                        <a
+                          href={course.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="credential-card__cta"
+                          data-cta="icon"
+                          aria-label={
+                            course.proof_of_accomplishment === "github_code_repo"
+                              ? `View repository for ${course.name} (opens in new tab)`
+                              : `View proof for ${course.name} (opens in new tab)`
+                          }
+                        >
+                          <ExternalLink className="credential-card__cta-icon" aria-hidden="true" />
+                        </a>
+                      </div>
+                    </article>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
+          <div className="credentials-block">
+            <h3 className="subsection-title subsection-heading" data-align="center">
+              Featured certificates
+            </h3>
+            <ul role="list" className="credentials-grid" data-grid="featured">
+              {certificates.map((cert) => {
+                const displayName =
+                  courseMeta.get(cert.name) ?? cert.name.replace(/\.[^.]+$/, "").replace(/-/g, " ");
+                return (
+                  <li key={cert.id} className="min-w-0">
+                    <article data-card="credential" className="credential-card">
+                      <h4 className="credential-card__title">{displayName}</h4>
+                      <div className="credential-card__foot">
+                        {cert.completionDate ? (
+                          <p className="credential-card__date">{formatDate(cert.completionDate)}</p>
+                        ) : (
+                          <span className="credential-card__date" data-empty aria-hidden="true" />
+                        )}
+                        <Link href={`/certificates?id=${cert.id}`} className="credential-card__cta">
+                          View
+                          <ArrowRight className="credential-card__cta-icon" aria-hidden="true" />
+                        </Link>
+                      </div>
+                    </article>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-        </motion.div>
-      </div>
-    </section>
+
+          <footer className="credentials-footer">
+            <SiteButton variant="outline" href="/certificates">
+              Browse all certificates
+            </SiteButton>
+          </footer>
+        </div>
+      </motion.div>
+    </SectionShell>
   );
 }

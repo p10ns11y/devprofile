@@ -1,42 +1,37 @@
 "use client";
 
 import { Mail, MapPin, Phone, Send } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
+import { defaultViewport, fadeUp, motionTransition } from "@/lib/motion";
 import cvdata from "../data/cvdata.json";
-import { Button } from "./ui/button";
-import { Card, CardContent } from "./ui/card";
+import { SectionHeading } from "./site/SectionHeading";
+import { SectionShell } from "./site/SectionShell";
+import { SiteButton } from "./site/SiteButton";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 
+const headingId = "contact-heading";
+
+type FormStatus = "idle" | "loading" | "error" | "success";
+
 export function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const shouldReduceMotion = useReducedMotion();
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<FormStatus>("idle");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Generate mailto URL with form data
+    setStatus("loading");
     const subject = `Contact from ${formData.name}`;
-    const body = `Hello,
-
-${formData.message}
-
-From: ${formData.email}
-
-Best regards,
-${formData.name}`;
-    const mailtoUrl = `mailto:sathyam.peram@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const body = `Hello,\n\n${formData.message}\n\nFrom: ${formData.email}\n\nBest regards,\n${formData.name}`;
+    const mailtoUrl = `mailto:${cvdata.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoUrl;
+    setStatus("success");
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const contactInfo = [
@@ -56,186 +51,121 @@ ${formData.name}`;
       icon: MapPin,
       title: "Location",
       value: cvdata.home.current_location,
-      href: `https://www.google.com/maps/search/?api=1&query=${cvdata.home.current_location}`,
+      href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cvdata.home.current_location)}`,
+      external: true,
     },
-  ];
+  ] as const;
 
   return (
-    <section id="contact" className="py-20">
-      <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl mb-6">Get In Touch</h2>
-          <div className="w-20 h-1 bg-brand mx-auto mb-8"></div>
-          <p className="text-lg text-text2 max-w-2xl mx-auto">
-            Ready to start your next project? Let's discuss how we can work together to bring your
-            ideas to life.
-          </p>
-        </motion.div>
+    <SectionShell id="contact" headingId={headingId}>
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={defaultViewport}
+        transition={motionTransition(!!shouldReduceMotion)}
+      >
+        <SectionHeading
+          id={headingId}
+          title="Get In Touch"
+          description="Ready to discuss your next project? Reach out via the form or contact details below."
+          showUnderline
+        />
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <Card className="border-2 border-border bg-surface2 rad-shadow hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
-              <CardContent className="p-8">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                  >
-                    <label htmlFor="name" className="block text-sm font-medium mb-2">
-                      Your Name
-                    </label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="John Doe"
-                      required
-                      className="w-full"
-                    />
-                  </motion.div>
+        <div className="contact-layout">
+          <section className="contact-form-panel min-w-0" aria-labelledby={`${headingId}-form`}>
+            <h3 id={`${headingId}-form`} className="subsection-title subsection-heading">
+              Send a message
+            </h3>
+            <form onSubmit={handleSubmit} data-status={status} className="space-y-5">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium mb-2 text-text1">
+                  Your name
+                </label>
+                <Input
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Jane Doe"
+                  required
+                  aria-invalid={status === "error" ? true : undefined}
+                />
+              </div>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium mb-2 text-text1">
+                  Email address
+                </label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="jane@example.com"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium mb-2 text-text1">
+                  Message
+                </label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  placeholder="Tell me about your project..."
+                  rows={5}
+                  required
+                  className="resize-none"
+                />
+              </div>
+              <SiteButton type="submit" className="w-full" disabled={status === "loading"}>
+                <span className="inline-flex items-center gap-2">
+                  Send message
+                  <Send className="w-4 h-4" aria-hidden="true" />
+                </span>
+              </SiteButton>
+              <p role="status" aria-live="polite" className="text-sm text-text2 min-h-5">
+                {status === "success" ? "Opening your email client…" : null}
+              </p>
+            </form>
+          </section>
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                  >
-                    <label htmlFor="email" className="block text-sm font-medium mb-2">
-                      Email Address
-                    </label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="john@example.com"
-                      required
-                      className="w-full"
-                    />
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
-                  >
-                    <label htmlFor="message" className="block text-sm font-medium mb-2">
-                      Message
-                    </label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      placeholder="Tell me about your project..."
-                      rows={5}
-                      required
-                      className="w-full resize-none"
-                    />
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
-                  >
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="w-full group bg-brand text-text1 hover:bg-surface3"
-                    >
-                      <motion.div whileHover={{ x: 5 }} className="flex items-center gap-2">
-                        Send Message
-                        <Send className="w-4 h-4" />
-                      </motion.div>
-                    </Button>
-                  </motion.div>
-                </form>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Contact Information */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="space-y-8"
-          >
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold">Let's Connect</h3>
-              <p className="text-text2">
-                I'm always excited to discuss new opportunities and interesting projects. Feel free
-                to reach out through any of the channels below.
+          <aside className="min-w-0" aria-labelledby={`${headingId}-connect`}>
+            <div className="contact-aside-intro">
+              <h3 id={`${headingId}-connect`} className="subsection-title">
+                Let&apos;s connect
+              </h3>
+              <p className="contact-aside-lead">
+                I&apos;m always interested in new opportunities and interesting projects.
               </p>
             </div>
 
-            <div className="space-y-4">
-              {contactInfo.map((info, index) => (
-                <motion.a
+            <address className="contact-channels not-italic">
+              {contactInfo.map((info) => (
+                <a
                   key={info.title}
                   href={info.href}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-                  whileHover={{ scale: 1.02, x: 10 }}
-                  className="flex items-center gap-4 p-4 rounded-lg hover:bg-surface2/50 transition-all duration-300 group"
-                  target="_blank"
-                  rel="nofollow noreferrer noopener"
+                  className="contact-channel"
+                  {...("external" in info && info.external
+                    ? { target: "_blank", rel: "nofollow noreferrer noopener" }
+                    : {})}
                 >
-                  <motion.div
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                    className="w-12 h-12 bg-brand/10 rounded-full flex items-center justify-center"
-                  >
-                    <info.icon className="w-6 h-6 text-brand" />
-                  </motion.div>
-                  <div>
-                    <h4 className="font-medium group-hover:text-text1 transition-colors">
-                      {info.title}
-                    </h4>
-                    <p className="text-text2">{info.value}</p>
-                  </div>
-                </motion.a>
+                  <span className="contact-channel__icon" aria-hidden="true">
+                    <info.icon className="w-5 h-5" />
+                  </span>
+                  <span>
+                    <span className="contact-channel__label">{info.title}</span>
+                    <span className="contact-channel__value">{info.value}</span>
+                  </span>
+                </a>
               ))}
-            </div>
-
-            {/* <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="p-6 bg-surface2/50 rounded-lg border border-surface4/20"
-            >
-              <h4 className="font-semibold mb-2">Quick Response</h4>
-              <p className="text-sm text-text2">
-                I typically respond to emails within 24 hours. For urgent matters, 
-                feel free to give me a call.
-              </p>
-            </motion.div> */}
-          </motion.div>
+            </address>
+          </aside>
         </div>
-      </div>
-    </section>
+      </motion.div>
+    </SectionShell>
   );
 }

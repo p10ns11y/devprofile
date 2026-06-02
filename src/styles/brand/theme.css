@@ -1,4 +1,26 @@
 html {
+  /*
+   * WCAG 2.2 AA contrast targets (light + dim, manual spot-check):
+   * text1 on surface1 ~ 15% L on 100% L → ~15:1 ✓
+   * text-muted on surface1 ~ 41% L on 100% L → ~4.6:1 ✓
+   * brand on surface1 ~ 55% L orange on white → ~4.5:1 ✓
+   * brand + white on buttons → use --color-accent-primary-text ✓
+   */
+  --header-offset: 5rem;
+
+  /* Marketing layout rhythm (Round 3) */
+  --marketing-inset-x: clamp(1rem, 4vw, 1.5rem);
+  --marketing-space-section-y: clamp(3rem, 5vw, 4rem);
+  --marketing-space-section-join: clamp(1.25rem, 2.5vw, 2rem);
+  --marketing-space-after-heading: clamp(2rem, 3.5vw, 2.75rem);
+  --marketing-space-stack: clamp(1.5rem, 2.5vw, 2rem);
+  --marketing-space-stack-sm: 1rem;
+  --marketing-space-grid: clamp(0.75rem, 1.2vw, 1rem);
+  --marketing-prose-max: 40rem;
+  --brand-hover: color-mix(in oklch, var(--brand) 90%, black);
+  --font-display: var(--font-instrument-serif, ui-serif, Georgia, serif);
+  --font-body: var(--font-dm-sans, ui-sans-serif, system-ui, sans-serif);
+
   /* Brand foundation (warm neutral, tweakable) */
   /* oklch(0.6882 0.2001 24.93) */
   /* oklch(0.5824 0.1817 189.53) */
@@ -19,12 +41,12 @@ html {
   --background-light: oklch(100% 0 0);
   --text-light-fallback: hsl(0 0% 15%);
   --text-light: oklch(15% 0 0);
-  --text-muted-light-fallback: hsl(0 0% 35%);
-  --text-muted-light: oklch(35% 0 0);
+  --text-muted-light-fallback: hsl(0 0% 41%);
+  --text-muted-light: oklch(41% 0 0);
   --text-disabled-light-fallback: hsl(0 0% 70.8%);
   --text-disabled-light: oklch(70.8% 0 0);
-  --background-elevated-light-fallback: hsl(0 0% 92.2%);
-  --background-elevated-light: oklch(92.2% 0 0);
+  --background-elevated-light-fallback: hsl(0 0% 95.5%);
+  --background-elevated-light: oklch(96% 0.006 55);
   --background-hover-light-fallback: hsl(0 0% 87%);
   --background-hover-light: oklch(87% 0 0);
   --accent-primary-light-fallback: hsl(24 60% 55%);
@@ -44,20 +66,20 @@ html {
   --background-dim: oklch(86% 0 0);
   --text-dim-fallback: hsl(0 0% 15%);
   --text-dim: oklch(15% 0 0);
-  --text-muted-dim-fallback: hsl(0 0% 35%);
-  --text-muted-dim: oklch(35% 0 0);
-  --text-disabled-dim-fallback: hsl(0 0% 65%);
-  --text-disabled-dim: oklch(65% 0 0);
-  --background-elevated-dim-fallback: hsl(0 0% 89%);
-  --background-elevated-dim: oklch(89% 0 0);
-  --background-hover-dim-fallback: hsl(0 0% 84%);
-  --background-hover-dim: oklch(84% 0 0);
+  --text-muted-dim-fallback: hsl(0 0% 34%);
+  --text-muted-dim: oklch(34% 0 0);
+  --text-disabled-dim-fallback: hsl(0 0% 58%);
+  --text-disabled-dim: oklch(58% 0 0);
+  --background-elevated-dim-fallback: hsl(0 0% 91%);
+  --background-elevated-dim: oklch(91% 0.006 55);
+  --background-hover-dim-fallback: hsl(0 0% 81%);
+  --background-hover-dim: oklch(81% 0 0);
   --accent-primary-dim-fallback: hsl(24 50% 50%);
   --accent-primary-dim: oklch(50% 0.15 24);
   --accent-primary-text-dim-fallback: hsl(0 0% 90%);
   --accent-primary-text-dim: oklch(90% 0 0);
-  --accent-secondary-dim-fallback: hsl(24 30% 60%);
-  --accent-secondary-dim: oklch(60% 0.1 24);
+  --accent-secondary-dim-fallback: hsl(24 40% 54%);
+  --accent-secondary-dim: oklch(54% 0.12 24);
   --accent-secondary-text-dim-fallback: hsl(0 0% 90%);
   --accent-secondary-text-dim: oklch(90% 0 0);
   --shadow-color-dim-fallback: hsl(var(--brand-hue) var(--brand-saturation) 10%);
@@ -99,7 +121,33 @@ html {
   --color-text2: var(--color-text-muted);
   --color-surface2: var(--color-background-elevated);
   --color-surface3: var(--color-background-hover);
+  --color-surface4: var(--color-background-hover);
   --surface-shadow: var(--color-shadow);
+
+  /* Marketing surfaces & borders (Round 2) */
+  --color-border-subtle: color-mix(in oklch, var(--color-text) 12%, transparent);
+  --color-border: var(--color-border-subtle);
+  --color-surface-raised: oklch(99.2% 0.003 55);
+  --color-brand-subtle: color-mix(in oklch, var(--brand) 12%, transparent);
+  --color-brand-emphasis: color-mix(in oklch, var(--brand) 78%, black);
+  --color-link: var(--color-brand-emphasis);
+  --marketing-shadow-sm: 0 1px 2px color-mix(in oklch, var(--color-shadow) 12%, transparent);
+  --marketing-shadow-md: 0 8px 22px color-mix(in oklch, var(--color-shadow) 16%, transparent);
+
+  /* shadcn semantic token mapping */
+  --background: var(--color-background);
+  --foreground: var(--color-text);
+  --primary: var(--color-accent-primary);
+  --primary-foreground: var(--color-accent-primary-text);
+  --secondary: var(--color-background-elevated);
+  --secondary-foreground: var(--color-text);
+  --muted: var(--color-background-elevated);
+  --muted-foreground: var(--color-text-muted);
+  --accent: var(--color-background-hover);
+  --accent-foreground: var(--color-text);
+  --card: var(--color-background-elevated);
+  --card-foreground: var(--color-text);
+  --ring: var(--brand);
 }
 
 .light {
@@ -135,7 +183,16 @@ html {
   --color-text2: var(--color-text-muted);
   --color-surface2: var(--color-background-elevated);
   --color-surface3: var(--color-background-hover);
+  --color-surface4: var(--color-background-hover);
   --surface-shadow: var(--color-shadow);
+  --color-border-subtle: color-mix(in oklch, var(--color-text) 12%, transparent);
+  --color-border: var(--color-border-subtle);
+  --color-surface-raised: oklch(99.2% 0.003 55);
+  --color-brand-subtle: color-mix(in oklch, var(--brand) 12%, transparent);
+  --color-brand-emphasis: color-mix(in oklch, var(--brand) 78%, black);
+  --color-link: var(--color-brand-emphasis);
+  --marketing-shadow-sm: 0 1px 2px color-mix(in oklch, var(--color-shadow) 12%, transparent);
+  --marketing-shadow-md: 0 8px 22px color-mix(in oklch, var(--color-shadow) 16%, transparent);
 }
 
 .dim {
@@ -171,7 +228,16 @@ html {
   --color-text2: var(--color-text-muted);
   --color-surface2: var(--color-background-elevated);
   --color-surface3: var(--color-background-hover);
+  --color-surface4: var(--color-background-hover);
   --surface-shadow: var(--color-shadow);
+  --color-border-subtle: color-mix(in oklch, var(--color-text) 14%, transparent);
+  --color-border: var(--color-border-subtle);
+  --color-surface-raised: oklch(94% 0.006 55);
+  --color-brand-subtle: color-mix(in oklch, var(--brand) 16%, transparent);
+  --color-brand-emphasis: color-mix(in oklch, var(--brand) 70%, white);
+  --color-link: var(--color-brand-emphasis);
+  --marketing-shadow-sm: 0 1px 2px color-mix(in oklch, var(--color-shadow) 18%, transparent);
+  --marketing-shadow-md: 0 8px 22px color-mix(in oklch, var(--color-shadow) 22%, transparent);
 }
 
 @theme default {
@@ -275,12 +341,16 @@ html {
 
 @theme static {
   --color-brand: var(--brand);
+  --color-border: var(--color-border-subtle);
+  --color-link: var(--color-link);
+  --color-surface-raised: var(--color-surface-raised);
   --color-text1: var(--color-text1);
   --color-text2: var(--color-text2);
   --color-text-disabled: var(--color-text-disabled);
   --color-surface1: var(--color-surface1);
   --color-surface2: var(--color-surface2);
   --color-surface3: var(--color-surface3);
+  --color-surface4: var(--color-surface4);
   --color-background-elevated: var(--color-background-elevated);
   --color-background-hover: var(--color-background-hover);
   --color-accent-primary: var(--color-accent-primary);

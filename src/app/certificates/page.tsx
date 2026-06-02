@@ -1,29 +1,15 @@
 import { Suspense } from "react";
 
-// const CertificateView = React.lazy(() => import('./certificate-view'));
 import CertificateView from "./certificate-view";
 
-export default async function Certificates() {
+export default function Certificates() {
   return (
-    <div className="h-screen bg-background text-foreground">
-      <Suspense fallback="loading...">
-        <CertificatesInternal />
-      </Suspense>
-    </div>
-  );
-}
-
-async function CertificatesInternal() {
-  const { documentsFlag } = await import("@/app/flags");
-  const isFlagEnabled = await documentsFlag();
-
-  if (!isFlagEnabled) {
-    return <div>Feature not available</div>;
-  }
-
-  return (
-    <div className="h-screen bg-background text-foreground">
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-surface1 text-text2 p-8">Loading certificates…</div>
+      }
+    >
       <CertificateView />
-    </div>
+    </Suspense>
   );
 }

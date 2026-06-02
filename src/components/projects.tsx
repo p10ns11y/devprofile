@@ -1,163 +1,197 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import cvdata from "@/data/cvdata.json";
+import { fadeUp, motionTransition } from "@/lib/motion";
+import { SectionHeading } from "./site/SectionHeading";
+import { SectionShell } from "./site/SectionShell";
 import { Badge } from "./ui/badge";
 
-export function Projects() {
-  // Filter projects by type
-  const featuredProjects = cvdata.projects.filter((project) => project.type !== "oss_contribution");
-  const ossContributions = cvdata.projects.filter((project) => project.type === "oss_contribution");
+const projectsHeadingId = "projects-heading";
+const ossHeadingId = "oss-heading";
 
-  const renderProjectCard = (project: any, index: number, isOssContribution = false) => (
-    <motion.div
-      key={project.id}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{
-        duration: 0.8,
-        delay: index * 0.15,
-      }}
-      whileHover={{ y: -5 }}
-      className="group"
-    >
-      <a
-        href={project.url}
-        target="_blank"
-        rel="nofollow noreferrer noopener"
-        className={`block h-full overflow-hidden rounded-xl border-2 ${
-          isOssContribution
-            ? "border-border bg-surface2 rad-shadow hover:border-surface4"
-            : "border-border bg-surface3 rad-shadow hover:shadow-xl hover:border-brand/20"
-        } transition-all duration-300 cursor-pointer`}
+type Project = (typeof cvdata.projects)[number];
+
+function ProjectSkeleton() {
+  return (
+    <article
+      aria-busy="true"
+      className="rounded-xl border-2 border-border bg-surface3 animate-pulse h-64"
+    />
+  );
+}
+
+function FeaturedProjectCard({ project, featured }: { project: Project; featured?: boolean }) {
+  return (
+    <li className={featured ? "md:col-span-2" : undefined}>
+      <article
+        data-card="project"
+        data-featured={featured ? "true" : undefined}
+        className="h-full rounded-xl border-2 border-border bg-surface3 rad-shadow overflow-hidden transition-shadow"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
-          {/* Image Column */}
-          <div className="relative overflow-hidden lg:h-full">
-            <img
-              src={project.image}
-              alt={project.name || (project as any).title}
-              className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105 grayscale group-hover:grayscale-66"
-            />
+        <a
+          href={project.url}
+          target="_blank"
+          rel="nofollow noreferrer noopener"
+          className="grid grid-cols-1 lg:grid-cols-2 h-full min-w-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        >
+          <div className="relative overflow-hidden min-h-40 lg:min-h-full">
+            <img src={project.image} alt="" className="w-full h-full object-cover min-h-40" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            <div className="absolute bottom-3 left-3 right-3 space-y-2">
-              {/* Impact Badge */}
-              <div
-                className={`inline-flex items-center px-2 py-1 rounded-md bg-brand/90 text-text1 text-xs font-medium`}
-              >
-                {project.impact || "Contribution"}
-              </div>
-
-              {/* Company Badge - Only show if available */}
-              {project.meta?.company && (
-                <div className="inline-flex items-center px-2 py-1 rounded-md bg-surface2 text-text1 text-xs font-medium">
-                  {project.meta.company}
-                </div>
-              )}
-            </div>
+            {project.impact ? (
+              <span className="absolute bottom-3 left-3 inline-flex px-2 py-1 rounded-md bg-brand/90 text-accent-primary-text text-xs font-medium">
+                {project.impact}
+              </span>
+            ) : null}
           </div>
-
-          {/* Text Content Column */}
-          <div
-            className={`p-4 lg:p-6 flex flex-col justify-between min-h-[140px] lg:min-h-full ${
-              isOssContribution ? "text-text1" : ""
-            }`}
-          >
-            <div className="space-y-3">
-              <motion.h4
-                whileHover={{ color: "var(--color-brand)" }}
-                className={`font-semibold text-base lg:text-lg leading-tight transition-colors line-clamp-2 group-hover:text-text1`}
-              >
-                {project.name || (project as any).title}
-              </motion.h4>
-
-              <p
-                className={`text-text2 text-xs lg:text-sm leading-relaxed line-clamp-2 ${
-                  isOssContribution ? "text-text2" : ""
-                }`}
-              >
+          <div className="p-4 lg:p-6 flex flex-col justify-between gap-4 min-w-0">
+            <div className="space-y-2">
+              <h3 className="font-semibold text-lg text-text1 group-hover:text-brand">
+                {project.name ?? (project as Project & { title?: string }).title}
+              </h3>
+              <p className="text-text2 text-sm leading-relaxed line-clamp-3">
                 {project.description}
               </p>
             </div>
-
-            <div className="flex flex-wrap gap-1.5 lg:gap-2 mt-4">
-              {project.technologies?.map((tech: string, techIndex: number) => (
-                <motion.div
-                  key={tech}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{
-                    opacity: 1,
-                    scale: 1,
-                  }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.3,
-                    delay: techIndex * 0.03,
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <Badge
-                    variant="secondary"
-                    className={`text-xs hover:bg-brand hover:text-text1 transition-colors duration-300 ${
-                      isOssContribution ? "hover:bg-surface4 hover:text-text1" : ""
-                    }`}
-                  >
-                    {tech}
-                  </Badge>
-                </motion.div>
-              ))}
-            </div>
+            {project.technologies?.length ? (
+              <ul role="list" className="flex flex-wrap gap-1.5">
+                {project.technologies.map((tech) => (
+                  <li key={tech}>
+                    <Badge variant="secondary" className="text-xs">
+                      {tech}
+                    </Badge>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </div>
-        </div>
-      </a>
-    </motion.div>
+        </a>
+      </article>
+    </li>
   );
+}
+
+function OssProjectRow({ project }: { project: Project }) {
+  return (
+    <li>
+      <article
+        data-card="project"
+        className="rounded-lg border border-border bg-surface2 p-4 hover:border-brand/20 transition-colors"
+      >
+        <a
+          href={project.url}
+          target="_blank"
+          rel="nofollow noreferrer noopener"
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        >
+          <h3 className="font-medium text-text1">
+            {project.name ?? (project as Project & { title?: string }).title}
+          </h3>
+          <p className="text-sm text-text2 line-clamp-1">{project.description}</p>
+        </a>
+      </article>
+    </li>
+  );
+}
+
+function MoreProjectRow({ project }: { project: Project }) {
+  return (
+    <li>
+      <article
+        data-card="project"
+        className="rounded-lg border border-border bg-surface2 p-4 hover:border-brand/20 transition-colors"
+      >
+        <a
+          href={project.url}
+          target="_blank"
+          rel="nofollow noreferrer noopener"
+          className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 min-w-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+        >
+          <h3 className="font-medium text-text1 shrink-0">
+            {project.name ?? (project as Project & { title?: string }).title}
+          </h3>
+          <p className="text-sm text-text2 line-clamp-2 sm:text-right">{project.description}</p>
+        </a>
+      </article>
+    </li>
+  );
+}
+
+export function Projects() {
+  const shouldReduceMotion = useReducedMotion();
+  const nonOssProjects = cvdata.projects.filter((project) => project.type !== "oss_contribution");
+  const featuredProjects = nonOssProjects.slice(0, 3);
+  const moreProjects = nonOssProjects.slice(3);
+  const ossContributions = cvdata.projects.filter((project) => project.type === "oss_contribution");
 
   return (
-    <section id="projects" className="py-20">
-      <div className="container mx-auto px-6">
-        {/* Featured Projects Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 text-text1">Featured Projects</h3>
-            <p className="text-text2 max-w-2xl mx-auto">
-              Key personal and professional projects showcasing technical expertise and innovation
-            </p>
+    <SectionShell id="projects" headingId={projectsHeadingId}>
+      <motion.div
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        transition={motionTransition(!!shouldReduceMotion)}
+      >
+        <SectionHeading
+          id={projectsHeadingId}
+          eyebrow="Portfolio"
+          title="Featured Projects"
+          description="Personal and professional work showcasing technical depth and product impact."
+        />
+
+        <ul role="list" className="projects-bento grid min-w-0 md:grid-cols-2 gap-6">
+          {featuredProjects.length === 0
+            ? Array.from({ length: 3 }, (_, i) => <ProjectSkeleton key={i} />)
+            : featuredProjects.map((project, index) => (
+                <FeaturedProjectCard
+                  key={project.id ?? project.name}
+                  project={project}
+                  featured={index === 0}
+                />
+              ))}
+        </ul>
+
+        {moreProjects.length > 0 ? (
+          <div className="mt-12 pt-10 border-t border-border">
+            <h3 className="text-lg font-semibold text-text1 mb-4">More projects</h3>
+            <ul role="list" className="space-y-3">
+              {moreProjects.map((project) => (
+                <MoreProjectRow key={project.id ?? project.name} project={project} />
+              ))}
+            </ul>
           </div>
+        ) : null}
 
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
-            {featuredProjects.map((project, index) => renderProjectCard(project, index))}
+        {ossContributions.length > 0 ? (
+          <div className="mt-16 pt-12 border-t border-border">
+            <SectionHeading
+              id={ossHeadingId}
+              title="Open Source Contributions"
+              description="Community contributions and collaborative open-source work."
+              className="mb-8"
+            />
+            <ul role="list" className="space-y-3">
+              {ossContributions.map((project) => (
+                <OssProjectRow key={project.id ?? project.name} project={project} />
+              ))}
+            </ul>
           </div>
-        </motion.div>
+        ) : null}
+      </motion.div>
+    </SectionShell>
+  );
+}
 
-        {/* OSS Contributions Section */}
-        {ossContributions.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-20 pt-16"
-          >
-            <div className="text-center mb-12">
-              <h3 className="text-3xl font-bold mb-4 text-text2">Open Source Contributions</h3>
-              <p className="text-text2 max-w-2xl mx-auto">
-                Community contributions and collaborative work on open-source projects
-              </p>
-            </div>
-
-            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
-              {ossContributions.map((project, index) => renderProjectCard(project, index, true))}
-            </div>
-          </motion.div>
-        )}
+export function ProjectsFallback() {
+  return (
+    <SectionShell id="projects" headingId={projectsHeadingId}>
+      <SectionHeading id={projectsHeadingId} title="Featured Projects" />
+      <div className="grid md:grid-cols-2 gap-6">
+        <ProjectSkeleton />
+        <ProjectSkeleton />
+        <ProjectSkeleton />
       </div>
-    </section>
+    </SectionShell>
   );
 }
