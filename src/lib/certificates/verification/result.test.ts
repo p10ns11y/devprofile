@@ -33,6 +33,35 @@ describe("finalizeHostedVerification", () => {
       digest
     );
     expect(result.match).toBe(true);
+    expect(result.clientMatchesExpected).toBe(true);
     expect(deriveVerificationStatus(result, false)).toBe("verified");
+  });
+
+  it("fails when only client matches", () => {
+    const expected = "aa".repeat(32);
+    const result = finalizeHostedVerification(
+      { ...basePartial, expectedDigest: expected, serverDigest: "bb".repeat(32) },
+      expected
+    );
+    expect(result.match).toBe(false);
+    expect(result.clientMatchesExpected).toBe(true);
+  });
+});
+
+describe("deriveVerificationStatus", () => {
+  it("returns failed on fetch error", () => {
+    expect(deriveVerificationStatus(null, true)).toBe("failed");
+  });
+
+  it("returns null while idle", () => {
+    expect(deriveVerificationStatus(null, false)).toBeNull();
+  });
+
+  it("returns failed when match is false", () => {
+    const result = finalizeHostedVerification(
+      { ...basePartial, serverDigest: "bb".repeat(32) },
+      "aa".repeat(32)
+    );
+    expect(deriveVerificationStatus(result, false)).toBe("failed");
   });
 });

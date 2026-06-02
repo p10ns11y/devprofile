@@ -21,4 +21,10 @@ describe("certificateIdFromFilename", () => {
     expect(findCertificateById("cert-does-not-exist")).toBeUndefined();
     expect(filenameFromCertificateId("not-valid-base64url!!!")).toBeUndefined();
   });
+
+  it("rejects ids that fail round-trip guard", () => {
+    const filename = "JavaScriptTestingCertificate.pdf";
+    const tampered = `${certificateIdFromFilename(filename)}x`;
+    expect(filenameFromCertificateId(tampered)).toBeUndefined();
+  });
 });

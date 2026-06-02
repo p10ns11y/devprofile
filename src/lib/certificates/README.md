@@ -127,26 +127,101 @@ What “Check hosted file” means for the visitor:
 | `serverDigest` | `fs.readFile` on server | On-disk file under `public/certificates/` matches publish |
 | `clientDigest` | `fetch(document.path)` + Web Crypto | Bytes at the **same URL as the PDF viewer** match publish |
 
+### Three digest values (two live hashes per click)
+
+There are **three digest strings** in the model, but only **two SHA-256 computations** run when someone clicks **Check hosted file**:
+
+| # | Field | What it is | When it is computed |
+|---|--------|------------|---------------------|
+| 1 | `expectedDigest` | `sha256Hash` (or algorithm-specific field) in `cvdata.json` | **Offline** — `scripts/calculate-hashes.ts` or CI (`pnpm validate-certificates`). On verify, the server **reads** this value; it does not re-hash disk into cvdata on every click. |
+| 2 | `serverDigest` | Hash of `public/certificates/{filename}` on disk | **Each `GET /verify`** — Node reads the file and runs `digestCertificateFileOnServer`. |
+| 3 | `clientDigest` | Hash of bytes returned by `fetch(document.path)` | **Each check** — browser `crypto.subtle.digest` via `digestCertificateBytesInBrowser`. |
+
+So: one **stored** fingerprint you publish, plus **two fresh hashes** (server + browser) at runtime.
+
+### When the UI shows “verified”
+
+`match` is true only when **both** runtime digests equal the published one (`verification/result.ts` → `hostedVerificationMatches`):
+
+```ts
+clientDigest === expectedDigest && serverDigest === expectedDigest
+```
+
+| Flag | Meaning |
+|------|---------|
+| `serverMatchesExpected` | Deployed file on disk still matches what you published |
+| `clientMatchesExpected` | Bytes at the hosted URL still match what you published |
+| `match` | Both of the above (full triple agreement) |
+
+We do **not** compare `clientDigest` to `serverDigest` as a separate rule; if both match `expectedDigest`, they match each other.
+
+### Runtime sequence (one click)
+
+Code path: `VerificationHash` → `runHostedVerificationCheck` (`verification/client-check.ts`) → `finalizeHostedVerification` (`verification/result.ts`).
+
 ```mermaid
 sequenceDiagram
-  participant User
-  participant VH as VerificationHash
+  actor User
+  participant UI as VerificationHash
+  participant CC as client-check.ts
   participant API as GET /verify
-  participant Static as /certificates/file.pdf
-  participant PDF as react-pdf viewer
+  participant SRV as verify-server.ts
+  participant CV as cvdata.json
+  participant Disk as public/certificates
+  participant URL as /certificates/file.pdf
 
-  Note over PDF,Static: Viewer may already load Static
-  User->>VH: Check hosted file
-  par Parallel
-    VH->>API: verify
-    VH->>Static: fetch no-store
+  Note over CV: expectedDigest pre-stored (offline)
+  Note over URL: react-pdf may already load same URL (not used for verify)
+
+  User->>UI: Check hosted file
+  UI->>UI: dispatch check_start (loading)
+
+  UI->>CC: runHostedVerificationCheck(id, documentPath)
+
+  par Promise.all — starts together
+    CC->>API: fetch /api/certificates/{id}/verify
+    API->>SRV: verifyHostedCertificateOnServer
+    SRV->>CV: getExpectedDigest (read sha256Hash)
+    SRV->>Disk: fs.readFile
+    SRV->>SRV: digestCertificateFileOnServer (Node SHA-256)
+    SRV-->>API: expectedDigest, serverDigest, clientSupported
+    API-->>CC: JSON (clientDigest empty, match false)
+  and
+    CC->>URL: fetch(documentPath, cache no-store)
+    URL-->>CC: ArrayBuffer (bytes visitor would download)
   end
-  API-->>VH: expectedDigest, serverDigest, clientSupported
-  Static-->>VH: ArrayBuffer
-  VH->>VH: SHA-256 in browser
-  VH->>VH: finalizeHostedVerification
-  VH-->>User: verified / failed
+
+  CC->>CC: digestCertificateBytesInBrowser (Web Crypto SHA-256)
+  CC->>CC: finalizeHostedVerification
+  Note over CC: match = clientDigest vs expected<br/>and serverDigest vs expected
+
+  CC-->>UI: HostedVerificationResult
+  UI->>UI: dispatch check_success or check_error
+  UI-->>User: Verified / Failed (+ digest in info modal)
 ```
+
+| Step | Module | What happens |
+|------|--------|----------------|
+| 1 | `verification-hash.tsx` | Button → `check_start`, call `runHostedVerificationCheck` |
+| 2 | `client-check.ts` | `Promise.all`: `/verify` + `fetch(document.path)` in parallel |
+| 3 | `verify-server.ts` | Read published digest from cvdata; hash on-disk file → `serverDigest` |
+| 4 | `client-check.ts` | After both complete: hash `ArrayBuffer` → `clientDigest` |
+| 5 | `result.ts` | `finalizeHostedVerification` sets `match` when client **and** server equal `expectedDigest` |
+| 6 | `verification-hash.tsx` | `deriveVerificationStatus` → shield UI |
+
+**Common diagram mistake:** showing `GET /verify` finish first, then a separate browser-only `par` for fetch + SHA-256. In code, **fetch of the PDF starts at the same time as `/verify`**, not after the API returns. Hashing in the browser runs only after **both** responses are back (needs `algorithm` + bytes).
+
+### What we do not do on click
+
+- **Recompute cvdata on the server** — `/verify` treats `cvdata.json` as the published source of truth and compares live server/browser digests **to that**.
+- **Hash the PDF viewer’s in-memory bytes** — react-pdf may already have loaded the file; verify uses its own `fetch` so the digest is exactly what HTTP returns at `document.path` (with `cache: "no-store"`).
+
+### Offline / ops (keeping `expectedDigest` correct)
+
+| Command | Role |
+|---------|------|
+| `scripts/calculate-hashes.ts` | Rewrite `sha256Hash` in `cvdata.json` from files on disk after add/replace PDFs |
+| `pnpm validate-certificates` | CI guard: unique ids, files exist, on-disk SHA-256 matches cvdata |
 
 **Not verified by the button:** a file the user downloaded earlier to disk — offline steps are documented in the info modal (`certutil` / `shasum` / `sha256sum`).
 
@@ -275,8 +350,10 @@ flowchart LR
 ## Tests
 
 ```bash
-pnpm test:unit -- src/lib/certificates
+pnpm test:certificates
 ```
+
+Runs `src/lib/certificates/**/*.test.ts` and `src/app/api/certificates/**/route.test.ts`. Vitest stubs `server-only` via `vitest.config.ts` for `verify-server` integration tests.
 
 | Test file | Covers |
 |-----------|--------|

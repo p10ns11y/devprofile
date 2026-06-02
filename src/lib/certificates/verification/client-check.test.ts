@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { HostedVerificationError, runHostedVerificationCheck } from "./client-check";
+import { runHostedVerificationCheck } from "./client-check";
 import { finalizeHostedVerification } from "./result";
 
 vi.mock("../hash/client", () => ({
@@ -59,8 +59,50 @@ describe("runHostedVerificationCheck", () => {
       })
     );
 
-    await expect(runHostedVerificationCheck("id", "/certificates/test.pdf")).rejects.toThrow(
-      HostedVerificationError
+    await expect(runHostedVerificationCheck("id", "/certificates/test.pdf")).rejects.toMatchObject({
+      code: "verify_failed",
+    });
+  });
+
+  it("throws when algorithm is not supported in browser", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        if (url.includes("/verify")) {
+          return new Response(
+            JSON.stringify({ ...serverPartial, algorithm: "blake3", clientSupported: false }),
+            { status: 200 }
+          );
+        }
+        return new Response(new ArrayBuffer(8), { status: 200 });
+      })
     );
+
+    await expect(runHostedVerificationCheck("id", "/certificates/test.pdf")).rejects.toMatchObject({
+      code: "algorithm_unsupported",
+    });
+  });
+
+  it("throws when hosted file fetch fails", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        if (url.includes("/verify")) {
+          return new Response(JSON.stringify(serverPartial), { status: 200 });
+        }
+        return new Response(null, { status: 404 });
+      })
+    );
+
+    await expect(runHostedVerificationCheck("id", "/certificates/test.pdf")).rejects.toMatchObject({
+      code: "file_fetch_failed",
+    });
+  });
+
+  it("encodes certificate id in verify URL", async () => {
+    const fetchMock = vi.mocked(fetch);
+    await runHostedVerificationCheck("id/with/slash", "/certificates/test.pdf");
+    const verifyCall = fetchMock.mock.calls.find(([url]) => String(url).includes("/verify"));
+    expect(String(verifyCall?.[0])).toContain(encodeURIComponent("id/with/slash"));
   });
 });

@@ -59,5 +59,45 @@ describe("GET /api/certificates/[id]/verify", () => {
     expect(body.filename).toBe("JavaScriptTestingCertificate.pdf");
     expect(body.expectedDigest).toBe(visiblePartial.expectedDigest);
     expect(body.algorithm).toBe("sha256");
+    expect(body.algorithmLabel).toBe("SHA-256");
+    expect(typeof body.timestamp).toBe("string");
+  });
+
+  it("returns 400 for invalid certificate id", async () => {
+    const res = await GET(verifyRequest(), {
+      params: Promise.resolve({ id: "" }),
+    });
+    expect(res.status).toBe(400);
+    expect(mockVerify).not.toHaveBeenCalled();
+  });
+
+  it("returns 501 when hash algorithm is not configured", async () => {
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    mockVerify.mockRejectedValue(
+      new Error('Hash algorithm "blake3" is not configured on the server')
+    );
+    const res = await GET(verifyRequest(), {
+      params: Promise.resolve({ id: visiblePartial.certificateId }),
+    });
+
+    expect(res.status).toBe(501);
+    expect(consoleError).not.toHaveBeenCalled();
+
+    consoleError.mockRestore();
+  });
+
+  it("returns 500 and logs unexpected errors", async () => {
+    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    mockVerify.mockRejectedValue(new Error("disk read failed"));
+    const res = await GET(verifyRequest(), {
+      params: Promise.resolve({ id: visiblePartial.certificateId }),
+    });
+
+    expect(res.status).toBe(500);
+    expect(consoleError).toHaveBeenCalledOnce();
+
+    consoleError.mockRestore();
   });
 });

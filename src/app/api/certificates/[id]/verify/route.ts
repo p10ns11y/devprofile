@@ -24,9 +24,11 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
-    console.error("Certificate verify error:", error);
     const message = error instanceof Error ? error.message : "Internal server error";
     const status = message.includes("not configured") ? 501 : 500;
+    if (status === 500) {
+      console.error("Certificate verify error:", error);
+    }
     return NextResponse.json({ error: message }, { status });
   }
 }
