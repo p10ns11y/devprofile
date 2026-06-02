@@ -1,19 +1,8 @@
-import cvData from "@/data/cvdata.json";
-
-function certificateIdFromEntry(cert: (typeof cvData.certificates)[number], index: number): string {
-  const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, "");
-  const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
-  return `cert-${sanitizedName}-${index}`;
-}
+import { findCertificateById } from "@/lib/certificate-id";
 
 export function findCertificateHash(certificateId: string): string | null {
-  for (let index = 0; index < cvData.certificates.length; index++) {
-    const cert = cvData.certificates[index];
-    if (certificateIdFromEntry(cert, index) === certificateId && cert.sha256Hash) {
-      return cert.sha256Hash;
-    }
-  }
-  return null;
+  const cert = findCertificateById(certificateId);
+  return cert?.sha256Hash ?? null;
 }
 
 export function deriveVerificationStatus(
