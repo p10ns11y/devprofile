@@ -24,7 +24,7 @@ Next.js 16 App Router monorepo-style **single app** under `src/`. `@/*` → `./s
 - **E2E:** `playwright.brave.ts`, `playwright.config.ts`, `tests/e2e/global-setup.ts`, spec under edit, `tests/e2e/helpers/**`
 - **Types:** `src/types/**`, exported props interfaces, Playwright `PlaywrightTestConfig` derivations
 - **API contracts:** request/response shapes in `src/app/api/**/route.ts` and `src/utils/qa-utils.ts` when touching CV Q&A
-- **Feature flags:** `src/config/feature-flags.ts`, `src/app/flags.ts`
+- **Env toggles (e.g. QA reactor):** `ENABLE_XAI_REACTOR` in `.env` — no Vercel `flags` package
 - **Rules in play:** `.cursor/rules/e2e-playwright-brave.mdc`, `react-client.mdc` when globs match
 
 ## Compress aggressively

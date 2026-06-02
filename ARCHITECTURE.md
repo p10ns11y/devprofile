@@ -84,11 +84,6 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 - Tailwind: `tailwind.config.ts` (v4 + PostCSS)
 - Theme: `src/components/theme-provider.tsx` (`light` / `dim`)
 
-## Vercel feature flags
-
-- **Location:** `src/app/flags.ts` (Vercel Flags Explorer via `.well-known/vercel/flags`)
-- Used for optional UI toggles (e.g. documents, skills section)
-
 ## Development scripts
 
 Use **pnpm** (see `package.json`). Prefer `sfw pnpm install` when changing dependencies.

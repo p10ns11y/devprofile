@@ -21,7 +21,7 @@ Living backlog for aligning client UI with [react-client-expert](../.agents/skil
 flowchart TB
   subgraph serverOK [Server boundaries OK today]
     QAPage["qa/page.tsx client + hero"]
-    CertPage["certificates/page.tsx async + flags"]
+    CertPage["certificates/page.tsx"]
     RootLayout["layout.tsx sync"]
   end
   subgraph clientWork [Client trees to align with skill]
@@ -57,7 +57,7 @@ flowchart TB
 |--------|-------|--------|
 | `app/page.tsx` | 4 | Whole homepage client for motion — optional server + islands |
 | `app/qa/page.tsx` | — | Page hero + `ProfileQA` |
-| `app/certificates/page.tsx` | — | Async server + flags |
+| `app/certificates/page.tsx` | — | Server shell + Suspense |
 | `app/certificates/certificate-view.tsx` | 1 ✅ | URL → selection derived (CHANGELOG) |
 | `app/cv/page.tsx` | — | Dynamic layout import |
 | `app/cv/content-layout.tsx` | — | `matchMedia` subscription OK |
@@ -136,7 +136,7 @@ Defer homepage split until needed.
 - `content-layout.tsx` — `matchMedia` with teardown
 - `document-sidebar.tsx` — external doc list sync if present
 - `hero.tsx` — one-time particle positions on mount
-- `certificates/page.tsx` — async server for flags/disclaimer only
+- `certificates/page.tsx` — thin server shell; client `certificate-view` owns UI
 - Local form state in `contact.tsx`, `profile-qa.tsx` submit handlers
 
 ## What not to do
