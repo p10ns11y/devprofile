@@ -1,4 +1,5 @@
 import { certificateIdFromFilename } from "@/lib/certificate-id";
+import { isHiddenCertificate } from "@/lib/certificate-registry";
 import type { DocumentItem } from "../types/documents";
 import cvData from "./cvdata.json";
 
@@ -179,24 +180,6 @@ export const getDocumentsData = (): DocumentItem[] => {
     },
   ];
 };
-
-/** Hidden from certificates grid, landing featured list, and modal open-by-id. */
-const hiddenCertificateCoursePattern = /human trafficking/i;
-const hiddenCertificateFilenames = new Set([
-  "polaris-ht101-certificate-template.png",
-  "polaris-ht101-social-certificate-template.png",
-]);
-
-function isHiddenCertificate(filename: string): boolean {
-  if (hiddenCertificateFilenames.has(filename)) {
-    return true;
-  }
-  const meta = cvData.certificates.find((cert) => cert.filename === filename);
-  if (!meta) {
-    return false;
-  }
-  return hiddenCertificateCoursePattern.test(meta.course);
-}
 
 export const getCertificatesData = (): DocumentItem[] => {
   const certificates = cvData.certificates

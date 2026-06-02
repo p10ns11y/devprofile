@@ -35,7 +35,8 @@
     "test:unit:watch": "vitest",
     "test:unit:cov": "vitest run --coverage",
     "test:qa": "vitest run src/lib/qa src/app/api/cv/qa",
-    "test:golden": "QA_EVAL_STRICT=1 pnpm qa:pipeline"
+    "test:golden": "QA_EVAL_STRICT=1 pnpm qa:pipeline",
+    "validate-certificates": "node scripts/validate-certificates.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.0",
