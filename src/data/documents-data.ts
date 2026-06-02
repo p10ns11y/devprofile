@@ -201,36 +201,36 @@ export const getCertificatesData = (): DocumentItem[] => {
   const certificates = cvData.certificates
     .filter((cert) => !isHiddenCertificate(cert.filename))
     .map((cert: any, index: number) => {
-    let verifyUrl: string | undefined;
-    if (cert.verifyUrl) {
-      verifyUrl =
-        cert.verifyUrl.startsWith("http://") || cert.verifyUrl.startsWith("https://")
-          ? cert.verifyUrl
-          : `https://${cert.verifyUrl}`;
-    }
-    const fileExtension = cert.filename.split(".").pop()?.toLowerCase();
-    const type =
-      fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg"
-        ? "image"
-        : "pdf";
+      let verifyUrl: string | undefined;
+      if (cert.verifyUrl) {
+        verifyUrl =
+          cert.verifyUrl.startsWith("http://") || cert.verifyUrl.startsWith("https://")
+            ? cert.verifyUrl
+            : `https://${cert.verifyUrl}`;
+      }
+      const fileExtension = cert.filename.split(".").pop()?.toLowerCase();
+      const type =
+        fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg"
+          ? "image"
+          : "pdf";
 
-    // Create a unique ID based on filename (remove extension and sanitize)
-    const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, "");
-    const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
-    const uniqueId = `cert-${sanitizedName}-${index}`;
+      // Create a unique ID based on filename (remove extension and sanitize)
+      const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, "");
+      const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
+      const uniqueId = `cert-${sanitizedName}-${index}`;
 
-    return {
-      id: uniqueId,
-      name: cert.filename,
-      path: `/certificates/${cert.filename}`,
-      type: type as "pdf" | "image",
-      size: 256000, // Default size, could be improved
-      lastModified: new Date(cert.reissuedDate || cert.completionDate || Date.now()),
-      verifyUrl,
-      completionDate: cert.completionDate,
-      reissuedDate: cert.reissuedDate,
-      explanationUrl: cert.reissuedDate ? cvData.xplanation?.coursera : undefined,
-    };
+      return {
+        id: uniqueId,
+        name: cert.filename,
+        path: `/certificates/${cert.filename}`,
+        type: type as "pdf" | "image",
+        size: 256000, // Default size, could be improved
+        lastModified: new Date(cert.reissuedDate || cert.completionDate || Date.now()),
+        verifyUrl,
+        completionDate: cert.completionDate,
+        reissuedDate: cert.reissuedDate,
+        explanationUrl: cert.reissuedDate ? cvData.xplanation?.coursera : undefined,
+      };
     });
 
   // Sort by completion date in reverse chronological order (newest first)

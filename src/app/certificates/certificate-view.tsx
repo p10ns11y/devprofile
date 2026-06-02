@@ -27,11 +27,15 @@ function formatDate(date?: string) {
 }
 
 export default function CertificateViewComponent() {
-  const { dialogRef, paramValue: certId, open: openCertificate, close: closeDialog } =
-    useDialogFromSearchParam("id", {
-      closePath: "/certificates",
-      isOpen: (id) => id !== null && certificateIds.has(id),
-    });
+  const {
+    dialogRef,
+    paramValue: certId,
+    open: openCertificate,
+    close: closeDialog,
+  } = useDialogFromSearchParam("id", {
+    closePath: "/certificates",
+    isOpen: (id) => id !== null && certificateIds.has(id),
+  });
 
   const activeCert = useMemo(
     () => (certId ? (certificates.find((c) => c.id === certId) ?? null) : null),
@@ -63,7 +67,9 @@ export default function CertificateViewComponent() {
                   <span className="credential-card__title">{displayName(cert)}</span>
                   <span className="credential-card__foot">
                     {cert.completionDate ? (
-                      <span className="credential-card__date">{formatDate(cert.completionDate)}</span>
+                      <span className="credential-card__date">
+                        {formatDate(cert.completionDate)}
+                      </span>
                     ) : (
                       <span
                         className="credential-card__date credential-card__date--empty"

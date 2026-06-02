@@ -84,7 +84,9 @@ export function Accomplishments() {
                       <span className="credential-card__tag">{course.domain}</span>
                       <div className="credential-card__foot">
                         {course.completionDate ? (
-                          <p className="credential-card__date">{formatDate(course.completionDate)}</p>
+                          <p className="credential-card__date">
+                            {formatDate(course.completionDate)}
+                          </p>
                         ) : (
                           <span
                             className="credential-card__date credential-card__date--empty"
@@ -128,7 +130,10 @@ export function Accomplishments() {
                         {cert.completionDate ? (
                           <p className="credential-card__date">{formatDate(cert.completionDate)}</p>
                         ) : (
-                          <span className="credential-card__date credential-card__date--empty" aria-hidden="true" />
+                          <span
+                            className="credential-card__date credential-card__date--empty"
+                            aria-hidden="true"
+                          />
                         )}
                         <Link href={`/certificates?id=${cert.id}`} className="credential-card__cta">
                           View

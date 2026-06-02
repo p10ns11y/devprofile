@@ -25,7 +25,9 @@ export function useDialogFromSearchParam(
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const paramValue = searchParams?.get(paramKey) ?? null;
-  const isOpen = resolveIsOpen ? resolveIsOpen(paramValue) : paramValue !== null && paramValue !== "";
+  const isOpen = resolveIsOpen
+    ? resolveIsOpen(paramValue)
+    : paramValue !== null && paramValue !== "";
 
   useEffect(() => {
     const dialog = dialogRef.current;

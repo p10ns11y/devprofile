@@ -111,7 +111,11 @@ export function Header() {
     >
       {item.iconOnly ? (
         <span className={cn("inline-flex items-center gap-2", mobile && "justify-center")}>
-          <Icon name={item.icon as IconName} className="size-4 shrink-0 fill-current" aria-hidden="true" />
+          <Icon
+            name={item.icon as IconName}
+            className="size-4 shrink-0 fill-current"
+            aria-hidden="true"
+          />
           <span className={mobile ? undefined : "lg:sr-only"}>{item.name}</span>
         </span>
       ) : item.icon ? (
@@ -214,7 +218,12 @@ export function Header() {
             ))}
           </ul>
           <div className="mt-4 flex flex-col gap-3 border-t border-border pt-4">
-            <SiteButton variant="outline" href="/#contact" className="w-full" onClick={closeMobileMenu}>
+            <SiteButton
+              variant="outline"
+              href="/#contact"
+              className="w-full"
+              onClick={closeMobileMenu}
+            >
               Let&apos;s Talk
             </SiteButton>
             <div className="flex justify-center">

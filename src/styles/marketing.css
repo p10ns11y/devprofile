@@ -1179,15 +1179,6 @@
     outline-offset: 2px;
   }
 
-  button.credential-card--open .credential-card__title {
-    display: block;
-  }
-
-  button.credential-card--open .credential-card__foot {
-    display: flex;
-    width: 100%;
-  }
-
   .credential-card__foot {
     display: flex;
     align-items: center;
@@ -1196,6 +1187,14 @@
     margin-top: auto;
     width: 100%;
     min-width: 0;
+  }
+
+  button.credential-card--open .credential-card__title {
+    display: block;
+  }
+
+  button.credential-card--open .credential-card__foot {
+    width: 100%;
   }
 
   .credential-card__date--empty {

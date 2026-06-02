@@ -279,9 +279,7 @@ export function DocumentViewer({
       data-pdf-viewer
     >
       {toolbar}
-      <div
-        className={`min-h-0 flex-1 overflow-y-auto bg-surface2 ${embedded ? "p-2" : "p-6"}`}
-      >
+      <div className={`min-h-0 flex-1 overflow-y-auto bg-surface2 ${embedded ? "p-2" : "p-6"}`}>
         {renderDocumentContent()}
       </div>
     </div>
