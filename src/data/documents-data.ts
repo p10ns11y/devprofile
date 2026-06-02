@@ -1,3 +1,4 @@
+import { certificateIdFromFilename } from "@/lib/certificate-id";
 import type { DocumentItem } from "../types/documents";
 import cvData from "./cvdata.json";
 
@@ -200,7 +201,7 @@ function isHiddenCertificate(filename: string): boolean {
 export const getCertificatesData = (): DocumentItem[] => {
   const certificates = cvData.certificates
     .filter((cert) => !isHiddenCertificate(cert.filename))
-    .map((cert: any, index: number) => {
+    .map((cert) => {
       let verifyUrl: string | undefined;
       if (cert.verifyUrl) {
         verifyUrl =
@@ -214,13 +215,8 @@ export const getCertificatesData = (): DocumentItem[] => {
           ? "image"
           : "pdf";
 
-      // Create a unique ID based on filename (remove extension and sanitize)
-      const filenameWithoutExt = cert.filename.replace(/\.[^/.]+$/, "");
-      const sanitizedName = filenameWithoutExt.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
-      const uniqueId = `cert-${sanitizedName}-${index}`;
-
       return {
-        id: uniqueId,
+        id: certificateIdFromFilename(cert.filename),
         name: cert.filename,
         path: `/certificates/${cert.filename}`,
         type: type as "pdf" | "image",
