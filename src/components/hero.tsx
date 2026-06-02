@@ -57,7 +57,7 @@ export function Hero() {
                 ))}
               </nav>
 
-              <div className="hero-social">
+              <div className="hero-profiles">
                 <SocialLinks size="compact" className="justify-center" />
               </div>
             </div>

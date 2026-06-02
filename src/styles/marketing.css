@@ -334,7 +334,7 @@
   }
 
   /* Center in the copy column on all breakpoints (including desktop left-aligned text) */
-  .hero-social {
+  .hero-profiles {
     display: flex;
     justify-content: center;
     align-self: center;
