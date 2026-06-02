@@ -44,7 +44,7 @@ export function Hero() {
                 <SiteButton size="lg" href="/#experience" className="hero-cta">
                   View My Work
                 </SiteButton>
-                <SiteButton size="lg" variant="secondary" href="/cv" className="hero-cta">
+                <SiteButton size="lg" variant="secondary" href="/?cv=view" className="hero-cta">
                   View CV
                 </SiteButton>
               </div>

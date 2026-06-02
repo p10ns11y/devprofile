@@ -20,7 +20,7 @@ export function Footer() {
           aria-label="Footer"
           className="flex items-center justify-center gap-6 flex-wrap text-sm"
         >
-          <Link href="/cv" className="text-text1 hover:text-brand transition-colors">
+          <Link href="/?cv=view" className="text-text1 hover:text-brand transition-colors">
             CV
           </Link>
           <Link href="/certificates" className="text-text1 hover:text-brand transition-colors">

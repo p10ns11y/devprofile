@@ -1,9 +1,11 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import { Suspense } from "react";
 import { About } from "@/components/about";
 import { Accomplishments } from "@/components/accomplishments";
 import { Contact } from "@/components/contact";
+import { CvModal } from "@/components/cv/cv-modal";
 import { Experience } from "@/components/experience";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
@@ -27,6 +29,9 @@ export default function Home() {
       <Experience />
       <Contact />
       <Footer />
+      <Suspense fallback={null}>
+        <CvModal />
+      </Suspense>
     </motion.div>
   );
 }

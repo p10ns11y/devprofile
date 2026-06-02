@@ -7,7 +7,7 @@ export const getDocumentsData = (): DocumentItem[] => {
     {
       id: "cv-pdf",
       name: "cv.pdf",
-      path: "/cv.pdf",
+      path: "/api/cv/view",
       type: "pdf",
       size: 1024000,
       lastModified: new Date(),

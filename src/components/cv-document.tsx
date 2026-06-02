@@ -1,5 +1,6 @@
 import { Document, Font, Link, Page, Path, StyleSheet, Svg, Text, View } from "@react-pdf/renderer";
 import data from "@/data/cvdata.json";
+import { getCvFeaturedProjects } from "@/lib/cv-featured-projects";
 
 Font.register({
   family: "Helvetica",
@@ -268,25 +269,19 @@ const CVDocument = () => (
           {/* @ts-ignore */}
           <View style={styles.section} id="Projects" bookmark={{ title: "Projects", fit: false }}>
             <Text style={styles.subheader}>Projects</Text>
-            {data.projects
-              .filter((project) =>
-                ["selfie-signin", "adaptate"].includes(project.key || project.name)
-              )
-              .map((project, index) => (
-                <View key={index} style={styles.projectItem}>
-                  <Link
-                    src={project.url}
-                    style={[styles.link, { fontSize: 9, fontWeight: "bold", color: "#0e0e0e" }]}
-                  >
-                    {project.name}
-                  </Link>
-                  <Text
-                    style={{ fontSize: 8, fontStyle: "italic", color: "#1c1c1c", marginTop: 1 }}
-                  >
-                    {project.description}
-                  </Text>
-                </View>
-              ))}
+            {getCvFeaturedProjects(data.projects).map((project, index) => (
+              <View key={index} style={styles.projectItem}>
+                <Link
+                  src={project.url}
+                  style={[styles.link, { fontSize: 9, fontWeight: "bold", color: "#0e0e0e" }]}
+                >
+                  {project.name}
+                </Link>
+                <Text style={{ fontSize: 8, fontStyle: "italic", color: "#1c1c1c", marginTop: 1 }}>
+                  {project.description}
+                </Text>
+              </View>
+            ))}
           </View>
           {/* @ts-ignore */}
           <View
