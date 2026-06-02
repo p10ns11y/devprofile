@@ -13,7 +13,11 @@ export function SocialLinks({ className, size = "default" }: SocialLinksProps) {
   return (
     <nav
       aria-label="Profile links"
-      className={cn("flex items-center", compact ? "gap-2" : "gap-3 sm:gap-4", className)}
+      className={cn(
+        "mx-auto flex w-fit items-center justify-center",
+        compact ? "gap-2" : "gap-3 sm:gap-4",
+        className
+      )}
     >
       {cvdata.social_links.map((social) => (
         <a
