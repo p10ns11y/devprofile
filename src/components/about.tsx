@@ -76,7 +76,9 @@ export function About() {
             </article>
 
             <div className="min-w-0">
-              <h3 className="subsection-title subsection-heading">How I work</h3>
+              <h3 className="subsection-title subsection-heading subsection-heading--center">
+                How I work
+              </h3>
               <ul role="list" className="about-values">
                 {features.map((feature) => (
                   <li key={feature.title}>

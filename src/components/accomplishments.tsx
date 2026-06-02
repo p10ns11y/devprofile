@@ -52,9 +52,14 @@ export function Accomplishments() {
             <figure className="credentials-pullquote">
               <blockquote cite={`#${headingId}`}>
                 <p>
-                  Grok and coding agents cover a lot of theory and build today; a well-designed
-                  course is still a great refresher or kick-start when you want structure, depth, or
-                  something classic and engaging to anchor on.
+                  Grok and coding agents are becoming mostly sufficient even for advanced work.
+                  Well-crafted courses — built with deliberate team effort and AI assistance — still
+                  offer powerful leverage. They compress extensive research, impose useful
+                  structure, and surface new ways of thinking, saving the learner significant time
+                  and friction. What ultimately matters most is the learner’s own curiosity and
+                  interest. The highest-value courses deliver outcomes that are highly applicable,
+                  pragmatic, and relevant to the current state of the art — creating positive impact
+                  for both the individual and society while remaining cost-effective.
                 </p>
               </blockquote>
               <figcaption>— {cvdata.name}</figcaption>
@@ -68,27 +73,38 @@ export function Accomplishments() {
 
           {externalCourses.length > 0 ? (
             <div className="credentials-block">
-              <h3 className="subsection-title subsection-heading">Recent courses</h3>
-              <ul role="list" className="credentials-grid">
+              <h3 className="subsection-title subsection-heading subsection-heading--center">
+                Recent courses
+              </h3>
+              <ul role="list" className="credentials-grid credentials-grid--featured">
                 {externalCourses.map((course) => (
                   <li key={course.name} className="min-w-0">
                     <article data-card="credential" className="credential-card">
                       <h4 className="credential-card__title">{course.name}</h4>
-                      {course.completionDate ? (
-                        <p className="credential-card__date">{formatDate(course.completionDate)}</p>
-                      ) : null}
                       <span className="credential-card__tag">{course.domain}</span>
-                      <a
-                        href={course.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="credential-card__action inline-flex items-center"
-                      >
-                        <ExternalLink className="size-3.5 mr-1.5 shrink-0" aria-hidden="true" />
-                        {course.proof_of_accomplishment === "github_code_repo"
-                          ? "View repository"
-                          : "View proof"}
-                      </a>
+                      <div className="credential-card__foot">
+                        {course.completionDate ? (
+                          <p className="credential-card__date">{formatDate(course.completionDate)}</p>
+                        ) : (
+                          <span
+                            className="credential-card__date credential-card__date--empty"
+                            aria-hidden="true"
+                          />
+                        )}
+                        <a
+                          href={course.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="credential-card__cta credential-card__cta--icon"
+                          aria-label={
+                            course.proof_of_accomplishment === "github_code_repo"
+                              ? `View repository for ${course.name} (opens in new tab)`
+                              : `View proof for ${course.name} (opens in new tab)`
+                          }
+                        >
+                          <ExternalLink className="credential-card__cta-icon" aria-hidden="true" />
+                        </a>
+                      </div>
                     </article>
                   </li>
                 ))}
@@ -97,7 +113,9 @@ export function Accomplishments() {
           ) : null}
 
           <div className="credentials-block">
-            <h3 className="subsection-title subsection-heading">Certificates</h3>
+            <h3 className="subsection-title subsection-heading subsection-heading--center">
+              Featured certificates
+            </h3>
             <ul role="list" className="credentials-grid credentials-grid--featured">
               {certificates.map((cert) => {
                 const displayName =
@@ -106,19 +124,17 @@ export function Accomplishments() {
                   <li key={cert.id} className="min-w-0">
                     <article data-card="credential" className="credential-card">
                       <h4 className="credential-card__title">{displayName}</h4>
-                      {cert.completionDate ? (
-                        <p className="credential-card__date">{formatDate(cert.completionDate)}</p>
-                      ) : null}
-                      <Link
-                        href={`/certificates?id=${cert.id}`}
-                        className="credential-card__action"
-                      >
-                        View certificate
-                        <ArrowRight
-                          className="inline-block size-3.5 ml-1 -mt-0.5"
-                          aria-hidden="true"
-                        />
-                      </Link>
+                      <div className="credential-card__foot">
+                        {cert.completionDate ? (
+                          <p className="credential-card__date">{formatDate(cert.completionDate)}</p>
+                        ) : (
+                          <span className="credential-card__date credential-card__date--empty" aria-hidden="true" />
+                        )}
+                        <Link href={`/certificates?id=${cert.id}`} className="credential-card__cta">
+                          View
+                          <ArrowRight className="credential-card__cta-icon" aria-hidden="true" />
+                        </Link>
+                      </div>
                     </article>
                   </li>
                 );
