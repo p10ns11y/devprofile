@@ -31,7 +31,7 @@ Planned under `src/components/site/`:
 | Feature | Target pattern |
 |---------|----------------|
 | Mobile nav | `<button aria-expanded aria-controls="site-nav-panel">` + `data-state` |
-| Certificate viewer | `<dialog>` + `DocumentViewer` inside |
+| Certificate viewer | `<dialog class="cert-dialog">` + [`useDialogFromSearchParam`](../../../src/hooks/use-dialog-from-search-param.ts) (`?id=` ↔ `showModal`). Open layout in `marketing.css` (`dialog.cert-dialog[open]`). **Never** unconditional `display:flex`/`fixed` on `<dialog>`. |
 | Contact form | `<form data-status={…}>` + `role="status" aria-live="polite"` |
 | Projects | `<ul>` / `<li>` / `<article data-card="project">` |
 
