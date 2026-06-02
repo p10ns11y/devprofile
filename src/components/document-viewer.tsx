@@ -3,7 +3,12 @@
 import { Download, File, RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
 import { motion } from "motion/react";
 import dynamic from "next/dynamic";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+
+import type { PageDimensions } from "./document-viewer-pdf";
+
+/** Default zoom in certificate modal: fit-to-container, then shrink for margin */
+const EMBEDDED_FIT_RATIO = 0.8;
 
 import type { DocumentViewerProps } from "../types/documents";
 import { formatFileSize, getFileIconForViewer } from "../utils/file-utils";
@@ -35,11 +40,20 @@ export function DocumentViewer({
   className = "",
 }: DocumentViewerProps) {
   const embedded = variant === "embedded";
+  const contentRef = useRef<HTMLDivElement>(null);
   const [numPages, setNumPages] = useState<number | null>(null);
   const [_pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(1.0);
   const [rotate, setRotate] = useState(0);
   const [containerWidth, setContainerWidth] = useState<number>(800);
+  const [contentSize, setContentSize] = useState({ width: 0, height: 0 });
+  const [pageDimensions, setPageDimensions] = useState<PageDimensions | null>(null);
+
+  useEffect(() => {
+    setPageDimensions(null);
+    setScale(1.0);
+    setRotate(0);
+  }, [document?.id]);
 
   useEffect(() => {
     const padding = embedded ? 24 : 64;
@@ -47,7 +61,9 @@ export function DocumentViewer({
     const minWidth = embedded ? 380 : 300;
 
     const updateWidth = () => {
-      const viewerElement = window.document.querySelector("[data-pdf-viewer]");
+      const viewerElement = embedded
+        ? contentRef.current
+        : window.document.querySelector("[data-pdf-viewer]");
       if (viewerElement) {
         const availableWidth = viewerElement.clientWidth - padding;
         const optimalWidth = Math.min(availableWidth, maxWidth);
@@ -59,6 +75,41 @@ export function DocumentViewer({
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
   }, [embedded]);
+
+  useEffect(() => {
+    if (!embedded) return;
+    const node = contentRef.current;
+    if (!node) return;
+
+    const updateSize = () => {
+      setContentSize({ width: node.clientWidth, height: node.clientHeight });
+    };
+
+    updateSize();
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [embedded, document?.id]);
+
+  const pdfRenderWidth = useMemo(() => {
+    if (!embedded || !pageDimensions || contentSize.width <= 0 || contentSize.height <= 0) {
+      return containerWidth;
+    }
+
+    const padding = 16;
+    const availableWidth = contentSize.width - padding;
+    const availableHeight = contentSize.height - padding;
+    if (availableWidth <= 0 || availableHeight <= 0) return containerWidth;
+
+    const sideways = rotate % 180 !== 0;
+    const pageWidth = sideways ? pageDimensions.height : pageDimensions.width;
+    const pageHeight = sideways ? pageDimensions.width : pageDimensions.height;
+
+    const fitScale =
+      Math.min(availableWidth / pageWidth, availableHeight / pageHeight) * EMBEDDED_FIT_RATIO;
+    const fittedWidth = pageWidth * fitScale * scale;
+    return Math.max(Math.min(fittedWidth, availableWidth * scale), 120);
+  }, [embedded, pageDimensions, contentSize, containerWidth, scale, rotate]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -109,11 +160,12 @@ export function DocumentViewer({
         <DocumentViewerPdf
           document={document}
           numPages={numPages}
-          scale={scale}
+          scale={embedded ? 1 : scale}
           rotate={rotate}
-          containerWidth={containerWidth}
+          containerWidth={embedded ? pdfRenderWidth : containerWidth}
           onDocumentLoadSuccess={onDocumentLoadSuccess}
           onDocumentLoadError={onDocumentLoadError}
+          onFirstPageDimensions={embedded ? setPageDimensions : undefined}
         />
       </Suspense>
     );
@@ -279,7 +331,15 @@ export function DocumentViewer({
       data-pdf-viewer
     >
       {toolbar}
-      <div className={`min-h-0 flex-1 overflow-y-auto bg-surface2 ${embedded ? "p-2" : "p-6"}`}>
+      <div
+        ref={contentRef}
+        data-pdf-scroll={embedded ? "" : undefined}
+        className={`min-h-0 flex-1 bg-surface2 ${
+          embedded
+            ? "flex flex-col items-center justify-center overflow-auto p-2"
+            : "overflow-y-auto p-6"
+        }`}
+      >
         {renderDocumentContent()}
       </div>
     </div>

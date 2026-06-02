@@ -73,10 +73,10 @@ export function Accomplishments() {
 
           {externalCourses.length > 0 ? (
             <div className="credentials-block">
-              <h3 className="subsection-title subsection-heading subsection-heading--center">
+              <h3 className="subsection-title subsection-heading" data-align="center">
                 Recent courses
               </h3>
-              <ul role="list" className="credentials-grid credentials-grid--featured">
+              <ul role="list" className="credentials-grid" data-grid="featured">
                 {externalCourses.map((course) => (
                   <li key={course.name} className="min-w-0">
                     <article data-card="credential" className="credential-card">
@@ -88,16 +88,14 @@ export function Accomplishments() {
                             {formatDate(course.completionDate)}
                           </p>
                         ) : (
-                          <span
-                            className="credential-card__date credential-card__date--empty"
-                            aria-hidden="true"
-                          />
+                          <span className="credential-card__date" data-empty aria-hidden="true" />
                         )}
                         <a
                           href={course.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="credential-card__cta credential-card__cta--icon"
+                          className="credential-card__cta"
+                          data-cta="icon"
                           aria-label={
                             course.proof_of_accomplishment === "github_code_repo"
                               ? `View repository for ${course.name} (opens in new tab)`
@@ -115,10 +113,10 @@ export function Accomplishments() {
           ) : null}
 
           <div className="credentials-block">
-            <h3 className="subsection-title subsection-heading subsection-heading--center">
+            <h3 className="subsection-title subsection-heading" data-align="center">
               Featured certificates
             </h3>
-            <ul role="list" className="credentials-grid credentials-grid--featured">
+            <ul role="list" className="credentials-grid" data-grid="featured">
               {certificates.map((cert) => {
                 const displayName =
                   courseMeta.get(cert.name) ?? cert.name.replace(/\.[^.]+$/, "").replace(/-/g, " ");
@@ -130,10 +128,7 @@ export function Accomplishments() {
                         {cert.completionDate ? (
                           <p className="credential-card__date">{formatDate(cert.completionDate)}</p>
                         ) : (
-                          <span
-                            className="credential-card__date credential-card__date--empty"
-                            aria-hidden="true"
-                          />
+                          <span className="credential-card__date" data-empty aria-hidden="true" />
                         )}
                         <Link href={`/certificates?id=${cert.id}`} className="credential-card__cta">
                           View

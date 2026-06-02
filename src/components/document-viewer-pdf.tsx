@@ -7,6 +7,11 @@ import { Document, Page, pdfjs } from "react-pdf";
 import type { DocumentItem } from "../types/documents";
 import { LoadingSpinner } from "./loading-spinner";
 
+export interface PageDimensions {
+  width: number;
+  height: number;
+}
+
 export interface DocumentViewerPdfProps {
   document: DocumentItem;
   numPages: number | null;
@@ -15,6 +20,8 @@ export interface DocumentViewerPdfProps {
   containerWidth: number;
   onDocumentLoadSuccess: (info: { numPages: number }) => void;
   onDocumentLoadError: (error: Error) => void;
+  /** First page intrinsic size (scale 1) — used for fit-to-container in modals */
+  onFirstPageDimensions?: (dimensions: PageDimensions) => void;
 }
 
 export function DocumentViewerPdf({
@@ -25,6 +32,7 @@ export function DocumentViewerPdf({
   containerWidth,
   onDocumentLoadSuccess,
   onDocumentLoadError,
+  onFirstPageDimensions,
 }: DocumentViewerPdfProps) {
   useEffect(() => {
     pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
@@ -58,12 +66,23 @@ export function DocumentViewerPdf({
       >
         {numPages &&
           Array.from(new Array(numPages), (_el, index) => (
-            <div key={`page_${index + 1}`} className="mb-8 first:mt-0">
+            <div key={`page_${index + 1}`} className="mb-8 first:mt-0 [&:only-child]:mb-0">
               <Page
                 pageNumber={index + 1}
                 scale={scale}
                 rotate={rotate}
                 width={containerWidth}
+                onLoadSuccess={
+                  index === 0
+                    ? (page) => {
+                        const viewport = page.getViewport({ scale: 1 });
+                        onFirstPageDimensions?.({
+                          width: viewport.width,
+                          height: viewport.height,
+                        });
+                      }
+                    : undefined
+                }
                 loading={
                   <div className="flex items-center justify-center p-8">
                     <div className="text-center space-y-2">

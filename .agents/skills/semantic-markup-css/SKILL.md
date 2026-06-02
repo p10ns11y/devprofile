@@ -78,6 +78,11 @@ Expose UI state in HTML; style in CSS `@layer components`:
 | `data-state` | `open` \| `closed` | Menus, dialogs, panels |
 | `data-status` | `idle` \| `loading` \| `error` \| `success` | Forms, async blocks |
 | `data-card` | `project`, `credential`, … | Card variants |
+| `data-action` | `open`, … | Card interaction (e.g. whole-card opens cert modal) |
+| `data-grid` | `featured`, `catalog` | Credentials grid layout |
+| `data-align` | `center` | Subsection heading alignment |
+| `data-cta` | `icon` | Compact icon-only credential CTA |
+| `data-empty` | (presence) | Date spacer when no completion date |
 | `data-featured` | `true` | Bento emphasis (boolean presence) |
 
 **React:** set attributes from reducer/status enum; **don't** mirror the same state in redundant class toggles.

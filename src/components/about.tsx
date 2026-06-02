@@ -76,7 +76,7 @@ export function About() {
             </article>
 
             <div className="min-w-0">
-              <h3 className="subsection-title subsection-heading subsection-heading--center">
+              <h3 className="subsection-title subsection-heading" data-align="center">
                 How I work
               </h3>
               <ul role="list" className="about-values">

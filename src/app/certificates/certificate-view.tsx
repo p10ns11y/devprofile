@@ -53,14 +53,15 @@ export default function CertificateViewComponent() {
             className="pt-8"
           />
 
-          <ul role="list" className="credentials-grid credentials-grid--catalog">
+          <ul role="list" className="credentials-grid" data-grid="catalog">
             {certificates.map((cert) => (
               <li key={cert.id} className="min-w-0">
                 <button
                   type="button"
                   data-card="credential"
+                  data-action="open"
                   data-cert-id={cert.id}
-                  className="credential-card credential-card--open"
+                  className="credential-card"
                   onClick={() => openCertificate(cert.id)}
                   aria-label={`View certificate: ${displayName(cert)}`}
                 >
@@ -71,10 +72,7 @@ export default function CertificateViewComponent() {
                         {formatDate(cert.completionDate)}
                       </span>
                     ) : (
-                      <span
-                        className="credential-card__date credential-card__date--empty"
-                        aria-hidden="true"
-                      />
+                      <span className="credential-card__date" data-empty aria-hidden="true" />
                     )}
                     <span className="credential-card__cta">
                       View

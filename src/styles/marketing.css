@@ -45,7 +45,7 @@
     margin-bottom: var(--marketing-space-stack-sm);
   }
 
-  .subsection-heading--center {
+  .subsection-heading[data-align="center"] {
     text-align: center;
   }
 
@@ -791,22 +791,22 @@
   }
 
   @media (min-width: 1024px) {
-    .credentials-grid--catalog {
+    .credentials-grid[data-grid="catalog"] {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     /* Four featured certs: 2×2 — avoids a 3+1 orphan row */
-    .credentials-grid--featured {
+    .credentials-grid[data-grid="featured"] {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 1280px) {
-    .credentials-grid--featured {
+    .credentials-grid[data-grid="featured"] {
       grid-template-columns: repeat(4, minmax(11rem, 1fr));
     }
 
-    .credentials-grid--catalog {
+    .credentials-grid[data-grid="catalog"] {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
@@ -1164,7 +1164,7 @@
   }
 
   /* Whole-card open (certificates catalog) */
-  button.credential-card--open {
+  button.credential-card[data-action="open"] {
     width: 100%;
     margin: 0;
     font: inherit;
@@ -1174,7 +1174,7 @@
     appearance: none;
   }
 
-  button.credential-card--open:focus-visible {
+  button.credential-card[data-action="open"]:focus-visible {
     outline: 2px solid var(--color-brand-emphasis);
     outline-offset: 2px;
   }
@@ -1189,15 +1189,15 @@
     min-width: 0;
   }
 
-  button.credential-card--open .credential-card__title {
+  button.credential-card[data-action="open"] .credential-card__title {
     display: block;
   }
 
-  button.credential-card--open .credential-card__foot {
+  button.credential-card[data-action="open"] .credential-card__foot {
     width: 100%;
   }
 
-  .credential-card__date--empty {
+  .credential-card__date[data-empty] {
     display: block;
     flex: 1 1 auto;
     min-width: 0;
@@ -1240,8 +1240,8 @@
     transition: transform 0.2s ease;
   }
 
-  button.credential-card--open:hover .credential-card__cta,
-  button.credential-card--open:focus-visible .credential-card__cta,
+  button.credential-card[data-action="open"]:hover .credential-card__cta,
+  button.credential-card[data-action="open"]:focus-visible .credential-card__cta,
   .credential-card:hover .credential-card__cta,
   .credential-card:has(a.credential-card__cta:hover) .credential-card__cta,
   a.credential-card__cta:hover {
@@ -1251,8 +1251,8 @@
     gap: 0.5rem;
   }
 
-  button.credential-card--open:hover .credential-card__cta-icon,
-  button.credential-card--open:focus-visible .credential-card__cta-icon,
+  button.credential-card[data-action="open"]:hover .credential-card__cta-icon,
+  button.credential-card[data-action="open"]:focus-visible .credential-card__cta-icon,
   .credential-card:hover .credential-card__cta-icon,
   a.credential-card__cta:hover .credential-card__cta-icon {
     transform: translateX(2px);
@@ -1263,14 +1263,14 @@
     outline-offset: 2px;
   }
 
-  .credential-card__cta--icon {
+  .credential-card__cta[data-cta="icon"] {
     width: 2.25rem;
     height: 2.25rem;
     padding: 0;
     justify-content: center;
   }
 
-  .credential-card__cta--icon .credential-card__cta-icon {
+  .credential-card__cta[data-cta="icon"] .credential-card__cta-icon {
     width: 1rem;
     height: 1rem;
   }
