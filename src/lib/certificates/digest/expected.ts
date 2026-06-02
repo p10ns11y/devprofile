@@ -1,9 +1,6 @@
-import {
-  type CertificateHashAlgorithmId,
-  resolveCertificateHashAlgorithm,
-} from "@/lib/certificate-hash-algorithms";
-import type { CvCertificateEntry } from "@/lib/certificate-id";
-import { normalizeDigestHex } from "@/lib/bytes-to-hex";
+import type { CvCertificateEntry } from "../identity/id";
+import { type CertificateHashAlgorithmId, resolveCertificateHashAlgorithm } from "./algorithms";
+import { normalizeDigestHex } from "./bytes-to-hex";
 
 export type CertificateExpectedDigest = {
   algorithm: CertificateHashAlgorithmId;
@@ -20,9 +17,8 @@ export function getExpectedDigest(cert: CvCertificateEntry): CertificateExpected
       return { algorithm, hex: normalizeDigestHex(cert.sha256Hash) };
     }
     case "blake3": {
-      const blake3Hash = (cert as CvCertificateEntry & { blake3Hash?: string }).blake3Hash;
-      if (!blake3Hash) return null;
-      return { algorithm, hex: normalizeDigestHex(blake3Hash) };
+      if (!cert.blake3Hash) return null;
+      return { algorithm, hex: normalizeDigestHex(cert.blake3Hash) };
     }
   }
 }

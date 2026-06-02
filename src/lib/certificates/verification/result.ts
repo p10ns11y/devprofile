@@ -1,5 +1,5 @@
-import { digestsMatch } from "@/lib/bytes-to-hex";
-import type { CertificateHashAlgorithmId } from "@/lib/certificate-hash-algorithms";
+import type { CertificateHashAlgorithmId } from "../digest/algorithms";
+import { digestsMatch } from "../digest/bytes-to-hex";
 
 export type HostedVerificationResult = {
   certificateId: string;
@@ -28,9 +28,7 @@ export function hostedVerificationMatches(
   serverDigest: string,
   clientDigest: string
 ): HostedVerificationResult["match"] {
-  return (
-    digestsMatch(clientDigest, expectedDigest) && digestsMatch(serverDigest, expectedDigest)
-  );
+  return digestsMatch(clientDigest, expectedDigest) && digestsMatch(serverDigest, expectedDigest);
 }
 
 export function finalizeHostedVerification(

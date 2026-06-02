@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { hashAlgorithmLabel } from "@/lib/certificate-hash-algorithms";
-import { verifyHostedCertificateOnServer } from "@/lib/certificate-verify-server";
+import { hashAlgorithmLabel } from "@/lib/certificates";
+import { verifyHostedCertificateOnServer } from "@/lib/certificates/server";
 
 export const dynamic = "force-dynamic";
 

@@ -1,14 +1,13 @@
 "use client";
 
 import { Check, Copy, Info, Shield, ShieldCheck, ShieldX, X } from "lucide-react";
-import { useState } from "react";
-import { hashAlgorithmLabel } from "@/lib/certificate-hash-algorithms";
-import { digestCertificateBytesInBrowser } from "@/lib/certificate-hash-client";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import {
-  deriveVerificationStatus,
-  finalizeHostedVerification,
+  HostedVerificationError,
   type HostedVerificationResult,
-} from "@/lib/certificate-verification";
+  hashAlgorithmLabel,
+  runHostedVerificationCheck,
+} from "@/lib/certificates";
 
 interface VerificationHashProps {
   certificateId: string;
@@ -16,68 +15,94 @@ interface VerificationHashProps {
   compact?: boolean;
 }
 
-type ServerVerifyPayload = Omit<HostedVerificationResult, "clientDigest" | "match" | "clientMatchesExpected"> & {
-  algorithmLabel?: string;
-  timestamp?: string;
+type CheckStatus = "idle" | "loading" | "success" | "error";
+
+type VerificationState = {
+  checkStatus: CheckStatus;
+  result: HostedVerificationResult | null;
 };
+
+type VerificationAction =
+  | { type: "check_start" }
+  | { type: "check_success"; result: HostedVerificationResult }
+  | { type: "check_error" };
+
+const initialVerificationState: VerificationState = {
+  checkStatus: "idle",
+  result: null,
+};
+
+function verificationReducer(
+  state: VerificationState,
+  action: VerificationAction
+): VerificationState {
+  switch (action.type) {
+    case "check_start":
+      return { checkStatus: "loading", result: null };
+    case "check_success":
+      return { checkStatus: "success", result: action.result };
+    case "check_error":
+      return { checkStatus: "error", result: null };
+    default:
+      return state;
+  }
+}
+
+function deriveVerificationStatus(
+  checkStatus: CheckStatus,
+  result: HostedVerificationResult | null
+): "verified" | "failed" | null {
+  if (checkStatus === "error") return "failed";
+  if (checkStatus !== "success" || !result) return null;
+  return result.match ? "verified" : "failed";
+}
 
 export function VerificationHash({
   certificateId,
   documentPath,
   compact = false,
 }: VerificationHashProps) {
-  const [result, setResult] = useState<HostedVerificationResult | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [fetchFailed, setFetchFailed] = useState(false);
+  const [{ checkStatus, result }, dispatch] = useReducer(
+    verificationReducer,
+    initialVerificationState
+  );
   const [copied, setCopied] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
+  const abortRef = useRef<AbortController | null>(null);
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const verificationStatus = deriveVerificationStatus(result, fetchFailed);
+  const isLoading = checkStatus === "loading";
+  const verificationStatus = deriveVerificationStatus(checkStatus, result);
   const algorithmLabel = result ? hashAlgorithmLabel(result.algorithm) : "SHA-256";
 
-  const checkHostedFile = async () => {
-    setLoading(true);
-    setFetchFailed(false);
-    setResult(null);
+  useEffect(() => {
+    return () => {
+      abortRef.current?.abort();
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+    };
+  }, []);
 
-    try {
-      const response = await fetch(
-        `/api/certificates/${encodeURIComponent(certificateId)}/verify`,
-        { cache: "no-store" }
-      );
+  const checkHostedFile = useCallback(() => {
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
 
-      if (!response.ok) {
-        setFetchFailed(true);
-        return;
-      }
+    dispatch({ type: "check_start" });
 
-      const serverPayload = (await response.json()) as ServerVerifyPayload;
-
-      if (!serverPayload.clientSupported) {
-        setFetchFailed(true);
-        return;
-      }
-
-      const fileResponse = await fetch(documentPath, { cache: "no-store" });
-      if (!fileResponse.ok) {
-        setFetchFailed(true);
-        return;
-      }
-
-      const bytes = await fileResponse.arrayBuffer();
-      const clientDigest = await digestCertificateBytesInBrowser(
-        serverPayload.algorithm,
-        bytes
-      );
-
-      setResult(finalizeHostedVerification(serverPayload, clientDigest));
-    } catch (error) {
-      console.error("Failed to check hosted file:", error);
-      setFetchFailed(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+    runHostedVerificationCheck(certificateId, documentPath, controller.signal)
+      .then((verified) => {
+        if (controller.signal.aborted) return;
+        dispatch({ type: "check_success", result: verified });
+      })
+      .catch((error: unknown) => {
+        if (controller.signal.aborted) return;
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        if (!(error instanceof HostedVerificationError)) {
+          console.error("Failed to check hosted file:", error);
+        }
+        dispatch({ type: "check_error" });
+      });
+  }, [certificateId, documentPath]);
 
   const copyExpectedDigest = async () => {
     if (!result?.expectedDigest) return;
@@ -85,7 +110,8 @@ export function VerificationHash({
     try {
       await navigator.clipboard.writeText(result.expectedDigest);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = setTimeout(() => setCopied(false), 2000);
     } catch (error) {
       console.error("Failed to copy hash:", error);
     }
@@ -103,7 +129,7 @@ export function VerificationHash({
         <button
           type="button"
           onClick={checkHostedFile}
-          disabled={loading}
+          disabled={isLoading}
           className="flex items-center space-x-2 cursor-pointer disabled:cursor-not-allowed"
         >
           <div className="flex-shrink-0">
@@ -116,7 +142,7 @@ export function VerificationHash({
             )}
           </div>
           <span className="text-sm text-text1 hover:text-accent-primary underline disabled:opacity-50">
-            {loading
+            {isLoading
               ? "Checking..."
               : verificationStatus === "verified"
                 ? "✓ Verified"
@@ -187,8 +213,8 @@ export function VerificationHash({
               <div>
                 <h4 className="font-semibold text-text1 mb-2">Check hosted file</h4>
                 <p className="mb-3">
-                  Confirms the certificate file served at this URL matches the digest stored for this
-                  site. It does not hash a file already saved on your device.
+                  Confirms the certificate file served at this URL matches the digest stored for
+                  this site. It does not hash a file already saved on your device.
                 </p>
               </div>
 

@@ -8,8 +8,8 @@ import { PageShell } from "@/components/site/PageShell";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import cvdata from "@/data/cvdata.json";
 import { getCertificatesData } from "@/data/documents-data";
-import { visibleCertificateIds } from "@/lib/certificate-registry";
 import { useDialogFromSearchParam } from "@/hooks/use-dialog-from-search-param";
+import { visibleCertificateIds } from "@/lib/certificates";
 import type { DocumentItem } from "@/types/documents";
 import { formatFileSize } from "@/utils/file-utils";
 

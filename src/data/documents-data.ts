@@ -1,5 +1,4 @@
-import { certificateIdFromFilename } from "@/lib/certificate-id";
-import { isHiddenCertificate } from "@/lib/certificate-registry";
+import { certificateIdFromFilename, listVisibleCertificates } from "@/lib/certificates";
 import type { DocumentItem } from "../types/documents";
 import cvData from "./cvdata.json";
 
@@ -182,35 +181,33 @@ export const getDocumentsData = (): DocumentItem[] => {
 };
 
 export const getCertificatesData = (): DocumentItem[] => {
-  const certificates = cvData.certificates
-    .filter((cert) => !isHiddenCertificate(cert.filename))
-    .map((cert) => {
-      let verifyUrl: string | undefined;
-      if (cert.verifyUrl) {
-        verifyUrl =
-          cert.verifyUrl.startsWith("http://") || cert.verifyUrl.startsWith("https://")
-            ? cert.verifyUrl
-            : `https://${cert.verifyUrl}`;
-      }
-      const fileExtension = cert.filename.split(".").pop()?.toLowerCase();
-      const type =
-        fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg"
-          ? "image"
-          : "pdf";
+  const certificates = listVisibleCertificates().map((cert) => {
+    let verifyUrl: string | undefined;
+    if (cert.verifyUrl) {
+      verifyUrl =
+        cert.verifyUrl.startsWith("http://") || cert.verifyUrl.startsWith("https://")
+          ? cert.verifyUrl
+          : `https://${cert.verifyUrl}`;
+    }
+    const fileExtension = cert.filename.split(".").pop()?.toLowerCase();
+    const type =
+      fileExtension === "png" || fileExtension === "jpg" || fileExtension === "jpeg"
+        ? "image"
+        : "pdf";
 
-      return {
-        id: certificateIdFromFilename(cert.filename),
-        name: cert.filename,
-        path: `/certificates/${cert.filename}`,
-        type: type as "pdf" | "image",
-        size: 256000, // Default size, could be improved
-        lastModified: new Date(cert.reissuedDate || cert.completionDate || Date.now()),
-        verifyUrl,
-        completionDate: cert.completionDate,
-        reissuedDate: cert.reissuedDate,
-        explanationUrl: cert.reissuedDate ? cvData.xplanation?.coursera : undefined,
-      };
-    });
+    return {
+      id: certificateIdFromFilename(cert.filename),
+      name: cert.filename,
+      path: `/certificates/${cert.filename}`,
+      type: type as "pdf" | "image",
+      size: 256000, // Default size, could be improved
+      lastModified: new Date(cert.reissuedDate || cert.completionDate || Date.now()),
+      verifyUrl,
+      completionDate: cert.completionDate,
+      reissuedDate: cert.reissuedDate,
+      explanationUrl: cert.reissuedDate ? cvData.xplanation?.coursera : undefined,
+    };
+  });
 
   // Sort by completion date in reverse chronological order (newest first)
   return certificates.sort((a, b) => {

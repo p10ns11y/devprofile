@@ -3,8 +3,8 @@
  *
  * To add BLAKE3 (or another id):
  * 1. Extend `CertificateHashAlgorithmId` and `getExpectedDigest` field mapping.
- * 2. `registerServerHashProvider` in `certificate-hash-server.ts` (Node).
- * 3. `registerClientHashProvider` in `certificate-hash-client.ts` (browser/WASM).
+ * 2. `registerServerHashProvider` in `hash/server.ts` (Node).
+ * 3. `registerClientHashProvider` in `hash/client.ts` (browser/WASM).
  * 4. Append the id to `CLIENT_HASH_ALGORITHM_IDS` when the browser provider exists.
  */
 export type CertificateHashAlgorithmId = "sha256" | "blake3";

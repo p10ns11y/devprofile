@@ -2,16 +2,15 @@ import "server-only";
 
 import { promises as fs } from "node:fs";
 import path from "node:path";
-
-import { getExpectedDigest } from "@/lib/certificate-digest";
-import { digestCertificateFileOnServer } from "@/lib/certificate-hash-server";
-import { isClientHashAlgorithmSupported } from "@/lib/certificate-hash-algorithms";
+import { isClientHashAlgorithmSupported } from "../digest/algorithms";
+import { getExpectedDigest } from "../digest/expected";
+import { digestCertificateFileOnServer } from "../hash/server";
 import {
   assertCertificateFilename,
   certificateFilePath,
   findVisibleCertificateById,
-} from "@/lib/certificate-registry";
-import type { HostedVerificationResult } from "@/lib/certificate-verification";
+} from "../registry/registry";
+import type { HostedVerificationResult } from "./result";
 
 export async function verifyHostedCertificateOnServer(
   certificateId: string

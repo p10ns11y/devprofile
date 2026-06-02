@@ -1,10 +1,11 @@
+import cvData from "@/data/cvdata.json";
+
 import {
+  type CvCertificateEntry,
   certificateIdFromFilename,
   findCertificateByFilename,
   findCertificateById,
-  type CvCertificateEntry,
-} from "@/lib/certificate-id";
-import cvData from "@/data/cvdata.json";
+} from "../identity/id";
 
 const hiddenCertificateCoursePattern = /human trafficking/i;
 const hiddenCertificateFilenames = new Set([

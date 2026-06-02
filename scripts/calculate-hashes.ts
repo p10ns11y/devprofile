@@ -1,14 +1,13 @@
 import crypto from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
-
-import { bytesToHex } from "../src/lib/bytes-to-hex";
+import cvData from "../src/data/cvdata.json";
 import {
   DEFAULT_CERTIFICATE_HASH_ALGORITHM,
   resolveCertificateHashAlgorithm,
-} from "../src/lib/certificate-hash-algorithms";
-import type { CvCertificateEntry } from "../src/lib/certificate-id";
-import cvData from "../src/data/cvdata.json";
+} from "../src/lib/certificates/digest/algorithms";
+import { bytesToHex } from "../src/lib/certificates/digest/bytes-to-hex";
+import type { CvCertificateEntry } from "../src/lib/certificates/identity/id";
 
 async function digestFile(
   algorithm: ReturnType<typeof resolveCertificateHashAlgorithm>,

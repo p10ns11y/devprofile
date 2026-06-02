@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
+
 import {
   deriveVerificationStatus,
   finalizeHostedVerification,
   hostedVerificationMatches,
-} from "./certificate-verification";
+} from "./result";
 
 const basePartial = {
   certificateId: "abc",

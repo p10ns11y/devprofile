@@ -1,10 +1,8 @@
 import "server-only";
 
 import crypto from "node:crypto";
-
-import { bytesToHex } from "@/lib/bytes-to-hex";
-import type { CertificateHashAlgorithmId } from "@/lib/certificate-hash-algorithms";
-import { hashAlgorithmLabel } from "@/lib/certificate-hash-algorithms";
+import { type CertificateHashAlgorithmId, hashAlgorithmLabel } from "../digest/algorithms";
+import { bytesToHex } from "../digest/bytes-to-hex";
 
 export type ServerHashProvider = {
   id: CertificateHashAlgorithmId;
