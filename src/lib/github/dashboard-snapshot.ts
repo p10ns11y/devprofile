@@ -1,7 +1,7 @@
 import { fetchGitHubJson } from "./client";
+import { type ProjectCardEntry, selectProjects } from "./project-selection";
 import { getOwners } from "./projects-policy";
 import { fetchTopicsForOwners, type TopicsByRepo } from "./repos-with-topics";
-import { selectProjects, type ProjectCardEntry } from "./project-selection";
 
 export type GitHubDashboardSnapshot = {
   username: string;
@@ -24,7 +24,9 @@ export function normalizeGitHubUsername(raw: string | null): string {
   return username;
 }
 
-async function enrichLatestCommit(fullName: string): Promise<ProjectCardEntry["latestCommit"] | undefined> {
+async function enrichLatestCommit(
+  fullName: string
+): Promise<ProjectCardEntry["latestCommit"] | undefined> {
   try {
     const commits = await fetchGitHubJson<any[]>(
       `https://api.github.com/repos/${fullName}/commits?per_page=1`,
@@ -55,7 +57,9 @@ async function fetchUserRecentPRs(username: string, perPage = 100) {
   }
 }
 
-function buildLatestPrPerRepo(prs: any[]): Record<string, NonNullable<ProjectCardEntry["latestPr"]>> {
+function buildLatestPrPerRepo(
+  prs: any[]
+): Record<string, NonNullable<ProjectCardEntry["latestPr"]>> {
   const latest: Record<string, any> = {};
   for (const pr of prs) {
     const repoUrl: string = pr.repository_url || "";
@@ -64,7 +68,9 @@ function buildLatestPrPerRepo(prs: any[]): Record<string, NonNullable<ProjectCar
     if (!fn || latest[fn]) continue; // first hit is most recently updated
     latest[fn] = {
       number: Number(pr.number),
-      url: String(pr.html_url || pr.pull_request?.html_url || `https://github.com/${fn}/pull/${pr.number}`),
+      url: String(
+        pr.html_url || pr.pull_request?.html_url || `https://github.com/${fn}/pull/${pr.number}`
+      ),
       title: String(pr.title || ""),
       state: pr.pull_request?.merged_at ? "merged" : String(pr.state || "open"),
     };
@@ -73,19 +79,40 @@ function buildLatestPrPerRepo(prs: any[]): Record<string, NonNullable<ProjectCar
   return latest;
 }
 
+async function fetchOwnerRepos(owner: string): Promise<Record<string, unknown>[]> {
+  return fetchGitHubJson<Record<string, unknown>[]>(
+    `https://api.github.com/users/${owner}/repos?affiliation=owner&per_page=100&sort=pushed&direction=desc`,
+    { next: { revalidate: 6 * 60 * 60 } }
+  );
+}
+
+function mergeReposByFullName(repoLists: Record<string, unknown>[][]): Record<string, unknown>[] {
+  const byName = new Map<string, Record<string, unknown>>();
+  for (const list of repoLists) {
+    for (const repo of list) {
+      const fullName = String(repo.full_name ?? "").toLowerCase();
+      if (fullName && !byName.has(fullName)) {
+        byName.set(fullName, repo);
+      }
+    }
+  }
+  return [...byName.values()];
+}
+
 /** Server-side: one snapshot for the live dashboard (used by /api/github/dashboard).
  * Policy selection (high-quality topic + scoring) + GraphQL topics + commit/PR enrichment.
  */
 export async function fetchDashboardSnapshot(username: string): Promise<GitHubDashboardSnapshot> {
-  const [user, repos] = await Promise.all([
+  const owners = [...new Set([username, ...getOwners()])];
+
+  const [user, ...ownerRepoLists] = await Promise.all([
     fetchGitHubJson<Record<string, unknown>>(`https://api.github.com/users/${username}`, {
       next: { revalidate: 6 * 60 * 60 },
     }),
-    fetchGitHubJson<Record<string, unknown>[]>(
-      `https://api.github.com/users/${username}/repos?affiliation=owner&per_page=100&sort=pushed&direction=desc`,
-      { next: { revalidate: 6 * 60 * 60 } }
-    ),
+    ...owners.map((owner) => fetchOwnerRepos(owner)),
   ]);
+
+  const repos = mergeReposByFullName(ownerRepoLists);
 
   // Topics: prefer embedded in repos list; supplement with dedicated fetch for coverage
   const topicsFromList: TopicsByRepo = {};
@@ -97,31 +124,33 @@ export async function fetchDashboardSnapshot(username: string): Promise<GitHubDa
     }
   }
 
-  const owners = getOwners();
   let topicsByRepo: TopicsByRepo = { ...topicsFromList };
   try {
-    const extra = await fetchTopicsForOwners(owners, repos.map((r) => String(r.full_name ?? "")));
+    const extra = await fetchTopicsForOwners(
+      owners,
+      repos.map((r) => String(r.full_name ?? ""))
+    );
     topicsByRepo = { ...topicsByRepo, ...extra };
   } catch {
     // topicsFromList is sufficient for the pushed list we have
   }
 
-  const { featuredProjects, recentProjects } = selectProjects(repos, topicsByRepo);
+  const { featuredProjects, recentProjects } = selectProjects(repos, topicsByRepo, undefined, {
+    recentOwner: username,
+  });
 
-  // Enrich commits (batched, best-effort) + PRs (single search)
-  const allEntries = [...featuredProjects, ...recentProjects];
+  // Commit/PR links only on Recent Activity — not Featured (avoids noisy cards + nested link UI)
   const [prsForUser] = await Promise.all([
     fetchUserRecentPRs(username),
-    // commits
     Promise.all(
-      allEntries.map(async (entry) => {
+      recentProjects.map(async (entry) => {
         const commit = await enrichLatestCommit(entry.fullName);
         if (commit) (entry as ProjectCardEntry).latestCommit = commit;
       })
     ),
   ]);
   const prMap = buildLatestPrPerRepo(prsForUser);
-  for (const entry of allEntries) {
+  for (const entry of recentProjects) {
     const p = prMap[entry.fullName] || prMap[entry.fullName.toLowerCase()];
     if (p) (entry as ProjectCardEntry).latestPr = p;
   }

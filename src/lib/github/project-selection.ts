@@ -16,6 +16,11 @@ export type SelectedProjects = {
   recentProjects: ProjectCardEntry[];
 };
 
+export type SelectProjectsOptions = {
+  /** Scope Recent Activity to one GitHub login (dashboard profile owner). Featured uses all repos. */
+  recentOwner?: string;
+};
+
 function getFullName(repo: RepoLike): string {
   const full = repo.full_name;
   if (typeof full === "string" && full.includes("/")) return full;
@@ -29,7 +34,11 @@ function normalize(n: string): string {
   return n.toLowerCase();
 }
 
-function topicsFor(repo: RepoLike, topicsByRepo: Record<string, string[]>, fullName: string): string[] {
+function topicsFor(
+  repo: RepoLike,
+  topicsByRepo: Record<string, string[]>,
+  fullName: string
+): string[] {
   const fromMap = topicsByRepo[fullName] || topicsByRepo[normalize(fullName)];
   if (Array.isArray(fromMap)) return fromMap;
   const embedded = repo.topics;
@@ -80,10 +89,17 @@ function computeScore(repo: RepoLike, topics: string[], policy: ProjectsPolicy):
   return score;
 }
 
+function repoOwnerLogin(repo: RepoLike, fullName: string): string {
+  const login = (repo.owner as Record<string, unknown> | undefined)?.login;
+  if (typeof login === "string" && login) return login;
+  return fullName.split("/")[0] ?? "";
+}
+
 export function selectProjects(
   repos: RepoLike[],
   topicsByRepo: Record<string, string[]> = {},
-  policy: ProjectsPolicy = getProjectsPolicy()
+  policy: ProjectsPolicy = getProjectsPolicy(),
+  options: SelectProjectsOptions = {}
 ): SelectedProjects {
   const exclude = new Set(policy.excludeRepos.map(normalize));
 
@@ -103,34 +119,48 @@ export function selectProjects(
   // Featured: must have quality topic
   const featuredCandidates = withMeta
     .filter((w) => intersects(w.topics, policy.qualityTopics))
-    .map((w) => ({
-      fullName: w.fullName,
-      repo: w.repo,
-      topics: w.topics,
-      score: computeScore(w.repo, w.topics, policy),
-    } as ProjectCardEntry));
+    .map(
+      (w) =>
+        ({
+          fullName: w.fullName,
+          repo: w.repo,
+          topics: w.topics,
+          score: computeScore(w.repo, w.topics, policy),
+        }) as ProjectCardEntry
+    );
 
   featuredCandidates.sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
-    return new Date((b.repo as any).pushed_at || 0).getTime() - new Date((a.repo as any).pushed_at || 0).getTime();
+    return (
+      new Date((b.repo as any).pushed_at || 0).getTime() -
+      new Date((a.repo as any).pushed_at || 0).getTime()
+    );
   });
 
   const featuredProjects = featuredCandidates.slice(0, policy.limits.featured);
 
-  const featuredSet = new Set(featuredProjects.map((p) => normalize(p.fullName)));
+  // Recent: true recency feed for the profile owner — no dedupe from Featured (overlap is OK)
+  let recentPool = withMeta;
+  if (options.recentOwner) {
+    const ownerKey = normalize(options.recentOwner);
+    recentPool = withMeta.filter((w) => normalize(repoOwnerLogin(w.repo, w.fullName)) === ownerKey);
+  }
 
-  // Recent: everything non-excluded, newest first, minus featured
-  const recentCandidates = withMeta
-    .filter((w) => !featuredSet.has(normalize(w.fullName)))
+  const recentCandidates = recentPool
     .sort((a, b) => {
-      return new Date((b.repo as any).pushed_at || 0).getTime() - new Date((a.repo as any).pushed_at || 0).getTime();
+      const aTime = new Date(((a.repo as RepoLike).pushed_at as string | undefined) || 0).getTime();
+      const bTime = new Date(((b.repo as RepoLike).pushed_at as string | undefined) || 0).getTime();
+      return bTime - aTime;
     })
-    .map((w) => ({
-      fullName: w.fullName,
-      repo: w.repo,
-      topics: w.topics,
-      score: 0,
-    } as ProjectCardEntry));
+    .map(
+      (w) =>
+        ({
+          fullName: w.fullName,
+          repo: w.repo,
+          topics: w.topics,
+          score: 0,
+        }) as ProjectCardEntry
+    );
 
   const recentProjects = recentCandidates.slice(0, policy.limits.recentActivity);
 
@@ -141,6 +171,9 @@ export function selectProjects(
  * Client-friendly: when topics are embedded in the repo objects from /repos list.
  * Uses the same selection but pulls topics from repo when no map provided.
  */
-export function selectFromReposList(repos: RepoLike[], policy = getProjectsPolicy()): SelectedProjects {
+export function selectFromReposList(
+  repos: RepoLike[],
+  policy = getProjectsPolicy()
+): SelectedProjects {
   return selectProjects(repos, {}, policy);
 }

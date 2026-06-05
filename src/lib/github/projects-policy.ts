@@ -1,5 +1,5 @@
-import policyJson from "@/data/github-projects-policy.json";
 import { z } from "zod";
+import policyJson from "@/data/github-projects-policy.json";
 
 const PushedWithinDaysSchema = z.record(z.string(), z.number()).default({});
 
@@ -11,8 +11,8 @@ const ScoringSchema = z.object({
 });
 
 const LimitsSchema = z.object({
-  featured: z.number().int().positive().default(15),
-  recentActivity: z.number().int().positive().default(10),
+  featured: z.number().int().positive().default(10),
+  recentActivity: z.number().int().positive().default(8),
 });
 
 const ProjectsPolicySchema = z.object({
@@ -38,8 +38,13 @@ export function getProjectsPolicy(): ProjectsPolicy {
       owners: ["p10ns11y", "thecuriousts"],
       qualityTopics: ["high-quality"],
       excludeRepos: [],
-      limits: { featured: 15, recentActivity: 10 },
-      scoring: { topicMatch: 50, pushedWithinDays: { "30": 20, "90": 10 }, hasDescription: 5, minStarsBonus: 1 },
+      limits: { featured: 10, recentActivity: 8 },
+      scoring: {
+        topicMatch: 50,
+        pushedWithinDays: { "30": 20, "90": 10 },
+        hasDescription: 5,
+        minStarsBonus: 1,
+      },
     };
     return cachedPolicy;
   }

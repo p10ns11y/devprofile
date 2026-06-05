@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { selectProjects, selectFromReposList } from "./project-selection";
+import { selectFromReposList, selectProjects } from "./project-selection";
 import { getProjectsPolicy } from "./projects-policy";
 
 describe("project-selection", () => {
@@ -59,9 +59,24 @@ describe("project-selection", () => {
     const nowish = new Date(Date.now() - 10 * 86400000).toISOString(); // ~10d
     const old = "2024-01-01T00:00:00Z";
     const repos = [
-      mkRepo("p10ns11y/high-old", { topics: ["high-quality"], pushed_at: old, description: "", stargazers_count: 0 }),
-      mkRepo("p10ns11y/high-recent", { topics: ["high-quality"], pushed_at: nowish, description: "nice", stargazers_count: 10 }),
-      mkRepo("p10ns11y/high-recent2", { topics: ["high-quality"], pushed_at: nowish, description: "nice", stargazers_count: 1 }),
+      mkRepo("p10ns11y/high-old", {
+        topics: ["high-quality"],
+        pushed_at: old,
+        description: "",
+        stargazers_count: 0,
+      }),
+      mkRepo("p10ns11y/high-recent", {
+        topics: ["high-quality"],
+        pushed_at: nowish,
+        description: "nice",
+        stargazers_count: 10,
+      }),
+      mkRepo("p10ns11y/high-recent2", {
+        topics: ["high-quality"],
+        pushed_at: nowish,
+        description: "nice",
+        stargazers_count: 1,
+      }),
     ];
     const res = selectProjects(repos);
     expect(res.featuredProjects.length).toBeGreaterThanOrEqual(2);
@@ -69,23 +84,37 @@ describe("project-selection", () => {
     expect(res.featuredProjects[0].fullName).toBe("p10ns11y/high-recent");
   });
 
-  it("dedupes featured out of recentActivity", () => {
+  it("recentActivity is sorted by pushed_at and may overlap featured", () => {
     const repos = [
-      mkRepo("p10ns11y/feat", { topics: ["high-quality"], pushed_at: "2025-06-01T00:00:00Z" }),
+      mkRepo("p10ns11y/feat", { topics: ["high-quality"], pushed_at: "2025-06-03T00:00:00Z" }),
       mkRepo("p10ns11y/recent1", { pushed_at: "2025-06-02T00:00:00Z" }),
-      mkRepo("p10ns11y/recent2", { pushed_at: "2025-06-03T00:00:00Z" }),
+      mkRepo("p10ns11y/recent2", { pushed_at: "2025-06-01T00:00:00Z" }),
     ];
-    const res = selectProjects(repos);
+    const res = selectProjects(repos, {}, basePolicy, { recentOwner: "p10ns11y" });
     const recentNames = res.recentProjects.map((p) => p.fullName);
-    expect(recentNames).not.toContain("p10ns11y/feat");
-    expect(recentNames).toContain("p10ns11y/recent2");
+    expect(recentNames[0]).toBe("p10ns11y/feat");
+    expect(recentNames).toContain("p10ns11y/recent1");
+  });
+
+  it("recentOwner scopes recentActivity to one login", () => {
+    const repos = [
+      mkRepo("p10ns11y/mine", { pushed_at: "2025-06-03T00:00:00Z" }),
+      mkRepo("thecuriousts/theirs", { pushed_at: "2025-06-10T00:00:00Z" }),
+    ];
+    const res = selectProjects(repos, {}, basePolicy, { recentOwner: "p10ns11y" });
+    expect(res.recentProjects.map((p) => p.fullName)).toEqual(["p10ns11y/mine"]);
   });
 
   it("respects limits", () => {
     const policy = { ...basePolicy, limits: { featured: 1, recentActivity: 2 } };
     const repos: any[] = [];
     for (let i = 0; i < 5; i++) {
-      repos.push(mkRepo(`p10ns11y/hq${i}`, { topics: ["high-quality"], pushed_at: `2025-06-0${i}T00:00:00Z` }));
+      repos.push(
+        mkRepo(`p10ns11y/hq${i}`, {
+          topics: ["high-quality"],
+          pushed_at: `2025-06-0${i}T00:00:00Z`,
+        })
+      );
     }
     repos.push(mkRepo("p10ns11y/r1", { pushed_at: "2025-06-10T00:00:00Z" }));
     repos.push(mkRepo("p10ns11y/r2", { pushed_at: "2025-06-11T00:00:00Z" }));

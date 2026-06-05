@@ -3,8 +3,8 @@
   "qualityTopics": ["high-quality"],
   "excludeRepos": [],
   "limits": {
-    "featured": 15,
-    "recentActivity": 10
+    "featured": 10,
+    "recentActivity": 8
   },
   "scoring": {
     "topicMatch": 50,

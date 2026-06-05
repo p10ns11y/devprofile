@@ -161,7 +161,7 @@ export async function fetchGitHubSnapshot(username, options = {}) {
       (a, b) =>
         new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0)
     )
-    .slice(0, 12)
+    .slice(0, 10)
     .map((r) => ({
       fullName: r.full_name,
       repo: r,
@@ -169,14 +169,13 @@ export async function fetchGitHubSnapshot(username, options = {}) {
       score: 0,
     }));
 
-  const featuredSet = new Set(featured.map((e) => (e.fullName || "").toLowerCase()));
   const recent = nonExcluded
-    .filter((r) => !featuredSet.has((r.full_name || "").toLowerCase()))
+    .filter((r) => (r.owner?.login || "").toLowerCase() === username.toLowerCase())
     .sort(
       (a, b) =>
         new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0)
     )
-    .slice(0, 10)
+    .slice(0, 8)
     .map((r) => ({
       fullName: r.full_name,
       repo: r,
@@ -312,22 +311,30 @@ export async function applyBackgroundFetchToSnapshot(registration, username = DE
   // Degraded selection from partial background records (no full policy scoring)
   const quality = ["high-quality"];
   const nonExcluded = repos.filter((r) => !r.fork && !r.private);
-  const hasQ = (r) => (Array.isArray(r?.topics) ? r.topics : []).some((t) => quality.includes(String(t).toLowerCase()));
+  const hasQ = (r) =>
+    (Array.isArray(r?.topics) ? r.topics : []).some((t) =>
+      quality.includes(String(t).toLowerCase())
+    );
   const featured = nonExcluded
     .filter(hasQ)
-    .sort((a, b) => new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0))
-    .slice(0, 12)
+    .sort(
+      (a, b) =>
+        new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0)
+    )
+    .slice(0, 10)
     .map((r) => ({
       fullName: r.full_name,
       repo: r,
       topics: Array.isArray(r.topics) ? r.topics : [],
       score: 0,
     }));
-  const featSet = new Set(featured.map((e) => (e.fullName || "").toLowerCase()));
   const recent = nonExcluded
-    .filter((r) => !featSet.has((r.full_name || "").toLowerCase()))
-    .sort((a, b) => new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0))
-    .slice(0, 10)
+    .filter((r) => (r.owner?.login || "").toLowerCase() === username.toLowerCase())
+    .sort(
+      (a, b) =>
+        new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0)
+    )
+    .slice(0, 8)
     .map((r) => ({
       fullName: r.full_name,
       repo: r,
