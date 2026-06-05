@@ -23,23 +23,13 @@ export const GITHUB_API_HEADERS = {
   "X-GitHub-Api-Version": "2022-11-28",
 };
 
-/** Keep in sync with src/lib/github/creative-projects.ts */
-export const CREATIVE_PROJECTS_BY_OWNER = Object.freeze({
-  p10ns11y: [
-    "elomaxz",
-    "arch-machine",
-    "thepulimaangani",
-    "devprofile",
-    "selfie-sign-in-flow-using-v0-xAI",
-    "sorkalam-extension",
-  ],
-  thecuriousts: ["premflow"],
-});
-
-export function getCreativeProjectSlugs(projectsByOwner = CREATIVE_PROJECTS_BY_OWNER) {
-  return Object.entries(projectsByOwner).flatMap(([owner, repos]) =>
-    repos.map((repo) => `${owner}/${repo}`)
-  );
+/**
+ * @deprecated Manual curation replaced by server-side policy selection (high-quality topic).
+ * Client fallback builds minimal featured/recent from the repos list + embedded topics.
+ */
+export const CREATIVE_PROJECTS_BY_OWNER = Object.freeze({});
+export function getCreativeProjectSlugs(_ = CREATIVE_PROJECTS_BY_OWNER) {
+  return [];
 }
 
 function snapshotKey(username) {
@@ -107,56 +97,29 @@ export function getDashboardApiUrl(username) {
   return `${origin}/api/github/dashboard?${params}`;
 }
 
-async function fetchCreativeProject(fullName, reposList, signal) {
-  const fromList = reposList.find(
-    (r) => (r.full_name || "").toLowerCase() === fullName.toLowerCase()
-  );
-
-  try {
-    const res = await fetch(`https://api.github.com/repos/${fullName}`, {
-      headers: GITHUB_API_HEADERS,
-      signal,
-    });
-    if (res.ok) {
-      const repo = await res.json();
-      return {
-        fullName,
-        repo,
-        topics: Array.isArray(repo.topics) ? repo.topics : [],
-      };
-    }
-  } catch {
-    /* fall through */
-  }
-
-  if (fromList) {
-    return {
-      fullName,
-      repo: fromList,
-      topics: Array.isArray(fromList.topics) ? fromList.topics : [],
-    };
-  }
-
-  return { fullName, repo: null, topics: [] };
-}
-
 /**
  * Network fetch via /api/github/dashboard when on deployed origin (recommended),
  * else direct GitHub API (local dev / rate-limited).
+ * Server snapshot now provides policy-selected featuredProjects + recentProjects.
+ * Client direct fallback builds a degraded selection from embedded topics (no PR/commit links).
  */
 export async function fetchGitHubSnapshot(username, options = {}) {
-  const { signal, projectsByOwner = CREATIVE_PROJECTS_BY_OWNER } = options;
+  const { signal } = options;
 
   const apiUrl = getDashboardApiUrl(username);
   if (apiUrl) {
     const res = await fetch(apiUrl, { signal, credentials: "same-origin" });
     if (res.ok) {
       const snapshot = await res.json();
+      const fp = snapshot.featuredProjects ?? snapshot.creativeProjects ?? [];
+      const rp = snapshot.recentProjects ?? [];
       return {
         username: snapshot.username ?? username,
         user: snapshot.user,
         repos: snapshot.repos ?? [],
-        creativeProjects: snapshot.creativeProjects ?? [],
+        creativeProjects: fp,
+        featuredProjects: fp,
+        recentProjects: rp,
         fetchedAt: snapshot.fetchedAt ?? Date.now(),
       };
     }
@@ -185,17 +148,51 @@ export async function fetchGitHubSnapshot(username, options = {}) {
   const user = await userRes.json();
   const repos = await reposRes.json();
 
-  const creativeProjects = await Promise.all(
-    getCreativeProjectSlugs(projectsByOwner).map((fullName) =>
-      fetchCreativeProject(fullName, repos, signal)
+  // Degraded client-side selection (topics from list response when present)
+  const quality = ["high-quality"];
+  const nonExcluded = repos.filter((r) => !r.fork && !r.private);
+  const hasQuality = (r) => {
+    const ts = Array.isArray(r.topics) ? r.topics : [];
+    return ts.some((t) => quality.includes(String(t).toLowerCase()));
+  };
+  const featured = nonExcluded
+    .filter(hasQuality)
+    .sort(
+      (a, b) =>
+        new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0)
     )
-  );
+    .slice(0, 10)
+    .map((r) => ({
+      fullName: r.full_name,
+      repo: r,
+      topics: Array.isArray(r.topics) ? r.topics : [],
+      score: 0,
+    }));
+
+  const recent = nonExcluded
+    .filter((r) => (r.owner?.login || "").toLowerCase() === username.toLowerCase())
+    .sort(
+      (a, b) =>
+        new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0)
+    )
+    .slice(0, 8)
+    .map((r) => ({
+      fullName: r.full_name,
+      repo: r,
+      topics: Array.isArray(r.topics) ? r.topics : [],
+      score: 0,
+    }));
+
+  // Legacy creative alias = featured (degraded)
+  const creativeProjects = featured;
 
   return {
     username,
     user,
     repos,
     creativeProjects,
+    featuredProjects: featured,
+    recentProjects: recent,
     fetchedAt: Date.now(),
   };
 }
@@ -311,22 +308,48 @@ export async function applyBackgroundFetchToSnapshot(registration, username = DE
     return refreshDashboardInBackground(username);
   }
 
-  const creativeProjects = getCreativeProjectSlugs().map((fullName) => {
-    const repo =
-      repoByFullName.get(fullName.toLowerCase()) ||
-      repos.find((r) => (r.full_name || "").toLowerCase() === fullName.toLowerCase());
-    return {
-      fullName,
-      repo: repo || null,
-      topics: Array.isArray(repo?.topics) ? repo.topics : [],
-    };
-  });
+  // Degraded selection from partial background records (no full policy scoring)
+  const quality = ["high-quality"];
+  const nonExcluded = repos.filter((r) => !r.fork && !r.private);
+  const hasQ = (r) =>
+    (Array.isArray(r?.topics) ? r.topics : []).some((t) =>
+      quality.includes(String(t).toLowerCase())
+    );
+  const featured = nonExcluded
+    .filter(hasQ)
+    .sort(
+      (a, b) =>
+        new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0)
+    )
+    .slice(0, 10)
+    .map((r) => ({
+      fullName: r.full_name,
+      repo: r,
+      topics: Array.isArray(r.topics) ? r.topics : [],
+      score: 0,
+    }));
+  const recent = nonExcluded
+    .filter((r) => (r.owner?.login || "").toLowerCase() === username.toLowerCase())
+    .sort(
+      (a, b) =>
+        new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0)
+    )
+    .slice(0, 8)
+    .map((r) => ({
+      fullName: r.full_name,
+      repo: r,
+      topics: Array.isArray(r.topics) ? r.topics : [],
+      score: 0,
+    }));
 
+  const creativeProjects = featured; // compat
   const snapshot = {
     username,
     user,
     repos,
     creativeProjects,
+    featuredProjects: featured,
+    recentProjects: recent,
     fetchedAt: Date.now(),
   };
 
@@ -411,12 +434,7 @@ export async function registerDashboardBackgroundSync(username = DEFAULT_USERNAM
               `https://api.github.com/users/${username}/repos?affiliation=owner&per_page=100&sort=pushed&direction=desc`,
               { headers: GITHUB_API_HEADERS }
             ),
-            ...getCreativeProjectSlugs().map(
-              (slug) =>
-                new Request(`https://api.github.com/repos/${slug}`, {
-                  headers: GITHUB_API_HEADERS,
-                })
-            ),
+            // No per-repo slug requests needed: selection uses topics embedded in /repos list (degraded client path)
           ];
 
       await reg.backgroundFetch.fetch(BACKGROUND_FETCH_ID, requests, {

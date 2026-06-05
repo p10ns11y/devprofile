@@ -1,0 +1,15 @@
+{
+  "owners": ["p10ns11y", "thecuriousts"],
+  "qualityTopics": ["high-quality"],
+  "excludeRepos": [],
+  "limits": {
+    "featured": 10,
+    "recentActivity": 8
+  },
+  "scoring": {
+    "topicMatch": 50,
+    "pushedWithinDays": { "30": 20, "90": 10 },
+    "hasDescription": 5,
+    "minStarsBonus": 1
+  }
+}
