@@ -30,7 +30,9 @@ class GitHubLiveDashboard extends HTMLElement {
     this._username = this.getAttribute("username") || "p10ns11y";
     this._user = null;
     this._repos = [];
-    this._creativeProjects = [];
+    this._creativeProjects = []; // legacy compat
+    this._featuredProjects = [];
+    this._recentProjects = [];
     this._loading = true;
     this._error = null;
     this._lastSync = "";
@@ -45,7 +47,9 @@ class GitHubLiveDashboard extends HTMLElement {
     if (!snapshot) return;
     this._user = snapshot.user ?? null;
     this._repos = snapshot.repos ?? [];
-    this._creativeProjects = snapshot.creativeProjects ?? [];
+    this._creativeProjects = snapshot.creativeProjects ?? snapshot.featuredProjects ?? [];
+    this._featuredProjects = snapshot.featuredProjects ?? snapshot.creativeProjects ?? [];
+    this._recentProjects = snapshot.recentProjects ?? [];
     this._lastSync = dashboardCache.formatSyncTime(snapshot.fetchedAt);
   }
 
@@ -301,6 +305,9 @@ class GitHubLiveDashboard extends HTMLElement {
     topics = [],
     badgeHtml = "",
     ownerLogin = null,
+    latestCommit = null,
+    latestPr = null,
+    showQualityBadge = false,
   }) {
     const showOwner = ownerLogin && ownerLogin.toLowerCase() !== this._username.toLowerCase();
     const ownerPrefix = showOwner
@@ -312,6 +319,28 @@ class GitHubLiveDashboard extends HTMLElement {
       : "";
     const desc = description ? `<p class="repo-desc">${this.escapeHtml(description)}</p>` : "";
     const topicChips = this.renderTopicChips(topics);
+    const qualityBadge = showQualityBadge
+      ? `<span class="badge daily-badge" title="Selected via high-quality topic">quality</span>`
+      : "";
+
+    let linksHtml = "";
+    const links = [];
+    if (latestCommit) {
+      const short = (latestCommit.sha || "").slice(0, 7);
+      links.push(
+        `<a class="repo-link" href="${this.escapeHtml(latestCommit.url)}" target="_blank" rel="noopener noreferrer">commit ${this.escapeHtml(short)}</a>`
+      );
+    }
+    if (latestPr) {
+      links.push(
+        `<a class="repo-link" href="${this.escapeHtml(latestPr.url)}" target="_blank" rel="noopener noreferrer">PR #${latestPr.number}</a>`
+      );
+    }
+    if (links.length) {
+      linksHtml = `<div class="repo-card__links">${links.join(" · ")}</div>`;
+    }
+
+    const allBadges = [badgeHtml, qualityBadge].filter(Boolean).join("");
 
     return `
       <div class="grid-item">
@@ -319,7 +348,7 @@ class GitHubLiveDashboard extends HTMLElement {
           <div class="repo-card__head">
             <div class="repo-card__title-row">
               <span class="repo-name">${ownerPrefix}${this.escapeHtml(name)}</span>
-              ${badgeHtml}
+              ${allBadges}
             </div>
             ${desc}
             ${topicChips}
@@ -334,6 +363,7 @@ class GitHubLiveDashboard extends HTMLElement {
               <span class="time-value">${time}</span>
             </div>
           </div>
+          ${linksHtml}
         </a>
       </div>
     `;
@@ -342,6 +372,7 @@ class GitHubLiveDashboard extends HTMLElement {
   render() {
     this.syncSiteTheme();
     const shadow = this.shadowRoot;
+    // Legacy computation kept only as fallback for very old cached snapshots
     const recentlyPushed = [...this._repos]
       .filter((r) => !r.fork && !r.private)
       .sort(
@@ -827,6 +858,26 @@ class GitHubLiveDashboard extends HTMLElement {
           margin-top: 0.1rem;
         }
 
+        .repo-card__links {
+          margin-top: 0.35rem;
+          padding-top: 0.35rem;
+          border-top: 1px dashed var(--gh-divider);
+          font-size: 0.62rem;
+          font-family: ui-monospace, monospace;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.25rem 0.5rem;
+          color: var(--gh-muted);
+        }
+
+        .repo-card__links .repo-link {
+          color: var(--gh-accent);
+          text-decoration: none;
+        }
+        .repo-card__links .repo-link:hover {
+          text-decoration: underline;
+        }
+
         .nav {
           display: flex;
           flex-wrap: wrap;
@@ -982,15 +1033,15 @@ class GitHubLiveDashboard extends HTMLElement {
                 <div class="section-head__left">
                   <div class="section-icon section-icon--creative" aria-hidden="true">✦</div>
                   <div>
-                    <h2 class="section-header">Creative Projects</h2>
-                    <p class="section-sub">Creative, technically strong — topics from GitHub</p>
+                    <h2 class="section-header">Featured Projects</h2>
+                    <p class="section-sub">High-quality (topic) + recency scored — auto selected</p>
                   </div>
                 </div>
-                <span class="count-pill">${creativeProjects.length} curated</span>
+                <span class="count-pill">${(this._featuredProjects?.length ?? (creativeProjects || []).length)} selected</span>
               </div>
 
               <div class="grid">
-                ${creativeProjects
+                ${(this._featuredProjects || creativeProjects || [])
                   .map((entry) => {
                     if (!entry.repo) {
                       const shortName = entry.fullName.split("/").pop() || entry.fullName;
@@ -1010,6 +1061,7 @@ class GitHubLiveDashboard extends HTMLElement {
                     }
                     const repo = entry.repo;
                     const ownerLogin = repo.owner?.login || entry.fullName.split("/")[0] || null;
+                    const hasQuality = (entry.topics || []).some((t) => String(t).toLowerCase() === "high-quality");
                     return this.renderRepoCard({
                       href: repo.html_url,
                       name: repo.name,
@@ -1019,6 +1071,9 @@ class GitHubLiveDashboard extends HTMLElement {
                       time: this.timeAgo(repo.pushed_at || repo.updated_at),
                       topics: entry.topics,
                       ownerLogin,
+                      latestCommit: entry.latestCommit,
+                      latestPr: entry.latestPr,
+                      showQualityBadge: hasQuality,
                     });
                   })
                   .join("")}
@@ -1030,21 +1085,26 @@ class GitHubLiveDashboard extends HTMLElement {
                 <div class="section-head__left">
                   <div class="section-icon section-icon--push" aria-hidden="true">⏱</div>
                   <div>
-                    <h2 class="section-header">Recently Pushed</h2>
-                    <p class="section-sub">Latest code changes (git pushes)</p>
+                    <h2 class="section-header">Recent Activity</h2>
+                    <p class="section-sub">Latest project pushes (deduped from Featured)</p>
                   </div>
                 </div>
-                <span class="count-pill">${recentlyPushed.length} repos</span>
+                <span class="count-pill">${(this._recentProjects?.length ?? recentlyPushed.length)} repos</span>
               </div>
 
               <div class="grid">
                 ${
-                  recentlyPushed.length > 0
-                    ? recentlyPushed
-                        .map((repo) => {
-                          const forkBadge = repo.fork
-                            ? '<span class="badge experiment-badge">fork</span>'
-                            : "";
+                  (this._recentProjects?.length ? this._recentProjects : recentlyPushed).length > 0
+                    ? (this._recentProjects?.length ? this._recentProjects : recentlyPushed)
+                        .map((entryOrRepo) => {
+                          // support both enriched entry shape and raw repo (legacy)
+                          const repo = entryOrRepo.repo || entryOrRepo;
+                          const entry = entryOrRepo.repo ? entryOrRepo : null;
+                          const forkBadge = repo.fork ? '<span class="badge experiment-badge">fork</span>' : "";
+                          const hasQuality = entry
+                            ? (entry.topics || []).some((t) => String(t).toLowerCase() === "high-quality")
+                            : (repo.topics || []).some((t) => String(t).toLowerCase() === "high-quality");
+                          const topicsForCard = entry ? entry.topics : (repo.topics || []);
                           return this.renderRepoCard({
                             href: repo.html_url,
                             name: repo.name,
@@ -1052,11 +1112,15 @@ class GitHubLiveDashboard extends HTMLElement {
                             language: repo.language,
                             stars: repo.stargazers_count,
                             time: this.timeAgo(repo.pushed_at || repo.updated_at),
+                            topics: topicsForCard,
                             badgeHtml: forkBadge,
+                            latestCommit: entry ? entry.latestCommit : null,
+                            latestPr: entry ? entry.latestPr : null,
+                            showQualityBadge: hasQuality,
                           });
                         })
                         .join("")
-                    : '<div class="grid-item" style="flex: 1 1 100%; max-width: 100%;"><div class="empty-state">No recent pushes found.</div></div>'
+                    : '<div class="grid-item" style="flex: 1 1 100%; max-width: 100%;"><div class="empty-state">No recent activity found.</div></div>'
                 }
               </div>
             </section>

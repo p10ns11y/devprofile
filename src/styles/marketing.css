@@ -1346,7 +1346,7 @@
 
   .cv-dialog__bar {
     display: flex;
-    shrink: 0;
+    flex-shrink: 0;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem 0.75rem;
