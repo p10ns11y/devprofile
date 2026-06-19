@@ -44,7 +44,7 @@ export function generateReadmeHtml({ baseUrl, cardId, username, limit }: ReadmeH
       index: String(index),
     });
 
-    return `  <a href="${linkHref}">
+    return `  <a href="${linkHref}" target="_blank" rel="noopener noreferrer">
     <img src="${rowSrc}" width="${card.cardWidth}" height="${card.rowHeight}" alt="" />
   </a>`;
   }).join("\n");

@@ -99,5 +99,7 @@ describe("ghcards embed reactor", () => {
     expect(html).toContain("index=0");
     expect(html).toContain("index=1");
     expect(html).toContain("part=footer");
+    expect(html).toContain('target="_blank"');
+    expect(html).toContain('rel="noopener noreferrer"');
   });
 });
