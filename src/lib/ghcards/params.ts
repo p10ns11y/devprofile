@@ -7,6 +7,14 @@ export const svgResponseHeaders = {
   "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
 } as const;
 
+/** README segment embeds — discourage GitHub Camo long-lived caching. */
+export const svgSegmentHeaders = {
+  "Content-Type": "image/svg+xml",
+  "Cache-Control": "no-cache, no-store, must-revalidate",
+  Pragma: "no-cache",
+  Expires: "0",
+} as const;
+
 export function parseIndex(raw: string | null): number | null {
   if (raw === null || raw === "") return null;
   const index = parseInt(raw, 10);

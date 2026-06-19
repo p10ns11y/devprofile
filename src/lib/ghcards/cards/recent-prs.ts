@@ -3,6 +3,7 @@ import {
   escapeXml,
   getTimeAgo,
   githubPrUrl,
+  parseRepoPathFromApiUrl,
   prStateBadge,
 } from "@/app/api/ghcards/theme";
 import type { GhcardsEmbedCard } from "../types";
@@ -56,5 +57,16 @@ export const recentPrsCard: GhcardsEmbedCard<GitHubPullRequest> = {
   fetch: fetchRecentPrs,
   renderRowInner: (pr, _index) => renderRowInner(pr),
   resolveLink: (pr) => pr.html_url ?? githubPrUrl(pr.repository_url, pr.number),
+  stableKey: (pr) => {
+    const repo = parseRepoPathFromApiUrl(pr.repository_url) ?? "";
+    return { repo, number: String(pr.number) };
+  },
+  parseStableParams: (searchParams) => {
+    const repo = searchParams.get("repo");
+    const number = searchParams.get("number");
+    return repo && number ? { repo, number } : null;
+  },
+  resolveStableLink: (key) =>
+    key.repo && key.number ? `https://github.com/${key.repo}/pull/${key.number}` : null,
   errorMessage: "Failed to load PR activity",
 };

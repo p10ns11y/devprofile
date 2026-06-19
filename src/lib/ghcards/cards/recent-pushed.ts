@@ -89,5 +89,12 @@ export const recentPushedCard: GhcardsEmbedCard<GitHubRepo> = {
   rowClipDef,
   renderRowInner,
   resolveLink: (repo, username) => githubRepoUrl(username, repo.name),
+  stableKey: (repo) => ({ repo: repo.name }),
+  parseStableParams: (searchParams) => {
+    const repo = searchParams.get("repo");
+    return repo ? { repo } : null;
+  },
+  resolveStableLink: (key, username) =>
+    key.repo ? githubRepoUrl(username, key.repo) : null,
   errorMessage: "Failed to load recent activity",
 };
