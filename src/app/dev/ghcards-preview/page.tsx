@@ -5,6 +5,8 @@
  */
 export default function GhcardsPreviewPage() {
   const username = "p10ns11y";
+  const limit = 2;
+  const base = "";
   const cards = [
     {
       title: "Activity Overview",
@@ -19,6 +21,7 @@ export default function GhcardsPreviewPage() {
       src: `/api/ghcards/recent-prs?username=${username}&limit=5`,
     },
   ];
+  const rowIndexes = Array.from({ length: limit }, (_, index) => index);
 
   return (
     <main
@@ -35,6 +38,42 @@ export default function GhcardsPreviewPage() {
         Same-origin embeds for local testing. Profile README on GitHub needs your deployed HTTPS
         URL, not localhost.
       </p>
+
+      <section style={{ marginBottom: "2rem" }}>
+        <h2 style={{ fontSize: "0.95rem", marginBottom: "0.75rem" }}>
+          Recently Pushed — README stack ({limit} rows, clickable)
+        </h2>
+        <div style={{ maxWidth: "100%" }}>
+          <img
+            src={`${base}/api/ghcards/recent-pushed?username=${username}&limit=${limit}&part=header`}
+            alt="Recently shipped header"
+            width={680}
+            style={{ display: "block", maxWidth: "100%", height: "auto" }}
+          />
+          {rowIndexes.map((index) => (
+            <a
+              key={index}
+              href={`${base}/api/ghcards/recent-pushed-link?username=${username}&index=${index}`}
+              style={{ display: "block" }}
+            >
+              <img
+                src={`${base}/api/ghcards/recent-pushed-row?username=${username}&index=${index}`}
+                alt={`Recent repo row ${index + 1}`}
+                width={680}
+                height={48}
+                style={{ display: "block", maxWidth: "100%", height: "auto" }}
+              />
+            </a>
+          ))}
+          <img
+            src={`${base}/api/ghcards/recent-pushed?username=${username}&limit=${limit}&part=footer`}
+            alt="Recently shipped footer"
+            width={680}
+            style={{ display: "block", maxWidth: "100%", height: "auto" }}
+          />
+        </div>
+      </section>
+
       {cards.map((card) => (
         <section key={card.src} style={{ marginBottom: "2rem" }}>
           <h2 style={{ fontSize: "0.95rem", marginBottom: "0.75rem" }}>{card.title}</h2>
