@@ -1,38 +1,14 @@
-import {
-  fetchRecentRepos,
-  generateRecentPushedErrorSvg,
-  generateRecentPushedRowSvg,
-  parseIndex,
-  repoAtIndex,
-  svgResponseHeaders,
-} from "@/lib/ghcards/recent-pushed";
+import { handleEmbedRequest } from "@/lib/ghcards/embed";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const username = searchParams.get("username") || "p10ns11y";
-  const index = parseIndex(searchParams.get("index"));
-
-  if (index === null) {
-    return new Response(generateRecentPushedErrorSvg("Missing or invalid index"), {
-      headers: { "Content-Type": "image/svg+xml" },
-      status: 400,
-    });
+  if (!searchParams.has("card")) {
+    searchParams.set("card", "recent-pushed");
   }
-
-  try {
-    const recentRepos = await fetchRecentRepos(username);
-    const repo = repoAtIndex(recentRepos, index);
-    if (!repo) {
-      return new Response(generateRecentPushedErrorSvg("Repository row not found"), {
-        headers: { "Content-Type": "image/svg+xml" },
-        status: 404,
-      });
-    }
-
-    return new Response(generateRecentPushedRowSvg(repo, index), { headers: svgResponseHeaders });
-  } catch {
-    return new Response(generateRecentPushedErrorSvg(), {
-      headers: { "Content-Type": "image/svg+xml" },
-    });
+  if (!searchParams.has("part") && searchParams.has("index")) {
+    searchParams.set("part", "row");
   }
+  const url = new URL(request.url);
+  url.search = searchParams.toString();
+  return handleEmbedRequest(new Request(url));
 }
