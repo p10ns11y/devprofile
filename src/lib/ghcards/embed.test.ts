@@ -89,7 +89,7 @@ describe("ghcards embed reactor", () => {
       baseUrl: "https://peramanathan-sathyamoorthy-cv.vercel.app",
       cardId: "recent-pushed",
       username: "p10ns11y",
-      limit: 2,
+      limit: 4,
     });
 
     expect(html).toContain("/api/ghcards/embed?card=recent-pushed");
@@ -97,7 +97,21 @@ describe("ghcards embed reactor", () => {
     expect(html).toContain("part=header");
     expect(html).toContain("part=row");
     expect(html).toContain("index=0");
-    expect(html).toContain("index=1");
+    expect(html).toContain("index=3");
     expect(html).toContain("part=footer");
+  });
+
+  it("generates README HTML for recent-prs", () => {
+    const html = generateReadmeHtml({
+      baseUrl: "https://peramanathan-sathyamoorthy-cv.vercel.app",
+      cardId: "recent-prs",
+      username: "p10ns11y",
+      limit: 5,
+    });
+
+    expect(html).toContain("card=recent-prs");
+    expect(html).toContain('width="640"');
+    expect(html).toContain('height="52"');
+    expect(html).toContain("index=4");
   });
 });

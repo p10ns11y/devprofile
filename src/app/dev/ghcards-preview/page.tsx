@@ -5,9 +5,6 @@
  */
 export default function GhcardsPreviewPage() {
   const username = "p10ns11y";
-  const limit = 2;
-  const card = "recent-pushed";
-  const rowIndexes = Array.from({ length: limit }, (_, index) => index);
   const cards = [
     {
       title: "Activity Overview",
@@ -23,16 +20,10 @@ export default function GhcardsPreviewPage() {
     },
   ];
 
-  const embed = (part: string, index?: number) => {
-    const params = new URLSearchParams({
-      card,
-      username,
-      limit: String(limit),
-      part,
-    });
-    if (index !== undefined) params.set("index", String(index));
-    return `/api/ghcards/embed?${params}`;
-  };
+  const readmeStacks = [
+    { card: "recent-pushed", limit: 4, width: 680, rowHeight: 48, label: "Recently shipped" },
+    { card: "recent-prs", limit: 5, width: 640, rowHeight: 52, label: "Recent PR activity" },
+  ] as const;
 
   return (
     <main
@@ -50,50 +41,52 @@ export default function GhcardsPreviewPage() {
         URL, not localhost.
       </p>
 
-      <section style={{ marginBottom: "2rem" }}>
-        <h2 style={{ fontSize: "0.95rem", marginBottom: "0.75rem" }}>
-          {card} — README stack ({limit} rows, clickable)
-        </h2>
-        <div style={{ maxWidth: "100%" }}>
-          <img
-            src={embed("header")}
-            alt="Recently shipped header"
-            width={680}
-            style={{ display: "block", maxWidth: "100%", height: "auto" }}
-          />
-          {rowIndexes.map((index) => (
-            <a
-              key={index}
-              href={`/api/ghcards/go?card=${card}&username=${username}&index=${index}`}
-              style={{ display: "block" }}
-            >
-              <img
-                src={embed("row", index)}
-                alt={`Recent repo row ${index + 1}`}
-                width={680}
-                height={48}
-                style={{ display: "block", maxWidth: "100%", height: "auto" }}
-              />
-            </a>
-          ))}
-          <img
-            src={embed("footer")}
-            alt="Recently shipped footer"
-            width={680}
-            style={{ display: "block", maxWidth: "100%", height: "auto" }}
-          />
-        </div>
-        <code
-          style={{
-            display: "block",
-            marginTop: "0.75rem",
-            fontSize: "0.7rem",
-            wordBreak: "break-all",
-          }}
-        >
-          {`/api/ghcards/readme-html?card=${card}&username=${username}&limit=${limit}`}
-        </code>
-      </section>
+      {readmeStacks.map((stack) => (
+        <section key={stack.card} style={{ marginBottom: "2rem" }}>
+          <h2 style={{ fontSize: "0.95rem", marginBottom: "0.75rem" }}>
+            {stack.card} — README stack ({stack.limit} rows, clickable)
+          </h2>
+          <div style={{ maxWidth: "100%" }}>
+            <img
+              src={`/api/ghcards/embed?card=${stack.card}&username=${username}&limit=${stack.limit}&part=header`}
+              alt={`${stack.label} header`}
+              width={stack.width}
+              style={{ display: "block", maxWidth: "100%", height: "auto" }}
+            />
+            {Array.from({ length: stack.limit }, (_, index) => (
+              <a
+                key={`${stack.card}-${index}`}
+                href={`/api/ghcards/go?card=${stack.card}&username=${username}&index=${index}`}
+                style={{ display: "block" }}
+              >
+                <img
+                  src={`/api/ghcards/embed?card=${stack.card}&username=${username}&part=row&index=${index}`}
+                  alt={`${stack.label} row ${index + 1}`}
+                  width={stack.width}
+                  height={stack.rowHeight}
+                  style={{ display: "block", maxWidth: "100%", height: "auto" }}
+                />
+              </a>
+            ))}
+            <img
+              src={`/api/ghcards/embed?card=${stack.card}&username=${username}&limit=${stack.limit}&part=footer`}
+              alt={`${stack.label} footer`}
+              width={stack.width}
+              style={{ display: "block", maxWidth: "100%", height: "auto" }}
+            />
+          </div>
+          <code
+            style={{
+              display: "block",
+              marginTop: "0.75rem",
+              fontSize: "0.7rem",
+              wordBreak: "break-all",
+            }}
+          >
+            {`/api/ghcards/readme-html?card=${stack.card}&username=${username}&limit=${stack.limit}`}
+          </code>
+        </section>
+      ))}
 
       {cards.map((item) => (
         <section key={item.src} style={{ marginBottom: "2rem" }}>
