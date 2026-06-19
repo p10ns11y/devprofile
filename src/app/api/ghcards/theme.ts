@@ -25,6 +25,9 @@ export function ghcCardStyles(): string {
     .badge-closed { fill: #ffebe9; }
     .badge-closed-text { fill: #cf222e; font-weight: 600; }
     .error-title { fill: #cf222e; font-weight: 600; }
+    a.row-link { cursor: pointer; }
+    a.row-link:focus { outline: none; }
+    a.row-link:focus-visible .row { stroke: #0969da; stroke-width: 2; }
     @media (prefers-color-scheme: dark) {
       .canvas { fill: #0d1117; stroke: #30363d; }
       .header { fill: #161b22; }
@@ -45,6 +48,7 @@ export function ghcCardStyles(): string {
       .badge-closed { fill: #3d0d0d; }
       .badge-closed-text { fill: #f85149; }
       .error-title { fill: #f85149; }
+      a.row-link:focus-visible .row { stroke: #4493f8; stroke-width: 2; }
     }
   </style>`;
 }
@@ -125,6 +129,26 @@ export function escapeXml(str: string): string {
     /[<>&'"]/g,
     (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" })[c] as string
   );
+}
+
+export function githubRepoUrl(owner: string, repo: string): string {
+  return `https://github.com/${owner}/${repo}`;
+}
+
+export function parseRepoPathFromApiUrl(repositoryUrl: string): string | null {
+  const match = repositoryUrl.match(/\/repos\/([^/]+\/[^/]+)/);
+  return match?.[1] ?? null;
+}
+
+export function githubPrUrl(repositoryUrl: string, prNumber: number): string {
+  const repoPath = parseRepoPathFromApiUrl(repositoryUrl);
+  if (repoPath) return `https://github.com/${repoPath}/pull/${prNumber}`;
+  return `https://github.com/pull/${prNumber}`;
+}
+
+/** Wrap SVG row markup in a README-safe external link. */
+export function svgExternalLink(href: string, content: string): string {
+  return `<a class="row-link" href="${escapeXml(href)}" target="_blank" rel="noopener noreferrer">${content}</a>`;
 }
 
 export function errorSvg(width: number, height: number, message: string): string {

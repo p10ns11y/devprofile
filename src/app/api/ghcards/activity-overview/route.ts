@@ -1,5 +1,15 @@
 import { fetchGitHubJson } from "@/lib/github/client";
-import { cardFooter, cardHeader, escapeXml, getTimeAgo, prStateBadge, wrapSvg } from "../theme";
+import {
+  cardFooter,
+  cardHeader,
+  escapeXml,
+  getTimeAgo,
+  githubPrUrl,
+  githubRepoUrl,
+  prStateBadge,
+  svgExternalLink,
+  wrapSvg,
+} from "../theme";
 
 type GitHubRepo = {
   name: string;
@@ -10,7 +20,10 @@ type GitHubRepo = {
 
 type GitHubPullRequest = {
   title: string;
+  number: number;
   state: string;
+  repository_url: string;
+  html_url?: string;
   pull_request?: { merged_at: string | null };
 };
 
@@ -66,13 +79,16 @@ function generateOverviewSVG(repos: GitHubRepo[], prs: GitHubPullRequest[], user
   const repoSection = repos
     .map((repo, i) => {
       const y = startY + i * rowH;
-      return `
+      return svgExternalLink(
+        githubRepoUrl(username, repo.name),
+        `
       <g transform="translate(24, ${y})">
         <rect class="row" width="${colW}" height="36" rx="8"/>
         <text x="12" y="23" class="title" font-size="13">${escapeXml(repo.name)}</text>
         <text x="${colW - 12}" y="23" class="muted" font-size="10" text-anchor="end">${getTimeAgo(repo.pushed_at)}</text>
       </g>
-    `;
+    `
+      );
     })
     .join("");
 
@@ -83,14 +99,19 @@ function generateOverviewSVG(repos: GitHubRepo[], prs: GitHubPullRequest[], user
       const badge = prStateBadge(state);
       const title = pr.title.length > 36 ? `${pr.title.slice(0, 36)}…` : pr.title;
 
-      return `
+      const prUrl = pr.html_url ?? githubPrUrl(pr.repository_url, pr.number);
+
+      return svgExternalLink(
+        prUrl,
+        `
       <g transform="translate(376, ${y})">
         <rect class="row" width="${colW}" height="36" rx="8"/>
         <text x="12" y="23" class="title" font-size="12">${escapeXml(title)}</text>
         <rect x="${colW - 62}" y="9" width="50" height="18" rx="9" class="${badge.bgClass}"/>
         <text x="${colW - 37}" y="22" class="${badge.textClass}" font-size="9" text-anchor="middle">${badge.label}</text>
       </g>
-    `;
+    `
+      );
     })
     .join("");
 

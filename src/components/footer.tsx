@@ -4,39 +4,94 @@ import Link from "next/link";
 import cvdata from "../data/cvdata.json";
 import { SocialLinks } from "./social-links";
 
+const siteLinks = [
+  { href: "/?cv=view", label: "CV" },
+  { href: "/certificates", label: "Certificates" },
+  { href: "/qa", label: "Profile Q&A" },
+  { href: "/status/code/200", label: "Live GitHub" },
+  { href: "/api/cv/download", label: "Download PDF", external: true },
+] as const;
+
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const xHandle = cvdata.cv_social_links.x_handle;
+  const xContent = cvdata.x_content;
+
+  const xLinks = [
+    { href: xContent.articles_url, label: "X Articles", external: true },
+    { href: xContent.highlights_url, label: "X Highlights", external: true },
+    { href: "/x", label: "X Posts (by date)" },
+  ] as const;
 
   return (
-    <footer className="bg-surface2 py-12">
-      <div className="site-container space-y-8 text-center">
-        <p className="text-2xl font-semibold font-[family-name:var(--font-display)] text-text1">
-          {cvdata.name_with_initial}
-        </p>
+    <footer className="site-footer">
+      <div className="site-container">
+        <div className="site-footer__inner">
+          <div className="site-footer__main">
+            <nav aria-label="Site" className="site-footer__nav site-footer__nav--explore">
+              <p className="site-footer__nav-label">Explore</p>
+              <ul role="list" className="site-footer__links">
+                {siteLinks.map((link) => (
+                  <li key={link.href}>
+                    {"external" in link && link.external ? (
+                      <a href={link.href} className="site-footer__link">
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link href={link.href} className="site-footer__link">
+                        {link.label}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-        <SocialLinks />
+            <div className="site-footer__brand">
+              <p className="site-footer__name">{cvdata.name_with_initial}</p>
+              <p className="site-footer__role">{cvdata.latest_proffessional_role}</p>
+              <p className="site-footer__location">{cvdata.home.current_location}</p>
+              <SocialLinks
+                size="compact"
+                className="site-footer__social mx-0 w-full justify-center"
+              />
+            </div>
 
-        <nav
-          aria-label="Footer"
-          className="flex items-center justify-center gap-6 flex-wrap text-sm"
-        >
-          <Link href="/?cv=view" className="text-text1 hover:text-brand transition-colors">
-            CV
-          </Link>
-          <Link href="/certificates" className="text-text1 hover:text-brand transition-colors">
-            Certificates
-          </Link>
-          <Link href="/qa" className="text-text1 hover:text-brand transition-colors">
-            Profile Q&amp;A
-          </Link>
-          <a href="/api/cv/download" className="text-text1 hover:text-brand transition-colors">
-            Download PDF
-          </a>
-        </nav>
+            <nav
+              aria-label={`X profile for ${xHandle}`}
+              className="site-footer__nav site-footer__nav--x"
+            >
+              <p className="site-footer__nav-label">{xHandle} on X</p>
+              <ul role="list" className="site-footer__links">
+                {xLinks.map((link) => (
+                  <li key={link.href}>
+                    {"external" in link && link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="nofollow noreferrer noopener"
+                        className="site-footer__link"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link href={link.href} className="site-footer__link">
+                        {link.label}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
 
-        <p className="text-sm text-text2">
-          © {currentYear} {cvdata.name}. Built with Next.js and Tailwind CSS.
-        </p>
+          <div className="site-footer__bottom">
+            <p className="site-footer__copyright">
+              © {currentYear} {cvdata.name}
+            </p>
+            <p className="site-footer__meta">Next.js · Tailwind CSS</p>
+          </div>
+        </div>
       </div>
     </footer>
   );
