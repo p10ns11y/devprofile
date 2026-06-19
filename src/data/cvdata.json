@@ -25,6 +25,10 @@
     "x": "https://x.com/peramanathan",
     "x_handle": "@peramanathan"
   },
+  "x_content": {
+    "articles_url": "https://x.com/Peramanathan/articles",
+    "highlights_url": "https://x.com/peramanathan/highlights"
+  },
   "social_links": [
     {
       "icon": "Github",

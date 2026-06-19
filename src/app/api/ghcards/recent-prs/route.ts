@@ -1,5 +1,14 @@
 import { fetchGitHubJson } from "@/lib/github/client";
-import { cardFooter, cardHeader, escapeXml, getTimeAgo, prStateBadge, wrapSvg } from "../theme";
+import {
+  cardFooter,
+  cardHeader,
+  escapeXml,
+  getTimeAgo,
+  githubPrUrl,
+  prStateBadge,
+  svgExternalLink,
+  wrapSvg,
+} from "../theme";
 
 type GitHubPullRequest = {
   title: string;
@@ -7,6 +16,7 @@ type GitHubPullRequest = {
   updated_at: string;
   state: string;
   repository_url: string;
+  html_url?: string;
   pull_request?: { merged_at: string | null };
 };
 
@@ -53,7 +63,11 @@ function generateRecentPRsSVG(prs: GitHubPullRequest[], username: string) {
       const badge = prStateBadge(state);
       const title = pr.title.length > 52 ? `${pr.title.slice(0, 52)}…` : pr.title;
 
-      return `
+      const prUrl = pr.html_url ?? githubPrUrl(pr.repository_url, pr.number);
+
+      return svgExternalLink(
+        prUrl,
+        `
       <g transform="translate(20, ${y})">
         <rect class="row" width="${rowW}" height="44" rx="8"/>
         <text x="14" y="20" class="title" font-size="13">${escapeXml(title)}</text>
@@ -62,7 +76,8 @@ function generateRecentPRsSVG(prs: GitHubPullRequest[], username: string) {
         <text x="${rowW - 91}" y="26" class="${badge.textClass}" font-size="10" text-anchor="middle">${badge.label}</text>
         <text x="${rowW - 14}" y="26" class="muted" font-size="10" text-anchor="end">${getTimeAgo(pr.updated_at)}</text>
       </g>
-    `;
+    `
+      );
     })
     .join("");
 

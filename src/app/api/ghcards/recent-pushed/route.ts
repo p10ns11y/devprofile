@@ -5,6 +5,8 @@ import {
   escapeXml,
   getLanguageColor,
   getTimeAgo,
+  githubRepoUrl,
+  svgExternalLink,
   truncateText,
   wrapSvg,
 } from "../theme";
@@ -88,7 +90,9 @@ function generateRecentPushedSVG(repos: GitHubRepo[], username: string) {
       const displayName = truncateText(repo.name, col.nameMaxChars);
       const displayLang = repo.language ? truncateText(repo.language, col.langMaxChars) : null;
 
-      return `
+      return svgExternalLink(
+        githubRepoUrl(username, repo.name),
+        `
       <g transform="translate(20, ${y})">
         <rect class="row" width="${rowW}" height="44" rx="8"/>
         <text x="${col.nameX}" y="27" class="title" font-size="13" clip-path="url(#repo-name-${index})">${escapeXml(displayName)}</text>
@@ -112,7 +116,8 @@ function generateRecentPushedSVG(repos: GitHubRepo[], username: string) {
             : ""
         }
       </g>
-    `;
+    `
+      );
     })
     .join("");
 
