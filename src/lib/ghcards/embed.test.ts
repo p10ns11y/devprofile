@@ -4,11 +4,12 @@ import {
   renderFullCard,
   renderHeaderSegment,
   renderRowSegment,
+  resolveStableLinkFromCard,
 } from "./embed";
 import { parseIndex, parseLimit, parsePart } from "./params";
 import { recentPushedCard, type GitHubRepo } from "./cards/recent-pushed";
 import { recentPrsCard, type GitHubPullRequest } from "./cards/recent-prs";
-import { generateReadmeHtml } from "./readme-html";
+import { generateReadmeHtmlFromItems } from "./readme-html";
 import { getGhcardsCard, listGhcards } from "./registry";
 
 const sampleRepos: GitHubRepo[] = [
@@ -57,6 +58,21 @@ describe("ghcards embed reactor", () => {
     expect(parsePart("nope")).toBeNull();
   });
 
+  it("resolves stable go links", () => {
+    const repoParams = new URLSearchParams({ repo: "devprofile" });
+    expect(resolveStableLinkFromCard(recentPushedCard, repoParams, "p10ns11y")).toBe(
+      "https://github.com/p10ns11y/devprofile"
+    );
+
+    const prParams = new URLSearchParams({
+      repo: "p10ns11y/devprofile",
+      number: "60",
+    });
+    expect(resolveStableLinkFromCard(recentPrsCard, prParams, "p10ns11y")).toBe(
+      "https://github.com/p10ns11y/devprofile/pull/60"
+    );
+  });
+
   it("renders recent-pushed full and row segments", () => {
     const full = renderFullCard(recentPushedCard, sampleRepos, "p10ns11y");
     expect(full).toContain('href="https://github.com/p10ns11y/shellyxz.sh"');
@@ -84,22 +100,37 @@ describe("ghcards embed reactor", () => {
     expect(row).toContain('height="52"');
   });
 
-  it("generates README HTML with unified embed and go routes", () => {
-    const html = generateReadmeHtml({
+  it("generates README HTML with stable go links and cache buster", () => {
+    const html = generateReadmeHtmlFromItems(recentPushedCard, sampleRepos, {
       baseUrl: "https://peramanathan-sathyamoorthy-cv.vercel.app",
       cardId: "recent-pushed",
       username: "p10ns11y",
       limit: 2,
+      cacheBuster: "test-v",
     });
 
     expect(html).toContain("/api/ghcards/embed?card=recent-pushed");
+    expect(html).toContain("v=test-v");
     expect(html).toContain("/api/ghcards/go?card=recent-pushed");
-    expect(html).toContain("part=header");
-    expect(html).toContain("part=row");
-    expect(html).toContain("index=0");
-    expect(html).toContain("index=1");
-    expect(html).toContain("part=footer");
+    expect(html).toContain("repo=shellyxz.sh");
+    expect(html).toContain("repo=devprofile");
+    expect(html).not.toContain("go?card=recent-pushed&username=p10ns11y&index=");
     expect(html).toContain('target="_blank"');
     expect(html).toContain('rel="noopener noreferrer"');
+  });
+
+  it("generates README HTML for recent-prs with stable keys", () => {
+    const html = generateReadmeHtmlFromItems(recentPrsCard, samplePrs, {
+      baseUrl: "https://peramanathan-sathyamoorthy-cv.vercel.app",
+      cardId: "recent-prs",
+      username: "p10ns11y",
+      limit: 1,
+      cacheBuster: "pr-v",
+    });
+
+    expect(html).toContain("card=recent-prs");
+    expect(html).toContain("repo=p10ns11y%2Fdevprofile");
+    expect(html).toContain("number=60");
+    expect(html).toContain("v=pr-v");
   });
 });

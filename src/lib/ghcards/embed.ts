@@ -7,7 +7,7 @@ import {
   wrapSvgSegment,
 } from "@/app/api/ghcards/theme";
 import { getGhcardsCard } from "./registry";
-import { DEFAULT_USERNAME, parseIndex, parseLimit, parsePart, svgResponseHeaders } from "./params";
+import { DEFAULT_USERNAME, parseIndex, parseLimit, parsePart, svgResponseHeaders, svgSegmentHeaders } from "./params";
 import type { GhcardsEmbedCard, GhcardsEmbedPart } from "./types";
 
 export function generateErrorSvg<T>(card: GhcardsEmbedCard<T>, message?: string): string {
@@ -74,6 +74,16 @@ export async function fetchCardItems<T>(
   return card.fetch(username, limit);
 }
 
+export function resolveStableLinkFromCard<T>(
+  card: GhcardsEmbedCard<T>,
+  searchParams: URLSearchParams,
+  username: string
+): string | null {
+  const key = card.parseStableParams(searchParams);
+  if (!key) return null;
+  return card.resolveStableLink(key, username);
+}
+
 export async function resolveCardLink<T>(
   card: GhcardsEmbedCard<T>,
   username: string,
@@ -129,12 +139,12 @@ export async function handleEmbedRequest(
   try {
     if (parsed.part === "header") {
       return new Response(renderHeaderSegment(card, parsed.username), {
-        headers: svgResponseHeaders,
+        headers: svgSegmentHeaders,
       });
     }
 
     if (parsed.part === "footer") {
-      return new Response(renderFooterSegment(card), { headers: svgResponseHeaders });
+      return new Response(renderFooterSegment(card), { headers: svgSegmentHeaders });
     }
 
     if (parsed.part === "row") {
@@ -155,7 +165,7 @@ export async function handleEmbedRequest(
       }
 
       return new Response(renderRowSegment(card, item, parsed.index), {
-        headers: svgResponseHeaders,
+        headers: svgSegmentHeaders,
       });
     }
 
@@ -177,16 +187,23 @@ export async function handleGoRequest(
   const parsed = parseEmbedQuery(request, cardIdOverride);
   if (parsed instanceof Response) return parsed;
 
-  if (parsed.index === null) {
-    return new Response("Missing or invalid index", { status: 400 });
-  }
-
   const card = getGhcardsCard(parsed.cardId);
   if (!card) {
     return new Response(`Unknown card: ${parsed.cardId}`, { status: 404 });
   }
 
+  const { searchParams } = new URL(request.url);
+
   try {
+    const stableUrl = resolveStableLinkFromCard(card, searchParams, parsed.username);
+    if (stableUrl) {
+      return Response.redirect(stableUrl, 302);
+    }
+
+    if (parsed.index === null) {
+      return new Response("Missing stable key or index", { status: 400 });
+    }
+
     const url = await resolveCardLink(card, parsed.username, card.maxLimit, parsed.index);
     if (!url) {
       return new Response("Row not found", { status: 404 });

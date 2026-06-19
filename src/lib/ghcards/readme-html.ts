@@ -1,10 +1,13 @@
+import { fetchCardItems } from "./embed";
 import { getGhcardsCard } from "./registry";
+import type { GhcardsEmbedCard } from "./types";
 
 type ReadmeHtmlOptions = {
   baseUrl: string;
   cardId: string;
   username: string;
   limit: number;
+  cacheBuster?: string;
 };
 
 function apiUrl(baseUrl: string, path: string, params: Record<string, string>): string {
@@ -15,13 +18,14 @@ function apiUrl(baseUrl: string, path: string, params: Record<string, string>): 
   return url.toString();
 }
 
-export function generateReadmeHtml({ baseUrl, cardId, username, limit }: ReadmeHtmlOptions): string {
-  const card = getGhcardsCard(cardId);
-  if (!card) {
-    throw new Error(`Unknown card: ${cardId}`);
-  }
+export function generateReadmeHtmlFromItems<T>(
+  card: GhcardsEmbedCard<T>,
+  items: T[],
+  { baseUrl, cardId, username, limit, cacheBuster }: ReadmeHtmlOptions
+): string {
+  const v = cacheBuster ?? String(Date.now());
+  const common = { card: cardId, username, v };
 
-  const common = { card: cardId, username };
   const headerSrc = apiUrl(baseUrl, "/api/ghcards/embed", {
     ...common,
     limit: String(limit),
@@ -33,21 +37,25 @@ export function generateReadmeHtml({ baseUrl, cardId, username, limit }: ReadmeH
     part: "footer",
   });
 
-  const rows = Array.from({ length: limit }, (_, index) => {
-    const rowSrc = apiUrl(baseUrl, "/api/ghcards/embed", {
-      ...common,
-      part: "row",
-      index: String(index),
-    });
-    const linkHref = apiUrl(baseUrl, "/api/ghcards/go", {
-      ...common,
-      index: String(index),
-    });
+  const rows = items
+    .map((item, index) => {
+      const stable = card.stableKey(item, username);
+      const linkHref = apiUrl(baseUrl, "/api/ghcards/go", {
+        card: cardId,
+        username,
+        ...stable,
+      });
+      const rowSrc = apiUrl(baseUrl, "/api/ghcards/embed", {
+        ...common,
+        part: "row",
+        index: String(index),
+      });
 
-    return `  <a href="${linkHref}" target="_blank" rel="noopener noreferrer">
+      return `  <a href="${linkHref}" target="_blank" rel="noopener noreferrer">
     <img src="${rowSrc}" width="${card.cardWidth}" height="${card.rowHeight}" alt="" />
   </a>`;
-  }).join("\n");
+    })
+    .join("\n");
 
   return `<p>
   <img src="${headerSrc}" width="${card.cardWidth}" alt="${card.headerTitle}" />
@@ -56,12 +64,23 @@ ${rows}
 </p>`;
 }
 
-export function handleReadmeHtmlRequest(request: Request): Response {
+export async function generateReadmeHtml(options: ReadmeHtmlOptions): Promise<string> {
+  const card = getGhcardsCard(options.cardId);
+  if (!card) {
+    throw new Error(`Unknown card: ${options.cardId}`);
+  }
+
+  const items = await fetchCardItems(card, options.username, options.limit);
+  return generateReadmeHtmlFromItems(card, items, options);
+}
+
+export async function handleReadmeHtmlRequest(request: Request): Promise<Response> {
   const { searchParams, origin } = new URL(request.url);
   const cardId = searchParams.get("card");
   const username = searchParams.get("username") || "p10ns11y";
   const baseUrl = searchParams.get("base") || origin;
   const limitRaw = searchParams.get("limit");
+  const cacheBuster = searchParams.get("v") || undefined;
 
   if (!cardId) {
     return new Response("Missing card", { status: 400 });
@@ -78,7 +97,7 @@ export function handleReadmeHtmlRequest(request: Request): Response {
   );
 
   try {
-    const html = generateReadmeHtml({ baseUrl, cardId, username, limit });
+    const html = await generateReadmeHtml({ baseUrl, cardId, username, limit, cacheBuster });
     return new Response(html, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
