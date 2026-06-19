@@ -1778,35 +1778,43 @@
   }
 
   .site-footer__inner {
-    width: fit-content;
+    width: 100%;
     max-width: 100%;
     margin-inline: auto;
+  }
+
+  @media (min-width: 768px) {
+    .site-footer__inner {
+      width: fit-content;
+    }
   }
 
   .site-footer__main {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2rem 2.5rem;
+    grid-template-areas:
+      "brand brand"
+      "explore x";
+    gap: 1.75rem 2rem;
     align-items: start;
+    width: min(100%, 24rem);
+    margin-inline: auto;
     min-width: 0;
-  }
-
-  .site-footer__brand {
-    grid-column: 1 / -1;
   }
 
   @media (min-width: 768px) {
     .site-footer__main {
       grid-template-columns: minmax(9rem, 1fr) auto minmax(9rem, 1fr);
+      grid-template-areas: "explore brand x";
       column-gap: 3rem;
-    }
-
-    .site-footer__brand {
-      grid-column: auto;
+      row-gap: 0;
+      width: auto;
+      margin-inline: 0;
     }
   }
 
   .site-footer__brand {
+    grid-area: brand;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1853,6 +1861,19 @@
     text-align: left;
   }
 
+  .site-footer__nav--explore {
+    grid-area: explore;
+  }
+
+  .site-footer__nav--x {
+    grid-area: x;
+    text-align: right;
+  }
+
+  .site-footer__nav--x .site-footer__links {
+    align-items: flex-end;
+  }
+
   @media (min-width: 768px) {
     .site-footer__nav--explore {
       justify-self: start;
@@ -1860,21 +1881,6 @@
 
     .site-footer__nav--x {
       justify-self: end;
-      text-align: right;
-    }
-
-    .site-footer__nav--x .site-footer__links {
-      align-items: flex-end;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .site-footer__nav--x {
-      text-align: right;
-    }
-
-    .site-footer__nav--x .site-footer__links {
-      align-items: flex-end;
     }
   }
 
