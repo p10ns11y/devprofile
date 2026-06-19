@@ -54,11 +54,33 @@ export function ghcCardStyles(): string {
 }
 
 export function wrapSvg(width: number, height: number, body: string, extraDefs = ""): string {
+  return wrapSvgSegment(width, height, body, "both", extraDefs);
+}
+
+/** Stackable card segment for README `<a><img></a>` row embeds. */
+export function wrapSvgSegment(
+  width: number,
+  height: number,
+  body: string,
+  corners: "top" | "bottom" | "both" | "none" = "none",
+  extraDefs = ""
+): string {
   const defs = extraDefs ? `<defs>${extraDefs}</defs>` : "";
+  const r = 12;
+  let canvas: string;
+  if (corners === "top") {
+    canvas = `<path class="canvas" d="M0,${r} Q0,0 ${r},0 H${width - r} Q${width},0 ${width},${r} V${height} H0 Z"/>`;
+  } else if (corners === "bottom") {
+    canvas = `<path class="canvas" d="M0,0 H${width} V${height - r} Q${width},${height} ${width - r},${height} H${r} Q0,${height} 0,${height - r} Z"/>`;
+  } else if (corners === "both") {
+    canvas = `<rect class="canvas" width="${width}" height="${height}" rx="${r}"/>`;
+  } else {
+    canvas = `<rect class="canvas" width="${width}" height="${height}"/>`;
+  }
   return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
     ${ghcCardStyles()}
     ${defs}
-    <rect class="canvas" width="${width}" height="${height}" rx="12"/>
+    ${canvas}
     ${body}
   </svg>`;
 }
