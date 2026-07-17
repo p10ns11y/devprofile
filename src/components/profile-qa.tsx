@@ -7,6 +7,7 @@ import { useEffect, useId, useReducer, useRef } from "react";
 import { cn } from "@/components/ui/utils";
 import { getSuggestedQuestionsByCategory } from "@/lib/qa/suggested-questions";
 import { fetchQaAnswer, initialQaState, type QAResult, qaReducer } from "./profile-qa-state";
+import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
 export type { QAResult };
@@ -311,14 +312,32 @@ export function ProfileQA({ className }: ProfileQAProps) {
               >
                 <header className="flex flex-wrap items-center gap-2 border-b border-border/20 px-4 py-2.5 sm:px-5">
                   <h2 className="text-sm font-semibold text-text1">Answer</h2>
-                  {result.isGolden && (
-                    <span className="text-[11px] text-text2">curated</span>
-                  )}
-                  {showStrategy && strategyLabel(result.strategy) && (
-                    <span className="font-mono text-[10px] text-text2">
-                      {strategyLabel(result.strategy)}
-                    </span>
-                  )}
+                  <div className="flex flex-wrap items-center gap-1.5" role="status">
+                    {result.isGolden ? (
+                      <Badge
+                        variant="outline"
+                        className="border-brand/45 bg-[var(--color-brand-subtle)] text-[11px] font-medium tracking-wide text-brand uppercase"
+                      >
+                        Curated
+                      </Badge>
+                    ) : (
+                      <Badge
+                        variant="outline"
+                        className="border-border/50 bg-surface1 text-[11px] font-medium text-text2"
+                      >
+                        Live
+                      </Badge>
+                    )}
+                    {showStrategy && strategyLabel(result.strategy) && (
+                      <Badge
+                        variant="outline"
+                        className="border-border/40 bg-transparent font-mono text-[10px] font-normal tracking-normal text-text2 normal-case"
+                        title="Generation path (dev)"
+                      >
+                        {strategyLabel(result.strategy)}
+                      </Badge>
+                    )}
+                  </div>
                 </header>
 
                 <div
