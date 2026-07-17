@@ -95,13 +95,13 @@ export function ProfileQA({ className }: ProfileQAProps) {
       {/* ── Tracks rail: scannable labels, never full essay questions ── */}
       <aside
         className="min-h-0 lg:flex lg:flex-col"
-        aria-label="Interview tracks"
+        aria-label="Suggested questions"
       >
         <div className="mb-2 flex items-baseline justify-between gap-2 lg:mb-3">
           <h2 className="text-xs font-semibold tracking-wide text-text1 uppercase">
-            Tracks
+            Suggestions
           </h2>
-          <span className="text-[11px] text-text2 lg:hidden">Swipe</span>
+          <span className="text-[11px] text-text2 lg:hidden">Scroll for more</span>
         </div>
 
         {/* Mobile: one short chip row — never a multi-row question wall */}
@@ -173,7 +173,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
       <section
         ref={stageRef}
         className="flex min-h-0 flex-col overflow-hidden rounded-2xl border border-border/40 bg-surface2"
-        aria-label="Question and answer"
+        aria-label="Question and answer area"
       >
         {/* Sticky composer — one optical field (textarea + send) */}
         <form
@@ -182,7 +182,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
           aria-describedby={statusId}
         >
           <label htmlFor={formId} className="sr-only">
-            Interview question
+            Your question
           </label>
           <div className="relative rounded-xl border border-border/40 bg-surface1 shadow-[inset_0_1px_0_color-mix(in_oklch,var(--brand)_6%,transparent)] focus-within:border-brand/45 focus-within:ring-2 focus-within:ring-brand/25">
             <textarea
@@ -197,7 +197,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
                   }
                 }
               }}
-              placeholder="Ask, or pick a track…"
+              placeholder="e.g. What are you most proud of in your career?"
               rows={4}
               disabled={loading}
               // biome-ignore lint/a11y/noAutofocus: primary task on this route
@@ -221,7 +221,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
                 "hover:bg-[var(--brand-hover)]",
                 "disabled:opacity-40"
               )}
-              aria-label={loading ? "Searching" : "Ask question"}
+              aria-label={loading ? "Finding answer" : "Ask question"}
             >
               {loading ? (
                 <Loader2 className="size-4 animate-spin" aria-hidden />
@@ -231,7 +231,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
             </Button>
           </div>
           <p id={statusId} className="mt-2 text-[11px] leading-none text-text2">
-            Enter send · Shift+Enter newline
+            Press Enter to ask · Shift+Enter for a new line
           </p>
         </form>
 
@@ -265,7 +265,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
               >
                 <Loader2 className="mt-0.5 size-5 shrink-0 animate-spin text-brand" aria-hidden />
                 <div className="min-w-0 space-y-1">
-                  <p className="text-sm font-medium text-text1">Grounding in profile sources…</p>
+                  <p className="text-sm font-medium text-text1">Looking that up…</p>
                   {activeQuestion && (
                     <p className="text-sm text-text2 line-clamp-3">“{activeQuestion}”</p>
                   )}
@@ -282,18 +282,18 @@ export function ProfileQA({ className }: ProfileQAProps) {
               >
                 <MessageSquareText className="mb-3 size-7 text-text2/70" aria-hidden />
                 <p className="max-w-sm text-sm leading-relaxed text-text2">
-                  Choose a track on the left—or type above. The answer appears here; no scrolling
-                  past a wall of questions.
+                  Choose a suggestion on the left, or type your own question above. The answer will
+                  show up here.
                 </p>
                 <p className="mt-4 max-w-xs text-xs text-text2/90">
-                  Strong default:{" "}
+                  Not sure where to start? Try{" "}
                   <button
                     type="button"
                     disabled={loading}
                     onClick={() => askQuestion(TRACKS[0]?.items[0]?.question ?? "")}
                     className="font-medium text-brand underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
                   >
-                    {TRACKS[0]?.items[0]?.label ?? "EEaaS thesis"}
+                    {TRACKS[0]?.items[0]?.label ?? "a suggested question"}
                   </button>
                 </p>
               </motion.div>

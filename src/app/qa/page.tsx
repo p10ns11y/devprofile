@@ -27,14 +27,14 @@ export default function ProfileQAPage() {
             <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-1">
               <div className="min-w-0">
                 <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.5rem,3.5vw,2rem)] leading-tight tracking-[-0.03em] text-text1">
-                  Live interview
+                  Ask me about my work
                 </h1>
                 <p className="mt-0.5 text-sm text-text2">
-                  First-person · grounded · SpaceXAI-depth tracks
+                  Real answers from my experience — try a suggested question or write your own
                 </p>
               </div>
               <p className="hidden text-xs text-text2 sm:block">
-                Pick a track or type — answer stays here
+                Your answer appears on the right
               </p>
             </div>
           </header>
