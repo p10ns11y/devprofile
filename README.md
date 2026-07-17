@@ -212,17 +212,29 @@ Copy `.env.example` → `.env.local` and set:
 
 | Variable | Required | Notes |
 |----------|----------|--------|
-| `XAI_API_KEY` | Yes | **Chat** — Grok model inference for reactor answers ([console.x.ai](https://console.x.ai)) |
-| `XAI_MANAGEMENT_API_KEY` | Recommended | **Collections** — read-only search against `XAI_PROFILE_COLLECTION` (preferred over reusing the chat key) |
+| `XAI_API_KEY` | Yes | **Chat + Collections search** — Grok inference and `POST /v1/documents/search` ([console.x.ai](https://console.x.ai)). Enable the **documents** endpoint (or **All endpoints**) on this API key; chat-only keys get `403` on search. |
+| `XAI_MANAGEMENT_API_KEY` | Optional | Management API only (create/list collections, attach files). **Not** used for search. Invalid if you paste a dead token. |
 | `XAI_PROFILE_COLLECTION` | Yes | Collection **name or ID** from console.x.ai |
 | `ENABLE_XAI_REACTOR` | Yes | `true` to enable the agentic path |
-| `XAI_MODEL` | Recommended | e.g. `grok-4.3` — must match a model your account can use |
+| `XAI_MODEL` | Recommended | e.g. `grok-4.5` / `grok-4.3` — must match a model your account can use |
 | `XAI_MAX_OUTPUT_TOKENS` | Optional | Default `400` — short essence answers |
 | `XAI_REASONING_EFFORT` | Optional | `low` (default) or `high` |
 
-**Two keys, two roles:** `XAI_API_KEY` is for **chat** (Grok). `XAI_MANAGEMENT_API_KEY` is for **Collections** (search/list). Use a **read-only** collections key so a leak only exposes content you already published. Upload/sync stays in console.x.ai or an external tool — not this app.
+**Two keys, two roles:** `XAI_API_KEY` is the **API Key** for Grok **and** document search (`api.x.ai`). `XAI_MANAGEMENT_API_KEY` is only for management operations on `management-api.x.ai`. Upload/sync stays in [console.x.ai](https://console.x.ai) or an external tool — not this app.
 
-**Collections setup:** Create a Collection and upload profile sources (minimum: `src/data/persona/ps-profile-v1.md`; optional: `src/data/cvdata.json`, `golden-qa.md`, `casual-qa.md`, `top-three-achievements.md`). Set `XAI_PROFILE_COLLECTION` to its name or ID. Runtime reads live collection content via the Collections API on each request.
+**Collections setup:** Create a Collection and upload (or re-upload after persona edits):
+
+| Priority | File |
+|----------|------|
+| Required | [`src/data/persona/ps-profile-v1.md`](src/data/persona/ps-profile-v1.md) |
+| Required | [`src/data/golden-qa.md`](src/data/golden-qa.md) |
+| Recommended | [`src/data/casual-qa.md`](src/data/casual-qa.md), [`src/data/top-three-achievements.md`](src/data/top-three-achievements.md) |
+| Recommended | [`src/data/cvdata.json`](src/data/cvdata.json) |
+| Optional | [`src/data/p10ns11y_README.md`](src/data/p10ns11y_README.md) (mirror of GitHub profile README) |
+
+Set `XAI_PROFILE_COLLECTION` to the collection name or ID. Runtime **searches** live collection content; it does not upload.
+
+**`/qa` UI:** Interview-desk layout — short track labels in a rail, tall composer (question + send in one field), answer stage in the primary viewport. Local golden short-circuit uses rebuilt [`src/data/qa-index.json`](src/data/qa-index.json) (`pnpm build-qa-index` / `pnpm build`).
 
 **Development** (with keys and collection in `.env.local`):
 

@@ -1,14 +1,74 @@
 [
-  "Why write premflow in C instead of Python or Rust?",
-  "What's your favorite daily tweak on Arch Linux with Omarchy?",
-  "How did building Grok Dia actually change your workflow?",
-  "Tell me the Zod story in 30 seconds.",
-  "Quick win from the big TypeScript migration at Oneflow?",
-  "What was the \"epic predictor\" in your 2016 thesis?",
-  "Tool you literally cannot live without right now?",
-  "Why automate your CV pipeline with Rust + GitHub Actions?",
-  "What is the devprofile/.agents repo actually for?",
-  "Why does premflow (your daily C CLI) still matter in 2026?",
-  "What are your top 3 career achievements?",
-  "Tell me about your experience at Oneflow"
+  {
+    "id": "thesis-eeaas",
+    "category": "Vision",
+    "label": "EEaaS thesis → agents",
+    "question": "Your 2016 thesis on Energy Efficiency as a Service feels prescient in 2026. How does that early work inform how you think about agentic AI and on-device intelligence today?"
+  },
+  {
+    "id": "career-arc",
+    "category": "Vision",
+    "label": "Career arc",
+    "question": "Walk me through your career arc from your 2016 Master’s thesis to your current work in personal AI tooling and quiet infrastructure."
+  },
+  {
+    "id": "agents-orchestration",
+    "category": "Agents",
+    "label": "Multi-agent practice",
+    "question": "Your recent thread mentioned multi-agent system orchestration at scale. What’s your practical take?"
+  },
+  {
+    "id": "collab-finder",
+    "category": "Agents",
+    "label": "collab-finder transfer",
+    "question": "What did you build in collab-finder that would transfer to production agent infrastructure?"
+  },
+  {
+    "id": "oneflow-ts",
+    "category": "Proof",
+    "label": "TypeScript migration",
+    "question": "At Oneflow you drove a 70% type-error reduction and 200-hour automation win during the TypeScript migration. What was the real unlock?"
+  },
+  {
+    "id": "oneflow-lead",
+    "category": "Proof",
+    "label": "Lead + Playwright",
+    "question": "As Engineering Team Lead at Oneflow you transitioned the team to self-organizing while rewriting the E2E suite in Playwright. How did you balance velocity with sustainable practices?"
+  },
+  {
+    "id": "top-three",
+    "category": "Proof",
+    "label": "Top 3 achievements",
+    "question": "What are your top 3 career achievements?"
+  },
+  {
+    "id": "zod-pr",
+    "category": "Leverage",
+    "label": "Zod PR #1702",
+    "question": "You made a critical contribution to Zod (PR #1702) fixing ordering in nullish method chaining. Why did that bug matter, and what’s your philosophy on contributing to libraries you use?"
+  },
+  {
+    "id": "premflow",
+    "category": "Leverage",
+    "label": "premflow + elomaxz",
+    "question": "Why does premflow (your daily C CLI) still matter in 2026?"
+  },
+  {
+    "id": "simplify",
+    "category": "Judgment",
+    "label": "Simplify by framework",
+    "question": "You talked about using the product regularly mainly to remove features for simplification. How does that show up in your own projects?"
+  },
+  {
+    "id": "senior-ai-era",
+    "category": "Judgment",
+    "label": "AI-era senior skill",
+    "question": "In your May 2026 X thread you listed core skills for senior engineers in the AI era. Which one do you rank highest and why?"
+  },
+  {
+    "id": "next-chapters",
+    "category": "Judgment",
+    "label": "Next chapters",
+    "question": "You recently posted about getting ready for next chapters after nearly 8 years at Oneflow. What does that phase look like right now?"
+  }
 ]

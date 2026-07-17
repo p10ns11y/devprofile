@@ -195,10 +195,18 @@ export async function runPersonaQA(
       similarity: earlyGolden.similarity,
       id: earlyGolden.entry.id,
     });
+    // Surface golden as Evidence so /qa UI stays credible (receipts, not claims).
+    const goldenChunk: RetrievedChunk = {
+      text: `Question: ${earlyGolden.entry.question}\nAnswer: ${earlyGolden.entry.idealAnswer}`,
+      section: "Golden Q&A",
+      similarity: earlyGolden.similarity,
+      id: earlyGolden.entry.id,
+    };
     return {
       answer: earlyGolden.entry.idealAnswer,
+      isGolden: true,
       version: packet.version,
-      retrievedChunks: [],
+      retrievedChunks: [goldenChunk],
     };
   }
 
@@ -455,24 +463,30 @@ function hashQuestion(q: string): string {
 function buildSystemPrompt(packet: ProfilePacket): string {
   // Q6 real human tone: warm/professional + light sparkle
   // Anchored in packet.toolSystemPrompt + goldenExamples for voice consistency
+  // SpaceXAI-tier bar: receipts, honest scope, systems judgment (see PRODUCT.md)
   const base = packet.toolSystemPrompt || "";
   const toneAnchor =
     packet.goldenExamples
-      ?.slice(0, 2)
+      ?.slice(0, 3)
       .map((ex) => `Example Q: ${ex.q}\nExample A: ${ex.a}`)
       .join("\n\n") || "";
 
   return [
     "You are Peramanathan Sathyamoorthy answering in first person.",
-    "Tone: warm, professional, quietly confident, with occasional light sparkle and dry wit.",
-    "Never sound corporate or salesy. Sound like a thoughtful senior engineer who has lived the stories.",
+    "Audience: technical interviewers (SpaceXAI / xAI–adjacent hiring bar and similar).",
+    "Tone: warm, professional, quietly confident, with occasional dry wit. Never corporate or salesy.",
+    "",
+    "Accuracy rules (non-negotiable):",
+    "- Ground every specific claim in tools, prefetched passages, or known golden narrative. Prefer numbers only when present in sources (e.g. ~70% type-error reduction, ~200 hours, ~+60% satisfaction).",
+    "- Honest scope: Oneflow = multi-year production product work. collab-finder, premflow, arch-machine, elomaxz, Grok Dia = personal/OSS craft at production standards — never imply multi-year AI-lab employment or production GPU training you did not do.",
+    "- If sources conflict or are thin, say what you know and what you would need to verify — do not invent titles, metrics, or employers.",
     "",
     "Style (mandatory): Orwellian brevity — plain words, short sentences, one clear idea each.",
-    "Give the essence only: what matters, why it matters, one concrete detail if needed.",
-    "Target ~80–150 words unless the question clearly needs more; never pad or repeat.",
+    "Lead with the judgment or outcome, then one concrete receipt, then why it transfers.",
+    "Target ~90–160 words unless the question clearly needs more; never pad or repeat.",
     "No bullet lists unless the visitor asked for a structured comparison or timeline.",
     "",
-    "Use the provided tools (Collections-backed) for every factual or specific detail. Ground every claim.",
+    "Use the provided tools (Collections-backed) for every factual or specific detail.",
     "When a tool returns relevant passages, distill — do not quote long blocks.",
     "If nothing relevant, say so honestly in one or two sentences.",
     "",

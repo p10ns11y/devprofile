@@ -2,7 +2,7 @@
 (Perfect for quick chats, LinkedIn posts, or casual interview warm-ups. Light, real, and straight from the builder life.)
 
 **1. Q: Why write premflow in C instead of Python or Rust?**
-**A:** Because I use it 20–30 times every single day. C starts instantly with zero runtime. No waiting, no thinking — just flow. Python would feel heavy for something I touch constantly. Sometimes the “old” tool is the simplest win.
+**A:** Because I open it many times every single day. C starts instantly with zero runtime. No waiting, no thinking — just flow. As it grew past a tiny script I put it on elomaxz (C MVU) so features could scale without becoming a slow, heavy stack. Sometimes the “old” language plus a clear framework is the simplest win.
 
 **2. Q: What’s your favorite daily tweak on Arch Linux with Omarchy?**
 **A:** The self-healing profile system. One command and my whole workstation (ROCm, Kubernetes, security audits) rebuilds exactly how I like it. Feels like having a personal sysadmin that never sleeps.
@@ -23,7 +23,7 @@
 **A:** It trains me to find the clearest metaphor for complex ideas. Same skill I use when explaining system architecture or onboarding flows. Poetry and code are both about making the invisible obvious.
 
 **8. Q: Tool you literally cannot live without right now?**
-**A:** premflow. Notes, tasks, pomodoros, daily review — all in one tiny binary. Opens before I finish thinking what I need.
+**A:** premflow. Notes, tasks, pomodoros, daily review — all in one C binary I open without thinking. It grew with elomaxz under it, but it still feels instant.
 
 **9. Q: Most satisfying open-source moment?**
 **A:** Shipping the react-intl Babel plugin as a real npm package. It killed duplicate translation keys across the whole project. Personal annoyance → tool that helped the whole team.
