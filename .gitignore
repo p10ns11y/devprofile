@@ -19,6 +19,10 @@
 /.next/
 /out/
 
+# collab-finder apply packs (symlink to ~/.local/share/collab-finder/application_packs)
+# Generated apply PDFs land under out/apply/<pack_id>/ (covered by /out/ above)
+/application_packs
+
 # production
 /build
 

@@ -231,14 +231,6 @@
       "proof_of_accomplishment": "accomplishment_url"
     },
     {
-      "name": "HashiCorp Terraform Associate Exam Cram [O'Reilly Live Event] 2 days Live Course",
-      "completionDate": "2024-09-22",
-      "url": "https://github.com/p10ns11y/oreilly-terraform-live-course-sessions",
-      "domain": "DevOps",
-      "type": "live-course",
-      "proof_of_accomplishment": "github_code_repo"
-    },
-    {
       "name": "LangChain Chat with Your Data",
       "completionDate": "2024-09-11",
       "url": "https://learn.deeplearning.ai/accomplishments/f72f24f1-9ad2-4bc0-b8c2-33cbecb81ec2",
@@ -660,6 +652,15 @@
     "Swedish": "Basic"
   },
   "technologies": {
+    "Languages": ["JavaScript", "TypeScript", "Python", "Rust", "C"],
+    "Frontend": ["React", "Next.js", "TanStack", "Vite", "Zod", "Accessibility (WCAG)"],
+    "Backend": ["Node.js", "Express"],
+    "Testing": ["Playwright", "Jest", "Testing Library"],
+    "Data": ["MySQL", "MongoDB"],
+    "Cloud & tooling": ["AWS", "Vercel", "Cloudflare", "Tauri"]
+  },
+  "technologies_archive": {
+    "_note": "Historical / broad stack snapshot. Not rendered on CV web or PDF — only `technologies` is.",
     "AI": ["LangChainjs", "Agents"],
     "Workflow": ["Graphite"],
     "Fullstack": ["Remix", "Nextjs", "Astro", "Solid-start"],
@@ -669,6 +670,8 @@
     "API Frameworks": ["Django", "Eve", "Flask"],
     "Databases": ["MySQL", "Postgres", "MongoDB"],
     "Deployment": ["AWS (EC2, S3, IAM, ELB)", "Heroku", "Netlify", "Vercel", "Fly.io"],
+    "Cloud & build": ["AWS", "Vercel", "Webpack", "Babel"],
+    "Systems & agents": ["Tauri", "xAI / structured LLM I/O"],
     "Miscellaneous": [
       "Data Visualization",
       "KPI Implementation",
