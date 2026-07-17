@@ -1,30 +1,61 @@
 "use client";
 
-import { Loader2, MessageSquareText, Search, Sparkles } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { ArrowUp, ChevronDown, Loader2, MessageSquareText } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type React from "react";
-import { useReducer } from "react";
-import { getSuggestedQuestions } from "@/lib/qa/suggested-questions";
+import { useEffect, useId, useReducer, useRef } from "react";
+import { cn } from "@/components/ui/utils";
+import { getSuggestedQuestionsByCategory } from "@/lib/qa/suggested-questions";
 import { fetchQaAnswer, initialQaState, type QAResult, qaReducer } from "./profile-qa-state";
-import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Input } from "./ui/input";
 
 export type { QAResult };
 
-const SUGGESTED_QUESTIONS = getSuggestedQuestions();
+const TRACKS = getSuggestedQuestionsByCategory();
 
 interface ProfileQAProps {
   className?: string;
+}
+
+function formatMatch(similarity: number): string {
+  if (!Number.isFinite(similarity) || similarity <= 0) return "source";
+  return `${(similarity * 100).toFixed(0)}%`;
+}
+
+function strategyLabel(strategy?: string): string | null {
+  if (!strategy) return null;
+  if (strategy === "reactor") return "Collections + Grok";
+  if (strategy === "golden-match") return "Golden";
+  if (strategy === "template") return "Template";
+  if (strategy === "ollama") return "Local";
+  return strategy;
 }
 
 export function ProfileQA({ className }: ProfileQAProps) {
   const [state, dispatch] = useReducer(qaReducer, initialQaState);
   const { question, status, result, error, activeQuestion } = state;
   const loading = status === "loading";
-
+  const reduceMotion = useReducedMotion();
+  const formId = useId();
+  const statusId = useId();
+  const stageRef = useRef<HTMLDivElement>(null);
+  const answerRef = useRef<HTMLElement>(null);
   const showStrategy = process.env.NODE_ENV === "development";
+
+  // Keep the answer stage in the eye-line after each response (mobile + any residual scroll).
+  useEffect(() => {
+    if (status !== "success" && status !== "error" && status !== "loading") return;
+    const node = answerRef.current ?? stageRef.current;
+    if (!node) return;
+    // Prefer focusing the stage for SR users without jumping the whole page when already visible.
+    if (status === "success" && answerRef.current) {
+      answerRef.current.focus({ preventScroll: true });
+    }
+    node.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "nearest",
+    });
+  }, [status, result, error, reduceMotion]);
 
   const submitQuestion = async (
     q: string,
@@ -54,192 +85,293 @@ export function ProfileQA({ className }: ProfileQAProps) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35 }}
-      className={className}
+    <div
+      className={cn(
+        "grid min-h-0 grid-cols-1 grid-rows-[auto_minmax(0,1fr)] gap-3 lg:grid-cols-[minmax(13.5rem,17rem)_minmax(0,1fr)] lg:grid-rows-1 lg:gap-5",
+        className
+      )}
     >
-      <Card className="rad-shadow border-border/30 bg-surface2/80 backdrop-blur-sm">
-        <CardContent className="space-y-4 pt-6">
-          <form onSubmit={handleAsk} className="space-y-2">
-            <label htmlFor="profile-qa-question" className="text-sm font-medium text-text1">
-              Your question
-            </label>
-            <div className="flex items-stretch gap-2">
-              <div className="relative min-w-0 flex-1">
-                <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-text2" />
-                <Input
-                  id="profile-qa-question"
-                  type="text"
-                  value={question}
-                  onChange={(e) => dispatch({ type: "SET_QUESTION", question: e.target.value })}
-                  placeholder="e.g., What is your experience with React and TypeScript?"
-                  className="h-full bg-surface1 pl-9"
-                  disabled={loading}
-                  autoFocus
-                />
-              </div>
-              <Button
-                type="submit"
-                disabled={loading || !question.trim()}
-                className="shrink-0 bg-brand text-text1 hover:bg-brand/90"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="size-4 animate-spin" />
-                    Thinking…
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="size-4" />
-                    Quest
-                  </>
+      {/* ── Tracks rail: scannable labels, never full essay questions ── */}
+      <aside
+        className="min-h-0 lg:flex lg:flex-col"
+        aria-label="Interview tracks"
+      >
+        <div className="mb-2 flex items-baseline justify-between gap-2 lg:mb-3">
+          <h2 className="text-xs font-semibold tracking-wide text-text1 uppercase">
+            Tracks
+          </h2>
+          <span className="text-[11px] text-text2 lg:hidden">Swipe</span>
+        </div>
+
+        {/* Mobile: one short chip row — never a multi-row question wall */}
+        <div className="flex gap-1.5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] lg:hidden [&::-webkit-scrollbar]:hidden">
+          {TRACKS.flatMap(({ items }) => items).map((item) => {
+            const active = activeQuestion === item.question;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                disabled={loading}
+                title={item.question}
+                onClick={() => askQuestion(item.question)}
+                className={cn(
+                  "shrink-0 rounded-full border px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-colors",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
+                  "disabled:cursor-not-allowed disabled:opacity-50",
+                  active
+                    ? "border-brand/50 bg-[var(--color-brand-subtle)] text-text1"
+                    : "border-border/35 bg-surface2 text-text2 hover:border-brand/35 hover:text-text1"
                 )}
-              </Button>
-            </div>
-          </form>
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
 
-          <div className="rounded-lg border border-border/25 bg-surface1/50 px-3 py-2.5">
-            <p className="mb-1.5 text-xs font-medium text-text2">Suggested questions</p>
-            <div className="flex flex-wrap gap-1.5">
-              {SUGGESTED_QUESTIONS.map((suggestion) => (
-                <button
-                  key={suggestion}
-                  type="button"
-                  disabled={loading}
-                  onClick={() => askQuestion(suggestion)}
-                  className={`rounded-md border px-2 py-1 text-left text-xs leading-snug transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
-                    activeQuestion === suggestion
-                      ? "border-brand/60 bg-brand/10 text-text1"
-                      : "border-border/30 bg-surface2/80 text-text2 hover:border-brand/40 hover:text-text1"
-                  }`}
-                >
-                  {suggestion}
-                </button>
-              ))}
-            </div>
+        {/* Desktop: vertical rail, own scroll if needed */}
+        <nav className="hidden min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain pr-1 lg:flex">
+          <div className="space-y-4">
+            {TRACKS.map(({ category, items }) => (
+              <div key={category}>
+                <p className="mb-1.5 text-[11px] font-semibold tracking-wide text-text2 uppercase">
+                  {category}
+                </p>
+                <ul className="space-y-1">
+                  {items.map((item) => {
+                    const active = activeQuestion === item.question;
+                    return (
+                      <li key={item.id}>
+                        <button
+                          type="button"
+                          disabled={loading}
+                          title={item.question}
+                          onClick={() => askQuestion(item.question)}
+                          className={cn(
+                            "w-full rounded-md border px-2.5 py-2 text-left text-[13px] leading-snug transition-colors",
+                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40",
+                            "disabled:cursor-not-allowed disabled:opacity-50",
+                            active
+                              ? "border-brand/50 bg-[var(--color-brand-subtle)] font-medium text-text1"
+                              : "border-transparent bg-transparent text-text2 hover:border-border/40 hover:bg-surface2 hover:text-text1"
+                          )}
+                        >
+                          {item.label}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
           </div>
-        </CardContent>
-      </Card>
+        </nav>
+      </aside>
 
-      <AnimatePresence mode="wait">
-        {status === "error" && error && (
-          <motion.div
-            key="error"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="mt-6 rounded-xl border border-red-300/40 bg-red-50/80 p-4 dark:border-red-800/40 dark:bg-red-950/30"
-          >
-            <p className="text-sm text-red-800 dark:text-red-200">Error: {error}</p>
-          </motion.div>
-        )}
+      {/* ── Answer stage: composer + result own the eye ── */}
+      <section
+        ref={stageRef}
+        className="flex min-h-0 flex-col overflow-hidden rounded-2xl border border-border/40 bg-surface2"
+        aria-label="Question and answer"
+      >
+        {/* Sticky composer — one optical field (textarea + send) */}
+        <form
+          onSubmit={handleAsk}
+          className="shrink-0 border-b border-border/25 bg-surface2 p-3 sm:p-4"
+          aria-describedby={statusId}
+        >
+          <label htmlFor={formId} className="sr-only">
+            Interview question
+          </label>
+          <div className="relative rounded-xl border border-border/40 bg-surface1 shadow-[inset_0_1px_0_color-mix(in_oklch,var(--brand)_6%,transparent)] focus-within:border-brand/45 focus-within:ring-2 focus-within:ring-brand/25">
+            <textarea
+              id={formId}
+              value={question}
+              onChange={(e) => dispatch({ type: "SET_QUESTION", question: e.target.value })}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  if (!loading && question.trim()) {
+                    void submitQuestion(question, "SUBMIT_START");
+                  }
+                }
+              }}
+              placeholder="Ask, or pick a track…"
+              rows={4}
+              disabled={loading}
+              // biome-ignore lint/a11y/noAutofocus: primary task on this route
+              autoFocus
+              className={cn(
+                "min-h-[7rem] max-h-48 w-full resize-y bg-transparent",
+                "px-3.5 py-3 pr-14",
+                "text-[15px] leading-relaxed text-text1",
+                "placeholder:text-text2/90",
+                "focus-visible:outline-none",
+                "disabled:opacity-60"
+              )}
+            />
+            <Button
+              type="submit"
+              disabled={loading || !question.trim()}
+              size="icon"
+              className={cn(
+                "absolute right-2.5 bottom-2.5 size-10 rounded-lg",
+                "bg-brand text-[var(--color-accent-primary-text)]",
+                "hover:bg-[var(--brand-hover)]",
+                "disabled:opacity-40"
+              )}
+              aria-label={loading ? "Searching" : "Ask question"}
+            >
+              {loading ? (
+                <Loader2 className="size-4 animate-spin" aria-hidden />
+              ) : (
+                <ArrowUp className="size-4" aria-hidden />
+              )}
+            </Button>
+          </div>
+          <p id={statusId} className="mt-2 text-[11px] leading-none text-text2">
+            Enter send · Shift+Enter newline
+          </p>
+        </form>
 
-        {status === "loading" && (
-          <motion.div
-            key="loading"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="mt-6"
-          >
-            <Card className="rad-shadow border-border/30 bg-surface2/80">
-              <CardContent className="flex items-center gap-3 py-8">
-                <Loader2 className="size-5 animate-spin text-brand" />
-                <div className="space-y-1">
-                  <p className="font-medium text-text1">Searching profile sources…</p>
-                  <p className="text-sm text-text2">
-                    {activeQuestion ? `"${activeQuestion}"` : "Preparing your answer"}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
+        {/* Scrollable pane: ONLY the answer/empty/loading/error lives here */}
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+          <AnimatePresence mode="wait">
+            {status === "error" && error && (
+              <motion.div
+                key="error"
+                role="alert"
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={reduceMotion ? undefined : { opacity: 0 }}
+                className="m-3 rounded-xl border border-red-500/30 bg-red-500/8 px-4 py-3 sm:m-4"
+              >
+                <p className="text-sm text-red-900 dark:text-red-100">
+                  Couldn’t answer that just now. {error}
+                </p>
+              </motion.div>
+            )}
 
-        {status === "idle" && (
-          <motion.div
-            key="empty"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="mt-6 rounded-xl border border-dashed border-border/50 bg-surface2/40 px-6 py-10 text-center"
-          >
-            <MessageSquareText className="mx-auto mb-3 size-8 text-text2/60" aria-hidden />
-            <p className="text-sm text-text2">
-              Type a question above or pick a suggestion to see an answer with retrieved sources.
-            </p>
-          </motion.div>
-        )}
-
-        {status === "success" && result && (
-          <motion.div
-            key="result"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.4 }}
-            className="mt-6"
-          >
-            <Card className="rad-shadow border-border/30 bg-surface2/80 overflow-hidden">
-              <CardHeader className="border-b border-border/20 pb-4">
-                <div className="flex flex-wrap items-center gap-2">
-                  <CardTitle className="text-lg text-text1">Answer</CardTitle>
-                  {showStrategy && result.strategy && (
-                    <Badge variant="outline" className="font-mono text-xs">
-                      strategy: {result.strategy}
-                    </Badge>
+            {status === "loading" && (
+              <motion.div
+                key="loading"
+                role="status"
+                aria-live="polite"
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={reduceMotion ? undefined : { opacity: 0 }}
+                className="flex items-start gap-3 p-5 sm:p-6"
+              >
+                <Loader2 className="mt-0.5 size-5 shrink-0 animate-spin text-brand" aria-hidden />
+                <div className="min-w-0 space-y-1">
+                  <p className="text-sm font-medium text-text1">Grounding in profile sources…</p>
+                  {activeQuestion && (
+                    <p className="text-sm text-text2 line-clamp-3">“{activeQuestion}”</p>
                   )}
-                  {showStrategy && result.ollamaError && (
-                    <Badge
-                      variant="outline"
-                      className="border-amber-400/50 bg-amber-50 font-mono text-xs text-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
-                    >
-                      ollama: {result.ollamaError}
-                    </Badge>
-                  )}
                 </div>
-              </CardHeader>
+              </motion.div>
+            )}
 
-              <CardContent className="space-y-6 pt-6">
-                <p className="text-lg leading-relaxed whitespace-pre-wrap text-text1">
-                  {result.answer || (
-                    <span className="text-text2 italic">
-                      No narrative answer returned — check retrieved sources below or Ollama config.
+            {status === "idle" && (
+              <motion.div
+                key="empty"
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex h-full min-h-[12rem] flex-col items-center justify-center px-6 py-10 text-center"
+              >
+                <MessageSquareText className="mb-3 size-7 text-text2/70" aria-hidden />
+                <p className="max-w-sm text-sm leading-relaxed text-text2">
+                  Choose a track on the left—or type above. The answer appears here; no scrolling
+                  past a wall of questions.
+                </p>
+                <p className="mt-4 max-w-xs text-xs text-text2/90">
+                  Strong default:{" "}
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={() => askQuestion(TRACKS[0]?.items[0]?.question ?? "")}
+                    className="font-medium text-brand underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+                  >
+                    {TRACKS[0]?.items[0]?.label ?? "EEaaS thesis"}
+                  </button>
+                </p>
+              </motion.div>
+            )}
+
+            {status === "success" && result && (
+              <motion.article
+                key="result"
+                ref={answerRef}
+                tabIndex={-1}
+                initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0 }}
+                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                className="outline-none"
+              >
+                <header className="flex flex-wrap items-center gap-2 border-b border-border/20 px-4 py-2.5 sm:px-5">
+                  <h2 className="text-sm font-semibold text-text1">Answer</h2>
+                  {result.isGolden && (
+                    <span className="text-[11px] text-text2">curated</span>
+                  )}
+                  {showStrategy && strategyLabel(result.strategy) && (
+                    <span className="font-mono text-[10px] text-text2">
+                      {strategyLabel(result.strategy)}
                     </span>
                   )}
-                </p>
+                </header>
+
+                <div
+                  className="max-w-prose px-4 py-5 text-[15px] leading-[1.65] whitespace-pre-wrap text-text1 sm:px-5 sm:text-base"
+                  style={{ textWrap: "pretty" }}
+                >
+                  {result.answer || (
+                    <span className="text-text2 italic">
+                      No narrative returned—try another track.
+                    </span>
+                  )}
+                </div>
 
                 {(result.details?.length ?? 0) > 0 && (
-                  <div className="space-y-4 border-t border-border/20 pt-6">
-                    <h4 className="font-medium text-text1">Retrieved information</h4>
-                    <div className="space-y-3">
+                  <details className="group border-t border-border/20">
+                    <summary className="flex cursor-pointer list-none items-center gap-2 px-4 py-3 text-sm font-medium text-text1 sm:px-5 [&::-webkit-details-marker]:hidden">
+                      <ChevronDown
+                        className="size-4 shrink-0 text-text2 transition-transform group-open:rotate-180"
+                        aria-hidden
+                      />
+                      Evidence
+                      <span className="font-normal text-text2">
+                        ({result.details.length})
+                      </span>
+                    </summary>
+                    <ol className="space-y-2 px-4 pb-5 sm:px-5">
                       {result.details.map((detail, index) => (
-                        <motion.div
+                        <li
                           key={`${detail.section}-${index}`}
-                          initial={{ opacity: 0, x: -8 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.05 }}
-                          className="rounded-lg border border-border/30 bg-surface1 p-4"
+                          className="rounded-lg border border-border/30 bg-surface1 px-3 py-2.5"
                         >
-                          <div className="mb-2 flex items-start justify-between gap-3">
-                            <span className="text-sm font-medium text-brand">{detail.section}</span>
-                            <span className="shrink-0 text-xs text-text2">
-                              {(detail.similarity * 100).toFixed(1)}% match
+                          <div className="mb-1 flex items-center justify-between gap-2">
+                            <span className="text-[11px] font-semibold tracking-wide text-brand uppercase">
+                              {detail.section}
+                            </span>
+                            <span className="text-[11px] tabular-nums text-text2">
+                              {formatMatch(detail.similarity)}
                             </span>
                           </div>
-                          <p className="text-sm leading-relaxed text-text2">{detail.text}</p>
-                        </motion.div>
+                          <p className="text-xs leading-relaxed text-text2 sm:text-sm">
+                            {detail.text}
+                          </p>
+                        </li>
                       ))}
-                    </div>
-                  </div>
+                    </ol>
+                  </details>
                 )}
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+              </motion.article>
+            )}
+          </AnimatePresence>
+        </div>
+      </section>
+    </div>
   );
 }
 
