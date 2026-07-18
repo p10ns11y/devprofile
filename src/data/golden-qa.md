@@ -5,7 +5,7 @@
 
 **A:** In 2016 I proposed Energy Efficiency as a Service (EEaaS) — an intelligent cloud orchestrator using participatory sensing, Key Energy Indicators, decision trees, and context-aware policies. I called it an “epic predictor.” The world wasn’t ready; on-device NPUs, agentic AI, and edge intelligence didn’t exist yet.
 
-Nine years later the architecture is obviously correct. My thesis was never just about battery drain — it was about respecting human time and attention at planetary scale. That same principle now drives my personal tooling: premflow (a <300-line C CLI I use every single day for notes/tasks/pomodoros), arch-machine (profile-based Arch Linux bootstrap with security audits and self-healing for ML/AI workstations), and Grok Dia (browser extension for contextual Grok queries).
+Nine years later the architecture is obviously correct. My thesis was never just about battery drain — it was about respecting human time and attention at planetary scale. That same principle now drives my personal tooling: premflow (daily C productivity CLI — notes, tasks, pomodoros, review — now built on elomaxz, a thin MVU framework for C so the app can grow without spaghetti), arch-machine (profile-based Arch Linux bootstrap with security audits and self-healing for ML/AI workstations), and Grok Dia (browser extension for contextual Grok queries).
 
 I don’t chase hype. I turn personal friction into relief that quietly compounds. The 2016 vision and 2026 reality are the same thread: build the invisible layer that makes everything else 10x more effective.
 
@@ -21,11 +21,11 @@ The 2016 “epic predictor” was an early agentic system. The difference now is
 ### 3. Builder Mindset & Personal Tooling
 **Q: You’ve built several “invisible” daily-driver tools (premflow in C, arch-machine, latex-cv automation). How do you decide when to go low-level versus high-level, and when automation is actually worth it?**
 
-**A:** I start with real, repeated friction. premflow is in C because I use it 20–30 times a day — startup time and muscle memory matter more than anything. 300 lines, zero dependencies, instant. That’s not premature optimization; it’s measured against daily usage.
+**A:** I start with real, repeated friction. premflow is in C because I use it many times a day — startup time and muscle memory matter more than language fashion. Early on that meant a tiny single-binary CLI. As the product earned more daily jobs (review, pomodoro, journal), I extracted **elomaxz** — a hybrid Model-View-Update framework for C (update + Cmd/Effect) — so capability can scale while the control loop stays predictable. That’s low-level where latency and ownership matter, high-level structure where growth would otherwise become mess.
 
 latex-cv went full Rust + GitHub Actions + S3 because manual PDF compilation was costing hours per month and breaking version history. The automation now saves >200 hours/year and produces a PR for review automatically.
 
-Rule I apply: automate only when the time saved or error reduced pays back the maintenance cost within weeks and the tool improves quality of life. I ruthlessly kill experiments that don’t meet that bar.
+Rule I apply: automate or abstract only when the time saved or error reduced pays back the maintenance cost within weeks and the tool improves quality of life. I ruthlessly kill experiments that don’t meet that bar.
 
 ### 4. Open Source & Debugging in Public
 **Q: You made a critical contribution to Zod (PR #1702) fixing ordering in nullish method chaining. Why did that bug matter, and what’s your philosophy on contributing to libraries you use?**
@@ -77,7 +77,9 @@ I’m not chasing the next viral framework. I’m building the invisible layer �
 **A:** Long-term tech debt & roadmap forecasting. Everything else (multi-agent orchestration, CI/CD cost control, simplification) flows from it. I’ve seen too many teams add features faster than they can maintain them. My recent posts emphasize purging code toward less friction — that’s the real senior move in an agent-heavy world.
 
 **3. Q: You talked about using the product regularly “mainly to remove features” for simplification. How does that show up in your own projects?**
-**A:** premflow stays under 300 lines because I constantly delete. arch-machine profiles are lean by design — only what an ML/AI workstation actually needs (ROCm, Kubernetes, self-healing). I treat every repo like a living product: ship, use daily, then ruthlessly cut what no longer earns its keep.
+**A:** Early premflow *was* the extreme form of delete-until-tiny — under a few hundred lines of C. That was the right move when the job was “notes/tasks/pomo, instantly.” The product then earned more daily surface area. Line-count absolutism would have turned growth into a ball of mud.
+
+So simplification changed shape: I extracted **elomaxz** (Elm + maximum) — a thin MVU framework for C with tagged messages, pure update, and a first-class Cmd/Effect shell — and rebuilt premflow on it. The app is larger in absolute lines; the *application* logic stays structured so it can scale with less accidental complexity. Same spirit as arch-machine profiles: only what an ML/AI workstation actually needs (ROCm, Kubernetes, self-healing). Ship, use daily, cut what no longer earns its keep — including cutting *by framework* when a single-file CLI outgrows itself.
 
 **4. Q: Your recent thread mentioned multi-agent system orchestration at scale. What’s your practical take?**
 **A:** Start small and observable. My devprofile/.agents repo on GitHub is exactly that — experimenting with secure, solid agent workflows that don’t explode complexity. The goal isn’t more agents; it’s agents that respect cost, context, and human attention — the same principle from my 2016 EEaaS thesis.
@@ -98,7 +100,7 @@ I’m not chasing the next viral framework. I’m building the invisible layer �
 **A:** The custom script that preserved git history. Without it, the team would have resisted. Automation only wins when it removes friction, not adds it. Same principle I apply to every GitHub Action I write today.
 
 **10. Q: Why does premflow (your daily C CLI) still matter in 2026?**
-**A:** It starts before I finish the thought. Notes, tasks, pomodoros, end-of-day review — all in one binary under 300 lines. In Dad mode with limited deep-work windows, that instant feedback loop is non-negotiable. Speed is a feature when time is scarce.
+**A:** It still starts before I finish the thought — notes, tasks, pomodoros, end-of-day review in one binary I actually open dozens of times a day. What changed is architecture, not the job: premflow now runs on **elomaxz**, a thin C MVU framework, so it can take on more of my day without becoming an Electron blob or a spaghetti CLI. In Dad mode, that instant feedback loop is non-negotiable. Speed and predictability are features when time is scarce.
 
 **11. Q: arch-machine prepares ML/AI workstations with ROCm and self-healing. How does it reflect your current priorities?**
 **A:** It turns a fresh Arch install (my daily driver with Omarchy) into a paranoid, production-grade environment in minutes. When you’re exploring collaborations and need reliable local AI tooling fast, having a one-command fortress matters more than ever.
@@ -135,3 +137,9 @@ I’m not chasing the next viral framework. I’m building the invisible layer �
 
 **22. Q: As you explore new collaborations while in “Dad mode,” what are you quietly optimizing for?**
 **A:** Work that lets me be fully present with my son in the mornings and still ship meaningful systems in the afternoons. Roles or partnerships where simplification, long-term thinking, and quiet leverage are valued — exactly the kind of environment where my 23+15 years of layered experience (India + Sweden + AI experiments) can compound without burnout.
+
+**23. Q: What did you build in collab-finder that would transfer to production agent infrastructure?**
+**A:** collab-finder is a personal Tauri + Rust + React desktop app: live X search plus xAI for high-fit opportunity discovery, with a self-guarded reactor (cost, fit, and rate-limit gates), MCP-oriented tooling, and CV sidecar proposals that never mutate master cvdata without an explicit promote. The transferable craft is not “I worked at an AI lab”—it is production habits applied to agents: observable loops, hard stop conditions, truth-seeking over volume, and human control over what becomes permanent. Same standards I used for TypeScript migrations, Playwright E2E, and integration platforms at Oneflow.
+
+**24. Q: Why should a SpaceXAI-style team care about your background?**
+**A:** Three layers that compound: (1) 2016 EEaaS thesis and IEEE work on energy-aware orchestration—the same problem as agent cost, latency, and attention today; (2) nearly eight years at Oneflow shipping production systems—TypeScript migration (~70% fewer type errors, ~200 hours automated), Playwright E2E rewrite, Integration Team and public API ownership, team lead for a rich-text product (+~60% satisfaction); (3) personal systems built to production taste—collab-finder’s guarded reactor, premflow on elomaxz (C MVU: scale capability with structured less-mess code), arch-machine for reliable local AI workstations. I optimize for quiet leverage and honest scope, not hype.
