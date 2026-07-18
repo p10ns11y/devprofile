@@ -72,6 +72,17 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 2. Adjust components in `src/components/` as needed
 3. Regenerate PDF: `pnpm run generate-pdf`
 
+### Apply CVs (collab-finder packs — no master mutation)
+
+See [docs/apply-cv-from-packs.md](./docs/apply-cv-from-packs.md).
+
+```bash
+pnpm link-application-packs   # gitignored symlink → ~/.local/share/collab-finder/application_packs
+pnpm generate-apply-cv xai-exceptional-software-engineer-2026-07-17
+# also: opp_17 | 17
+# Always writes {name}-{role}-{id}.pdf (see docs/apply-cv-from-packs.md)
+```
+
 ### Certificates / documents
 
 1. Add metadata in `src/data/documents-data.ts`

@@ -1,6 +1,16 @@
 import { Document, Font, Link, Page, Path, StyleSheet, Svg, Text, View } from "@react-pdf/renderer";
-import data from "@/data/cvdata.json";
-import { getCvFeaturedProjects } from "@/lib/cv-featured-projects";
+import defaultData from "@/data/cvdata.json";
+import {
+  CV_FEATURED_PROJECT_KEYS,
+  getCvFeaturedProjects,
+} from "@/lib/cv-featured-projects";
+
+export type CVDocumentProps = {
+  /** Master or overlay-merged CV payload. Defaults to `src/data/cvdata.json`. */
+  data?: typeof defaultData;
+  /** Featured project keys for the PDF column. Defaults to portfolio list. */
+  featuredKeys?: readonly string[];
+};
 
 Font.register({
   family: "Helvetica",
@@ -152,7 +162,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const CVDocument = () => (
+const CVDocument = ({
+  data = defaultData,
+  featuredKeys = CV_FEATURED_PROJECT_KEYS,
+}: CVDocumentProps = {}) => (
   <Document
     title="Peramanathan Sathyamoorthy - Curriculum Vitae"
     author="Peramanathan Sathyamoorthy"
@@ -269,7 +282,7 @@ const CVDocument = () => (
           {/* @ts-ignore */}
           <View style={styles.section} id="Projects" bookmark={{ title: "Projects", fit: false }}>
             <Text style={styles.subheader}>Projects</Text>
-            {getCvFeaturedProjects(data.projects).map((project, index) => (
+            {getCvFeaturedProjects(data.projects, featuredKeys).map((project, index) => (
               <View key={index} style={styles.projectItem}>
                 <Link
                   src={project.url}
@@ -304,8 +317,14 @@ const CVDocument = () => (
               </View>
             ))}
           </View>
+          {/* wrap={false}: keep Technologies as one block — avoid mid-section page split in the right column */}
           {/* @ts-ignore */}
-          <View style={styles.section} id="Technologies" bookmark="Technologies">
+          <View
+            style={styles.section}
+            id="Technologies"
+            bookmark="Technologies"
+            wrap={false}
+          >
             <Text style={styles.subheader}>Technologies</Text>
             {Object.entries(data.technologies).map(([cat, items], i) => (
               <Text key={i} style={{ marginBottom: 3 }}>

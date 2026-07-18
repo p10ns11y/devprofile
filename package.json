@@ -22,6 +22,8 @@
     "test:certificates": "vitest run src/lib/certificates src/app/api/certificates",
     "precommit": "pnpm imports:fix && pnpm format && pnpm lint:fix && pnpm lint",
     "generate-pdf": "bun scripts/generate-pdf.tsx",
+    "link-application-packs": "node scripts/link-application-packs.mjs",
+    "generate-apply-cv": "bun scripts/generate-apply-cv.tsx",
     "type-check": "tsc --noEmit",
     "editor:sync": "node scripts/sync-editor-profile.mjs",
     "test:e2e": "playwright test",
