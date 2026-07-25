@@ -1,0 +1,23 @@
+{
+  "profile": "devprofile",
+  "source_drafts": "/home/sustainableabundance/Work/personal/agent-prompt-tuning-lab/data/distill/20260725-153622/drafts",
+  "installed_at": "2026-07-25T16:36:10.814Z",
+  "workflows": [
+    "devprofile-qa-polish-cycle",
+    "cv-apply-pack-workflow",
+    "opportunity-cv-generation-flow",
+    "portfolio-daily-update"
+  ],
+  "skills": [
+    "setup-application-pack-symlink",
+    "finalize-apply-cv-export",
+    "impeccable-qa-redesign",
+    "update-persona-copy",
+    "trace-api-permissions",
+    "slugify-pack-and-cv-names",
+    "select-apply-specific-projects"
+  ],
+  "rules": [
+    "pack-slug-naming.mdc"
+  ]
+}
