@@ -1,6 +1,11 @@
 export type QaStatus = "idle" | "loading" | "error" | "success";
 
-type GenerationStrategy = "golden-match" | "template" | "ollama";
+type GenerationStrategy =
+  | "golden-match"
+  | "template"
+  | "ollama"
+  | "reactor"
+  | string;
 
 interface QADetail {
   text: string;
@@ -13,6 +18,8 @@ export interface QAResult {
   details: QADetail[];
   strategy?: GenerationStrategy;
   ollamaError?: string;
+  version?: string;
+  isGolden?: boolean;
 }
 
 export interface QaState {
@@ -77,7 +84,14 @@ export async function fetchQaAnswer(question: string): Promise<QAResult> {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to get answer");
+    let message = "Failed to get answer";
+    try {
+      const body = (await response.json()) as { message?: string };
+      if (body.message) message = body.message;
+    } catch {
+      // keep default
+    }
+    throw new Error(message);
   }
 
   return response.json() as Promise<QAResult>;

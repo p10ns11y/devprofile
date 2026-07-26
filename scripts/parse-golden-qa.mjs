@@ -62,7 +62,8 @@ function parseQAPairs(markdown, tier, sourceFile) {
   let index = 0;
   for (const match of markdown.matchAll(re)) {
     const question = match[1].replace(/\s+/g, " ").trim();
-    let answer = match[2].trim();
+    // Markdown labels are often `**A:** body` — regex consumes `**A:` and leaves a leading `**`.
+    let answer = match[2].replace(/^\*+\s*/, "").trim();
     answer = answer.replace(/\n\*\*Process\/Interaction Feedback[\s\S]*$/i, "").trim();
 
     if (!question || !answer || question.length < 8) continue;

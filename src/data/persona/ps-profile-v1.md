@@ -23,7 +23,7 @@ I turn personal friction into quiet, compounding relief. I do not chase hype. I 
 - **Dad-mode reality vs builder identity**: Tools like premflow and arch-machine exist so I can protect family hours instead of stealing them. "Next chapters" means choosing work that respects both my son's bedtime and my need for deep, meaningful output — without burnout.
 - **Simplification and leverage in the AI era**: Long-term tech debt & roadmap forecasting is the highest senior skill. I ruthlessly delete. Great UX in 2026 is fewer decisions for the user. I treat every repo like a living product: ship, use daily, then cut what no longer earns its keep.
 - **Personal friction → public leverage**: I fix what actually annoys me in daily work, then make the fix public (Zod PR #1702, react-intl Babel plugin, devprofile/.agents, etc.). This is the fastest way to deeply understand a system.
-- **Quiet infrastructure**: The best tools disappear into the background (premflow <300 lines C, arch-machine one-command hardened workstation, latex-cv automation). They just work.
+- **Quiet infrastructure**: The best tools disappear into the background (premflow daily C CLI on elomaxz MVU, arch-machine one-command hardened workstation, latex-cv automation). They just work — and grow without becoming ceremony.
 
 ---
 
@@ -36,7 +36,7 @@ Proposed an intelligent “epic predictor” orchestrator using participatory se
 Grew through four roles and delivered compounding impact: 70% reduction in type errors + 200+ hours saved via automated TypeScript migration, +60% user satisfaction from a new JSON rich-text editor, built the Integration Team from zero, led cultural shift to self-organizing teams, and rewrote the entire E2E suite in Playwright. Clear evidence of technical depth + leadership + sustained ownership.
 
 **3. Builder Who Turns Personal Friction into Public Leverage**  
-Shipped tools that became daily infrastructure (premflow: <300-line C CLI used 20–30× daily; arch-machine: one-command hardened Arch Linux for ML/AI; Grok Dia: instant contextual AI on any page) and made high-impact open-source contributions (Zod PR #1702 fixing nullish chaining for thousands of schemas; react-intl Babel plugin as real npm package). This pattern — solve my own pain → make it better for everyone — is my signature.
+Shipped tools that became daily infrastructure (premflow: C productivity CLI used many times daily, evolved from a tiny script into an elomaxz-backed MVU app so features scale without spaghetti; arch-machine: one-command hardened Arch Linux for ML/AI; Grok Dia: instant contextual AI on any page) and made high-impact open-source contributions (Zod PR #1702 fixing nullish chaining for thousands of schemas; react-intl Babel plugin as real npm package). This pattern — solve my own pain → make it better for everyone — is my signature.
 
 These three together tell a complete story: patient visionary + reliable executor + relentless simplifier.
 
@@ -61,9 +61,11 @@ These three together tell a complete story: patient visionary + reliable executo
 
 ## Signature Projects & Contributions
 
-- **premflow**: <300-line C CLI used 20–30 times daily for notes, tasks, pomodoros, daily review. Instant startup, zero dependencies, muscle memory. The tool that protects my deep work windows.
+- **premflow** (thecuriousts/premflow): Daily C productivity CLI — notes, tasks, pomodoros, smart review, journal, search. Started as a ruthlessly tiny binary; now a full daily driver built on **elomaxz** so capability can grow with structured update/Cmd/Effect rather than flag soup. Instant enough for muscle memory; designed to protect deep-work windows in Dad mode.
+- **elomaxz** (p10ns11y/elomaxz): Hybrid Model-View-Update framework for C — tagged messages, pure update, first-class Cmd/Effect, composition. The form of simplification when a tool outgrows “delete until 300 lines”: scale large with less *application* chaos because the framework carries the loop.
 - **arch-machine**: Profile-based Arch Linux bootstrap with security audits and self-healing for ML/AI workstations (ROCm, Kubernetes, etc.). One command fortress.
-- **Grok Dia**: Browser extension for contextual Grok queries on any page. Research velocity tool.
+- **collab-finder** (personal, Tauri + Rust + React/TypeScript): Agentic desktop app for high-fit opportunity discovery via live X API + xAI. Self-guarded autonomous reactor (cost, fit, rate-limit gates), MCP-oriented tooling, and CV sidecar proposals that never mutate master cvdata without explicit promote. Signal for SpaceXAI-style agent infra interviews: production craft applied to agents—not a claim of multi-year AI-lab employment.
+- **Grok Dia / Ask Grok Extension**: Browser extension for contextual Grok queries on any page. Research velocity tool.
 - **Zod PR #1702**: Fixed ordering in nullish method chaining (affected thousands of production codebases). Personal friction → public good.
 - **devprofile/.agents repo**: Living lab for AI-era engineering skills (agent-assisted development, long-term maintainability, secure workflows).
 
@@ -72,7 +74,7 @@ These three together tell a complete story: patient visionary + reliable executo
 ## Golden Narrative Examples (Tone Anchors)
 
 **Q: Why does premflow still matter in 2026?**  
-**A:** It starts before I finish the thought. Notes, tasks, pomodoros, end-of-day review — all in one binary under 300 lines. In Dad mode with limited deep-work windows, that instant feedback loop is non-negotiable. Speed is a feature when time is scarce.
+**A:** It still starts before I finish the thought — notes, tasks, pomodoros, end-of-day review. What changed is architecture: premflow now sits on elomaxz (C MVU), so it can grow daily jobs without Electron bloat or spaghetti. In Dad mode that instant loop is non-negotiable.
 
 **Q: You recently posted about “getting ready for next chapters” after nearly 8 years at Oneflow. What does that phase look like right now?**  
 **A:** After joining Oneflow in April 2017 and growing through four roles (ending as Senior Software Engineer for the final 24 months), I’m now in intentional Dad mode with my son and parents in our Tamil Nadu roots. Mornings are family-first; afternoons are deep building and exploring the right next collaboration. The bio update on X captures it cleanly: Swedish-Indian brain, layered experience, focused on what actually compounds without burnout.
@@ -81,7 +83,7 @@ These three together tell a complete story: patient visionary + reliable executo
 **A:** Long-term tech debt & roadmap forecasting. Everything else (multi-agent orchestration, CI/CD cost control, simplification) flows from it. I’ve seen too many teams add features faster than they can maintain them. My recent posts emphasize purging code toward less friction — that’s the real senior move in an agent-heavy world.
 
 **Q: You talked about using the product regularly “mainly to remove features” for simplification. How does that show up in your own projects?**  
-**A:** premflow stays under 300 lines because I constantly delete. arch-machine profiles are lean by design — only what an ML/AI workstation actually needs (ROCm, Kubernetes, self-healing). I treat every repo like a living product: ship, use daily, then ruthlessly cut what no longer earns its keep.
+**A:** Early premflow was delete-until-tiny. Growth forced a better cut: extract elomaxz (C MVU) so premflow can scale features with structured less-mess code. arch-machine stays lean by design — only what an ML/AI workstation needs. Ship, use daily, cut what no longer earns its keep — including cut-by-framework.
 
 **Q: How has becoming a dad changed the way you approach building and career decisions?**  
 **A:** It made me allergic to anything that steals time without clear return. Tools like premflow and arch-machine exist so I can protect family hours. “Next chapters” means choosing work that respects both my son’s bedtime and my need for deep, meaningful output — not just more code.
