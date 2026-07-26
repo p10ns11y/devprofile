@@ -1,6 +1,6 @@
 {
   "profile": "devprofile",
-  "source_drafts": "~/Work/personal/agent-prompt-tuning-lab/data/distill/20260725-153622/drafts",
+  "source_drafts": "data/distill/20260725-153622/drafts",
   "installed_at": "2026-07-25T16:36:10.814Z",
   "note": "Dropped portfolio-daily-update (belongs on p10ns11y). Kept apply/QA/CV workflows, related skills, and pack-slug-naming rule.",
   "workflows": [
@@ -19,5 +19,6 @@
   ],
   "rules": [
     "pack-slug-naming.mdc"
-  ]
+  ],
+  "distill_run": "20260725-153622"
 }
