@@ -5,6 +5,7 @@ import cvdata from "../data/cvdata.json";
 import { SocialLinks } from "./social-links";
 
 const siteLinks = [
+  { href: "/profile", label: "Profile" },
   { href: "/?cv=view", label: "CV" },
   { href: "/certificates", label: "Certificates" },
   { href: "/qa", label: "Profile Q&A" },

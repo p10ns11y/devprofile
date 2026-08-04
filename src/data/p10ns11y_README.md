@@ -48,18 +48,18 @@ I turn personal friction into public tools and dig into the *why* behind the lib
 
 ## An inch at a time
 
-**Featured** and **Cooking** did not come from a master plan. They grow the way real craft does: a spark on [X](https://x.com/peramanathan), friction from another domain, a personal limit, a season of life you cannot negotiate away — then the need to *make something* so the constraint loses a little power.
+**Featured** and **Cooking** did not start as a spreadsheet of destinies. They grow the way real craft does: a spark on [X](https://x.com/peramanathan), friction from another domain, a personal limit, a season of life you cannot negotiate away — then the need to *make something* so the constraint loses a little power. One thing triggers the next. Connections often show up after you move.
 
-One thing triggers the next. Connections show up after you move. Exploration under real limits beats over-planning everything early and shipping nothing.
+That is not anti-planning. Once requirements are crystal clear, I plan deeper: which areas and projects need energy, what is time-sensitive now, what is long-term attention. Until then the field is chaotic by nature — prolonged, consistent effort is how chaos becomes harmony and work starts to feel almost effortless.
 
 | | After Oneflow · Dec 2024 |
 | --- | --- |
 | **Start** | [adaptate](https://github.com/p10ns11y/adaptate) → [ama-about-me](https://github.com/p10ns11y/ama-about-me) (prototype from AI course content · personal tech stack) → [devprofile](https://github.com/p10ns11y/devprofile) |
 | **Pause** | **DAD duty** · months of quiet |
-| **Stretch** | Engineering craft + systems thinking — an inch at a time, the graph forming itself |
+| **Stretch** | Engineering craft + systems thinking — the graph forming itself · [agent-prompt-tuning-lab](https://github.com/p10ns11y/agent-prompt-tuning-lab) · [elomaxz](https://github.com/p10ns11y/elomaxz) · [arch-machine](https://github.com/p10ns11y/arch-machine) · [thepulimaangani](https://github.com/p10ns11y/thepulimaangani) |
 
-> If you are waiting for perfect conditions: start with the friction in front of you.  
-> The list below is what that looks like when you keep going.
+> A true master plan, to me, is only one thing: an interconnected, inter-related web of friction-removing automations aimed at impossible missions that great vision makes real.  
+> I strongly endorse the pioneering lead of Tesla and SpaceX on that path.
 
 ## Featured
 
@@ -152,7 +152,7 @@ Shipped to learn — live surfaces, not daily drivers. Useful when you want the 
 
 Two habits that outlast any single project: **orchestrate under constraint**, and when the calendar slips, **ship more than was asked** — deeper work, not a thin late apology.
 
-Core idea (thesis → 2026): an **orchestrator that profiles, predicts, and acts** under constraint — not “battery tips.” Same shape as today’s AI stack problem: where inference runs (cloud · edge · on-device NPU), what data leaves the machine, how agents spend energy and attention. **Intelligence that respects cost and locality compounds; blanket centralization taxes humans.**
+Core idea (thesis 2016 → 2026): an **orchestrator that profiles, predicts, and acts** under constraint — not “battery tips.” Same shape as today’s AI stack problem: where inference runs (cloud · edge · on-device NPU), what data leaves the machine, how agents spend energy and attention. **Intelligence that respects cost and locality compounds; blanket centralization taxes humans.**
 
 <details>
 <summary>Thesis & papers · 2015–2017</summary>
