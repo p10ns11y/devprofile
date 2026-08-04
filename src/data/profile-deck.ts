@@ -24,6 +24,8 @@ export type ProfileDeckSlideKind =
 
 export type ProfileDeckSlide = {
   id: string;
+  /** Unique shareable URL word cue — `/profile?slide=<cue>`. */
+  cue: string;
   kind: ProfileDeckSlideKind;
   chapter: string;
   title: string;
@@ -76,12 +78,14 @@ export function cookingItems(names: string[]) {
 export const profileDeckSlides: ProfileDeckSlide[] = [
   {
     id: "cover",
+    cue: "arrive",
     kind: "cover",
     chapter: "arrive",
     title: "Arrive",
   },
   {
     id: "story",
+    cue: "inch-at-a-time",
     kind: "story",
     chapter: "story",
     title: "An inch at a time",
@@ -89,6 +93,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "story-plan",
+    cue: "not-anti-planning",
     kind: "story-plan",
     chapter: "story",
     title: "Not anti-planning",
@@ -96,12 +101,14 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "story-quote",
+    cue: "master-plan",
     kind: "story-quote",
     chapter: "story",
     title: "Master plan",
   },
   {
     id: "timeline-start",
+    cue: "start",
     kind: "timeline",
     chapter: "story",
     title: "Start",
@@ -110,6 +117,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "timeline-pause",
+    cue: "pause",
     kind: "timeline",
     chapter: "story",
     title: "Pause",
@@ -118,6 +126,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "timeline-stretch",
+    cue: "stretch",
     kind: "timeline",
     chapter: "story",
     title: "Stretch",
@@ -126,6 +135,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "feat-collab-finder",
+    cue: "collab-finder",
     kind: "featured-one",
     chapter: "featured",
     title: "collab-finder",
@@ -134,6 +144,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "feat-agent-prompt-tuning-lab",
+    cue: "agent-prompt-tuning-lab",
     kind: "featured-one",
     chapter: "featured",
     title: "agent-prompt-tuning-lab",
@@ -141,6 +152,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "feat-skills",
+    cue: "skills",
     kind: "featured-one",
     chapter: "featured",
     title: "skills",
@@ -148,6 +160,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "feat-shellyxz.sh",
+    cue: "shellyxz",
     kind: "featured-one",
     chapter: "featured",
     title: "shellyxz.sh",
@@ -156,6 +169,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "feat-arch-machine",
+    cue: "arch-machine",
     kind: "featured-one",
     chapter: "featured",
     title: "arch-machine",
@@ -163,6 +177,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "feat-elomaxz",
+    cue: "elomaxz",
     kind: "featured-one",
     chapter: "featured",
     title: "elomaxz",
@@ -170,6 +185,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "feat-adaptate",
+    cue: "adaptate",
     kind: "featured-one",
     chapter: "featured",
     title: "adaptate",
@@ -178,6 +194,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "feat-thepulimaangani",
+    cue: "thepulimaangani",
     kind: "featured-one",
     chapter: "featured",
     title: "thepulimaangani",
@@ -185,6 +202,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "feat-prototype-it-to-explain-itself",
+    cue: "prototype-it",
     kind: "featured-one",
     chapter: "featured",
     title: "prototype-it-to-explain-itself",
@@ -192,6 +210,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "feat-devprofile",
+    cue: "devprofile",
     kind: "featured-one",
     chapter: "featured",
     title: "devprofile",
@@ -199,6 +218,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "cooking-ensembly",
+    cue: "ensembly",
     kind: "cooking-set",
     chapter: "cooking",
     title: "ensembly",
@@ -207,6 +227,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "cooking-life-os",
+    cue: "life-os",
     kind: "cooking-set",
     chapter: "cooking",
     title: "life-os",
@@ -214,6 +235,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "cooking-plugins",
+    cue: "plugins",
     kind: "cooking-set",
     chapter: "cooking",
     title: "plugins",
@@ -221,6 +243,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "cooking-premflow",
+    cue: "premflow",
     kind: "cooking-set",
     chapter: "cooking",
     title: "premflow",
@@ -229,6 +252,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "cooking-local",
+    cue: "local-first-ai",
     kind: "cooking-set",
     chapter: "cooking",
     title: "Local-first AI",
@@ -236,6 +260,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "poc-0",
+    cue: "live-feed",
     kind: "pocs",
     chapter: "pocs",
     title: "v0-live-feed-app",
@@ -244,6 +269,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "poc-1",
+    cue: "selfie-sign-in",
     kind: "pocs",
     chapter: "pocs",
     title: "selfie-sign-in",
@@ -251,6 +277,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "long-arc",
+    cue: "two-habits",
     kind: "long-arc",
     chapter: "long-arc",
     title: "Two habits",
@@ -258,6 +285,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "long-arc-core",
+    cue: "orchestrate",
     kind: "long-arc-core",
     chapter: "long-arc",
     title: "Orchestrate under constraint",
@@ -265,6 +293,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "long-arc-papers-a",
+    cue: "primary-sources",
     kind: "long-arc-papers",
     chapter: "long-arc",
     title: "Primary sources",
@@ -273,6 +302,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "long-arc-papers-b",
+    cue: "telling-the-arc",
     kind: "long-arc-papers",
     chapter: "long-arc",
     title: "How I tell the arc",
@@ -281,6 +311,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "long-arc-course",
+    cue: "ship-more",
     kind: "long-arc-course",
     chapter: "long-arc",
     title: "Ship more than asked",
@@ -288,6 +319,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "writing",
+    cue: "stakes-feel-real",
     kind: "writing",
     chapter: "writing",
     title: "When stakes feel real",
@@ -295,6 +327,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "npm-recent",
+    cue: "packages-2024",
     kind: "npm",
     chapter: "writing",
     title: "Packages in motion",
@@ -303,6 +336,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "npm-earlier",
+    cue: "packages-earlier",
     kind: "npm",
     chapter: "writing",
     title: "Earlier releases",
@@ -311,6 +345,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "oss-a",
+    cue: "upstream-fixes",
     kind: "oss",
     chapter: "more",
     title: "Upstream fixes",
@@ -319,6 +354,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "oss-b",
+    cue: "ecosystem",
     kind: "oss",
     chapter: "more",
     title: "Ecosystem contributions",
@@ -327,12 +363,14 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "connect",
+    cue: "find-me",
     kind: "connect",
     chapter: "more",
     title: "Find me",
   },
   {
     id: "archive-intro",
+    cue: "two-seasons",
     kind: "archive-intro",
     chapter: "archive",
     title: "Two seasons",
@@ -340,6 +378,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "archive-surfaces-a",
+    cue: "uppsala",
     kind: "archive-surfaces",
     chapter: "archive",
     title: "Uppsala surfaces",
@@ -348,6 +387,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "archive-surfaces-b",
+    cue: "pro-life",
     kind: "archive-surfaces",
     chapter: "archive",
     title: "Pro-life surfaces",
@@ -356,6 +396,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "archive-samples-0",
+    cue: "tamil",
     kind: "archive-samples",
     chapter: "archive",
     title: "Tamil samples",
@@ -363,6 +404,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "archive-samples-1",
+    cue: "tea-stall",
     kind: "archive-samples",
     chapter: "archive",
     title: "Tea Stall samples",
@@ -370,6 +412,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "archive-samples-2",
+    cue: "on-the-way",
     kind: "archive-samples",
     chapter: "archive",
     title: "On The Way samples",
@@ -377,6 +420,7 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "close",
+    cue: "elsewhere",
     kind: "close",
     chapter: "close",
     title: "Elsewhere",
@@ -462,4 +506,20 @@ export const profileDeckNav: ProfileDeckNavChapter[] = [
 
 export function slideIndexById(slideId: string): number {
   return profileDeckSlides.findIndex((slide) => slide.id === slideId);
+}
+
+/** Query key for shareable deep links: `/profile?slide=<cue>`. */
+export const PROFILE_SLIDE_PARAM = "slide";
+
+export function slideIndexByCue(cue: string): number {
+  return profileDeckSlides.findIndex((slide) => slide.cue === cue);
+}
+
+/** Resolve share URL value — cue first, then legacy internal id. */
+export function resolveSlideIndex(slideParam: string | null | undefined): number {
+  if (!slideParam) return 0;
+  const byCue = slideIndexByCue(slideParam);
+  if (byCue >= 0) return byCue;
+  const byId = slideIndexById(slideParam);
+  return byId >= 0 ? byId : 0;
 }

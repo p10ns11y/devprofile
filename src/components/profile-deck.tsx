@@ -3,6 +3,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   type ReactNode,
   type RefObject,
@@ -16,9 +17,11 @@ import {
 import {
   cookingItems,
   featuredProject,
+  PROFILE_SLIDE_PARAM,
   type ProfileDeckSlide,
   profileDeckNav,
   profileDeckSlides,
+  resolveSlideIndex,
   slideIndexById,
 } from "@/data/profile-deck";
 import { profileJourney } from "@/data/profile-journey";
@@ -98,26 +101,67 @@ function SlideBody({
   const j = profileJourney;
 
   switch (slide.kind) {
-    case "cover":
+    case "cover": {
+      const taglineLines = j.tagline
+        .split(" · ")
+        .map((line) => line.trim())
+        .filter(Boolean);
       return (
         <SlideShell cover>
-          <p className="profile-deck__handle">@{j.handle}</p>
-          <h1
-            ref={headingRef}
-            tabIndex={-1}
-            className="profile-deck__title profile-deck__title--cover"
-          >
-            {j.tagline}
-          </h1>
-          <p className="profile-deck__meta">{j.location}</p>
-          <p className="profile-deck__body profile-deck__body--feature">{j.intro}</p>
+          <div className="profile-deck__arrive">
+            <p className="profile-deck__handle">@{j.handle}</p>
+            <h1
+              ref={headingRef}
+              tabIndex={-1}
+              className="profile-deck__title profile-deck__title--cover"
+            >
+              {taglineLines.map((line, lineIndex) => (
+                <span
+                  key={line}
+                  className={cn(
+                    "profile-deck__arrive-line",
+                    lineIndex > 0 && "profile-deck__arrive-line--soft"
+                  )}
+                >
+                  {line}
+                </span>
+              ))}
+            </h1>
+            <p className="profile-deck__meta">{j.location}</p>
+            <p className="profile-deck__arrive-thesis">
+              {j.intro.includes("@thecuriousts") ? (
+                <>
+                  {j.intro.split("@thecuriousts")[0]}
+                  <Ext href={j.org.href}>@{j.org.name}</Ext>
+                  {j.intro.split("@thecuriousts")[1]}
+                </>
+              ) : (
+                j.intro
+              )}
+            </p>
+            <ul role="list" className="profile-deck__arrive-beats">
+              <li>friction → tools</li>
+              <li>libraries → why</li>
+              <li>
+                side experiments → <Ext href={j.org.href}>@{j.org.name}</Ext>
+              </li>
+            </ul>
+            <p className="profile-deck__arrive-cue" aria-hidden="true">
+              Space or → to begin
+            </p>
+          </div>
         </SlideShell>
       );
+    }
 
-    case "story":
+    case "story": {
+      const pull = "One thing triggers the next.";
+      const leadRest = j.story.lead.includes(pull)
+        ? j.story.lead.replace(pull, "").replace(/\s+/g, " ").trim()
+        : j.story.lead;
       return (
         <SlideShell>
-          <article className="profile-deck__feature">
+          <article className="profile-deck__feature profile-deck__story">
             {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
             <h2
               ref={headingRef}
@@ -126,15 +170,32 @@ function SlideBody({
             >
               {j.story.title}
             </h2>
-            <p className="profile-deck__body profile-deck__body--feature">{j.story.lead}</p>
+            <p className="profile-deck__pull">{pull}</p>
+            <ul role="list" className="profile-deck__craft-beats">
+              <li>
+                <span className="profile-deck__craft-beat-label">Spark</span>
+                <span>on X — a thought that won’t leave</span>
+              </li>
+              <li>
+                <span className="profile-deck__craft-beat-label">Friction</span>
+                <span>from another domain, or a personal limit</span>
+              </li>
+              <li>
+                <span className="profile-deck__craft-beat-label">Make</span>
+                <span>so the constraint loses a little power</span>
+              </li>
+            </ul>
+            <p className="profile-deck__body profile-deck__body--feature">{leadRest}</p>
+            <LearnBand>Connections often show up after you move.</LearnBand>
           </article>
         </SlideShell>
       );
+    }
 
     case "story-plan":
       return (
         <SlideShell>
-          <article className="profile-deck__feature">
+          <article className="profile-deck__feature profile-deck__story">
             {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
             <h2
               ref={headingRef}
@@ -143,7 +204,11 @@ function SlideBody({
             >
               {slide.title}
             </h2>
+            <p className="profile-deck__pull profile-deck__pull--plan">
+              Chaos becomes harmony — through consistent effort.
+            </p>
             <p className="profile-deck__body profile-deck__body--feature">{j.story.body}</p>
+            <LearnBand>Once requirements are crystal clear, plan deeper.</LearnBand>
           </article>
         </SlideShell>
       );
@@ -151,10 +216,13 @@ function SlideBody({
     case "story-quote":
       return (
         <SlideShell cover>
-          <h2 ref={headingRef} tabIndex={-1} className="sr-only">
-            {slide.title}
-          </h2>
-          <blockquote className="profile-deck__close-quote">{j.story.quote}</blockquote>
+          <div className="profile-deck__quote-stage">
+            <h2 ref={headingRef} tabIndex={-1} className="sr-only">
+              {slide.title}
+            </h2>
+            <p className="profile-deck__bridge">Master plan</p>
+            <blockquote className="profile-deck__close-quote">{j.story.quote}</blockquote>
+          </div>
         </SlideShell>
       );
 
@@ -239,6 +307,8 @@ function SlideBody({
               {item.href ? <Ext href={item.href}>{item.name}</Ext> : item.name}
             </h2>
             <TechPills items={splitStack(item.stack)} />
+            <p className="profile-deck__body profile-deck__body--feature">{item.summary}</p>
+            <Highlights items={item.highlights.slice(0, 3)} />
             <LearnBand>{item.watchFor}</LearnBand>
           </article>
         </SlideShell>
@@ -267,6 +337,8 @@ function SlideBody({
                 </li>
               </ul>
             ) : null}
+            <p className="profile-deck__body profile-deck__body--feature">{poc.summary}</p>
+            <Highlights items={poc.highlights.slice(0, 3)} />
             <LearnBand>{poc.proves}</LearnBand>
           </article>
         </SlideShell>
@@ -321,22 +393,25 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <ul role="list" className="profile-deck__cite-list">
+            <ul role="list" className="profile-deck__cite-list profile-deck__cite-list--rich">
               {papers.map((row) => (
                 <li key={row.label}>
-                  <p className="profile-deck__cite-label">{row.label}</p>
-                  <ul role="list" className="profile-deck__feature-links">
+                  <p className="profile-deck__cite-kicker">{row.label}</p>
+                  {row.note ? <p className="profile-deck__cite-meta">{row.note}</p> : null}
+                  <ul
+                    role="list"
+                    className="profile-deck__feature-links profile-deck__feature-links--wrap"
+                  >
                     {row.links.map((link) => (
                       <li key={link.href}>
-                        <Ext href={link.href}>
-                          {link.label.length > 42 ? `${link.label.slice(0, 40)}…` : link.label}
-                        </Ext>
+                        <Ext href={link.href}>{link.label}</Ext>
                       </li>
                     ))}
                   </ul>
                 </li>
               ))}
             </ul>
+            {start === 0 ? <LearnBand>{j.longArc.thesisNote}</LearnBand> : null}
           </article>
         </SlideShell>
       );
@@ -382,7 +457,11 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <ul role="list" className="profile-deck__cite-list">
+            <p className="profile-deck__body profile-deck__body--feature">
+              Careful long-form when stakes feel real — culture, health, tech, policy — not
+              take-farming.
+            </p>
+            <ul role="list" className="profile-deck__cite-list profile-deck__cite-list--rich">
               <li>
                 <p className="profile-deck__cite-label">
                   <Ext href={j.writing.articles.href}>{j.writing.articles.label}</Ext>
@@ -398,6 +477,7 @@ function SlideBody({
                 </li>
               ))}
             </ul>
+            <LearnBand>Read when the claim needs room — not when the feed needs noise.</LearnBand>
           </article>
         </SlideShell>
       );
@@ -418,12 +498,13 @@ function SlideBody({
             >
               {slide.title}
             </h2>
+            <TechPills items={["npm", slide.npmYear === "2024" ? "2024" : "2017–2021"]} />
             <ul role="list" className="profile-deck__feature-links">
               <li>
                 <Ext href={j.writing.npmProfile}>~p10ns11y</Ext>
               </li>
             </ul>
-            <ul role="list" className="profile-deck__cite-list">
+            <ul role="list" className="profile-deck__cite-list profile-deck__cite-list--rich">
               {packages.map((pkg) => (
                 <li key={pkg.href} className="profile-deck__cite-row">
                   <Ext href={pkg.href}>{pkg.name}</Ext>
@@ -431,6 +512,7 @@ function SlideBody({
                 </li>
               ))}
             </ul>
+            <LearnBand>Packages as receipts — small surfaces that left the laptop.</LearnBand>
           </article>
         </SlideShell>
       );
@@ -450,23 +532,24 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <ul role="list" className="profile-deck__cite-list">
-              {items.map((item) => (
-                <li key={item.name}>
-                  <p className="profile-deck__cite-label">
-                    {item.name}
-                    <span className="profile-deck__cite-meta"> — {item.detail}</span>
-                  </p>
-                  <ul role="list" className="profile-deck__feature-links">
-                    {item.links.slice(0, 2).map((link) => (
-                      <li key={link.href}>
-                        <Ext href={link.href}>{link.label}</Ext>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
+            <p className="profile-deck__body profile-deck__body--feature">
+              Friction found in the wild — fixed upstream so thousands of schemas and apps got
+              quieter.
+            </p>
+            {items.map((item) => (
+              <div key={item.name} className="profile-deck__oss-block">
+                <h3 className="profile-deck__oss-name">{item.name}</h3>
+                <p className="profile-deck__body profile-deck__body--feature">{item.detail}</p>
+                <ul role="list" className="profile-deck__feature-links">
+                  {item.links.slice(0, 3).map((link) => (
+                    <li key={link.href}>
+                      <Ext href={link.href}>{link.label}</Ext>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+            <LearnBand>Personal friction → public fix — the signature pattern.</LearnBand>
           </article>
         </SlideShell>
       );
@@ -504,13 +587,11 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <ul role="list" className="profile-deck__cite-list">
-              {j.archive.seasons.map((season) => (
-                <li key={season}>
-                  <p className="profile-deck__cite-meta">{season}</p>
-                </li>
-              ))}
-            </ul>
+            <p className="profile-deck__body profile-deck__body--feature">{j.archive.lead}</p>
+            <Highlights items={j.archive.seasons} />
+            <LearnBand>
+              Honest archive — kept on the map, not polished into a victory lap.
+            </LearnBand>
           </article>
         </SlideShell>
       );
@@ -529,18 +610,16 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <ul role="list" className="profile-deck__cite-list">
-              {surfaces.map((surface) => (
-                <li key={surface.href}>
-                  <p className="profile-deck__cite-label">
-                    <Ext href={surface.href}>{surface.name}</Ext>
-                  </p>
-                  <p className="profile-deck__cite-meta">
-                    {surface.season} · {surface.what}
-                  </p>
-                </li>
-              ))}
-            </ul>
+            {surfaces.map((surface) => (
+              <div key={surface.href} className="profile-deck__oss-block">
+                <h3 className="profile-deck__oss-name">
+                  <Ext href={surface.href}>{surface.name}</Ext>
+                </h3>
+                <TechPills items={[surface.season]} />
+                <p className="profile-deck__body profile-deck__body--feature">{surface.what}</p>
+              </div>
+            ))}
+            <LearnBand>Public writing that never left the map.</LearnBand>
           </article>
         </SlideShell>
       );
@@ -559,15 +638,20 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <ul role="list" className="profile-deck__cite-list">
+            <p className="profile-deck__body profile-deck__body--feature">
+              Sample posts from {sample.surface} — open any to feel the season.
+            </p>
+            <ul
+              role="list"
+              className="profile-deck__feature-links profile-deck__feature-links--wrap"
+            >
               {sample.links.map((link) => (
                 <li key={link.href}>
-                  <p className="profile-deck__cite-label">
-                    <Ext href={link.href}>{link.label}</Ext>
-                  </p>
+                  <Ext href={link.href}>{link.label}</Ext>
                 </li>
               ))}
             </ul>
+            <LearnBand>Low bandwidth · kept anyway.</LearnBand>
           </article>
         </SlideShell>
       );
@@ -613,19 +697,50 @@ function SlideBody({
 
 export function ProfileDeck() {
   const shouldReduceMotion = useReducedMotion();
-  const [index, setIndex] = useState(0);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const labelId = useId();
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const slides = profileDeckSlides;
-  const slide = slides[index] ?? slides[0];
   const total = slides.length;
+
+  const [index, setIndex] = useState(() =>
+    resolveSlideIndex(searchParams.get(PROFILE_SLIDE_PARAM))
+  );
+  const slide = slides[index] ?? slides[0];
   const chapterMeta = profileDeckNav.find((chapter) => chapter.id === slide.chapter);
+
+  const writeSlideToUrl = useCallback(
+    (cue: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("view");
+      if (params.get(PROFILE_SLIDE_PARAM) === cue) return;
+      params.set(PROFILE_SLIDE_PARAM, cue);
+      const query = params.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
+
+  useEffect(() => {
+    const raw = searchParams.get(PROFILE_SLIDE_PARAM);
+    const fromUrl = resolveSlideIndex(raw);
+    setIndex(fromUrl);
+    const canonicalCue = slides[fromUrl]?.cue;
+    if (!canonicalCue) return;
+    if (raw !== canonicalCue) writeSlideToUrl(canonicalCue);
+  }, [searchParams, slides, writeSlideToUrl]);
 
   const goTo = useCallback(
     (next: number) => {
-      setIndex(Math.max(0, Math.min(total - 1, next)));
+      const clamped = Math.max(0, Math.min(total - 1, next));
+      const target = slides[clamped];
+      if (!target) return;
+      setIndex(clamped);
+      writeSlideToUrl(target.cue);
     },
-    [total]
+    [slides, total, writeSlideToUrl]
   );
 
   const goChapter = useCallback(

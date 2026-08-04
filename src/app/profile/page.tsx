@@ -16,7 +16,8 @@ export const metadata: Metadata = {
  * THESIS: Curated GitHub journey as a type-first viewport deck — reading over decoration.
  * OWN-WORLD: brand surfaces + Instrument display; no slide photography; thin chapter rail + pager.
  * STORY: One beat per slide (no scroll); rail expands only the active chapter; archive as list beats.
- * FIRST VIEWPORT: Handle, tagline, location, intro — no name hero, no CTAs; badges on final Links slide.
+ * FIRST VIEWPORT: Stacked tagline lines, thesis, craft beats — no name hero, no mid-deck CTAs; badges on Elsewhere.
+ * SHARE: `?slide=<cue>` deep-links every beat (word cues, not internal ids); `?view=scroll` for full-page escape.
  * FORM: Experience · pathway C (no slide photography).
  */
 export default function ProfilePage() {

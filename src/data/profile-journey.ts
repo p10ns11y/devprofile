@@ -27,6 +27,11 @@ export type ProfileCookingItem = {
   name: string;
   href?: string;
   stack: string;
+  /** One-line thesis — Featured summary role. */
+  summary: string;
+  /** Architecture / craft bullets. */
+  highlights: string[];
+  /** What to watch for as it cooks — Learn band. */
   watchFor: string;
 };
 
@@ -34,6 +39,9 @@ export type ProfilePocItem = {
   name: string;
   href: string;
   stack: string;
+  summary: string;
+  highlights: string[];
+  /** What the POC proves — Learn band. */
   proves: string;
   liveHref?: string;
 };
@@ -332,32 +340,60 @@ export const profileJourney = {
       name: "ensembly",
       href: "https://github.com/thecuriousts/ensembly",
       stack: "JS · Rust · WASM",
-      watchFor:
-        "Game of Peram: life as a playable system (beacons, HITL, local kernel). You keep body-world work and authorization.",
+      summary: "Game of Peram — life as a playable system you authorize, not a black-box sim.",
+      highlights: [
+        "Beacons, HITL gates, and a local kernel keep agency with the human",
+        "Body-world work stays yours — the game does not seize authorization",
+        "JS · Rust · WASM stack under active heat",
+      ],
+      watchFor: "Progress without killing inception — spark → friction → next link.",
     },
     {
       name: "life-os",
       href: "https://github.com/p10ns11y/life-os",
       stack: "Markdown · Obsidian",
-      watchFor:
-        "Agentic vault (Projects · Areas · schema · energy). Portfolio memory — not the runtime clone (ensembly).",
+      summary: "Agentic vault for portfolio memory — Projects · Areas · schema · energy.",
+      highlights: [
+        "Obsidian/Markdown as the durable store, not a throwaway chat log",
+        "Schema and energy labels so agents and humans share the same map",
+        "Companion to ensembly — memory here, runtime there",
+      ],
+      watchFor: "Vault that stays auditable when agents start moving work.",
     },
     {
       name: "plugins",
       href: "https://github.com/p10ns11y/plugins",
       stack: "Markdown · Shell",
-      watchFor: "Grok/agent plugins (premflow coach/pomo) over real CLIs.",
+      summary: "Grok/agent plugins that coach real CLIs — premflow pomo and coach over live tools.",
+      highlights: [
+        "Plugins sit on top of CLIs you already trust",
+        "Markdown + shell — thin glue, not another framework",
+        "Dogfood path into daily-driver loops",
+      ],
+      watchFor: "Agent help that respects the tool you already open every day.",
     },
     {
       name: "premflow",
       href: "https://github.com/thecuriousts/premflow",
       stack: "C · elomaxz",
-      watchFor: "Daily-driver CLI — dogfood for MVU-in-C; ledger agents and humans actually share.",
+      summary: "Daily-driver CLI — notes, tasks, pomos — dogfood for MVU-in-C via elomaxz.",
+      highlights: [
+        "Ledger agents and humans actually share",
+        "Grew from a tiny binary into structured update/Cmd/Effect",
+        "Muscle-memory speed without flag soup",
+      ],
+      watchFor: "Protect deep-work windows in Dad mode without abandoning craft.",
     },
     {
       name: "Local-first AI & quiet automation",
       stack: "agents · device",
-      watchFor: "Respect device, attention, and data boundaries — progress you can audit.",
+      summary: "Automation that respects device, attention, and data boundaries.",
+      highlights: [
+        "Locality first — what leaves the machine is a deliberate choice",
+        "Quiet loops you can audit, not ambient always-on noise",
+        "Same thesis spine as 2016 → 2026 orchestration under constraint",
+      ],
+      watchFor: "Progress you can inspect when the agent finishes a tick.",
     },
   ] satisfies ProfileCookingItem[],
   pocsLead:
@@ -367,16 +403,26 @@ export const profileJourney = {
       name: "v0-live-feed-app",
       href: "https://github.com/p10ns11y/v0-live-feed-app",
       stack: "TypeScript · v0",
-      proves:
-        "X “For You” feed re-imagined as a technical flow (data / ML can plug in from open x-algorithm).",
+      summary: "X “For You” re-imagined as a technical flow — live surface before productizing.",
+      highlights: [
+        "TypeScript · v0 for fast iteration on feed UX",
+        "Data / ML can plug in from open x-algorithm later",
+        "Shipped to learn — not a daily driver",
+      ],
+      proves: "Feel the feed idea under your fingers before betting a product on it.",
       liveHref: "https://v0-live-feed-app.vercel.app/",
     },
     {
       name: "selfie-sign-in-flow-using-v0-xAI",
       href: "https://github.com/p10ns11y/selfie-sign-in-flow-using-v0-xAI",
       stack: "TypeScript · AWS Rekognition · XState",
-      proves:
-        "Face auth end-to-end: multi-angle enroll → train → login with selfie — state machine + complex UI, not a mock.",
+      summary: "Face auth end-to-end — enroll → train → login with selfie, not a mock.",
+      highlights: [
+        "XState owns the multi-angle enroll / train / login machine",
+        "AWS Rekognition for real recognition, not a UI stub",
+        "Complex UI that had to survive the full happy path",
+      ],
+      proves: "State machines + vision APIs can ship as a believable auth story.",
       liveHref: "https://v0-selfie-sign-in-process.vercel.app",
     },
   ] satisfies ProfilePocItem[],

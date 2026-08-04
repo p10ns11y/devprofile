@@ -294,6 +294,15 @@ export function ProfileJourney() {
                     {item.stack}
                   </p>
                 </div>
+                <p className="mt-3 text-sm leading-relaxed text-text1">{item.summary}</p>
+                <ul
+                  role="list"
+                  className="mt-3 list-disc space-y-1 pl-5 text-sm leading-relaxed text-text2"
+                >
+                  {item.highlights.slice(0, 3).map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
                 <p className="mt-3 text-sm leading-relaxed text-text2">
                   <span className="font-medium text-text1">Watch for</span> — {item.watchFor}
                 </p>
@@ -324,7 +333,18 @@ export function ProfileJourney() {
                 <p className="mt-1 text-xs font-medium tracking-wide text-text2 uppercase">
                   {poc.stack}
                 </p>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-text2">{poc.proves}</p>
+                <p className="mt-3 text-sm leading-relaxed text-text1">{poc.summary}</p>
+                <ul
+                  role="list"
+                  className="mt-3 list-disc space-y-1 pl-5 text-sm leading-relaxed text-text2"
+                >
+                  {poc.highlights.slice(0, 3).map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-text2">
+                  <span className="font-medium text-text1">Proves</span> — {poc.proves}
+                </p>
                 {poc.liveHref ? (
                   <p className="mt-4 text-sm">
                     <ExternalLink href={poc.liveHref}>Live demo</ExternalLink>
