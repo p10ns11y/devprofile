@@ -305,6 +305,33 @@ function SlideBody({
       );
     }
 
+    case "energy-focus": {
+      const focus = j.energyFocus;
+      return (
+        <SlideShell>
+          <article className="profile-deck__feature profile-deck__story">
+            {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
+            <h2
+              ref={headingRef}
+              tabIndex={-1}
+              className="profile-deck__title profile-deck__title--feature"
+            >
+              {focus.title}
+            </h2>
+            <p className="profile-deck__pull profile-deck__pull--plan">Not a project — a focus.</p>
+            <p className="profile-deck__body profile-deck__body--feature">{focus.lead}</p>
+            <Highlights items={focus.highlights} />
+            <ul role="list" className="profile-deck__feature-links">
+              <li>
+                <Ext href={focus.connected.href}>{focus.connected.label}</Ext>
+              </li>
+            </ul>
+            <LearnBand>{focus.learn}</LearnBand>
+          </article>
+        </SlideShell>
+      );
+    }
+
     case "pocs": {
       const poc = j.pocs[slide.pocIndex ?? 0];
       if (!poc) return null;

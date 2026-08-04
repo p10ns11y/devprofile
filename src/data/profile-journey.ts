@@ -384,18 +384,19 @@ export const profileJourney = {
       ],
       watchFor: "Protect deep-work windows in Dad mode without abandoning craft.",
     },
-    {
-      name: "Local-first AI & quiet automation",
-      stack: "agents · device",
-      summary: "Automation that respects device, attention, and data boundaries.",
-      highlights: [
-        "Locality first — what leaves the machine is a deliberate choice",
-        "Quiet loops you can audit, not ambient always-on noise",
-        "Same thesis spine as 2016 → 2026 orchestration under constraint",
-      ],
-      watchFor: "Progress you can inspect when the agent finishes a tick.",
-    },
   ] satisfies ProfileCookingItem[],
+  /** Direction of energy — not a repo. Wired through ensembly and reflected in cooking projects. */
+  energyFocus: {
+    title: "Local-first AI & quiet automation",
+    lead: "Not a project — a focus. Roughly half my energy goes here, connected to ensembly: remove friction from life, digital chores to physical ones you can see reflected in the work under heat.",
+    highlights: [
+      "Wired through ensembly — life as a system you still authorize",
+      "Digital chores → physical outcomes you can see and trust",
+      "Quiet loops that respect device, attention, and data boundaries",
+    ],
+    learn: "North star for the cooking stack — not another package name on npm.",
+    connected: { label: "ensembly", href: "https://github.com/thecuriousts/ensembly" },
+  },
   pocsLead:
     "Shipped to learn — live surfaces, not daily drivers. Useful when you want the idea under your fingers before productizing.",
   pocs: [

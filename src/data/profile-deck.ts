@@ -8,6 +8,7 @@ export type ProfileDeckSlideKind =
   | "timeline"
   | "featured-one"
   | "cooking-set"
+  | "energy-focus"
   | "pocs"
   | "long-arc"
   | "long-arc-core"
@@ -251,12 +252,12 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
     cookingNames: ["premflow"],
   },
   {
-    id: "cooking-local",
+    id: "cooking-focus",
     cue: "local-first-ai",
-    kind: "cooking-set",
+    kind: "energy-focus",
     chapter: "cooking",
-    title: "Local-first AI",
-    cookingNames: ["Local-first AI & quiet automation"],
+    title: "Local-first AI & quiet automation",
+    bridge: "Not a repo — where half the energy goes.",
   },
   {
     id: "poc-0",
@@ -478,6 +479,7 @@ export const profileDeckNav: ProfileDeckNavChapter[] = [
     children: [
       { label: "Under heat", firstSlideId: "cooking-ensembly" },
       { label: "Daily drivers", firstSlideId: "cooking-premflow" },
+      { label: "Focus", firstSlideId: "cooking-focus" },
     ],
   },
   { id: "pocs", label: "POCs", firstSlideId: "poc-0" },

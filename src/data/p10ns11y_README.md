@@ -137,7 +137,8 @@ Still under heat — and a little **semi-planned**: as more work can be delegate
 | **[life-os](https://github.com/p10ns11y/life-os)** | Markdown · Obsidian | Agentic vault (Projects · Areas · schema · energy). Portfolio memory — not the runtime clone (ensembly). |
 | **[plugins](https://github.com/p10ns11y/plugins)** | Markdown · Shell | Grok/agent plugins (premflow coach/pomo) over real CLIs. |
 | **[premflow](https://github.com/thecuriousts/premflow)** | `C` · [elomaxz](https://github.com/p10ns11y/elomaxz) | Daily-driver CLI — dogfood for MVU-in-C; ledger agents and humans actually share. |
-| **Local-first AI & quiet automation** | agents · device | Respect device, attention, and data boundaries — progress you can audit. |
+
+**Focus (not a project):** **Local-first AI & quiet automation** — roughly half my energy, connected to [ensembly](https://github.com/thecuriousts/ensembly): remove friction from life, digital chores to physical ones you can see reflected in the projects above.
 
 ## Proof of concepts
 

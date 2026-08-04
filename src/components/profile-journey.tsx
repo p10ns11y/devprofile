@@ -310,6 +310,29 @@ export function ProfileJourney() {
             </li>
           ))}
         </ul>
+        <aside className="mx-auto mt-8 max-w-4xl rounded-xl border border-(--color-border-subtle) bg-surface2 p-5 sm:p-6">
+          <p className="text-xs font-semibold tracking-wide text-[var(--color-brand-emphasis)] uppercase">
+            Focus — not a project
+          </p>
+          <h3 className="mt-2 font-(family-name:--font-display) text-xl text-text1">
+            {j.energyFocus.title}
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-text1">{j.energyFocus.lead}</p>
+          <ul
+            role="list"
+            className="mt-3 list-disc space-y-1 pl-5 text-sm leading-relaxed text-text2"
+          >
+            {j.energyFocus.highlights.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+          <p className="mt-3 text-sm text-text2">
+            <ExternalLink href={j.energyFocus.connected.href}>
+              {j.energyFocus.connected.label}
+            </ExternalLink>
+            <span> — {j.energyFocus.learn}</span>
+          </p>
+        </aside>
       </SectionShell>
 
       <SectionShell id="proof-of-concepts" headingId="pocs-heading" className="py-14 sm:py-16">
