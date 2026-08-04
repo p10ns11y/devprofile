@@ -76,9 +76,13 @@ export function Accomplishments() {
               <h3 className="subsection-title subsection-heading" data-align="center">
                 Recent courses
               </h3>
-              <ul role="list" className="credentials-grid" data-grid="featured">
+              <ul
+                role="list"
+                className="credentials-grid !flex flex-wrap justify-center [&>li]:basis-full sm:[&>li]:max-w-[calc((100%-var(--marketing-space-grid))/2)] sm:[&>li]:basis-[calc((100%-var(--marketing-space-grid))/2)] lg:[&>li]:max-w-[calc((100%-3*var(--marketing-space-grid))/4)] lg:[&>li]:basis-[calc((100%-3*var(--marketing-space-grid))/4)]"
+                data-grid="courses"
+              >
                 {externalCourses.map((course) => (
-                  <li key={course.name} className="min-w-0">
+                  <li key={course.name} className="min-w-0 grow-0">
                     <article data-card="credential" className="credential-card">
                       <h4 className="credential-card__title">{course.name}</h4>
                       <span className="credential-card__tag">{course.domain}</span>
