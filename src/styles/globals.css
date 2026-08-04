@@ -2,6 +2,7 @@
 
 @import "./brand/theme.css";
 @import "./marketing.css";
+@import "./profile-deck.css";
 
 html {
   --font-size: 1rem;

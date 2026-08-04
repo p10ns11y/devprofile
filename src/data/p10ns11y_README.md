@@ -44,22 +44,22 @@
 
 ---
 
-I turn personal friction into public tools and dig into the *why* behind the libraries I use. Side experiments: [@thecuriousts](https://github.com/thecuriousts).
+I turn personal friction into public tools and dig into the *why* behind the libraries I use.
 
 ## An inch at a time
 
-**Featured** and **Cooking** did not come from a master plan. They grow the way real craft does: a spark on [X](https://x.com/peramanathan), friction from another domain, a personal limit, a season of life you cannot negotiate away — then the need to *make something* so the constraint loses a little power.
+**Featured** and **Cooking** did not start as a spreadsheet of destinies. They grow the way real craft does: a spark on [X](https://x.com/peramanathan), friction from another domain, a personal limit, a season of life you cannot negotiate away — then the need to *make something* so the constraint loses a little power. One thing triggers the next. Connections often show up after you move.
 
-One thing triggers the next. Connections show up after you move. Exploration under real limits beats over-planning everything early and shipping nothing.
+When requirements are crystal clear, I plan deeper: which areas and projects need energy, what is time-sensitive now, what deserves long-term attention. Until then the field stays open — prolonged, consistent effort turns chaos into harmony until the work feels almost effortless.
 
 | | After Oneflow · Dec 2024 |
 | --- | --- |
 | **Start** | [adaptate](https://github.com/p10ns11y/adaptate) → [ama-about-me](https://github.com/p10ns11y/ama-about-me) (prototype from AI course content · personal tech stack) → [devprofile](https://github.com/p10ns11y/devprofile) |
 | **Pause** | **DAD duty** · months of quiet |
-| **Stretch** | Engineering craft + systems thinking — an inch at a time, the graph forming itself |
+| **Stretch** | Engineering craft + systems thinking — the graph forming itself · [agent-prompt-tuning-lab](https://github.com/p10ns11y/agent-prompt-tuning-lab) · [elomaxz](https://github.com/p10ns11y/elomaxz) · [arch-machine](https://github.com/p10ns11y/arch-machine) · [thepulimaangani](https://github.com/p10ns11y/thepulimaangani) |
 
-> If you are waiting for perfect conditions: start with the friction in front of you.  
-> The list below is what that looks like when you keep going.
+> A true master plan, to me, is only one thing: an interconnected, inter-related web of friction-removing automations aimed at impossible missions that great vision makes real.  
+> I strongly endorse the pioneering lead of Tesla and SpaceX on that path.
 
 ## Featured
 
@@ -137,7 +137,8 @@ Still under heat — and a little **semi-planned**: as more work can be delegate
 | **[life-os](https://github.com/p10ns11y/life-os)** | Markdown · Obsidian | Agentic vault (Projects · Areas · schema · energy). Portfolio memory — not the runtime clone (ensembly). |
 | **[plugins](https://github.com/p10ns11y/plugins)** | Markdown · Shell | Grok/agent plugins (premflow coach/pomo) over real CLIs. |
 | **[premflow](https://github.com/thecuriousts/premflow)** | `C` · [elomaxz](https://github.com/p10ns11y/elomaxz) | Daily-driver CLI — dogfood for MVU-in-C; ledger agents and humans actually share. |
-| **Local-first AI & quiet automation** | agents · device | Respect device, attention, and data boundaries — progress you can audit. |
+
+**Focus (not a project):** **Local-first AI & quiet automation** — roughly half my energy, connected to [ensembly](https://github.com/thecuriousts/ensembly): remove friction from life, digital chores to physical ones you can see reflected in the projects above.
 
 ## Proof of concepts
 
@@ -152,7 +153,7 @@ Shipped to learn — live surfaces, not daily drivers. Useful when you want the 
 
 Two habits that outlast any single project: **orchestrate under constraint**, and when the calendar slips, **ship more than was asked** — deeper work, not a thin late apology.
 
-Core idea (thesis → 2026): an **orchestrator that profiles, predicts, and acts** under constraint — not “battery tips.” Same shape as today’s AI stack problem: where inference runs (cloud · edge · on-device NPU), what data leaves the machine, how agents spend energy and attention. **Intelligence that respects cost and locality compounds; blanket centralization taxes humans.**
+Core idea (thesis 2016 → 2026): an **orchestrator that profiles, predicts, and acts** under constraint — not “battery tips.” Same shape as today’s AI stack problem: where inference runs (cloud · edge · on-device NPU), what data leaves the machine, how agents spend energy and attention. **Intelligence that respects cost and locality compounds; blanket centralization taxes humans.**
 
 <details>
 <summary>Thesis & papers · 2015–2017</summary>
@@ -162,12 +163,12 @@ Primary sources first; casual notes last.
 | Artifact | |
 | --- | --- |
 | **Thesis PDF** (hosted) | [Full text](https://peramanathan-sathyamoorthy-cv.vercel.app/pdfs/master-thesis.pdf) — *Enabling Energy-Efficient Data Communication with Participatory Sensing and Mobile Cloud* ([devprofile#32](https://github.com/p10ns11y/devprofile/pull/32)) |
-| **Thesis · Uppsala DiVA** | [Record](http://uu.diva-portal.org/smash/record.jsf?pid=diva2:893525) · [FULLTEXT01.pdf](https://www.diva-portal.org/smash/get/diva2:897798/FULLTEXT01.pdf) — original university deposit (DiVA is still UU’s system; off-campus access is often blocked) |
+| **Thesis · Uppsala DiVA** | [Record](http://uu.diva-portal.org/smash/record.jsf?pid=diva2:893525) · [FULLTEXT01.pdf](https://www.diva-portal.org/smash/get/diva2:897798/FULLTEXT01.pdf) — original university deposit (often blocked off-campus) · [Wayback · record](https://web.archive.org/web/20240430105319/https://uu.diva-portal.org/smash/record.jsf?pid=diva2:893525) · [Wayback · PDF](https://web.archive.org/web/*/https://www.diva-portal.org/smash/get/diva2:897798/FULLTEXT01.pdf) |
 | **IEEE** | [Energy Efficiency as an Orchestration Service for Mobile Internet of Things](https://ieeexplore.ieee.org/document/7396150) (CloudCom 2015) |
 | **Wiley** | [Profiling Energy Efficiency and Data Communications for Mobile Internet of Things](https://onlinelibrary.wiley.com/doi/10.1155/2017/6562915) (2017) |
 | **On X** | [Here is how I explained the long arc in an X post](https://x.com/Peramanathan/status/2035707867844809074) |
 
-**Why host a copy:** DiVA full-text is often **blocked off-campus** (ISP / network policy). Links used to work; if the public path changes, I’ll update. Prefer the hosted PDF when DiVA fails.
+**Why host a copy:** DiVA full-text is often **blocked off-campus** (ISP / network policy — see [devprofile#68](https://github.com/p10ns11y/devprofile/issues/68)). Prefer the hosted PDF; use Wayback links above when the university portal fails.
 
 </details>
 
