@@ -44,13 +44,13 @@
 
 ---
 
-I turn personal friction into public tools and dig into the *why* behind the libraries I use. Side experiments: [@thecuriousts](https://github.com/thecuriousts).
+I turn personal friction into public tools and dig into the *why* behind the libraries I use.
 
 ## An inch at a time
 
 **Featured** and **Cooking** did not start as a spreadsheet of destinies. They grow the way real craft does: a spark on [X](https://x.com/peramanathan), friction from another domain, a personal limit, a season of life you cannot negotiate away — then the need to *make something* so the constraint loses a little power. One thing triggers the next. Connections often show up after you move.
 
-That is not anti-planning. Once requirements are crystal clear, I plan deeper: which areas and projects need energy, what is time-sensitive now, what is long-term attention. Until then the field is chaotic by nature — prolonged, consistent effort is how chaos becomes harmony and work starts to feel almost effortless.
+When requirements are crystal clear, I plan deeper: which areas and projects need energy, what is time-sensitive now, what deserves long-term attention. Until then the field stays open — prolonged, consistent effort turns chaos into harmony until the work feels almost effortless.
 
 | | After Oneflow · Dec 2024 |
 | --- | --- |

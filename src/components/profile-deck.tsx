@@ -128,17 +128,7 @@ function SlideBody({
               ))}
             </h1>
             <p className="profile-deck__meta">{j.location}</p>
-            <p className="profile-deck__arrive-thesis">
-              {j.intro.includes("@thecuriousts") ? (
-                <>
-                  {j.intro.split("@thecuriousts")[0]}
-                  <Ext href={j.org.href}>@{j.org.name}</Ext>
-                  {j.intro.split("@thecuriousts")[1]}
-                </>
-              ) : (
-                j.intro
-              )}
-            </p>
+            <p className="profile-deck__arrive-thesis">{j.intro}</p>
             <ul role="list" className="profile-deck__arrive-beats">
               <li>friction → tools</li>
               <li>libraries → why</li>
@@ -205,10 +195,10 @@ function SlideBody({
               {slide.title}
             </h2>
             <p className="profile-deck__pull profile-deck__pull--plan">
-              Chaos becomes harmony — through consistent effort.
+              Clarity first — then the plan goes deeper.
             </p>
             <p className="profile-deck__body profile-deck__body--feature">{j.story.body}</p>
-            <LearnBand>Once requirements are crystal clear, plan deeper.</LearnBand>
+            <LearnBand>When the field settles, energy finds its map.</LearnBand>
           </article>
         </SlideShell>
       );

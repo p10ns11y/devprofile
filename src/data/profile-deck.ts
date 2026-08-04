@@ -93,11 +93,11 @@ export const profileDeckSlides: ProfileDeckSlide[] = [
   },
   {
     id: "story-plan",
-    cue: "not-anti-planning",
+    cue: "plan-from-clarity",
     kind: "story-plan",
     chapter: "story",
-    title: "Not anti-planning",
-    bridge: "Clarity invites deeper plans.",
+    title: "Plan from clarity",
+    bridge: "When the field settles, the plan goes deeper.",
   },
   {
     id: "story-quote",
@@ -436,7 +436,7 @@ export const profileDeckNav: ProfileDeckNavChapter[] = [
     firstSlideId: "story",
     children: [
       { label: "An inch at a time", firstSlideId: "story" },
-      { label: "Not anti-planning", firstSlideId: "story-plan" },
+      { label: "Plan from clarity", firstSlideId: "story-plan" },
       { label: "Start", firstSlideId: "timeline-start" },
       { label: "Pause", firstSlideId: "timeline-pause" },
       { label: "Stretch", firstSlideId: "timeline-stretch" },

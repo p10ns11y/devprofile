@@ -85,7 +85,7 @@ export const profileJourney = {
   githubBio:
     "With cosmic passion for coding and design, I crafted exclusive softwares, conquered legacy chaos, and exited triumphantly! Will be 👀ing new soon",
   intro:
-    "I turn personal friction into public tools and dig into the why behind the libraries I use. Side experiments: @thecuriousts.",
+    "I turn personal friction into public tools and dig into the why behind the libraries I use.",
   badges: [
     { label: "GitHub", href: "https://github.com/p10ns11y" },
     { label: "CV", href: "https://peramanathan-sathyamoorthy-cv.vercel.app/" },
@@ -111,7 +111,7 @@ export const profileJourney = {
   story: {
     title: "An inch at a time",
     lead: "Featured and Cooking did not start as a spreadsheet of destinies. They grow the way real craft does: a spark on X, friction from another domain, a personal limit, a season of life you cannot negotiate away — then the need to make something so the constraint loses a little power. One thing triggers the next. Connections often show up after you move.",
-    body: "That is not anti-planning. Once requirements are crystal clear, I plan deeper: which areas and projects need energy, what is time-sensitive now, what is long-term attention. Until then the field is chaotic by nature — prolonged, consistent effort is how chaos becomes harmony and work starts to feel almost effortless.",
+    body: "When requirements are crystal clear, I plan deeper: which areas and projects need energy, what is time-sensitive now, what deserves long-term attention. Until then the field stays open — prolonged, consistent effort turns chaos into harmony until the work feels almost effortless.",
     timelineLabel: "After Oneflow · Dec 2024",
     timeline: [
       {
