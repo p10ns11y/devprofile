@@ -20,10 +20,22 @@ export function CvWebContent() {
 
           <h3 className="cv-section-title">Work Experience</h3>
           <div className="cv-stack">
-            {cvData.work_experience.map((job) => (
+            {cvData.work_experience.map((job) => {
+              const companyUrl =
+                "company_url" in job && typeof (job as { company_url?: string }).company_url === "string"
+                  ? (job as { company_url: string }).company_url
+                  : undefined;
+              return (
               <article key={`${job.company}-${job.title}-${job.start_date}`} className="cv-role">
                 <h4 className="cv-role__title">
-                  {job.title} · {job.company}
+                  {job.title} ·{" "}
+                  {companyUrl ? (
+                    <a href={companyUrl} target="_blank" rel="nofollow noreferrer noopener">
+                      {job.company}
+                    </a>
+                  ) : (
+                    job.company
+                  )}
                 </h4>
                 <p className="cv-role__meta">
                   {job.location} · {job.start_date} – {job.end_date}
@@ -40,7 +52,8 @@ export function CvWebContent() {
                   {job.tools.join(", ")}
                 </p>
               </article>
-            ))}
+              );
+            })}
           </div>
         </div>
 

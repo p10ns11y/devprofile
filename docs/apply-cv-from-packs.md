@@ -64,10 +64,14 @@ Does **not** touch `public/cv.pdf` or `src/data/cvdata.json`.
 |-------|---------|
 | `featured_keys` | Project keys shown on the PDF |
 | `projects_upsert` | Merge/append projects by `key` |
-| `overrides` | Shallow root fields (`profile`, etc.) |
+| `overrides` | Shallow root fields (`profile`, `latest_proffessional_role`, etc.) |
+
+**Source:** collab-finder **Export pack / Generate apply CV** auto-builds `cv-overlay.json` from prep (`cv_suggestions`, exceptional work, project mentions). Without it, PDFs look identical (master CV). Older packs: `generate-apply-cv` synthesizes an overlay from `cv-suggestions.md` when the JSON is missing and writes it into the pack.
 
 ## Portfolio site PDF
 
 ```bash
 pnpm generate-pdf   # → public/cv.pdf from master only
 ```
+
+The live site (`/?cv=view`, `/api/cv/view`) always uses **master** `cvdata.json`. Wiring pack overlays into that surface is **deferred** until clean shared storage exists — see [dynamic-apply-cv-web-deferred.md](./dynamic-apply-cv-web-deferred.md).

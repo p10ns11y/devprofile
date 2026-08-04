@@ -140,6 +140,116 @@ function resolveSlug(
   return folderName;
 }
 
+const PROJECT_HINTS: Array<[RegExp, string]> = [
+  [/collab-finder/i, "collab-finder"],
+  [/agent-prompt-tuning-lab|agent-prompt/i, "agent-prompt-tuning-lab"],
+  [/elomaxz/i, "elomaxz"],
+  [/premflow/i, "premflow"],
+  [/thepulimaangani|pulima/i, "thepulimaangani"],
+  [/selfie-sign|selfie-signin|rekognition/i, "selfie-signin"],
+  [/adaptate/i, "adaptate"],
+  [/latex-cv/i, "latex-cv"],
+  [/grok-dia/i, "grok-dia"],
+];
+
+/** Parse `- suggestion` bullets from cv-suggestions.md */
+function parseSuggestionBullets(md: string): string[] {
+  return md
+    .split(/\r?\n/)
+    .map((l) => l.replace(/^\s*[-*]\s+/, "").trim())
+    .filter((l) => l.length > 8 && !l.startsWith("#"));
+}
+
+/**
+ * Build a minimal cv_overlay_v1 when export omitted it (so apply PDFs still differ by role).
+ * Pure + best-effort; master cvdata is never written.
+ */
+function synthesizeOverlayFromPackFiles(
+  packDir: string,
+  manifest: PackManifest | null,
+): CvOverlayV1 | null {
+  const suggestionsPath = join(packDir, "cv-suggestions.md");
+  const exceptionalPath = join(packDir, "exceptional-work.md");
+  const researchPath = join(packDir, "research-notes.md");
+  const suggestions = existsSync(suggestionsPath)
+    ? parseSuggestionBullets(readFileSync(suggestionsPath, "utf8"))
+    : [];
+  const exceptional = existsSync(exceptionalPath)
+    ? readFileSync(exceptionalPath, "utf8")
+        .replace(/^#.*$/m, "")
+        .trim()
+    : "";
+  const research = existsSync(researchPath)
+    ? readFileSync(researchPath, "utf8")
+        .replace(/^#.*$/m, "")
+        .trim()
+    : "";
+
+  if (!suggestions.length && !exceptional) return null;
+
+  const blob = `${suggestions.join("\n")}\n${exceptional}\n${research}`;
+  const featured: string[] = [];
+  for (const [re, key] of PROJECT_HINTS) {
+    if (re.test(blob) && !featured.includes(key)) featured.push(key);
+  }
+  for (const def of ["collab-finder", "agent-prompt-tuning-lab", "adaptate"]) {
+    if (!featured.includes(def)) featured.push(def);
+  }
+  featured.splice(6);
+
+  const company = (manifest?.company && String(manifest.company).trim()) || "target";
+  const title = (manifest?.title && String(manifest.title).trim()) || "role";
+
+  // 5-beat PROFILE (hook → career → recent ≤2 → seeking). Never dump prep-delta instructions.
+  const blobL = blob.toLowerCase();
+  const co = company.charAt(0).toUpperCase() + company.slice(1);
+  const role = title.replace(/Typescript/g, "TypeScript");
+  const secure =
+    blobL.includes("secur") || blobL.includes("rekognition") || blobL.includes("auth");
+  const hook = secure
+    ? "Senior Software Engineer with fullstack web dev specialization, with deep ownership of production integrations, platform reliability, and secure data flows."
+    : "Senior Software Engineer with fullstack web dev specialization, with deep ownership of production integrations, platform reliability, and high-signal delivery.";
+  let career = exceptional
+    ? exceptional.slice(0, 720).trim()
+    : "At Oneflow I led full-stack integration and platform work—multi-client systems, Public API reliability, TypeScript migration, and Playwright E2E—with ownership of production quality.";
+  for (const junk of [
+    "This is production product integration at scale, the same craft I apply when shipping secure, maintainable fullstack systems.",
+    "This is production product integration at scale",
+  ]) {
+    const i = career.indexOf(junk);
+    if (i >= 0) career = career.slice(0, i).trim();
+  }
+  const recentItems: string[] = [];
+  if (blobL.includes("rekognition") || blobL.includes("selfie") || featured.includes("selfie-signin")) {
+    recentItems.push("AWS Rekognition identity flows");
+  }
+  if (blobL.includes("zod") || blobL.includes("schema")) {
+    recentItems.push("Zod-based schema tooling");
+  }
+  if (recentItems.length < 2 && featured.includes("collab-finder") && blobL.includes("agent")) {
+    recentItems.push("agentic desktop tooling (personal OSS)");
+  }
+  recentItems.splice(2);
+  const recent =
+    recentItems.length === 0
+      ? ""
+      : recentItems.length === 1
+        ? `Recent personal work includes ${recentItems[0]}.`
+        : `Recent personal work includes ${recentItems[0]} and ${recentItems[1]}.`;
+  const seeking = `Seeking the ${role} role at ${co} to own full-stack delivery of internal platforms and integrations.`;
+  const profile = [hook, career, recent, seeking].filter(Boolean).join(" ");
+
+  return {
+    schema: "cv_overlay_v1",
+    featured_keys: featured,
+    overrides: {
+      profile,
+      one_liner: `Senior Software Engineer with fullstack web dev specialization · ${co} · integrations & production craft`,
+      // Do not set latest_proffessional_role — header no longer shows it.
+    },
+  };
+}
+
 async function main() {
   const args = process.argv.slice(2).filter((a) => a !== "--");
   const noSubmitCopy = args.includes("--no-submit-copy");
@@ -160,7 +270,19 @@ async function main() {
     overlay = JSON.parse(readFileSync(overlayPath, "utf8")) as CvOverlayV1;
     console.log(`Overlay: ${overlayPath}`);
   } else {
-    console.log("No cv-overlay.json — generating master-style CV for this pack.");
+    // Fallback: synthesize from pack markdown (older exports without overlay).
+    overlay = synthesizeOverlayFromPackFiles(packDir, manifest);
+    if (overlay) {
+      console.log("No cv-overlay.json — synthesized from cv-suggestions.md / exceptional-work.md");
+      try {
+        writeFileSync(overlayPath, `${JSON.stringify(overlay, null, 2)}\n`);
+        console.log(`Wrote ${overlayPath}`);
+      } catch {
+        /* non-fatal: still use in-memory overlay */
+      }
+    } else {
+      console.log("No cv-overlay.json and no suggestions — master-style CV for this pack.");
+    }
   }
 
   const slug = resolveSlug(folderName, manifest, overlay);
