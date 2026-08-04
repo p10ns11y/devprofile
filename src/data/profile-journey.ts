@@ -430,7 +430,7 @@ export const profileJourney = {
     lead: "Two habits that outlast any single project: orchestrate under constraint, and when the calendar slips, ship more than was asked — deeper work, not a thin late apology.",
     core: "An orchestrator that profiles, predicts, and acts under constraint — not “battery tips.” Same shape as today’s AI stack problem: where inference runs (cloud · edge · on-device NPU), what data leaves the machine, how agents spend energy and attention. Intelligence that respects cost and locality compounds; blanket centralization taxes humans.",
     thesisNote:
-      "Why host a copy: DiVA full-text is often blocked off-campus (ISP / network policy). Prefer the hosted PDF when DiVA fails.",
+      "DiVA is often blocked off-campus (ISP / network policy). Prefer the hosted PDF; use Wayback when the university portal fails.",
     thesisPapers: [
       {
         label: "Thesis PDF (hosted)",
@@ -457,7 +457,16 @@ export const profileJourney = {
             label: "FULLTEXT01.pdf",
             href: "https://www.diva-portal.org/smash/get/diva2:897798/FULLTEXT01.pdf",
           },
+          {
+            label: "Wayback · record",
+            href: "https://web.archive.org/web/20240430105319/https://uu.diva-portal.org/smash/record.jsf?pid=diva2:893525",
+          },
+          {
+            label: "Wayback · PDF",
+            href: "https://web.archive.org/web/*/https://www.diva-portal.org/smash/get/diva2:897798/FULLTEXT01.pdf",
+          },
         ],
+        note: "University deposit — use Wayback if DiVA is blocked (#68)",
       },
       {
         label: "IEEE",
@@ -608,12 +617,7 @@ export const profileJourney = {
       ],
     },
   ] satisfies ProfileOssItem[],
-  connect: [
-    { label: "@peramanathan", href: "https://x.com/peramanathan" },
-    { label: "Articles", href: "https://x.com/Peramanathan/articles" },
-    { label: "CV", href: "https://peramanathan-sathyamoorthy-cv.vercel.app/" },
-    { label: "sathyam.peram@gmail.com", href: "mailto:sathyam.peram@gmail.com" },
-  ] satisfies ProfileLink[],
+  connect: [{ label: "@peramanathan", href: "https://x.com/peramanathan" }] satisfies ProfileLink[],
   org: {
     name: "thecuriousts",
     href: "https://github.com/thecuriousts",

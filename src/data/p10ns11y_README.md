@@ -162,12 +162,12 @@ Primary sources first; casual notes last.
 | Artifact | |
 | --- | --- |
 | **Thesis PDF** (hosted) | [Full text](https://peramanathan-sathyamoorthy-cv.vercel.app/pdfs/master-thesis.pdf) — *Enabling Energy-Efficient Data Communication with Participatory Sensing and Mobile Cloud* ([devprofile#32](https://github.com/p10ns11y/devprofile/pull/32)) |
-| **Thesis · Uppsala DiVA** | [Record](http://uu.diva-portal.org/smash/record.jsf?pid=diva2:893525) · [FULLTEXT01.pdf](https://www.diva-portal.org/smash/get/diva2:897798/FULLTEXT01.pdf) — original university deposit (DiVA is still UU’s system; off-campus access is often blocked) |
+| **Thesis · Uppsala DiVA** | [Record](http://uu.diva-portal.org/smash/record.jsf?pid=diva2:893525) · [FULLTEXT01.pdf](https://www.diva-portal.org/smash/get/diva2:897798/FULLTEXT01.pdf) — original university deposit (often blocked off-campus) · [Wayback · record](https://web.archive.org/web/20240430105319/https://uu.diva-portal.org/smash/record.jsf?pid=diva2:893525) · [Wayback · PDF](https://web.archive.org/web/*/https://www.diva-portal.org/smash/get/diva2:897798/FULLTEXT01.pdf) |
 | **IEEE** | [Energy Efficiency as an Orchestration Service for Mobile Internet of Things](https://ieeexplore.ieee.org/document/7396150) (CloudCom 2015) |
 | **Wiley** | [Profiling Energy Efficiency and Data Communications for Mobile Internet of Things](https://onlinelibrary.wiley.com/doi/10.1155/2017/6562915) (2017) |
 | **On X** | [Here is how I explained the long arc in an X post](https://x.com/Peramanathan/status/2035707867844809074) |
 
-**Why host a copy:** DiVA full-text is often **blocked off-campus** (ISP / network policy). Links used to work; if the public path changes, I’ll update. Prefer the hosted PDF when DiVA fails.
+**Why host a copy:** DiVA full-text is often **blocked off-campus** (ISP / network policy — see [devprofile#68](https://github.com/p10ns11y/devprofile/issues/68)). Prefer the hosted PDF; use Wayback links above when the university portal fails.
 
 </details>
 

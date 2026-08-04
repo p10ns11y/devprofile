@@ -338,7 +338,7 @@ function SlideBody({
     case "long-arc":
       return (
         <SlideShell>
-          <article className="profile-deck__feature">
+          <article className="profile-deck__feature profile-deck__story">
             {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
             <h2
               ref={headingRef}
@@ -347,7 +347,18 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <p className="profile-deck__body profile-deck__body--feature">{j.longArc.lead}</p>
+            <p className="profile-deck__pull">Habits that outlast any single project.</p>
+            <ul role="list" className="profile-deck__craft-beats">
+              <li>
+                <span className="profile-deck__craft-beat-label">Orchestrate</span>
+                <span>under constraint — cost, locality, attention as budgets</span>
+              </li>
+              <li>
+                <span className="profile-deck__craft-beat-label">Ship</span>
+                <span>more than asked when the calendar slips — deeper work, not a thin apology</span>
+              </li>
+            </ul>
+            <LearnBand>Two muscles. Every project is practice.</LearnBand>
           </article>
         </SlideShell>
       );
@@ -355,7 +366,7 @@ function SlideBody({
     case "long-arc-core":
       return (
         <SlideShell>
-          <article className="profile-deck__feature">
+          <article className="profile-deck__feature profile-deck__story">
             {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
             <h2
               ref={headingRef}
@@ -364,7 +375,22 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <p className="profile-deck__body profile-deck__body--feature">{j.longArc.core}</p>
+            <p className="profile-deck__pull profile-deck__pull--plan">
+              Intelligence that respects cost and locality compounds.
+            </p>
+            <p className="profile-deck__body profile-deck__body--feature">
+              An orchestrator that profiles, predicts, and acts under constraint — not “battery tips.”
+              Same shape as today’s AI stack: where inference runs (cloud · edge · on-device NPU), what
+              data leaves the machine, how agents spend energy and attention.
+            </p>
+            <Highlights
+              items={[
+                "Cloud · edge · on-device — place the work where the cost is honest",
+                "Data locality — what leaves the machine is a deliberate choice",
+                "Attention is a budget — agents that ignore it tax humans",
+              ]}
+            />
+            <LearnBand>Blanket centralization taxes humans.</LearnBand>
           </article>
         </SlideShell>
       );
@@ -510,7 +536,8 @@ function SlideBody({
 
     case "oss": {
       const [start = 0, end = j.openSource.length] = slide.ossRange ?? [];
-      const items = j.openSource.slice(start, end);
+      const item = j.openSource.slice(start, end)[0];
+      if (!item) return null;
       return (
         <SlideShell>
           <article className="profile-deck__feature">
@@ -520,26 +547,17 @@ function SlideBody({
               tabIndex={-1}
               className="profile-deck__title profile-deck__title--feature"
             >
-              {slide.title}
+              {item.name}
             </h2>
-            <p className="profile-deck__body profile-deck__body--feature">
-              Friction found in the wild — fixed upstream so thousands of schemas and apps got
-              quieter.
-            </p>
-            {items.map((item) => (
-              <div key={item.name} className="profile-deck__oss-block">
-                <h3 className="profile-deck__oss-name">{item.name}</h3>
-                <p className="profile-deck__body profile-deck__body--feature">{item.detail}</p>
-                <ul role="list" className="profile-deck__feature-links">
-                  {item.links.slice(0, 3).map((link) => (
-                    <li key={link.href}>
-                      <Ext href={link.href}>{link.label}</Ext>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-            <LearnBand>Personal friction → public fix — the signature pattern.</LearnBand>
+            <p className="profile-deck__body profile-deck__body--feature">{item.detail}</p>
+            <ul role="list" className="profile-deck__feature-links profile-deck__feature-links--wrap">
+              {item.links.map((link) => (
+                <li key={link.href}>
+                  <Ext href={link.href}>{link.label}</Ext>
+                </li>
+              ))}
+            </ul>
+            <LearnBand>Personal friction → public fix.</LearnBand>
           </article>
         </SlideShell>
       );
@@ -548,6 +566,7 @@ function SlideBody({
     case "connect":
       return (
         <SlideShell cover>
+          {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
           <h2
             ref={headingRef}
             tabIndex={-1}
@@ -601,12 +620,14 @@ function SlideBody({
               {slide.title}
             </h2>
             {surfaces.map((surface) => (
-              <div key={surface.href} className="profile-deck__oss-block">
+              <div key={surface.href} className="profile-deck__archive-row">
                 <h3 className="profile-deck__oss-name">
                   <Ext href={surface.href}>{surface.name}</Ext>
                 </h3>
-                <TechPills items={[surface.season]} />
-                <p className="profile-deck__body profile-deck__body--feature">{surface.what}</p>
+                <p className="profile-deck__archive-meta">
+                  <span className="profile-deck__tech-pill">{surface.season}</span>
+                  <span className="profile-deck__archive-what">{surface.what}</span>
+                </p>
               </div>
             ))}
             <LearnBand>Public writing that never left the map.</LearnBand>

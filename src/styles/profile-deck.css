@@ -600,6 +600,32 @@ a.profile-deck__tech-pill:hover {
   margin-top: 0.55rem;
 }
 
+.profile-deck__archive-row {
+  margin-top: 0.55rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.profile-deck__archive-row:first-of-type {
+  margin-top: 0.45rem;
+  padding-top: 0.35rem;
+  border-top: 0;
+}
+
+.profile-deck__archive-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.65rem;
+  margin: 0.3rem 0 0;
+}
+
+.profile-deck__archive-what {
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--color-text);
+}
+
 .profile-deck__oss-name {
   margin: 0;
   font-family: var(--font-display);
