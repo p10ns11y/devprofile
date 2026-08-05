@@ -1,0 +1,252 @@
+/* /focus — Read surface: editorial essay + diagram rhythm */
+
+.focus-page {
+  --focus-measure: min(38rem, 100%);
+  --focus-figure-max: min(48rem, 100%);
+  --focus-ink-soft: color-mix(in oklch, var(--color-text2) 92%, var(--brand));
+  background:
+    radial-gradient(
+      90% 55% at 12% -8%,
+      color-mix(in oklch, var(--brand) 10%, transparent),
+      transparent 58%
+    ),
+    radial-gradient(
+      70% 45% at 92% 8%,
+      color-mix(in oklch, var(--brand) 5%, transparent),
+      transparent 50%
+    ),
+    var(--color-surface1);
+  color: var(--color-text1);
+}
+
+.focus-page__shell {
+  width: min(48rem, calc(100% - 2 * var(--marketing-inset-x)));
+  margin-inline: auto;
+  padding-block: calc(var(--header-offset) + clamp(2rem, 5vw, 3.25rem)) 5.5rem;
+}
+
+.focus-page__intro {
+  width: var(--focus-measure);
+  margin-inline: auto;
+  padding-bottom: clamp(1.75rem, 4vw, 2.5rem);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.focus-page__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 5.2vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  margin: 0;
+  max-width: 18ch;
+}
+
+.focus-page__lede {
+  margin: 1.35rem 0 0;
+  font-size: clamp(1.0625rem, 0.4vw + 1rem, 1.1875rem);
+  line-height: 1.7;
+  color: var(--focus-ink-soft);
+  text-wrap: pretty;
+}
+
+.focus-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.85rem;
+}
+
+.focus-page__article {
+  width: var(--focus-measure);
+  margin: clamp(2.75rem, 5vw, 3.75rem) auto 0;
+}
+
+.focus-page__article > h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.4vw, 1.9rem);
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+  margin: 3.1rem 0 0.9rem;
+  text-wrap: balance;
+}
+
+.focus-page__article > h2:first-child {
+  margin-top: 0;
+}
+
+.focus-page__article > p {
+  margin: 0 0 1.2rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-text1);
+  text-wrap: pretty;
+}
+
+.focus-page__phases {
+  list-style: none;
+  margin: 0.35rem 0 1.5rem;
+  padding: 0;
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.85rem;
+  background: color-mix(in oklch, var(--color-surface2) 70%, var(--color-surface1));
+  overflow: clip;
+}
+
+.focus-page__phases li {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.15rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--color-text1);
+}
+
+.focus-page__phases li + li {
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.focus-page__phases strong {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--color-text1);
+}
+
+.focus-page__phases span {
+  color: var(--focus-ink-soft);
+}
+
+.focus-aside {
+  width: var(--focus-measure);
+  margin: 2rem auto 2.35rem;
+  padding: 1.35rem 1.4rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.85rem;
+  background: color-mix(in oklch, var(--color-surface2) 88%, var(--brand) 4%);
+  box-shadow: var(--marketing-shadow-sm);
+}
+
+.focus-aside p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 0.35vw + 1rem, 1.18rem);
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--color-text1);
+  text-wrap: pretty;
+}
+
+.focus-figure {
+  width: min(var(--focus-figure-max), 100%);
+  margin: 2.4rem auto 2.65rem;
+}
+
+.focus-figure__frame {
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.9rem;
+  background: #fff;
+  padding: clamp(0.65rem, 1.8vw, 1.1rem);
+  box-shadow: var(--marketing-shadow-sm);
+  transition:
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.focus-figure__frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.35rem;
+}
+
+.focus-figure figcaption {
+  margin-top: 0.85rem;
+  padding-inline: 0.15rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--focus-ink-soft);
+  text-wrap: pretty;
+}
+
+.focus-page__close {
+  margin-top: 3.25rem;
+  padding: 1.6rem 1.5rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.9rem;
+  background: color-mix(in oklch, var(--color-surface2) 82%, var(--color-surface1));
+  box-shadow: var(--marketing-shadow-sm);
+}
+
+.focus-page__close p {
+  margin: 0 0 1.15rem;
+  color: var(--focus-ink-soft);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.focus-page__close-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .focus-figure__frame:hover {
+    box-shadow: var(--marketing-shadow-md);
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .focus-page__intro {
+    animation: focus-intro-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .focus-figure__frame {
+    animation: focus-figure-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@keyframes focus-intro-in {
+  from {
+    opacity: 0.4;
+    filter: blur(4px);
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
+@keyframes focus-figure-in {
+  from {
+    opacity: 0.65;
+    transform: translateY(0.55rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 40rem) {
+  .focus-page__title {
+    max-width: none;
+  }
+
+  .focus-aside {
+    padding: 1.15rem 1.1rem;
+  }
+
+  .focus-page__phases li {
+    padding: 0.9rem 1rem;
+  }
+}

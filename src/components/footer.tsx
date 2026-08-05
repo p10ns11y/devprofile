@@ -7,6 +7,7 @@ import { SocialLinks } from "./social-links";
 const siteLinks = [
   { href: "/profile", label: "Profile" },
   { href: "/?cv=view", label: "CV" },
+  { href: "/focus", label: "Focus" },
   { href: "/certificates", label: "Certificates" },
   { href: "/qa", label: "Profile Q&A" },
   { href: "/status/code/200", label: "Live GitHub" },

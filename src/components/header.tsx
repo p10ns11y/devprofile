@@ -31,6 +31,7 @@ const standaloneNav: NavItem[] = [
 ];
 
 const moreNav: NavItem[] = [
+  { name: "Focus", href: "/focus" },
   { name: "Certificates", href: "/certificates" },
   { name: "Live GitHub", href: "/status/code/200" },
 ];
