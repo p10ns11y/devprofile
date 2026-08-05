@@ -1,16 +1,9 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
 import { FocusWhitepaperModal } from "@/components/focus/focus-whitepaper-modal";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { SiteButton } from "@/components/site/SiteButton";
 import "@/styles/focus.css";
-
-export const metadata: Metadata = {
-  title: "Focus — From EEaaS to Agentic Systems",
-  description:
-    "Why the cost of learning must decrease while decision quality increases — from 2016 energy orchestration to 2026 AI agents.",
-};
 
 function FocusFigure({
   src,
@@ -99,7 +92,7 @@ export default function FocusPage() {
             <span className="focus-term">Key Energy Indicators</span>
             ); devices progressively report less. Monitoring overhead shrinks while power-management
             decisions improve—
-            <em>meta-optimization of the measurement system itself</em>.
+            <em>getting better at measuring less while deciding better</em>.
           </p>
 
           <FocusFigure
@@ -227,7 +220,7 @@ export default function FocusPage() {
             <p>
               So this is <em>not</em> a bet that “local-first forever.” It is a bet that{" "}
               <strong className="focus-mark">
-                sustainable intelligence is meta-optimization of learning itself
+                sustainable intelligence means making the learning loop itself more efficient
               </strong>
               . In two to five years that will look either like quiet infrastructure wisdom—or like
               the reason bloated agent stacks hit a wall. Either way, it will not have become
