@@ -132,8 +132,8 @@ export default function FocusPage() {
           <aside className="focus-aside" aria-label="Note on server-side inference">
             <p>
               Even when nearly all inference runs on a remote intelligence provider—say{" "}
-              <strong className="focus-mark">99.99%</strong> of tokens computed on Earth or in
-              space—<em>client context still matters</em>. Mobiles, laptops, IoT devices, and their
+              <strong className="focus-mark">99.99%</strong> of tokens computed on Earth or in the
+              Space—<em>client context still matters</em>. Mobiles, laptops, IoT devices, and their
               hard limits (battery, radio, duty cycle, memory, privacy boundary, intermittent
               connectivity) are not noise around a central model; they are{" "}
               <strong className="focus-mark">the conditions under which answers must land</strong>.
@@ -211,7 +211,7 @@ export default function FocusPage() {
           </p>
           <p>
             Client context stays first-class even if <strong className="focus-mark">99.99%</strong>{" "}
-            of FLOPs run on Earth or in space. Answers still have to land on phones, laptops, IoT,
+            of FLOPs run on Earth or in the Space. Answers still have to land on phones, laptops, IoT,
             intermittent links, and privacy boundaries. Providers that ignore those conditions waste
             capacity—or fail people.
           </p>
