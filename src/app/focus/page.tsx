@@ -211,22 +211,35 @@ export default function FocusPage() {
           </p>
           <p>
             Client context stays first-class even if <strong className="focus-mark">99.99%</strong>{" "}
-            of FLOPs run on Earth or in the Space. Answers still have to land on phones, laptops, IoT,
-            intermittent links, and privacy boundaries. Providers that ignore those conditions waste
-            capacity—or fail people.
+            of FLOPs run on Earth or in the Space. Answers still have to land on phones, laptops,
+            IoT, intermittent links, and privacy boundaries. Providers that ignore those conditions
+            waste capacity—or fail people.
+          </p>
+          <p>
+            Even the <em>form</em> of those clients can change completely. AI alone—or AI as a
+            partner in invention—may produce a new class of hardware the way button phones gave way
+            to touch screens, then to watches, earbuds, glasses, and whatever comes next. That does{" "}
+            <strong>not</strong> retire this essay. New devices still live under energy, latency,
+            privacy, and attention limits; they still need selective sensing; intelligence that
+            lands on them still has to respect the conditions of the person holding (or wearing)
+            them. The substrate reshuffles.{" "}
+            <strong className="focus-mark">
+              The demand that learning get cheaper while decisions get better does not.
+            </strong>
           </p>
 
           <aside className="focus-aside" aria-label="On durability of the principle">
             <p>
-              So this is <em>not</em> a bet that “local-first forever.” It is a bet that{" "}
+              So this is <em>not</em> a bet that “local-first forever,” or that today’s phones and
+              laptops are the last clients that matter. It is a bet that{" "}
               <strong className="focus-mark">
                 sustainable intelligence means making the learning loop itself more efficient
               </strong>
-              . In two to five years that will look either like quiet infrastructure wisdom—or like
-              the reason bloated agent stacks hit a wall. Either way, it will not have become
-              irrelevant. Temporary subsidies for waste (demo-cheap tokens, over-provisioned cloud)
-              do not prove the cost of learning stopped mattering; they only postpone the bill until
-              product, energy, privacy, or regulation re-prices it.
+              —whatever the gadget. In two to five years that will look either like quiet
+              infrastructure wisdom—or like the reason bloated agent stacks hit a wall. Either way,
+              it will not have become irrelevant. Temporary subsidies for waste (demo-cheap tokens,
+              over-provisioned cloud) do not prove the cost of learning stopped mattering; they only
+              postpone the bill until product, energy, privacy, or regulation re-prices it.
             </p>
           </aside>
 
