@@ -51,13 +51,6 @@
   text-wrap: pretty;
 }
 
-.focus-page__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.85rem;
-}
-
 .focus-page__article {
   width: var(--focus-measure);
   margin: clamp(2.75rem, 5vw, 3.75rem) auto 0;
@@ -235,6 +228,29 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* Inline white paper (?paper=view) — native PDF frame, not react-pdf page cards */
+dialog.focus-paper-dialog[open] {
+  width: min(100vw - 1.5rem, 52rem);
+}
+
+.focus-paper-dialog__body {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  padding: 0;
+  background: var(--color-surface1);
+}
+
+.focus-paper-dialog__frame {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  border: 0;
+  background: var(--color-surface1);
 }
 
 @media (max-width: 40rem) {

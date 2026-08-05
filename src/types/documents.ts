@@ -25,4 +25,6 @@ export interface DocumentViewerProps {
   /** `embedded` = certificate modal: no full-page chrome, single scroll region */
   variant?: "page" | "embedded";
   className?: string;
+  /** Hosted certificate hash check — off for non-certificate PDFs (thesis, white papers). */
+  showVerification?: boolean;
 }

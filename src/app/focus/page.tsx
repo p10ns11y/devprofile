@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import { FocusWhitepaperModal } from "@/components/focus/focus-whitepaper-modal";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { SiteButton } from "@/components/site/SiteButton";
@@ -9,8 +11,6 @@ export const metadata: Metadata = {
   description:
     "Why the cost of learning must decrease while decision quality increases — from 2016 energy orchestration to 2026 AI agents.",
 };
-
-const WHITEPAPER_HREF = "/pdfs/EEaaS_agents_whitepaper.pdf";
 
 function FocusFigure({
   src,
@@ -41,8 +41,8 @@ export default function FocusPage() {
       {/*
         THESIS: Learning cost must fall while decision quality rises — refuse “know everything always.”
         OWN-WORLD: Site brand tokens, Instrument display + DM Sans body, editorial measure, diagram frames.
-        STORY: Visitor grasps EEaaS→agents continuity, sees the three loops, opens the white paper.
-        FIRST VIEWPORT: Title, one lede, white-paper CTA; figures appear in the scroll.
+        STORY: Visitor grasps EEaaS→agents continuity, sees the three loops, opens the white paper inline.
+        FIRST VIEWPORT: Title + lede; PDF opens via closing CTA (?paper=view modal).
         FORM: Read essay inside established portfolio world (narrow extension; no new brand system).
         FINISH: polish + PR; detector clean; type-check/lint green.
       */}
@@ -59,11 +59,6 @@ export default function FocusPage() {
             decisions that observation enables rises. Today that constraint is tokens, latency, and
             attention—not just battery joules.
           </p>
-          <div className="focus-page__actions">
-            <SiteButton href={WHITEPAPER_HREF} variant="primary" size="lg">
-              Read the white paper (PDF)
-            </SiteButton>
-          </div>
         </header>
 
         <article className="focus-page__article">
@@ -200,7 +195,7 @@ export default function FocusPage() {
               thesis.
             </p>
             <div className="focus-page__close-actions">
-              <SiteButton href={WHITEPAPER_HREF} variant="primary" size="lg">
+              <SiteButton href="?paper=view" variant="primary" size="lg">
                 Open EEaaS agents white paper (PDF)
               </SiteButton>
             </div>
@@ -209,6 +204,9 @@ export default function FocusPage() {
       </div>
 
       <Footer />
+      <Suspense fallback={null}>
+        <FocusWhitepaperModal />
+      </Suspense>
     </div>
   );
 }

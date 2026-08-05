@@ -8,8 +8,8 @@ const siteLinks = [
   { href: "/profile", label: "Profile" },
   { href: "/?cv=view", label: "CV" },
   { href: "/focus", label: "Focus" },
-  { href: "/certificates", label: "Certificates" },
   { href: "/qa", label: "Profile Q&A" },
+  { href: "/certificates", label: "Certificates" },
   { href: "/status/code/200", label: "Live GitHub" },
   { href: "/api/cv/download", label: "Download PDF", external: true },
 ] as const;

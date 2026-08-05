@@ -38,6 +38,7 @@ export function DocumentViewer({
   loading,
   variant = "page",
   className = "",
+  showVerification = true,
 }: DocumentViewerProps) {
   const embedded = variant === "embedded";
   const contentRef = useRef<HTMLDivElement>(null);
@@ -257,7 +258,7 @@ export function DocumentViewer({
         <span className="text-xs text-text2 tabular-nums">{numPages}p</span>
       ) : null}
 
-      {document.type === "pdf" ? (
+      {document.type === "pdf" && showVerification ? (
         <VerificationHash
           key={document.id}
           certificateId={document.id}
