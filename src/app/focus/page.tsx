@@ -55,34 +55,51 @@ export default function FocusPage() {
           </h1>
           <p className="focus-page__lede">
             The durable idea behind Energy Efficiency as a Service still holds: systems stay viable
-            only when the cost of the next useful observation falls while the quality of the
-            decisions that observation enables rises. Today that constraint is tokens, latency, and
-            attention—not just battery joules.
+            only when{" "}
+            <strong className="focus-mark">
+              the cost of the next useful observation falls while the quality of the decisions that
+              observation enables rises
+            </strong>
+            . Today that constraint is tokens, latency, and attention—not just battery joules.
           </p>
         </header>
 
         <article className="focus-page__article">
+          <blockquote className="focus-maxim">
+            <p>
+              Intelligence that respects cost and locality compounds. Intelligence that taxes
+              everyone to “know everything” eventually serves almost no one.
+            </p>
+            <footer>Design criterion for long-lived agents</footer>
+          </blockquote>
+
           <h2>The enduring constraint</h2>
           <p>
             In 2016 the observation was simple: smartphones are energy-constrained systems whose
-            power behaviour is chaotic and multi-component. Continuous fine-grained measurement
-            itself consumes scarce resources. The same physics still governs every modern AI agent
-            stack.
+            power behaviour is chaotic and multi-component.{" "}
+            <em>Continuous fine-grained measurement itself consumes scarce resources.</em> The same
+            physics still governs every modern AI agent stack.
           </p>
           <p>
             Context windows, tool calls, memory retrieval, model escalations, and continuous sensing
-            all cost energy, latency, tokens, and money. The more an agent tries to “know everything
-            all the time,” the more expensive it becomes. The sustainable path is a learning loop in
-            which the cost of acquiring the next unit of useful information falls while decision
-            quality rises.
+            all cost energy, latency, tokens, and money. The more an agent tries to{" "}
+            <em>“know everything all the time,”</em> the more expensive it becomes. The sustainable
+            path is a learning loop in which{" "}
+            <strong className="focus-mark">
+              the cost of acquiring the next unit of useful information falls while decision quality
+              rises
+            </strong>
+            —so capability can widen without devouring the surplus that people actually need.
           </p>
 
           <h2>The original virtuous cycle</h2>
           <p>
-            EEaaS argued that devices should not stream raw telemetry forever. They report
-            selectively; the cloud learns which signals actually matter (Key Energy Indicators);
-            devices progressively report less. Monitoring overhead shrinks while power-management
-            decisions improve—meta-optimization of the measurement system itself.
+            EEaaS argued that devices should <strong>not</strong> stream raw telemetry forever. They
+            report selectively; the cloud learns which signals actually matter (
+            <span className="focus-term">Key Energy Indicators</span>
+            ); devices progressively report less. Monitoring overhead shrinks while power-management
+            decisions improve—
+            <em>meta-optimization of the measurement system itself</em>.
           </p>
 
           <FocusFigure
@@ -96,17 +113,19 @@ export default function FocusPage() {
           <h2>Mapping onto agent workflows</h2>
           <p>
             That principle maps cleanly onto today’s runtimes. A 2026 equivalent of Key Energy
-            Indicators is a set of Key Decision Indicators (KDIs): the minimal observations—tool
-            outcomes, user corrections, confidence signals, context hashes—that actually change
-            future policy. Agents should start broad, then prune logging and memory writes as each
-            signal class earns its keep.
+            Indicators is a set of{" "}
+            <span className="focus-term">Key Decision Indicators (KDIs)</span>: the <em>minimal</em>{" "}
+            observations—tool outcomes, user corrections, confidence signals, context hashes—that
+            actually change future policy. Agents should start broad, then prune logging and memory
+            writes as each signal class <strong>earns its keep</strong>.
           </p>
           <p>
             On-device models handle routine work. Only when local confidence is low, or a KDI
             threshold is crossed, does the agent escalate to a larger cloud model or external tool.
-            Memory writes, embeddings, and re-ranking are treated as first-class energy and token
-            consumers: low-value memories compact or disappear; high-value patterns stay—and may be
-            shared under privacy constraints without continuous centralisation of raw traces.
+            Memory writes, embeddings, and re-ranking are treated as{" "}
+            <strong className="focus-mark">first-class energy and token consumers</strong>:
+            low-value memories compact or disappear; high-value patterns stay—and may be shared
+            under privacy constraints <em>without</em> continuous centralisation of raw traces.
           </p>
 
           <FocusFigure
@@ -119,19 +138,24 @@ export default function FocusPage() {
 
           <aside className="focus-aside" aria-label="Note on server-side inference">
             <p>
-              Even when nearly all inference runs on a remote intelligence provider—say 99.99% of
-              tokens computed on Earth or in space—client context still matters. Mobiles, laptops,
-              IoT devices, and their hard limits (battery, radio, duty cycle, memory, privacy
-              boundary, intermittent connectivity) are not noise around a central model; they are
-              the conditions under which answers must land. Selective signals from that edge—device
-              class, thermal headroom, link quality, what the user just accepted or rejected—let the
-              provider spend server capacity where it changes outcomes, and withhold it where the
-              client cannot usefully absorb more intelligence.
+              Even when nearly all inference runs on a remote intelligence provider—say{" "}
+              <strong className="focus-mark">99.99%</strong> of tokens computed on Earth or in
+              space—<em>client context still matters</em>. Mobiles, laptops, IoT devices, and their
+              hard limits (battery, radio, duty cycle, memory, privacy boundary, intermittent
+              connectivity) are not noise around a central model; they are{" "}
+              <strong className="focus-mark">the conditions under which answers must land</strong>.
+              Selective signals from that edge let the provider spend server capacity where it
+              changes outcomes for a person—and withhold it where more “intelligence” cannot be
+              usefully absorbed.
             </p>
           </aside>
 
           <h2>A modern loop for long-lived agents</h2>
-          <p>An agent system optimised for decreasing learning cost moves through four phases:</p>
+          <p>
+            An agent system optimised for decreasing learning cost moves through four phases—each
+            one a deliberate act of{" "}
+            <em>making the next unit of understanding cheaper for everyone who depends on it</em>:
+          </p>
           <ol className="focus-page__phases">
             <li>
               <strong>Broad but cheap observation</strong>
@@ -172,22 +196,31 @@ export default function FocusPage() {
 
           <h2>Why the principle is more urgent now</h2>
           <p>
-            Scale of cost: a poorly instrumented multi-agent workflow can burn orders of magnitude
-            more energy and money than a 2016 smartphone profiler. Local-first expectation: users
-            want capable agents that work offline; continuous cloud dependence is expensive and
-            fragile. Compounding lifetime: agents accumulate memory and policy over weeks; without
-            an explicit mechanism that reduces the cost of further learning, history itself becomes
-            a liability.
+            <strong>Scale of cost:</strong> a poorly instrumented multi-agent workflow can burn
+            orders of magnitude more energy and money than a 2016 smartphone profiler—waste that
+            shows up as price, latency, and exclusion. <strong>Local-first expectation:</strong>{" "}
+            people want capable agents that work offline; continuous cloud dependence is expensive
+            and fragile. <strong>Compounding lifetime:</strong> agents accumulate memory and policy
+            over weeks; without an explicit mechanism that reduces the cost of further learning,{" "}
+            <em>history itself becomes a liability</em>.
           </p>
 
           <h2 id="closing">Closing</h2>
           <p>
             The durable contribution of the 2016 EEaaS work is not any particular logging API. It is
-            the recognition that energy-aware—and today token- and latency-aware—systems must
-            optimise the learning process itself. When the cost of learning falls while decision
-            quality rises, the system becomes sustainable. When the opposite occurs, every
-            additional capability eventually collapses under its own observational overhead.
+            the recognition that energy-aware—and today token- and latency-aware—systems must{" "}
+            <strong className="focus-mark">optimise the learning process itself</strong>.
           </p>
+
+          <blockquote className="focus-maxim">
+            <p>
+              When the cost of learning falls while the quality of decisions rises, intelligence
+              becomes sustainable—and therefore able to serve the greatest number of people for the
+              longest time. When the opposite occurs, every additional capability collapses under
+              its own observational overhead.
+            </p>
+            <footer>Engineered for the greatest good · not the greatest telemetry</footer>
+          </blockquote>
 
           <div className="focus-page__close">
             <p>

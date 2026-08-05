@@ -4,6 +4,7 @@
   --focus-measure: min(38rem, 100%);
   --focus-figure-max: min(48rem, 100%);
   --focus-ink-soft: color-mix(in oklch, var(--color-text2) 92%, var(--brand));
+  --focus-mark: color-mix(in oklch, var(--color-brand-emphasis) 88%, var(--color-text1));
   background:
     radial-gradient(
       90% 55% at 12% -8%,
@@ -78,6 +79,65 @@
   text-wrap: pretty;
 }
 
+/* Inline insight accents — weight + brand ink, never gradient text */
+.focus-page__article strong {
+  font-weight: 650;
+  color: var(--color-text1);
+}
+
+.focus-page__article em {
+  font-style: italic;
+  font-family: var(--font-display);
+  color: var(--focus-ink-soft);
+}
+
+.focus-mark {
+  font-weight: 650;
+  color: var(--focus-mark);
+  font-style: normal;
+}
+
+.focus-term {
+  font-weight: 600;
+  color: var(--color-brand-emphasis);
+  white-space: nowrap;
+}
+
+.focus-maxim {
+  margin: 1.75rem 0 1.85rem;
+  padding: 1.35rem 1.4rem 1.45rem;
+  border: 1px solid color-mix(in oklch, var(--brand) 22%, var(--color-border-subtle));
+  border-radius: 0.9rem;
+  background: linear-gradient(
+    165deg,
+    color-mix(in oklch, var(--brand) 8%, var(--color-surface2)),
+    color-mix(in oklch, var(--color-surface2) 92%, var(--color-surface1))
+  );
+  box-shadow: var(--marketing-shadow-sm);
+}
+
+.focus-maxim p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 0.55vw + 1.05rem, 1.35rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+  color: var(--color-text1);
+  text-wrap: pretty;
+}
+
+.focus-maxim footer {
+  margin-top: 0.85rem;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--focus-ink-soft);
+}
+
 .focus-page__phases {
   list-style: none;
   margin: 0.35rem 0 1.5rem;
@@ -88,15 +148,17 @@
   border-radius: 0.85rem;
   background: color-mix(in oklch, var(--color-surface2) 70%, var(--color-surface1));
   overflow: clip;
+  counter-reset: focus-phase;
 }
 
 .focus-page__phases li {
   display: grid;
   gap: 0.35rem;
-  padding: 1rem 1.15rem;
+  padding: 1rem 1.15rem 1rem 1.15rem;
   font-size: 1.02rem;
   line-height: 1.6;
   color: var(--color-text1);
+  counter-increment: focus-phase;
 }
 
 .focus-page__phases li + li {
@@ -109,6 +171,12 @@
   font-weight: 400;
   letter-spacing: -0.01em;
   color: var(--color-text1);
+}
+
+.focus-page__phases strong::before {
+  content: counter(focus-phase) " · ";
+  color: var(--color-brand-emphasis);
+  font-variant-numeric: tabular-nums;
 }
 
 .focus-page__phases span {
@@ -133,6 +201,10 @@
   line-height: 1.65;
   color: var(--color-text1);
   text-wrap: pretty;
+}
+
+.focus-aside .focus-mark {
+  font-style: italic;
 }
 
 .focus-figure {
@@ -204,6 +276,10 @@
   .focus-figure__frame {
     animation: focus-figure-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
+
+  .focus-maxim {
+    animation: focus-figure-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
 }
 
 @keyframes focus-intro-in {
@@ -262,7 +338,15 @@ dialog.focus-paper-dialog[open] {
     padding: 1.15rem 1.1rem;
   }
 
+  .focus-maxim {
+    padding: 1.15rem 1.1rem 1.25rem;
+  }
+
   .focus-page__phases li {
     padding: 0.9rem 1rem;
+  }
+
+  .focus-term {
+    white-space: normal;
   }
 }
