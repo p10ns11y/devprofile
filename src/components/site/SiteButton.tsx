@@ -52,7 +52,8 @@ export function SiteButton({
   );
 
   if (href) {
-    const isExternal = href.startsWith("http") || href.startsWith("/api/");
+    const isExternal =
+      href.startsWith("http") || href.startsWith("/api/") || /\.pdf(?:$|[?#])/i.test(href);
     const { onClick, ...buttonProps } = props;
     const linkClick = onClick as MouseEventHandler<HTMLAnchorElement> | undefined;
     return (
