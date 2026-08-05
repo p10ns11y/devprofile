@@ -205,6 +205,38 @@ export default function FocusPage() {
             <em>history itself becomes a liability</em>.
           </p>
 
+          <h2>Why this still holds in two to five years</h2>
+          <p>
+            The stack diagrams will age. On-device SLMs, remote giants, and the names we give
+            indicators will shuffle.{" "}
+            <strong className="focus-mark">The constraint will not.</strong> Observation is never
+            free—tokens, joules, latency, attention, and memory writes remain scarce in some
+            combination. Cheaper inference <em>moves</em> the bottleneck; it does not abolish it.
+            “Know everything always” is still an economic failure mode: at multi-agent, long-lived
+            scale, unselective logging turns history into liability. That gets <strong>more</strong>{" "}
+            true as agents persist for weeks and months—not less.
+          </p>
+          <p>
+            Client context stays first-class even if <strong className="focus-mark">99.99%</strong>{" "}
+            of FLOPs run on Earth or in space. Answers still have to land on phones, laptops, IoT,
+            intermittent links, and privacy boundaries. Providers that ignore those conditions waste
+            capacity—or fail people.
+          </p>
+
+          <aside className="focus-aside" aria-label="On durability of the principle">
+            <p>
+              So this is <em>not</em> a bet that “local-first forever.” It is a bet that{" "}
+              <strong className="focus-mark">
+                sustainable intelligence is meta-optimization of learning itself
+              </strong>
+              . In two to five years that will look either like quiet infrastructure wisdom—or like
+              the reason bloated agent stacks hit a wall. Either way, it will not have become
+              irrelevant. Temporary subsidies for waste (demo-cheap tokens, over-provisioned cloud)
+              do not prove the cost of learning stopped mattering; they only postpone the bill until
+              product, energy, privacy, or regulation re-prices it.
+            </p>
+          </aside>
+
           <h2 id="closing">Closing</h2>
           <p>
             The durable contribution of the 2016 EEaaS work is not any particular logging API. It is
