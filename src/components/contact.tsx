@@ -41,12 +41,16 @@ export function Contact() {
       value: cvdata.contact.email,
       href: `mailto:${cvdata.contact.email}`,
     },
-    {
-      icon: Phone,
-      title: "Phone",
-      value: cvdata.contact.phone,
-      href: `tel:${cvdata.contact.phone}`,
-    },
+    ...(cvdata.contact.phone && cvdata.contact.phone_public !== false
+      ? [
+          {
+            icon: Phone,
+            title: "Phone",
+            value: cvdata.contact.phone,
+            href: `tel:${cvdata.contact.phone}`,
+          },
+        ]
+      : []),
     {
       icon: MapPin,
       title: "Location",
@@ -54,7 +58,7 @@ export function Contact() {
       href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cvdata.home.current_location)}`,
       external: true,
     },
-  ] as const;
+  ];
 
   return (
     <SectionShell id="contact" headingId={headingId}>

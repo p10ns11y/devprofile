@@ -97,7 +97,7 @@ These three together tell a complete story: patient visionary + reliable executo
 
 ## Structured CV Snapshot (for factual grounding)
 
-- **Contact**: sathyam.peram@gmail.com | +46 737 641 917 | Stockholm, Sweden | Swedish citizen | GitHub @p10ns11y | X @peramanathan
+- **Contact**: sathyam.peram@gmail.com | Stockholm, Sweden | Swedish citizen | GitHub @p10ns11y | X @peramanathan
 - **Recent Experience** (see full details in cvdata.json): Senior Software Engineer at Oneflow (2023-2024), Engineering Team Lead at Oneflow (2021-2022).
 - **Education**: Master's in Computer Science and Operations Research.
 - **Key Technologies**: JavaScript/TypeScript, React, Node.js, Python, AWS, Docker, PostgreSQL, Playwright, Zod, etc.
