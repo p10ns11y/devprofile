@@ -12,8 +12,12 @@ export function CvSheet() {
         <p className="cv-sheet__role">{cvData.latest_proffessional_role}</p>
         <p className="cv-sheet__contact">
           <a href={`mailto:${cvData.contact.email}`}>{cvData.contact.email}</a>
-          <span aria-hidden="true"> · </span>
-          <a href={`tel:${cvData.contact.phone}`}>{cvData.contact.phone}</a>
+          {cvData.contact.phone && cvData.contact.phone_public !== false ? (
+            <>
+              <span aria-hidden="true"> · </span>
+              <a href={`tel:${cvData.contact.phone}`}>{cvData.contact.phone}</a>
+            </>
+          ) : null}
           <span aria-hidden="true"> · </span>
           <span>{cvData.contact.citizenship}</span>
         </p>

@@ -13,6 +13,8 @@
   "contact": {
     "email": "sathyam.peram@gmail.com",
     "phone": "+46 737 641 917",
+    "phone_public": false,
+    "phone_hint": "Waiting for Telenor to reactivate — omit from public CV/contact until then",
     "github": "@p10ns11y",
     "citizenship": "Swedish"
   },
