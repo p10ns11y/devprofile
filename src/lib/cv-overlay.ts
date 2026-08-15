@@ -34,6 +34,11 @@ function projectId(p: CvProjectLike): string {
   return p.key ?? p.name;
 }
 
+function githubBlurbTruncated(text: string | undefined): boolean {
+  const t = (text ?? "").trim();
+  return t.endsWith("…") || t.endsWith("...");
+}
+
 /** Deep-ish merge: shallow root overrides + projects upsert by key. */
 export function applyCvOverlay<T extends CvDataLike>(
   master: T,
@@ -48,7 +53,12 @@ export function applyCvOverlay<T extends CvDataLike>(
     const id = projectId(incoming);
     const idx = projects.findIndex((p) => projectId(p) === id);
     if (idx >= 0) {
-      projects[idx] = { ...projects[idx], ...incoming };
+      const previous = projects[idx];
+      const merged = { ...previous, ...incoming };
+      if (githubBlurbTruncated(incoming.description) && previous.description) {
+        merged.description = previous.description;
+      }
+      projects[idx] = merged;
     } else {
       projects = [incoming, ...projects];
     }
