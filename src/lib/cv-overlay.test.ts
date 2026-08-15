@@ -47,4 +47,19 @@ describe("applyCvOverlay", () => {
     expect(data.projects[0].key).toBe("collab-finder");
     expect(data.projects.find((p) => p.key === "adaptate")?.description).toBe("updated");
   });
+
+  it("does not overwrite a complete master blurb with a GitHub-ellipsis leftover", () => {
+    const { data } = applyCvOverlay(master, {
+      projects_upsert: [
+        {
+          key: "adaptate",
+          name: "Adaptate",
+          description:
+            "adaptate is a dynamic and adaptable model validator that leverages Zod for schema validation and is interoperable with OpenAPI. Define a single optional Zod schema for your data model, then use configuration objects to …",
+          url: "https://github.com/p10ns11y/adaptate",
+        },
+      ],
+    });
+    expect(data.projects.find((p) => p.key === "adaptate")?.description).toBe("old");
+  });
 });
