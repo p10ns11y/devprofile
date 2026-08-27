@@ -212,6 +212,22 @@
   color: var(--color-brand-emphasis);
 }
 
+.focus-credits {
+  margin: 2rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--focus-ink-soft);
+}
+
+.focus-credits p {
+  margin: 0;
+}
+
+.focus-credits cite {
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
 .focus-related {
   margin-top: 2.25rem;
   padding: 1.4rem 1.5rem;

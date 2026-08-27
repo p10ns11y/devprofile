@@ -245,6 +245,30 @@ export default function MemoryIssuePage() {
             <footer>Engineered for the greatest good · not the greatest context window</footer>
           </blockquote>
 
+          <aside className="focus-credits" aria-label="Credits">
+            <p>
+              Schrödinger framing prompted by{" "}
+              <a
+                className="focus-link"
+                href="https://x.com/the_no_mind/status/2092243961935020284"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                @the_no_mind
+              </a>
+              ’s thread on <cite>What Is Life?</cite>. This argument on{" "}
+              <a
+                className="focus-link"
+                href="https://x.com/Peramanathan/status/2092840880751415412"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                X
+              </a>
+              .
+            </p>
+          </aside>
+
           <div className="focus-page__close">
             <p>
               The parent essay maps the 2016 energy-orchestration loop onto 2026 agents, including
@@ -256,6 +280,13 @@ export default function MemoryIssuePage() {
               </SiteButton>
               <SiteButton href="/focus?paper=view" variant="outline" size="lg">
                 Open the white paper
+              </SiteButton>
+              <SiteButton
+                href="https://x.com/Peramanathan/status/2092840880751415412"
+                variant="outline"
+                size="lg"
+              >
+                This argument on X
               </SiteButton>
             </div>
           </div>
