@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="1600" height="1040" role="img" aria-labelledby="title desc">
+  <title id="title">Schrödingers three constraints mapped onto an intelligence stack</title>
+  <desc id="desc">Averaging maps to pre-training and scale. High-barrier discrete states map to tokens, embeddings, and memory. An open thermodynamic engine maps to compute and inference.</desc>
+  <rect width="800" height="520" fill="#ffffff"/>
+  <text x="400" y="42" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#1e1e1e">Schrödinger 1944 ’ the intelligence stack</text>
+  <text x="400" y="70" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#4a5568">Three constraints any ordered, remembering, running system must satisfy</text>
+
+  <text x="150" y="112" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600" fill="#4a5568" letter-spacing="0.04em">CONSTRAINT</text>
+  <text x="650" y="112" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600" fill="#4a5568" letter-spacing="0.04em">AI LAYER</text>
+
+  <rect x="40" y="128" width="220" height="96" rx="16" fill="#a5d8ff" stroke="#4a9eed" stroke-width="2"/>
+  <text x="150" y="168" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#1e3a5f">1. Averaging</text>
+  <text x="150" y="192" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#1e3a5f">Relative error ~ 1/n</text>
+  <text x="150" y="210" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#1e3a5f">Noise becomes a usable law</text>
+
+  <path d="M276 176 H524" stroke="#1e1e1e" stroke-width="2" fill="none"/>
+  <path d="M512 168 L524 176 L512 184" fill="none" stroke="#1e1e1e" stroke-width="2"/>
+  <text x="400" y="166" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#4a5568">scale</text>
+
+  <rect x="540" y="128" width="220" height="96" rx="16" fill="#dbe4ff" stroke="#4a9eed" stroke-width="2"/>
+  <text x="650" y="168" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#1e3a5f">Statistical</text>
+  <text x="650" y="192" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#1e3a5f">Pre-training &amp; parameters</text>
+  <text x="650" y="210" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#1e3a5f">Reliable generalisation</text>
+
+  <rect x="40" y="252" width="220" height="96" rx="16" fill="#d0bfff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="150" y="292" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#2d1b69">2. High-barrier states</text>
+  <text x="150" y="316" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#2d1b69">Aperiodic crystal / gene</text>
+  <text x="150" y="334" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#2d1b69">Code that survives noise</text>
+
+  <path d="M276 300 H524" stroke="#1e1e1e" stroke-width="2" fill="none"/>
+  <path d="M512 292 L524 300 L512 308" fill="none" stroke="#1e1e1e" stroke-width="2"/>
+  <text x="400" y="290" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#4a5568">persist</text>
+
+  <rect x="540" y="252" width="220" height="96" rx="16" fill="#e5dbff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="650" y="292" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#2d1b69">Stability</text>
+  <text x="650" y="316" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#2d1b69">Tokens, embeddings, weights</text>
+  <text x="650" y="334" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#2d1b69">External memory attached</text>
+
+  <rect x="40" y="376" width="220" height="96" rx="16" fill="#ffd8a8" stroke="#f59e0b" stroke-width="2"/>
+  <text x="150" y="416" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#92400e">3. Open engine</text>
+  <text x="150" y="440" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#92400e">Import free energy</text>
+  <text x="150" y="458" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#92400e">Export entropy (heat)</text>
+
+  <path d="M276 424 H524" stroke="#1e1e1e" stroke-width="2" fill="none"/>
+  <path d="M512 416 L524 424 L512 432" fill="none" stroke="#1e1e1e" stroke-width="2"/>
+  <text x="400" y="414" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#4a5568">spend</text>
+
+  <rect x="540" y="376" width="220" height="96" rx="16" fill="#fff3bf" stroke="#f59e0b" stroke-width="2"/>
+  <text x="650" y="416" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#92400e">Thermodynamic</text>
+  <text x="650" y="440" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#92400e">Tokens processed, energy spent</text>
+  <text x="650" y="458" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#92400e">Inference as heat</text>
+</svg>

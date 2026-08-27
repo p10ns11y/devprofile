@@ -1,32 +1,10 @@
 import { Suspense } from "react";
+import { FocusFigure } from "@/components/focus/focus-figure";
+import { FocusRelated } from "@/components/focus/focus-related";
 import { FocusWhitepaperModal } from "@/components/focus/focus-whitepaper-modal";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { SiteButton } from "@/components/site/SiteButton";
-import "@/styles/focus.css";
-
-function FocusFigure({
-  src,
-  alt,
-  caption,
-  width,
-  height,
-}: {
-  src: string;
-  alt: string;
-  caption: string;
-  width: number;
-  height: number;
-}) {
-  return (
-    <figure className="focus-figure">
-      <div className="focus-figure__frame">
-        <img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
-      </div>
-      <figcaption>{caption}</figcaption>
-    </figure>
-  );
-}
 
 export default function FocusPage() {
   return (
@@ -271,6 +249,13 @@ export default function FocusPage() {
               </SiteButton>
             </div>
           </div>
+
+          <FocusRelated
+            eyebrow="Follow-on"
+            href="/focus/memory-issue"
+            title="Pulse instead of dump"
+            detail="Schrödinger’s three constraints, applied to agent memory: why the harness should pulse, not flood the context window."
+          />
         </article>
       </div>
 
