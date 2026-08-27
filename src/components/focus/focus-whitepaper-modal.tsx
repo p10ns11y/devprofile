@@ -8,7 +8,7 @@ const WHITEPAPER_PATH = "/pdfs/EEaaS_agents_whitepaper.pdf";
 export function FocusWhitepaperModal() {
   const { dialogRef, close, isOpen } = useDialogFromSearchParam("paper", {
     isOpen: (value) => value === "view",
-    closePath: "/focus",
+    closePath: "/focus/eeaas-to-agents",
   });
 
   return (

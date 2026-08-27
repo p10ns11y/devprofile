@@ -124,8 +124,8 @@ export default function MemoryIssuePage() {
           </p>
           <p>
             This is the agentic form of streaming raw telemetry forever—the failure mode of the{" "}
-            <Link className="focus-link" href="/focus">
-              Focus essay
+            <Link className="focus-link" href="/focus/eeaas-to-agents">
+              EEaaS to agents essay
             </Link>
             . There, the durable idea is that the cost of the next useful observation must fall
             while decision quality rises. Dumping memory is the opposite: observational overhead
@@ -228,8 +228,8 @@ export default function MemoryIssuePage() {
           <h2 id="closing">Closing</h2>
           <p>
             The{" "}
-            <Link className="focus-link" href="/focus">
-              Focus essay
+            <Link className="focus-link" href="/focus/eeaas-to-agents">
+              EEaaS to agents essay
             </Link>{" "}
             argued that intelligence stays viable only when the cost of the next useful observation
             falls while the quality of the decisions that observation enables rises. Memory is where
@@ -275,10 +275,10 @@ export default function MemoryIssuePage() {
               the short white paper.
             </p>
             <div className="focus-page__close-actions">
-              <SiteButton href="/focus" variant="primary" size="lg">
-                Read the Focus essay
+              <SiteButton href="/focus/eeaas-to-agents" variant="primary" size="lg">
+                Read EEaaS to agents
               </SiteButton>
-              <SiteButton href="/focus?paper=view" variant="outline" size="lg">
+              <SiteButton href="/focus/eeaas-to-agents?paper=view" variant="outline" size="lg">
                 Open the white paper
               </SiteButton>
               <SiteButton
@@ -293,7 +293,7 @@ export default function MemoryIssuePage() {
 
           <FocusRelated
             eyebrow="In this series"
-            href="/focus"
+            href="/focus/eeaas-to-agents"
             title="From 2016 energy orchestration to 2026 agentic systems"
             detail="Why the cost of learning must fall while decision quality rises—and why that still holds when nearly all inference is remote."
           />

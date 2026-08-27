@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "@/styles/focus.css";
 
-const title = "Focus — Essays on learning cost and agent harnesses";
+const title = "Focus — Make the learning loop more efficient";
 const description =
-  "Notes on Energy Efficiency as a Service mapped onto agents, and why memory should pulse instead of dump. The layers you can actually change: harness and memory.";
+  "From 2016 Energy Efficiency as a Service to 2026 agentic systems: why the cost of learning must fall while decision quality rises—and why that still holds even when nearly all inference is remote.";
 
 export const metadata: Metadata = {
   title,
   description,
   keywords: [
-    "Focus essays",
     "Energy Efficiency as a Service",
     "EEaaS",
-    "agent memory",
+    "agentic systems",
+    "local-first AI",
+    "Key Decision Indicators",
     "learning loop",
     "token efficiency",
+    "on-device AI",
     "intelligence architectonics",
     "Peramanathan Sathyamoorthy",
   ],
@@ -23,15 +24,15 @@ export const metadata: Metadata = {
   creator: "Peramanathan Sathyamoorthy",
   category: "Technology",
   alternates: {
-    canonical: "/focus",
+    canonical: "/focus/eeaas-to-agents",
   },
   openGraph: {
     title,
     description,
-    url: "/focus",
+    url: "/focus/eeaas-to-agents",
     siteName: "Peramanathan Sathyamoorthy",
     locale: "en_US",
-    type: "website",
+    type: "article",
   },
   twitter: {
     card: "summary_large_image",
@@ -45,6 +46,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function FocusLayout({ children }: { children: ReactNode }) {
+export default function EeaasToAgentsLayout({ children }: { children: ReactNode }) {
   return children;
 }

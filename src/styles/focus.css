@@ -1,4 +1,4 @@
-/* /focus — Read surface: editorial essay + diagram rhythm */
+/* /focus — essay index + nested Read surfaces */
 
 .focus-page {
   --focus-measure: min(38rem, 100%);
@@ -24,6 +24,15 @@
   width: min(48rem, calc(100% - 2 * var(--marketing-inset-x)));
   margin-inline: auto;
   padding-block: calc(var(--header-offset) + clamp(2rem, 5vw, 3.25rem)) 5.5rem;
+}
+
+.focus-page__shell--index {
+  width: min(56rem, calc(100% - 2 * var(--marketing-inset-x)));
+}
+
+.focus-page__shell--index .focus-page__intro {
+  width: min(42rem, 100%);
+  margin-inline: 0;
 }
 
 .focus-page__intro {
@@ -166,6 +175,141 @@
 
 .focus-series [aria-current="page"] {
   color: var(--color-text1);
+}
+
+.focus-index {
+  container-type: inline-size;
+  margin-top: clamp(2rem, 4vw, 2.75rem);
+}
+
+.focus-index__heading {
+  margin: 0 0 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.focus-index__list {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+article[data-card="focus"] {
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.9rem;
+  background: color-mix(in oklch, var(--color-surface2) 70%, var(--color-surface1));
+  box-shadow: var(--marketing-shadow-sm);
+  transition:
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+article[data-card="focus"]:has(a:hover),
+article[data-card="focus"]:has(a:focus-visible) {
+  border-color: color-mix(in oklch, var(--brand) 30%, transparent);
+  box-shadow: var(--marketing-shadow-md);
+}
+
+.focus-index-card__link {
+  display: grid;
+  gap: 0;
+  min-width: 0;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.focus-index-card__link:focus-visible {
+  outline: 2px solid var(--color-brand-emphasis);
+  outline-offset: 3px;
+}
+
+.focus-index-card__frame {
+  min-width: 0;
+  background: #fff;
+  padding: clamp(0.65rem, 1.8vw, 1.05rem);
+}
+
+.focus-index-card__frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.focus-index-card__body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.15rem 1.2rem 1.3rem;
+}
+
+.focus-index-card__eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-brand-emphasis);
+}
+
+.focus-index-card__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+
+article[data-card="focus"][data-featured="true"] .focus-index-card__title {
+  font-size: clamp(1.45rem, 2.4vw, 1.9rem);
+}
+
+.focus-index-card__lede {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--focus-ink-soft);
+  text-wrap: pretty;
+}
+
+.focus-index-card__cta {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-link);
+}
+
+article[data-card="focus"]:has(a:hover) .focus-index-card__cta,
+article[data-card="focus"]:has(a:focus-visible) .focus-index-card__cta {
+  color: var(--color-brand-emphasis);
+}
+
+@container (min-width: 40rem) {
+  article[data-card="focus"][data-featured="true"] .focus-index-card__link {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    align-items: stretch;
+  }
+
+  article[data-card="focus"][data-featured="true"] .focus-index-card__frame {
+    display: flex;
+    align-items: center;
+  }
+
+  article[data-card="focus"][data-featured="true"] .focus-index-card__body {
+    justify-content: center;
+    padding: 1.5rem 1.45rem 1.6rem;
+  }
 }
 
 .focus-pulse {
@@ -434,6 +578,10 @@
     box-shadow: var(--marketing-shadow-md);
     transform: translateY(-2px);
   }
+
+  article[data-card="focus"]:has(a:hover) {
+    transform: translateY(-2px);
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -442,6 +590,10 @@
   }
 
   .focus-figure__frame {
+    animation: focus-figure-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  article[data-card="focus"] {
     animation: focus-figure-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 

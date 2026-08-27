@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { FOCUS_INDEX_HREF, type FocusEssaySlug, getFocusEssay } from "@/data/focus-essays";
 
-type FocusEssay = "index" | "memory-issue";
+export function FocusSeriesNav({ current }: { current: FocusEssaySlug | "index" }) {
+  const essay = current === "index" ? null : getFocusEssay(current);
 
-export function FocusSeriesNav({ current }: { current: FocusEssay }) {
   return (
     <nav aria-label="Focus series" className="focus-series">
       <ol>
@@ -10,12 +11,12 @@ export function FocusSeriesNav({ current }: { current: FocusEssay }) {
           {current === "index" ? (
             <span aria-current="page">Focus</span>
           ) : (
-            <Link href="/focus">Focus</Link>
+            <Link href={FOCUS_INDEX_HREF}>Focus</Link>
           )}
         </li>
-        {current === "memory-issue" ? (
+        {essay ? (
           <li>
-            <span aria-current="page">Pulse instead of dump</span>
+            <span aria-current="page">{essay.navLabel}</span>
           </li>
         ) : null}
       </ol>
