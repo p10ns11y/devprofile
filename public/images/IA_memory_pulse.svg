@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 500" width="1680" height="1000" role="img" aria-labelledby="title desc">
+  <title id="title">Pulsive memory protocol: compact pulse, surgical snippet, prefetch</title>
+  <desc id="desc">The live harness emits a compact pulse with a retrieval key, verification flag, and prefetch hint. Memory traverses only the relevant slice, injects a surgical snippet, and queues the next likely traversal.</desc>
+  <rect width="840" height="500" fill="#ffffff"/>
+  <text x="420" y="40" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#1e1e1e">A pulse, not a dump</text>
+  <text x="420" y="66" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#4a5568">Event-driven contract between runtime and memory</text>
+
+  <rect x="36" y="96" width="180" height="88" rx="16" fill="#a5d8ff" stroke="#4a9eed" stroke-width="2"/>
+  <text x="126" y="132" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600" fill="#1e3a5f">Live harness</text>
+  <text x="126" y="154" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#1e3a5f">needs a fact now</text>
+  <text x="126" y="170" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#1e3a5f">small working set</text>
+
+  <path d="M228 140 H292" stroke="#1e1e1e" stroke-width="2"/>
+  <path d="M280 132 L292 140 L280 148" fill="none" stroke="#1e1e1e" stroke-width="2"/>
+  <text x="260" y="128" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#4a5568">pulse</text>
+
+  <rect x="300" y="84" width="240" height="112" rx="16" fill="#d0bfff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="420" y="112" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600" fill="#2d1b69">memory.pulse</text>
+  <text x="420" y="136" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#2d1b69">key: apply/xai/constraints</text>
+  <text x="420" y="154" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#2d1b69">verify: hash of locked revision</text>
+  <text x="420" y="172" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#2d1b69">prefetch: apply/xai/projects</text>
+
+  <path d="M552 140 H616" stroke="#1e1e1e" stroke-width="2"/>
+  <path d="M604 132 L616 140 L604 148" fill="none" stroke="#1e1e1e" stroke-width="2"/>
+  <text x="584" y="128" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#4a5568">traverse</text>
+
+  <rect x="624" y="96" width="180" height="88" rx="16" fill="#ffd8a8" stroke="#f59e0b" stroke-width="2"/>
+  <text x="714" y="132" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600" fill="#92400e">Memory store</text>
+  <text x="714" y="154" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#92400e">local or cloud</text>
+  <text x="714" y="170" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#92400e">relevant slice only</text>
+
+  <path d="M714 184 V228" stroke="#1e1e1e" stroke-width="2"/>
+  <path d="M706 216 L714 228 L722 216" fill="none" stroke="#1e1e1e" stroke-width="2"/>
+
+  <rect x="300" y="236" width="504" height="96" rx="16" fill="#b2f2bb" stroke="#22c55e" stroke-width="2"/>
+  <text x="552" y="272" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600" fill="#14532d">Surgical snippet + next-likely queue</text>
+  <text x="552" y="296" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#14532d">~120 verified tokens injected into the working set</text>
+  <text x="552" y="316" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#14532d">projects slice already warming for the following tool call</text>
+
+  <path d="M300 284 H216" stroke="#22c55e" stroke-width="2"/>
+  <path d="M228 276 L216 284 L228 292" fill="none" stroke="#22c55e" stroke-width="2"/>
+  <text x="258" y="272" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#15803d">inject</text>
+
+  <rect x="36" y="248" width="180" height="72" rx="16" fill="#d3f9d8" stroke="#22c55e" stroke-width="2"/>
+  <text x="126" y="280" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600" fill="#14532d">Working set</text>
+  <text x="126" y="300" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#14532d">stays small / less noise</text>
+
+  <rect x="36" y="372" width="768" height="96" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="420" y="408" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="600" fill="#1e1e1e">Tool-call signal / retrieval key / verification flag</text>
+  <text x="420" y="434" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#4a5568">Cells do not pour every molecule into the nucleus. They send sparse, high-signal packets.</text>
+  <text x="420" y="454" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#15803d">Same logic for the harness: pulse instead of dump.</text>
+</svg>

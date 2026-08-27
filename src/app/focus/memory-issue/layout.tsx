@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "@/styles/focus.css";
 
-const title = "Focus — Essays on learning cost and agent harnesses";
+const title = "Pulse instead of dump — Schrödinger’s constraints on agent memory";
 const description =
-  "Notes on Energy Efficiency as a Service mapped onto agents, and why memory should pulse instead of dump. The layers you can actually change: harness and memory.";
+  "Why agent memory should pulse instead of dump: Schrödinger’s three constraints, mapped onto the intelligence stack, and a surgical contract between runtime and memory.";
 
 export const metadata: Metadata = {
   title,
   description,
   keywords: [
-    "Focus essays",
-    "Energy Efficiency as a Service",
-    "EEaaS",
     "agent memory",
-    "learning loop",
+    "context window",
+    "pulsive memory",
+    "Schrödinger",
+    "aperiodic crystal",
     "token efficiency",
+    "Key Decision Indicators",
     "intelligence architectonics",
     "Peramanathan Sathyamoorthy",
   ],
@@ -23,15 +23,15 @@ export const metadata: Metadata = {
   creator: "Peramanathan Sathyamoorthy",
   category: "Technology",
   alternates: {
-    canonical: "/focus",
+    canonical: "/focus/memory-issue",
   },
   openGraph: {
     title,
     description,
-    url: "/focus",
+    url: "/focus/memory-issue",
     siteName: "Peramanathan Sathyamoorthy",
     locale: "en_US",
-    type: "website",
+    type: "article",
   },
   twitter: {
     card: "summary_large_image",
@@ -45,6 +45,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function FocusLayout({ children }: { children: ReactNode }) {
+export default function MemoryIssueLayout({ children }: { children: ReactNode }) {
   return children;
 }

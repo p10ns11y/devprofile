@@ -1,10 +1,18 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-export const alt = "Focus — essays on learning cost, agent memory, and harness design";
+export const alt =
+  "Focus: from 2016 energy orchestration to 2026 agentic systems — make the learning loop more efficient";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpenGraphImage() {
+export default async function OpenGraphImage() {
+  const diagramBuffer = await readFile(
+    join(process.cwd(), "public/images/IA_the_virtuous_loop.png")
+  );
+  const diagramSrc = `data:image/png;base64,${diagramBuffer.toString("base64")}`;
+
   return new ImageResponse(
     <div
       style={{
@@ -21,8 +29,8 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          width: "100%",
-          padding: "56px 64px 52px",
+          width: "56%",
+          padding: "52px 48px 48px 56px",
         }}
       >
         <div
@@ -46,19 +54,19 @@ export default function OpenGraphImage() {
               background: "#c2410c",
             }}
           />
-          Focus · essays
+          Focus · EEaaS → agents
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div
             style={{
-              fontSize: 58,
-              lineHeight: 1.08,
+              fontSize: 54,
+              lineHeight: 1.1,
               letterSpacing: "-0.03em",
               fontWeight: 400,
             }}
           >
-            Learning cost, memory, and the harness
+            Make the learning loop itself more efficient
           </div>
           <div
             style={{
@@ -68,7 +76,8 @@ export default function OpenGraphImage() {
               fontFamily: "ui-sans-serif, system-ui, sans-serif",
             }}
           >
-            EEaaS mapped onto agents. Pulse instead of dump. The layers you can actually change.
+            When learning gets cheaper and decisions get better, intelligence can serve more people
+            for longer.
           </div>
         </div>
 
@@ -82,7 +91,44 @@ export default function OpenGraphImage() {
           }}
         >
           <span>Peramanathan Sathyamoorthy</span>
-          <span style={{ color: "#c2410c", fontWeight: 600 }}>Focus</span>
+          <span style={{ color: "#c2410c", fontWeight: 600 }}>2016 → 2026</span>
+        </div>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "44%",
+          padding: "40px 40px 40px 8px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            height: "100%",
+            borderRadius: 20,
+            border: "1px solid rgba(194, 65, 12, 0.18)",
+            background: "#ffffff",
+            boxShadow: "0 18px 40px rgba(60, 40, 20, 0.12)",
+            padding: 18,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={diagramSrc}
+            alt=""
+            width={480}
+            height={340}
+            style={{
+              width: "100%",
+              height: "auto",
+              objectFit: "contain",
+            }}
+          />
         </div>
       </div>
     </div>,
