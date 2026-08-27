@@ -6,6 +6,10 @@ import type { Metadata } from "next";
 import { DM_Sans, Instrument_Serif } from "next/font/google";
 import { SWRegister } from "@/components/sw-register";
 import { ThemeProvider } from "@/components/theme-provider";
+import { getMetadataBase } from "@/lib/site-url";
+
+const siteTitle = "Peramanathan Sathyamoorthy - Dev Profile";
+const siteDescription = "Modern portfolio showcasing software engineering skills and projects";
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -21,8 +25,26 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Peramanathan Sathyamoorthy - Dev Profile",
-  description: "Modern portfolio showcasing software engineering skills and projects",
+  metadataBase: getMetadataBase(),
+  title: siteTitle,
+  description: siteDescription,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: siteTitle,
+    description: siteDescription,
+    url: "/",
+    siteName: "Peramanathan Sathyamoorthy",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    creator: "@peramanathan",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
