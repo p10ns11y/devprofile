@@ -535,11 +535,17 @@ article[data-card="focus"]:has(a:focus-visible) .focus-index-card__cta {
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.focus-figure__frame img {
+.focus-figure__frame img,
+.focus-figure__frame svg {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 0.35rem;
+}
+
+.focus-figure__frame svg {
+  overflow: visible;
+  text-rendering: geometricPrecision;
 }
 
 .focus-figure figcaption {

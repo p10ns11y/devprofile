@@ -236,6 +236,12 @@ export default function MemoryIssuePage() {
             that constraint becomes operational. Selective signals—Key Decision Indicators in that
             essay, pulses here—are the same move: report less, decide better.
           </p>
+          <p>
+            Pulse is the traffic rule. A follow-up asks the prior question:{" "}
+            <Link className="focus-link" href="/focus/memory-issue/archive-not-memory">
+              what is allowed to become a snippet at all?
+            </Link>
+          </p>
 
           <blockquote className="focus-maxim">
             <p>
@@ -290,6 +296,13 @@ export default function MemoryIssuePage() {
               </SiteButton>
             </div>
           </div>
+
+          <FocusRelated
+            eyebrow="Next in series"
+            href="/focus/memory-issue/archive-not-memory"
+            title="Archive is not memory"
+            detail="The admissions rule: what is allowed to become a snippet at all—and why both biology and harnesses invent when the filter has no reject gate."
+          />
 
           <FocusRelated
             eyebrow="In this series"

@@ -1,10 +1,10 @@
 export const FOCUS_INDEX_HREF = "/focus";
 
-export type FocusEssaySlug = "eeaas-to-agents" | "memory-issue";
+export type FocusEssaySlug = "eeaas-to-agents" | "memory-issue" | "archive-not-memory";
 
 export type FocusEssay = {
   slug: FocusEssaySlug;
-  href: `/focus/${FocusEssaySlug}`;
+  href: `/focus/${string}`;
   navLabel: string;
   title: string;
   cardLede: string;
@@ -16,6 +16,30 @@ export type FocusEssay = {
     height: number;
   };
 };
+
+export type FocusMemoryEssaySlug = "pulse" | "archive-not-memory";
+
+export type FocusMemoryEssay = {
+  slug: FocusMemoryEssaySlug;
+  href: "/focus/memory-issue" | "/focus/memory-issue/archive-not-memory";
+  navLabel: string;
+  title: string;
+};
+
+export const FOCUS_MEMORY_ESSAYS: readonly FocusMemoryEssay[] = [
+  {
+    slug: "pulse",
+    href: "/focus/memory-issue",
+    navLabel: "Pulse instead of dump",
+    title: "Pulse instead of dump",
+  },
+  {
+    slug: "archive-not-memory",
+    href: "/focus/memory-issue/archive-not-memory",
+    navLabel: "Archive is not memory",
+    title: "Archive is not memory",
+  },
+];
 
 export const FOCUS_ESSAYS: readonly FocusEssay[] = [
   {
@@ -48,12 +72,35 @@ export const FOCUS_ESSAYS: readonly FocusEssay[] = [
       height: 500,
     },
   },
+  {
+    slug: "archive-not-memory",
+    href: "/focus/memory-issue/archive-not-memory",
+    navLabel: "Archive is not memory",
+    title: "Archive is not memory — the second constraint on agent recall",
+    cardLede:
+      "What is allowed to become a snippet at all? Reuse, not form, is the admissions rule for memory—and why both biology and harnesses invent when the filter has no reject gate.",
+    eyebrow: "Memory · admissions",
+    image: {
+      src: "/images/IA_archive_vs_memory.svg",
+      alt: "",
+      width: 860,
+      height: 560,
+    },
+  },
 ];
 
 export function getFocusEssay(slug: FocusEssaySlug): FocusEssay {
   const essay = FOCUS_ESSAYS.find((item) => item.slug === slug);
   if (!essay) {
     throw new Error(`Unknown Focus essay: ${slug}`);
+  }
+  return essay;
+}
+
+export function getFocusMemoryEssay(slug: FocusMemoryEssaySlug): FocusMemoryEssay {
+  const essay = FOCUS_MEMORY_ESSAYS.find((item) => item.slug === slug);
+  if (!essay) {
+    throw new Error(`Unknown Focus memory essay: ${slug}`);
   }
   return essay;
 }
