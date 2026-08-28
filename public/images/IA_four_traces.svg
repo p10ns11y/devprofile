@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 500" width="1720" height="1000" role="img" aria-labelledby="title desc">
+  <title id="title">Four traces that look alike in a log: data, context, fact, and memory</title>
+  <desc id="desc">Data is what existed. Context is what is loaded now. A fact is a claim treated as currently true. Memory is a past trace kept because it is expected to change a later action.</desc>
+  <rect width="860" height="500" fill="#ffffff"/>
+  <text x="430" y="40" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#1e1e1e">Four traces, one log</text>
+  <text x="430" y="66" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#4a5568">They look alike in a transcript. Only reuse makes it memory.</text>
+
+  <rect x="28" y="92" width="195" height="150" rx="16" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="125" y="128" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="600" fill="#334155">Data</text>
+  <text x="125" y="158" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#475569">what existed</text>
+  <text x="125" y="186" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#64748b">logs, tickets,</text>
+  <text x="125" y="204" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#64748b">raw events</text>
+
+  <rect x="237" y="92" width="195" height="150" rx="16" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+  <text x="334" y="128" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="600" fill="#1e3a8a">Context</text>
+  <text x="334" y="158" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#1d4ed8">what is loaded now</text>
+  <text x="334" y="186" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#3b82f6">the working set</text>
+  <text x="334" y="204" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#3b82f6">in the window</text>
+
+  <rect x="446" y="92" width="195" height="150" rx="16" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="543" y="128" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="600" fill="#4c1d95">Fact</text>
+  <text x="543" y="158" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#6d28d9">claim treated as true</text>
+  <text x="543" y="186" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#7c3aed">may never move</text>
+  <text x="543" y="204" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#7c3aed">an outcome</text>
+
+  <rect x="655" y="92" width="177" height="150" rx="16" fill="#f0fdf4" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="743" y="128" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="600" fill="#14532d">Memory</text>
+  <text x="743" y="158" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#15803d">kept for reuse</text>
+  <text x="743" y="186" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#16a34a">expected to change</text>
+  <text x="743" y="204" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#16a34a">a later action</text>
+
+  <rect x="28" y="270" width="804" height="200" rx="20" fill="#fffaf7" stroke="#c2410c" stroke-width="2"/>
+  <text x="430" y="308" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#9a3412">The form is not what makes it memory. Reuse is.</text>
+  <text x="430" y="342" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#7c2d12">A fact can sit in a store forever and never move an outcome.</text>
+  <text x="430" y="368" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#7c2d12">A full project history can reconstruct the journey and still be the wrong thing to inject.</text>
+  <text x="430" y="410" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="600" fill="#c2410c">If everything since the beginning counts as memory, the harness is dumping again.</text>
+  <text x="430" y="448" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#9a3412">’ see Pulse instead of dump</text>
+</svg>
