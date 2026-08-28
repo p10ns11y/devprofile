@@ -1,49 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 500" width="1720" height="1000" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 560" width="1720" height="1120" role="img" aria-labelledby="title desc" text-rendering="geometricPrecision">
   <title id="title">Archive stays outside the live path; memory is only traces allowed to pulse back in</title>
   <desc id="desc">AI harnesses broke biology's identity between retention and recall. Archive stays outside the live path. Memory is only the traces allowed to pulse back when they can change the next action.</desc>
-  <rect width="860" height="500" fill="#ffffff"/>
-  <text x="430" y="40" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#1e1e1e">Archive vs memory</text>
-  <text x="430" y="66" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#4a5568">Cheap storage broke the identity between keeping and recalling.</text>
+  <rect width="860" height="560" fill="#ffffff"/>
+  <text x="430" y="42" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#1e1e1e">Archive vs memory</text>
+  <text x="430" y="72" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#4a5568">Cheap storage broke the identity between keeping and recalling.</text>
 
-  <rect x="28" y="92" width="390" height="370" rx="20" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
-  <text x="223" y="128" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#334155">Archive</text>
-  <text x="223" y="152" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#64748b">outside the live path</text>
+  <rect x="28" y="96" width="390" height="440" rx="20" fill="#f8fafc" stroke="#64748b" stroke-width="2"/>
+  <text x="223" y="140" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#334155">Archive</text>
+  <text x="223" y="168" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#64748b">outside the live path</text>
 
-  <rect x="56" y="172" width="334" height="44" rx="10" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
-  <text x="223" y="199" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#475569">logs, transcripts, tickets</text>
+  <rect x="56" y="196" width="334" height="56" rx="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="223" y="230" text-anchor="middle" dominant-baseline="central" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#334155">logs, transcripts, tickets</text>
 
-  <rect x="56" y="228" width="334" height="44" rx="10" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
-  <text x="223" y="255" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#475569">embeddings, immutable records</text>
+  <rect x="56" y="268" width="334" height="56" rx="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="223" y="302" text-anchor="middle" dominant-baseline="central" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#334155">embeddings, immutable records</text>
 
-  <rect x="56" y="284" width="334" height="44" rx="10" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
-  <text x="223" y="311" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#475569">cheap to keep &#183; residue accumulates</text>
+  <rect x="56" y="340" width="334" height="56" rx="12" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="223" y="374" text-anchor="middle" dominant-baseline="central" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#334155">cheap to keep, residue grows</text>
 
-  <text x="223" y="380" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600" fill="#475569">Large warehouse beside the cell</text>
-  <text x="223" y="404" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#64748b">not fuel for the next token by default</text>
-  <text x="223" y="436" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#94a3b8">Biology: retention was already selection</text>
+  <text x="223" y="444" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600" fill="#475569">Warehouse beside the cell</text>
+  <text x="223" y="472" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#64748b">not fuel for the next token</text>
+  <text x="223" y="500" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#64748b">Biology: retention was already selection</text>
 
-  <rect x="442" y="92" width="390" height="370" rx="20" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
-  <text x="637" y="128" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#14532d">Memory</text>
-  <text x="637" y="152" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#15803d">allowed to pulse back in</text>
+  <rect x="442" y="96" width="390" height="440" rx="20" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="637" y="140" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#14532d">Memory</text>
+  <text x="637" y="168" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#15803d">allowed to pulse back in</text>
 
-  <rect x="470" y="172" width="334" height="44" rx="10" fill="#b2f2bb" stroke="#22c55e" stroke-width="1.5"/>
-  <text x="637" y="199" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#14532d">sparse, dated, sourced traces</text>
+  <rect x="470" y="196" width="334" height="56" rx="12" fill="#b2f2bb" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="637" y="230" text-anchor="middle" dominant-baseline="central" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#14532d">sparse, dated, sourced traces</text>
 
-  <rect x="470" y="228" width="334" height="44" rx="10" fill="#d3f9d8" stroke="#22c55e" stroke-width="1.5"/>
-  <text x="637" y="255" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#14532d">can change the next action</text>
+  <rect x="470" y="268" width="334" height="56" rx="12" fill="#d3f9d8" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="637" y="302" text-anchor="middle" dominant-baseline="central" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#14532d">can change the next action</text>
 
-  <rect x="470" y="284" width="334" height="44" rx="10" fill="#d3f9d8" stroke="#22c55e" stroke-width="1.5"/>
-  <text x="637" y="311" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#14532d">justifies the pulse cost</text>
+  <rect x="470" y="340" width="334" height="56" rx="12" fill="#d3f9d8" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="637" y="374" text-anchor="middle" dominant-baseline="central" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#14532d">justifies the pulse cost</text>
 
-  <defs>
-    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 Z" fill="#22c55e"/>
-    </marker>
-  </defs>
-  <path d="M 410 276 L 442 276" stroke="#22c55e" stroke-width="2.5" marker-end="url(#arrow)"/>
-
-  <text x="637" y="380" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600" fill="#14532d">Admissions rule, not traffic rule</text>
-  <text x="637" y="404" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#15803d">Without the split, useful trace = complete trace</text>
-  <text x="637" y="436" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#16a34a">Pulse instead of dump was the traffic rule</text>
+  <text x="637" y="444" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600" fill="#14532d">Admissions rule, not traffic</text>
+  <text x="637" y="472" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#15803d">Useful trace is not complete trace</text>
+  <text x="637" y="500" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#16a34a">Pulse instead of dump was the traffic rule</text>
 </svg>

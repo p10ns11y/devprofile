@@ -84,7 +84,7 @@ export const FOCUS_ESSAYS: readonly FocusEssay[] = [
       src: "/images/IA_archive_vs_memory.svg",
       alt: "",
       width: 860,
-      height: 500,
+      height: 560,
     },
   },
 ];

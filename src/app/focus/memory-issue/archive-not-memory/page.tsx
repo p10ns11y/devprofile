@@ -86,7 +86,7 @@ export default function ArchiveNotMemoryPage() {
             alt="Diagram distinguishing data, context, fact, and memory: four traces that look alike in a log but only reuse makes it memory"
             caption="Data, context, fact, memory—they blur in a transcript. Only traces kept for reuse earn the name."
             width={860}
-            height={500}
+            height={560}
           />
 
           <h2>Biology never needed the extra word</h2>
@@ -119,7 +119,7 @@ export default function ArchiveNotMemoryPage() {
             alt="Side-by-side diagram: archive stays outside the live path while memory is sparse traces allowed to pulse back when they can change the next action"
             caption="Cheap storage broke the identity between keeping and recalling. Archive is residue; memory is leverage."
             width={860}
-            height={500}
+            height={560}
           />
 
           <h2>The admissions test</h2>
@@ -142,7 +142,7 @@ export default function ArchiveNotMemoryPage() {
             alt="Flow diagram of the admissions test: would this past trace change the next action enough to justify bringing it back—yes becomes memory, no stays residual data"
             caption="Not did it happen—would it change the next action? The dangerous state is a completed story with the barrier down."
             width={860}
-            height={500}
+            height={560}
           />
 
           <h2>Biology fills under suggestion</h2>
@@ -242,7 +242,7 @@ export default function ArchiveNotMemoryPage() {
             alt="Diagram of three locks for truthfulness: source where this came from, time when it was true and whether withdrawn, uncertainty permission not to complete the story"
             caption="Source, time, uncertainty—the same locks serve biology and harness. Pulse is traffic; admissions is what may enter."
             width={860}
-            height={500}
+            height={560}
           />
 
           <h2 id="closing">Closing</h2>
