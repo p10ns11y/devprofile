@@ -78,7 +78,7 @@ export const FOCUS_ESSAYS: readonly FocusEssay[] = [
     navLabel: "Archive is not memory",
     title: "Archive is not memory — the second constraint on agent recall",
     cardLede:
-      "What is allowed to become a snippet at all? Reuse, not form, is the admissions rule for memory—and why both biology and harnesses invent when the barrier is down.",
+      "What is allowed to become a snippet at all? Reuse, not form, is the admissions rule for memory—and why both biology and harnesses invent when the filter has no reject gate.",
     eyebrow: "Memory · admissions",
     image: {
       src: "/images/IA_archive_vs_memory.svg",

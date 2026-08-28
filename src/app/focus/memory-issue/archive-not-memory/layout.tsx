@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 const title = "Archive is not memory — the second constraint on agent recall";
 const description =
-  "What is allowed to become a snippet at all? Reuse, not form, is the admissions rule for agent memory—and why both biology and harnesses invent when the monitoring barrier is down.";
+  "What is allowed to become a snippet at all? Reuse, not form, is the admissions rule for agent memory—and why both biology and harnesses invent when the filter has no reject gate.";
 
 export const metadata: Metadata = {
   title,

@@ -301,7 +301,7 @@ export default function MemoryIssuePage() {
             eyebrow="Next in series"
             href="/focus/memory-issue/archive-not-memory"
             title="Archive is not memory"
-            detail="The admissions rule: what is allowed to become a snippet at all—and why both biology and harnesses invent when the monitoring barrier is down."
+            detail="The admissions rule: what is allowed to become a snippet at all—and why both biology and harnesses invent when the filter has no reject gate."
           />
 
           <FocusRelated

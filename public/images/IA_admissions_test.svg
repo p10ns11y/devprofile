@@ -27,6 +27,6 @@
   <text x="632" y="404" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#64748b">dumping by another name</text>
 
   <rect x="28" y="472" width="804" height="68" rx="14" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
-  <text x="430" y="500" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600" fill="#991b1b">Dangerous state: a completed story with the barrier down.</text>
+  <text x="430" y="500" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600" fill="#991b1b">Dangerous state: a completed story the filter failed to reject.</text>
   <text x="430" y="524" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#b91c1c">Invention fills the gap. Coherence is cheaper than &quot;I don't know.&quot;</text>
 </svg>

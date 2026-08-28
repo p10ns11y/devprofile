@@ -24,12 +24,12 @@ export default function ArchiveNotMemoryPage() {
           <FocusSeriesNav current="memory-issue" memoryEssay="archive-not-memory" />
           <h1 className="focus-page__title">Archive is not memory</h1>
           <p className="focus-page__lede">
-            The second constraint on agent recall. A follow-up to{" "}
+            A follow-up to{" "}
             <Link className="focus-link" href="/focus/memory-issue">
               <em>Pulse instead of dump</em>
             </Link>
-            . The first essay was about traffic. This one is about admissions: what is allowed to
-            become a snippet at all?
+            . The first essay was about traffic. This one is the second constraint: what is allowed
+            to become a snippet at all?
           </p>
         </header>
 
@@ -44,8 +44,8 @@ export default function ArchiveNotMemoryPage() {
 
           <h2>Four things that look alike in a log</h2>
           <p>
-            Most stacks blur four things that only look alike in a log. The form is not what makes
-            it memory. <strong className="focus-mark">Reuse is.</strong>
+            Most stacks blur four things that only look alike once they sit in a log. The form is
+            not what makes it memory. <strong className="focus-mark">Reuse is.</strong>
           </p>
           <ol className="focus-page__phases">
             <li>
@@ -140,7 +140,7 @@ export default function ArchiveNotMemoryPage() {
           <FocusFigure
             src="/images/IA_admissions_test.svg"
             alt="Flow diagram of the admissions test: would this past trace change the next action enough to justify bringing it back—yes becomes memory, no stays residual data"
-            caption="Not did it happen—would it change the next action? The dangerous state is a completed story with the barrier down."
+            caption="Not did it happen—would it change the next action? The dangerous state is a completed story the filter failed to reject."
             width={860}
             height={560}
           />
@@ -162,13 +162,16 @@ export default function ArchiveNotMemoryPage() {
             no lock.
           </p>
           <p>
-            The dangerous state in both cases is not a plan to deceive. It is a completed story with
-            the monitoring barrier down.
+            The dangerous state in both cases is not a plan to deceive. It is a completed story that
+            the filter failed to reject.
           </p>
           <p>
             <strong className="focus-mark">
-              Truthfulness is the work of putting the barrier back.
-            </strong>
+              Truthfulness is not more monitoring. It is a higher bar inside monitoring and
+              filtering themselves.
+            </strong>{" "}
+            Restore the ability to refuse a fluent option before it is promoted—not the ability to
+            collect more of them.
           </p>
 
           <aside className="focus-aside" aria-label="Certainty is cheap after coherence">
@@ -180,16 +183,19 @@ export default function ArchiveNotMemoryPage() {
 
           <h2>Locks for a nervous system</h2>
           <p>
-            For a nervous system that means safety before recall. Sleep and rest restore the ability
-            to reject a wrong option, not only the ability to produce more detail. Free recall
-            before questions. No pressure to finish the scene. Separate sources on purpose: seen,
-            heard, imagined, told later. Keep notes, timestamps, and other contemporaneous records
-            as archive, not as fuel for a more vivid reconstruction. Do not rehearse an unverified
-            version until it feels real.
+            For a nervous system that means safety before recall, not extra rehearsal. Sleep and
+            rest restore the ability to reject a wrong option, not only the ability to produce more
+            detail. Free recall before questions. No pressure to finish the scene. Separate sources
+            on purpose: seen, heard, imagined, told later. Keep notes, timestamps, and other
+            contemporaneous records as archive, not as fuel for a more vivid reconstruction. Do not
+            rehearse an unverified version until it feels real.
           </p>
 
           <h2>Locks for the harness</h2>
-          <p>For the harness the same locks have to be protocol.</p>
+          <p>
+            For the harness, those locks have to be protocol—the same reject gate, not a thicker
+            log.
+          </p>
           <dl className="focus-pulse">
             <div>
               <dt>Write only after a check</dt>
@@ -240,7 +246,7 @@ export default function ArchiveNotMemoryPage() {
           <FocusFigure
             src="/images/IA_three_locks.svg"
             alt="Diagram of three locks for truthfulness: source where this came from, time when it was true and whether withdrawn, uncertainty permission not to complete the story"
-            caption="Source, time, uncertainty—the same locks serve biology and harness. Pulse is traffic; admissions is what may enter."
+            caption="Source, time, uncertainty. The same reject gate serves biology and harness: quality in the filter, not more observation."
             width={860}
             height={560}
           />
