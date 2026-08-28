@@ -10,20 +10,20 @@
   <text x="158" y="142" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600" fill="#1e3a8a">Source</text>
   <text x="158" y="172" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#1d4ed8">where this came from</text>
   <rect x="52" y="196" width="212" height="36" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
-  <text x="158" y="219" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#1e40af">seen · heard · imagined · told</text>
+  <text x="158" y="219" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#1e40af">seen &#183; heard &#183; imagined &#183; told</text>
   <rect x="52" y="244" width="212" height="36" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
-  <text x="158" y="267" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#1e40af">user-stated · tool-verified</text>
+  <text x="158" y="267" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#1e40af">user-stated &#183; tool-verified</text>
   <rect x="52" y="292" width="212" height="36" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
-  <text x="158" y="315" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#1e40af">inferred · unknown</text>
+  <text x="158" y="315" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#1e40af">inferred &#183; unknown</text>
   <text x="158" y="380" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#3b82f6">separate sources on purpose</text>
 
   <rect x="300" y="100" width="260" height="320" rx="20" fill="#faf5ff" stroke="#8b5cf6" stroke-width="2"/>
   <text x="430" y="142" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600" fill="#4c1d95">Time</text>
   <text x="430" y="172" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#6d28d9">when it was true</text>
   <rect x="324" y="196" width="212" height="36" rx="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1"/>
-  <text x="430" y="219" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#5b21b6">timestamps · freshness</text>
+  <text x="430" y="219" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#5b21b6">timestamps &#183; freshness</text>
   <rect x="324" y="244" width="212" height="36" rx="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1"/>
-  <text x="430" y="267" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#5b21b6">supersession ` nearness</text>
+  <text x="430" y="267" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#5b21b6">supersession &#8800; nearness</text>
   <rect x="324" y="292" width="212" height="36" rx="8" fill="#ede9fe" stroke="#8b5cf6" stroke-width="1"/>
   <text x="430" y="315" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#5b21b6">revoked constraints</text>
   <text x="430" y="380" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#7c3aed">check freshness, not only similarity</text>
@@ -32,12 +32,12 @@
   <text x="702" y="142" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600" fill="#9a3412">Uncertainty</text>
   <text x="702" y="172" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#c2410c">permission not to complete</text>
   <rect x="596" y="196" width="212" height="36" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1"/>
-  <text x="702" y="219" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#9a3412">not in the evidence</text>
+  <text x="702" y="219" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#9a3412">&quot;not in the evidence&quot;</text>
   <rect x="596" y="244" width="212" height="36" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1"/>
   <text x="702" y="267" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#9a3412">write only after a check</text>
   <rect x="596" y="292" width="212" height="36" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1"/>
   <text x="702" y="315" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#9a3412">hypothesis until verified</text>
   <text x="702" y="380" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#c2410c">if abstention is illegal, the model fills</text>
 
-  <text x="430" y="468" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e">Pulse = traffic rule · Admissions = what may enter · Locks = truthfulness</text>
+  <text x="430" y="468" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1e1e1e">Pulse = traffic rule &#183; Admissions = what may enter &#183; Locks = truthfulness</text>
 </svg>
