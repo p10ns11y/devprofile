@@ -147,7 +147,8 @@ export async function prepareData() {
       type: project.type,
     };
 
-    if (project.date) metadata.date = project.date;
+    if (project.created) metadata.created = project.created;
+    if (project.updated) metadata.updated = project.updated;
     if (project.status) metadata.status = project.status;
     if (project.is_open_source !== undefined) metadata.is_open_source = project.is_open_source;
     if (project.impact) metadata.impact = project.impact;
