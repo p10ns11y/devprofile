@@ -6,8 +6,8 @@ import { AISmartHighlight } from "@/components/ai-smart-highlight";
 import cvData from "@/data/cvdata.json";
 import {
   getCvFeaturedProjects,
-  isReachProject,
   projectDateRangeLabel,
+  projectPublicHostLabel,
 } from "@/lib/cv-featured-projects";
 
 const CvMasonryLayout = dynamic(() => import("@/app/cv/content-layout"), { ssr: false });
@@ -117,10 +117,13 @@ export function CvWebContent() {
                   rel="nofollow noreferrer noopener"
                 >
                   {project.name}
-                  {isReachProject(project) ? " · reach" : ""}
                 </a>
-                {projectDateRangeLabel(project) ? (
-                  <p className="cv-links__desc">{projectDateRangeLabel(project)}</p>
+                {projectDateRangeLabel(project) || projectPublicHostLabel(project) ? (
+                  <p className="cv-links__desc">
+                    {[projectDateRangeLabel(project), projectPublicHostLabel(project)]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
                 ) : null}
                 <p className="cv-links__desc">{project.description}</p>
               </li>

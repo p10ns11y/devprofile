@@ -70,9 +70,9 @@
       "duration": "ongoing",
       "kind": "independent_work",
       "responsibilities": [
-        "Independent learner and builder since December 2024 (family-care employment gap) — not a tourist sabbatical.",
-        "Recent slice shown (March–August 2026): collab-finder 1.0.0 (kanithanj.ai) — public Tauri/React apply cockpit with CI and SQLite.",
-        "Same recent slice: thepulimaangani (Tamil metre, Rust/WASM, live) and devprofile (public CV, Focus essays). Available now for a permanent senior fullstack / frontend role."
+        "Shipped kanithanj.ai (collab-finder) 1.0.0 on 19 August 2026 — a Tauri, Rust, and React apply cockpit with SQLite history and CI quality gates, replacing scattered hunt notes with a local operator loop.",
+        "Compiled a Rust Tamil-metre parser to WASM and shipped a React UI (thepulimaangani), so prosody analysis runs in the browser without a backend.",
+        "Built the public CV and apply-PDF pipeline (devprofile + kanithanj.cv) on Next.js, generating a two-page master CV and role-fit packs from a single cvdata source."
       ],
       "tools": [
         "TypeScript",
@@ -878,7 +878,7 @@
       "status": "active",
       "is_open_source": true,
       "impact": "Production apply cockpit (kanithanj.ai)",
-      "reach": true,
+      "public_url": "https://kanithanj.ai",
       "created": "2026-06-04",
       "updated": "2026-08-25"
     },
