@@ -32,6 +32,9 @@ test.describe("Homepage", () => {
     await expect(page.locator("#home")).toBeVisible();
     await expect(page.locator("h1").first()).toBeVisible();
     const hero = page.locator("#home");
+    await expect(
+      hero.getByText(/Senior Software Engineer with 9\+ years in scalable web apps/)
+    ).toBeVisible();
     await expect(hero.getByRole("link", { name: "View experience" })).toBeVisible();
     await expect(hero.getByRole("link", { name: "View CV" })).toBeVisible();
     await expect(hero.getByRole("link", { name: "Live GitHub activity" })).toBeVisible();

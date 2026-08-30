@@ -146,12 +146,18 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100svh;
-    padding-top: var(--header-offset, 5rem);
-    padding-bottom: clamp(1.25rem, 3vh, 2rem);
+    padding-top: calc(var(--header-offset, 5rem) + 0.5rem);
+    padding-bottom: clamp(1rem, 2.5vh, 1.5rem);
     overflow-x: clip;
     isolation: isolate;
+  }
+
+  @media (min-height: 52rem) {
+    .hero-section {
+      justify-content: center;
+    }
   }
 
   /* Soft lift behind copy */
@@ -175,7 +181,7 @@
 
   .hero-layout {
     display: grid;
-    gap: var(--marketing-space-stack);
+    gap: clamp(1rem, 2vw, 1.5rem);
     align-items: center;
     width: min(100%, 58rem);
     min-width: 0;
@@ -191,7 +197,7 @@
   .hero-copy {
     display: flex;
     flex-direction: column;
-    gap: var(--marketing-space-stack);
+    gap: clamp(0.75rem, 1.6vh, 1.125rem);
     align-items: center;
     min-width: 0;
     width: 100%;
@@ -215,9 +221,9 @@
 
   .hero-name {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 3vw + 0.85rem, 3.25rem);
+    font-size: clamp(1.625rem, 1.6vw + 0.85rem, 2.25rem);
     font-weight: 400;
-    line-height: 1.1;
+    line-height: 1.15;
     letter-spacing: -0.02em;
     color: var(--color-text);
     text-wrap: balance;
@@ -237,6 +243,14 @@
     margin-top: 0.5rem;
     font-size: 1rem;
     line-height: 1.45;
+    color: var(--color-text);
+    text-wrap: pretty;
+  }
+
+  .hero-track {
+    max-width: var(--marketing-prose-max);
+    font-size: clamp(1.0625rem, 0.6vw + 0.95rem, 1.1875rem);
+    line-height: 1.65;
     color: var(--color-text);
     text-wrap: pretty;
   }
@@ -278,12 +292,6 @@
     align-items: center;
   }
 
-  @media (min-width: 1024px) {
-    .hero-trail {
-      align-items: flex-start;
-    }
-  }
-
   .hero-more-cta {
     min-height: 2.75rem;
     padding-inline: 1.125rem;
@@ -293,14 +301,7 @@
     display: flex;
     justify-content: center;
     align-self: center;
-    width: auto;
-  }
-
-  @media (min-width: 1024px) {
-    .hero-profiles {
-      justify-content: flex-start;
-      align-self: flex-start;
-    }
+    width: 100%;
   }
 
   .hero-aside {
@@ -316,21 +317,75 @@
     }
   }
 
+  /* GitRoll showcase — glow halo around the CURISM orb */
   .hero-gitroll {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: min(100%, 18rem);
-    padding: 0.25rem;
+    width: min(100%, 22rem);
+    padding: 0.5rem;
     text-decoration: none;
     color: inherit;
     outline-offset: 6px;
+    transition: transform 0.45s ease;
+  }
+
+  .hero-gitroll::before {
+    content: "";
+    position: absolute;
+    inset: 8% 10% auto;
+    aspect-ratio: 1;
+    z-index: 1;
+    border-radius: 50%;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        circle at 28% 28%,
+        color-mix(in oklch, oklch(0.78 0.11 220) 52%, transparent),
+        transparent 56%
+      ),
+      radial-gradient(
+        circle at 72% 74%,
+        color-mix(in oklch, oklch(0.72 0.14 300) 48%, transparent),
+        transparent 62%
+      );
+    opacity: 0.95;
+    filter: blur(16px);
+  }
+
+  .hero-gitroll::after {
+    content: "";
+    position: absolute;
+    inset: 3% 4% auto;
+    aspect-ratio: 1;
+    z-index: 2;
+    pointer-events: none;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 120deg,
+      transparent 0deg,
+      color-mix(in oklch, oklch(0.78 0.1 230) 48%, transparent) 58deg,
+      transparent 150deg,
+      color-mix(in oklch, oklch(0.74 0.14 310) 42%, transparent) 250deg,
+      transparent 340deg
+    );
+    mask: radial-gradient(circle, transparent 63%, black 64%, black 70%, transparent 71%);
+    opacity: 0.45;
+    transition: rotate 0.9s ease;
   }
 
   @media (hover: hover) {
+    .hero-gitroll:hover {
+      transform: translateY(-4px) scale(1.01);
+    }
+
     .hero-gitroll:hover .hero-gitroll__cta {
       color: var(--color-link);
+    }
+
+    .hero-gitroll:hover::after {
+      rotate: 12deg;
     }
   }
 
@@ -339,25 +394,81 @@
     border-radius: 1rem;
   }
 
+  .hero-gitroll__halo {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    z-index: 0;
+    width: 92%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    translate: -50% 0;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklch, oklch(0.76 0.1 230) 44%, transparent) 0%,
+      color-mix(in oklch, oklch(0.72 0.12 300) 38%, transparent) 42%,
+      transparent 72%
+    );
+    filter: blur(20px);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
   .hero-gitroll__plate {
     position: relative;
-    z-index: 1;
-    width: clamp(11rem, 28vw, 16rem);
+    z-index: 2;
+    width: clamp(11.5rem, 30vw, 15.5rem);
     aspect-ratio: 1;
     border-radius: 50%;
     overflow: hidden;
-    border: 1px solid var(--color-border-subtle);
-    background-color: var(--color-surface-raised);
-    box-shadow: var(--marketing-shadow-sm);
+    box-shadow:
+      0 0 0 1px color-mix(in oklch, oklch(0.7 0.1 250) 40%, transparent),
+      0 0 0 6px color-mix(in oklch, white 38%, transparent),
+      0 24px 52px color-mix(in oklch, oklch(0.62 0.08 260) 18%, var(--color-shadow)),
+      var(--marketing-shadow-md);
+  }
+
+  .hero-gitroll__plate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        130deg,
+        color-mix(in oklch, white 55%, transparent) 0%,
+        transparent 34%,
+        transparent 62%,
+        color-mix(in oklch, oklch(0.84 0.05 240) 36%, transparent) 100%
+      ),
+      radial-gradient(
+        circle at 28% 18%,
+        color-mix(in oklch, white 42%, transparent),
+        transparent 34%
+      );
+    mix-blend-mode: screen;
+    opacity: 0.85;
+  }
+
+  .hero-gitroll__plate::after {
+    content: "";
+    position: absolute;
+    inset: 12%;
+    z-index: 3;
+    pointer-events: none;
+    border-radius: 50%;
+    border: 1px dashed color-mix(in oklch, oklch(0.75 0.08 255) 42%, transparent);
+    opacity: 0.55;
   }
 
   @media (min-width: 1024px) {
     .hero-gitroll {
-      width: min(100%, 18rem);
+      width: min(100%, 20rem);
     }
 
     .hero-gitroll__plate {
-      width: clamp(13rem, 18vw, 16rem);
+      width: clamp(13rem, 16vw, 16rem);
     }
   }
 
@@ -372,11 +483,30 @@
     text-align: center;
   }
 
+  .hero-gitroll__eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: transparent;
+    background: linear-gradient(
+      92deg,
+      color-mix(in oklch, oklch(0.45 0.11 230) 78%, var(--color-text)) 0%,
+      color-mix(in oklch, oklch(0.48 0.13 300) 72%, var(--color-text)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
   .hero-gitroll__cta {
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--color-text);
+    color: color-mix(in oklch, oklch(0.42 0.07 245) 68%, var(--color-text-muted));
     transition: color 0.2s ease;
+  }
+
+  .hero-gitroll__cta::after {
+    content: " →";
   }
 
   .section-title {
@@ -1740,6 +1870,15 @@
 
   /* Round 6: keep focus/hover transitions; silence decorative motion only */
   @media (prefers-reduced-motion: reduce) {
+    .hero-gitroll,
+    .hero-gitroll::after {
+      transition: none;
+    }
+
+    .hero-gitroll:hover {
+      transform: none;
+    }
+
     .status-easter-egg__badge,
     .status-easter-egg__emoji {
       animation: none;

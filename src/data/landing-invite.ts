@@ -5,15 +5,17 @@
 export const landingInvite = {
   role: "AI-native product / agent engineer",
   place: "Available now",
-  seat: "For product, agent, or customer-embedded applied AI.",
+  seat: "Open to AI-native product or agent roles, and to senior fullstack roles where using AI is already part of the job.",
+  track:
+    "Senior Software Engineer with 9+ years in scalable web apps, JavaScript, ReactJS, and system architecture, leading teams and mentoring in innovative startups.",
   thesis:
     "React and Node are common. What is scarce is shipping an agentic workflow in production with product taste, evals, and the judgment to keep a demo from becoming a liability.",
   summary:
-    "At Oneflow I owned public API, CRM clients, permissions, and FlowType/TypeScript on a living SaaS, and I led a team. After that I shipped my own systems: kanithanj.ai, this site, and a local tuning lab. That work is personal, not lab employment. The named systems are the March to August 2026 slice of that stretch, not a tourist sabbatical.",
+    "At Oneflow I owned public API, CRM clients, permissions, and FlowType/TypeScript on a living SaaS, and I led a team. After that I shipped my own systems: kanithanj.ai, this site, and a local tuning lab. That work is personal, not lab employment. The named systems are the March to August 2026 slice of that stretch.",
   independentSlice:
-    "Listed projects are the March to August 2026 slice, not the whole interval from December 2024, and not a tourist sabbatical.",
+    "Listed projects are the March to August 2026 slice, not the whole interval from December 2024.",
   experienceLead:
-    "Nine years in product companies, including team lead at Oneflow. Independent work after December 2024 is family care plus shipped products, not a sabbatical.",
+    "Nine years in product companies, including team lead at Oneflow. Independent work after December 2024 is family care plus shipped products.",
   assets: [
     {
       title: "I have landed a product in other companies' tools",

@@ -5,6 +5,7 @@ import Image from "next/image";
 import cvdata from "@/data/cvdata.json";
 import { landingInvite } from "@/data/landing-invite";
 import { fadeUp, motionTransition } from "@/lib/motion";
+import { AISmartHighlight } from "./ai-smart-highlight";
 import { SiteButton } from "./site/SiteButton";
 import { SocialLinks } from "./social-links";
 
@@ -39,6 +40,9 @@ export function Hero() {
               </p>
             </div>
 
+            <p className="hero-track">
+              <AISmartHighlight>{landingInvite.track}</AISmartHighlight>
+            </p>
             <p className="hero-lead">{landingInvite.thesis}</p>
 
             <nav className="hero-actions" aria-label="Profile actions">
@@ -57,7 +61,7 @@ export function Hero() {
 
             <div className="hero-trail">
               <div className="hero-profiles">
-                <SocialLinks size="compact" align="start" />
+                <SocialLinks size="compact" className="justify-center" />
               </div>
             </div>
           </div>
@@ -70,19 +74,21 @@ export function Hero() {
               className="hero-gitroll"
               title="Open GitRoll CURISM profile for Peramanathan Sathyamoorthy"
             >
+              <span className="hero-gitroll__halo" aria-hidden="true" />
               <span className="hero-gitroll__plate">
                 <Image
                   src="/images/curism.png"
                   alt="GitRoll CURISM radar chart — contribution analytics across engineering dimensions"
                   fill
-                  sizes="(max-width: 1023px) 180px, 256px"
+                  sizes="(max-width: 1023px) 220px, 360px"
                   loading="eager"
                   className="object-contain"
                   priority
                 />
               </span>
               <span className="hero-gitroll__meta">
-                <span className="hero-gitroll__cta">GitRoll contribution proof</span>
+                <span className="hero-gitroll__eyebrow">GitRoll · CURISM</span>
+                <span className="hero-gitroll__cta">View contribution profile</span>
               </span>
             </a>
           </aside>

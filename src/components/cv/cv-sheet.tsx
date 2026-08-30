@@ -2,6 +2,7 @@
 
 import { SocialLinks } from "@/components/social-links";
 import cvData from "@/data/cvdata.json";
+import { landingInvite } from "@/data/landing-invite";
 import { CvWebContent } from "./cv-web-content";
 
 export function CvSheet() {
@@ -9,7 +10,7 @@ export function CvSheet() {
     <article className="cv-sheet" data-card="cv">
       <header className="cv-sheet__header">
         <h2 className="cv-sheet__name">{cvData.name}</h2>
-        <p className="cv-sheet__role">{cvData.latest_proffessional_role}</p>
+        <p className="cv-sheet__role">{landingInvite.role}</p>
         <p className="cv-sheet__contact">
           <a href={`mailto:${cvData.contact.email}`}>{cvData.contact.email}</a>
           {cvData.contact.phone && cvData.contact.phone_public !== false ? (
