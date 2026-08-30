@@ -1,10 +1,12 @@
 /**
  * Generate a portfolio-styled apply CV from master cvdata + optional pack overlay.
  *
+ * Leftover local writer. Apply PDFs: kanithanj.cv (collab-finder).
+ * Site master PDF: pnpm generate-pdf.
+ *
  * Usage:
- *   kanithanj.cv                         # master CV → out/apply/cv.pdf
- *   kanithanj.cv <pack|opp_N|id>         # role-fit pack PDF
- *   bun scripts/generate-apply-cv.tsx    # same (no pack = master)
+ *   bun scripts/generate-apply-cv.tsx    # leftover; prefer kanithanj.cv generate
+ *   bun scripts/generate-apply-cv.tsx <pack|opp_N|id>
  *
  * Output filename rule (always):
  *   {name}-{role}-{id}.pdf
@@ -18,7 +20,7 @@
  *
  * Does NOT mutate src/data/cvdata.json or public/cv.pdf.
  */
-import ReactPDF from "@react-pdf/renderer";
+
 import {
   copyFileSync,
   existsSync,
@@ -29,12 +31,10 @@ import {
 } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import ReactPDF from "@react-pdf/renderer";
 import CVDocument from "@/components/cv-document";
 import masterData from "@/data/cvdata.json";
-import {
-  buildApplyCvFilename,
-  resolveApplyJobId,
-} from "@/lib/apply-cv-filename";
+import { buildApplyCvFilename, resolveApplyJobId } from "@/lib/apply-cv-filename";
 import { applyCvOverlay, type CvOverlayV1 } from "@/lib/cv-overlay";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -76,10 +76,7 @@ async function writeMasterCv(): Promise<void> {
   mkdirSync(applyOutDir, { recursive: true });
   const namedPdf = join(applyOutDir, namedFile);
   const masterPdf = join(applyOutDir, "cv.pdf");
-  await ReactPDF.render(
-    <CVDocument data={masterData as typeof masterData} />,
-    namedPdf,
-  );
+  await ReactPDF.render(<CVDocument data={masterData as typeof masterData} />, namedPdf);
   copyFileSync(namedPdf, masterPdf);
   console.log(masterPdf);
 }
@@ -97,7 +94,7 @@ function readManifest(packDir: string): PackManifest | null {
 /** Resolve pack folder by slug, opp_N, bare id, or manifest opportunity_id / slug. */
 function resolvePack(
   packsRoot: string,
-  packArg: string,
+  packArg: string
 ): { packDir: string; folderName: string; manifest: PackManifest | null } {
   const direct = join(packsRoot, packArg);
   if (existsSync(direct)) {
@@ -145,7 +142,7 @@ function resolvePack(
 function resolveSlug(
   folderName: string,
   manifest: PackManifest | null,
-  overlay: CvOverlayV1 | null,
+  overlay: CvOverlayV1 | null
 ): string {
   if (manifest?.slug && String(manifest.slug).trim()) {
     return String(manifest.slug).trim();
@@ -183,7 +180,7 @@ function parseSuggestionBullets(md: string): string[] {
  */
 function synthesizeOverlayFromPackFiles(
   packDir: string,
-  manifest: PackManifest | null,
+  manifest: PackManifest | null
 ): CvOverlayV1 | null {
   const suggestionsPath = join(packDir, "cv-suggestions.md");
   const exceptionalPath = join(packDir, "exceptional-work.md");
@@ -192,14 +189,10 @@ function synthesizeOverlayFromPackFiles(
     ? parseSuggestionBullets(readFileSync(suggestionsPath, "utf8"))
     : [];
   const exceptional = existsSync(exceptionalPath)
-    ? readFileSync(exceptionalPath, "utf8")
-        .replace(/^#.*$/m, "")
-        .trim()
+    ? readFileSync(exceptionalPath, "utf8").replace(/^#.*$/m, "").trim()
     : "";
   const research = existsSync(researchPath)
-    ? readFileSync(researchPath, "utf8")
-        .replace(/^#.*$/m, "")
-        .trim()
+    ? readFileSync(researchPath, "utf8").replace(/^#.*$/m, "").trim()
     : "";
 
   if (!suggestions.length && !exceptional) return null;
@@ -221,8 +214,7 @@ function synthesizeOverlayFromPackFiles(
   const blobL = blob.toLowerCase();
   const co = company.charAt(0).toUpperCase() + company.slice(1);
   const role = title.replace(/Typescript/g, "TypeScript");
-  const secure =
-    blobL.includes("secur") || blobL.includes("rekognition") || blobL.includes("auth");
+  const secure = blobL.includes("secur") || blobL.includes("rekognition") || blobL.includes("auth");
   const hook = secure
     ? "Senior Software Engineer with fullstack web dev specialization, with deep ownership of production integrations, platform reliability, and secure data flows."
     : "Senior Software Engineer with fullstack web dev specialization, with deep ownership of production integrations, platform reliability, and high-signal delivery.";
@@ -237,7 +229,11 @@ function synthesizeOverlayFromPackFiles(
     if (i >= 0) career = career.slice(0, i).trim();
   }
   const recentItems: string[] = [];
-  if (blobL.includes("rekognition") || blobL.includes("selfie") || featured.includes("selfie-signin")) {
+  if (
+    blobL.includes("rekognition") ||
+    blobL.includes("selfie") ||
+    featured.includes("selfie-signin")
+  ) {
     recentItems.push("AWS Rekognition identity flows");
   }
   if (blobL.includes("zod") || blobL.includes("schema")) {
@@ -308,9 +304,7 @@ async function main() {
 
   const slug = resolveSlug(folderName, manifest, overlay);
   const company = manifest?.company ?? null;
-  const title =
-    (manifest?.title && String(manifest.title).trim()) ||
-    "role";
+  const title = (manifest?.title && String(manifest.title).trim()) || "role";
   const date = manifest?.date ?? null;
   const personName =
     typeof masterData.name === "string" && masterData.name.trim()
@@ -344,7 +338,7 @@ async function main() {
   console.log(`Generating ${outPdf} …`);
   await ReactPDF.render(
     <CVDocument data={data as typeof masterData} featuredKeys={featuredKeys} />,
-    outPdf,
+    outPdf
   );
   console.log(`Wrote ${outPdf}`);
 

@@ -77,10 +77,10 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 See [docs/apply-cv-from-packs.md](./docs/apply-cv-from-packs.md).
 
 ```bash
-pnpm link-application-packs   # gitignored symlink → ~/.local/share/collab-finder/application_packs
-pnpm generate-apply-cv xai-exceptional-software-engineer-2026-07-17
-# also: opp_17 | 17
-# Always writes {name}-{role}-{id}.pdf (see docs/apply-cv-from-packs.md)
+kanithanj.cv list
+kanithanj.cv generate xai-exceptional-software-engineer-2026-07-17
+# always writes {name}-{role}-{id}.pdf (see docs/apply-cv-from-packs.md)
+# site master PDF stays pnpm generate-pdf
 ```
 
 ### Certificates / documents

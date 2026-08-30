@@ -1,6 +1,6 @@
 # Apply CVs from collab-finder packs
 
-Frictionless path: collab-finder packs stay in app data; devprofile **symlinks** them (gitignored) and renders portfolio-styled PDFs into a dedicated output folder. Master `cvdata.json` is never written by this path.
+Apply PDFs come from **kanithanj.cv** (collab-finder). This repo owns master `cvdata.json` and the public site PDF (`pnpm generate-pdf`). Master `cvdata.json` is never written by the apply path.
 
 ## Output filename rule (always)
 
@@ -20,7 +20,7 @@ peramanathan-sathyamoorthy-exceptional-software-engineer-4956028007.pdf
 | **role** | Pack `manifest.json` → `title` |
 | **id** | `manifest.job_id` → else Greenhouse id from `source_url` → else `opportunity_id` |
 
-Implemented in `src/lib/apply-cv-filename.ts` + `scripts/generate-apply-cv.tsx`.
+Filename helper in this repo: `src/lib/apply-cv-filename.ts`. Writer: `kanithanj.cv generate`.
 
 ## Layout
 
@@ -40,23 +40,20 @@ Example: `xai-exceptional-software-engineer-2026-07-17`
     submit/
       {name}-{role}-{id}.pdf
 
-devprofile/
-  application_packs → symlink (gitignored)
-  out/apply/{name}-{role}-{id}.pdf          # easy upload
-  out/apply/<pack-slug>/{name}-{role}-{id}.pdf
-  out/apply/<pack-slug>/cv.pdf              # alias
-  out/apply/<pack-slug>/meta.json
+kanithanj.cv install
+  ~/.local/share/kanithanj.cv/out/apply/{name}-{role}-{id}.pdf
+  ~/.local/share/kanithanj.cv/out/apply/<pack-slug>/{name}-{role}-{id}.pdf
 ```
 
 ## Generate
 
 ```bash
-pnpm link-application-packs   # once
-pnpm generate-apply-cv xai-exceptional-software-engineer-2026-07-17
+kanithanj.cv list
+kanithanj.cv generate xai-exceptional-software-engineer-2026-07-17
 # also: 17 | opp_17
 ```
 
-Does **not** touch `public/cv.pdf` or `src/data/cvdata.json`.
+Does **not** touch `public/cv.pdf` or `src/data/cvdata.json`. Leftover `pnpm generate-apply-cv` in this repo is not the apply path.
 
 ## Overlay schema (`cv-overlay.json`)
 
@@ -66,7 +63,7 @@ Does **not** touch `public/cv.pdf` or `src/data/cvdata.json`.
 | `projects_upsert` | Merge/append projects by `key` |
 | `overrides` | Shallow root fields (`profile`, `latest_proffessional_role`, etc.) |
 
-**Source:** collab-finder **Export pack / Generate apply CV** auto-builds `cv-overlay.json` from prep (`cv_suggestions`, exceptional work, project mentions). Without it, PDFs look identical (master CV). Older packs: `generate-apply-cv` synthesizes an overlay from `cv-suggestions.md` when the JSON is missing and writes it into the pack.
+**Source:** collab-finder **Export pack / Generate apply CV** auto-builds `cv-overlay.json` from prep (`cv_suggestions`, exceptional work, project mentions). Without it, PDFs look identical (master CV). Older packs: `kanithanj.cv generate` synthesizes an overlay from `cv-suggestions.md` when the JSON is missing and writes it into the pack.
 
 ## Portfolio site PDF
 
