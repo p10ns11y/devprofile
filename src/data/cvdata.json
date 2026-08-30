@@ -9,7 +9,7 @@
   "one_liner": "Senior Software Engineer with 9+ years in scalable web apps, JavaScript, ReactJS, and system architecture, leading teams and mentoring in innovative startups.",
   "shorter_bio": "Senior Software Engineer with 9+ years of experience in scalable web apps and team leadership. Master's in Computer Science and Operations Research, skilled in JavaScript, ReactJS, and system architecture. Drives innovation and efficiency in startups, passionate about mentoring.",
   "short_bio": "Senior Software Engineer with 9+ years of experience building scalable web applications and leading teams. Holds Master's degrees in Computer Science and Operations Research, with expertise in JavaScript, ReactJS, and system architecture. Proven leader in driving innovative solutions and efficiency in startups, with a passion for mentoring and fostering innovation.",
-  "profile": "Senior Software Engineer with over 9 years of experience in building scalable web applications and leading development teams. Holds Master's degrees in Computer Science and Operations Research, providing a strong foundation in both theoretical and applied aspects of technology and optimization. Proven expertise in JavaScript, ReactJS, Architectural Design and System Building. Demonstrated leadership in integrating innovative solutions and driving efficiency in startup environments. Experienced educator with a passion for mentoring and fostering innovation through technology.",
+  "profile": "Senior Software Engineer with over 9 years of experience in building scalable web applications and leading development teams. Holds Master's degrees in Computer Science and Operations Research, providing a strong foundation in both theoretical and applied aspects of technology and optimization. Proven expertise in JavaScript, ReactJS, Architectural Design and System Building. Demonstrated leadership in integrating innovative solutions and driving efficiency in startup environments. Experienced educator with a passion for mentoring and fostering innovation through technology. Independent learner and builder since December 2024 (family-care employment gap). Projects listed are the recent March–August 2026 slice — not the whole interval — not a tourist sabbatical. Available now for a permanent senior role building AI and agentic workflows — fullstack, product, or Forward Deployed Engineer.",
   "contact": {
     "email": "sathyam.peram@gmail.com",
     "phone": "+46 737 641 917",
@@ -61,6 +61,26 @@
     }
   },
   "work_experience": [
+    {
+      "title": "Independent learner and builder",
+      "company": "Family care + shipped products",
+      "location": "Sweden",
+      "start_date": "December 2024",
+      "end_date": "Present",
+      "duration": "ongoing",
+      "kind": "independent_work",
+      "responsibilities": [
+        "Shipped kanithanj.ai (collab-finder) 1.0.0 on 19 August 2026 — a Tauri, Rust, and React apply cockpit with SQLite history and CI quality gates, replacing scattered hunt notes with a local operator loop.",
+        "Compiled a Rust Tamil-metre parser to WASM and shipped a React UI (thepulimaangani), so prosody analysis runs in the browser without a backend.",
+        "Built the public CV and apply-PDF pipeline (devprofile + kanithanj.cv) on Next.js, generating a two-page master CV and role-fit packs from a single cvdata source."
+      ],
+      "tools": [
+        "TypeScript",
+        "React",
+        "Rust",
+        "Tauri"
+      ]
+    },
     {
       "title": "Senior Software Engineer",
       "company": "Oneflow AB, Digital Signature and Contract Management Platform",
@@ -842,6 +862,82 @@
   },
   "projects": [
     {
+      "id": 15,
+      "name": "collab-finder",
+      "key": "collab-finder",
+      "description": "Tauri + Rust + React desktop app for high-fit roles and apply packs (1.0.0 shipped 19 Aug 2026).",
+      "type": "hobby_oss",
+      "url": "https://github.com/p10ns11y/collab-finder",
+      "technologies": [
+        "Tauri",
+        "Rust",
+        "React",
+        "TypeScript",
+        "SQLite"
+      ],
+      "status": "active",
+      "is_open_source": true,
+      "impact": "Production apply cockpit (kanithanj.ai)",
+      "public_url": "https://kanithanj.ai",
+      "created": "2026-06-04",
+      "updated": "2026-08-25"
+    },
+    {
+      "id": 16,
+      "name": "thepulimaangani",
+      "key": "thepulimaangani",
+      "description": "Tamil metre in the browser — Rust/WASM parser and React UI (live demo).",
+      "type": "hobby_oss",
+      "url": "https://github.com/p10ns11y/thepulimaangani",
+      "technologies": [
+        "TypeScript",
+        "React",
+        "Rust",
+        "WASM"
+      ],
+      "status": "active",
+      "is_open_source": true,
+      "impact": "Live cultural-computational product",
+      "created": "2020-04-09",
+      "updated": "2026-08-02"
+    },
+    {
+      "id": 17,
+      "name": "devprofile",
+      "key": "devprofile",
+      "description": "Public portfolio and apply-CV — Next.js, grounded Q&A, Focus essays.",
+      "type": "hobby_oss",
+      "url": "https://github.com/p10ns11y/devprofile",
+      "technologies": [
+        "Next.js",
+        "React",
+        "TypeScript"
+      ],
+      "status": "active",
+      "is_open_source": true,
+      "impact": "Public presence and CV product",
+      "created": "2025-09-08",
+      "updated": "2026-08-28"
+    },
+    {
+      "id": 14,
+      "name": "agent-prompt-tuning-lab",
+      "key": "agent-prompt-tuning-lab",
+      "description": "Privacy-first toolkit: local agent transcripts to datasets, skills, and gold exemplars.",
+      "type": "hobby_oss",
+      "url": "https://github.com/p10ns11y/agent-prompt-tuning-lab",
+      "technologies": [
+        "JavaScript",
+        "Datasets",
+        "Prompt engineering"
+      ],
+      "status": "active",
+      "is_open_source": true,
+      "impact": "Local transcript → eval assets",
+      "created": "2026-06-01",
+      "updated": "2026-08-17"
+    },
+    {
       "id": 13,
       "name": "Grok Dia",
       "key": "grok-dia",
@@ -852,7 +948,6 @@
         "Browser Extension",
         "AI Integration"
       ],
-      "date": "September 2025",
       "status": "development",
       "is_open_source": true,
       "meta": {
@@ -861,7 +956,9 @@
         "oss": true
       },
       "impact": "In page AI helper",
-      "image": "https://imagine-public.x.ai/imagine-public/images/4c1973c9-61b3-48d9-b728-e2ff145b8610.png"
+      "image": "https://imagine-public.x.ai/imagine-public/images/4c1973c9-61b3-48d9-b728-e2ff145b8610.png",
+      "created": "2025-09-09",
+      "updated": "2026-05-22"
     },
     {
       "id": 12,
@@ -883,7 +980,9 @@
       ],
       "impact": "Face-based Authentication",
       "is_open_source": true,
-      "image": "https://imagine-public.x.ai/imagine-public/images/44862745-4ddd-4ca9-8797-11fea38eece1.png"
+      "image": "https://imagine-public.x.ai/imagine-public/images/44862745-4ddd-4ca9-8797-11fea38eece1.png",
+      "created": "2025-07-10",
+      "updated": "2026-06-01"
     },
     {
       "id": 11,
@@ -903,7 +1002,9 @@
       ],
       "is_open_source": true,
       "impact": "Bulk and highly automated and secure PDF documents generation",
-      "image": "https://imagine-public.x.ai/imagine-public/images/0c8cbea7-54e5-486b-b510-de0ae22082dc.png"
+      "image": "https://imagine-public.x.ai/imagine-public/images/0c8cbea7-54e5-486b-b510-de0ae22082dc.png",
+      "created": "2024-10-04",
+      "updated": "2026-07-15"
     },
     {
       "id": 10,
@@ -922,7 +1023,9 @@
       ],
       "impact": "Dynamic Validation",
       "is_open_source": true,
-      "image": "https://imagine-public.x.ai/imagine-public/images/1513422f-f939-4e19-8977-713293d94216.png"
+      "image": "https://imagine-public.x.ai/imagine-public/images/1513422f-f939-4e19-8977-713293d94216.png",
+      "created": "2024-11-02",
+      "updated": "2026-07-15"
     },
     {
       "id": 9,
@@ -944,7 +1047,9 @@
       "type": "hobby_oss",
       "impact": "Cost-effective local chatbot",
       "is_open_source": true,
-      "image": "https://imagine-public.x.ai/imagine-public/images/c4c47b59-3ce2-4473-a4f0-25ae7a0f2d83.png"
+      "image": "https://imagine-public.x.ai/imagine-public/images/c4c47b59-3ce2-4473-a4f0-25ae7a0f2d83.png",
+      "created": "2024-09-12",
+      "updated": "2025-09-16"
     },
     {
       "id": 8,
@@ -984,7 +1089,9 @@
         "company": "Oneflow AB"
       },
       "impact": "Interview assignment",
-      "image": "https://imagine-public.x.ai/imagine-public/images/04a0269b-efd8-4f2c-b0a7-c7d33e91e17f.png"
+      "image": "https://imagine-public.x.ai/imagine-public/images/04a0269b-efd8-4f2c-b0a7-c7d33e91e17f.png",
+      "created": "2017-02-24",
+      "updated": "2017-02-27"
     },
     {
       "id": 6,
@@ -1007,7 +1114,9 @@
         "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator/pull/4"
       ],
       "impact": "Automated project wide internationalization integration tool",
-      "image": "https://imagine-public.x.ai/imagine-public/images/65b5f554-a997-43f5-9ed3-4e1d047fd20d.png"
+      "image": "https://imagine-public.x.ai/imagine-public/images/65b5f554-a997-43f5-9ed3-4e1d047fd20d.png",
+      "created": "2017-01-13",
+      "updated": "2023-12-17"
     },
     {
       "id": 5,
@@ -1099,7 +1208,6 @@
         "AJAX",
         "jQuery"
       ],
-      "date": "November 2014",
       "status": "stopped",
       "is_open_source": false,
       "meta": {
@@ -1111,7 +1219,9 @@
         "private": true
       },
       "impact": "Vocabulary strengthing and in page thesaurus with multiple contexts and perspectives",
-      "image": "https://imagine-public.x.ai/imagine-public/images/40601e9d-0561-4641-9e83-9588a4dbaee5.png"
+      "image": "https://imagine-public.x.ai/imagine-public/images/40601e9d-0561-4641-9e83-9588a4dbaee5.png",
+      "created": "2014-11-01",
+      "updated": "2014-11-01"
     }
   ]
 }

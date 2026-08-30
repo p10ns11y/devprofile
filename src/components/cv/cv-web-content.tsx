@@ -4,9 +4,50 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { AISmartHighlight } from "@/components/ai-smart-highlight";
 import cvData from "@/data/cvdata.json";
-import { getCvFeaturedProjects } from "@/lib/cv-featured-projects";
+import {
+  getCvFeaturedProjects,
+  projectDateRangeLabel,
+  projectPublicHostLabel,
+} from "@/lib/cv-featured-projects";
 
 const CvMasonryLayout = dynamic(() => import("@/app/cv/content-layout"), { ssr: false });
+
+type CvJob = (typeof cvData.work_experience)[number];
+
+function WebExperienceRole({ job }: { job: CvJob }) {
+  const companyUrl =
+    "company_url" in job && typeof (job as { company_url?: string }).company_url === "string"
+      ? (job as { company_url: string }).company_url
+      : undefined;
+  return (
+    <article className="cv-role">
+      <h4 className="cv-role__title">
+        {job.title} ·{" "}
+        {companyUrl ? (
+          <a href={companyUrl} target="_blank" rel="nofollow noreferrer noopener">
+            {job.company}
+          </a>
+        ) : (
+          job.company
+        )}
+      </h4>
+      <p className="cv-role__meta">
+        {job.location} · {job.start_date} – {job.end_date}
+      </p>
+      <ul className="cv-role__list" role="list">
+        {job.responsibilities.map((responsibility) => (
+          <li key={responsibility.slice(0, 48)}>
+            <AISmartHighlight>{responsibility}</AISmartHighlight>
+          </li>
+        ))}
+      </ul>
+      <p className="cv-role__tools">
+        <span className="cv-role__tools-label">Tools & technologies</span>
+        {job.tools.join(", ")}
+      </p>
+    </article>
+  );
+}
 
 export function CvWebContent() {
   return (
@@ -18,42 +59,25 @@ export function CvWebContent() {
             <AISmartHighlight>{cvData.profile}</AISmartHighlight>
           </div>
 
+          {cvData.work_experience.some((job) => "kind" in job && job.kind === "independent_work") ? (
+            <>
+              <h3 className="cv-section-title">Independent Work</h3>
+              <div className="cv-stack">
+                {cvData.work_experience
+                  .filter((job) => "kind" in job && job.kind === "independent_work")
+                  .map((job) => (
+                    <WebExperienceRole key={`${job.company}-${job.title}-${job.start_date}`} job={job} />
+                  ))}
+              </div>
+            </>
+          ) : null}
           <h3 className="cv-section-title">Work Experience</h3>
           <div className="cv-stack">
-            {cvData.work_experience.map((job) => {
-              const companyUrl =
-                "company_url" in job && typeof (job as { company_url?: string }).company_url === "string"
-                  ? (job as { company_url: string }).company_url
-                  : undefined;
-              return (
-              <article key={`${job.company}-${job.title}-${job.start_date}`} className="cv-role">
-                <h4 className="cv-role__title">
-                  {job.title} ·{" "}
-                  {companyUrl ? (
-                    <a href={companyUrl} target="_blank" rel="nofollow noreferrer noopener">
-                      {job.company}
-                    </a>
-                  ) : (
-                    job.company
-                  )}
-                </h4>
-                <p className="cv-role__meta">
-                  {job.location} · {job.start_date} – {job.end_date}
-                </p>
-                <ul className="cv-role__list" role="list">
-                  {job.responsibilities.map((resp) => (
-                    <li key={resp.slice(0, 48)}>
-                      <AISmartHighlight>{resp}</AISmartHighlight>
-                    </li>
-                  ))}
-                </ul>
-                <p className="cv-role__tools">
-                  <span className="cv-role__tools-label">Tools & technologies</span>
-                  {job.tools.join(", ")}
-                </p>
-              </article>
-              );
-            })}
+            {cvData.work_experience
+              .filter((job) => !("kind" in job && job.kind === "independent_work"))
+              .map((job) => (
+                <WebExperienceRole key={`${job.company}-${job.title}-${job.start_date}`} job={job} />
+              ))}
           </div>
         </div>
 
@@ -94,6 +118,13 @@ export function CvWebContent() {
                 >
                   {project.name}
                 </a>
+                {projectDateRangeLabel(project) || projectPublicHostLabel(project) ? (
+                  <p className="cv-links__desc">
+                    {[projectDateRangeLabel(project), projectPublicHostLabel(project)]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </p>
+                ) : null}
                 <p className="cv-links__desc">{project.description}</p>
               </li>
             ))}
