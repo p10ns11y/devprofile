@@ -2,6 +2,24 @@
 
 Apply PDFs come from **kanithanj.cv** (collab-finder). This repo owns master `cvdata.json` and the public site PDF (`pnpm generate-pdf`). Master `cvdata.json` is never written by the apply path.
 
+How to use the CLI: collab-finder `vendor/kanithanj-cv/README.md` (how-to on `feat/kanithanj-cv-independent-work` until that PR merges).
+
+## How to use
+
+```bash
+# install once (collab-finder checkout or Preferences)
+scripts/install-kanithanj-cv.sh
+
+kanithanj.cv status
+kanithanj.cv list
+kanithanj.cv generate xai-exceptional-software-engineer-2026-07-17
+kanithanj.cv open last
+```
+
+The CLI reads `~/.config/kanithanj.cv/cvdata.json`, not this checkout. After you edit and **push** `src/data/cvdata.json` here, refresh the CLI with `kanithanj.cv sync`. There is no local hook.
+
+Upload: write that config file, then `KANITHANJ_CVDATA_SYNC=0 kanithanj.cv sync` so sync does not overwrite it.
+
 ## Output filename rule (always)
 
 ```text

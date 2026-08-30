@@ -77,8 +77,10 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 See [docs/apply-cv-from-packs.md](./docs/apply-cv-from-packs.md).
 
 ```bash
+kanithanj.cv status   # facts should be ~/.config/kanithanj.cv/cvdata.json
 kanithanj.cv list
 kanithanj.cv generate xai-exceptional-software-engineer-2026-07-17
+kanithanj.cv sync     # after you push src/data/cvdata.json
 # always writes {name}-{role}-{id}.pdf (see docs/apply-cv-from-packs.md)
 # site master PDF stays pnpm generate-pdf
 ```
