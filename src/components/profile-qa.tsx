@@ -93,14 +93,9 @@ export function ProfileQA({ className }: ProfileQAProps) {
       )}
     >
       {/* ── Tracks rail: scannable labels, never full essay questions ── */}
-      <aside
-        className="min-h-0 lg:flex lg:flex-col"
-        aria-label="Suggested questions"
-      >
+      <aside className="min-h-0 lg:flex lg:flex-col" aria-label="Suggested questions">
         <div className="mb-2 flex items-baseline justify-between gap-2 lg:mb-3">
-          <h2 className="text-xs font-semibold tracking-wide text-text1 uppercase">
-            Suggestions
-          </h2>
+          <h2 className="text-xs font-semibold tracking-wide text-text1 uppercase">Suggestions</h2>
           <span className="text-[11px] text-text2 lg:hidden">Scroll for more</span>
         </div>
 
@@ -359,9 +354,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
                         aria-hidden
                       />
                       Evidence
-                      <span className="font-normal text-text2">
-                        ({result.details.length})
-                      </span>
+                      <span className="font-normal text-text2">({result.details.length})</span>
                     </summary>
                     <ol className="space-y-2 px-4 pb-5 sm:px-5">
                       {result.details.map((detail, index) => (

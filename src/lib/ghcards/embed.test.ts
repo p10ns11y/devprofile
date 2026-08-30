@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { type GitHubPullRequest, recentPrsCard } from "./cards/recent-prs";
+import { type GitHubRepo, recentPushedCard } from "./cards/recent-pushed";
 import {
   renderFooterSegment,
   renderFullCard,
@@ -7,8 +9,6 @@ import {
   resolveStableLinkFromCard,
 } from "./embed";
 import { parseIndex, parseLimit, parsePart } from "./params";
-import { recentPushedCard, type GitHubRepo } from "./cards/recent-pushed";
-import { recentPrsCard, type GitHubPullRequest } from "./cards/recent-prs";
 import { generateReadmeHtmlFromItems } from "./readme-html";
 import { getGhcardsCard, listGhcards } from "./registry";
 

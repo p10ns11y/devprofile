@@ -33,9 +33,7 @@ export default function ProfileQAPage() {
                   Real answers from my experience — try a suggested question or write your own
                 </p>
               </div>
-              <p className="hidden text-xs text-text2 sm:block">
-                Your answer appears on the right
-              </p>
+              <p className="hidden text-xs text-text2 sm:block">Your answer appears on the right</p>
             </div>
           </header>
 

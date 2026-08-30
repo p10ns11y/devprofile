@@ -6,8 +6,15 @@ import {
   wrapSvg,
   wrapSvgSegment,
 } from "@/app/api/ghcards/theme";
+import {
+  DEFAULT_USERNAME,
+  parseIndex,
+  parseLimit,
+  parsePart,
+  svgResponseHeaders,
+  svgSegmentHeaders,
+} from "./params";
 import { getGhcardsCard } from "./registry";
-import { DEFAULT_USERNAME, parseIndex, parseLimit, parsePart, svgResponseHeaders, svgSegmentHeaders } from "./params";
 import type { GhcardsEmbedCard, GhcardsEmbedPart } from "./types";
 
 export function generateErrorSvg<T>(card: GhcardsEmbedCard<T>, message?: string): string {
@@ -30,21 +37,13 @@ export function renderFooterSegment<T>(card: GhcardsEmbedCard<T>): string {
   return wrapSvgSegment(card.cardWidth, height, body, "bottom");
 }
 
-export function renderRowSegment<T>(
-  card: GhcardsEmbedCard<T>,
-  item: T,
-  index: number
-): string {
+export function renderRowSegment<T>(card: GhcardsEmbedCard<T>, item: T, index: number): string {
   const body = `<g transform="translate(20, 2)">${card.renderRowInner(item, index)}</g>`;
   const clip = card.rowClipDef?.(index) ?? "";
   return wrapSvgSegment(card.cardWidth, card.rowHeight, body, "none", clip);
 }
 
-export function renderFullCard<T>(
-  card: GhcardsEmbedCard<T>,
-  items: T[],
-  username: string
-): string {
+export function renderFullCard<T>(card: GhcardsEmbedCard<T>, items: T[], username: string): string {
   const height =
     card.headerHeight + items.length * card.rowHeight + card.rowPadding + card.footerHeight;
   const clipDefs = items.map((_, index) => card.rowClipDef?.(index) ?? "").join("");

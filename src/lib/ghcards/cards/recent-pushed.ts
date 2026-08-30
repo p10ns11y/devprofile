@@ -1,4 +1,3 @@
-import { fetchGitHubJson } from "@/lib/github/client";
 import {
   escapeXml,
   getLanguageColor,
@@ -6,6 +5,7 @@ import {
   githubRepoUrl,
   truncateText,
 } from "@/app/api/ghcards/theme";
+import { fetchGitHubJson } from "@/lib/github/client";
 import type { GhcardsEmbedCard } from "../types";
 
 export type GitHubRepo = {
@@ -94,7 +94,6 @@ export const recentPushedCard: GhcardsEmbedCard<GitHubRepo> = {
     const repo = searchParams.get("repo");
     return repo ? { repo } : null;
   },
-  resolveStableLink: (key, username) =>
-    key.repo ? githubRepoUrl(username, key.repo) : null,
+  resolveStableLink: (key, username) => (key.repo ? githubRepoUrl(username, key.repo) : null),
   errorMessage: "Failed to load recent activity",
 };

@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import cvdata from "@/data/cvdata.json";
 import { getLandingFeaturedCertificates } from "@/data/documents-data";
+import { landingInvite } from "@/data/landing-invite";
 import { defaultViewport, fadeUp, motionTransition } from "@/lib/motion";
 import { SectionHeading } from "./site/SectionHeading";
 import { SectionShell } from "./site/SectionShell";
@@ -50,25 +51,12 @@ export function Accomplishments() {
         <div className="section-body">
           <div className="credentials-prose">
             <figure className="credentials-pullquote">
-              <blockquote cite={`#${headingId}`}>
-                <p>
-                  Grok and coding agents are becoming mostly sufficient even for advanced work.
-                  Well-crafted courses — built with deliberate team effort and AI assistance — still
-                  offer powerful leverage. They compress extensive research, impose useful
-                  structure, and surface new ways of thinking, saving the learner significant time
-                  and friction. What ultimately matters most is the learner’s own curiosity and
-                  interest. The highest-value courses deliver outcomes that are highly applicable,
-                  pragmatic, and relevant to the current state of the art — creating positive impact
-                  for both the individual and society while remaining cost-effective.
-                </p>
+              <blockquote>
+                <p>{landingInvite.credentialsQuote}</p>
               </blockquote>
-              <figcaption>— {cvdata.name}</figcaption>
+              <figcaption>{cvdata.name}</figcaption>
             </figure>
-
-            <p className="section-lead credentials-intro">
-              Proof of self-directed learning I&apos;ve applied at work and in personal projects—and
-              championed with teams when the fit is right.
-            </p>
+            <p className="section-lead credentials-intro">{landingInvite.credentialsIntro}</p>
           </div>
 
           {externalCourses.length > 0 ? (

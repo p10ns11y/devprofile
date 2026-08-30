@@ -8,22 +8,18 @@ import {
 
 describe("slugifyFilenameSegment", () => {
   it("lowercases and hyphenates", () => {
-    expect(slugifyFilenameSegment("Peramanathan Sathyamoorthy")).toBe(
-      "peramanathan-sathyamoorthy",
-    );
+    expect(slugifyFilenameSegment("Peramanathan Sathyamoorthy")).toBe("peramanathan-sathyamoorthy");
     expect(slugifyFilenameSegment("Exceptional Software Engineer")).toBe(
-      "exceptional-software-engineer",
+      "exceptional-software-engineer"
     );
   });
 });
 
 describe("extractJobIdFromSourceUrl", () => {
   it("reads Greenhouse job board ids", () => {
-    expect(
-      extractJobIdFromSourceUrl(
-        "https://job-boards.greenhouse.io/xai/jobs/4956028007",
-      ),
-    ).toBe("4956028007");
+    expect(extractJobIdFromSourceUrl("https://job-boards.greenhouse.io/xai/jobs/4956028007")).toBe(
+      "4956028007"
+    );
   });
 
   it("returns null when absent", () => {
@@ -38,10 +34,8 @@ describe("buildApplyCvFilename", () => {
         personName: "Peramanathan Sathyamoorthy",
         roleTitle: "Exceptional Software Engineer",
         jobId: "4956028007",
-      }),
-    ).toBe(
-      "peramanathan-sathyamoorthy-exceptional-software-engineer-4956028007.pdf",
-    );
+      })
+    ).toBe("peramanathan-sathyamoorthy-exceptional-software-engineer-4956028007.pdf");
   });
 });
 
@@ -52,13 +46,13 @@ describe("resolveApplyJobId", () => {
         jobId: "4956028007",
         sourceUrl: "https://job-boards.greenhouse.io/xai/jobs/1",
         opportunityId: 17,
-      }),
+      })
     ).toBe("4956028007");
     expect(
       resolveApplyJobId({
         sourceUrl: "https://job-boards.greenhouse.io/xai/jobs/4956028007",
         opportunityId: 17,
-      }),
+      })
     ).toBe("4956028007");
     expect(resolveApplyJobId({ opportunityId: 17 })).toBe("17");
   });

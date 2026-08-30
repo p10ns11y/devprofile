@@ -8,8 +8,9 @@ import { SWRegister } from "@/components/sw-register";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getMetadataBase } from "@/lib/site-url";
 
-const siteTitle = "Peramanathan Sathyamoorthy - Dev Profile";
-const siteDescription = "Modern portfolio showcasing software engineering skills and projects";
+const siteTitle = "Peramanathan Sathyamoorthy — AI-native product / agent engineer";
+const siteDescription =
+  "Available now in Stockholm. End-to-end product ownership plus the agent harness — not a chat feature. AI-native product, agent, or forward-deployed / applied AI.";
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],

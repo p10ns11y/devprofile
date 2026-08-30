@@ -1,13 +1,22 @@
+import type { CSSProperties } from "react";
+import { balancedGridColumns } from "@/lib/balanced-grid-columns";
 import { roleAnchorId } from "@/lib/experience-anchors";
 import cvdata from "../data/cvdata.json";
 
 export function TimelineContent() {
+  const roleCount = cvdata.work_experience.length;
+  const glanceColumnVars = {
+    "--timeline-cols-sm": String(balancedGridColumns(roleCount, 2)),
+    "--timeline-cols-md": String(balancedGridColumns(roleCount, 4)),
+    "--timeline-cols-lg": String(balancedGridColumns(roleCount, 6)),
+  } as CSSProperties;
+
   return (
     <div className="experience-timeline-wrap flex flex-col items-center">
       <h3 className="subsection-title subsection-heading w-full" data-align="center">
         Career at a glance
       </h3>
-      <ol role="list" className="experience-timeline w-full">
+      <ol role="list" className="experience-timeline w-full" style={glanceColumnVars}>
         {cvdata.work_experience.map((exp) => (
           <li key={`${exp.company}-${exp.start_date}`}>
             <a href={`#${roleAnchorId(exp)}`} className="experience-timeline-card">

@@ -184,7 +184,7 @@ export function Header() {
         <div className="hidden lg:flex items-center gap-3 ml-auto shrink-0">
           <ThemeToggle />
           <SiteButton variant="outline" href="/#contact">
-            Let&apos;s Talk
+            Get in touch
           </SiteButton>
         </div>
 
@@ -226,7 +226,7 @@ export function Header() {
               className="w-full"
               onClick={closeMobileMenu}
             >
-              Let&apos;s Talk
+              Get in touch
             </SiteButton>
             <div className="flex justify-center">
               <ThemeToggle />

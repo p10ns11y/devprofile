@@ -186,12 +186,11 @@ export default function ArchiveNotMemoryPage() {
             For a nervous system that means safety before recall, not extra rehearsal. Sleep and
             rest restore the ability to reject a wrong option, not only the ability to produce more
             detail. Free recall before questions. No pressure to finish the scene. A cinematic
-            interrogation does the opposite: heat, leading questions, a demand for a complete
-            story. It can extract a confession. It cannot raise the bar. The work that actually
-            costs is slower: field traces, timestamps, other witnesses, contemporaneous notes kept
-            as archive—not as fuel for a more vivid reconstruction. Separate sources on purpose:
-            seen, heard, imagined, told later. Do not rehearse an unverified version until it feels
-            real.
+            interrogation does the opposite: heat, leading questions, a demand for a complete story.
+            It can extract a confession. It cannot raise the bar. The work that actually costs is
+            slower: field traces, timestamps, other witnesses, contemporaneous notes kept as
+            archive—not as fuel for a more vivid reconstruction. Separate sources on purpose: seen,
+            heard, imagined, told later. Do not rehearse an unverified version until it feels real.
           </p>
 
           <h2>Locks for the harness</h2>

@@ -1,4 +1,3 @@
-import { fetchGitHubJson } from "@/lib/github/client";
 import {
   escapeXml,
   getTimeAgo,
@@ -6,6 +5,7 @@ import {
   parseRepoPathFromApiUrl,
   prStateBadge,
 } from "@/app/api/ghcards/theme";
+import { fetchGitHubJson } from "@/lib/github/client";
 import type { GhcardsEmbedCard } from "../types";
 
 export type GitHubPullRequest = {

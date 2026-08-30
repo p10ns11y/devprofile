@@ -54,10 +54,7 @@
       "huggingface": "https://huggingface.co/Peramanathan"
     },
     "inactive": {
-      "github": [
-        "https://github.com/peramsathyam",
-        "https://github.com/peramanathan"
-      ]
+      "github": ["https://github.com/peramsathyam", "https://github.com/peramanathan"]
     }
   },
   "work_experience": [
@@ -74,12 +71,7 @@
         "Compiled a Rust Tamil-metre parser to WASM and shipped a React UI (thepulimaangani), so prosody analysis runs in the browser without a backend.",
         "Built the public CV and apply-PDF pipeline (devprofile + kanithanj.cv) on Next.js, generating a two-page master CV and role-fit packs from a single cvdata source."
       ],
-      "tools": [
-        "TypeScript",
-        "React",
-        "Rust",
-        "Tauri"
-      ]
+      "tools": ["TypeScript", "React", "Rust", "Tauri"]
     },
     {
       "title": "Senior Software Engineer",
@@ -93,11 +85,7 @@
         "Automated the conversion of JavaScript modules to TypeScript with a custom script preserving the version control history, saving over 200 hours of manual work and accelerating development timelines",
         "Unified distributed ACL permissions into a single utility module, managing complex contexts and user roles (owner, guest) to simplify maintenance, migration and enhance scalability."
       ],
-      "tools": [
-        "TypeScript",
-        "ReactJS",
-        "Python"
-      ]
+      "tools": ["TypeScript", "ReactJS", "Python"]
     },
     {
       "title": "Engineering Team Lead",
@@ -159,10 +147,7 @@
         "Optimized CI build processes, reducing build times by 40%,",
         "Contributed to modernizing the legacy codebase by transitioning to React.js."
       ],
-      "tools": [
-        "Python",
-        "Reactjs"
-      ]
+      "tools": ["Python", "Reactjs"]
     },
     {
       "title": "Full Stack Developer",
@@ -201,14 +186,7 @@
         "Enhanced full-stack dashboard with gulp build and key performance indicators.",
         "Explored migrating tech stack to Reactjs and Eve Python framework."
       ],
-      "tools": [
-        "MongoDB",
-        "AngularJS",
-        "Python",
-        "Heroku",
-        "Laravel (PHP)",
-        "System Monitoring"
-      ]
+      "tools": ["MongoDB", "AngularJS", "Python", "Heroku", "Laravel (PHP)", "System Monitoring"]
     }
   ],
   "skills": {
@@ -256,16 +234,7 @@
       },
       {
         "title": "DevOps & AI",
-        "skills": [
-          "AWS",
-          "Terraform",
-          "Docker",
-          "Git",
-          "LangChain",
-          "LLMs",
-          "Webpack",
-          "Vite"
-        ]
+        "skills": ["AWS", "Terraform", "Docker", "Git", "LangChain", "LLMs", "Webpack", "Vite"]
       }
     ]
   },
@@ -319,9 +288,7 @@
       "lessonsCompleted": 104,
       "modulesCompleted": 7,
       "verifyUrl": null,
-      "instructors": [
-        "Kent C. Dodds"
-      ],
+      "instructors": ["Kent C. Dodds"],
       "type": "Online Course",
       "filename": "JavaScriptTestingCertificate.pdf",
       "sha256Hash": "1da0d9c0f8f6726a20cbbd52c1aede5b0d28362342ebad2d0c78813d40c22864",
@@ -335,11 +302,7 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/0UXP2OPIYHPS",
-      "instructors": [
-        "Jeff Leek, PhD",
-        "Roger Peng, PhD",
-        "Brian Caffo, PhD"
-      ],
+      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
       "filename": "Coursera 0UXP2OPIYHPS.pdf",
@@ -353,9 +316,7 @@
       "issuer": "University of London and Goldsmiths, University of London",
       "provider": "Coursera",
       "verifyUrl": "https://coursera.org/verify/5M8WT6R5VW32",
-      "instructors": [
-        "Dr Matthew Yee-King"
-      ],
+      "instructors": ["Dr Matthew Yee-King"],
       "department": "Computing Department, Goldsmiths, University of London",
       "type": "Online Non-Credit Course",
       "filename": "Coursera-Meteor.pdf",
@@ -370,11 +331,7 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/A5O6UPSB1TU2",
-      "instructors": [
-        "Jeff Leek, PhD",
-        "Roger Peng, PhD",
-        "Brian Caffo, PhD"
-      ],
+      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
       "filename": "Coursera A5O6UPSB1TU2.pdf",
@@ -389,11 +346,7 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/CF3OFVOXL5DL",
-      "instructors": [
-        "Jeff Leek, PhD",
-        "Roger Peng, PhD",
-        "Brian Caffo, PhD"
-      ],
+      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
       "filename": "Coursera CF3OFVOXL5DL.pdf",
@@ -408,11 +361,7 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/9PP3NZMJZBYQ",
-      "instructors": [
-        "Jeff Leek, PhD",
-        "Roger Peng, PhD",
-        "Brian Caffo, PhD"
-      ],
+      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
       "filename": "Coursera-dataproducts.pdf",
@@ -426,14 +375,8 @@
       "issuer": "University of Washington",
       "provider": "Coursera",
       "verifyUrl": "https://coursera.org/verify/QDDVWPVKDNEX",
-      "instructors": [
-        "Emily Fox",
-        "Carlos Guestrin"
-      ],
-      "departments": [
-        "Statistics",
-        "Computer Science and Engineering"
-      ],
+      "instructors": ["Emily Fox", "Carlos Guestrin"],
+      "departments": ["Statistics", "Computer Science and Engineering"],
       "type": "MOOC",
       "filename": "Coursera-ML.pdf",
       "sha256Hash": "5645ad06600f22491235dc96d93efd2084dd043dd649784e0b717398d23ab501",
@@ -446,9 +389,7 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": [
-        "Kent C. Dodds"
-      ],
+      "instructors": ["Kent C. Dodds"],
       "type": "Online Course",
       "filename": "advanced-react-hooks-certificate.pdf",
       "sha256Hash": "59af8a29c4e8d29026c6984914c2ab351ad6ff6e09756db4435cad76b52ef084",
@@ -461,9 +402,7 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": [
-        "Kent C. Dodds"
-      ],
+      "instructors": ["Kent C. Dodds"],
       "type": "Online Course",
       "filename": "advanced-react-patterns-certificate.pdf",
       "sha256Hash": "635c9d643ec1eab42b52abc961f804f4fd5d87f2c40d524e2cbc7fdc4ff1c89f",
@@ -476,9 +415,7 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": [
-        "Kent C. Dodds"
-      ],
+      "instructors": ["Kent C. Dodds"],
       "type": "Workshop",
       "filename": "build-epic-react-app-certificate.pdf",
       "sha256Hash": "0e7d47e2503d21261ee42d92d5e965a8af939f6b994e6420123194738f603b4f",
@@ -505,9 +442,7 @@
       "provider": "Just JavaScript",
       "episodesCompleted": 10,
       "verifyUrl": null,
-      "instructors": [
-        "Dan Abramov"
-      ],
+      "instructors": ["Dan Abramov"],
       "type": "Online Course",
       "filename": "JustJavaScript-certificate.pdf",
       "sha256Hash": "70cb975aa2bd19795db985234f3decc440096943a31e205fa28c5154279cec86",
@@ -520,9 +455,7 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": [
-        "Kent C. Dodds"
-      ],
+      "instructors": ["Kent C. Dodds"],
       "type": "Online Course",
       "filename": "react-fundamentals-certificate.pdf",
       "sha256Hash": "10e6c45191eb01c9aecf5b7b53afd07953786ae75a27d4204f9eff1143cc87bb",
@@ -535,9 +468,7 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": [
-        "Kent C. Dodds"
-      ],
+      "instructors": ["Kent C. Dodds"],
       "type": "Online Course",
       "filename": "testing-react-apps-certificate.pdf",
       "sha256Hash": "9631dc96454398bf88e4007fd25183b5014d1a24ead64983b232664745c7b2d8",
@@ -550,9 +481,7 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": [
-        "Kent C. Dodds"
-      ],
+      "instructors": ["Kent C. Dodds"],
       "type": "Online Course",
       "filename": "react-performance-certificate.pdf",
       "sha256Hash": "6af504885a25d5dec524f2f3ea32c762c0fc807711ab8baaac25f15d4dffa191",
@@ -565,9 +494,7 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": [
-        "Kent C. Dodds"
-      ],
+      "instructors": ["Kent C. Dodds"],
       "type": "Online Course",
       "filename": "react-suspense-certificate.pdf",
       "sha256Hash": "3927186f452ebe6356f00037135b95516afd98923120427336fb164807a66000",
@@ -580,9 +507,7 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": [
-        "Kent C. Dodds"
-      ],
+      "instructors": ["Kent C. Dodds"],
       "type": "Online Course",
       "filename": "react-hooks-epic-react-certificate.pdf",
       "sha256Hash": "a7ec44fa1c4f6ac5d2aad9f52836da5b8f91bf53e4ec10004e0bb9405d6a56de",
@@ -720,11 +645,7 @@
         },
         {
           "category": "Data Science & AI",
-          "courses": [
-            "Computer Assisted Image Analysis I",
-            "Data Mining I",
-            "Machine Learning"
-          ]
+          "courses": ["Computer Assisted Image Analysis I", "Data Mining I", "Machine Learning"]
         },
         {
           "category": "Software Engineering & Databases",
@@ -754,103 +675,26 @@
     "Swedish": "Basic"
   },
   "technologies": {
-    "Languages": [
-      "JavaScript",
-      "TypeScript",
-      "Python",
-      "Rust",
-      "C"
-    ],
-    "Frontend": [
-      "React",
-      "Next.js",
-      "TanStack",
-      "Vite",
-      "Zod",
-      "Accessibility (WCAG)"
-    ],
-    "Backend": [
-      "Node.js",
-      "Express"
-    ],
-    "Testing": [
-      "Playwright",
-      "Jest",
-      "Testing Library"
-    ],
-    "Data": [
-      "MySQL",
-      "MongoDB"
-    ],
-    "Cloud & tooling": [
-      "AWS",
-      "Vercel",
-      "Cloudflare",
-      "Tauri"
-    ]
+    "Languages": ["JavaScript", "TypeScript", "Python", "Rust", "C"],
+    "Frontend": ["React", "Next.js", "TanStack", "Vite", "Zod", "Accessibility (WCAG)"],
+    "Backend": ["Node.js", "Express"],
+    "Testing": ["Playwright", "Jest", "Testing Library"],
+    "Data": ["MySQL", "MongoDB"],
+    "Cloud & tooling": ["AWS", "Vercel", "Cloudflare", "Tauri"]
   },
   "technologies_archive": {
     "_note": "Historical / broad stack snapshot. Not rendered on CV web or PDF — only `technologies` is.",
-    "AI": [
-      "LangChainjs",
-      "Agents"
-    ],
-    "Workflow": [
-      "Graphite"
-    ],
-    "Fullstack": [
-      "Remix",
-      "Nextjs",
-      "Astro",
-      "Solid-start"
-    ],
-    "Languages": [
-      "C",
-      "C++",
-      "Java",
-      "R",
-      "Erlang",
-      "Elixir",
-      "Rust"
-    ],
-    "Data Science & ML": [
-      "R",
-      "Python",
-      "NumPy",
-      "Panda",
-      "Scikit-learn"
-    ],
-    "Front-End tools": [
-      "Esbuild",
-      "Vitejs"
-    ],
-    "API Frameworks": [
-      "Django",
-      "Eve",
-      "Flask"
-    ],
-    "Databases": [
-      "MySQL",
-      "Postgres",
-      "MongoDB"
-    ],
-    "Deployment": [
-      "AWS (EC2, S3, IAM, ELB)",
-      "Heroku",
-      "Netlify",
-      "Vercel",
-      "Fly.io"
-    ],
-    "Cloud & build": [
-      "AWS",
-      "Vercel",
-      "Webpack",
-      "Babel"
-    ],
-    "Systems & agents": [
-      "Tauri",
-      "xAI / structured LLM I/O"
-    ],
+    "AI": ["LangChainjs", "Agents"],
+    "Workflow": ["Graphite"],
+    "Fullstack": ["Remix", "Nextjs", "Astro", "Solid-start"],
+    "Languages": ["C", "C++", "Java", "R", "Erlang", "Elixir", "Rust"],
+    "Data Science & ML": ["R", "Python", "NumPy", "Panda", "Scikit-learn"],
+    "Front-End tools": ["Esbuild", "Vitejs"],
+    "API Frameworks": ["Django", "Eve", "Flask"],
+    "Databases": ["MySQL", "Postgres", "MongoDB"],
+    "Deployment": ["AWS (EC2, S3, IAM, ELB)", "Heroku", "Netlify", "Vercel", "Fly.io"],
+    "Cloud & build": ["AWS", "Vercel", "Webpack", "Babel"],
+    "Systems & agents": ["Tauri", "xAI / structured LLM I/O"],
     "Miscellaneous": [
       "Data Visualization",
       "KPI Implementation",
@@ -868,13 +712,7 @@
       "description": "Tauri + Rust + React desktop app for high-fit roles and apply packs (1.0.0 shipped 19 Aug 2026).",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/collab-finder",
-      "technologies": [
-        "Tauri",
-        "Rust",
-        "React",
-        "TypeScript",
-        "SQLite"
-      ],
+      "technologies": ["Tauri", "Rust", "React", "TypeScript", "SQLite"],
       "status": "active",
       "is_open_source": true,
       "impact": "Production apply cockpit (kanithanj.ai)",
@@ -889,12 +727,7 @@
       "description": "Tamil metre in the browser — Rust/WASM parser and React UI (live demo).",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/thepulimaangani",
-      "technologies": [
-        "TypeScript",
-        "React",
-        "Rust",
-        "WASM"
-      ],
+      "technologies": ["TypeScript", "React", "Rust", "WASM"],
       "status": "active",
       "is_open_source": true,
       "impact": "Live cultural-computational product",
@@ -908,11 +741,7 @@
       "description": "Public portfolio and apply-CV — Next.js, grounded Q&A, Focus essays.",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/devprofile",
-      "technologies": [
-        "Next.js",
-        "React",
-        "TypeScript"
-      ],
+      "technologies": ["Next.js", "React", "TypeScript"],
       "status": "active",
       "is_open_source": true,
       "impact": "Public presence and CV product",
@@ -926,11 +755,7 @@
       "description": "Privacy-first toolkit: local agent transcripts to datasets, skills, and gold exemplars.",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/agent-prompt-tuning-lab",
-      "technologies": [
-        "JavaScript",
-        "Datasets",
-        "Prompt engineering"
-      ],
+      "technologies": ["JavaScript", "Datasets", "Prompt engineering"],
       "status": "active",
       "is_open_source": true,
       "impact": "Local transcript → eval assets",
@@ -944,10 +769,7 @@
       "description": "Extension to ask Grok for more information with whole and selected text context",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/grok-dia-extension/",
-      "technologies": [
-        "Browser Extension",
-        "AI Integration"
-      ],
+      "technologies": ["Browser Extension", "AI Integration"],
       "status": "development",
       "is_open_source": true,
       "meta": {
@@ -1013,14 +835,7 @@
       "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/adaptate",
-      "technologies": [
-        "Zod",
-        "TypeScript",
-        "OpenAPI",
-        "JSON Schema",
-        "Validation",
-        "Node.js"
-      ],
+      "technologies": ["Zod", "TypeScript", "OpenAPI", "JSON Schema", "Validation", "Node.js"],
       "impact": "Dynamic Validation",
       "is_open_source": true,
       "image": "https://imagine-public.x.ai/imagine-public/images/1513422f-f939-4e19-8977-713293d94216.png",
@@ -1057,19 +872,13 @@
       "description": "Contributions to Zod validation library",
       "type": "work_oss",
       "url": "https://github.com/colinhacks/zod",
-      "technologies": [
-        "TypeScript",
-        "Validation",
-        "Zod"
-      ],
+      "technologies": ["TypeScript", "Validation", "Zod"],
       "is_open_source": true,
       "meta": {
         "company": "Oneflow AB"
       },
       "impact": "Fixed the critical ordering in chainable operations to preserve expected behavior and avoid debugging issues.",
-      "prs": [
-        "https://github.com/colinhacks/zod/pull/1702"
-      ],
+      "prs": ["https://github.com/colinhacks/zod/pull/1702"],
       "work_related": true,
       "extra_image": "https://imagine-public.x.ai/imagine-public/images/36eb7eff-5ebc-4055-a171-ec98ef58a7d4.png",
       "image": "https://imagine-public.x.ai/imagine-public/images/ad6c499a-29d2-42e1-8aca-fe51964896eb.png"
@@ -1081,10 +890,7 @@
       "description": "Interview project for coding challenge",
       "type": "interview",
       "url": "https://github.com/p10ns11y/comment-on-highlight",
-      "technologies": [
-        "JavaScript",
-        "Development"
-      ],
+      "technologies": ["JavaScript", "Development"],
       "meta": {
         "company": "Oneflow AB"
       },
@@ -1100,11 +906,7 @@
       "description": "Babel plugin for generating react-intl message files",
       "type": "work_oss",
       "url": "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator",
-      "technologies": [
-        "Babel",
-        "JavaScript",
-        "react-intl"
-      ],
+      "technologies": ["Babel", "JavaScript", "react-intl"],
       "is_open_source": true,
       "meta": {
         "company": "Weavler AB"
@@ -1125,18 +927,12 @@
       "description": "Contributions to react-intl library used for internationalization",
       "type": "oss_contribution",
       "url": "https://github.com/formatjs/formatjs",
-      "technologies": [
-        "JavaScript",
-        "i18n",
-        "react-intl"
-      ],
+      "technologies": ["JavaScript", "i18n", "react-intl"],
       "is_open_source": true,
       "meta": {
         "company": "Weavler AB"
       },
-      "prs": [
-        "https://github.com/formatjs/formatjs/pull/837"
-      ],
+      "prs": ["https://github.com/formatjs/formatjs/pull/837"],
       "related_to": "react-intl",
       "image": "https://imagine-public.x.ai/imagine-public/images/b33b9553-a975-49b9-88ef-90fbc2adf6be.png"
     },
@@ -1147,15 +943,9 @@
       "description": "Contributions to React Boilerplate project",
       "type": "oss_contribution",
       "url": "https://github.com/react-boilerplate/react-boilerplate",
-      "technologies": [
-        "React",
-        "JavaScript",
-        "Boilerplate"
-      ],
+      "technologies": ["React", "JavaScript", "Boilerplate"],
       "is_open_source": true,
-      "prs": [
-        "https://github.com/react-boilerplate/react-boilerplate/pull/1355"
-      ],
+      "prs": ["https://github.com/react-boilerplate/react-boilerplate/pull/1355"],
       "image": "https://imagine-public.x.ai/imagine-public/images/09d0ceb5-686c-4f63-a26a-06788eae93ec.png"
     },
     {
@@ -1165,10 +955,7 @@
       "description": "Contributions to Kent C. Dodds' bookshelf project",
       "type": "oss_contribution",
       "url": "https://github.com/kentcdodds/bookshelf",
-      "technologies": [
-        "JavaScript",
-        "Open Source"
-      ],
+      "technologies": ["JavaScript", "Open Source"],
       "is_open_source": true,
       "prs": [
         "https://github.com/kentcdodds/bookshelf/pull/184",
@@ -1183,11 +970,7 @@
       "description": "Contributions to React testing applications documentation",
       "type": "oss_contribution",
       "url": "https://github.com/kentcdodds/testing-react-apps",
-      "technologies": [
-        "React",
-        "Testing",
-        "Documentation"
-      ],
+      "technologies": ["React", "Testing", "Documentation"],
       "is_open_source": true,
       "prs": [
         "https://github.com/kentcdodds/testing-react-apps/pull/42",
@@ -1202,12 +985,7 @@
       "description": "A google chrome extension for Tamil Language that is distraction free English-Tamil online thesaurus with auto language detection integrating Glosbe, Wiktionary and Tamil Virtual University technical glossary APIs. Technically, an optimal integration of AJAX, JSON parsing, HTML parsing, jQuery, Message passing and regular expression",
       "type": "community",
       "url": "#",
-      "technologies": [
-        "JavaScript",
-        "Chrome Extension",
-        "AJAX",
-        "jQuery"
-      ],
+      "technologies": ["JavaScript", "Chrome Extension", "AJAX", "jQuery"],
       "status": "stopped",
       "is_open_source": false,
       "meta": {
