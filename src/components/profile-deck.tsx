@@ -382,7 +382,9 @@ function SlideBody({
               </li>
               <li>
                 <span className="profile-deck__craft-beat-label">Ship</span>
-                <span>more than asked when the calendar slips — deeper work, not a thin apology</span>
+                <span>
+                  more than asked when the calendar slips — deeper work, not a thin apology
+                </span>
               </li>
             </ul>
             <LearnBand>Two muscles. Every project is practice.</LearnBand>
@@ -406,9 +408,9 @@ function SlideBody({
               Intelligence that respects cost and locality compounds.
             </p>
             <p className="profile-deck__body profile-deck__body--feature">
-              An orchestrator that profiles, predicts, and acts under constraint — not “battery tips.”
-              Same shape as today’s AI stack: where inference runs (cloud · edge · on-device NPU), what
-              data leaves the machine, how agents spend energy and attention.
+              An orchestrator that profiles, predicts, and acts under constraint — not “battery
+              tips.” Same shape as today’s AI stack: where inference runs (cloud · edge · on-device
+              NPU), what data leaves the machine, how agents spend energy and attention.
             </p>
             <Highlights
               items={[
@@ -577,7 +579,10 @@ function SlideBody({
               {item.name}
             </h2>
             <p className="profile-deck__body profile-deck__body--feature">{item.detail}</p>
-            <ul role="list" className="profile-deck__feature-links profile-deck__feature-links--wrap">
+            <ul
+              role="list"
+              className="profile-deck__feature-links profile-deck__feature-links--wrap"
+            >
               {item.links.map((link) => (
                 <li key={link.href}>
                   <Ext href={link.href}>{link.label}</Ext>

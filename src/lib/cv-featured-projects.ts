@@ -5,11 +5,7 @@
  * Master pins 3 high-quality unique products. Overlay `keys` still pin a pack.
  */
 export const CV_FEATURED_SINCE = "2026-03-01";
-export const CV_MASTER_PROJECT_KEYS = [
-  "collab-finder",
-  "thepulimaangani",
-  "devprofile",
-] as const;
+export const CV_MASTER_PROJECT_KEYS = ["collab-finder", "thepulimaangani", "devprofile"] as const;
 export const CV_FEATURED_MAX = 3;
 
 /** @deprecated Use CV_MASTER_PROJECT_KEYS. Kept for overlay-era callers. */
@@ -80,7 +76,7 @@ function monthYearLabel(isoDay: string): string {
 
 export function formatProjectDateRange(
   created: string | undefined,
-  updated: string | undefined,
+  updated: string | undefined
 ): string | undefined {
   if (isIsoDay(created) && isIsoDay(updated)) {
     const startLabel = monthYearLabel(created);
@@ -96,19 +92,13 @@ export function projectDateRangeLabel(project: CvProjectRef): string | undefined
   return formatProjectDateRange(project.created, project.updated);
 }
 
-export function isCvFeaturedProject(
-  project: CvProjectRef,
-  keys: readonly string[],
-): boolean {
+export function isCvFeaturedProject(project: CvProjectRef, keys: readonly string[]): boolean {
   return keys.includes(projectLookupId(project));
 }
 
-function projectsInKeyOrder<T extends CvProjectRef>(
-  projects: T[],
-  keys: readonly string[],
-): T[] {
+function projectsInKeyOrder<T extends CvProjectRef>(projects: T[], keys: readonly string[]): T[] {
   const projectById = new Map(
-    projects.map((project) => [projectLookupId(project), project] as const),
+    projects.map((project) => [projectLookupId(project), project] as const)
   );
   const ordered: T[] = [];
   for (const projectKey of keys) {
@@ -121,7 +111,7 @@ function projectsInKeyOrder<T extends CvProjectRef>(
 /** Master: pinned quality keys that were updated since March 2026. */
 export function selectMasterCvProjects<T extends CvProjectRef>(
   projects: T[],
-  options: FeaturedSelectOptions = {},
+  options: FeaturedSelectOptions = {}
 ): T[] {
   const since = options.since ?? CV_FEATURED_SINCE;
   const masterKeys = options.masterKeys ?? CV_MASTER_PROJECT_KEYS;
@@ -136,7 +126,7 @@ export function selectMasterCvProjects<T extends CvProjectRef>(
 export function getCvFeaturedProjects<T extends CvProjectRef>(
   projects: T[],
   keys?: readonly string[],
-  options?: FeaturedSelectOptions,
+  options?: FeaturedSelectOptions
 ): T[] {
   if (keys && keys.length > 0) {
     return projectsInKeyOrder(projects, keys);

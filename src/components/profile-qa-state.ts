@@ -1,11 +1,6 @@
 export type QaStatus = "idle" | "loading" | "error" | "success";
 
-type GenerationStrategy =
-  | "golden-match"
-  | "template"
-  | "ollama"
-  | "reactor"
-  | string;
+type GenerationStrategy = "golden-match" | "template" | "ollama" | "reactor" | string;
 
 interface QADetail {
   text: string;

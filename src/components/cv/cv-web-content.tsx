@@ -59,14 +59,19 @@ export function CvWebContent() {
             <AISmartHighlight>{cvData.profile}</AISmartHighlight>
           </div>
 
-          {cvData.work_experience.some((job) => "kind" in job && job.kind === "independent_work") ? (
+          {cvData.work_experience.some(
+            (job) => "kind" in job && job.kind === "independent_work"
+          ) ? (
             <>
               <h3 className="cv-section-title">Independent Work</h3>
               <div className="cv-stack">
                 {cvData.work_experience
                   .filter((job) => "kind" in job && job.kind === "independent_work")
                   .map((job) => (
-                    <WebExperienceRole key={`${job.company}-${job.title}-${job.start_date}`} job={job} />
+                    <WebExperienceRole
+                      key={`${job.company}-${job.title}-${job.start_date}`}
+                      job={job}
+                    />
                   ))}
               </div>
             </>
@@ -76,7 +81,10 @@ export function CvWebContent() {
             {cvData.work_experience
               .filter((job) => !("kind" in job && job.kind === "independent_work"))
               .map((job) => (
-                <WebExperienceRole key={`${job.company}-${job.title}-${job.start_date}`} job={job} />
+                <WebExperienceRole
+                  key={`${job.company}-${job.title}-${job.start_date}`}
+                  job={job}
+                />
               ))}
           </div>
         </div>

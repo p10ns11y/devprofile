@@ -38,7 +38,10 @@ export type CvLayoutPolicy = typeof CV_LAYOUT_POLICY;
 
 export function maxBulletsForJobIndex(
   index: number,
-  policy: Pick<CvLayoutPolicy, "earlyJobCount" | "maxBulletsEarly" | "maxBulletsLate"> = CV_LAYOUT_POLICY,
+  policy: Pick<
+    CvLayoutPolicy,
+    "earlyJobCount" | "maxBulletsEarly" | "maxBulletsLate"
+  > = CV_LAYOUT_POLICY
 ): number {
   return index <= policy.earlyJobCount ? policy.maxBulletsEarly : policy.maxBulletsLate;
 }
@@ -49,14 +52,14 @@ export function sliceJobBullets<T>(
   policy: Pick<
     CvLayoutPolicy,
     "earlyJobCount" | "maxBulletsEarly" | "maxBulletsLate"
-  > = CV_LAYOUT_POLICY,
+  > = CV_LAYOUT_POLICY
 ): T[] {
   return bullets.slice(0, maxBulletsForJobIndex(index, policy));
 }
 
 export function sliceJobTools<T>(
   tools: readonly T[],
-  policy: Pick<CvLayoutPolicy, "maxTools"> = CV_LAYOUT_POLICY,
+  policy: Pick<CvLayoutPolicy, "maxTools"> = CV_LAYOUT_POLICY
 ): T[] {
   return tools.slice(0, policy.maxTools);
 }
@@ -67,7 +70,7 @@ export function sliceJobTools<T>(
  */
 export function clampProfile(
   profile: string,
-  maxChars: number = CV_LAYOUT_POLICY.profileMaxChars,
+  maxChars: number = CV_LAYOUT_POLICY.profileMaxChars
 ): string {
   const t = profile.trim();
   if (t.length <= maxChars) return t;
@@ -77,7 +80,7 @@ export function clampProfile(
     cut.lastIndexOf(". "),
     cut.lastIndexOf("! "),
     cut.lastIndexOf("? "),
-    cut.endsWith(".") ? cut.length - 1 : -1,
+    cut.endsWith(".") ? cut.length - 1 : -1
   );
   if (lastStop >= maxChars * 0.55) {
     const end = cut[lastStop] === "." ? lastStop + 1 : lastStop + 1;

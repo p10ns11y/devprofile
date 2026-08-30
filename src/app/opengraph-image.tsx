@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Peramanathan Sathyamoorthy — senior software engineer portfolio";
+export const alt =
+  "Peramanathan Sathyamoorthy — available now. AI-native product / agent engineer in Stockholm.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -46,7 +47,7 @@ export default function OpenGraphImage() {
               background: "#c2410c",
             }}
           />
-          Dev profile
+          Available now · Stockholm
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
@@ -68,7 +69,7 @@ export default function OpenGraphImage() {
               fontFamily: "ui-sans-serif, system-ui, sans-serif",
             }}
           >
-            Senior software engineer · React · system design · quiet infrastructure
+            AI-native product / agent engineer · forward deployed · applied AI
           </div>
         </div>
 
@@ -81,7 +82,7 @@ export default function OpenGraphImage() {
             color: "#5c524a",
           }}
         >
-          <span>Portfolio & Focus essays</span>
+          <span>Get in touch · CV</span>
           <span style={{ color: "#c2410c", fontWeight: 600 }}>@peramanathan</span>
         </div>
       </div>

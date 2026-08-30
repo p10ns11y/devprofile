@@ -17,10 +17,10 @@ describe("cv-layout-policy", () => {
   it("caps bullets by job index", () => {
     expect(maxBulletsForJobIndex(0)).toBe(CV_LAYOUT_POLICY.maxBulletsEarly);
     expect(maxBulletsForJobIndex(CV_LAYOUT_POLICY.earlyJobCount)).toBe(
-      CV_LAYOUT_POLICY.maxBulletsEarly,
+      CV_LAYOUT_POLICY.maxBulletsEarly
     );
     expect(maxBulletsForJobIndex(CV_LAYOUT_POLICY.earlyJobCount + 1)).toBe(
-      CV_LAYOUT_POLICY.maxBulletsLate,
+      CV_LAYOUT_POLICY.maxBulletsLate
     );
     const bullets = ["a", "b", "c", "d", "e"];
     expect(sliceJobBullets(bullets, 0)).toHaveLength(CV_LAYOUT_POLICY.maxBulletsEarly);

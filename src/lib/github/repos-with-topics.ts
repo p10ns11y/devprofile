@@ -94,7 +94,10 @@ async function fetchWithREST(owner: string, candidates: string[] = []): Promise<
  * Fetch topics for the configured owners. Tries GraphQL (efficient, 1/owner) with REST fallback.
  * If no token, falls back immediately to REST which still gets topics from list.
  */
-export async function fetchTopicsForOwners(owners: string[], candidates: string[] = []): Promise<TopicsByRepo> {
+export async function fetchTopicsForOwners(
+  owners: string[],
+  candidates: string[] = []
+): Promise<TopicsByRepo> {
   const merged: TopicsByRepo = {};
   for (const owner of owners) {
     let ownerMap: TopicsByRepo = {};
@@ -103,7 +106,10 @@ export async function fetchTopicsForOwners(owners: string[], candidates: string[
         ownerMap = await fetchWithGraphQL(owner);
       } catch {
         // fallback
-        ownerMap = await fetchWithREST(owner, candidates.filter((c) => c.toLowerCase().startsWith(owner.toLowerCase() + "/")));
+        ownerMap = await fetchWithREST(
+          owner,
+          candidates.filter((c) => c.toLowerCase().startsWith(owner.toLowerCase() + "/"))
+        );
       }
     } else {
       ownerMap = await fetchWithREST(owner, candidates);

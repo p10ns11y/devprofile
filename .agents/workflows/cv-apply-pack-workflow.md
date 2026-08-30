@@ -31,7 +31,7 @@ archive old tech, fix taxonomy, choose xAI-relevant projects
 
 ### Generate
 
-run generate-apply-cv script and verify output
+run kanithanj.cv generate <pack> and verify output
 
 ## Support
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { landingInvite } from "@/data/landing-invite";
 import cvdata from "../data/cvdata.json";
 import { SocialLinks } from "./social-links";
 
@@ -51,7 +52,7 @@ export function Footer() {
 
             <div className="site-footer__brand">
               <p className="site-footer__name">{cvdata.name_with_initial}</p>
-              <p className="site-footer__role">{cvdata.latest_proffessional_role}</p>
+              <p className="site-footer__role">{landingInvite.role}</p>
               <p className="site-footer__location">{cvdata.home.current_location}</p>
               <SocialLinks
                 size="compact"

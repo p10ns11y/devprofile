@@ -2,8 +2,8 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
-import Link from "next/link";
 import cvdata from "@/data/cvdata.json";
+import { landingInvite } from "@/data/landing-invite";
 import { fadeUp, motionTransition } from "@/lib/motion";
 import { AISmartHighlight } from "./ai-smart-highlight";
 import { SiteButton } from "./site/SiteButton";
@@ -11,9 +11,11 @@ import { SocialLinks } from "./social-links";
 
 const gitrollProfileUrl = "https://gitroll.io/profile/uQUk8uoBUTNOWCHltHi810sXytq33";
 
-const heroMoreLinks = [
-  { href: "/qa", label: "Profile Q&A" },
-  { href: "/status/code/200", label: "Live GitHub activity" },
+const heroActions = [
+  { href: "/#experience", label: "View experience", variant: "primary" },
+  { href: "/?cv=view", label: "View CV", variant: "secondary" },
+  { href: "/qa", label: "Profile Q&A", variant: "secondary" },
+  { href: "/status/code/200", label: "Live GitHub activity", variant: "secondary" },
 ] as const;
 
 export function Hero() {
@@ -31,32 +33,33 @@ export function Hero() {
         >
           <div className="hero-copy">
             <div className="hero-stack">
-              <p className="hero-greeting">Hello, I&apos;m</p>
               <h1 className="hero-name">{cvdata.name}</h1>
-              <p className="hero-role">{cvdata.latest_proffessional_role}</p>
-              <p className="hero-lead">
-                <AISmartHighlight>{cvdata.one_liner}</AISmartHighlight>
+              <p className="hero-role">{landingInvite.role}</p>
+              <p className="hero-place">
+                {landingInvite.place}. {landingInvite.seat}
               </p>
             </div>
 
-            <div className="hero-engage">
-              <div className="hero-cta-row">
-                <SiteButton size="lg" href="/#experience" className="hero-cta">
-                  View My Work
-                </SiteButton>
-                <SiteButton size="lg" variant="secondary" href="/?cv=view" className="hero-cta">
-                  View CV
-                </SiteButton>
-              </div>
+            <p className="hero-track">
+              <AISmartHighlight>{landingInvite.track}</AISmartHighlight>
+            </p>
+            <p className="hero-lead">{landingInvite.thesis}</p>
 
-              <nav className="hero-links" aria-label="More profile links">
-                {heroMoreLinks.map((link) => (
-                  <Link key={link.href} href={link.href} className="hero-link">
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
+            <nav className="hero-actions" aria-label="Profile actions">
+              {heroActions.map((action) => (
+                <SiteButton
+                  key={action.href}
+                  href={action.href}
+                  variant={action.variant}
+                  size={action.variant === "primary" ? "lg" : "default"}
+                  className={action.variant === "primary" ? "hero-cta" : "hero-more-cta"}
+                >
+                  {action.label}
+                </SiteButton>
+              ))}
+            </nav>
 
+            <div className="hero-trail">
               <div className="hero-profiles">
                 <SocialLinks size="compact" className="justify-center" />
               </div>

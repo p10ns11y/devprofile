@@ -9,7 +9,7 @@ Today’s apply path is intentional but **split-brain**:
 | Surface | Data |
 |---------|------|
 | Portfolio `/?cv=view` + `/api/cv/view` | Master only — `src/data/cvdata.json` |
-| Apply PDFs | Master + pack `cv-overlay.json` → `out/apply/<slug>/…` via `pnpm generate-apply-cv` |
+| Apply PDFs | Master + pack `cv-overlay.json` → `kanithanj.cv generate` (collab-finder) |
 | Packs | Local symlink `application_packs/` (gitignored) — not on Vercel |
 
 Making the public site “dynamic” before a single syncable store means duplicating overlays (or `out/apply` artifacts) into the deploy tree, plus ongoing **sync and maintenance overhead**. That cost dominates the small UI plumbing (`applyCvOverlay` already exists).
@@ -50,4 +50,4 @@ Rough order — pick one storage story first, then wire surfaces.
 
 - Apply workflow: [apply-cv-from-packs.md](./apply-cv-from-packs.md)
 - Overlay merge: `src/lib/cv-overlay.ts`
-- CLI: `scripts/generate-apply-cv.tsx`
+- Apply CLI: `kanithanj.cv` (collab-finder). Leftover writer here: `scripts/generate-apply-cv.tsx`

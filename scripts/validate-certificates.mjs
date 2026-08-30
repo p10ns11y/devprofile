@@ -8,9 +8,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const cvData = JSON.parse(
-  await fs.readFile(path.join(root, "src/data/cvdata.json"), "utf8")
-);
+const cvData = JSON.parse(await fs.readFile(path.join(root, "src/data/cvdata.json"), "utf8"));
 
 const hiddenFilenames = new Set([
   "polaris-ht101-certificate-template.png",

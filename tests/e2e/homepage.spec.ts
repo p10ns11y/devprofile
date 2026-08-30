@@ -9,7 +9,9 @@ test.describe("Homepage", () => {
     await openMobileMenuIfNeeded(page, isMobile);
     await expect(page.getByRole("button", { name: "About", exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: "Experience", exact: true })).toBeVisible();
-    await expect(page.locator("#about").getByRole("heading", { name: "About Me" })).toBeVisible();
+    await expect(
+      page.locator("#about").getByRole("heading", { name: "What you are hiring" })
+    ).toBeVisible();
     await expect(page.locator("#projects")).toHaveCount(0);
   });
 
@@ -29,8 +31,14 @@ test.describe("Homepage", () => {
 
     await expect(page.locator("#home")).toBeVisible();
     await expect(page.locator("h1").first()).toBeVisible();
-    await expect(page.getByRole("link", { name: "View My Work" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "View CV" })).toBeVisible();
+    const hero = page.locator("#home");
+    await expect(
+      hero.getByText(/Senior Software Engineer with 9\+ years in scalable web apps/)
+    ).toBeVisible();
+    await expect(hero.getByRole("link", { name: "View experience" })).toBeVisible();
+    await expect(hero.getByRole("link", { name: "View CV" })).toBeVisible();
+    await expect(hero.getByRole("link", { name: "Live GitHub activity" })).toBeVisible();
+    await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveCount(0);
   });
 
   test("should show credentials section", async ({ page }) => {

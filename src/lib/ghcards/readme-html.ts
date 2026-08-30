@@ -91,10 +91,7 @@ export async function handleReadmeHtmlRequest(request: Request): Promise<Respons
     return new Response(`Unknown card: ${cardId}`, { status: 404 });
   }
 
-  const limit = Math.min(
-    parseInt(limitRaw || String(card.defaultLimit), 10),
-    card.maxLimit
-  );
+  const limit = Math.min(parseInt(limitRaw || String(card.defaultLimit), 10), card.maxLimit);
 
   try {
     const html = await generateReadmeHtml({ baseUrl, cardId, username, limit, cacheBuster });

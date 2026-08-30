@@ -2,6 +2,7 @@
 
 import { Calendar, Code, MapPin } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+import { landingInvite } from "@/data/landing-invite";
 import { roleAnchorId } from "@/lib/experience-anchors";
 import {
   defaultViewport,
@@ -35,7 +36,7 @@ export function Experience() {
         <SectionHeading
           id={headingId}
           title="Professional Experience"
-          description="Nine-plus years building products, leading teams, and shipping scalable systems in startup and product environments."
+          description={landingInvite.experienceLead}
           showUnderline
         />
 
@@ -90,6 +91,11 @@ export function Experience() {
                     </header>
 
                     <div className="experience-role-card__body min-w-0">
+                      {"kind" in experience && experience.kind === "independent_work" ? (
+                        <p className="experience-role-card__slice">
+                          {landingInvite.independentSlice}
+                        </p>
+                      ) : null}
                       <div>
                         <h4 className="experience-detail-label">
                           <Code

@@ -3,8 +3,10 @@
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { useState } from "react";
+import { landingInvite } from "@/data/landing-invite";
 import { defaultViewport, fadeUp, motionTransition } from "@/lib/motion";
 import cvdata from "../data/cvdata.json";
+import { XIcon } from "./icon";
 import { SectionHeading } from "./site/SectionHeading";
 import { SectionShell } from "./site/SectionShell";
 import { SiteButton } from "./site/SiteButton";
@@ -23,7 +25,7 @@ export function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
-    const subject = `Contact from ${formData.name}`;
+    const subject = `Hiring note from ${formData.name}`;
     const body = `Hello,\n\n${formData.message}\n\nFrom: ${formData.email}\n\nBest regards,\n${formData.name}`;
     const mailtoUrl = `mailto:${cvdata.contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoUrl;
@@ -35,6 +37,13 @@ export function Contact() {
   };
 
   const contactInfo = [
+    {
+      icon: XIcon,
+      title: "XChat",
+      value: cvdata.cv_social_links.x_handle,
+      href: cvdata.cv_social_links.x,
+      external: true,
+    },
     {
       icon: Mail,
       title: "Email",
@@ -71,8 +80,8 @@ export function Contact() {
       >
         <SectionHeading
           id={headingId}
-          title="Get In Touch"
-          description="Ready to discuss your next project? Reach out via the form or contact details below."
+          title="Get in touch"
+          description={landingInvite.contactLead}
           showUnderline
         />
 
@@ -119,7 +128,7 @@ export function Contact() {
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  placeholder="Tell me about your project..."
+                  placeholder={landingInvite.formPlaceholder}
                   rows={5}
                   required
                   className="resize-none"
@@ -140,11 +149,9 @@ export function Contact() {
           <aside className="min-w-0" aria-labelledby={`${headingId}-connect`}>
             <div className="contact-aside-intro">
               <h3 id={`${headingId}-connect`} className="subsection-title">
-                Let&apos;s connect
+                Direct channels
               </h3>
-              <p className="contact-aside-lead">
-                I&apos;m always interested in new opportunities and interesting projects.
-              </p>
+              <p className="contact-aside-lead">{landingInvite.contactAside}</p>
             </div>
 
             <address className="contact-channels not-italic">

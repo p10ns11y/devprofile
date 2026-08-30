@@ -9,7 +9,7 @@ import {
 function project(
   key: string,
   updated: string,
-  extras: { created?: string; public_url?: string } = {},
+  extras: { created?: string; public_url?: string } = {}
 ) {
   return {
     key,

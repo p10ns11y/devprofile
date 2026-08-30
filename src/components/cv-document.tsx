@@ -197,11 +197,7 @@ function jobIsIndependentWork(job: { kind?: string }): boolean {
   return job.kind === "independent_work";
 }
 
-function ExperienceJobList({
-  jobs,
-}: {
-  jobs: typeof defaultData.work_experience;
-}) {
+function ExperienceJobList({ jobs }: { jobs: typeof defaultData.work_experience }) {
   return (
     <>
       {jobs.map((job, index) => {
@@ -254,10 +250,7 @@ function ExperienceJobList({
   );
 }
 
-const CVDocument = ({
-  data = defaultData,
-  featuredKeys,
-}: CVDocumentProps = {}) => (
+const CVDocument = ({ data = defaultData, featuredKeys }: CVDocumentProps = {}) => (
   <Document
     title="Peramanathan Sathyamoorthy - Curriculum Vitae"
     author="Peramanathan Sathyamoorthy"
@@ -350,9 +343,7 @@ const CVDocument = ({
           {data.work_experience.some(jobIsIndependentWork) ? (
             <>
               <Text style={styles.subheader}>Independent Work</Text>
-              <ExperienceJobList
-                jobs={data.work_experience.filter(jobIsIndependentWork)}
-              />
+              <ExperienceJobList jobs={data.work_experience.filter(jobIsIndependentWork)} />
             </>
           ) : null}
           <Text style={styles.subheader}>Work Experience</Text>
@@ -440,12 +431,7 @@ const CVDocument = ({
           </View>
           {/* wrap={false}: keep Technologies as one block — avoid mid-section page split in the right column */}
           {/* @ts-ignore */}
-          <View
-            style={styles.section}
-            id="Technologies"
-            bookmark="Technologies"
-            wrap={false}
-          >
+          <View style={styles.section} id="Technologies" bookmark="Technologies" wrap={false}>
             <Text style={styles.subheader}>Technologies</Text>
             {Object.entries(data.technologies).map(([cat, items], i) => (
               <Text key={i} style={{ marginBottom: 3 }}>

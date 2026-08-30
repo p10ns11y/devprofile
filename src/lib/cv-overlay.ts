@@ -42,7 +42,7 @@ function githubBlurbTruncated(text: string | undefined): boolean {
 /** Deep-ish merge: shallow root overrides + projects upsert by key. */
 export function applyCvOverlay<T extends CvDataLike>(
   master: T,
-  overlay: CvOverlayV1 | null | undefined,
+  overlay: CvOverlayV1 | null | undefined
 ): { data: T; featuredKeys: readonly string[] | undefined } {
   if (!overlay) {
     return { data: master, featuredKeys: undefined };
