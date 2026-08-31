@@ -28,3 +28,4 @@ Preconditions: `pnpm verify:doctor` is ok.
 - Scroll view is a different layout. Do not treat it as the visual snapshot.
 - Pager and TOC expose `data-lcv-event` plus `data-lcv-to-success|fail|interrupted`. LCV walks `slide:*` from `data-lcv-states`.
 - Each slide is `data-lcv-fit=beat`. If min-content exceeds the slot, LCV reports `fit-impossible` with rework / redesign / split-view suggestions.
+- Short-phone slack is a **CSS** problem, not a new LCV kind: Featured/cooking/POC slides group **title + tags + Learn** (takeaway up front) then **one-liner + items**. Leftover beat height sits under the items, not between Learn and the one-liner. Slide copy is `.profile-deck__lead`; do not put `.profile-deck__body` on a `<p>`.
