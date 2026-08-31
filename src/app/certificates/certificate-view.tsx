@@ -8,6 +8,7 @@ import { PageShell } from "@/components/site/PageShell";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import cvdata from "@/data/cvdata.json";
 import { getCertificatesData } from "@/data/documents-data";
+import { landingInvite } from "@/data/landing-invite";
 import { useDialogFromSearchParam } from "@/hooks/use-dialog-from-search-param";
 import { visibleCertificateIds } from "@/lib/certificates";
 import type { DocumentItem } from "@/types/documents";
@@ -49,8 +50,8 @@ export default function CertificateViewComponent() {
         <div className="container mx-auto min-w-0 max-w-7xl px-4 sm:px-6">
           <SectionHeading
             id="certificates-heading"
-            title="Certificates"
-            description="Browse professional certifications and course completions."
+            title="Earned"
+            description={landingInvite.credentialsQuote}
             className="pt-8"
             headingLevel="h1"
           />

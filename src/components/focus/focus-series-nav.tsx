@@ -25,9 +25,9 @@ export function FocusSeriesNav(props: FocusSeriesNavProps) {
       <ol>
         <li>
           {props.current === "index" ? (
-            <span aria-current="page">Focus</span>
+            <span aria-current="page">Essays</span>
           ) : (
-            <Link href={FOCUS_INDEX_HREF}>Focus</Link>
+            <Link href={FOCUS_INDEX_HREF}>Essays</Link>
           )}
         </li>
         {essay ? (

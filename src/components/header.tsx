@@ -3,6 +3,7 @@
 import { ChevronDown, X as CloseIcon, Menu } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/components/ui/utils";
 import { lcvInteract } from "@/lib/lcv-interact";
@@ -19,25 +20,23 @@ type NavItem = {
   iconOnly?: boolean;
 };
 
-const primaryNav: NavItem[] = [
-  { name: "About", href: "/#about" },
-  { name: "Experience", href: "/#experience" },
-];
+const primaryNav: NavItem[] = [];
 
 const standaloneNav: NavItem[] = [
-  { name: "Profile", href: "/profile" },
-  { name: "CV", href: "/?cv=view" },
-  { name: "Focus", href: "/focus" },
+  { name: "Essays", href: "/essays" },
+  { name: "Building", href: "/building" },
   { name: "Q&A", href: "/qa" },
-  { name: "Posts on X", href: "/x", icon: "X", iconOnly: true },
+  { name: "CV", href: "__cv__" },
+  { name: "Profile", href: "/profile" },
+  { name: "X", href: "/x", icon: "X", iconOnly: true },
+  { name: "Earned", href: "/certificates" },
 ];
 
-const moreNav: NavItem[] = [
-  { name: "Certificates", href: "/certificates" },
-  { name: "Live GitHub", href: "/status/code/200" },
-];
+const moreNav: NavItem[] = [];
 
 export function Header() {
+  const pathname = usePathname() ?? "/";
+  const cvHref = `${pathname}?cv=view`;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const moreMenuRef = useRef<HTMLDivElement>(null);
@@ -162,8 +161,10 @@ export function Header() {
 
         <div className="hidden lg:flex flex-1 min-w-0 items-center justify-center gap-4 xl:gap-6 text-[0.9em]">
           {primaryNav.map((item) => renderAnchorItem(item))}
-          {standaloneNav.map((item) => renderLinkItem(item))}
-          <div ref={moreMenuRef} className="relative">
+          {standaloneNav.map((item) =>
+            renderLinkItem(item.href === "__cv__" ? { ...item, href: cvHref } : item)
+          )}
+          {moreNav.length === 0 ? null : <div ref={moreMenuRef} className="relative">
             <button
               type="button"
               className={`${navControlClass} gap-1 py-0`}
@@ -211,7 +212,7 @@ export function Header() {
                 ))}
               </div>
             ) : null}
-          </div>
+          </div>}
         </div>
 
         <div className="hidden lg:flex items-center gap-3 ml-auto shrink-0">
@@ -253,7 +254,13 @@ export function Header() {
               <li key={item.name}>{renderAnchorItem(item, true)}</li>
             ))}
             {standaloneNav.map((item) => (
-              <li key={item.name}>{renderLinkItem(item, closeMobileMenu, true)}</li>
+              <li key={item.name}>
+                {renderLinkItem(
+                  item.href === "__cv__" ? { ...item, href: cvHref } : item,
+                  closeMobileMenu,
+                  true
+                )}
+              </li>
             ))}
             {moreNav.map((item) => (
               <li key={item.name}>{renderLinkItem(item, closeMobileMenu, true)}</li>

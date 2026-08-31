@@ -1,17 +1,15 @@
-"use client";
-
 import Link from "next/link";
 import { landingInvite } from "@/data/landing-invite";
 import cvdata from "../data/cvdata.json";
 import { SocialLinks } from "./social-links";
 
 const siteLinks = [
-  { href: "/profile", label: "Profile" },
+  { href: "/essays", label: "Essays" },
+  { href: "/building", label: "Building" },
+  { href: "/qa", label: "Q&A" },
   { href: "/?cv=view", label: "CV" },
-  { href: "/focus", label: "Focus" },
-  { href: "/qa", label: "Profile Q&A" },
-  { href: "/certificates", label: "Certificates" },
-  { href: "/status/code/200", label: "Live GitHub" },
+  { href: "/profile", label: "Profile" },
+  { href: "/certificates", label: "Earned" },
   { href: "/api/cv/download", label: "Download PDF", external: true },
 ] as const;
 
