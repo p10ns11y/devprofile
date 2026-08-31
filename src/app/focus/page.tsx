@@ -11,7 +11,7 @@ export default async function FocusIndexPage({
 }) {
   const { paper } = await searchParams;
   if (paper === "view") {
-    redirect("/focus/eeaas-to-agents?paper=view");
+    redirect("/essays/eeaas-to-agents?paper=view");
   }
 
   const { featured, rest } = listFocusIndexEssays();
@@ -30,7 +30,7 @@ export default async function FocusIndexPage({
 
       <div className="focus-page__shell focus-page__shell--index">
         <header className="focus-page__intro">
-          <h1 className="focus-page__title">Focus</h1>
+          <h1 className="focus-page__title">Essays</h1>
           <p className="focus-page__lede">
             Essays on the layers you can actually change: the harness, memory, and the cost of the
             next useful observation. Learning should get cheaper while decisions get better.

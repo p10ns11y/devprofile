@@ -56,7 +56,7 @@ export function Accomplishments() {
               </blockquote>
               <figcaption>{cvdata.name}</figcaption>
             </figure>
-            <p className="section-lead credentials-intro">{landingInvite.credentialsIntro}</p>
+
           </div>
 
           {externalCourses.length > 0 ? (

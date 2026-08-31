@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "@/styles/focus.css";
 
-const title = "Focus — Essays on learning cost and agent harnesses";
+const title = "Essays — rare notes on learning cost and agent systems";
 const description =
   "Notes on Energy Efficiency as a Service mapped onto agents, and why memory should pulse instead of dump. The layers you can actually change: harness and memory.";
 
@@ -23,12 +23,12 @@ export const metadata: Metadata = {
   creator: "Peramanathan Sathyamoorthy",
   category: "Technology",
   alternates: {
-    canonical: "/focus",
+    canonical: "/essays",
   },
   openGraph: {
     title,
     description,
-    url: "/focus",
+    url: "/essays",
     siteName: "Peramanathan Sathyamoorthy",
     locale: "en_US",
     type: "website",

@@ -1,10 +1,10 @@
-export const FOCUS_INDEX_HREF = "/focus";
+export const FOCUS_INDEX_HREF = "/essays";
 
 export type FocusEssaySlug = "eeaas-to-agents" | "memory-issue" | "archive-not-memory";
 
 export type FocusEssay = {
   slug: FocusEssaySlug;
-  href: `/focus/${string}`;
+  href: `/essays/${string}`;
   navLabel: string;
   title: string;
   cardLede: string;
@@ -21,7 +21,7 @@ export type FocusMemoryEssaySlug = "pulse" | "archive-not-memory";
 
 export type FocusMemoryEssay = {
   slug: FocusMemoryEssaySlug;
-  href: "/focus/memory-issue" | "/focus/memory-issue/archive-not-memory";
+  href: "/essays/memory-issue" | "/essays/memory-issue/archive-not-memory";
   navLabel: string;
   title: string;
 };
@@ -29,13 +29,13 @@ export type FocusMemoryEssay = {
 export const FOCUS_MEMORY_ESSAYS: readonly FocusMemoryEssay[] = [
   {
     slug: "pulse",
-    href: "/focus/memory-issue",
+    href: "/essays/memory-issue",
     navLabel: "Pulse instead of dump",
     title: "Pulse instead of dump",
   },
   {
     slug: "archive-not-memory",
-    href: "/focus/memory-issue/archive-not-memory",
+    href: "/essays/memory-issue/archive-not-memory",
     navLabel: "Archive is not memory",
     title: "Archive is not memory",
   },
@@ -44,7 +44,7 @@ export const FOCUS_MEMORY_ESSAYS: readonly FocusMemoryEssay[] = [
 export const FOCUS_ESSAYS: readonly FocusEssay[] = [
   {
     slug: "eeaas-to-agents",
-    href: "/focus/eeaas-to-agents",
+    href: "/essays/eeaas-to-agents",
     navLabel: "EEaaS to agents",
     title: "From 2016 energy orchestration to 2026 agentic systems",
     cardLede:
@@ -59,7 +59,7 @@ export const FOCUS_ESSAYS: readonly FocusEssay[] = [
   },
   {
     slug: "memory-issue",
-    href: "/focus/memory-issue",
+    href: "/essays/memory-issue",
     navLabel: "Pulse instead of dump",
     title: "Pulse instead of dump",
     cardLede:
@@ -74,7 +74,7 @@ export const FOCUS_ESSAYS: readonly FocusEssay[] = [
   },
   {
     slug: "archive-not-memory",
-    href: "/focus/memory-issue/archive-not-memory",
+    href: "/essays/memory-issue/archive-not-memory",
     navLabel: "Archive is not memory",
     title: "Archive is not memory — the second constraint on agent recall",
     cardLede:

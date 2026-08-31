@@ -1001,5 +1001,196 @@
       "created": "2014-11-01",
       "updated": "2014-11-01"
     }
-  ]
+  ],
+  "landing": {
+    "role": "AI-native product / agent engineer",
+    "place": "Available now",
+    "location": "Stockholm, Sweden",
+    "seat": "Open to AI-native product or agent roles, and to senior fullstack roles where using AI is already part of the job.",
+    "thesis": "React and Node are common. What is scarce is shipping an agentic workflow in production with product taste, evals, and the judgment to keep a demo from becoming a liability.",
+    "summary": "At Oneflow I owned public API, CRM clients, permissions, and an in-place JavaScript and Flow move to TypeScript, and I led a team. After December 2024 I did family care and shipped my own systems. The named products on this page are the March to August 2026 slice of that stretch, not lab employment.",
+    "now_disclaimer": "Named projects below are the March to August 2026 slice, not the whole interval from December 2024.",
+    "proofs": [
+      {
+        "n": 1,
+        "title": "I have landed a product in other companies' tools",
+        "line": "At Oneflow I built CRM clients and a public API so the product worked inside HubSpot, SuperOffice, Salesforce, and Microsoft Dynamics. Permission models were theirs, not a demo embed."
+      },
+      {
+        "n": 2,
+        "title": "An agent is a control loop, not a chat box",
+        "line": "collab-finder is a local Tauri app. Cost, fit, rate limits, and a human promote before anything becomes permanent. The prompt is the cheap part.",
+        "project_key": "collab-finder",
+        "link_label": "collab-finder on GitHub"
+      },
+      {
+        "n": 3,
+        "title": "I design for when not to call the model",
+        "line": "If a signal is not worth the spend, the loop stops. Refusal is cheaper than a clever completion that should never have run."
+      },
+      {
+        "n": 4,
+        "title": "One data source, so tools cannot drift",
+        "line": "This site and the apply PDFs read one cvdata file. Role-fit packs do not silently fork the master record.",
+        "project_key": "devprofile",
+        "link_label": "devprofile on GitHub"
+      },
+      {
+        "n": 5,
+        "title": "I modernize a living codebase in place",
+        "line": "At Oneflow I moved a FlowType and JavaScript SaaS toward TypeScript with a history-preserving script. Type errors dropped about 70 percent. That saved more than 200 hours versus a rewrite."
+      },
+      {
+        "n": 6,
+        "title": "I go below the web stack when that is where it breaks",
+        "line": "Tamil metre analysis is a Rust parser compiled to WASM so it runs in the browser. collab-finder is a local Tauri app with SQLite, not a hosted chat UI.",
+        "project_key": "thepulimaangani",
+        "link_label": "thepulimaangani on GitHub"
+      }
+    ],
+    "arc": { "label": "Essays", "url": "/essays" },
+    "hero_actions": [
+      { "href": "/?cv=view", "label": "View CV", "variant": "primary" },
+      { "href": "/?building=view", "label": "Building", "variant": "secondary" }
+    ],
+    "contact_lead": "Available now for a permanent senior role.",
+    "contact_aside": "Stockholm. AI-native product or agent work, or senior fullstack where AI is already part of the job.",
+    "form_placeholder": "Role, company, and why you are writing.",
+    "credentials_quote": "Grok and coding agents are becoming mostly sufficient even for advanced work. Well-crafted courses, built with deliberate team effort and AI assistance, still offer powerful leverage. They compress extensive research, impose useful structure, and surface new ways of thinking, saving the learner significant time and friction. What ultimately matters most is the learner's own curiosity and interest. The highest-value courses deliver outcomes that are highly applicable, pragmatic, and relevant to the current state of the art, creating positive impact for both the individual and society while remaining cost-effective.",
+    "meta_description": "Available now in Stockholm. AI-native product or agent engineer, and senior fullstack where AI is already part of the job.",
+    "work_lead": "December 2024 to present is family care plus shipped products. The chronology is on the CV. This page sells from sourced metrics and artifacts.",
+    "claim_families": [
+      { "id": "product", "title": "Product" },
+      { "id": "development", "title": "Development" }
+    ],
+    "claims": [
+      { "id": "adaptable", "family": "product", "label": "Adaptable Problem Solving", "evidence": ["PP-crm", "PP-iam-router"] },
+      { "id": "prevention", "family": "product", "label": "Proactive Problem Prevention and Elimination", "evidence": ["PP-ts-70", "PP-zod-lib", "PP-adaptate"] },
+      { "id": "systems", "family": "product", "label": "System Thinking", "evidence": ["PP-acl", "PP-integ-team", "PP-collab"] },
+      { "id": "detail", "family": "product", "label": "Detail Orientation", "evidence": ["PP-ts-200h", "PP-playwright"] },
+      { "id": "adjacent", "family": "product", "label": "Innovative Adjacent Thinking", "evidence": ["PP-ieee", "PP-collab"] },
+      { "id": "creative", "family": "product", "label": "Creative Solutions", "evidence": ["PP-rte-60", "PP-babel-i18n"] },
+      { "id": "agile", "family": "development", "label": "Agile", "evidence": ["PP-lead"] },
+      { "id": "tdd", "family": "development", "label": "Test Driven Development", "evidence": ["PP-zod-lib", "PP-adaptate"] },
+      { "id": "bdd", "family": "development", "label": "Behavior Driven Development", "evidence": [] },
+      { "id": "e2e", "family": "development", "label": "End-to-End Testing", "evidence": ["PP-playwright"] },
+      { "id": "mob", "family": "development", "label": "Pair/Mob Programming", "evidence": ["PP-playwright"] }
+    ],
+    "evidence": [
+      {
+        "id": "PP-ts-70",
+        "kind": "metric",
+        "figure": "70%",
+        "detail": "fewer type-related errors after TypeScript on a living Flow and JavaScript codebase",
+        "where": "Oneflow, Senior Software Engineer, 2023 to 2024",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-ts-200h",
+        "kind": "metric",
+        "figure": "200+",
+        "detail": "hours saved by a history-preserving JS to TypeScript conversion script",
+        "where": "Oneflow, Senior Software Engineer, 2023 to 2024",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-acl",
+        "kind": "fact",
+        "detail": "Owner and guest ACL paths live in one module instead of scattered checks",
+        "where": "Oneflow, Senior Software Engineer, 2023 to 2024",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-rte-60",
+        "kind": "metric",
+        "figure": "60%",
+        "detail": "higher user satisfaction on a JSON rich-text editor that still spoke legacy HTML",
+        "where": "Oneflow, Engineering Team Lead, 2021 to 2022",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-playwright",
+        "kind": "fact",
+        "detail": "Playwright E2E began as mob-test scenarios, then a full suite rewrite. Fewer regressions.",
+        "where": "Oneflow, Engineering Team Lead, 2021 to 2022",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-zod-lib",
+        "kind": "fact",
+        "detail": "Built a lightweight Zod validation library so bad business data fails before it becomes a runtime surprise.",
+        "where": "Oneflow, Engineering Team Lead, 2021 to 2022",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-adaptate",
+        "kind": "artifact",
+        "detail": "adaptate is a ground-up npm family (@adaptate/core, @adaptate/utils). Different architecture from the Oneflow Zod lib. One optional Zod model, per-consumer required fields, OpenAPI interop. It solves more than that internal library did. Remembered the pain. Did not port the code.",
+        "where": "Personal OSS. github.com/p10ns11y/adaptate",
+        "source": "cvdata.projects",
+        "project_key": "adaptate",
+        "link_label": "adaptate on GitHub"
+      },
+      {
+        "id": "PP-lead",
+        "kind": "fact",
+        "detail": "Hiring, onboarding, and a self-organizing team model while still shipping the editor and the test suite",
+        "where": "Oneflow, Engineering Team Lead, 2021 to 2022",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-integ-team",
+        "kind": "fact",
+        "detail": "Stood up the Integration Team and the long-term integration process",
+        "where": "Oneflow, Full Stack Integration Engineer, 2019 to 2021",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-crm",
+        "kind": "fact",
+        "detail": "Product ran inside HubSpot, SuperOffice, Salesforce, Microsoft Dynamics, and Teamtailor",
+        "where": "Oneflow, Full Stack Integration Engineer, 2019 to 2021",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-iam-router",
+        "kind": "fact",
+        "detail": "React Router into a Backbone identity and access client so prototyping and tests could move",
+        "where": "Oneflow, JavaScript Developer, 2017 to 2019",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-ci-40",
+        "kind": "metric",
+        "figure": "40%",
+        "detail": "shorter CI builds",
+        "where": "Oneflow, JavaScript Developer, 2017 to 2019",
+        "source": "cvdata.work_experience"
+      },
+      {
+        "id": "PP-babel-i18n",
+        "kind": "artifact",
+        "detail": "Open-source Babel plugin for project-wide translations on an accessible shop (1.6M SEK PTS grant)",
+        "where": "Weavler, 2016 to 2017",
+        "source": "cvdata.work_experience",
+        "project_key": "babel-plugin-react-intl-messages-generator"
+      },
+      {
+        "id": "PP-ieee",
+        "kind": "artifact",
+        "detail": "IEEE CloudCom 2015: energy efficiency as an orchestration service. Research, not lab employment.",
+        "where": "Publications",
+        "source": "cvdata.publications",
+        "href": "/essays"
+      },
+      {
+        "id": "PP-collab",
+        "kind": "artifact",
+        "detail": "collab-finder 1.0.0 on 19 August 2026. Local Tauri app. Cost, fit, and rate gates. Human promote before cvdata changes.",
+        "where": "Personal, not lab employment",
+        "source": "cvdata.projects",
+        "project_key": "collab-finder"
+      }
+    ]
+  }
 }

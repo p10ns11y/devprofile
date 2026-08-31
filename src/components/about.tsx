@@ -1,46 +1,37 @@
-"use client";
-
-import { motion, useReducedMotion } from "motion/react";
 import { landingInvite } from "@/data/landing-invite";
-import { fadeUp, motionTransition } from "@/lib/motion";
-import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import { SectionHeading } from "./site/SectionHeading";
 import { SectionShell } from "./site/SectionShell";
 
 const headingId = "about-heading";
 
 export function About() {
-  const [ref, isIntersecting] = useIntersectionObserver({ threshold: 0.1 });
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <SectionShell id="about" headingId={headingId} background="elevated">
-      <div ref={ref}>
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate={isIntersecting ? "visible" : "hidden"}
-          transition={motionTransition(!!shouldReduceMotion)}
-        >
-          <SectionHeading
-            id={headingId}
-            title="What you are hiring"
-            description={landingInvite.summary}
-            showUnderline
-          />
+      <SectionHeading
+        id={headingId}
+        title="What you are hiring"
+        description={landingInvite.summary}
+        showUnderline
+      />
 
-          <ol className="hire-assets">
-            {landingInvite.assets.map((asset) => (
-              <li key={asset.title}>
-                <article data-card="hire" className="hire-asset">
-                  <h3 className="hire-asset__title">{asset.title}</h3>
-                  <p className="hire-asset__line">{asset.line}</p>
-                </article>
-              </li>
-            ))}
-          </ol>
-        </motion.div>
-      </div>
+      <ol className="hire-proofs">
+        {landingInvite.proofs.map((proof) => (
+          <li key={proof.n} className="hire-proof" value={proof.n}>
+            <h3 className="hire-proof__title">{proof.title}</h3>
+            <p className="hire-proof__line">{proof.line}</p>
+            {"href" in proof && proof.href ? (
+              <p className="hire-proof__link">
+                <a href={proof.href.url}>{proof.href.label}</a>
+              </p>
+            ) : null}
+          </li>
+        ))}
+      </ol>
+
+      <p className="hire-arc">
+        The long arc from 2015 orchestration to 2026 local agent work lives in{" "}
+        <a href={landingInvite.arcHref.url}>{landingInvite.arcHref.label}</a>.
+      </p>
     </SectionShell>
   );
 }

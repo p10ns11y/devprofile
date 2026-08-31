@@ -4,13 +4,17 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import type { Metadata } from "next";
 import { DM_Sans, Instrument_Serif } from "next/font/google";
+import { Suspense } from "react";
+import { BuildingActivityModal } from "@/components/building/building-activity-modal";
+import { CvModal } from "@/components/cv/cv-modal";
+import { PersonJsonLd } from "@/components/person-json-ld";
 import { SWRegister } from "@/components/sw-register";
 import { ThemeProvider } from "@/components/theme-provider";
+import cvdata from "@/data/cvdata.json";
 import { getMetadataBase } from "@/lib/site-url";
 
-const siteTitle = "Peramanathan Sathyamoorthy — AI-native product / agent engineer";
-const siteDescription =
-  "Available now in Stockholm. End-to-end product ownership plus the agent harness — not a chat feature. AI-native product, agent, or forward-deployed / applied AI.";
+const siteTitle = `${cvdata.name} — ${cvdata.landing.role}`;
+const siteDescription = cvdata.landing.meta_description;
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -66,10 +70,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             Skip to main content
           </a>
+          <PersonJsonLd />
           <SpeedInsights />
           <SWRegister />
           {shouldInjectToolbar && <VercelToolbar />}
           <main id="main">{children}</main>
+          <Suspense fallback={null}>
+            <CvModal />
+            <BuildingActivityModal />
+          </Suspense>
         </ThemeProvider>
       </body>
     </html>

@@ -26,6 +26,28 @@ const nextConfig = {
         destination: "/x",
         permanent: false,
       },
+      {
+        source: "/focus",
+        destination: "/essays",
+        permanent: true,
+      },
+      {
+        source: "/focus/:path*",
+        destination: "/essays/:path*",
+        permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/essays",
+        destination: "/focus",
+      },
+      {
+        source: "/essays/:path*",
+        destination: "/focus/:path*",
+      },
     ];
   },
   async headers() {
