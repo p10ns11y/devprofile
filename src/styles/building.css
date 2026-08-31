@@ -1,0 +1,167 @@
+.building-page__article {
+  padding-top: calc(var(--header-offset, 5rem) + 0.75rem);
+  padding-bottom: 4rem;
+  padding-inline: var(--marketing-inset-x);
+  max-width: 80rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .building-page__article {
+    min-height: 100dvh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1.25rem;
+  }
+
+  .building-page__intro {
+    flex: 0 0 auto;
+  }
+
+  .building-page__title {
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    margin-bottom: 0.35rem;
+  }
+
+  .building-page__lede {
+    font-size: 0.9375rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .building-atlas {
+    flex: 1 1 auto;
+    min-height: 0;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .building-atlas__svg {
+    width: 100%;
+    height: calc(100dvh - var(--header-offset, 5rem) - 6.25rem);
+    max-height: calc(100dvh - var(--header-offset, 5rem) - 6.25rem);
+  }
+
+  .building-atlas__caption {
+    margin-top: 0.35rem;
+  }
+}
+
+.building-page__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4vw, 3.75rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin: 0 0 1rem;
+  color: var(--color-text);
+}
+
+.building-page__lede {
+  max-width: 42rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin: 0 0 2.5rem;
+  color: var(--color-text);
+}
+
+.building-atlas {
+  margin: 0 0 3rem;
+}
+
+.building-atlas__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface1);
+  --atlas-ground: var(--color-surface1);
+  --atlas-ink: var(--color-text);
+  --atlas-accent: var(--color-brand-emphasis);
+}
+
+.building-atlas__grid {
+  stroke: var(--color-border-subtle);
+  stroke-width: 0.6;
+}
+
+.building-atlas__cluster {
+  fill: var(--color-brand-emphasis);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.building-atlas__star {
+  fill: var(--color-text);
+}
+
+.building-atlas a:hover .building-atlas__star,
+.building-atlas a:focus-visible .building-atlas__star {
+  fill: var(--color-brand-emphasis);
+}
+
+.building-atlas a:focus-visible .building-atlas__label {
+  fill: var(--color-brand-emphasis);
+}
+
+.building-atlas__label {
+  fill: var(--color-text);
+  font-size: 12px;
+}
+
+.building-atlas__sink {
+  fill: var(--color-brand-emphasis);
+}
+
+.building-atlas__sink-label {
+  fill: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 16px;
+}
+
+.building-atlas__caption,
+.building-spacemap__caption,
+.building-page__pulse {
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.building-spacemap {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.building-spacemap th,
+.building-spacemap td {
+  text-align: left;
+  padding: 0.75rem 0.75rem 0.75rem 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+  vertical-align: top;
+  font-size: 0.9375rem;
+}
+
+.building-spacemap thead th {
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.building-spacemap a {
+  color: var(--color-link);
+}
+
+.building-page__pulse {
+  margin-top: 2.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .building-atlas__svg {
+    scroll-timeline: none;
+  }
+}
