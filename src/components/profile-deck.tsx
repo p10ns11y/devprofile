@@ -82,6 +82,10 @@ function LearnBand({ children }: { children: ReactNode }) {
   );
 }
 
+function Cluster({ children }: { children: ReactNode }) {
+  return <div className="profile-deck__cluster">{children}</div>;
+}
+
 function SlideShell({ children, cover = false }: { children: ReactNode; cover?: boolean }) {
   return (
     <div className="profile-deck__slide" data-lcv-slot="beat">
@@ -181,7 +185,7 @@ function SlideBody({
                 <span>so the constraint loses a little power</span>
               </li>
             </ul>
-            <p className="profile-deck__body profile-deck__body--feature">{leadRest}</p>
+            <p className="profile-deck__lead">{leadRest}</p>
             <LearnBand>Connections often show up after you move.</LearnBand>
           </article>
         </SlideShell>
@@ -204,7 +208,7 @@ function SlideBody({
             <p className="profile-deck__pull profile-deck__pull--plan">
               Clarity first — then the plan goes deeper.
             </p>
-            <p className="profile-deck__body profile-deck__body--feature">{j.story.body}</p>
+            <p className="profile-deck__lead">{j.story.body}</p>
             <LearnBand>When the field settles, energy finds its map.</LearnBand>
           </article>
         </SlideShell>
@@ -241,7 +245,7 @@ function SlideBody({
             >
               {phase.phase}
             </h2>
-            <p className="profile-deck__body profile-deck__body--feature">{phase.html}</p>
+            <p className="profile-deck__lead">{phase.html}</p>
             {phase.phase === "Pause" ? (
               <LearnBand>Paused, not abandoned — the work waited.</LearnBand>
             ) : null}
@@ -265,27 +269,31 @@ function SlideBody({
       return (
         <SlideShell>
           <article className="profile-deck__feature">
-            {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
-            <h2
-              ref={headingRef}
-              tabIndex={-1}
-              data-lcv="must-show"
-              className="profile-deck__title profile-deck__title--feature"
-            >
-              <Ext href={project.href}>{project.name}</Ext>
-            </h2>
-            <TechPills items={project.stack} />
-            {project.links?.length ? (
-              <ul role="list" className="profile-deck__feature-links">
-                {project.links.map((link) => (
-                  <li key={link.href}>
-                    <Ext href={link.href}>{link.label}</Ext>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-            <p className="profile-deck__body profile-deck__body--feature">{project.summary}</p>
-            <Highlights items={project.highlights.slice(0, 3)} />
+            <Cluster>
+              {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
+              <h2
+                ref={headingRef}
+                tabIndex={-1}
+                data-lcv="must-show"
+                className="profile-deck__title profile-deck__title--feature"
+              >
+                <Ext href={project.href}>{project.name}</Ext>
+              </h2>
+              <TechPills items={project.stack} />
+              {project.links?.length ? (
+                <ul role="list" className="profile-deck__feature-links">
+                  {project.links.map((link) => (
+                    <li key={link.href}>
+                      <Ext href={link.href}>{link.label}</Ext>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </Cluster>
+            <Cluster>
+              <p className="profile-deck__lead">{project.summary}</p>
+              <Highlights items={project.highlights.slice(0, 3)} />
+            </Cluster>
             <LearnBand>{project.learn}</LearnBand>
           </article>
         </SlideShell>
@@ -299,18 +307,22 @@ function SlideBody({
       return (
         <SlideShell>
           <article className="profile-deck__feature">
-            {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
-            <h2
-              ref={headingRef}
-              tabIndex={-1}
-              data-lcv="must-show"
-              className="profile-deck__title profile-deck__title--feature"
-            >
-              {item.href ? <Ext href={item.href}>{item.name}</Ext> : item.name}
-            </h2>
-            <TechPills items={splitStack(item.stack)} />
-            <p className="profile-deck__body profile-deck__body--feature">{item.summary}</p>
-            <Highlights items={item.highlights.slice(0, 3)} />
+            <Cluster>
+              {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
+              <h2
+                ref={headingRef}
+                tabIndex={-1}
+                data-lcv="must-show"
+                className="profile-deck__title profile-deck__title--feature"
+              >
+                {item.href ? <Ext href={item.href}>{item.name}</Ext> : item.name}
+              </h2>
+              <TechPills items={splitStack(item.stack)} />
+            </Cluster>
+            <Cluster>
+              <p className="profile-deck__lead">{item.summary}</p>
+              <Highlights items={item.highlights.slice(0, 3)} />
+            </Cluster>
             <LearnBand>{item.watchFor}</LearnBand>
           </article>
         </SlideShell>
@@ -332,7 +344,7 @@ function SlideBody({
               {focus.title}
             </h2>
             <p className="profile-deck__pull profile-deck__pull--plan">Not a project — a focus.</p>
-            <p className="profile-deck__body profile-deck__body--feature">{focus.lead}</p>
+            <p className="profile-deck__lead">{focus.lead}</p>
             <Highlights items={focus.highlights} />
             <ul role="list" className="profile-deck__feature-links">
               <li>
@@ -351,25 +363,29 @@ function SlideBody({
       return (
         <SlideShell>
           <article className="profile-deck__feature">
-            {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
-            <h2
-              ref={headingRef}
-              tabIndex={-1}
-              data-lcv="must-show"
-              className="profile-deck__title profile-deck__title--feature"
-            >
-              <Ext href={poc.href}>{poc.name}</Ext>
-            </h2>
-            <TechPills items={splitStack(poc.stack)} />
-            {poc.liveHref ? (
-              <ul role="list" className="profile-deck__feature-links">
-                <li>
-                  <Ext href={poc.liveHref}>Live</Ext>
-                </li>
-              </ul>
-            ) : null}
-            <p className="profile-deck__body profile-deck__body--feature">{poc.summary}</p>
-            <Highlights items={poc.highlights.slice(0, 3)} />
+            <Cluster>
+              {slide.bridge ? <p className="profile-deck__bridge">{slide.bridge}</p> : null}
+              <h2
+                ref={headingRef}
+                tabIndex={-1}
+                data-lcv="must-show"
+                className="profile-deck__title profile-deck__title--feature"
+              >
+                <Ext href={poc.href}>{poc.name}</Ext>
+              </h2>
+              <TechPills items={splitStack(poc.stack)} />
+              {poc.liveHref ? (
+                <ul role="list" className="profile-deck__feature-links">
+                  <li>
+                    <Ext href={poc.liveHref}>Live</Ext>
+                  </li>
+                </ul>
+              ) : null}
+            </Cluster>
+            <Cluster>
+              <p className="profile-deck__lead">{poc.summary}</p>
+              <Highlights items={poc.highlights.slice(0, 3)} />
+            </Cluster>
             <LearnBand>{poc.proves}</LearnBand>
           </article>
         </SlideShell>
@@ -423,7 +439,7 @@ function SlideBody({
             <p className="profile-deck__pull profile-deck__pull--plan">
               Intelligence that respects cost and locality compounds.
             </p>
-            <p className="profile-deck__body profile-deck__body--feature">
+            <p className="profile-deck__lead">
               An orchestrator that profiles, predicts, and acts under constraint — not “battery
               tips.” Same shape as today’s AI stack: where inference runs (cloud · edge · on-device
               NPU), what data leaves the machine, how agents spend energy and attention.
@@ -492,7 +508,7 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <p className="profile-deck__body profile-deck__body--feature">
+            <p className="profile-deck__lead">
               {j.longArc.courseCraftNote}
             </p>
             <ul role="list" className="profile-deck__feature-links">
@@ -521,7 +537,7 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <p className="profile-deck__body profile-deck__body--feature">
+            <p className="profile-deck__lead">
               Careful long-form when stakes feel real — culture, health, tech, policy — not
               take-farming.
             </p>
@@ -599,7 +615,7 @@ function SlideBody({
             >
               {item.name}
             </h2>
-            <p className="profile-deck__body profile-deck__body--feature">{item.detail}</p>
+            <p className="profile-deck__lead">{item.detail}</p>
             <ul
               role="list"
               className="profile-deck__feature-links profile-deck__feature-links--wrap"
@@ -651,7 +667,7 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <p className="profile-deck__body profile-deck__body--feature">{j.archive.lead}</p>
+            <p className="profile-deck__lead">{j.archive.lead}</p>
             <Highlights items={j.archive.seasons} />
             <LearnBand>
               Honest archive — kept on the map, not polished into a victory lap.
@@ -706,7 +722,7 @@ function SlideBody({
             >
               {slide.title}
             </h2>
-            <p className="profile-deck__body profile-deck__body--feature">
+            <p className="profile-deck__lead">
               Sample posts from {sample.surface} — open any to feel the season.
             </p>
             <ul

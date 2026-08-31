@@ -8,6 +8,11 @@ html {
    */
   --header-offset: 5rem;
 
+  /* Fixed header is ~65px on small screens (py-4 + name + border). 5rem left 15px air. */
+  @media (max-width: 767px) {
+    --header-offset: 4.25rem;
+  }
+
   /* Marketing layout rhythm (Round 3) */
   --marketing-inset-x: clamp(1rem, 4vw, 1.5rem);
   --marketing-space-section-y: clamp(3rem, 5vw, 4rem);
