@@ -22,7 +22,7 @@ Hiring landing: name from cvdata, invite copy, GitRoll aside, About, credentials
 Preconditions: `pnpm verify:doctor` is ok.
 
 - **UX / content.** `VERIFY_FEATURE=/ pnpm test:e2e:ux`.
-- **Pixels.** `VERIFY_FEATURE=/ pnpm test:e2e:visual`. GitRoll aside is `data-visual-live`.
+- **Pixels.** `VERIFY_FEATURE=/ pnpm test:e2e:visual`. GitRoll CURISM is a static `/images/curism.png` — do not mark it `data-visual-live` (that paints Playwright’s magenta mask over real art).
 - **Phrases.** `tests/e2e/homepage.spec.ts` still owns the 9+ years line and CTA names.
 
 ## Gotchas

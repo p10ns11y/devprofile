@@ -1,6 +1,6 @@
 import { expect, type Page, test } from "@playwright/test";
 import type { FeatureEntry } from "./feature-map";
-import { hideEphemeralChrome } from "./hide-ephemeral-chrome";
+import { hideEphemeralChrome, revealBelowFoldMotion } from "./hide-ephemeral-chrome";
 
 const liveMaskSelector = "[data-visual-live]";
 const pathsWithoutPixels = new Set(["/qa"]);
@@ -30,6 +30,12 @@ export async function assertPixelBaseline(page: Page, feature: FeatureEntry): Pr
   await page.goto(feature.path, { waitUntil: "load" });
   await hideEphemeralChrome(page);
   await page.evaluate(() => document.fonts.ready);
+  await revealBelowFoldMotion(page);
+
+  const gitrollImage = page.locator(".hero-gitroll img");
+  if ((await gitrollImage.count()) > 0) {
+    await gitrollImage.first().waitFor({ state: "visible" });
+  }
 
   const liveRegions = page.locator(liveMaskSelector);
   const mask = (await liveRegions.count()) > 0 ? [liveRegions] : [];

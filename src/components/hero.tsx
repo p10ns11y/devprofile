@@ -66,7 +66,7 @@ export function Hero() {
             </div>
           </div>
 
-          <aside className="hero-aside" aria-label="GitRoll contribution profile" data-visual-live>
+          <aside className="hero-aside" aria-label="GitRoll contribution profile">
             <a
               href={gitrollProfileUrl}
               target="_blank"

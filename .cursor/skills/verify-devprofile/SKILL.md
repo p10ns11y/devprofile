@@ -51,7 +51,7 @@ VERIFY_FEATURE=/qa pnpm test:e2e:ux
 VERIFY_FEATURE='/?cv=view' pnpm test:e2e:ux
 ```
 
-Live/time-varying paint must sit under `data-visual-live` in product markup (GitRoll aside, GitHub live host, `/x` date stack). `/qa` has no pixel baseline.
+Live/time-varying paint must sit under `data-visual-live` in product markup (GitHub live host, `/x` date stack). Magenta in a PNG is Playwright’s mask fill, not a missing image. GitRoll CURISM is a static asset — do not mask it. `/qa` has no pixel baseline.
 
 Do not run `playwright install chromium`. Headed: `pnpm test:e2e:headed`. UI: `pnpm test:e2e:ui`.
 
