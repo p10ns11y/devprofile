@@ -52,6 +52,7 @@ export default function CertificateViewComponent() {
             title="Certificates"
             description="Browse professional certifications and course completions."
             className="pt-8"
+            headingLevel="h1"
           />
 
           <ul role="list" className="credentials-grid" data-grid="catalog">

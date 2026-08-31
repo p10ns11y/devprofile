@@ -1,0 +1,25 @@
+# Devprofile verification map
+
+This directory is the route inventory for visitor-facing checks. Playwright `loadFeatureMap()` reads `path:` frontmatter here. Do not duplicate routes in a TypeScript `SURFACES` table.
+
+## Baseline preconditions
+
+- Brave Beta at `/usr/bin/brave-browser-beta` or `BRAVE_BETA_PATH`.
+- Origin `http://localhost:3000` from this checkout (`pnpm verify:doctor`).
+- Never drive a random production URL as if it were local.
+
+## Driving conventions
+
+- `VERIFY_FEATURE=/qa` limits the loop to one path.
+- Roles and accessible names over CSS and coordinates.
+- Mark live widgets with `data-visual-live` in product markup.
+
+## Features
+
+- [Home](./home.md)
+- [Profile Q&A](./qa.md)
+- [Posts on X](./x.md)
+- [Profile](./profile.md)
+- [CV](./cv.md)
+- [Certificates](./certificates.md)
+- [Focus](./focus.md)

@@ -60,6 +60,31 @@ pnpm test:e2e:ui
 pnpm test:e2e:debug
 ```
 
+## Visual / UX / content verify
+
+The route map is markdown: [`.cursor/skills/verify-devprofile/features/`](../../.cursor/skills/verify-devprofile/features/). Playwright `loadFeatureMap()` reads `path:` frontmatter. Do not add a TypeScript `SURFACES[]` catalog.
+
+Brave Beta only. Visual is a gated project (`brave-beta-visual`) enabled with `E2E_VISUAL=1`. Default `pnpm test:e2e` ignores `*.visual.spec.ts`. Linux is the snapshot host (`E2E_VISUAL_FORCE=1` to mint elsewhere). No Playwright Chromium. No Chromatic.
+
+```bash
+# Brave path, origin, feature-map parse
+pnpm verify:doctor
+
+# Content + a11y/ux on desktop and mobile Brave Beta
+pnpm test:e2e:ux
+
+# Desktop pixels (linux snapshot host)
+pnpm test:e2e:visual
+
+# Write / refresh PNG baselines (commit the *-snapshots/ files)
+E2E_VISUAL=1 pnpm exec playwright test --project=brave-beta-visual --update-snapshots
+
+# One feature
+VERIFY_FEATURE=/qa pnpm test:e2e:ux
+```
+
+Agent skill: [`.cursor/skills/verify-devprofile/`](../../.cursor/skills/verify-devprofile/SKILL.md). Evidence dir: `artifacts/verify-devprofile/` (gitignored). Snapshots live next to `tests/e2e/visual/` and **are** committed. Live widgets use `data-visual-live` in markup (`/qa` has no PNG).
+
 ## CI
 
 Install Brave on the runner (or set `BRAVE_BETA_PATH`).

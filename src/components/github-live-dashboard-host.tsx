@@ -19,11 +19,15 @@ export function GitHubLiveDashboardHost({
 
   if (!ready) {
     return (
-      <p className="text-center text-text2 py-12" aria-live="polite">
+      <p className="text-center text-text2 py-12" aria-live="polite" data-visual-live>
         Loading live GitHub activity…
       </p>
     );
   }
 
-  return <github-live-dashboard username={username} layout="compact" />;
+  return (
+    <div data-visual-live>
+      <github-live-dashboard username={username} layout="compact" />
+    </div>
+  );
 }
