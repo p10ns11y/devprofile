@@ -1,6 +1,8 @@
 # Devprofile verification map
 
-This directory is the route inventory for visitor-facing checks. Playwright `loadFeatureMap()` reads `path:` frontmatter here. Do not duplicate routes in a TypeScript `SURFACES` table.
+This directory is the **route** layer for visitor-facing checks. Playwright `loadFeatureMap()` reads `path:` frontmatter here. Do not duplicate routes in a TypeScript `SURFACES` table.
+
+LCV continues the tree: Routes → Viewports → Orientation → Layouts → Containers → Elements → Interactives. Profile pager and TOC declare interact effects in HTML (`data-lcv-to-success` / `fail` / `interrupted`).
 
 ## Baseline preconditions
 

@@ -5,6 +5,7 @@ import { useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/components/ui/utils";
+import { lcvInteract } from "@/lib/lcv-interact";
 import cvdata from "../data/cvdata.json";
 import { Icon, type IconName } from "./icon";
 import { SiteButton } from "./site/SiteButton";
@@ -96,6 +97,13 @@ export function Header() {
       type="button"
       onClick={() => scrollToSection(item.href)}
       className={mobile ? mobileNavItemClass : `${navControlClass} py-2 md:py-0`}
+      {...lcvInteract({
+        event: "scroll",
+        from: "view:current",
+        success: item.href,
+        fail: "view:current",
+        interrupted: "view:current",
+      })}
     >
       {item.name}
     </button>
@@ -110,6 +118,13 @@ export function Header() {
       className={mobile ? mobileNavItemClass : `${navControlClass} py-2 md:py-0`}
       aria-label={!mobile && item.iconOnly ? item.name : undefined}
       title={!mobile && item.iconOnly ? item.name : undefined}
+      {...lcvInteract({
+        event: "navigate",
+        from: "view:current",
+        success: item.href,
+        fail: "view:current",
+        interrupted: "view:current",
+      })}
     >
       {item.iconOnly ? (
         <span className={cn("inline-flex items-center gap-2", mobile && "justify-center")}>
@@ -132,7 +147,11 @@ export function Header() {
   );
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-surface1/85 backdrop-blur-md border-b border-(--color-border-subtle) overflow-x-clip shadow-(--marketing-shadow-sm)">
+    <header
+      className="fixed top-0 left-0 right-0 z-50 bg-surface1/85 backdrop-blur-md border-b border-(--color-border-subtle) overflow-x-clip shadow-(--marketing-shadow-sm)"
+      data-lcv-machine="site-nav"
+      data-lcv-ui-state={isMenuOpen ? "menu:open" : "menu:closed"}
+    >
       <nav aria-label="Primary" className="site-container flex items-center gap-3 py-4 sm:gap-4">
         <Link
           href="/"
@@ -151,6 +170,13 @@ export function Header() {
               aria-expanded={isMoreOpen}
               aria-haspopup="menu"
               onClick={() => setIsMoreOpen((open) => !open)}
+              {...lcvInteract({
+                event: "toggle-more",
+                from: isMoreOpen ? "more:open" : "more:closed",
+                success: isMoreOpen ? "more:closed" : "more:open",
+                fail: isMoreOpen ? "more:open" : "more:closed",
+                interrupted: isMoreOpen ? "more:open" : "more:closed",
+              })}
             >
               More
               <ChevronDown
@@ -171,6 +197,13 @@ export function Header() {
                       role="menuitem"
                       onClick={() => setIsMoreOpen(false)}
                       className={`${navControlClass} block w-full rounded-lg px-4 py-3 text-left`}
+                      {...lcvInteract({
+                        event: "navigate",
+                        from: "more:open",
+                        success: item.href,
+                        fail: "more:open",
+                        interrupted: "more:open",
+                      })}
                     >
                       {item.name}
                     </Link>
@@ -196,6 +229,13 @@ export function Header() {
           aria-expanded={isMenuOpen}
           aria-controls="site-nav-panel"
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          {...lcvInteract({
+            event: "toggle-menu",
+            from: isMenuOpen ? "menu:open" : "menu:closed",
+            success: isMenuOpen ? "menu:closed" : "menu:open",
+            fail: isMenuOpen ? "menu:open" : "menu:closed",
+            interrupted: isMenuOpen ? "menu:open" : "menu:closed",
+          })}
         >
           {isMenuOpen ? <CloseIcon className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </Button>

@@ -7,6 +7,14 @@ description: Drive the public Next.js profile site (devprofile) in Brave Beta vi
 
 The visitor-facing surface is the Next.js site on `http://localhost:3000`. Playwright launches **system Brave Beta**, never Playwright Chromium. Route inventory lives in `features/` (this skill). TypeScript reads that map; do not add a second `SURFACES[]` catalog.
 
+Layout-content-view (plugin `layout-content-view`) is the geometry and interact contract. It verifies a tree:
+
+```text
+Routes → Viewports → Orientation → Layouts → Containers → Elements → Interactives
+```
+
+This skill owns visitor drive and PNG baselines. LCV owns clip, scrollports, and static `data-lcv-event` edges (success / fail / interrupted). Compose. Do not duplicate the route catalog.
+
 ## Launch
 
 From the repo root:

@@ -1,4 +1,28 @@
 @layer components {
+  [data-lcv-event] {
+    --lcv-event: attr(data-lcv-event);
+    --lcv-from: attr(data-lcv-from);
+    --lcv-success: attr(data-lcv-to-success);
+    --lcv-fail: attr(data-lcv-to-fail);
+    --lcv-interrupted: attr(data-lcv-to-interrupted);
+  }
+
+  [data-lcv-ui-state] {
+    --lcv-ui-state: attr(data-lcv-ui-state);
+  }
+
+  [data-lcv-event]:disabled {
+    --lcv-outcome: fail;
+  }
+
+  html[data-lcv-debug] [data-lcv-event]::after {
+    content: " " attr(data-lcv-event) " → " attr(data-lcv-to-success);
+    display: inline;
+    margin-inline-start: 0.25rem;
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+  }
+
   /* Round 3: shared page width + horizontal inset (hero, sections, footer) */
   .site-container {
     width: 100%;

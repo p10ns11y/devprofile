@@ -25,6 +25,7 @@ import {
   slideIndexById,
 } from "@/data/profile-deck";
 import { profileJourney } from "@/data/profile-journey";
+import { lcvInteract } from "@/lib/lcv-interact";
 import { motionTransition } from "@/lib/motion";
 import { cn } from "./ui/utils";
 
@@ -113,6 +114,7 @@ function SlideBody({
             <h1
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--cover"
             >
               {taglineLines.map((line, lineIndex) => (
@@ -156,6 +158,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {j.story.title}
@@ -190,6 +193,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {slide.title}
@@ -211,7 +215,9 @@ function SlideBody({
               {slide.title}
             </h2>
             <p className="profile-deck__bridge">Master plan</p>
-            <blockquote className="profile-deck__close-quote">{j.story.quote}</blockquote>
+            <blockquote className="profile-deck__close-quote" data-lcv="must-show">
+              {j.story.quote}
+            </blockquote>
           </div>
         </SlideShell>
       );
@@ -227,6 +233,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {phase.phase}
@@ -259,6 +266,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               <Ext href={project.href}>{project.name}</Ext>
@@ -292,6 +300,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {item.href ? <Ext href={item.href}>{item.name}</Ext> : item.name}
@@ -314,6 +323,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {focus.title}
@@ -342,6 +352,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               <Ext href={poc.href}>{poc.name}</Ext>
@@ -370,6 +381,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {slide.title}
@@ -400,6 +412,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {slide.title}
@@ -434,6 +447,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {slide.title}
@@ -470,6 +484,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {slide.title}
@@ -498,6 +513,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {slide.title}
@@ -539,6 +555,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {slide.title}
@@ -574,6 +591,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {item.name}
@@ -602,6 +620,7 @@ function SlideBody({
           <h2
             ref={headingRef}
             tabIndex={-1}
+            data-lcv="must-show"
             className="profile-deck__title profile-deck__title--feature"
           >
             {slide.title}
@@ -624,6 +643,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {slide.title}
@@ -647,6 +667,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {slide.title}
@@ -677,6 +698,7 @@ function SlideBody({
             <h2
               ref={headingRef}
               tabIndex={-1}
+              data-lcv="must-show"
               className="profile-deck__title profile-deck__title--feature"
             >
               {slide.title}
@@ -706,6 +728,7 @@ function SlideBody({
           <h2
             ref={headingRef}
             tabIndex={-1}
+            data-lcv="must-show"
             className="profile-deck__title profile-deck__title--feature"
           >
             {slide.title}
@@ -753,6 +776,10 @@ export function ProfileDeck() {
   );
   const slide = slides[index] ?? slides[0];
   const chapterMeta = profileDeckNav.find((chapter) => chapter.id === slide.chapter);
+  const fromState = `slide:${slide.cue}`;
+  const nextState = slides[index + 1] ? `slide:${slides[index + 1].cue}` : fromState;
+  const prevState = slides[index - 1] ? `slide:${slides[index - 1].cue}` : fromState;
+  const lcvStates = slides.map((entry) => `slide:${entry.cue}`).join(" ");
 
   const writeSlideToUrl = useCallback(
     (cue: string) => {
@@ -880,7 +907,12 @@ export function ProfileDeck() {
   };
 
   return (
-    <div className="profile-deck">
+    <div
+      className="profile-deck"
+      data-lcv-machine="profile-deck"
+      data-lcv-ui-state={fromState}
+      data-lcv-states={lcvStates}
+    >
       <div className="profile-deck__body">
         <div className="profile-deck__main">
           <section
@@ -914,16 +946,32 @@ export function ProfileDeck() {
               disabled={index === 0}
               className="profile-deck__pager-btn"
               aria-label="Previous"
+              {...lcvInteract({
+                event: "prev",
+                from: fromState,
+                success: prevState,
+                fail: fromState,
+                interrupted: fromState,
+              })}
             >
               <ChevronLeft className="size-4" aria-hidden="true" />
             </button>
-            <p className="profile-deck__pager-label">{slide.title}</p>
+            <p className="profile-deck__pager-label" data-lcv="must-show">
+              {slide.title}
+            </p>
             <button
               type="button"
               onClick={() => goTo(index + 1)}
               disabled={index === total - 1}
               className="profile-deck__pager-btn"
               aria-label="Next"
+              {...lcvInteract({
+                event: "next",
+                from: fromState,
+                success: nextState,
+                fail: fromState,
+                interrupted: fromState,
+              })}
             >
               <ChevronRight className="size-4" aria-hidden="true" />
             </button>
@@ -948,6 +996,13 @@ export function ProfileDeck() {
                       aria-expanded={chapter.children?.length ? expanded : undefined}
                       aria-current={chapterActive && !chapter.children?.length ? "true" : undefined}
                       className="profile-deck__toc-chapter-btn"
+                      {...lcvInteract({
+                        event: "go-chapter",
+                        from: fromState,
+                        success: `slide:${slides[slideIndexById(chapter.firstSlideId)]?.cue ?? slide.cue}`,
+                        fail: fromState,
+                        interrupted: fromState,
+                      })}
                     >
                       {chapter.label}
                     </button>
@@ -974,6 +1029,13 @@ export function ProfileDeck() {
                                   "profile-deck__toc-nested-btn",
                                   nestedActive && "is-active"
                                 )}
+                                {...lcvInteract({
+                                  event: "go-slide",
+                                  from: fromState,
+                                  success: `slide:${slides[start]?.cue ?? slide.cue}`,
+                                  fail: fromState,
+                                  interrupted: fromState,
+                                })}
                               >
                                 {child.label}
                               </button>
@@ -987,7 +1049,17 @@ export function ProfileDeck() {
               })}
             </ol>
           </nav>
-          <Link href="/profile?view=scroll" className="profile-deck__full-page">
+          <Link
+            href="/profile?view=scroll"
+            className="profile-deck__full-page"
+            {...lcvInteract({
+              event: "navigate",
+              from: fromState,
+              success: "/profile?view=scroll",
+              fail: fromState,
+              interrupted: fromState,
+            })}
+          >
             Full page
           </Link>
         </aside>
