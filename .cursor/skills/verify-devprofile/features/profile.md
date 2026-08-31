@@ -27,3 +27,4 @@ Preconditions: `pnpm verify:doctor` is ok.
 - Deep-linked slides are not the pixel baseline. Default verify is the cover.
 - Scroll view is a different layout. Do not treat it as the visual snapshot.
 - Pager and TOC expose `data-lcv-event` plus `data-lcv-to-success|fail|interrupted`. LCV walks `slide:*` from `data-lcv-states`.
+- Each slide is `data-lcv-fit=beat`. If min-content exceeds the slot, LCV reports `fit-impossible` with rework / redesign / split-view suggestions.

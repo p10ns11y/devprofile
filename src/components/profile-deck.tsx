@@ -84,8 +84,11 @@ function LearnBand({ children }: { children: ReactNode }) {
 
 function SlideShell({ children, cover = false }: { children: ReactNode; cover?: boolean }) {
   return (
-    <div className="profile-deck__slide">
-      <div className={cn("profile-deck__pane", cover && "profile-deck__pane--cover")}>
+    <div className="profile-deck__slide" data-lcv-slot="beat">
+      <div
+        className={cn("profile-deck__pane", cover && "profile-deck__pane--cover")}
+        data-lcv-fit="beat"
+      >
         {children}
       </div>
     </div>
