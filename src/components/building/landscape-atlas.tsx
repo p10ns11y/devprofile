@@ -13,45 +13,43 @@ function curvePath(x1: number, y1: number, x2: number, y2: number) {
   return `M ${x1} ${y1} C ${mx + 80} ${y1}, ${mx - 40} ${y2}, ${x2} ${y2}`;
 }
 
-const WHITE_HOLE_RAYS = [-42, -28, -14, 0, 14, 28, 42] as const;
+const WHITE_HOLE_RINGS = [
+  { rx: 112, ry: 38, offset: 0 },
+  { rx: 86, ry: 28, offset: 8 },
+  { rx: 62, ry: 19, offset: 16 },
+  { rx: 40, ry: 12, offset: 24 },
+] as const;
 
 function WhiteHole() {
   return (
     <g className="white-hole">
-      <ellipse rx="150" ry="78" fill="url(#wh-bloom)" />
-      <g transform="rotate(-16)">
-        <ellipse rx="96" ry="30" fill="url(#wh-disk)" opacity="0.92" />
-        <ellipse
-          rx="96"
-          ry="30"
-          fill="none"
-          stroke="url(#wh-rim)"
-          strokeWidth="2.2"
-        />
-        <ellipse rx="44" ry="14" fill="url(#wh-throat)" />
+      <ellipse rx="168" ry="96" fill="url(#wh-halo)" />
+      <g transform="rotate(-11)">
+        {WHITE_HOLE_RINGS.map((ring) => (
+          <g key={ring.rx} transform={`translate(${ring.offset} 0)`}>
+            <ellipse rx={ring.rx} ry={ring.ry} fill="url(#wh-depth)" opacity="0.55" />
+            <ellipse
+              rx={ring.rx}
+              ry={ring.ry}
+              fill="none"
+              stroke="url(#wh-caustic)"
+              strokeWidth="1.15"
+            />
+          </g>
+        ))}
         <g clipPath="url(#wh-left)">
-          <ellipse rx="22" ry="22" fill="url(#wh-infall)" />
+          <ellipse rx="20" ry="20" fill="url(#wh-infall)" />
         </g>
-        <g clipPath="url(#wh-right)">
+        <g transform="translate(26 0)">
           <ellipse rx="22" ry="22" fill="url(#wh-core)" filter="url(#wh-soft)" />
+          <circle r="6.5" fill="#f7fbff" />
         </g>
-        <circle r="7" fill="#fffef6" />
       </g>
-      {WHITE_HOLE_RAYS.map((deg) => {
-        const rad = ((deg - 8) * Math.PI) / 180;
-        const x2 = Math.cos(rad) * 118;
-        const y2 = Math.sin(rad) * 52;
-        return (
-          <line
-            key={deg}
-            x1={Math.cos(rad) * 28}
-            y1={Math.sin(rad) * 12}
-            x2={x2}
-            y2={y2}
-            className="white-hole__ray"
-          />
-        );
-      })}
+      <path d="M 28 -8 C 72 -36, 118 -22, 148 -6" className="white-hole__ray" fill="none" />
+      <path d="M 30 0 C 80 2, 124 4, 156 6" className="white-hole__ray" fill="none" />
+      <path d="M 28 8 C 72 34, 118 24, 148 10" className="white-hole__ray" fill="none" />
+      <path d="M 26 -18 C 58 -48, 96 -44, 128 -28" className="white-hole__ray" fill="none" />
+      <path d="M 26 18 C 58 48, 96 44, 128 28" className="white-hole__ray" fill="none" />
     </g>
   );
 }
@@ -200,43 +198,35 @@ export function LandscapeAtlas() {
         </desc>
         <defs>
           <linearGradient id="atlas-flow" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="var(--atlas-ink)" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="var(--atlas-accent)" stopOpacity="0.85" />
+            <stop offset="0%" stopColor="var(--atlas-ink)" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#6b7788" stopOpacity="0.7" />
           </linearGradient>
-          <radialGradient id="wh-bloom" cx="62%" cy="48%" r="58%">
-            <stop offset="0%" stopColor="#fff8ee" stopOpacity="0.95" />
-            <stop offset="28%" stopColor="var(--atlas-accent)" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="var(--atlas-accent)" stopOpacity="0" />
+          <radialGradient id="wh-halo" cx="70%" cy="48%" r="62%">
+            <stop offset="0%" stopColor="#f4f8ff" stopOpacity="0.95" />
+            <stop offset="32%" stopColor="#c5d4ea" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="#c5d4ea" stopOpacity="0" />
           </radialGradient>
-          <radialGradient id="wh-disk" cx="38%" cy="42%" r="70%">
-            <stop offset="0%" stopColor="#1a1210" stopOpacity="0.92" />
-            <stop offset="55%" stopColor="var(--atlas-accent)" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#1a1210" stopOpacity="0.15" />
+          <radialGradient id="wh-depth" cx="30%" cy="45%" r="75%">
+            <stop offset="0%" stopColor="#0b1018" stopOpacity="0.88" />
+            <stop offset="70%" stopColor="#1c2838" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="#dce6f4" stopOpacity="0.05" />
           </radialGradient>
-          <linearGradient id="wh-rim" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#2a1a16" />
-            <stop offset="45%" stopColor="var(--atlas-accent)" />
-            <stop offset="100%" stopColor="#fff6ea" />
+          <linearGradient id="wh-caustic" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#1a2330" />
+            <stop offset="55%" stopColor="#9eb4d0" />
+            <stop offset="100%" stopColor="#f7fbff" />
           </linearGradient>
-          <linearGradient id="wh-throat" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#0d0b0a" />
-            <stop offset="55%" stopColor="#3a221c" />
-            <stop offset="100%" stopColor="#fffaf2" />
-          </linearGradient>
-          <radialGradient id="wh-infall" cx="30%" cy="50%" r="70%">
-            <stop offset="0%" stopColor="#050403" />
-            <stop offset="100%" stopColor="#1a1210" />
+          <radialGradient id="wh-infall" cx="28%" cy="50%" r="72%">
+            <stop offset="0%" stopColor="#06080c" />
+            <stop offset="100%" stopColor="#1a2330" />
           </radialGradient>
-          <radialGradient id="wh-core" cx="70%" cy="45%" r="70%">
+          <radialGradient id="wh-core" cx="62%" cy="42%" r="68%">
             <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="40%" stopColor="#fff4e4" />
-            <stop offset="100%" stopColor="var(--atlas-accent)" stopOpacity="0.2" />
+            <stop offset="45%" stopColor="#e7f0ff" />
+            <stop offset="100%" stopColor="#b8cbe4" stopOpacity="0.15" />
           </radialGradient>
           <clipPath id="wh-left">
             <rect x="-80" y="-80" width="80" height="160" />
-          </clipPath>
-          <clipPath id="wh-right">
-            <rect x="0" y="-80" width="80" height="160" />
           </clipPath>
           <filter id="wh-soft" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="2.4" />

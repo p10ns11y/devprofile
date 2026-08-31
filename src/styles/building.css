@@ -121,10 +121,10 @@
 }
 
 .white-hole__ray {
-  stroke: color-mix(in oklch, var(--atlas-accent) 35%, white);
-  stroke-width: 1.1;
+  stroke: #c9d7ea;
+  stroke-width: 1.05;
   stroke-linecap: round;
-  opacity: 0.55;
+  opacity: 0.7;
 }
 
 .building-atlas__sink-label {
@@ -134,7 +134,7 @@
 }
 
 .building-atlas__sink-sub {
-  fill: var(--color-brand-emphasis);
+  fill: #5c6d82;
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
