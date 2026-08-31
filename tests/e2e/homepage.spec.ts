@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { openMobileMenuIfNeeded } from "./helpers/mobile-nav";
+import { openMobileMenuIfNeeded, siteNav } from "./helpers/mobile-nav";
 
 const leftoverOneLiner = /Senior Software Engineer with 9\+ years in scalable web apps/;
 
@@ -21,7 +21,7 @@ test.describe("Homepage", () => {
     await page.goto("/");
 
     await openMobileMenuIfNeeded(page, isMobile);
-    await page.getByRole("link", { name: "X", exact: true }).click();
+    await siteNav(page, isMobile).locator('a[href="/x"]').click();
     await expect(page).toHaveURL(/\/x$/);
 
     await page.goBack();
