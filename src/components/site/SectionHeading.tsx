@@ -7,6 +7,7 @@ type SectionHeadingProps = {
   description?: ReactNode;
   showUnderline?: boolean;
   className?: string;
+  headingLevel?: "h1" | "h2";
 };
 
 export function SectionHeading({
@@ -16,13 +17,15 @@ export function SectionHeading({
   description,
   showUnderline = false,
   className = "",
+  headingLevel = "h2",
 }: SectionHeadingProps) {
+  const HeadingTag = headingLevel;
   return (
     <header className={`section-heading ${className}`.trim()}>
       {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
-      <h2 id={id} className="section-title">
+      <HeadingTag id={id} className="section-title">
         {title}
-      </h2>
+      </HeadingTag>
       {showUnderline ? <div className="section-heading__rule" aria-hidden="true" /> : null}
       {description ? <p className="section-lead break-words">{description}</p> : null}
     </header>

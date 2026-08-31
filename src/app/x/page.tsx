@@ -32,17 +32,24 @@ export default function XSearchPage() {
           <p className="mt-4 text-lg text-text2">
             Browse top posts and live activity on X, eight days at a time.
           </p>
-          <p className="mt-3 text-sm text-text2">{intervals.length} periods</p>
+          <p className="mt-3 text-sm text-text2" data-visual-live>
+            {intervals.length} periods
+          </p>
         </div>
 
-        <div className="grid w-full grid-cols-1 items-stretch gap-4 lg:grid-cols-[1.618fr_1fr]">
+        <div
+          className="grid w-full grid-cols-1 items-stretch gap-4 lg:grid-cols-[1.618fr_1fr]"
+          data-visual-live
+        >
           <XDateRangePicker className="h-full" />
           {current && (
             <XSearchCard interval={current} isRecent compact className="h-full min-h-0" />
           )}
         </div>
 
-        <XPastPeriods sections={pastSections} />
+        <div data-visual-live>
+          <XPastPeriods sections={pastSections} />
+        </div>
       </div>
 
       <Footer />
