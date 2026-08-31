@@ -5,8 +5,15 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type React from "react";
 import { useEffect, useId, useReducer, useRef } from "react";
 import { cn } from "@/components/ui/utils";
+import { lcvInteract } from "@/lib/lcv-interact";
 import { getSuggestedQuestionsByCategory } from "@/lib/qa/suggested-questions";
-import { fetchQaAnswer, initialQaState, type QAResult, qaReducer } from "./profile-qa-state";
+import {
+  fetchQaAnswer,
+  initialQaState,
+  type QAResult,
+  type QaStatus,
+  qaReducer,
+} from "./profile-qa-state";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
@@ -30,6 +37,18 @@ function strategyLabel(strategy?: string): string | null {
   if (strategy === "template") return "Template";
   if (strategy === "ollama") return "Local";
   return strategy;
+}
+
+const QA_STATES = "idle loading error success";
+
+function qaAskInteract(from: QaStatus, disabled: boolean) {
+  return lcvInteract({
+    event: "ask",
+    from,
+    success: "success",
+    fail: disabled ? from : "error",
+    interrupted: from,
+  });
 }
 
 export function ProfileQA({ className }: ProfileQAProps) {
@@ -91,6 +110,9 @@ export function ProfileQA({ className }: ProfileQAProps) {
         "grid min-h-0 grid-cols-1 grid-rows-[auto_minmax(0,1fr)] gap-3 lg:grid-cols-[minmax(13.5rem,17rem)_minmax(0,1fr)] lg:grid-rows-1 lg:gap-5",
         className
       )}
+      data-lcv-machine="qa-desk"
+      data-lcv-ui-state={status}
+      data-lcv-states={QA_STATES}
     >
       {/* ── Tracks rail: scannable labels, never full essay questions ── */}
       <aside className="min-h-0 lg:flex lg:flex-col" aria-label="Suggested questions">
@@ -118,6 +140,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
                     ? "border-brand/50 bg-[var(--color-brand-subtle)] text-text1"
                     : "border-border/35 bg-surface2 text-text2 hover:border-brand/35 hover:text-text1"
                 )}
+                {...qaAskInteract(status, loading)}
               >
                 {item.label}
               </button>
@@ -151,6 +174,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
                               ? "border-brand/50 bg-[var(--color-brand-subtle)] font-medium text-text1"
                               : "border-transparent bg-transparent text-text2 hover:border-border/40 hover:bg-surface2 hover:text-text1"
                           )}
+                          {...qaAskInteract(status, loading)}
                         >
                           {item.label}
                         </button>
@@ -217,6 +241,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
                 "disabled:opacity-40"
               )}
               aria-label={loading ? "Finding answer" : "Ask question"}
+              {...qaAskInteract(status, loading || !question.trim())}
             >
               {loading ? (
                 <Loader2 className="size-4 animate-spin" aria-hidden />
@@ -231,7 +256,10 @@ export function ProfileQA({ className }: ProfileQAProps) {
         </form>
 
         {/* Scrollable pane: ONLY the answer/empty/loading/error lives here */}
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <div
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain"
+          data-lcv="must-show"
+        >
           <AnimatePresence mode="wait">
             {status === "error" && error && (
               <motion.div
@@ -242,7 +270,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
                 exit={reduceMotion ? undefined : { opacity: 0 }}
                 className="m-3 rounded-xl border border-red-500/30 bg-red-500/8 px-4 py-3 sm:m-4"
               >
-                <p className="text-sm text-red-900 dark:text-red-100">
+                <p className="text-sm text-red-900 dark:text-red-100" data-lcv="must-show">
                   Couldn’t answer that just now. {error}
                 </p>
               </motion.div>
@@ -262,7 +290,9 @@ export function ProfileQA({ className }: ProfileQAProps) {
                 <div className="min-w-0 space-y-1">
                   <p className="text-sm font-medium text-text1">Looking that up…</p>
                   {activeQuestion && (
-                    <p className="text-sm text-text2 line-clamp-3">“{activeQuestion}”</p>
+                    <p className="text-sm text-text2 line-clamp-3" data-lcv="preview">
+                      “{activeQuestion}”
+                    </p>
                   )}
                 </div>
               </motion.div>
@@ -287,6 +317,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
                     disabled={loading}
                     onClick={() => askQuestion(TRACKS[0]?.items[0]?.question ?? "")}
                     className="font-medium text-brand underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+                    {...qaAskInteract(status, loading)}
                   >
                     {TRACKS[0]?.items[0]?.label ?? "a suggested question"}
                   </button>

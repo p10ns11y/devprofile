@@ -196,18 +196,21 @@
   height: 100%;
   min-height: 0;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .profile-deck__pane {
   display: flex;
-  height: 100%;
+  box-sizing: border-box;
   width: 100%;
   max-width: 42rem;
+  min-height: 100%;
+  height: auto;
   margin-inline: auto;
   flex-direction: column;
-  justify-content: center;
-  overflow: hidden;
+  justify-content: safe center;
+  overflow: visible;
   padding: 0.55rem var(--marketing-inset-x) 0.65rem;
 }
 
@@ -252,6 +255,7 @@
   line-height: 1.08;
   letter-spacing: -0.03em;
   color: var(--color-text);
+  overflow-wrap: anywhere;
 }
 
 .profile-deck__arrive-line {
@@ -308,6 +312,7 @@
 .profile-deck__title--feature {
   font-size: clamp(1.35rem, 2.5vw, 1.9rem);
   color: var(--color-brand-emphasis);
+  overflow-wrap: anywhere;
 }
 
 .profile-deck__title--feature .profile-deck__link {
@@ -755,7 +760,7 @@ a.profile-deck__tech-pill:hover {
   justify-content: space-between;
   gap: 0.75rem;
   min-height: 2.65rem;
-  padding: 0.15rem var(--marketing-inset-x);
+  padding: 0.35rem var(--marketing-inset-x);
   border-top: 1px solid var(--color-border-subtle);
 }
 
@@ -786,9 +791,9 @@ a.profile-deck__tech-pill:hover {
   margin: 0;
   min-width: 0;
   flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  white-space: normal;
   text-align: center;
   font-size: 0.8125rem;
   color: var(--color-text-muted);

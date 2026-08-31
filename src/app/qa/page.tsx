@@ -26,10 +26,13 @@ export default function ProfileQAPage() {
           <header className="shrink-0 border-b border-border/25 py-3 sm:py-3.5">
             <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-1">
               <div className="min-w-0">
-                <h1 className="font-[family-name:var(--font-display)] text-[clamp(1.5rem,3.5vw,2rem)] leading-tight tracking-[-0.03em] text-text1">
+                <h1
+                  className="font-[family-name:var(--font-display)] text-[clamp(1.5rem,3.5vw,2rem)] leading-tight tracking-[-0.03em] text-text1"
+                  data-lcv="must-show"
+                >
                   Ask me about my work
                 </h1>
-                <p className="mt-0.5 text-sm text-text2">
+                <p className="mt-0.5 text-sm text-text2" data-lcv="must-show">
                   Real answers from my experience — try a suggested question or write your own
                 </p>
               </div>

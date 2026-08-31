@@ -1,6 +1,7 @@
 "use client";
 
 import { Eye, Sun } from "lucide-react";
+import { lcvInteract } from "@/lib/lcv-interact";
 import { useTheme } from "./theme-provider";
 import { Button } from "./ui/button";
 
@@ -36,6 +37,13 @@ export function ThemeToggle() {
       className="w-9 h-9 p-0 cursor-pointer"
       title={`Switch to ${nextTheme} theme`}
       aria-label={`Switch to ${nextTheme} theme`}
+      {...lcvInteract({
+        event: "toggle-theme",
+        from: `theme:${theme}`,
+        success: `theme:${nextTheme}`,
+        fail: `theme:${theme}`,
+        interrupted: `theme:${theme}`,
+      })}
     >
       {getIcon()}
     </Button>
