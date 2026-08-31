@@ -47,7 +47,7 @@ export function Background() {
       <SectionHeading
         id={headingId}
         title="Academic"
-        description="The Uppsala master's ran from 2010 to 2016. I stayed with the thesis a bit longer and published it as a conference paper, then a journal article."
+        description="The Uppsala master's ran from 2010 to 2016. I stayed with the thesis a bit longer through a personal interval — marriage, settling in — then published it as a conference paper and a journal article."
         showUnderline
       />
 
@@ -99,15 +99,21 @@ export function Background() {
           </p>
         </section>
 
-        {recentCourses().length > 0 ? (
-          <p className="section-lead">
-            {recentCourses()
-              .slice(0, 3)
-              .map((course) => course.name)
-              .join(", ")}
-            .
-          </p>
-        ) : null}
+        <section aria-labelledby="courses-heading">
+          <h3 id="courses-heading" className="subsection-title">
+            Courses
+          </h3>
+          <ul className="work-beats">
+            {recentCourses().map((course) => (
+              <li key={course.name}>
+                <a href={course.url} target="_blank" rel="noopener noreferrer">
+                  {course.name}
+                </a>
+                {course.provider ? ` · ${course.provider}` : null}
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
     </SectionShell>
   );

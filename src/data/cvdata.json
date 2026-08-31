@@ -906,6 +906,7 @@
       "description": "Babel plugin for generating react-intl message files",
       "type": "work_oss",
       "url": "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator",
+      "npm_url": "https://www.npmjs.com/package/babel-plugin-react-intl-messages-generator",
       "technologies": ["Babel", "JavaScript", "react-intl"],
       "is_open_source": true,
       "meta": {
@@ -1056,7 +1057,7 @@
     "contact_lead": "Available now for a permanent senior role.",
     "contact_aside": "Stockholm. AI-native product or agent work, or senior fullstack where AI is already part of the job.",
     "form_placeholder": "Role, company, and why you are writing.",
-    "credentials_quote": "Grok and coding agents are becoming mostly sufficient even for advanced work. Well-crafted courses, built with deliberate team effort and AI assistance, still offer powerful leverage. They compress extensive research, impose useful structure, and surface new ways of thinking, saving the learner significant time and friction. What ultimately matters most is the learner's own curiosity and interest. The highest-value courses deliver outcomes that are highly applicable, pragmatic, and relevant to the current state of the art, creating positive impact for both the individual and society while remaining cost-effective.",
+    "credentials_quote": "Harnesses such as Grok Build, and persistent-agent swarms such as Grok Bot, are becoming mostly sufficient even for advanced work. Well-crafted courses, built with deliberate team effort and AI assistance, still offer powerful leverage. They compress extensive research, impose useful structure, and surface new ways of thinking, saving the learner significant time and friction. What ultimately matters most is the learner's own curiosity and interest. The highest-value courses deliver outcomes that are highly applicable, pragmatic, and relevant to the current state of the art, creating positive impact for both the individual and society while remaining cost-effective.",
     "meta_description": "Available now in Stockholm. AI-native product or agent engineer, and senior fullstack where AI is already part of the job.",
     "work_lead": "December 2024 to present is family care plus shipped products. The chronology is on the CV. This page sells from sourced metrics and artifacts.",
     "claim_families": [
@@ -1181,7 +1182,11 @@
         "detail": "IEEE CloudCom 2015: energy efficiency as an orchestration service. Research, not lab employment.",
         "where": "Publications",
         "source": "cvdata.publications",
-        "href": "/essays"
+        "links": [
+          { "label": "IEEE", "url": "https://ieeexplore.ieee.org/document/7396150" },
+          { "label": "Wiley", "url": "https://onlinelibrary.wiley.com/doi/10.1155/2017/6562915" },
+          { "label": "Thesis", "url": "/pdfs/master-thesis.pdf" }
+        ]
       },
       {
         "id": "PP-collab",

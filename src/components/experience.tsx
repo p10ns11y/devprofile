@@ -40,10 +40,14 @@ export function Experience() {
                         <span className="claim-evidence__body">
                           <span className="claim-evidence__detail">{item.detail}</span>
                           <span className="claim-evidence__where">{item.where}</span>
-                          {item.href ? (
-                            <a href={item.href.url} className="claim-evidence__link">
-                              {item.href.label}
-                            </a>
+                          {item.hrefs.length > 0 ? (
+                            <span className="claim-evidence__links">
+                              {item.hrefs.map((link) => (
+                                <a key={link.url} href={link.url} className="claim-evidence__link">
+                                  {link.label}
+                                </a>
+                              ))}
+                            </span>
                           ) : null}
                         </span>
                       </li>

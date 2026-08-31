@@ -25,6 +25,35 @@ export function projectRepoUrl(key: string): string | undefined {
   return projectByKey(key)?.url;
 }
 
+/** npm registry URL when the artifact is a published package. */
+export function projectNpmUrl(key: string): string | undefined {
+  const project = projectByKey(key);
+  if (!project || !("npm_url" in project)) {
+    return undefined;
+  }
+  const npmUrl = project.npm_url;
+  return typeof npmUrl === "string" && npmUrl.startsWith("https://") ? npmUrl : undefined;
+}
+
+type EvidenceLink = { label: string; url: string };
+
+function namedLinks(row: (typeof cvdata.landing.evidence)[number]): EvidenceLink[] {
+  if ("links" in row && Array.isArray(row.links)) {
+    return row.links.flatMap((link) => {
+      if (
+        typeof link === "object" &&
+        link &&
+        typeof link.label === "string" &&
+        typeof link.url === "string"
+      ) {
+        return [{ label: link.label, url: link.url }];
+      }
+      return [];
+    });
+  }
+  return [];
+}
+
 export function recentCourses() {
   return cvdata.courses;
 }
@@ -81,7 +110,8 @@ export type WorkEvidence = {
   figure?: string;
   detail: string;
   where: string;
-  href?: { label: string; url: string };
+  href?: EvidenceLink;
+  hrefs: EvidenceLink[];
 };
 
 export type WorkClaim = {
@@ -109,16 +139,24 @@ export function getWorkClaims(): {
         }
         const projectKey =
           "project_key" in row && typeof row.project_key === "string" ? row.project_key : undefined;
+        const npmUrl = projectKey ? projectNpmUrl(projectKey) : undefined;
         const repo = projectKey ? projectRepoUrl(projectKey) : undefined;
         const direct = "href" in row && typeof row.href === "string" ? row.href : undefined;
-        const url = repo ?? direct;
+        const explicit = namedLinks(row);
         const figure = "figure" in row && typeof row.figure === "string" ? row.figure : undefined;
+        const fallbackUrl = npmUrl ?? repo ?? direct;
         const linkLabel =
           "link_label" in row && typeof row.link_label === "string"
             ? row.link_label
-            : repo
+            : npmUrl || repo
               ? "Source"
               : "Read";
+        const hrefs =
+          explicit.length > 0
+            ? explicit
+            : fallbackUrl
+              ? [{ label: linkLabel, url: fallbackUrl }]
+              : [];
         return [
           {
             id: row.id,
@@ -126,7 +164,8 @@ export function getWorkClaims(): {
             figure,
             detail: row.detail,
             where: row.where,
-            href: url ? { label: linkLabel, url } : undefined,
+            href: hrefs[0],
+            hrefs,
           },
         ];
       }),

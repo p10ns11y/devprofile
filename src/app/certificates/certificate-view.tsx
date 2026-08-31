@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
 
 import { DocumentViewer } from "@/components/document-viewer";
+import { EarnedCourseCards } from "@/components/earned-course-cards";
 import { PageShell } from "@/components/site/PageShell";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import cvdata from "@/data/cvdata.json";
@@ -56,7 +57,14 @@ export default function CertificateViewComponent() {
             headingLevel="h1"
           />
 
-          <ul role="list" className="credentials-grid" data-grid="catalog">
+          <EarnedCourseCards headingId="earned-courses-heading" />
+
+          <section className="credentials-block" aria-labelledby="earned-certificates-heading">
+            <h2 id="earned-certificates-heading" className="subsection-title subsection-heading">
+              Certificates
+            </h2>
+
+            <ul role="list" className="credentials-grid" data-grid="catalog">
             {certificates.map((cert) => (
               <li key={cert.id} className="min-w-0">
                 <button
@@ -86,6 +94,7 @@ export default function CertificateViewComponent() {
               </li>
             ))}
           </ul>
+          </section>
         </div>
       </div>
 
