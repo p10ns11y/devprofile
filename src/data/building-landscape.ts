@@ -39,57 +39,79 @@ export const BUILDING_BLURB: Record<string, string> = {
     "Operator. Uses Grok Bot, Grok Build, and the projects on this map as tools. Local kernel plus playable HITL.",
   thepulimaangani: "Tamil metre in the browser. Rust/WASM parser and React UI.",
   "shelf-life":
-    "When a book is on the shelf it has shelf-life. When it is with you it becomes another living experience.",
+    "Writing — tech books and companions. When a book is on the shelf it has shelf-life. When it is with you it becomes another living experience.",
   "prototype-it-to-explain-itself":
     "Smallest complete prototypes so the code teaches the idea. Character-level LSTM (~150k params), temperature sampling, minimal ReAct agent. Education, not production training.",
 };
 
-export const BUILDING_CLUSTERS = [
-  {
-    id: "agentic",
-    title: "Agentic reactor",
-    keys: ["collab-finder", "agent-prompt-tuning-lab", "skills", "plugins"],
-  },
-  {
-    id: "presence",
-    title: "Presence",
-    keys: ["devprofile"],
-  },
-  {
-    id: "foundations",
-    title: "Foundations",
-    keys: ["elomaxz", "adaptate", "premflow"],
-  },
-  {
-    id: "systems",
-    title: "Low-level systems",
-    keys: ["arch-machine", "shellyxz.sh", "mesh"],
-  },
-  {
-    id: "cultural",
-    title: "Cultural root",
-    keys: ["thepulimaangani", "shelf-life"],
-  },
-  {
-    id: "research",
-    title: "Study / observe / learn",
-    keys: ["prototype-it-to-explain-itself"],
-  },
-  {
-    id: "operator",
-    title: "Operator",
-    keys: ["ensembly"],
-    nearSink: true,
-  },
-] as const;
+export type ClusterId =
+  | "agentic-reactor"
+  | "presence-career"
+  | "foundations-infra"
+  | "cultural-creative"
+  | "research-prototypes";
 
-export const BUILDING_LAYOUT = {
-  labelX: 28,
-  nodeX: 280,
-  operatorX: 720,
-  row: 28,
-  groupGap: 16,
-  top: 28,
-  width: 1100,
-  sinkX: 980,
-} as const;
+export type AreaId = "career" | "systems" | "creative" | "learning";
+
+export type AtlasProject = {
+  key: string;
+  cluster: ClusterId;
+  area: AreaId;
+  /** Display-only craft line. Not a taxonomy. */
+  epithet?: "writing" | "metre";
+  role?: "operator";
+};
+
+export type ClusterRecord = { id: ClusterId; title: string };
+export type AreaRecord = { id: AreaId; title: string };
+
+export const BUILDING_CLUSTERS: readonly ClusterRecord[] = [
+  { id: "agentic-reactor", title: "Agentic reactor" },
+  { id: "presence-career", title: "Presence + career leverage" },
+  { id: "foundations-infra", title: "Daily foundations + infra" },
+  { id: "cultural-creative", title: "Cultural + creative root" },
+  { id: "research-prototypes", title: "Research prototypes" },
+];
+
+export const BUILDING_AREAS: readonly AreaRecord[] = [
+  { id: "career", title: "Career" },
+  { id: "systems", title: "Systems" },
+  { id: "creative", title: "Creative" },
+  { id: "learning", title: "Learning" },
+];
+
+export const BUILDING_PROJECTS: readonly AtlasProject[] = [
+  { key: "collab-finder", cluster: "agentic-reactor", area: "career" },
+  { key: "agent-prompt-tuning-lab", cluster: "agentic-reactor", area: "learning" },
+  { key: "skills", cluster: "agentic-reactor", area: "systems" },
+  { key: "plugins", cluster: "agentic-reactor", area: "systems" },
+  { key: "devprofile", cluster: "presence-career", area: "career" },
+  { key: "elomaxz", cluster: "foundations-infra", area: "systems" },
+  { key: "adaptate", cluster: "foundations-infra", area: "systems" },
+  { key: "premflow", cluster: "foundations-infra", area: "systems" },
+  { key: "arch-machine", cluster: "foundations-infra", area: "systems" },
+  { key: "shellyxz.sh", cluster: "foundations-infra", area: "systems" },
+  { key: "mesh", cluster: "foundations-infra", area: "systems" },
+  {
+    key: "thepulimaangani",
+    cluster: "cultural-creative",
+    area: "creative",
+    epithet: "metre",
+  },
+  {
+    key: "shelf-life",
+    cluster: "cultural-creative",
+    area: "creative",
+    epithet: "writing",
+  },
+  { key: "prototype-it-to-explain-itself", cluster: "research-prototypes", area: "learning" },
+  { key: "ensembly", cluster: "agentic-reactor", area: "systems", role: "operator" },
+];
+
+export function projectsInCluster(cluster: ClusterId): AtlasProject[] {
+  return BUILDING_PROJECTS.filter((project) => project.cluster === cluster);
+}
+
+export function projectsInArea(area: AreaId): AtlasProject[] {
+  return BUILDING_PROJECTS.filter((project) => project.area === area);
+}

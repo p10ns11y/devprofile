@@ -1,17 +1,24 @@
 import {
-  BUILDING_BLURB,
-  BUILDING_CLUSTERS,
-  BUILDING_FALLBACK_URL,
-  BUILDING_LAYOUT,
-  BUILDING_PRIVATE,
-  BUILDING_SINGULARITY,
-} from "@/data/building-landscape";
-import { projectByKey } from "@/lib/homepage-from-cvdata";
+  ATLAS_EPITHET_DY,
+  ATLAS_NAME_BASELINE,
+  dockLabelX,
+  layoutAtlas,
+  type PlacedStar,
+  starNameAnchorX,
+  visibleProjects,
+} from "@/components/building/atlas-layout";
+import { BUILDING_AREAS, BUILDING_CLUSTERS, BUILDING_SINGULARITY } from "@/data/building-landscape";
 
-function curvePath(x1: number, y1: number, x2: number, y2: number) {
-  const mx = (x1 + x2) / 2;
-  return `M ${x1} ${y1} C ${mx + 80} ${y1}, ${mx - 40} ${y2}, ${x2} ${y2}`;
-}
+export type {
+  AreaDock,
+  AtlasScene,
+  ClusterBand,
+  Curve,
+  GridSeg,
+  InkRect,
+  PlacedStar,
+} from "@/components/building/atlas-layout";
+export { layoutAtlas, visibleProjects } from "@/components/building/atlas-layout";
 
 const WHITE_HOLE_RINGS = [
   { rx: 112, ry: 38, offset: 0 },
@@ -54,147 +61,72 @@ function WhiteHole() {
   );
 }
 
-type AtlasNode = {
-  key: string;
-  name: string;
-  href?: string;
-  detail: string;
-  privateCooking: boolean;
-  x: number;
-  y: number;
-};
-
-function resolveProject(key: string) {
-  const project = projectByKey(key);
-  const href = project?.url ?? BUILDING_FALLBACK_URL[key];
-  const detail = BUILDING_BLURB[key] ?? project?.description;
-  const privateCooking = BUILDING_PRIVATE.has(key);
-  return {
-    key,
-    name: project?.name ?? key,
-    href: privateCooking ? undefined : href,
-    detail,
-    privateCooking,
-  };
+function starKind(placedStar: PlacedStar): "operator" | "private" | "public" {
+  if (placedStar.role === "operator") {
+    return "operator";
+  }
+  if (placedStar.privateCooking) {
+    return "private";
+  }
+  return "public";
 }
 
-function layoutClusters() {
-  const { labelX, nodeX, operatorX, row, groupGap, top } = BUILDING_LAYOUT;
-  let y = top;
-  const left = BUILDING_CLUSTERS.filter((cluster) => !("nearSink" in cluster && cluster.nearSink));
-  const near = BUILDING_CLUSTERS.filter((cluster) => "nearSink" in cluster && cluster.nearSink);
-
-  const leftGroups = left.map((cluster) => {
-    const nodes: AtlasNode[] = cluster.keys.flatMap((key, index) => {
-      const resolved = resolveProject(key);
-      if (!resolved.detail) {
-        return [];
-      }
-      if (!resolved.href && !resolved.privateCooking) {
-        return [];
-      }
-      return [
-        {
-          key: resolved.key,
-          name: resolved.name,
-          href: resolved.href,
-          detail: resolved.detail,
-          privateCooking: resolved.privateCooking,
-          x: nodeX,
-          y: y + index * row,
-        },
-      ];
-    });
-    const firstY = nodes[0]?.y ?? y;
-    const lastY = nodes.at(-1)?.y ?? y;
-    const clusterY = (firstY + lastY) / 2;
-    y = lastY + row + groupGap;
-    return { cluster, nodes, labelX, clusterY };
-  });
-
-  const mapHeight = Math.max(y + 36, 520);
-  const sinkY = mapHeight / 2;
-  let operatorY = sinkY;
-
-  const operatorGroups = near.map((cluster) => {
-    const nodes: AtlasNode[] = cluster.keys.flatMap((key, index) => {
-      const resolved = resolveProject(key);
-      if (!resolved.detail) {
-        return [];
-      }
-      if (!resolved.href && !resolved.privateCooking) {
-        return [];
-      }
-      return [
-        {
-          key: resolved.key,
-          name: resolved.name,
-          href: resolved.href,
-          detail: resolved.detail,
-          privateCooking: resolved.privateCooking,
-          x: operatorX,
-          y: operatorY + index * row,
-        },
-      ];
-    });
-    const firstY = nodes[0]?.y ?? operatorY;
-    const lastY = nodes.at(-1)?.y ?? operatorY;
-    operatorY = lastY + row;
-    return { cluster, nodes, labelX: operatorX - 140, clusterY: (firstY + lastY) / 2 };
-  });
-
-  return { groups: [...leftGroups, ...operatorGroups], height: mapHeight, sinkY };
-}
-
-function ProjectMark({
-  node,
-}: {
-  node: {
-    key: string;
-    name: string;
-    href?: string;
-    x: number;
-    y: number;
-  };
-}) {
+function ProjectMark({ placedStar }: { placedStar: PlacedStar }) {
+  const nameX = starNameAnchorX(placedStar);
   const mark = (
     <>
-      <circle cx={node.x} cy={node.y} r="6" className="building-atlas__star" />
-      <text x={node.x + 14} y={node.y + 4} className="building-atlas__label">
-        {node.name}
+      <circle
+        cx={placedStar.x}
+        cy={placedStar.y}
+        r={placedStar.r}
+        className="building-atlas__star"
+        data-star={starKind(placedStar)}
+      />
+      <text
+        x={nameX}
+        y={placedStar.y + ATLAS_NAME_BASELINE}
+        className="building-atlas__label"
+        textAnchor="end"
+      >
+        {placedStar.name}
       </text>
+      {placedStar.epithet ? (
+        <text
+          x={nameX}
+          y={placedStar.y + ATLAS_EPITHET_DY}
+          className="building-atlas__epithet"
+          textAnchor="end"
+        >
+          {placedStar.epithet}
+        </text>
+      ) : null}
     </>
   );
-  if (!node.href) {
-    return <g key={node.key}>{mark}</g>;
+  if (!placedStar.href) {
+    return <g>{mark}</g>;
   }
-  return (
-    <a key={node.key} href={node.href}>
-      {mark}
-    </a>
-  );
+  return <a href={placedStar.href}>{mark}</a>;
 }
 
 export function LandscapeAtlas() {
-  const { groups, height, sinkY } = layoutClusters();
-  const nodes = groups.flatMap((group) => group.nodes);
-  const sink = { x: BUILDING_LAYOUT.sinkX, y: sinkY };
+  const scene = layoutAtlas();
 
   return (
     <figure className="building-atlas">
       <svg
-        viewBox={`0 0 ${BUILDING_LAYOUT.width} ${height}`}
+        viewBox={`0 0 ${scene.width} ${scene.height}`}
         preserveAspectRatio="xMinYMid meet"
         role="img"
         aria-labelledby="atlas-title atlas-desc"
         className="building-atlas__svg"
       >
         <title id="atlas-title">
-          One operator loop drawn as a white hole. Infall on the left, light on the right.
+          Five cluster bands and four area docks feeding one operator loop, drawn as a white hole.
         </title>
         <desc id="atlas-desc">
-          Clusters on the left fall toward a dark throat. The operator loop is drawn as a white
-          hole on the far side: light coming out, not a well swallowing the work.
+          Cluster bands on the left hold the work. Names sit left of stars. Hops run to four area
+          docks — Career, Systems, Creative, Learning — then trunks to a white hole. Writing and
+          metre share Creative. The operator sits beside the hole.
         </desc>
         <defs>
           <linearGradient id="atlas-flow" x1="0" y1="0" x2="1" y2="0">
@@ -233,45 +165,87 @@ export function LandscapeAtlas() {
           </filter>
         </defs>
 
-        <rect width={BUILDING_LAYOUT.width} height={height} fill="var(--atlas-ground)" />
+        <rect width={scene.width} height={scene.height} fill="var(--atlas-ground)" />
 
-        {Array.from({ length: Math.ceil(height / 52) }, (_, i) => (
+        {scene.bands.map((clusterBand) => (
+          <rect
+            key={`band-${clusterBand.cluster}`}
+            className="building-atlas__band"
+            x={0}
+            y={clusterBand.y}
+            width={scene.stars[0] ? scene.stars[0].x + scene.stars[0].r + 4 : 0}
+            height={clusterBand.height}
+          />
+        ))}
+
+        {scene.grid.map((seg) => (
           <line
-            key={`h-${i}`}
-            x1="24"
-            x2={BUILDING_LAYOUT.width - 24}
-            y1={24 + i * 52}
-            y2={24 + i * 52}
+            key={`grid-${seg.y1}`}
+            x1={seg.x1}
+            x2={seg.x2}
+            y1={seg.y1}
+            y2={seg.y2}
             className="building-atlas__grid"
           />
         ))}
 
-        {nodes.map((node) => (
+        {scene.hops.map((hop) => (
           <path
-            key={`edge-${node.key}`}
-            d={curvePath(node.x + 8, node.y, sink.x - 92, sink.y)}
+            key={`hop-${hop.key}`}
+            d={hop.d}
+            className="building-atlas__hop"
             fill="none"
             stroke="url(#atlas-flow)"
-            strokeWidth="1.4"
+            strokeWidth="1.25"
           />
         ))}
 
-        {groups.map((group) => (
+        {scene.trunks.map((trunk) => (
+          <path
+            key={`trunk-${trunk.key}`}
+            d={trunk.d}
+            className="building-atlas__trunk"
+            fill="none"
+            stroke="url(#atlas-flow)"
+            strokeWidth="1.6"
+          />
+        ))}
+
+        {scene.bands.map((clusterBand) => (
           <text
-            key={group.cluster.id}
-            x={group.labelX}
-            y={group.clusterY + 4}
+            key={clusterBand.cluster}
+            x={clusterBand.titleX}
+            y={clusterBand.titleY}
             className="building-atlas__cluster"
           >
-            {group.cluster.title}
+            {clusterBand.title}
           </text>
         ))}
 
-        {nodes.map((node) => (
-          <ProjectMark key={node.key} node={node} />
+        {scene.stars.map((placedStar) => (
+          <ProjectMark key={placedStar.key} placedStar={placedStar} />
         ))}
 
-        <g transform={`translate(${sink.x}, ${sink.y})`}>
+        {scene.docks.map((areaDock) => (
+          <g key={areaDock.area} className="building-atlas__dock-group">
+            <ellipse
+              cx={areaDock.x}
+              cy={areaDock.y}
+              rx={areaDock.rx}
+              ry={areaDock.ry}
+              className="building-atlas__dock"
+            />
+            <text
+              x={dockLabelX(areaDock)}
+              y={areaDock.y + ATLAS_NAME_BASELINE}
+              className="building-atlas__area"
+            >
+              {areaDock.title}
+            </text>
+          </g>
+        ))}
+
+        <g transform={`translate(${scene.sink.x}, ${scene.sink.y})`}>
           <WhiteHole />
           <text className="building-atlas__sink-label" textAnchor="middle" y="58">
             {BUILDING_SINGULARITY.label}
@@ -280,6 +254,8 @@ export function LandscapeAtlas() {
             {BUILDING_SINGULARITY.sublabel}
           </text>
         </g>
+
+        {scene.operator ? <ProjectMark placedStar={scene.operator} /> : null}
       </svg>
       <figcaption className="building-atlas__caption">
         {BUILDING_SINGULARITY.line} Penrose white hole as the other face of a black hole. mesh is
@@ -290,15 +266,21 @@ export function LandscapeAtlas() {
 }
 
 export function BuildingSpacemap() {
-  const rows = layoutClusters().groups.flatMap((group) =>
-    group.nodes.map((node) => ({
-      key: node.key,
-      cluster: group.cluster.title,
-      name: node.name,
-      detail: node.detail,
-      href: node.href,
-    }))
+  const clusterTitleById = Object.fromEntries(
+    BUILDING_CLUSTERS.map((clusterRecord) => [clusterRecord.id, clusterRecord.title])
   );
+  const areaTitleById = Object.fromEntries(
+    BUILDING_AREAS.map((areaRecord) => [areaRecord.id, areaRecord.title])
+  );
+  const rows = visibleProjects().map((placedStar) => ({
+    key: placedStar.key,
+    name: placedStar.name,
+    href: placedStar.href,
+    cluster: clusterTitleById[placedStar.cluster],
+    area: areaTitleById[placedStar.area],
+    detail: placedStar.detail,
+    epithet: placedStar.epithet,
+  }));
 
   return (
     <table className="building-spacemap">
@@ -307,6 +289,7 @@ export function BuildingSpacemap() {
         <tr>
           <th scope="col">Project</th>
           <th scope="col">Cluster</th>
+          <th scope="col">Area</th>
           <th scope="col">What it is</th>
         </tr>
       </thead>
@@ -315,8 +298,12 @@ export function BuildingSpacemap() {
           <tr key={row.key}>
             <th scope="row">
               {row.href ? <a href={row.href}>{row.name}</a> : row.name}
+              {row.epithet ? (
+                <small className="building-spacemap__epithet">{row.epithet}</small>
+              ) : null}
             </th>
             <td>{row.cluster}</td>
+            <td>{row.area}</td>
             <td>{row.detail}</td>
           </tr>
         ))}

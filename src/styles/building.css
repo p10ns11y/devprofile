@@ -90,9 +90,25 @@
   --atlas-accent: var(--color-brand-emphasis);
 }
 
+.building-atlas__band {
+  fill: color-mix(in oklch, var(--color-text) 4.5%, transparent);
+}
+
 .building-atlas__grid {
   stroke: var(--color-border-subtle);
   stroke-width: 0.6;
+}
+
+.building-atlas__cluster,
+.building-atlas__label,
+.building-atlas__epithet,
+.building-atlas__area,
+.building-atlas__sink-label,
+.building-atlas__sink-sub {
+  paint-order: stroke fill;
+  stroke: var(--atlas-ground);
+  stroke-width: 5px;
+  stroke-linejoin: round;
 }
 
 .building-atlas__cluster {
@@ -106,18 +122,50 @@
   fill: var(--color-text);
 }
 
+.building-atlas__star[data-star="private"] {
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: 1.4;
+}
+
+.building-atlas__label {
+  fill: var(--color-text);
+  font-size: 12px;
+  text-anchor: end;
+}
+
 .building-atlas a:hover .building-atlas__star,
 .building-atlas a:focus-visible .building-atlas__star {
   fill: var(--color-brand-emphasis);
+}
+
+.building-atlas a:hover .building-atlas__star[data-star="private"],
+.building-atlas a:focus-visible .building-atlas__star[data-star="private"] {
+  fill: none;
+  stroke: var(--color-brand-emphasis);
 }
 
 .building-atlas a:focus-visible .building-atlas__label {
   fill: var(--color-brand-emphasis);
 }
 
-.building-atlas__label {
-  fill: var(--color-text);
-  font-size: 12px;
+.building-atlas__epithet {
+  fill: var(--color-text-muted);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-anchor: end;
+}
+
+.building-atlas__dock {
+  fill: none;
+  stroke: var(--color-text-muted);
+  stroke-width: 1.25;
+}
+
+.building-atlas__area {
+  fill: var(--color-text-muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
 }
 
 .white-hole__ray {
@@ -174,7 +222,14 @@
   color: var(--color-link);
 }
 
-
+.building-spacemap__epithet {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: 0.04em;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .building-atlas__svg {
