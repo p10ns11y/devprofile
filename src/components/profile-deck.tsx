@@ -289,12 +289,12 @@ function SlideBody({
                   ))}
                 </ul>
               ) : null}
+              <LearnBand>{project.learn}</LearnBand>
             </Cluster>
             <Cluster>
               <p className="profile-deck__lead">{project.summary}</p>
               <Highlights items={project.highlights.slice(0, 3)} />
             </Cluster>
-            <LearnBand>{project.learn}</LearnBand>
           </article>
         </SlideShell>
       );
@@ -318,12 +318,12 @@ function SlideBody({
                 {item.href ? <Ext href={item.href}>{item.name}</Ext> : item.name}
               </h2>
               <TechPills items={splitStack(item.stack)} />
+              <LearnBand>{item.watchFor}</LearnBand>
             </Cluster>
             <Cluster>
               <p className="profile-deck__lead">{item.summary}</p>
               <Highlights items={item.highlights.slice(0, 3)} />
             </Cluster>
-            <LearnBand>{item.watchFor}</LearnBand>
           </article>
         </SlideShell>
       );
@@ -381,12 +381,12 @@ function SlideBody({
                   </li>
                 </ul>
               ) : null}
+              <LearnBand>{poc.proves}</LearnBand>
             </Cluster>
             <Cluster>
               <p className="profile-deck__lead">{poc.summary}</p>
               <Highlights items={poc.highlights.slice(0, 3)} />
             </Cluster>
-            <LearnBand>{poc.proves}</LearnBand>
           </article>
         </SlideShell>
       );

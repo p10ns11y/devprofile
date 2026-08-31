@@ -2,12 +2,19 @@
 
 .profile-deck {
   --deck-stack-gap: 0.65rem;
+  --deck-cluster-gap: 1.25rem;
   display: flex;
   flex-direction: column;
   height: 100dvh;
   overflow: hidden;
   background: var(--color-surface1);
   color: var(--color-text);
+}
+
+@media (max-width: 767px) {
+  .profile-deck {
+    --deck-cluster-gap: 0.55rem;
+  }
 }
 
 .profile-deck__body {
@@ -414,8 +421,8 @@
   max-width: 40rem;
   min-height: 0;
   flex-direction: column;
-  justify-content: space-between;
-  gap: var(--deck-stack-gap);
+  justify-content: flex-start;
+  gap: var(--deck-cluster-gap);
 }
 
 .profile-deck__feature > * {
