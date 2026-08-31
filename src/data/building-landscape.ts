@@ -2,7 +2,10 @@ export const BUILDING_SINGULARITY = {
   id: "loop",
   label: "One operator loop",
   sublabel: "white hole",
+  attribution: "Penrose",
   line: "Projects fall in on the left. The operator is the other face: a white hole. Output, not capture. Personal stack, not a lab claim.",
+  tooltip:
+    "A Penrose white hole is the other side of a black hole: same throat, reverse arrow. A black hole captures; a white hole emits. Projects fall in on the left; the operator is the exit — output, not a trophy well.",
 } as const;
 
 export const BUILDING_FALLBACK_URL: Record<string, string> = {
