@@ -13,6 +13,49 @@ function curvePath(x1: number, y1: number, x2: number, y2: number) {
   return `M ${x1} ${y1} C ${mx + 80} ${y1}, ${mx - 40} ${y2}, ${x2} ${y2}`;
 }
 
+const WHITE_HOLE_RAYS = [-42, -28, -14, 0, 14, 28, 42] as const;
+
+function WhiteHole() {
+  return (
+    <g className="white-hole">
+      <ellipse rx="150" ry="78" fill="url(#wh-bloom)" />
+      <g transform="rotate(-16)">
+        <ellipse rx="96" ry="30" fill="url(#wh-disk)" opacity="0.92" />
+        <ellipse
+          rx="96"
+          ry="30"
+          fill="none"
+          stroke="url(#wh-rim)"
+          strokeWidth="2.2"
+        />
+        <ellipse rx="44" ry="14" fill="url(#wh-throat)" />
+        <g clipPath="url(#wh-left)">
+          <ellipse rx="22" ry="22" fill="url(#wh-infall)" />
+        </g>
+        <g clipPath="url(#wh-right)">
+          <ellipse rx="22" ry="22" fill="url(#wh-core)" filter="url(#wh-soft)" />
+        </g>
+        <circle r="7" fill="#fffef6" />
+      </g>
+      {WHITE_HOLE_RAYS.map((deg) => {
+        const rad = ((deg - 8) * Math.PI) / 180;
+        const x2 = Math.cos(rad) * 118;
+        const y2 = Math.sin(rad) * 52;
+        return (
+          <line
+            key={deg}
+            x1={Math.cos(rad) * 28}
+            y1={Math.sin(rad) * 12}
+            x2={x2}
+            y2={y2}
+            className="white-hole__ray"
+          />
+        );
+      })}
+    </g>
+  );
+}
+
 type AtlasNode = {
   key: string;
   name: string;
@@ -148,19 +191,56 @@ export function LandscapeAtlas() {
         aria-labelledby="atlas-title atlas-desc"
         className="building-atlas__svg"
       >
-        <title id="atlas-title">Landscape of current public projects</title>
+        <title id="atlas-title">
+          One operator loop drawn as a white hole. Infall on the left, light on the right.
+        </title>
         <desc id="atlas-desc">
-          Clusters on the left. Operator sits next to the sink. Lines run to one operator loop.
+          Clusters on the left fall toward a dark throat. The operator loop is drawn as a white
+          hole on the far side: light coming out, not a well swallowing the work.
         </desc>
         <defs>
           <linearGradient id="atlas-flow" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="var(--atlas-ink)" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="var(--atlas-accent)" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="var(--atlas-accent)" stopOpacity="0.85" />
           </linearGradient>
-          <radialGradient id="atlas-well" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="var(--atlas-accent)" stopOpacity="0.28" />
+          <radialGradient id="wh-bloom" cx="62%" cy="48%" r="58%">
+            <stop offset="0%" stopColor="#fff8ee" stopOpacity="0.95" />
+            <stop offset="28%" stopColor="var(--atlas-accent)" stopOpacity="0.35" />
             <stop offset="100%" stopColor="var(--atlas-accent)" stopOpacity="0" />
           </radialGradient>
+          <radialGradient id="wh-disk" cx="38%" cy="42%" r="70%">
+            <stop offset="0%" stopColor="#1a1210" stopOpacity="0.92" />
+            <stop offset="55%" stopColor="var(--atlas-accent)" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="#1a1210" stopOpacity="0.15" />
+          </radialGradient>
+          <linearGradient id="wh-rim" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#2a1a16" />
+            <stop offset="45%" stopColor="var(--atlas-accent)" />
+            <stop offset="100%" stopColor="#fff6ea" />
+          </linearGradient>
+          <linearGradient id="wh-throat" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#0d0b0a" />
+            <stop offset="55%" stopColor="#3a221c" />
+            <stop offset="100%" stopColor="#fffaf2" />
+          </linearGradient>
+          <radialGradient id="wh-infall" cx="30%" cy="50%" r="70%">
+            <stop offset="0%" stopColor="#050403" />
+            <stop offset="100%" stopColor="#1a1210" />
+          </radialGradient>
+          <radialGradient id="wh-core" cx="70%" cy="45%" r="70%">
+            <stop offset="0%" stopColor="#ffffff" />
+            <stop offset="40%" stopColor="#fff4e4" />
+            <stop offset="100%" stopColor="var(--atlas-accent)" stopOpacity="0.2" />
+          </radialGradient>
+          <clipPath id="wh-left">
+            <rect x="-80" y="-80" width="80" height="160" />
+          </clipPath>
+          <clipPath id="wh-right">
+            <rect x="0" y="-80" width="80" height="160" />
+          </clipPath>
+          <filter id="wh-soft" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="2.4" />
+          </filter>
         </defs>
 
         <rect width={BUILDING_LAYOUT.width} height={height} fill="var(--atlas-ground)" />
@@ -176,12 +256,10 @@ export function LandscapeAtlas() {
           />
         ))}
 
-        <circle cx={sink.x} cy={sink.y} r="88" fill="url(#atlas-well)" />
-
         {nodes.map((node) => (
           <path
             key={`edge-${node.key}`}
-            d={curvePath(node.x + 8, node.y, sink.x - 78, sink.y)}
+            d={curvePath(node.x + 8, node.y, sink.x - 92, sink.y)}
             fill="none"
             stroke="url(#atlas-flow)"
             strokeWidth="1.4"
@@ -204,14 +282,18 @@ export function LandscapeAtlas() {
         ))}
 
         <g transform={`translate(${sink.x}, ${sink.y})`}>
-          <circle r="14" className="building-atlas__sink" />
-          <text className="building-atlas__sink-label" textAnchor="middle" y="36">
+          <WhiteHole />
+          <text className="building-atlas__sink-label" textAnchor="middle" y="58">
             {BUILDING_SINGULARITY.label}
+          </text>
+          <text className="building-atlas__sink-sub" textAnchor="middle" y="76">
+            {BUILDING_SINGULARITY.sublabel}
           </text>
         </g>
       </svg>
       <figcaption className="building-atlas__caption">
-        {BUILDING_SINGULARITY.line} mesh is private cooking. Other names are public repos.
+        {BUILDING_SINGULARITY.line} Penrose white hole as the other face of a black hole. mesh is
+        private cooking.
       </figcaption>
     </figure>
   );

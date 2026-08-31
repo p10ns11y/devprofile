@@ -1,7 +1,8 @@
 export const BUILDING_SINGULARITY = {
   id: "loop",
   label: "One operator loop",
-  line: "cvdata, gates, and local agents meet here. Personal stack, not a lab claim.",
+  sublabel: "white hole",
+  line: "Projects fall in on the left. The operator is the other face: a white hole. Output, not capture. Personal stack, not a lab claim.",
 } as const;
 
 export const BUILDING_FALLBACK_URL: Record<string, string> = {
@@ -71,7 +72,7 @@ export const BUILDING_CLUSTERS = [
   },
   {
     id: "research",
-    title: "Research",
+    title: "Study / observe / learn",
     keys: ["prototype-it-to-explain-itself"],
   },
   {

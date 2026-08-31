@@ -37,9 +37,7 @@ export function BuildingActivityModal() {
       <div className="cv-dialog__body">
         <p className="building-dialog__lede">
           Live repos from{" "}
-          <a href={`https://github.com/${GITHUB_USERNAME}`}>{GITHUB_USERNAME}</a>
-          . Same dashboard as{" "}
-          <a href="/status/code/200">/status/code/200</a>.
+          <a href={`https://github.com/${GITHUB_USERNAME}`}>{GITHUB_USERNAME}</a>.
         </p>
         <GitHubLiveDashboardHost username={GITHUB_USERNAME} />
       </div>

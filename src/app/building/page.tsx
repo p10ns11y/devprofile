@@ -10,7 +10,12 @@ export default function BuildingPage() {
       </div>
       <article className="building-page__article">
         <header className="building-page__intro">
-          <h1 className="building-page__title">Building</h1>
+          <div className="building-page__title-row">
+            <h1 className="building-page__title">Building</h1>
+            <SiteButton href="/building?building=view" variant="secondary">
+              Live GitHub pulse
+            </SiteButton>
+          </div>
           <p className="building-page__lede">
             Five clusters. One sink. The public work is converging on a local operator loop:
             one cvdata, gates before writes, agents that can refuse.
@@ -18,11 +23,6 @@ export default function BuildingPage() {
         </header>
         <LandscapeAtlas />
         <BuildingSpacemap />
-        <p className="building-page__pulse">
-          <SiteButton href="/status/code/200" variant="secondary">
-            Live GitHub pulse
-          </SiteButton>
-        </p>
       </article>
     </PageShell>
   );
