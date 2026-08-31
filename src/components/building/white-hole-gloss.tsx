@@ -23,7 +23,7 @@ export function WhiteHoleInvoker() {
       className="building-atlas__hole-invoker"
       popoverTarget={WHITE_HOLE_TIP_ID}
       popoverTargetAction="show"
-      aria-label={`${BUILDING_SINGULARITY.attribution} ${BUILDING_SINGULARITY.sublabel}: the other side of a black hole`}
+      aria-label={`Penrose ${BUILDING_SINGULARITY.sublabel}: the other side of a black hole`}
       onPointerEnter={showWhiteHoleTip}
       onFocus={showWhiteHoleTip}
     >
@@ -35,12 +35,7 @@ export function WhiteHoleInvoker() {
 export function WhiteHoleTip() {
   return (
     <div id={WHITE_HOLE_TIP_ID} popover="auto" className="building-atlas__hole-tip">
-      <figure>
-        <p>{BUILDING_SINGULARITY.tooltip}</p>
-        <figcaption>
-          — <cite>{BUILDING_SINGULARITY.attribution}</cite>
-        </figcaption>
-      </figure>
+      <p>{BUILDING_SINGULARITY.tooltip}</p>
     </div>
   );
 }

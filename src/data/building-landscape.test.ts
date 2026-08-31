@@ -81,7 +81,6 @@ describe("building landscape", () => {
     expect(BUILDING_SINGULARITY.tooltip).toMatch(/other side of a black hole/i);
     expect(BUILDING_SINGULARITY.tooltip).toMatch(/Penrose white hole/);
     expect(BUILDING_SINGULARITY.tooltip).toMatch(/white hole emits/i);
-    expect(BUILDING_SINGULARITY.attribution).toBe("Penrose");
     expect(BUILDING_SINGULARITY.sublabel).toBe("white hole");
   });
 

@@ -8,6 +8,6 @@ test.describe("Building atlas", () => {
     const tip = page.locator("#white-hole-tip");
     await expect(tip).toBeVisible();
     await expect(tip).toContainText(BUILDING_SINGULARITY.tooltip);
-    await expect(tip.locator("cite")).toHaveText("Penrose");
+    await expect(tip.locator("cite")).toHaveCount(0);
   });
 });

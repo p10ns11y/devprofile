@@ -235,26 +235,9 @@
   line-height: 1.55;
 }
 
-.building-atlas__hole-tip figure {
-  margin: 0;
-}
-
 .building-atlas__hole-tip p {
   margin: 0;
   text-wrap: pretty;
-}
-
-.building-atlas__hole-tip figcaption {
-  margin-top: 0.65rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  text-align: right;
-}
-
-.building-atlas__hole-tip cite {
-  font-style: inherit;
-  font-weight: inherit;
 }
 
 .building-atlas__caption,
