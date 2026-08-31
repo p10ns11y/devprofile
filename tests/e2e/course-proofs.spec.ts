@@ -25,6 +25,9 @@ test.describe("Course proof links", () => {
 
   test("Earned lists the same courses with proof links", async ({ page }) => {
     await page.goto("/certificates");
+    const quote = page.locator(".credentials-pullquote");
+    await expect(quote.getByRole("blockquote")).toContainText("Harnesses such as Grok Build");
+    await expect(quote.locator("cite")).toHaveText("Peramanathan Sathyamoorthy");
     const courses = page.locator('[data-grid="courses"]');
     await expect(page.getByRole("heading", { name: "Courses", exact: true })).toBeVisible();
     await expect(courses.getByRole("link", { name: /Cilium AI\/ML Security/ })).toHaveAttribute(

@@ -5,8 +5,8 @@ import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import cvdata from "@/data/cvdata.json";
 import { getLandingFeaturedCertificates } from "@/data/documents-data";
-import { landingInvite } from "@/data/landing-invite";
 import { defaultViewport, fadeUp, motionTransition } from "@/lib/motion";
+import { CredentialsPullquote } from "./credentials-pullquote";
 import { EarnedCourseCards } from "./earned-course-cards";
 import { SectionHeading } from "./site/SectionHeading";
 import { SectionShell } from "./site/SectionShell";
@@ -39,13 +39,7 @@ export function Accomplishments() {
 
         <div className="section-body">
           <div className="credentials-prose">
-            <figure className="credentials-pullquote">
-              <blockquote>
-                <p>{landingInvite.credentialsQuote}</p>
-              </blockquote>
-              <figcaption>{cvdata.name}</figcaption>
-            </figure>
-
+            <CredentialsPullquote />
           </div>
 
           <EarnedCourseCards
