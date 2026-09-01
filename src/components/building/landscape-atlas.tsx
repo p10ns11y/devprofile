@@ -7,6 +7,7 @@ import {
   starNameAnchorX,
   visibleProjects,
 } from "@/components/building/atlas-layout";
+import { WhiteHoleInvoker, WhiteHoleTip } from "@/components/building/white-hole-gloss";
 import { BUILDING_AREAS, BUILDING_CLUSTERS, BUILDING_SINGULARITY } from "@/data/building-landscape";
 
 export type {
@@ -125,8 +126,9 @@ export function LandscapeAtlas() {
         </title>
         <desc id="atlas-desc">
           Cluster bands on the left hold the work. Names sit left of stars. Hops run to four area
-          docks — Career, Systems, Creative, Learning — then trunks to a white hole. Writing and
-          metre share Creative. The operator sits beside the hole.
+          docks — Career, Systems, Creative, Learning — then trunks to a Penrose white hole, the
+          other side of a black hole. A black hole would capture; this hole emits. The operator sits
+          beside it as the exit.
         </desc>
         <defs>
           <linearGradient id="atlas-flow" x1="0" y1="0" x2="1" y2="0">
@@ -250,17 +252,26 @@ export function LandscapeAtlas() {
           <text className="building-atlas__sink-label" textAnchor="middle" y="58">
             {BUILDING_SINGULARITY.label}
           </text>
-          <text className="building-atlas__sink-sub" textAnchor="middle" y="76">
-            {BUILDING_SINGULARITY.sublabel}
-          </text>
+          <foreignObject
+            className="building-atlas__hole-invoker-host"
+            x="-168"
+            y="-96"
+            width="336"
+            height="176"
+          >
+            <div className="building-atlas__hole-invoker-box">
+              <WhiteHoleInvoker />
+            </div>
+          </foreignObject>
         </g>
 
         {scene.operator ? <ProjectMark placedStar={scene.operator} /> : null}
       </svg>
       <figcaption className="building-atlas__caption">
-        {BUILDING_SINGULARITY.line} Penrose white hole as the other face of a black hole. mesh is
+        {BUILDING_SINGULARITY.line} A Penrose white hole is the other side of a black hole. mesh is
         private cooking.
       </figcaption>
+      <WhiteHoleTip />
     </figure>
   );
 }

@@ -104,6 +104,8 @@ See [`docs/agent-workflow-lessons.md`](docs/agent-workflow-lessons.md) for detai
 
 ## E2E / Playwright
 
+- **Layers:** [tests/README.md](tests/README.md) — `test:e2e` (flows), `test:e2e:ux` (a11y + content), `test:e2e:visual` (PNG, Linux, gated). `test:e2e:ui` is the Playwright panel, not the UX layer.
+- **Visual PNG refresh after layout:** [`.agents/rules/e2e-visual-snapshots.mdc`](.agents/rules/e2e-visual-snapshots.mdc) — inspect actual vs committed, `--update-snapshots` only failing paths, re-run without the flag. Do not mint to hide a broken page.
 - **Browser:** system **Brave Beta** (`/usr/bin/brave-browser-beta`), not Playwright-downloaded Chromium. Config: `playwright.config.ts`, `playwright.brave.ts`.
 - **Do not** run `pnpm exec playwright install chromium` for local E2E; use `pnpm exec playwright uninstall` if bundled Chromium was installed earlier.
 - Override path: `BRAVE_BETA_PATH`. Details: [tests/e2e/README.md](tests/e2e/README.md).

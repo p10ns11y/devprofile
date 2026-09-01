@@ -826,6 +826,12 @@
     color: var(--color-text-muted);
   }
 
+  .claim-evidence__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.85rem;
+  }
+
   .claim-evidence__link {
     color: var(--color-link);
     width: fit-content;
@@ -920,6 +926,11 @@
     font-style: normal;
     color: var(--color-text-muted);
     text-align: right;
+  }
+
+  .credentials-pullquote figcaption cite {
+    font-style: inherit;
+    font-weight: inherit;
   }
 
   .credentials-grid {

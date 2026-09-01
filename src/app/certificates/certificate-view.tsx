@@ -3,12 +3,13 @@
 import { ArrowRight } from "lucide-react";
 import { useMemo } from "react";
 
+import { CredentialsPullquote } from "@/components/credentials-pullquote";
 import { DocumentViewer } from "@/components/document-viewer";
+import { EarnedCourseCards } from "@/components/earned-course-cards";
 import { PageShell } from "@/components/site/PageShell";
 import { SectionHeading } from "@/components/site/SectionHeading";
 import cvdata from "@/data/cvdata.json";
 import { getCertificatesData } from "@/data/documents-data";
-import { landingInvite } from "@/data/landing-invite";
 import { useDialogFromSearchParam } from "@/hooks/use-dialog-from-search-param";
 import { visibleCertificateIds } from "@/lib/certificates";
 import type { DocumentItem } from "@/types/documents";
@@ -51,41 +52,58 @@ export default function CertificateViewComponent() {
           <SectionHeading
             id="certificates-heading"
             title="Earned"
-            description={landingInvite.credentialsQuote}
             className="pt-8"
             headingLevel="h1"
           />
 
-          <ul role="list" className="credentials-grid" data-grid="catalog">
-            {certificates.map((cert) => (
-              <li key={cert.id} className="min-w-0">
-                <button
-                  type="button"
-                  data-card="credential"
-                  data-action="open"
-                  data-cert-id={cert.id}
-                  className="credential-card"
-                  onClick={() => openCertificate(cert.id)}
-                  aria-label={`View certificate: ${displayName(cert)}`}
-                >
-                  <span className="credential-card__title">{displayName(cert)}</span>
-                  <span className="credential-card__foot">
-                    {cert.completionDate ? (
-                      <span className="credential-card__date">
-                        {formatDate(cert.completionDate)}
+          <div className="section-body">
+            <div className="credentials-prose">
+              <CredentialsPullquote />
+            </div>
+
+            <EarnedCourseCards headingId="earned-courses-heading" />
+
+            <section className="credentials-block" aria-labelledby="earned-certificates-heading">
+              <h2
+                id="earned-certificates-heading"
+                className="subsection-title subsection-heading"
+                data-align="center"
+              >
+                Certificates
+              </h2>
+
+              <ul role="list" className="credentials-grid" data-grid="catalog">
+                {certificates.map((cert) => (
+                  <li key={cert.id} className="min-w-0">
+                    <button
+                      type="button"
+                      data-card="credential"
+                      data-action="open"
+                      data-cert-id={cert.id}
+                      className="credential-card"
+                      onClick={() => openCertificate(cert.id)}
+                      aria-label={`View certificate: ${displayName(cert)}`}
+                    >
+                      <span className="credential-card__title">{displayName(cert)}</span>
+                      <span className="credential-card__foot">
+                        {cert.completionDate ? (
+                          <span className="credential-card__date">
+                            {formatDate(cert.completionDate)}
+                          </span>
+                        ) : (
+                          <span className="credential-card__date" data-empty aria-hidden="true" />
+                        )}
+                        <span className="credential-card__cta">
+                          View
+                          <ArrowRight className="credential-card__cta-icon" aria-hidden="true" />
+                        </span>
                       </span>
-                    ) : (
-                      <span className="credential-card__date" data-empty aria-hidden="true" />
-                    )}
-                    <span className="credential-card__cta">
-                      View
-                      <ArrowRight className="credential-card__cta-icon" aria-hidden="true" />
-                    </span>
-                  </span>
-                </button>
-              </li>
-            ))}
-          </ul>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
         </div>
       </div>
 

@@ -9,6 +9,8 @@ Credential catalog: cards open a certificate view.
 ## Sub-features
 
 - `certificates-list` — heading Certificates and a list of cards.
+- `earned-courses` — Cilium / LangChain proof cards with external links.
+- `credentials-quote` — attributed pullquote (Peramanathan Sathyamoorthy) above the catalog.
 - `certificates-from-home` — Browse all certificates on the landing page (home feature, not this row).
 
 ## How to get to it (user POV)

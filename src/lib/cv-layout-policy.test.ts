@@ -8,9 +8,9 @@ import {
 } from "./cv-layout-policy";
 
 describe("cv-layout-policy", () => {
-  it("exposes 2-page soft-job contract", () => {
+  it("exposes 2-page atomic-job contract", () => {
     expect(CV_LAYOUT_POLICY.targetPages).toBe(2);
-    expect(CV_LAYOUT_POLICY.flowMode).toBe("soft-job");
+    expect(CV_LAYOUT_POLICY.flowMode).toBe("atomic-job");
     expect(CV_LAYOUT_POLICY.jobHeaderMinPresenceAhead).toBeGreaterThan(0);
   });
 

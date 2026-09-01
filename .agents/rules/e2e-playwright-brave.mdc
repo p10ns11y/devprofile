@@ -14,3 +14,4 @@ Details: [tests/e2e/README.md](tests/e2e/README.md) and [AGENTS.md](AGENTS.md) (
 - **Do not** run `pnpm exec playwright install chromium`.
 - Headed / UI runs: `pnpm test:e2e:headed`, `pnpm test:e2e:ui` (Brave via `scripts/playwright-ui-brave.mjs`).
 - Override browser path with `BRAVE_BETA_PATH` when needed.
+- After layout/copy on a snapshot route: [e2e-visual-snapshots.mdc](e2e-visual-snapshots.mdc) — inspect actual PNG, `--update-snapshots` only the failing paths, re-run without the flag.

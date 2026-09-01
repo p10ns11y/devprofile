@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import cvdata from "@/data/cvdata.json";
-import { getWorkClaims } from "./homepage-from-cvdata";
+import { getWorkClaims, recentCourses } from "./homepage-from-cvdata";
 
 describe("getWorkClaims", () => {
   it("joins claims to sourced evidence and skips empty claims", () => {
@@ -45,6 +45,38 @@ describe("getWorkClaims", () => {
     expect(adaptate?.detail).toMatch(/Did not port/);
     expect(adaptate?.detail).not.toMatch(/became adaptate/i);
     expect(adaptate?.href?.url).toContain("adaptate");
+  });
+
+  it("points Innovative Adjacent Thinking at IEEE, Wiley, and the thesis PDF", () => {
+    const { claims } = getWorkClaims();
+    const adjacent = claims.find((claim) => claim.id === "adjacent");
+    const ieee = adjacent?.evidence.find((item) => item.id === "PP-ieee");
+    expect(ieee?.hrefs.map((link) => link.label)).toEqual(["IEEE", "Wiley", "Thesis"]);
+    expect(ieee?.hrefs.map((link) => link.url)).toEqual([
+      "https://ieeexplore.ieee.org/document/7396150",
+      "https://onlinelibrary.wiley.com/doi/10.1155/2017/6562915",
+      "/pdfs/master-thesis.pdf",
+    ]);
+    expect(ieee?.hrefs.some((link) => link.url === "/essays")).toBe(false);
+  });
+
+  it("points the Weavler Babel plugin Source at the npm package", () => {
+    const { claims } = getWorkClaims();
+    const creative = claims.find((claim) => claim.id === "creative");
+    const babel = creative?.evidence.find((item) => item.id === "PP-babel-i18n");
+    expect(babel?.href?.label).toBe("Source");
+    expect(babel?.href?.url).toBe(
+      "https://www.npmjs.com/package/babel-plugin-react-intl-messages-generator"
+    );
+  });
+});
+
+describe("recentCourses", () => {
+  it("keeps proof URLs on Cilium and the two LangChain courses", () => {
+    const byName = new Map(recentCourses().map((course) => [course.name, course.url]));
+    expect(byName.get("Cilium AI/ML Security")).toContain("credly.com/badges");
+    expect(byName.get("LangChain Chat with Your Data")).toContain("learn.deeplearning.ai");
+    expect(byName.get("Build LLM Apps with LangChain.js")).toContain("learn.deeplearning.ai");
   });
 });
 

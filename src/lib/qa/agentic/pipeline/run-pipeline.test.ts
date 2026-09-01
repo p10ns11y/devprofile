@@ -68,15 +68,16 @@ describe(feature("Agentic parity"), () => {
 
     it("happy path returns curated or Grok answer after defense passes", async () => {
       const res = await runProfileQAReactor("Why does premflow still matter in 2026?", {});
-      expect(res.isGolden).toBeUndefined();
+      expect(res.defense?.blocked).not.toBe(true);
       expect(mockCheckAbuse).toHaveBeenCalled();
-      const goldenShortCircuit = typeof res.answer === "string" && res.answer.includes("300 lines");
-      if (goldenShortCircuit) {
+      expect(res.answer || res.stream).toBeTruthy();
+      if (res.isGolden) {
         expect(mockStreamText).not.toHaveBeenCalled();
+        expect(typeof res.answer).toBe("string");
       } else {
+        expect(res.isGolden).toBeUndefined();
         expect(mockStreamText).toHaveBeenCalled();
       }
-      expect(res.answer || res.stream).toBeTruthy();
     });
   });
 });

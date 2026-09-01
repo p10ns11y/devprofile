@@ -9,6 +9,7 @@ import {
   BUILDING_FALLBACK_URL,
   BUILDING_PRIVATE,
   BUILDING_PROJECTS,
+  BUILDING_SINGULARITY,
 } from "./building-landscape";
 
 describe("building landscape", () => {
@@ -74,6 +75,13 @@ describe("building landscape", () => {
     expect(scene.hops).toHaveLength(scene.stars.length);
     expect(scene.trunks).toHaveLength(scene.docks.length);
     expect(scene.stars[0]?.x).toBeGreaterThan(280);
+  });
+
+  it("states the white hole as emit, not capture", () => {
+    expect(BUILDING_SINGULARITY.tooltip).toMatch(/other side of a black hole/i);
+    expect(BUILDING_SINGULARITY.tooltip).toMatch(/Penrose white hole/);
+    expect(BUILDING_SINGULARITY.tooltip).toMatch(/white hole emits/i);
+    expect(BUILDING_SINGULARITY.sublabel).toBe("white hole");
   });
 
   it("does not reuse systems as a cluster id", () => {

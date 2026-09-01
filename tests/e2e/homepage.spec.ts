@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { openMobileMenuIfNeeded } from "./helpers/mobile-nav";
+import { openMobileMenuIfNeeded, siteNav } from "./helpers/mobile-nav";
 
 const leftoverOneLiner = /Senior Software Engineer with 9\+ years in scalable web apps/;
 
@@ -21,7 +21,7 @@ test.describe("Homepage", () => {
     await page.goto("/");
 
     await openMobileMenuIfNeeded(page, isMobile);
-    await page.getByRole("link", { name: "X", exact: true }).click();
+    await siteNav(page, isMobile).locator('a[href="/x"]').click();
     await expect(page).toHaveURL(/\/x$/);
 
     await page.goBack();
@@ -61,12 +61,31 @@ test.describe("Homepage", () => {
 
     await expect(page.locator("#work")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Evidence" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Product" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Development" })).toBeVisible();
-    await expect(page.getByText("70%")).toBeVisible();
+    const work = page.locator("#work");
+    await expect(work.getByRole("heading", { name: "Product", exact: true })).toBeVisible();
+    await expect(work.getByRole("heading", { name: "Development", exact: true })).toBeVisible();
+    await expect(work.getByText("70%")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Behavior Driven Development" })).toHaveCount(
       0
     );
     await expect(page.getByRole("heading", { name: "Senior Software Engineer" })).toHaveCount(0);
+    await expect(work.getByRole("heading", { name: "Innovative Adjacent Thinking" })).toBeVisible();
+    await expect(work.getByRole("link", { name: "IEEE", exact: true })).toHaveAttribute(
+      "href",
+      "https://ieeexplore.ieee.org/document/7396150"
+    );
+    await expect(work.getByRole("link", { name: "Wiley", exact: true })).toHaveAttribute(
+      "href",
+      "https://onlinelibrary.wiley.com/doi/10.1155/2017/6562915"
+    );
+    await expect(work.getByRole("link", { name: "Thesis", exact: true })).toHaveAttribute(
+      "href",
+      "/pdfs/master-thesis.pdf"
+    );
+    await expect(
+      work.locator(
+        'a.claim-evidence__link[href="https://www.npmjs.com/package/babel-plugin-react-intl-messages-generator"]'
+      )
+    ).toHaveText("Source");
   });
 });

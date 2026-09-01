@@ -115,9 +115,11 @@ pnpm editor:sync
 pnpm generate-pdf
 pnpm build-qa-index    # qa-index.json (also runs in every pnpm build)
 pnpm qa:eval           # golden retrieval eval — tests/qa/README.md
-pnpm test:e2e          # Brave Beta — tests/e2e/README.md
+pnpm test:e2e          # Brave Beta — tests/README.md
+pnpm test:e2e:ux
+pnpm test:e2e:visual   # Linux PNGs, not in default e2e
 pnpm test:e2e:headed
-pnpm test:e2e:ui
+pnpm test:e2e:ui       # Playwright panel, not UX assertions
 ```
 
 ## API routes

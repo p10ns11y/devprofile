@@ -35,22 +35,41 @@ test.describe("X Search Page", () => {
   test("should update end date when start date changes", async ({ page }) => {
     await page.goto("/x");
 
-    const startInput = page.getByLabel("Start date");
-    await startInput.fill("2025-01-01");
+    const customWindow = page.getByRole("region", { name: "8-day window" });
+    const startInput = customWindow.getByLabel("Start date");
+    // Date inputs on mobile Chromium ignore a bare value setter; React's
+    // controlled tracker must see a previous value or onChange never fires.
+    await startInput.evaluate((node, iso) => {
+      const dateInput = node as HTMLInputElement;
+      const previousValue = dateInput.value;
+      const valueSetter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype,
+        "value"
+      )?.set;
+      valueSetter?.call(dateInput, iso);
+      const valueTracker = (
+        dateInput as HTMLInputElement & {
+          _valueTracker?: { setValue: (next: string) => void };
+        }
+      )._valueTracker;
+      valueTracker?.setValue(previousValue);
+      dateInput.dispatchEvent(new Event("input", { bubbles: true }));
+      dateInput.dispatchEvent(new Event("change", { bubbles: true }));
+    }, "2025-01-01");
 
-    await expect(page.getByText("2025-01-08")).toBeVisible();
-    await expect(page.getByText(/until 2025-01-09/)).toBeVisible();
+    await expect(customWindow.getByText("2025-01-08")).toBeVisible();
+    await expect(customWindow.getByText(/until 2025-01-09/)).toBeVisible();
     await expect(
-      page.getByRole("link", { name: /Search top posts from Jan 1, 2025/i })
+      customWindow.getByRole("link", { name: /Search top posts from Jan 1 – Jan 8, 2025/i })
     ).toBeVisible();
   });
 
   test("should have header navigation", async ({ page, isMobile }) => {
     await page.goto("/x");
 
-    const { openMobileMenuIfNeeded } = await import("./helpers/mobile-nav");
+    const { headerBrandLink, openMobileMenuIfNeeded } = await import("./helpers/mobile-nav");
     await openMobileMenuIfNeeded(page, isMobile);
-    await page.getByRole("button", { name: "Home", exact: true }).click();
+    await headerBrandLink(page).click();
     await expect(page).toHaveURL("/");
   });
 

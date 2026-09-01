@@ -7,6 +7,8 @@ description: Drive the public Next.js profile site (devprofile) in Brave Beta vi
 
 The visitor-facing surface is the Next.js site on `http://localhost:3000`. Playwright launches **system Brave Beta**, never Playwright Chromium. Route inventory lives in `features/` (this skill). TypeScript reads that map; do not add a second `SURFACES[]` catalog.
 
+Human-readable layer map (`test:e2e` vs `:ux` vs `:visual`; `:ui` is the Playwright panel): [`tests/README.md`](../../../tests/README.md).
+
 Layout-content-view (plugin `layout-content-view`) is the geometry and interact contract. It verifies a tree:
 
 ```text
@@ -37,6 +39,8 @@ Update baselines after an intentional layout change on this machine:
 ```bash
 E2E_VISUAL=1 pnpm exec playwright test --project=brave-beta-visual --update-snapshots
 ```
+
+Agent procedure (inspect actual PNG first; mint only failing `VERIFY_FEATURE` paths; re-run without `--update-snapshots`): [e2e-visual-snapshots.mdc](../../../.agents/rules/e2e-visual-snapshots.mdc) and [tests/README.md](../../../tests/README.md).
 
 Teardown: stop only a `webServer` this run started. Do not kill an existing `pnpm dev`. Proof files stay under `artifacts/verify-devprofile/` and committed `*-snapshots/` PNGs.
 
