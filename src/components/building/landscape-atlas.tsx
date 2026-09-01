@@ -127,8 +127,8 @@ export function LandscapeAtlas() {
         <desc id="atlas-desc">
           Cluster bands on the left hold the work. Names sit left of stars. Hops run to four area
           docks — Career, Systems, Creative, Learning — then trunks to a Penrose white hole, the
-          other side of a black hole. A black hole would capture; this hole emits. The operator
-          sits beside it as the exit.
+          other side of a black hole. A black hole would capture; this hole emits. The operator sits
+          beside it as the exit.
         </desc>
         <defs>
           <linearGradient id="atlas-flow" x1="0" y1="0" x2="1" y2="0">
@@ -259,7 +259,7 @@ export function LandscapeAtlas() {
             width="336"
             height="176"
           >
-            <div xmlns="http://www.w3.org/1999/xhtml" className="building-atlas__hole-invoker-box">
+            <div className="building-atlas__hole-invoker-box">
               <WhiteHoleInvoker />
             </div>
           </foreignObject>
