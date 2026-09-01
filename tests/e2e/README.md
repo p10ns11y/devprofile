@@ -1,5 +1,7 @@
 # E2E tests (Playwright)
 
+Layer map (unit vs `test:e2e` vs `test:e2e:ux` vs `test:e2e:visual`): [../README.md](../README.md). This file is Brave launch, headed, and Playwright UI.
+
 ## Browser: Brave Beta (system install)
 
 Tests use **Brave Beta** via `executablePath` in [`playwright.config.ts`](../../playwright.config.ts) — not Playwright-downloaded Chromium.

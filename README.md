@@ -176,10 +176,13 @@ pnpm generate-pdf     # bun scripts/generate-pdf.tsx
 # Editor profile
 pnpm editor:sync      # sync .editor profile → .vscode / Cursor
 
-# E2E (Brave Beta — see tests/e2e/README.md)
-pnpm test:e2e         # all projects (desktop + mobile viewport)
+# Tests — see tests/README.md (layers: unit, e2e, e2e:ux, e2e:visual)
+pnpm test:unit
+pnpm test:e2e         # visitor flows, desktop + mobile (not pixels)
+pnpm test:e2e:ux      # feature-map a11y + content
+pnpm test:e2e:visual  # Linux PNG baselines (opt-in)
 pnpm test:e2e:headed  # visible Brave window
-pnpm test:e2e:ui      # Playwright UI (opens Brave Beta)
+pnpm test:e2e:ui      # Playwright UI runner (not the same as :ux)
 pnpm test:e2e:debug   # inspector + Brave
 ```
 
@@ -191,18 +194,21 @@ pnpm install
 pnpm type-check && pnpm lint
 ```
 
-## 🧪 End-to-end tests
+## 🧪 Tests
 
-E2E uses **Brave Beta** via `playwright.config.ts` / `playwright.brave.ts`, not Playwright-downloaded Chromium.
+Which command to run, and what `test:e2e:ux` vs `test:e2e:visual` vs `test:e2e:ui` mean: [tests/README.md](tests/README.md).
+
+End-to-end uses **Brave Beta** via `playwright.config.ts` / `playwright.brave.ts`, not Playwright-downloaded Chromium.
 
 ```bash
 export BRAVE_BETA_PATH=/path/to/brave-browser-beta   # optional
 pnpm test:e2e
+pnpm test:e2e:visual   # Linux pixel baselines; not in default e2e
 ```
 
 Do **not** run `pnpm exec playwright install chromium` for day-to-day work. Remove unused Playwright browsers: `pnpm exec playwright uninstall`.
 
-Details: [tests/e2e/README.md](tests/e2e/README.md)
+Brave launch details: [tests/e2e/README.md](tests/e2e/README.md)
 
 ## 💬 xAI Agentic QA Reactor (optional)
 

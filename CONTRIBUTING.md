@@ -58,7 +58,7 @@ git push origin dev
 
 ### Testing
 - Write E2E tests for new features using Playwright
-- Ensure all tests pass before submitting PR (`pnpm test:e2e` uses **Brave Beta** — see [tests/e2e/README.md](tests/e2e/README.md))
+- Ensure tests pass before submitting a pull request: `pnpm test:unit` and `pnpm test:e2e` (Brave Beta). Layout changes also need `pnpm test:e2e:visual` on Linux. See [tests/README.md](tests/README.md).
 - Desktop + mobile viewport projects run against Brave Beta; do not rely on `playwright install chromium`
 
 ## 🔧 Development Setup

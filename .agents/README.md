@@ -47,11 +47,12 @@ Cursor: symlink `.cursor/rules` → `../.agents/rules` (see root [AGENTS.md](../
 | [react-client.mdc](rules/react-client.mdc) | `src/**/*.ts(x)` |
 | [dependencies-and-lockfile.mdc](rules/dependencies-and-lockfile.mdc) | `package.json`, lockfile, workspace |
 | [e2e-playwright-brave.mdc](rules/e2e-playwright-brave.mdc) | E2E / Playwright config |
+| [e2e-visual-snapshots.mdc](rules/e2e-visual-snapshots.mdc) | Layout/copy change — refresh Linux PNG baselines |
 | [devcontainer.mdc](rules/devcontainer.mdc) | `.devcontainer/**` |
 | [split-to-prs.mdc](rules/split-to-prs.mdc) | User asks to split branch/PR/changes |
 
 ## E2E (Playwright + Brave Beta)
 
 - Local and agent runs use **Brave Beta** as the Chromium driver (`executablePath`), not Playwright’s bundled Chromium.
-- See root [AGENTS.md](../AGENTS.md) (E2E / Playwright) and [tests/e2e/README.md](../tests/e2e/README.md).
+- See root [AGENTS.md](../AGENTS.md) (E2E / Playwright) and [tests/README.md](../tests/README.md). Visual PNG refresh: [rules/e2e-visual-snapshots.mdc](rules/e2e-visual-snapshots.mdc).
 - Uninstall unused Playwright browsers: `pnpm exec playwright uninstall` (drops bundled Chromium for this install).
