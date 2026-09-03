@@ -25,15 +25,17 @@ export function FocusSeriesNav(props: FocusSeriesNavProps) {
       <ol>
         <li>
           {props.current === "index" ? (
-            <span aria-current="page">Essays</span>
+            <span aria-current="page">Articles</span>
           ) : (
-            <Link href={FOCUS_INDEX_HREF}>Essays</Link>
+            <Link href={FOCUS_INDEX_HREF}>Articles</Link>
           )}
         </li>
         {essay ? (
           <li>
             {memoryEssay && memoryEssay.slug !== "pulse" ? (
-              <Link href={pulseEssay?.href ?? "/focus/memory-issue"}>{pulseEssay?.navLabel}</Link>
+              <Link href={pulseEssay?.href ?? "/articles/memory-issue"}>
+                {pulseEssay?.navLabel}
+              </Link>
             ) : (
               <span aria-current="page">{essay.navLabel}</span>
             )}

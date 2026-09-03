@@ -25,7 +25,7 @@ export default function ArchiveNotMemoryPage() {
           <h1 className="focus-page__title">Archive is not memory</h1>
           <p className="focus-page__lede">
             A follow-up to{" "}
-            <Link className="focus-link" href="/focus/memory-issue">
+            <Link className="focus-link" href="/articles/memory-issue">
               <em>Pulse instead of dump</em>
             </Link>
             . The first essay was about traffic. This one is the second constraint: what is allowed
@@ -108,7 +108,7 @@ export default function ArchiveNotMemoryPage() {
           </p>
           <p>
             Without that split, the harness cannot tell a useful trace from a complete one.{" "}
-            <Link className="focus-link" href="/focus/memory-issue">
+            <Link className="focus-link" href="/articles/memory-issue">
               Pulse instead of dump
             </Link>{" "}
             was the traffic rule. This is the admissions rule.
@@ -255,7 +255,7 @@ export default function ArchiveNotMemoryPage() {
 
           <h2 id="closing">Closing</h2>
           <p>
-            <Link className="focus-link" href="/focus/memory-issue">
+            <Link className="focus-link" href="/articles/memory-issue">
               Pulse instead of dump
             </Link>{" "}
             was the traffic rule: do not flood the runtime. This is the admissions rule: the archive
@@ -278,10 +278,10 @@ export default function ArchiveNotMemoryPage() {
               runtime and memory.
             </p>
             <div className="focus-page__close-actions">
-              <SiteButton href="/focus/memory-issue" variant="primary" size="lg">
+              <SiteButton href="/articles/memory-issue" variant="primary" size="lg">
                 Pulse instead of dump
               </SiteButton>
-              <SiteButton href="/focus/eeaas-to-agents" variant="outline" size="lg">
+              <SiteButton href="/articles/eeaas-to-agents" variant="outline" size="lg">
                 EEaaS to agents
               </SiteButton>
             </div>
@@ -289,14 +289,14 @@ export default function ArchiveNotMemoryPage() {
 
           <FocusRelated
             eyebrow="Previous in series"
-            href="/focus/memory-issue"
+            href="/articles/memory-issue"
             title="Pulse instead of dump"
             detail="Schrödinger’s three constraints, applied to agent memory: why the harness should pulse, not flood the context window."
           />
 
           <FocusRelated
             eyebrow="Ensembly"
-            href="/focus/hitl-hootl"
+            href="/articles/hitl-hootl"
             title="Automate the digital, surface the physical — HITL and HOOTL for ensembly"
             detail="Human-in-the-loop is optional verification, not a play loop. Human-out-of-the-loop is a helper swarm clearing digital thrash along the critical path."
           />

@@ -10,7 +10,7 @@ export default function HitlHootlPage() {
     <div className="focus-page min-h-screen">
       {/*
         THESIS: Automate digital, surface physical, wait for permission. HITL optional; HOOTL swarm on critical path.
-        OWN-WORLD: Same Focus editorial tokens; series nav back to /essays.
+        OWN-WORLD: Same Focus editorial tokens; series nav back to /articles.
         STORY: Not playing a game → two modes → graph/CP → two layers → what remains hard → how to measure.
         FIRST VIEWPORT: Title + lede + four design principles.
         FORM: Nested Focus essay; no diagram unless earned — prose + definition list for eval criteria.
@@ -104,7 +104,7 @@ export default function HitlHootlPage() {
           </p>
           <p>
             That split mirrors what the{" "}
-            <Link className="focus-link" href="/focus/memory-issue">
+            <Link className="focus-link" href="/articles/memory-issue">
               memory essays
             </Link>{" "}
             argued from another angle: pulse instead of dump, archive admissions instead of log
@@ -191,16 +191,16 @@ export default function HitlHootlPage() {
           <h2 id="closing">Closing</h2>
           <p>
             The{" "}
-            <Link className="focus-link" href="/focus/eeaas-to-agents">
+            <Link className="focus-link" href="/articles/eeaas-to-agents">
               EEaaS to agents essay
             </Link>{" "}
             insisted that the cost of the next useful observation must fall while decision quality
             rises.{" "}
-            <Link className="focus-link" href="/focus/memory-issue">
+            <Link className="focus-link" href="/articles/memory-issue">
               Pulse instead of dump
             </Link>{" "}
             made that operational for memory.{" "}
-            <Link className="focus-link" href="/focus/memory-issue/archive-not-memory">
+            <Link className="focus-link" href="/articles/memory-issue/archive-not-memory">
               Archive is not memory
             </Link>{" "}
             asked what may enter the harness at all. HITL and HOOTL ask who runs the day: the swarm
@@ -252,21 +252,21 @@ export default function HitlHootlPage() {
 
           <FocusRelated
             eyebrow="Prior essay"
-            href="/focus/eeaas-to-agents"
+            href="/articles/eeaas-to-agents"
             title="From 2016 energy orchestration to 2026 agentic systems"
             detail="Why the cost of learning must fall while decision quality rises—and why that still holds when nearly all inference is remote."
           />
 
           <FocusRelated
             eyebrow="Memory series"
-            href="/focus/memory-issue"
+            href="/articles/memory-issue"
             title="Pulse instead of dump"
             detail="Schrödinger’s three constraints, applied to agent memory: why the harness should pulse, not flood the context window."
           />
 
           <FocusRelated
             eyebrow="Memory series"
-            href="/focus/memory-issue/archive-not-memory"
+            href="/articles/memory-issue/archive-not-memory"
             title="Archive is not memory"
             detail="The admissions rule: what is allowed to become a snippet at all—and why both biology and harnesses invent when the filter has no reject gate."
           />

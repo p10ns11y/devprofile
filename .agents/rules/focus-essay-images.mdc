@@ -1,0 +1,20 @@
+---
+description: Focus article catalog images must exist, decode, and be verified before merge
+alwaysApply: false
+---
+
+# Focus article images (verify before merge)
+
+When adding or changing a Focus article in `FOCUS_ESSAYS` (`src/data/focus-essays.ts`):
+
+1. **Asset file** — Put the card SVG (or raster) under `public/` at the `image.src` path. SVGs must be **valid UTF-8 XML** (no Latin-1 `0xB7` middle dots; use UTF-8 `·` or `&#183;`). `width` / `height` in the catalog should match the SVG `viewBox`.
+2. **Public URL** — Index and essay `href`s use `/articles/...`. Legacy `/essays` and `/focus` redirect; do not link to them in new code.
+3. **Verify** — Before merge, run:
+   - `pnpm test:unit src/data/focus-essay-images.test.ts` (UTF-8, XML, catalog dimensions)
+   - `pnpm exec playwright test tests/e2e/content/focus-essay-images.content.spec.ts` (card `naturalWidth > 0` on `/articles`)
+   - `VERIFY_FEATURE=/articles pnpm test:e2e:ux` when the index layout changes
+4. **Feature map** — Add or update `.cursor/skills/verify-devprofile/features/` for new article routes; list the file in `features/README.md`.
+
+HTTP 200 alone is not sufficient. A broken SVG can paint an empty card frame with `naturalWidth === 0`.
+
+Skill: [verify-devprofile](../skills/verify-devprofile/SKILL.md).

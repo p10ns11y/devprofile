@@ -6,10 +6,14 @@ test.describe("Global Navigation & Layout", () => {
     await page.goto("/");
     await expect(page.locator("header").first()).toBeVisible();
     await openMobileMenuIfNeeded(page, isMobile);
-    await expect(siteNav(page, isMobile).getByRole("link", { name: "Q&A", exact: true })).toBeVisible();
+    await expect(
+      siteNav(page, isMobile).getByRole("link", { name: "Q&A", exact: true })
+    ).toBeVisible();
 
     await page.goto("/qa");
-    await expect(page.getByRole("heading", { name: "Ask me about my work", level: 1 })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Ask me about my work", level: 1 })
+    ).toBeVisible();
 
     await page.goto("/x");
     await expect(page.getByRole("heading", { name: /Posts on X of @peramanathan/i })).toBeVisible();
@@ -43,7 +47,9 @@ test.describe("Global Navigation & Layout", () => {
     await page.goto("/");
     await expect(page.getByRole("button", { name: "Open menu" })).toBeVisible();
     await openMobileMenuIfNeeded(page, true);
-    await expect(siteNav(page, true).getByRole("link", { name: "Essays", exact: true })).toBeVisible();
+    await expect(
+      siteNav(page, true).getByRole("link", { name: "Articles", exact: true })
+    ).toBeVisible();
   });
 
   test("should handle slow network conditions", async ({ page }) => {

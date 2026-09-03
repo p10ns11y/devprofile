@@ -25,12 +25,12 @@ export const metadata: Metadata = {
   creator: "Peramanathan Sathyamoorthy",
   category: "Technology",
   alternates: {
-    canonical: "/focus/memory-issue/archive-not-memory",
+    canonical: "/articles/memory-issue/archive-not-memory",
   },
   openGraph: {
     title,
     description,
-    url: "/focus/memory-issue/archive-not-memory",
+    url: "/articles/memory-issue/archive-not-memory",
     siteName: "Peramanathan Sathyamoorthy",
     locale: "en_US",
     type: "article",

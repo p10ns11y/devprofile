@@ -11,9 +11,9 @@ export default function MemoryIssuePage() {
     <div className="focus-page min-h-screen">
       {/*
         THESIS: Agent memory should pulse (sparse, event-driven, verified) instead of dump.
-        OWN-WORLD: Same Focus editorial tokens; series nav back to /focus.
+        OWN-WORLD: Same Focus editorial tokens; series nav back to /articles.
         STORY: Schrödinger’s three constraints → AI stack → dump failure → pulse contract + example.
-        FIRST VIEWPORT: Title + lede + series crumb to /focus.
+        FIRST VIEWPORT: Title + lede + series crumb to /articles.
         FORM: Nested Focus essay; diagrams as figures; pulse as a definition list.
         FINISH: polish + PR; type-check/lint green.
       */}
@@ -124,7 +124,7 @@ export default function MemoryIssuePage() {
           </p>
           <p>
             This is the agentic form of streaming raw telemetry forever—the failure mode of the{" "}
-            <Link className="focus-link" href="/focus/eeaas-to-agents">
+            <Link className="focus-link" href="/articles/eeaas-to-agents">
               EEaaS to agents essay
             </Link>
             . There, the durable idea is that the cost of the next useful observation must fall
@@ -228,7 +228,7 @@ export default function MemoryIssuePage() {
           <h2 id="closing">Closing</h2>
           <p>
             The{" "}
-            <Link className="focus-link" href="/focus/eeaas-to-agents">
+            <Link className="focus-link" href="/articles/eeaas-to-agents">
               EEaaS to agents essay
             </Link>{" "}
             argued that intelligence stays viable only when the cost of the next useful observation
@@ -238,7 +238,7 @@ export default function MemoryIssuePage() {
           </p>
           <p>
             Pulse is the traffic rule. A follow-up asks the prior question:{" "}
-            <Link className="focus-link" href="/focus/memory-issue/archive-not-memory">
+            <Link className="focus-link" href="/articles/memory-issue/archive-not-memory">
               what is allowed to become a snippet at all?
             </Link>
           </p>
@@ -281,10 +281,10 @@ export default function MemoryIssuePage() {
               the short white paper.
             </p>
             <div className="focus-page__close-actions">
-              <SiteButton href="/focus/eeaas-to-agents" variant="primary" size="lg">
+              <SiteButton href="/articles/eeaas-to-agents" variant="primary" size="lg">
                 Read EEaaS to agents
               </SiteButton>
-              <SiteButton href="/focus/eeaas-to-agents?paper=view" variant="outline" size="lg">
+              <SiteButton href="/articles/eeaas-to-agents?paper=view" variant="outline" size="lg">
                 Open the white paper
               </SiteButton>
               <SiteButton
@@ -299,21 +299,21 @@ export default function MemoryIssuePage() {
 
           <FocusRelated
             eyebrow="Next in series"
-            href="/focus/memory-issue/archive-not-memory"
+            href="/articles/memory-issue/archive-not-memory"
             title="Archive is not memory"
             detail="The admissions rule: what is allowed to become a snippet at all—and why both biology and harnesses invent when the filter has no reject gate."
           />
 
           <FocusRelated
             eyebrow="In this series"
-            href="/focus/eeaas-to-agents"
+            href="/articles/eeaas-to-agents"
             title="From 2016 energy orchestration to 2026 agentic systems"
             detail="Why the cost of learning must fall while decision quality rises—and why that still holds when nearly all inference is remote."
           />
 
           <FocusRelated
             eyebrow="Ensembly"
-            href="/focus/hitl-hootl"
+            href="/articles/hitl-hootl"
             title="Automate the digital, surface the physical — HITL and HOOTL for ensembly"
             detail="Human-in-the-loop is optional verification, not a play loop. Human-out-of-the-loop is a helper swarm clearing digital thrash along the critical path."
           />

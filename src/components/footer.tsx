@@ -4,7 +4,7 @@ import cvdata from "../data/cvdata.json";
 import { SocialLinks } from "./social-links";
 
 const siteLinks = [
-  { href: "/essays", label: "Essays" },
+  { href: "/articles", label: "Articles" },
   { href: "/building", label: "Building" },
   { href: "/qa", label: "Q&A" },
   { href: "/?cv=view", label: "CV" },

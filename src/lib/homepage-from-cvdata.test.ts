@@ -57,7 +57,7 @@ describe("getWorkClaims", () => {
       "https://onlinelibrary.wiley.com/doi/10.1155/2017/6562915",
       "/pdfs/master-thesis.pdf",
     ]);
-    expect(ieee?.hrefs.some((link) => link.url === "/essays")).toBe(false);
+    expect(ieee?.hrefs.some((link) => link.url === "/articles")).toBe(false);
   });
 
   it("points the Weavler Babel plugin Source at the npm package", () => {
@@ -79,4 +79,3 @@ describe("recentCourses", () => {
     expect(byName.get("Build LLM Apps with LangChain.js")).toContain("learn.deeplearning.ai");
   });
 });
-

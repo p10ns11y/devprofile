@@ -1049,7 +1049,7 @@
         "link_label": "thepulimaangani on GitHub"
       }
     ],
-    "arc": { "label": "Essays", "url": "/essays" },
+    "arc": { "label": "Articles", "url": "/articles" },
     "hero_actions": [
       { "href": "/?cv=view", "label": "View CV", "variant": "primary" },
       { "href": "/?building=view", "label": "Building", "variant": "secondary" }
@@ -1065,17 +1065,67 @@
       { "id": "development", "title": "Development" }
     ],
     "claims": [
-      { "id": "adaptable", "family": "product", "label": "Adaptable Problem Solving", "evidence": ["PP-crm", "PP-iam-router"] },
-      { "id": "prevention", "family": "product", "label": "Proactive Problem Prevention and Elimination", "evidence": ["PP-ts-70", "PP-zod-lib", "PP-adaptate"] },
-      { "id": "systems", "family": "product", "label": "System Thinking", "evidence": ["PP-acl", "PP-integ-team", "PP-collab"] },
-      { "id": "detail", "family": "product", "label": "Detail Orientation", "evidence": ["PP-ts-200h", "PP-playwright"] },
-      { "id": "adjacent", "family": "product", "label": "Innovative Adjacent Thinking", "evidence": ["PP-ieee", "PP-collab"] },
-      { "id": "creative", "family": "product", "label": "Creative Solutions", "evidence": ["PP-rte-60", "PP-babel-i18n"] },
+      {
+        "id": "adaptable",
+        "family": "product",
+        "label": "Adaptable Problem Solving",
+        "evidence": ["PP-crm", "PP-iam-router"]
+      },
+      {
+        "id": "prevention",
+        "family": "product",
+        "label": "Proactive Problem Prevention and Elimination",
+        "evidence": ["PP-ts-70", "PP-zod-lib", "PP-adaptate"]
+      },
+      {
+        "id": "systems",
+        "family": "product",
+        "label": "System Thinking",
+        "evidence": ["PP-acl", "PP-integ-team", "PP-collab"]
+      },
+      {
+        "id": "detail",
+        "family": "product",
+        "label": "Detail Orientation",
+        "evidence": ["PP-ts-200h", "PP-playwright"]
+      },
+      {
+        "id": "adjacent",
+        "family": "product",
+        "label": "Innovative Adjacent Thinking",
+        "evidence": ["PP-ieee", "PP-collab"]
+      },
+      {
+        "id": "creative",
+        "family": "product",
+        "label": "Creative Solutions",
+        "evidence": ["PP-rte-60", "PP-babel-i18n"]
+      },
       { "id": "agile", "family": "development", "label": "Agile", "evidence": ["PP-lead"] },
-      { "id": "tdd", "family": "development", "label": "Test Driven Development", "evidence": ["PP-zod-lib", "PP-adaptate"] },
-      { "id": "bdd", "family": "development", "label": "Behavior Driven Development", "evidence": [] },
-      { "id": "e2e", "family": "development", "label": "End-to-End Testing", "evidence": ["PP-playwright"] },
-      { "id": "mob", "family": "development", "label": "Pair/Mob Programming", "evidence": ["PP-playwright"] }
+      {
+        "id": "tdd",
+        "family": "development",
+        "label": "Test Driven Development",
+        "evidence": ["PP-zod-lib", "PP-adaptate"]
+      },
+      {
+        "id": "bdd",
+        "family": "development",
+        "label": "Behavior Driven Development",
+        "evidence": []
+      },
+      {
+        "id": "e2e",
+        "family": "development",
+        "label": "End-to-End Testing",
+        "evidence": ["PP-playwright"]
+      },
+      {
+        "id": "mob",
+        "family": "development",
+        "label": "Pair/Mob Programming",
+        "evidence": ["PP-playwright"]
+      }
     ],
     "evidence": [
       {

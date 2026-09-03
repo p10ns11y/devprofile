@@ -85,4 +85,4 @@ If this run started Playwright's `webServer`, let the Playwright process exit. N
 node scripts/verify-devprofile-doctor.mjs
 ```
 
-Feature map loader: `tests/e2e/helpers/feature-map.ts`. Asserts: `assertUx`, `assertContent`, `assertPixelBaseline`.
+Feature map loader: `tests/e2e/helpers/feature-map.ts`. Asserts: `assertUx`, `assertContent`, `assertPixelBaseline`, `assertFocusEssayCardImagesPaint`.

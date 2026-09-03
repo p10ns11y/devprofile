@@ -158,7 +158,7 @@ Failure dumps: `test-results/` (gitignored). Agent captures: `artifacts/verify-d
 | `/` | yes | `home.png` |
 | `/?cv=view` | dialog, not the home `h1` | `cv.png` (home under the dialog) |
 | `/certificates` | list, not an open overlay | `certificates.png` |
-| `/focus` | yes | `focus.png` |
+| `/articles` | yes | `articles.png` |
 | `/profile` | cover slide | `profile.png` |
 | `/x` | yes | `x.png` (dates masked) |
 | `/qa` | yes | **none** |
