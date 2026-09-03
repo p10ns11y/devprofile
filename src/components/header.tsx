@@ -23,7 +23,7 @@ type NavItem = {
 const primaryNav: NavItem[] = [];
 
 const standaloneNav: NavItem[] = [
-  { name: "Essays", href: "/essays" },
+  { name: "Articles", href: "/articles" },
   { name: "Building", href: "/building" },
   { name: "Q&A", href: "/qa" },
   { name: "CV", href: "__cv__" },
@@ -164,55 +164,57 @@ export function Header() {
           {standaloneNav.map((item) =>
             renderLinkItem(item.href === "__cv__" ? { ...item, href: cvHref } : item)
           )}
-          {moreNav.length === 0 ? null : <div ref={moreMenuRef} className="relative">
-            <button
-              type="button"
-              className={`${navControlClass} gap-1 py-0`}
-              aria-expanded={isMoreOpen}
-              aria-haspopup="menu"
-              onClick={() => setIsMoreOpen((open) => !open)}
-              {...lcvInteract({
-                event: "toggle-more",
-                from: isMoreOpen ? "more:open" : "more:closed",
-                success: isMoreOpen ? "more:closed" : "more:open",
-                fail: isMoreOpen ? "more:open" : "more:closed",
-                interrupted: isMoreOpen ? "more:open" : "more:closed",
-              })}
-            >
-              More
-              <ChevronDown
-                className={cn("size-4 transition-transform", isMoreOpen && "rotate-180")}
-                aria-hidden="true"
-              />
-            </button>
-            {isMoreOpen ? (
-              <div
-                role="menu"
-                className="absolute top-full left-1/2 z-50 mt-3 flex min-w-[13rem] -translate-x-1/2 flex-col gap-1 rounded-xl border border-border bg-surface1 p-2 shadow-lg"
+          {moreNav.length === 0 ? null : (
+            <div ref={moreMenuRef} className="relative">
+              <button
+                type="button"
+                className={`${navControlClass} gap-1 py-0`}
+                aria-expanded={isMoreOpen}
+                aria-haspopup="menu"
+                onClick={() => setIsMoreOpen((open) => !open)}
+                {...lcvInteract({
+                  event: "toggle-more",
+                  from: isMoreOpen ? "more:open" : "more:closed",
+                  success: isMoreOpen ? "more:closed" : "more:open",
+                  fail: isMoreOpen ? "more:open" : "more:closed",
+                  interrupted: isMoreOpen ? "more:open" : "more:closed",
+                })}
               >
-                {moreNav.map((item) => (
-                  <div key={item.name} role="none">
-                    <Link
-                      href={item.href}
-                      prefetch
-                      role="menuitem"
-                      onClick={() => setIsMoreOpen(false)}
-                      className={`${navControlClass} block w-full rounded-lg px-4 py-3 text-left`}
-                      {...lcvInteract({
-                        event: "navigate",
-                        from: "more:open",
-                        success: item.href,
-                        fail: "more:open",
-                        interrupted: "more:open",
-                      })}
-                    >
-                      {item.name}
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </div>}
+                More
+                <ChevronDown
+                  className={cn("size-4 transition-transform", isMoreOpen && "rotate-180")}
+                  aria-hidden="true"
+                />
+              </button>
+              {isMoreOpen ? (
+                <div
+                  role="menu"
+                  className="absolute top-full left-1/2 z-50 mt-3 flex min-w-[13rem] -translate-x-1/2 flex-col gap-1 rounded-xl border border-border bg-surface1 p-2 shadow-lg"
+                >
+                  {moreNav.map((item) => (
+                    <div key={item.name} role="none">
+                      <Link
+                        href={item.href}
+                        prefetch
+                        role="menuitem"
+                        onClick={() => setIsMoreOpen(false)}
+                        className={`${navControlClass} block w-full rounded-lg px-4 py-3 text-left`}
+                        {...lcvInteract({
+                          event: "navigate",
+                          from: "more:open",
+                          success: item.href,
+                          fail: "more:open",
+                          interrupted: "more:open",
+                        })}
+                      >
+                        {item.name}
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          )}
         </div>
 
         <div className="hidden lg:flex items-center gap-3 ml-auto shrink-0">

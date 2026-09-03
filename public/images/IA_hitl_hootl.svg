@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" width="860" height="480">
   <rect width="860" height="480" fill="#fffaf7"/>
-  <text x="430" y="36" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#c2410c" letter-spacing="0.06em">HITL � HOOTL</text>
-  <text x="430" y="62" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#5c524a">Kernel owns truth � workers clear thrash</text>
+  <text x="430" y="36" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#c2410c" letter-spacing="0.06em">HITL Â· HOOTL</text>
+  <text x="430" y="62" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#5c524a">Kernel owns truth Â· workers clear thrash</text>
 
   <rect x="80" y="100" width="700" height="88" rx="12" fill="#fff" stroke="#c2410c" stroke-width="2" stroke-opacity="0.35"/>
   <text x="430" y="132" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="700" fill="#1a1410">Runtime / kernel</text>
-  <text x="430" y="158" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#4a4038">life-state � dependency graph � critical path � HITL escalation</text>
-  <text x="430" y="176" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#4a4038">triggers � message bus</text>
+  <text x="430" y="158" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#4a4038">life-state Â· dependency graph Â· critical path Â· HITL escalation</text>
+  <text x="430" y="176" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#4a4038">triggers Â· message bus</text>
 
   <path d="M430 188 L430 228" stroke="#c2410c" stroke-width="2" marker-end="url(#arrow)"/>
   <defs>
@@ -18,7 +18,7 @@
 
   <rect x="80" y="240" width="700" height="72" rx="12" fill="#fff" stroke="#4a9eed" stroke-width="2" stroke-opacity="0.45"/>
   <text x="430" y="272" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="700" fill="#1a1410">Helper swarm (HOOTL)</text>
-  <text x="430" y="296" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#4a4038">digital chores � typed messages � verified artifacts back</text>
+  <text x="430" y="296" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#4a4038">digital chores Â· typed messages Â· verified artifacts back</text>
 
   <rect x="120" y="360" width="200" height="72" rx="10" fill="#dbe4ff" stroke="#4a9eed" stroke-width="1.5"/>
   <text x="220" y="392" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#1e3a5f">HITL</text>
@@ -32,5 +32,5 @@
   <text x="640" y="392" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#92400e">Auth gates</text>
   <text x="640" y="414" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#92400e">wait for permission</text>
 
-  <text x="430" y="462" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#5c524a">Automate the digital � surface the physical � make the truth playable</text>
+  <text x="430" y="462" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#5c524a">Automate the digital Â· surface the physical Â· make the truth playable</text>
 </svg>

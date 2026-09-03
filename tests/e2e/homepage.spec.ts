@@ -9,7 +9,7 @@ test.describe("Homepage", () => {
 
     await expect(page.locator("h1").first()).toBeVisible();
     await openMobileMenuIfNeeded(page, isMobile);
-    await expect(page.getByRole("link", { name: "Essays" }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "Articles" }).first()).toBeVisible();
     await expect(page.getByRole("link", { name: "Building" }).first()).toBeVisible();
     await expect(
       page.locator("#about").getByRole("heading", { name: "What you are hiring" })
@@ -65,9 +65,7 @@ test.describe("Homepage", () => {
     await expect(work.getByRole("heading", { name: "Product", exact: true })).toBeVisible();
     await expect(work.getByRole("heading", { name: "Development", exact: true })).toBeVisible();
     await expect(work.getByText("70%")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Behavior Driven Development" })).toHaveCount(
-      0
-    );
+    await expect(page.getByRole("heading", { name: "Behavior Driven Development" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Senior Software Engineer" })).toHaveCount(0);
     await expect(work.getByRole("heading", { name: "Innovative Adjacent Thinking" })).toBeVisible();
     await expect(work.getByRole("link", { name: "IEEE", exact: true })).toHaveAttribute(

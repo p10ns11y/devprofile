@@ -28,12 +28,22 @@ const nextConfig = {
       },
       {
         source: "/focus",
-        destination: "/essays",
+        destination: "/articles",
         permanent: true,
       },
       {
         source: "/focus/:path*",
-        destination: "/essays/:path*",
+        destination: "/articles/:path*",
+        permanent: true,
+      },
+      {
+        source: "/essays",
+        destination: "/articles",
+        permanent: true,
+      },
+      {
+        source: "/essays/:path*",
+        destination: "/articles/:path*",
         permanent: true,
       },
     ];
@@ -41,11 +51,11 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/essays",
+        source: "/articles",
         destination: "/focus",
       },
       {
-        source: "/essays/:path*",
+        source: "/articles/:path*",
         destination: "/focus/:path*",
       },
     ];

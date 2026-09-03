@@ -24,4 +24,5 @@ LCV continues the tree: Routes → Viewports → Orientation → Layouts → Con
 - [Profile](./profile.md)
 - [CV](./cv.md)
 - [Certificates](./certificates.md)
-- [Focus](./focus.md)
+- [Articles index](./focus.md)
+- [HITL and HOOTL article](./articles-hitl-hootl.md)
