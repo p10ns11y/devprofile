@@ -1,6 +1,10 @@
 export const FOCUS_INDEX_HREF = "/essays";
 
-export type FocusEssaySlug = "eeaas-to-agents" | "memory-issue" | "archive-not-memory";
+export type FocusEssaySlug =
+  | "eeaas-to-agents"
+  | "memory-issue"
+  | "archive-not-memory"
+  | "hitl-hootl";
 
 export type FocusEssay = {
   slug: FocusEssaySlug;
@@ -85,6 +89,21 @@ export const FOCUS_ESSAYS: readonly FocusEssay[] = [
       alt: "",
       width: 860,
       height: 560,
+    },
+  },
+  {
+    slug: "hitl-hootl",
+    href: "/essays/hitl-hootl",
+    navLabel: "HITL and HOOTL",
+    title: "Automate the digital, surface the physical — HITL and HOOTL for ensembly",
+    cardLede:
+      "Human-in-the-loop is optional verification, not a play loop. Human-out-of-the-loop is a helper swarm clearing digital thrash along the critical path while you live.",
+    eyebrow: "Ensembly · life OS",
+    image: {
+      src: "/images/IA_hitl_hootl.svg",
+      alt: "",
+      width: 860,
+      height: 480,
     },
   },
 ];
