@@ -293,6 +293,13 @@ export default function ArchiveNotMemoryPage() {
             title="Pulse instead of dump"
             detail="Schrödinger’s three constraints, applied to agent memory: why the harness should pulse, not flood the context window."
           />
+
+          <FocusRelated
+            eyebrow="Ensembly"
+            href="/focus/hitl-hootl"
+            title="Automate the digital, surface the physical — HITL and HOOTL for ensembly"
+            detail="Human-in-the-loop is optional verification, not a play loop. Human-out-of-the-loop is a helper swarm clearing digital thrash along the critical path."
+          />
         </article>
       </div>
 

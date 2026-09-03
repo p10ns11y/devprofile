@@ -310,6 +310,13 @@ export default function MemoryIssuePage() {
             title="From 2016 energy orchestration to 2026 agentic systems"
             detail="Why the cost of learning must fall while decision quality rises—and why that still holds when nearly all inference is remote."
           />
+
+          <FocusRelated
+            eyebrow="Ensembly"
+            href="/focus/hitl-hootl"
+            title="Automate the digital, surface the physical — HITL and HOOTL for ensembly"
+            detail="Human-in-the-loop is optional verification, not a play loop. Human-out-of-the-loop is a helper swarm clearing digital thrash along the critical path."
+          />
         </article>
       </div>
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" width="860" height="480">
+  <rect width="860" height="480" fill="#fffaf7"/>
+  <text x="430" y="36" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#c2410c" letter-spacing="0.06em">HITL · HOOTL</text>
+  <text x="430" y="62" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#5c524a">Kernel owns truth · workers clear thrash</text>
+
+  <rect x="80" y="100" width="700" height="88" rx="12" fill="#fff" stroke="#c2410c" stroke-width="2" stroke-opacity="0.35"/>
+  <text x="430" y="132" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="700" fill="#1a1410">Runtime / kernel</text>
+  <text x="430" y="158" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#4a4038">life-state · dependency graph · critical path · HITL escalation</text>
+  <text x="430" y="176" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#4a4038">triggers · message bus</text>
+
+  <path d="M430 188 L430 228" stroke="#c2410c" stroke-width="2" marker-end="url(#arrow)"/>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#c2410c"/>
+    </marker>
+  </defs>
+
+  <rect x="80" y="240" width="700" height="72" rx="12" fill="#fff" stroke="#4a9eed" stroke-width="2" stroke-opacity="0.45"/>
+  <text x="430" y="272" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="700" fill="#1a1410">Helper swarm (HOOTL)</text>
+  <text x="430" y="296" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#4a4038">digital chores · typed messages · verified artifacts back</text>
+
+  <rect x="120" y="360" width="200" height="72" rx="10" fill="#dbe4ff" stroke="#4a9eed" stroke-width="1.5"/>
+  <text x="220" y="392" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#1e3a5f">HITL</text>
+  <text x="220" y="414" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#1e3a5f">optional join</text>
+
+  <rect x="330" y="360" width="200" height="72" rx="10" fill="#e5dbff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="430" y="392" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#2d1b69">Physical</text>
+  <text x="430" y="414" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#2d1b69">body-world pickups</text>
+
+  <rect x="540" y="360" width="200" height="72" rx="10" fill="#fff3bf" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="640" y="392" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#92400e">Auth gates</text>
+  <text x="640" y="414" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#92400e">wait for permission</text>
+
+  <text x="430" y="462" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" fill="#5c524a">Automate the digital · surface the physical · make the truth playable</text>
+</svg>
