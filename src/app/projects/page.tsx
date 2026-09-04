@@ -8,31 +8,24 @@ export default function ProjectsIndexPage() {
 
   return (
     <div className="focus-page min-h-screen">
-      {/*
-        THESIS: Projects is an index of real architecture walkthroughs, not a repo dump.
-        OWN-WORLD: Same Focus editorial tokens; cards without diagram frames.
-        STORY: Visitor picks a shipped system and reads problem → ops.
-        FIRST VIEWPORT: Title + lede + walkthrough cards.
-        FORM: Semantic list of articles; whole-card links.
-        FINISH: type-check/lint; /projects and /projects/[slug] resolve.
-      */}
       <Header />
 
-      <div className="focus-page__shell focus-page__shell--index">
+      <main className="focus-page__shell focus-page__shell--index">
         <header className="focus-page__intro">
-          <h1 className="focus-page__title">Projects</h1>
-          <p className="focus-page__lede">
-            Technical and architectural walkthroughs for systems that shipped: local operator
-            loops, cultural-computational metre, adaptable validation, and privacy-first agent
-            tooling. Not a gallery of READMEs.
+          <h1 className="focus-page__title" data-lcv="must-show">
+            Projects
+          </h1>
+          <p className="focus-page__lede" data-lcv="must-show">
+            Product gallery of systems that shipped: who they serve, what they do, and how the
+            architecture holds. Short walkthroughs, not a README dump.
           </p>
         </header>
 
-        <section className="focus-index" aria-labelledby="projects-walkthroughs-heading">
-          <h2 id="projects-walkthroughs-heading" className="focus-index__heading">
-            Walkthroughs
+        <section className="focus-index projects-gallery" aria-labelledby="projects-gallery-heading">
+          <h2 id="projects-gallery-heading" className="focus-index__heading">
+            Product gallery
           </h2>
-          <ul role="list" className="focus-index__list">
+          <ul role="list" className="focus-index__list projects-gallery__list">
             {projects.map((project) => (
               <li key={project.slug} className="focus-index__item">
                 <ProjectWalkthroughCard project={project} />
@@ -40,7 +33,7 @@ export default function ProjectsIndexPage() {
             ))}
           </ul>
         </section>
-      </div>
+      </main>
 
       <Footer />
     </div>

@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FocusRelated } from "@/components/focus/focus-related";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { ProjectWalkthroughBlocks } from "@/components/projects/project-walkthrough-blocks";
+import { ProjectWalkthroughHero } from "@/components/projects/project-walkthrough-hero";
 import { SiteButton } from "@/components/site/SiteButton";
 import {
   getProjectWalkthrough,
   listProjectWalkthroughs,
   PROJECTS_INDEX_HREF,
   projectWalkthroughSlugs,
+  walkthroughSectionsByBand,
 } from "@/data/project-walkthroughs";
+import { lcvInteract } from "@/lib/lcv-interact";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -59,67 +62,80 @@ export default async function ProjectWalkthroughPage({ params }: PageProps) {
   }
 
   const siblings = listProjectWalkthroughs().filter((item) => item.slug !== project.slug);
+  const productSections = walkthroughSectionsByBand(project, "product");
+  const techSections = walkthroughSectionsByBand(project, "tech");
+  const from = `/projects/${project.slug}`;
 
   return (
     <div className="focus-page min-h-screen">
       <Header />
 
-      <div className="focus-page__shell">
-        <header className="focus-page__intro">
-          <nav className="focus-series" aria-label="Projects">
-            <ol>
-              <li>
-                <Link href={PROJECTS_INDEX_HREF}>Projects</Link>
-              </li>
-              <li>
-                <span aria-current="page">{project.cvdataKey}</span>
-              </li>
-            </ol>
-          </nav>
-          <p className="projects-index-card__eyebrow">{project.eyebrow}</p>
-          <h1 className="focus-page__title">{project.title}</h1>
-          <p className="focus-page__lede">{project.lede}</p>
-          <ul className="projects-tech" aria-label="Stack">
-            {project.tech.map((item) => (
-              <li key={item} className="projects-tech__item">
-                {item}
-              </li>
-            ))}
-          </ul>
-          <p className="projects-meta">
-            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
-              Source on GitHub
-            </a>
-            {project.liveUrl ? (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                Live
-              </a>
-            ) : null}
-            {project.npmUrl ? (
-              <a href={project.npmUrl} target="_blank" rel="noopener noreferrer">
-                npm
-              </a>
-            ) : null}
-          </p>
-        </header>
+      <main className="focus-page__shell">
+        <ProjectWalkthroughHero project={project} />
 
-        <article className="focus-page__article">
-          {project.sections.map((section) => (
-            <section key={section.id} aria-labelledby={`section-${section.id}`}>
+        <article className="focus-page__article projects-article">
+          {productSections.map((section) => (
+            <section
+              key={section.id}
+              className="projects-section projects-section--product"
+              aria-labelledby={`section-${section.id}`}
+            >
               <h2 id={`section-${section.id}`}>{section.title}</h2>
-              {section.paragraphs.map((paragraph, index) => (
-                <p key={`${section.id}-${index}`}>{paragraph}</p>
-              ))}
+              <ProjectWalkthroughBlocks blocks={section.blocks} />
             </section>
           ))}
 
+          <div className="projects-tech-band">
+            <header className="projects-tech-band__intro">
+              <h2 className="projects-tech-band__title">Tech and architecture</h2>
+              <ul className="projects-tech" aria-label="Stack">
+                {project.tech.map((item) => (
+                  <li key={item} className="projects-tech__item">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </header>
+
+            {techSections.map((section) => (
+              <section
+                key={section.id}
+                className="projects-section projects-section--tech"
+                aria-labelledby={`section-${section.id}`}
+              >
+                <h3 id={`section-${section.id}`} className="projects-section__title">
+                  {section.title}
+                </h3>
+                <ProjectWalkthroughBlocks blocks={section.blocks} />
+              </section>
+            ))}
+          </div>
+
           <div className="focus-page__close">
-            <p>More walkthroughs in this set, or back to the landscape.</p>
+            <p>More product walkthroughs in this set, or back to the landscape.</p>
             <div className="focus-page__close-actions">
-              <SiteButton href={PROJECTS_INDEX_HREF} variant="primary" size="lg">
+              <SiteButton
+                href={PROJECTS_INDEX_HREF}
+                variant="primary"
+                size="lg"
+                {...lcvInteract({
+                  event: "navigate",
+                  from,
+                  success: PROJECTS_INDEX_HREF,
+                })}
+              >
                 All projects
               </SiteButton>
-              <SiteButton href="/building" variant="outline" size="lg">
+              <SiteButton
+                href="/building"
+                variant="outline"
+                size="lg"
+                {...lcvInteract({
+                  event: "navigate",
+                  from,
+                  success: "/building",
+                })}
+              >
                 Building landscape
               </SiteButton>
             </div>
@@ -135,7 +151,7 @@ export default async function ProjectWalkthroughPage({ params }: PageProps) {
             />
           ))}
         </article>
-      </div>
+      </main>
 
       <Footer />
     </div>
