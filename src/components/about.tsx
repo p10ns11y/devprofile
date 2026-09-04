@@ -30,7 +30,9 @@ export function About() {
 
       <p className="hire-arc">
         The long arc from 2015 orchestration to 2026 local agent work lives in{" "}
-        <a href={landingInvite.arcHref.url}>{landingInvite.arcHref.label}</a>.
+        <a href={landingInvite.arcHref.url}>{landingInvite.arcHref.label}</a>. Architecture
+        walkthroughs for shipped systems are on{" "}
+        <a href="/projects">Projects</a>.
       </p>
     </SectionShell>
   );
