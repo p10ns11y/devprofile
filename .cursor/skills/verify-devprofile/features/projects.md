@@ -2,20 +2,21 @@
 path: /projects
 ---
 
-# Projects
+# Shipped
 
-Product gallery of architecture walkthroughs. Each card links to a slug page with product and tech bands.
+Product gallery of systems that shipped: walkthrough index and per-project architecture pages at `/projects/[slug]`. Nav label is **Shipped**; URL stays `/projects`.
 
 ## Sub-features
 
-- `projects-index-title` — h1 "Projects" and lede about product gallery.
-- `projects-gallery` — "Product gallery" section lists walkthrough cards (collab-finder, thepulimaangani, Adaptate, agent-prompt-tuning-lab).
-- `projects-card-links` — each card links to `/projects/<slug>`.
+- `shipped-title` — heading Shipped and the product-gallery lede on the index.
+- `shipped-cards` — walkthrough cards linking to `/projects/[slug]`.
+- `shipped-walkthrough` — hero breadcrumb (Shipped → project), outcomes, surfaces, and tech band on detail pages.
 
 ## How to get to it (user POV)
 
-- Choose Projects in the primary header or footer.
-- Open `/projects` directly.
+- Open `/projects`.
+- Choose **Shipped** in the primary header or footer Explore links.
+- From the home About section, follow the architecture walkthroughs link.
 
 ## Driving it with Playwright
 
@@ -26,5 +27,5 @@ Preconditions: `pnpm verify:doctor` is ok.
 
 ## Gotchas
 
-- Home (`/`) does not mount `#projects`; the gallery lives on this route only.
-- Card count follows `listProjectWalkthroughs()` (3–4 substantive walkthroughs).
+- Nav and breadcrumbs say **Shipped**; paths remain `/projects` and `/projects/[slug]` (no redirect).
+- Detail pages expose an **All shipped** CTA back to the index.

@@ -9,10 +9,10 @@ export function ProjectWalkthroughHero({ project }: { project: ProjectWalkthroug
 
   return (
     <header className="focus-page__intro projects-hero">
-      <nav className="focus-series" aria-label="Projects">
+      <nav className="focus-series" aria-label="Shipped">
         <ol>
           <li>
-            <Link href={PROJECTS_INDEX_HREF}>Projects</Link>
+            <Link href={PROJECTS_INDEX_HREF}>Shipped</Link>
           </li>
           <li>
             <span aria-current="page">{project.cvdataKey}</span>
