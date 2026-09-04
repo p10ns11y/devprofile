@@ -46,8 +46,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "collab-finder",
     title: "collab-finder — local apply cockpit",
-    lede:
-      "A Tauri desktop reactor for high-fit roles: live search, fit prep, SQLite history, and human promote before anything becomes permanent. Shipped as kanithanj.ai 1.0.0.",
+    lede: "A Tauri desktop reactor for high-fit roles: live search, fit prep, SQLite history, and human promote before anything becomes permanent. Shipped as kanithanj.ai 1.0.0.",
     eyebrow: "Career · agentic reactor",
     audience: "Operators who hunt high-fit roles and refuse silent CV or pack mutations.",
     outcomes: [
@@ -72,20 +71,21 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         band: "product",
         blocks: [
           {
-            type: "paragraph",
-            text: "Job hunting fragments into tabs, notes, chat logs, and half-finished CVs. Agents make that worse when they thrash: burn tokens, hit rate limits, and rewrite the same pack without a ledger.",
+            type: "callout",
+            text: "HITL promote before permanence. Rust owns secrets and pause. Overlays merge at generate time. Master cvdata is not mutated by apply.",
           },
           {
             type: "bullets",
             items: [
-              "Cost, fit, and rate gates live next to the work",
-              "A human promote is required before permanence",
-              "The prompt is cheap; changing master data is expensive",
+              "Local SQLite ledger versus agent thrash",
+              "Cost, fit, and rate gates sit next to the work",
+              "The prompt is cheap. Changing master data is expensive",
+              "Credentials and history stay on the machine. Multi-device sync is not the product",
             ],
           },
           {
-            type: "callout",
-            text: "Local-first apply loop. Credentials and history stay on the machine. Multi-device sync is not the product.",
+            type: "paragraph",
+            text: "Job hunting fragments into tabs, notes, chat logs, and half-finished CVs. Agents make that worse when they thrash: burn tokens, hit rate limits, and rewrite the same pack without a ledger.",
           },
         ],
       },
@@ -176,14 +176,15 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "thepulimaangani",
     title: "thepulimaangani — Tamil metre in the browser",
-    lede:
-      "Classical Tamil prosody as a cultural-computational product: a Rust metre parser compiled to WASM, wrapped in a React UI, with no backend required for analysis.",
+    lede: "Classical Tamil prosody as a cultural-computational product: a Rust metre parser compiled to WASM, wrapped in a React UI, with no backend required for analysis.",
     eyebrow: "Creative · metre",
-    audience: "Scholars, students, and builders who need classical Tamil metre without a remote NLP API.",
+    audience:
+      "Scholars, students, and builders who need classical Tamil metre without a remote NLP API.",
     outcomes: [
       "Segmentation and metre labels in the browser",
       "No analysis backend or text shipped to a remote NLP API",
       "Deterministic Rust core reusable outside the web shell",
+      "Engineered dense[51] features. No raw-text net on the product path",
     ],
     surfaces: [
       "Paste / editor surface for verse",
@@ -200,6 +201,20 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         title: "Product",
         band: "product",
         blocks: [
+          {
+            type: "callout",
+            text: "Classical ML on the parse plant, not a raw-text net. Mid-level labs can read the breadth as hiring confidence. Frontier labs may find the catalogue obvious.",
+          },
+          {
+            type: "bullets",
+            items: [
+              "Parse plant to dense[51] engineered features. No raw-text TF-IDF or big net on the product path",
+              "Heuristic metre head plus dense boosts. Optional hybrid multinomial logistic",
+              "PCA, Monte Carlo, entropy/margin. Dual-truth: ML stays separate from the classical checker",
+              "Pattern microscope: logistic, linear SVM, k-NN/prototypes, calibration, LDA/MI",
+              "Trees and GBDT stay offline. Naive Bayes, clustering, HMM/CRF are research. Not every Tier B method is live in WASM",
+            ],
+          },
           {
             type: "paragraph",
             text: "Tamil classical metre (yāppu) is precise linguistic structure, not a vibe check. Most poetry tools either ignore prosody or bury it in desktop corpora that do not travel with the reader.",
@@ -290,10 +305,10 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "adaptate",
     title: "Adaptate — adaptable Zod / OpenAPI validators",
-    lede:
-      "A ground-up npm validator: one optional Zod model, per-consumer required fields at runtime, and OpenAPI interop — for APIs where static schemas stop at the multi-tenant edge.",
+    lede: "A ground-up npm validator: one optional Zod model, per-consumer required fields at runtime, and OpenAPI interop — for APIs where static schemas stop at the multi-tenant edge.",
     eyebrow: "Systems · validation",
-    audience: "API authors with multi-consumer contracts where Partner A requires fields Partner B must omit.",
+    audience:
+      "API authors with multi-consumer contracts where Partner A requires fields Partner B must omit.",
     outcomes: [
       "One optional base model shared across consumers",
       "Per-consumer required/optional overlays at runtime",
@@ -315,12 +330,12 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         band: "product",
         blocks: [
           {
-            type: "paragraph",
-            text: "Shared models in multi-consumer APIs lie. A single static Zod object either over-constrains everyone or under-validates the callers who need strictness.",
+            type: "callout",
+            text: "One optional base model. Per-consumer required or optional overlays at runtime. OpenAPI interop is a lane, not a second source of truth.",
           },
           {
-            type: "callout",
-            text: "Start from one optional base model, then attach per-consumer contracts at runtime without duplicating the schema tree.",
+            type: "paragraph",
+            text: "Shared models in multi-consumer APIs lie. A single static Zod object either over-constrains everyone or under-validates the callers who need strictness.",
           },
         ],
       },
@@ -409,10 +424,10 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "agent-prompt-tuning-lab",
     title: "agent-prompt-tuning-lab — local transcript → eval assets",
-    lede:
-      "Privacy-first toolkit that turns your own agent transcripts into datasets, skills, and gold exemplars — training material without shipping chats to the cloud.",
+    lede: "Privacy-first toolkit that turns your own agent transcripts into datasets, skills, and gold exemplars — training material without shipping chats to the cloud.",
     eyebrow: "Learning · agentic reactor",
-    audience: "Builders who want eval assets and skill stubs from their own agent logs without vendor upload.",
+    audience:
+      "Builders who want eval assets and skill stubs from their own agent logs without vendor upload.",
     outcomes: [
       "Local ingest of heterogeneous agent transcripts",
       "Datasets, skill scaffolds, and gold exemplars on disk",
@@ -433,12 +448,12 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         band: "product",
         blocks: [
           {
-            type: "paragraph",
-            text: "Agent work produces the best fine-tuning and eval material you will ever own — and then it dies in scrollback. Uploading those transcripts to a vendor for auto skill extraction leaks private context.",
+            type: "callout",
+            text: "Local transcript harvest. No default remote training egress. Git-reviewed promote into skills or eval repos.",
           },
           {
-            type: "callout",
-            text: "Keep harvest local: transcripts in, structured datasets and gold exemplars out, under your filesystem permissions.",
+            type: "paragraph",
+            text: "Agent work produces the best fine-tuning and eval material you will ever own — and then it dies in scrollback. Uploading those transcripts to a vendor for auto skill extraction leaks private context.",
           },
         ],
       },
