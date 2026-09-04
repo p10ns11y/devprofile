@@ -141,8 +141,8 @@
 
 .projects-tech-band__intro {
   margin: 0 0 1.35rem;
-  padding-bottom: 1.1rem;
-  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .projects-tech-band__title {
@@ -153,8 +153,30 @@
   letter-spacing: -0.018em;
 }
 
+.projects-diagram {
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 0.65rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.75rem;
+  background: color-mix(in oklch, var(--color-surface1) 88%, var(--color-surface2));
+  overflow-x: auto;
+}
+
+.projects-diagram__canvas {
+  display: flex;
+  justify-content: center;
+  min-width: min(100%, 18rem);
+}
+
+.projects-diagram__canvas svg {
+  max-width: 100%;
+  height: auto;
+}
+
 .projects-tech-band .projects-tech {
-  margin-top: 0.85rem;
+  margin: 0 0 1.35rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .projects-section--tech + .projects-section--tech {

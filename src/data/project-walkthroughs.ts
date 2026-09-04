@@ -8,11 +8,14 @@ export type WalkthroughSectionId =
   | "tradeoffs"
   | "testing-ops";
 
+export type WalkthroughMermaidBlock = { type: "mermaid"; code: string };
+
 export type WalkthroughBlock =
   | { type: "paragraph"; text: string }
   | { type: "bullets"; items: readonly string[] }
   | { type: "callout"; text: string }
-  | { type: "flow"; steps: readonly string[] };
+  | { type: "flow"; steps: readonly string[] }
+  | WalkthroughMermaidBlock;
 
 export type WalkthroughSection = {
   id: WalkthroughSectionId;
@@ -94,6 +97,28 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         title: "Architecture",
         band: "tech",
         blocks: [
+          {
+            type: "mermaid",
+            code: `graph TB
+  subgraph shell["Tauri 2 shell"]
+    UI["React UI — search, fit prep, review"]
+  end
+  subgraph core["Rust core"]
+    CMD["Command surface"]
+    SEC["Secrets & pause guards"]
+    DB["SQLite ledger"]
+  end
+  subgraph export["Export path"]
+    PACK["Pack folders"]
+    OVL["cv-overlay merge"]
+    PDF["kanithanj.cv PDF"]
+  end
+  UI --> CMD
+  CMD --> SEC
+  CMD --> DB
+  UI --> PACK
+  PACK --> OVL --> PDF`,
+          },
           {
             type: "bullets",
             items: [
@@ -231,6 +256,15 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         band: "tech",
         blocks: [
           {
+            type: "mermaid",
+            code: `graph LR
+  TXT["User verse"] --> UI["React UI"]
+  UI --> WASM["WASM bridge"]
+  WASM --> RUST["Rust metre parser"]
+  RUST --> OUT["Segmentation & metre labels"]
+  OUT --> UI`,
+          },
+          {
             type: "bullets",
             items: [
               "Hot path is Rust: parser and prosody rules compile to WebAssembly",
@@ -344,6 +378,15 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         title: "Architecture",
         band: "tech",
         blocks: [
+          {
+            type: "mermaid",
+            code: `graph TB
+  CTX["Request + consumer context"] --> ADP["Consumer adapter"]
+  BASE["Optional base model"] --> ADP
+  ADP --> ZOD["Zod validate"]
+  ZOD --> RES["Typed result / error"]
+  OAPI["OpenAPI / JSON Schema"] -.interop.-> BASE`,
+          },
           {
             type: "bullets",
             items: [
@@ -463,6 +506,15 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         band: "tech",
         blocks: [
           {
+            type: "mermaid",
+            code: `graph LR
+  LOGS["Local transcript files"] --> ING["Ingest parsers"]
+  ING --> NORM["Normalize turns"]
+  NORM --> FLT["Redact / filter"]
+  FLT --> CUR["Human / heuristic curation"]
+  CUR --> EXP["Export datasets / skills / exemplars"]`,
+          },
+          {
             type: "bullets",
             items: [
               "Pipeline, not chat UI",
@@ -562,4 +614,23 @@ export function walkthroughSectionsByBand(
   band: WalkthroughSection["band"]
 ): readonly WalkthroughSection[] {
   return project.sections.filter((section) => section.band === band);
+}
+
+/** Architecture section must lead with a mermaid block; rendered above tech prose. */
+export function getArchitectureDiagram(
+  project: ProjectWalkthrough
+): WalkthroughMermaidBlock | undefined {
+  const architecture = project.sections.find((section) => section.id === "architecture");
+  const first = architecture?.blocks[0];
+  return first?.type === "mermaid" ? first : undefined;
+}
+
+/** Omit the band-level diagram when rendering architecture section body copy. */
+export function sectionBlocksWithoutLeadingDiagram(
+  section: WalkthroughSection
+): readonly WalkthroughBlock[] {
+  if (section.id !== "architecture" || section.blocks[0]?.type !== "mermaid") {
+    return section.blocks;
+  }
+  return section.blocks.slice(1);
 }

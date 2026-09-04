@@ -1,3 +1,4 @@
+import { ProjectWalkthroughMermaid } from "@/components/projects/project-walkthrough-mermaid";
 import type { WalkthroughBlock } from "@/data/project-walkthroughs";
 
 export function ProjectWalkthroughBlocks({ blocks }: { blocks: readonly WalkthroughBlock[] }) {
@@ -34,6 +35,8 @@ export function ProjectWalkthroughBlocks({ blocks }: { blocks: readonly Walkthro
                 ))}
               </ol>
             );
+          case "mermaid":
+            return <ProjectWalkthroughMermaid key={key} code={block.code} />;
           default: {
             const _exhaustive: never = block;
             return _exhaustive;
