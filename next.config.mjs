@@ -46,6 +46,16 @@ const nextConfig = {
         destination: "/articles/:path*",
         permanent: true,
       },
+      {
+        source: "/projects",
+        destination: "/shipped",
+        permanent: true,
+      },
+      {
+        source: "/projects/:slug",
+        destination: "/shipped/:slug",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

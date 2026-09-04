@@ -1,18 +1,18 @@
 import Link from "next/link";
 import { SiteButton } from "@/components/site/SiteButton";
 import type { ProjectWalkthrough } from "@/data/project-walkthroughs";
-import { PROJECTS_INDEX_HREF } from "@/data/project-walkthroughs";
+import { SHIPPED_INDEX_HREF } from "@/data/project-walkthroughs";
 import { lcvInteract } from "@/lib/lcv-interact";
 
 export function ProjectWalkthroughHero({ project }: { project: ProjectWalkthrough }) {
-  const from = `/projects/${project.slug}`;
+  const from = `/shipped/${project.slug}`;
 
   return (
     <header className="focus-page__intro projects-hero">
-      <nav className="focus-series" aria-label="Projects">
+      <nav className="focus-series" aria-label="Shipped">
         <ol>
           <li>
-            <Link href={PROJECTS_INDEX_HREF}>Projects</Link>
+            <Link href={SHIPPED_INDEX_HREF}>Shipped</Link>
           </li>
           <li>
             <span aria-current="page">{project.cvdataKey}</span>

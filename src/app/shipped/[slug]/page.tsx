@@ -11,8 +11,8 @@ import {
   getArchitectureDiagram,
   getProjectWalkthrough,
   listProjectWalkthroughs,
-  PROJECTS_INDEX_HREF,
   projectWalkthroughSlugs,
+  SHIPPED_INDEX_HREF,
   sectionBlocksWithoutLeadingDiagram,
   walkthroughSectionsByBand,
 } from "@/data/project-walkthroughs";
@@ -30,20 +30,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const project = getProjectWalkthrough(slug);
   if (!project) {
-    return { title: "Project not found" };
+    return { title: "Walkthrough not found" };
   }
 
-  const title = `${project.title} — project walkthrough`;
+  const title = `${project.title} — shipped walkthrough`;
   const description = project.lede;
 
   return {
     title,
     description,
-    alternates: { canonical: `/projects/${project.slug}` },
+    alternates: { canonical: `/shipped/${project.slug}` },
     openGraph: {
       title,
       description,
-      url: `/projects/${project.slug}`,
+      url: `/shipped/${project.slug}`,
       siteName: "Peramanathan Sathyamoorthy",
       locale: "en_US",
       type: "article",
@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function ProjectWalkthroughPage({ params }: PageProps) {
+export default async function ShippedWalkthroughPage({ params }: PageProps) {
   const { slug } = await params;
   const project = getProjectWalkthrough(slug);
   if (!project) {
@@ -68,7 +68,7 @@ export default async function ProjectWalkthroughPage({ params }: PageProps) {
   const productSections = walkthroughSectionsByBand(project, "product");
   const techSections = walkthroughSectionsByBand(project, "tech");
   const architectureDiagram = getArchitectureDiagram(project);
-  const from = `/projects/${project.slug}`;
+  const from = `/shipped/${project.slug}`;
 
   return (
     <div className="focus-page min-h-screen">
@@ -121,19 +121,19 @@ export default async function ProjectWalkthroughPage({ params }: PageProps) {
           </div>
 
           <div className="focus-page__close">
-            <p>More product walkthroughs in this set, or back to the landscape.</p>
+            <p>More shipped walkthroughs in this set, or back to the landscape.</p>
             <div className="focus-page__close-actions">
               <SiteButton
-                href={PROJECTS_INDEX_HREF}
+                href={SHIPPED_INDEX_HREF}
                 variant="primary"
                 size="lg"
                 {...lcvInteract({
                   event: "navigate",
                   from,
-                  success: PROJECTS_INDEX_HREF,
+                  success: SHIPPED_INDEX_HREF,
                 })}
               >
-                All projects
+                All shipped
               </SiteButton>
               <SiteButton
                 href="/building"
@@ -154,7 +154,7 @@ export default async function ProjectWalkthroughPage({ params }: PageProps) {
             <FocusRelated
               key={item.slug}
               eyebrow="Also walk through"
-              href={`/projects/${item.slug}`}
+              href={`/shipped/${item.slug}`}
               title={item.title}
               detail={item.lede}
             />

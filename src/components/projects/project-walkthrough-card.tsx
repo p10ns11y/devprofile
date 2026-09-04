@@ -3,7 +3,7 @@ import type { ProjectWalkthrough } from "@/data/project-walkthroughs";
 import { lcvInteract } from "@/lib/lcv-interact";
 
 export function ProjectWalkthroughCard({ project }: { project: ProjectWalkthrough }) {
-  const href = `/projects/${project.slug}`;
+  const href = `/shipped/${project.slug}`;
 
   return (
     <article data-card="project">
@@ -12,7 +12,7 @@ export function ProjectWalkthroughCard({ project }: { project: ProjectWalkthroug
         className="projects-index-card__link"
         {...lcvInteract({
           event: "navigate",
-          from: "/projects",
+          from: "/shipped",
           success: href,
         })}
       >
