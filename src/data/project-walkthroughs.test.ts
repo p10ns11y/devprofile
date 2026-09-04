@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import cvdata from "./cvdata.json";
 import {
+  getArchitectureDiagram,
   getProjectWalkthrough,
   listProjectWalkthroughs,
   PROJECT_WALKTHROUGHS,
@@ -28,6 +29,8 @@ function blockTextLength(
       return block.items.join(" ").length;
     case "flow":
       return block.steps.join(" ").length;
+    case "mermaid":
+      return block.code.length;
     default: {
       const _exhaustive: never = block;
       return _exhaustive;
@@ -82,6 +85,18 @@ describe("project-walkthroughs", () => {
     expect(getProjectWalkthrough("missing-project")).toBeUndefined();
   });
 
+  it("places a leading architecture mermaid diagram before tech prose in every walkthrough", () => {
+    for (const project of PROJECT_WALKTHROUGHS) {
+      const architecture = project.sections.find((section) => section.id === "architecture");
+      expect(architecture?.blocks[0]?.type, project.slug).toBe("mermaid");
+
+      const diagram = getArchitectureDiagram(project);
+      expect(diagram, project.slug).toBeDefined();
+      expect(diagram?.code.length).toBeGreaterThan(30);
+      expect(diagram?.code).toMatch(/graph\s+(TB|LR|BT|RL)/);
+    }
+  });
+
   it("places thepulimaangani classical ML in the product band", () => {
     const project = getProjectWalkthrough("thepulimaangani");
     expect(project).toBeDefined();
@@ -97,6 +112,8 @@ describe("project-walkthroughs", () => {
             return block.items.join(" ");
           case "flow":
             return block.steps.join(" ");
+          case "mermaid":
+            return block.code;
           default: {
             const _exhaustive: never = block;
             return _exhaustive;
