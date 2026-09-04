@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "@/styles/focus.css";
-import "@/styles/projects.css";
+import "@/styles/shipped.css";
 
 const title = "Shipped — product walkthroughs";
 const description =
-  "Product-led walkthroughs for portfolio systems: local apply cockpit, Tamil metre in WASM, adaptable validators, and local agent transcript labs.";
+  "Product-led walkthroughs for systems that shipped: local apply cockpit, Tamil metre in WASM, and adaptable validators.";
 
 export const metadata: Metadata = {
   title,
   description,
   keywords: [
-    "project walkthroughs",
+    "shipped walkthroughs",
     "collab-finder",
     "thepulimaangani",
     "Adaptate",
-    "agent-prompt-tuning-lab",
     "Tauri",
     "Rust WASM",
     "Zod OpenAPI",
@@ -25,12 +24,12 @@ export const metadata: Metadata = {
   creator: "Peramanathan Sathyamoorthy",
   category: "Technology",
   alternates: {
-    canonical: "/projects",
+    canonical: "/shipped",
   },
   openGraph: {
     title,
     description,
-    url: "/projects",
+    url: "/shipped",
     siteName: "Peramanathan Sathyamoorthy",
     locale: "en_US",
     type: "website",
@@ -47,6 +46,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ProjectsLayout({ children }: { children: ReactNode }) {
+export default function ShippedLayout({ children }: { children: ReactNode }) {
   return children;
 }

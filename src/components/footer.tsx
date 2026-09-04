@@ -5,7 +5,7 @@ import { SocialLinks } from "./social-links";
 
 const siteLinks = [
   { href: "/articles", label: "Articles" },
-  { href: "/projects", label: "Shipped" },
+  { href: "/shipped", label: "Shipped" },
   { href: "/building", label: "Building" },
   { href: "/qa", label: "Q&A" },
   { href: "/?cv=view", label: "CV" },

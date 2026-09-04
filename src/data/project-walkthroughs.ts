@@ -1,4 +1,4 @@
-export const PROJECTS_INDEX_HREF = "/projects" as const;
+export const SHIPPED_INDEX_HREF = "/shipped" as const;
 
 export type WalkthroughSectionId =
   | "product"
@@ -464,136 +464,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
       },
     ],
   },
-  {
-    slug: "agent-prompt-tuning-lab",
-    title: "agent-prompt-tuning-lab — local transcript → eval assets",
-    lede: "Privacy-first toolkit that turns your own agent transcripts into datasets, skills, and gold exemplars — training material without shipping chats to the cloud.",
-    eyebrow: "Learning · agentic reactor",
-    audience:
-      "Builders who want eval assets and skill stubs from their own agent logs without vendor upload.",
-    outcomes: [
-      "Local ingest of heterogeneous agent transcripts",
-      "Datasets, skill scaffolds, and gold exemplars on disk",
-      "No default path to a remote training API",
-    ],
-    surfaces: [
-      "CLI / pipeline over local transcript directories",
-      "Export packs: JSON/JSONL, skill markdown, exemplar sets",
-      "Git-reviewed promote into skills or eval repos",
-    ],
-    tech: ["JavaScript", "Datasets", "Prompt engineering"],
-    cvdataKey: "agent-prompt-tuning-lab",
-    repoUrl: "https://github.com/p10ns11y/agent-prompt-tuning-lab",
-    sections: [
-      {
-        id: "product",
-        title: "Product",
-        band: "product",
-        blocks: [
-          {
-            type: "callout",
-            text: "Local transcript harvest. No default remote training egress. Git-reviewed promote into skills or eval repos.",
-          },
-          {
-            type: "paragraph",
-            text: "Agent work produces the best fine-tuning and eval material you will ever own — and then it dies in scrollback. Uploading those transcripts to a vendor for auto skill extraction leaks private context.",
-          },
-        ],
-      },
-      {
-        id: "architecture",
-        title: "Architecture",
-        band: "tech",
-        blocks: [
-          {
-            type: "mermaid",
-            code: `graph LR
-  LOGS["Local transcript files"] --> ING["Ingest parsers"]
-  ING --> NORM["Normalize turns"]
-  NORM --> FLT["Redact / filter"]
-  FLT --> CUR["Human / heuristic curation"]
-  CUR --> EXP["Export datasets / skills / exemplars"]`,
-          },
-          {
-            type: "bullets",
-            items: [
-              "Pipeline, not chat UI",
-              "Ingest parsers normalize heterogeneous agent logs; filters drop secrets and noise",
-              "Exporters emit datasets, skill stubs, and gold pairs for offline eval",
-              "Pairs with skills repos and portfolio Q&A that want curated exemplars, not raw dumps",
-            ],
-          },
-        ],
-      },
-      {
-        id: "components",
-        title: "Key components",
-        band: "tech",
-        blocks: [
-          {
-            type: "bullets",
-            items: [
-              "Ingest: load local transcript formats into a common turn/tool record",
-              "Curate: label or select gold spans — successful tool traces, crisp refusals, high-signal prompts",
-              "Export: JSON/JSONL datasets, skill markdown scaffolds, exemplar packs",
-            ],
-          },
-        ],
-      },
-      {
-        id: "data-flow",
-        title: "Data flow",
-        band: "tech",
-        blocks: [
-          {
-            type: "flow",
-            steps: [
-              "Local transcript files",
-              "Normalize",
-              "Redact / filter",
-              "Human or heuristic curation",
-              "Export artifacts under a project directory",
-            ],
-          },
-          {
-            type: "paragraph",
-            text: "Nothing in the default path calls a remote training API. If you later fine-tune, you choose the egress deliberately.",
-          },
-        ],
-      },
-      {
-        id: "tradeoffs",
-        title: "Tradeoffs",
-        band: "tech",
-        blocks: [
-          {
-            type: "bullets",
-            items: [
-              "Local-first means you own disk layout and backups; there is no hosted labeling UI for free",
-              "Heuristic curation is fast and imperfect; gold that gates production prompts still needs a human pass",
-              "JavaScript keeps the toolkit easy to run next to Node agent stacks; it is not a GPU training framework",
-            ],
-          },
-        ],
-      },
-      {
-        id: "testing-ops",
-        title: "Testing and ops",
-        band: "tech",
-        blocks: [
-          {
-            type: "bullets",
-            items: [
-              "Fixture transcripts prove parsers stay stable when log formats drift",
-              "Export smoke tests assert schema shape for downstream eval",
-              "Run against a known directory, review export diffs in git, promote only what you trust",
-            ],
-          },
-        ],
-      },
-    ],
-  },
 ] as const;
+
+export const SHIPPED_WALKTHROUGH_SLUGS = ["collab-finder", "thepulimaangani", "adaptate"] as const;
 
 export type ProjectWalkthroughSlug = (typeof PROJECT_WALKTHROUGHS)[number]["slug"];
 

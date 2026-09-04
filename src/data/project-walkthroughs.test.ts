@@ -6,6 +6,7 @@ import {
   listProjectWalkthroughs,
   PROJECT_WALKTHROUGHS,
   projectWalkthroughSlugs,
+  SHIPPED_WALKTHROUGH_SLUGS,
   walkthroughSectionsByBand,
 } from "./project-walkthroughs";
 
@@ -38,12 +39,12 @@ function blockTextLength(
   }
 }
 
-describe("project-walkthroughs", () => {
-  it("lists four substantive walkthroughs with unique slugs", () => {
+describe("shipped walkthroughs", () => {
+  it("lists exactly three walkthroughs with the expected slugs", () => {
     const projects = listProjectWalkthroughs();
-    expect(projects.length).toBeGreaterThanOrEqual(3);
-    expect(projects.length).toBeLessThanOrEqual(4);
-    expect(new Set(projectWalkthroughSlugs()).size).toBe(projects.length);
+    expect(projects).toHaveLength(3);
+    expect(projectWalkthroughSlugs()).toEqual([...SHIPPED_WALKTHROUGH_SLUGS]);
+    expect(new Set(projectWalkthroughSlugs()).size).toBe(3);
   });
 
   it("ties every walkthrough to a cvdata project key with product-led structure", () => {
@@ -82,6 +83,9 @@ describe("project-walkthroughs", () => {
 
   it("resolves known slugs and rejects unknown", () => {
     expect(getProjectWalkthrough("collab-finder")?.cvdataKey).toBe("collab-finder");
+    expect(getProjectWalkthrough("thepulimaangani")?.cvdataKey).toBe("thepulimaangani");
+    expect(getProjectWalkthrough("adaptate")?.cvdataKey).toBe("adaptate");
+    expect(getProjectWalkthrough("agent-prompt-tuning-lab")).toBeUndefined();
     expect(getProjectWalkthrough("missing-project")).toBeUndefined();
   });
 
