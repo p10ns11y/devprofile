@@ -26,3 +26,5 @@ LCV continues the tree: Routes → Viewports → Orientation → Layouts → Con
 - [Certificates](./certificates.md)
 - [Articles index](./focus.md)
 - [HITL and HOOTL article](./articles-hitl-hootl.md)
+- [Projects index](./projects.md)
+- [thepulimaangani walkthrough](./projects-thepulimaangani.md)
