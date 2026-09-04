@@ -1,0 +1,143 @@
+import { describe, expect, it } from "vitest";
+import cvdata from "./cvdata.json";
+import {
+  getArchitectureDiagram,
+  getProjectWalkthrough,
+  listProjectWalkthroughs,
+  PROJECT_WALKTHROUGHS,
+  projectWalkthroughSlugs,
+  SHIPPED_WALKTHROUGH_SLUGS,
+  walkthroughSectionsByBand,
+} from "./project-walkthroughs";
+
+const REQUIRED_SECTION_IDS = [
+  "product",
+  "architecture",
+  "components",
+  "data-flow",
+  "tradeoffs",
+  "testing-ops",
+] as const;
+
+function blockTextLength(
+  block: (typeof PROJECT_WALKTHROUGHS)[number]["sections"][number]["blocks"][number]
+): number {
+  switch (block.type) {
+    case "paragraph":
+    case "callout":
+      return block.text.length;
+    case "bullets":
+      return block.items.join(" ").length;
+    case "flow":
+      return block.steps.join(" ").length;
+    case "mermaid":
+      return block.code.length;
+    default: {
+      const _exhaustive: never = block;
+      return _exhaustive;
+    }
+  }
+}
+
+describe("shipped walkthroughs", () => {
+  it("lists exactly three walkthroughs with the expected slugs", () => {
+    const projects = listProjectWalkthroughs();
+    expect(projects).toHaveLength(3);
+    expect(projectWalkthroughSlugs()).toEqual([...SHIPPED_WALKTHROUGH_SLUGS]);
+    expect(new Set(projectWalkthroughSlugs()).size).toBe(3);
+  });
+
+  it("ties every walkthrough to a cvdata project key with product-led structure", () => {
+    for (const project of PROJECT_WALKTHROUGHS) {
+      const cvProject = cvdata.projects.find((row) => row.key === project.cvdataKey);
+      expect(cvProject, project.cvdataKey).toBeDefined();
+      expect(project.repoUrl).toMatch(/^https:\/\//);
+      expect(project.lede.length).toBeGreaterThan(40);
+      expect(project.audience.length).toBeGreaterThan(20);
+      expect(project.outcomes.length).toBeGreaterThanOrEqual(3);
+      expect(project.surfaces.length).toBeGreaterThanOrEqual(2);
+      expect(project.sections.map((section) => section.id)).toEqual([...REQUIRED_SECTION_IDS]);
+      expect(walkthroughSectionsByBand(project, "product").length).toBeGreaterThanOrEqual(1);
+      expect(walkthroughSectionsByBand(project, "tech").length).toBeGreaterThanOrEqual(4);
+
+      for (const section of project.sections) {
+        expect(section.blocks.length).toBeGreaterThanOrEqual(1);
+        for (const block of section.blocks) {
+          expect(blockTextLength(block)).toBeGreaterThan(20);
+          if (block.type === "paragraph" || block.type === "callout") {
+            expect(block.text.toLowerCase()).not.toContain("lorem");
+          }
+          if (block.type === "bullets") {
+            expect(block.items.length).toBeGreaterThanOrEqual(2);
+            for (const item of block.items) {
+              expect(item.toLowerCase()).not.toContain("lorem");
+            }
+          }
+          if (block.type === "flow") {
+            expect(block.steps.length).toBeGreaterThanOrEqual(3);
+          }
+        }
+      }
+    }
+  });
+
+  it("resolves known slugs and rejects unknown", () => {
+    expect(getProjectWalkthrough("collab-finder")?.cvdataKey).toBe("collab-finder");
+    expect(getProjectWalkthrough("thepulimaangani")?.cvdataKey).toBe("thepulimaangani");
+    expect(getProjectWalkthrough("adaptate")?.cvdataKey).toBe("adaptate");
+    expect(getProjectWalkthrough("agent-prompt-tuning-lab")).toBeUndefined();
+    expect(getProjectWalkthrough("missing-project")).toBeUndefined();
+  });
+
+  it("places a leading architecture mermaid diagram before tech prose in every walkthrough", () => {
+    for (const project of PROJECT_WALKTHROUGHS) {
+      const architecture = project.sections.find((section) => section.id === "architecture");
+      expect(architecture?.blocks[0]?.type, project.slug).toBe("mermaid");
+
+      const diagram = getArchitectureDiagram(project);
+      expect(diagram, project.slug).toBeDefined();
+      expect(diagram?.code.length).toBeGreaterThan(30);
+      expect(diagram?.code).toMatch(/graph\s+(TB|LR|BT|RL)/);
+    }
+  });
+
+  it("places thepulimaangani classical ML in the product band", () => {
+    const project = getProjectWalkthrough("thepulimaangani");
+    expect(project).toBeDefined();
+    const product = walkthroughSectionsByBand(project!, "product");
+    const blocks = product.flatMap((section) => section.blocks);
+    const text = blocks
+      .map((block) => {
+        switch (block.type) {
+          case "paragraph":
+          case "callout":
+            return block.text;
+          case "bullets":
+            return block.items.join(" ");
+          case "flow":
+            return block.steps.join(" ");
+          case "mermaid":
+            return block.code;
+          default: {
+            const _exhaustive: never = block;
+            return _exhaustive;
+          }
+        }
+      })
+      .join(" ")
+      .toLowerCase();
+
+    expect(blocks.some((block) => block.type === "callout")).toBe(true);
+    expect(blocks.some((block) => block.type === "bullets")).toBe(true);
+    expect(text).toContain("dense[51]");
+    expect(text).toContain("engineered features");
+    expect(text).toContain("heuristic");
+    expect(text).toMatch(/hybrid|logistic/);
+    expect(text).toContain("pca");
+    expect(text).toContain("monte carlo");
+    expect(text).toMatch(/dual-truth|classical checker/);
+    expect(text).toContain("wasm");
+    expect(text).toContain("tf-idf");
+    expect(text).not.toMatch(/transformer/);
+  });
+});

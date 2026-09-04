@@ -24,6 +24,7 @@ const primaryNav: NavItem[] = [];
 
 const standaloneNav: NavItem[] = [
   { name: "Articles", href: "/articles" },
+  { name: "Shipped", href: "/shipped" },
   { name: "Building", href: "/building" },
   { name: "Q&A", href: "/qa" },
   { name: "CV", href: "__cv__" },
