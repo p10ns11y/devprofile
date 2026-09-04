@@ -120,6 +120,7 @@
 }
 
 .projects-article > .projects-section--product {
+  container-type: inline-size;
   margin-top: 0.35rem;
 }
 
@@ -278,6 +279,78 @@
   background: color-mix(in oklch, var(--brand) 18%, var(--color-surface2));
   color: var(--color-brand-emphasis);
   font-size: 0.7rem;
+}
+
+.projects-cards {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0 0 1.15rem;
+  padding: 0;
+  list-style: none;
+}
+
+@container (min-width: 38rem) {
+  .projects-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.projects-cards > li {
+  margin: 0;
+  min-width: 0;
+}
+
+.projects-surface-card {
+  height: 100%;
+  margin: 0;
+  padding: 1rem 1.05rem 1.1rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.85rem;
+  background: color-mix(in oklch, var(--color-surface1) 78%, var(--color-surface2));
+}
+
+.projects-surface-card__kicker {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-brand-emphasis);
+}
+
+.projects-surface-card__title {
+  margin: 0.4rem 0 0;
+  font-size: 1.05rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  color: var(--color-text1);
+}
+
+.projects-surface-card__body {
+  margin: 0.45rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--focus-ink-soft);
+  text-wrap: pretty;
+}
+
+.projects-surface-card__sample {
+  margin: 0.7rem 0 0;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.55rem;
+  border: 1px dashed color-mix(in oklch, var(--brand) 22%, var(--color-border-subtle));
+  background: color-mix(in oklch, var(--color-surface2) 70%, var(--color-surface1));
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--focus-ink-soft);
+}
+
+.projects-surface-card__sample-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-brand-emphasis);
 }
 
 .projects-index-card__tech {

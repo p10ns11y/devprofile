@@ -27,4 +27,5 @@ LCV continues the tree: Routes → Viewports → Orientation → Layouts → Con
 - [Articles index](./focus.md)
 - [HITL and HOOTL article](./articles-hitl-hootl.md)
 - [Shipped index](./shipped.md)
+- [collab-finder walkthrough](./shipped-collab-finder.md)
 - [thepulimaangani walkthrough](./shipped-thepulimaangani.md)

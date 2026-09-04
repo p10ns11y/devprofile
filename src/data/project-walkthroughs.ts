@@ -10,11 +10,21 @@ export type WalkthroughSectionId =
 
 export type WalkthroughMermaidBlock = { type: "mermaid"; code: string };
 
+/** Scannable product surface — keep body short; mark examples in `sample`. */
+export type WalkthroughCard = {
+  title: string;
+  kicker: string;
+  body: string;
+  /** Example or enum — rendered with an explicit Sample label. Not live metrics. */
+  sample?: string;
+};
+
 export type WalkthroughBlock =
   | { type: "paragraph"; text: string }
   | { type: "bullets"; items: readonly string[] }
   | { type: "callout"; text: string }
   | { type: "flow"; steps: readonly string[] }
+  | { type: "cards"; items: readonly WalkthroughCard[] }
   | WalkthroughMermaidBlock;
 
 export type WalkthroughSection = {
@@ -48,20 +58,24 @@ export type ProjectWalkthrough = {
 export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "collab-finder",
-    title: "collab-finder — local apply cockpit",
-    lede: "A Tauri desktop reactor for high-fit roles: live search, fit prep, SQLite history, and human promote before anything becomes permanent. Shipped as kanithanj.ai 1.0.0.",
-    eyebrow: "Career · agentic reactor",
-    audience: "Operators who hunt high-fit roles and refuse silent CV or pack mutations.",
+    title: "collab-finder — career heading cockpit",
+    lede: "kanithanj.ai is a Tauri heading cockpit for high-fit roles: hunt, pack health, pipeline, and a local SQLite ledger. Human promote before anything becomes permanent. Not a second chat OS.",
+    eyebrow: "Career · heading cockpit",
+    audience:
+      "Hiring visitors and operators who need a career heading cockpit — structured screens, not another chat window.",
     outcomes: [
-      "Live search and fit prep stay on the machine",
-      "SQLite ledger for opportunities, prep, and exports",
-      "Human promote before master CV or submit artifacts change",
+      "Hunt loop: Evaluate → Prepare → Generate on the machine",
+      "Preferences pack health without opening a terminal",
+      "Pipeline hunt progress with prep and post-apply outcomes",
+      "Local SQLite ledger. Credentials stay on the machine",
       "Named apply PDFs via kanithanj.cv overlays",
     ],
     surfaces: [
-      "Desktop shell (Tauri 2 + React)",
-      "Local pack folders with company-title-date slugs",
-      "kanithanj.cv CLI for PDF generate and cvdata sync",
+      "Discover / Mission / Sweden / Xplore",
+      "Preferences — operator pack health",
+      "Pipeline — hunt progress",
+      "kanithanj.cv CLI",
+      "Local SQLite ledger",
     ],
     tech: ["Tauri", "Rust", "React", "TypeScript", "SQLite"],
     cvdataKey: "collab-finder",
@@ -75,20 +89,50 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "HITL promote before permanence. Rust owns secrets and pause. Overlays merge at generate time. Master cvdata is not mutated by apply.",
+            text: "Career heading cockpit — a satellite, not a second chat OS. Structured screens. Cost, fit, and rate gates. HITL promote before master CV or submit artifacts change.",
           },
           {
-            type: "bullets",
+            type: "cards",
             items: [
-              "Local SQLite ledger versus agent thrash",
-              "Cost, fit, and rate gates sit next to the work",
-              "The prompt is cheap. Changing master data is expensive",
-              "Credentials and history stay on the machine. Multi-device sync is not the product",
+              {
+                title: "Hunt loop",
+                kicker: "What you do",
+                body: "Discover, Mission, Sweden, and Xplore ingest roles. Quick Target: paste a URL or JD, Evaluate fit, Prepare, Generate apply CV, then mark Applied. Click a rail row to restore fit and prep from SQLite — no extra model call.",
+              },
+              {
+                title: "Preferences pack health",
+                kicker: "Shipped · Preferences",
+                body: "Operator pack health inspects identity files under the packs directory on disk. No network. Evaluate and Next 10 read those files — they are not compiled into the binary. Missing seed silently falls Evaluate back to stub CV text.",
+                sample:
+                  "Badge labels Seeded, Degraded, Stub identity, Missing. File kinds ok, stub, missing. Not a live machine.",
+              },
+              {
+                title: "Pipeline",
+                kicker: "Shipped · Pipeline",
+                body: "Hunt-progress screen. Prep status and post-apply outcome stay orthogonal. A dedicated query keeps applied rows visible when Mission inventory floods recency-limited history.",
+                sample:
+                  "Prep: new, analyzed, prepped, applied, passed, archived. Outcome: waiting, screening, interview, offer, rejected, withdrawn. Enums only — no live counts.",
+              },
+              {
+                title: "Local SQLite ledger",
+                kicker: "Durable memory",
+                body: "WAL SQLite on the machine for opportunities, prep, events, and history. Secrets stay in the OS keyring. Multi-device sync is not the product. Optional local backup and export scripts — not a hosted dashboard.",
+              },
+            ],
+          },
+          {
+            type: "flow",
+            steps: [
+              "Hunt ingest",
+              "Evaluate + Prepare",
+              "Pack on disk",
+              "kanithanj.cv generate",
+              "Pipeline outcome",
             ],
           },
           {
             type: "paragraph",
-            text: "Job hunting fragments into tabs, notes, chat logs, and half-finished CVs. Agents make that worse when they thrash: burn tokens, hit rate limits, and rewrite the same pack without a ledger.",
+            text: "Job hunting fragments into tabs, notes, and chat logs. This app is the heading cockpit: ledger first. Chat is never the only surface.",
           },
         ],
       },
@@ -100,32 +144,37 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "mermaid",
             code: `graph TB
-  subgraph shell["Tauri 2 shell"]
-    UI["React UI — search, fit prep, review"]
+  subgraph hunt["Hunt"]
+    SRC["Discover / Mission / Sweden / Xplore"]
+    QT["Evaluate → Prepare → Generate"]
+    SRC --> QT
   end
-  subgraph core["Rust core"]
-    CMD["Command surface"]
-    SEC["Secrets & pause guards"]
-    DB["SQLite ledger"]
+  subgraph ground["Grounding"]
+    PH["Preferences pack health"]
+    PK["Identity packs on disk"]
+    PH --> PK
   end
-  subgraph export["Export path"]
-    PACK["Pack folders"]
-    OVL["cv-overlay merge"]
-    PDF["kanithanj.cv PDF"]
+  subgraph persist["Ledger"]
+    DB["SQLite WAL"]
+    PL["Pipeline"]
+    DB --> PL
   end
-  UI --> CMD
-  CMD --> SEC
-  CMD --> DB
-  UI --> PACK
-  PACK --> OVL --> PDF`,
+  subgraph apply["Apply"]
+    XDG["XDG application pack"]
+    CLI["kanithanj.cv"]
+    XDG --> CLI
+  end
+  PK --> QT
+  QT --> DB
+  QT --> XDG`,
           },
           {
             type: "bullets",
             items: [
-              "Tauri 2 shell: React/TypeScript UI talks to a Rust core over a narrow command surface",
+              "Tauri 2 shell: React/TypeScript MVU talks to a Rust core over a narrow command surface",
               "Secrets and pause guards stay in Rust so the UI cannot casually export credentials",
-              "SQLite is the durable ledger for opportunities, prep runs, and export history",
-              "Master cvdata in the public portfolio is never mutated by the apply path — overlays merge at generate time",
+              "SQLite WAL is the durable ledger for opportunities, prep, events, and pipeline dates",
+              "Master cvdata in the public portfolio is never mutated by apply — overlays merge at generate time",
             ],
           },
         ],
@@ -138,9 +187,10 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Search and fit prep: live X search plus model-assisted fit notes, bounded by rate and cost guards",
-              "Pack export: manifest.json, cv-overlay.json, and a submit/ folder with the named PDF",
-              "kanithanj.cv: lists packs, generates {name}-{role}-{id}.pdf, syncs a user-local copy of master cvdata",
+              "Hunt screens: Discover rail and Quick Target; Mission career boards; Sweden JobTech; Xplore live X plus a guarded cycle",
+              "Preferences: operator pack health, kanithanj.cv install, rank packs. Health is local file inspection",
+              "Pipeline: dedicated opportunity query, prep status, and orthogonal post-apply outcomes",
+              "kanithanj.cv: status, list, generate, sync. Writes PDFs. Never mutates site master cvdata",
             ],
           },
         ],
@@ -155,10 +205,11 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             steps: [
               "Opportunity in",
               "Ledger row",
-              "Prep artifacts",
+              "CV packet from packs or textarea",
+              "Evaluate + Prepare",
               "Human review",
               "Export pack / generate apply CV",
-              "Overlay + PDF under the pack slug",
+              "Pipeline outcome",
             ],
           },
           {
@@ -177,6 +228,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             items: [
               "HITL promote slows automation and prevents silent CV corruption. That friction is intentional",
               "Desktop (Tauri) adds Rust surface area versus a pure web app; the payoff is OS keychain boundaries and a real offline ledger",
+              "Satellite to the operator loop, not a chat OS. Quest exists; hunt screens own the work",
             ],
           },
         ],
@@ -190,7 +242,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "bullets",
             items: [
               "CI quality gates ship with the 1.0.0 cut",
-              "Overlay merge behavior is covered in the portfolio repo so PDF featured projects stay deterministic",
+              "Pack health unit tests cover missing, seeded, and stub identity files",
+              "Pipeline verify runner plus merge-status tests keep applied rows from being dropped",
+              "Overlay merge behavior is covered in this portfolio repo so PDF featured projects stay deterministic",
               "Ops stay boring: local SQLite, packs under ~/.local/share/collab-finder, CLI sync for cvdata",
             ],
           },
