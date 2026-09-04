@@ -17,7 +17,9 @@ const REQUIRED_SECTION_IDS = [
   "testing-ops",
 ] as const;
 
-function blockTextLength(block: (typeof PROJECT_WALKTHROUGHS)[number]["sections"][number]["blocks"][number]): number {
+function blockTextLength(
+  block: (typeof PROJECT_WALKTHROUGHS)[number]["sections"][number]["blocks"][number]
+): number {
   switch (block.type) {
     case "paragraph":
     case "callout":
@@ -78,5 +80,43 @@ describe("project-walkthroughs", () => {
   it("resolves known slugs and rejects unknown", () => {
     expect(getProjectWalkthrough("collab-finder")?.cvdataKey).toBe("collab-finder");
     expect(getProjectWalkthrough("missing-project")).toBeUndefined();
+  });
+
+  it("places thepulimaangani classical ML in the product band", () => {
+    const project = getProjectWalkthrough("thepulimaangani");
+    expect(project).toBeDefined();
+    const product = walkthroughSectionsByBand(project!, "product");
+    const blocks = product.flatMap((section) => section.blocks);
+    const text = blocks
+      .map((block) => {
+        switch (block.type) {
+          case "paragraph":
+          case "callout":
+            return block.text;
+          case "bullets":
+            return block.items.join(" ");
+          case "flow":
+            return block.steps.join(" ");
+          default: {
+            const _exhaustive: never = block;
+            return _exhaustive;
+          }
+        }
+      })
+      .join(" ")
+      .toLowerCase();
+
+    expect(blocks.some((block) => block.type === "callout")).toBe(true);
+    expect(blocks.some((block) => block.type === "bullets")).toBe(true);
+    expect(text).toContain("dense[51]");
+    expect(text).toContain("engineered features");
+    expect(text).toContain("heuristic");
+    expect(text).toMatch(/hybrid|logistic/);
+    expect(text).toContain("pca");
+    expect(text).toContain("monte carlo");
+    expect(text).toMatch(/dual-truth|classical checker/);
+    expect(text).toContain("wasm");
+    expect(text).toContain("tf-idf");
+    expect(text).not.toMatch(/transformer/);
   });
 });
