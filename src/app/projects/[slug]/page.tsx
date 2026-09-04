@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Project not found" };
   }
 
-  const title = `${project.title} — project walkthrough`;
+  const title = `${project.title} — shipped walkthrough`;
   const description = project.lede;
 
   return {
@@ -124,7 +124,7 @@ export default async function ProjectWalkthroughPage({ params }: PageProps) {
                   success: PROJECTS_INDEX_HREF,
                 })}
               >
-                All projects
+                All shipped
               </SiteButton>
               <SiteButton
                 href="/building"

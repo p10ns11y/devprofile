@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Projects — technical and architectural walkthroughs";
+export const alt = "Shipped — technical and architectural walkthroughs";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -46,7 +46,7 @@ export default function OpenGraphImage() {
               background: "#c2410c",
             }}
           />
-          Projects · walkthroughs
+          Shipped · walkthroughs
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
@@ -82,7 +82,7 @@ export default function OpenGraphImage() {
           }}
         >
           <span>Peramanathan Sathyamoorthy</span>
-          <span style={{ color: "#c2410c", fontWeight: 600 }}>Projects</span>
+          <span style={{ color: "#c2410c", fontWeight: 600 }}>Shipped</span>
         </div>
       </div>
     </div>,

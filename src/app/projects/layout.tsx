@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import "@/styles/focus.css";
 import "@/styles/projects.css";
 
-const title = "Projects — product walkthroughs";
+const title = "Shipped — product walkthroughs";
 const description =
   "Product-led walkthroughs for portfolio systems: local apply cockpit, Tamil metre in WASM, adaptable validators, and local agent transcript labs.";
 
