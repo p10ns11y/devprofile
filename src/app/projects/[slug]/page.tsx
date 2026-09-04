@@ -5,12 +5,15 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ProjectWalkthroughBlocks } from "@/components/projects/project-walkthrough-blocks";
 import { ProjectWalkthroughHero } from "@/components/projects/project-walkthrough-hero";
+import { ProjectWalkthroughMermaid } from "@/components/projects/project-walkthrough-mermaid";
 import { SiteButton } from "@/components/site/SiteButton";
 import {
+  getArchitectureDiagram,
   getProjectWalkthrough,
   listProjectWalkthroughs,
   PROJECTS_INDEX_HREF,
   projectWalkthroughSlugs,
+  sectionBlocksWithoutLeadingDiagram,
   walkthroughSectionsByBand,
 } from "@/data/project-walkthroughs";
 import { lcvInteract } from "@/lib/lcv-interact";
@@ -64,6 +67,7 @@ export default async function ProjectWalkthroughPage({ params }: PageProps) {
   const siblings = listProjectWalkthroughs().filter((item) => item.slug !== project.slug);
   const productSections = walkthroughSectionsByBand(project, "product");
   const techSections = walkthroughSectionsByBand(project, "tech");
+  const architectureDiagram = getArchitectureDiagram(project);
   const from = `/projects/${project.slug}`;
 
   return (
@@ -88,14 +92,19 @@ export default async function ProjectWalkthroughPage({ params }: PageProps) {
           <div className="projects-tech-band">
             <header className="projects-tech-band__intro">
               <h2 className="projects-tech-band__title">Tech and architecture</h2>
-              <ul className="projects-tech" aria-label="Stack">
-                {project.tech.map((item) => (
-                  <li key={item} className="projects-tech__item">
-                    {item}
-                  </li>
-                ))}
-              </ul>
             </header>
+
+            {architectureDiagram ? (
+              <ProjectWalkthroughMermaid code={architectureDiagram.code} />
+            ) : null}
+
+            <ul className="projects-tech" aria-label="Stack">
+              {project.tech.map((item) => (
+                <li key={item} className="projects-tech__item">
+                  {item}
+                </li>
+              ))}
+            </ul>
 
             {techSections.map((section) => (
               <section
@@ -106,7 +115,7 @@ export default async function ProjectWalkthroughPage({ params }: PageProps) {
                 <h3 id={`section-${section.id}`} className="projects-section__title">
                   {section.title}
                 </h3>
-                <ProjectWalkthroughBlocks blocks={section.blocks} />
+                <ProjectWalkthroughBlocks blocks={sectionBlocksWithoutLeadingDiagram(section)} />
               </section>
             ))}
           </div>
