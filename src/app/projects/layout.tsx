@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 import "@/styles/focus.css";
 import "@/styles/projects.css";
 
-const title = "Projects — technical walkthroughs";
+const title = "Projects — product walkthroughs";
 const description =
-  "Architecture walkthroughs for portfolio systems: local apply cockpit, Tamil metre in WASM, adaptable validators, and local agent transcript labs.";
+  "Product-led walkthroughs for portfolio systems: local apply cockpit, Tamil metre in WASM, adaptable validators, and local agent transcript labs.";
 
 export const metadata: Metadata = {
   title,
