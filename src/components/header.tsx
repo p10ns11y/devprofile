@@ -23,7 +23,14 @@ type NavItem = {
 const primaryNav: NavItem[] = [];
 
 const standaloneNav: NavItem[] = [
+<<<<<<< HEAD
   { name: "Articles", href: "/articles" },
+||||||| parent of cd9eae2 (feat(projects): ship architecture walkthrough pages)
+  { name: "Essays", href: "/essays" },
+=======
+  { name: "Essays", href: "/essays" },
+  { name: "Projects", href: "/projects" },
+>>>>>>> cd9eae2 (feat(projects): ship architecture walkthrough pages)
   { name: "Building", href: "/building" },
   { name: "Q&A", href: "/qa" },
   { name: "CV", href: "__cv__" },
