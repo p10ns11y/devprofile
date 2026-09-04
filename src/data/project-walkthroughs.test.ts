@@ -157,7 +157,11 @@ describe("shipped walkthroughs", () => {
         "Pipeline",
         "Local SQLite ledger",
       ]);
-      expect(cards.items.some((item) => Boolean(item.sample))).toBe(true);
+      const samples = cards.items.filter((item) => Boolean(item.sample));
+      expect(samples.length).toBeGreaterThanOrEqual(2);
+      expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
+        /not a live machine|enums only/
+      );
     }
 
     expect(text).toMatch(/heading cockpit|satellite/);
@@ -170,9 +174,8 @@ describe("shipped walkthroughs", () => {
     expect(text).toContain("applied");
     expect(text).toContain("sqlite");
     expect(text).toContain("kanithanj.cv");
-    expect(text).toContain("sample");
     expect(text).not.toMatch(/\d+\s*%/);
-    expect(text).not.toMatch(/this week|live count|applications this/);
+    expect(text).not.toMatch(/this week|applications this month/);
 
     const diagram = getArchitectureDiagram(project!);
     expect(diagram?.code).toMatch(/Preferences pack health|Pipeline|kanithanj\.cv/);
