@@ -133,7 +133,7 @@ Still under heat — and a little **semi-planned**: as more work can be delegate
 
 | | Stack | Watch for |
 | --- | --- | --- |
-| **[ensembly](https://github.com/thecuriousts/ensembly)** | JS · Rust · WASM | *Game of Peram*: life as a playable system (beacons, HITL, local kernel). You keep body-world work and authorization. |
+| **[ensembly](https://github.com/thecuriousts/ensembly)** | Rust · SQLite · MCP | Operator kernel under Grok Bot/Build: HITL/HOOTL gates, T1 ledger, pulse-pack. Game of Peram is parked in `prototype/`. |
 | **[life-os](https://github.com/p10ns11y/life-os)** | Markdown · Obsidian | Agentic vault (Projects · Areas · schema · energy). Portfolio memory — not the runtime clone (ensembly). |
 | **[plugins](https://github.com/p10ns11y/plugins)** | Markdown · Shell | Grok/agent plugins (premflow coach/pomo) over real CLIs. |
 | **[premflow](https://github.com/thecuriousts/premflow)** | `C` · [elomaxz](https://github.com/p10ns11y/elomaxz) | Daily-driver CLI — dogfood for MVU-in-C; ledger agents and humans actually share. |

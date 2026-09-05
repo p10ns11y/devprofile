@@ -57,6 +57,195 @@ export type ProjectWalkthrough = {
 
 export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
+    slug: "ensembly",
+    title: "ensembly — operator kernel",
+    lede: "A thin complementary kernel under Grok Bot, Grok Build, and Cursor: HITL and HOOTL gates, a T1 SQLite ledger, episodic memory, and pulse-pack sync. Not a second chat OS. Game of Peram stays parked in prototype/.",
+    eyebrow: "Systems · operator kernel",
+    audience:
+      "Hiring visitors and operators who need the layer under capture tools — durable gates and pulses, not another chat window.",
+    outcomes: [
+      "HITL / HOOTL runtime: approve, deny, claim, complete on the machine",
+      "T1 SQLite ledger for done, pending, and denied",
+      "Pulse-pack memory sync without dual-write ops",
+      "Read-only peram-mcp for Grok and Cursor",
+      "Game of Peram / Node swarm parked under prototype/",
+    ],
+    surfaces: [
+      "peram-kernel CLI — runtime and pulse-pack",
+      "peram-memory — episodic CRDT",
+      "peram-mcp — read-only agent wire",
+      "Issue #1 runtime fixture",
+      "prototype/ — parked game and Node stack",
+    ],
+    tech: ["Rust", "SQLite", "CRDT", "MCP"],
+    cvdataKey: "ensembly",
+    repoUrl: "https://github.com/thecuriousts/ensembly",
+    sections: [
+      {
+        id: "product",
+        title: "Product",
+        band: "product",
+        blocks: [
+          {
+            type: "callout",
+            text: "Complementary operator kernel — a white hole under Grok Bot, Grok Build, and Cursor. Capture stays on the harness. ensembly holds done, pending, and denied so you do not re-litigate the same gate. Not a second chat OS. Game of Peram is parked in prototype/, not the live product.",
+          },
+          {
+            type: "cards",
+            items: [
+              {
+                title: "Operator loop",
+                kicker: "What you do",
+                body: "Load a fixture or local ops DB, read status, tick HOOTL digital work, then approve, deny, claim, or complete at HITL gates. Reflect scores coherence over episodic memory. The kernel names the critical path; the harness does not own the ledger.",
+              },
+              {
+                title: "HITL / HOOTL runtime",
+                kicker: "Shipped · peram-kernel",
+                body: "Life-state, dependency graph, critical path, and a typed message bus. HOOTL agents clear digital thrash. HITL waits for body-world claims or explicit approve and deny. Auth gates never self-approve.",
+                sample:
+                  "Fixture actions pay-rent and grocery-errand. Regimes Hootl and HitlWait. Issue #1 fixture only — not a live operator machine.",
+              },
+              {
+                title: "Pulse-pack",
+                kicker: "Shipped · memory sync",
+                body: "Portable memory export and import between Grok Bot as the canonical host and a laptop client. Pulse-pack is memory only. Ops SQLite stays single-writer. No live cloud sync and no dual master.",
+                sample:
+                  "Format peram-pulse-pack-v1. Commands export, status, import. Memory merge only — no live session counts.",
+              },
+              {
+                title: "T1 SQLite ledger",
+                kicker: "Durable memory",
+                body: "Local peram-ops.sqlite is the control source of truth for gates and regime. Episodic peram-memory.json is auxiliary — it records and learns; it never decides gates or priority. Secrets and life data stay off git.",
+              },
+            ],
+          },
+          {
+            type: "flow",
+            steps: [
+              "Harness captures",
+              "Runtime tick",
+              "HITL gate",
+              "Ledger write",
+              "Pulse-pack merge",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "Mass-market agents optimize capture. The Musk cut of 4 September 2026 parked the browser game, Node swarm, and WASM world sim under prototype/. Live crates are peram-kernel, peram-memory, and the read-only peram-mcp wire. Automate the digital. Surface the physical. Wait only for permission.",
+          },
+        ],
+      },
+      {
+        id: "architecture",
+        title: "Architecture",
+        band: "tech",
+        blocks: [
+          {
+            type: "mermaid",
+            code: `graph TB
+  subgraph harness["Harness"]
+    GROK["Grok Bot / Build / Cursor"]
+  end
+  subgraph kernel["peram-kernel"]
+    RT["HITL / HOOTL runtime"]
+    LED["T1 SQLite ledger"]
+    PP["pulse-pack"]
+    RT --> LED
+    RT --> PP
+  end
+  subgraph mem["peram-memory"]
+    CRDT["Episodic CRDT"]
+  end
+  MCP["peram-mcp"]
+  GROK -->|"capture"| RT
+  RT --> CRDT
+  PP -->|"memory merge"| CRDT
+  MCP -.->|"read"| CRDT`,
+          },
+          {
+            type: "bullets",
+            items: [
+              "peram-kernel is the control source of truth: life-state, dependency graph, critical path, message bus, backup, and pulse-pack",
+              "peram-memory is an auxiliary CRDT. The kernel never delegates gate or priority decisions to it",
+              "peram-mcp is a read-only satellite for Grok and Cursor. Agents query memory; they do not own the ops DB",
+              "Grok Bot is the canonical host for ops SQLite. Laptop import merges memory only",
+            ],
+          },
+        ],
+      },
+      {
+        id: "components",
+        title: "Key components",
+        band: "tech",
+        blocks: [
+          {
+            type: "bullets",
+            items: [
+              "Runtime CLI: load, status, tick, approve, deny, claim, complete, reflect against a local DB or the Issue #1 fixture",
+              "Pulse-pack: export, status, import. Memory and archive events only — no ops dual-write",
+              "peram-mcp: read-only Model Context Protocol tools for harnesses",
+              "prototype/: parked Game of Peram client, Node swarm.js, and WASM world sim. Not source of truth",
+            ],
+          },
+        ],
+      },
+      {
+        id: "data-flow",
+        title: "Data flow",
+        band: "tech",
+        blocks: [
+          {
+            type: "flow",
+            steps: [
+              "Harness proposes work",
+              "Kernel records pending",
+              "HOOTL tick or HITL decision",
+              "Ledger write",
+              "Optional reflect",
+              "Pulse-pack export on the canonical host",
+              "Laptop import merges memory",
+            ],
+          },
+          {
+            type: "paragraph",
+            text: "life-os remains the clustered Projects and Areas vault. ensembly is the local digital-clone kernel. Private life data stays in data/local and is never part of the MIT grant.",
+          },
+        ],
+      },
+      {
+        id: "tradeoffs",
+        title: "Tradeoffs",
+        band: "tech",
+        blocks: [
+          {
+            type: "bullets",
+            items: [
+              "Complementing Grok instead of competing as a chat OS means the kernel has no visitor canvas. Dogfood is CLI and pulse files",
+              "Single-writer ops SQLite prevents silent gate drift and forbids live dual-write sync. Pulse-pack is file copy, not a hosted dashboard",
+              "Parking Game of Peram removes a play loop that hiring visitors might expect. The product is gates, pulses, and a ledger",
+            ],
+          },
+        ],
+      },
+      {
+        id: "testing-ops",
+        title: "Testing and ops",
+        band: "tech",
+        blocks: [
+          {
+            type: "bullets",
+            items: [
+              "Dogfood path is cargo test on peram-kernel and peram-memory, then runtime load of the Issue #1 fixture",
+              "peram-mcp builds as a read-only binary. No new chat OS or plugin sprawl",
+              "Privacy default-deny: data/local and private/ stay off git",
+              "Thesis copy for HITL and HOOTL lives on this site at /articles/hitl-hootl. It is design law, not live metrics",
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
     slug: "collab-finder",
     title: "collab-finder — career heading cockpit",
     lede: "kanithanj.ai is a Tauri heading cockpit for high-fit roles: hunt, pack health, pipeline, and a local SQLite ledger. Human promote before anything becomes permanent. Not a second chat OS.",
@@ -520,7 +709,12 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   },
 ] as const;
 
-export const SHIPPED_WALKTHROUGH_SLUGS = ["collab-finder", "thepulimaangani", "adaptate"] as const;
+export const SHIPPED_WALKTHROUGH_SLUGS = [
+  "ensembly",
+  "collab-finder",
+  "thepulimaangani",
+  "adaptate",
+] as const;
 
 export type ProjectWalkthroughSlug = (typeof PROJECT_WALKTHROUGHS)[number]["slug"];
 

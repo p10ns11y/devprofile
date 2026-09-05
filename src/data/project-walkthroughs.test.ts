@@ -50,11 +50,11 @@ function blockTextLength(
 }
 
 describe("shipped walkthroughs", () => {
-  it("lists exactly three walkthroughs with the expected slugs", () => {
+  it("lists exactly four walkthroughs with the expected slugs", () => {
     const projects = listProjectWalkthroughs();
-    expect(projects).toHaveLength(3);
+    expect(projects).toHaveLength(4);
     expect(projectWalkthroughSlugs()).toEqual([...SHIPPED_WALKTHROUGH_SLUGS]);
-    expect(new Set(projectWalkthroughSlugs()).size).toBe(3);
+    expect(new Set(projectWalkthroughSlugs()).size).toBe(4);
   });
 
   it("ties every walkthrough to a cvdata project key with product-led structure", () => {
@@ -100,6 +100,7 @@ describe("shipped walkthroughs", () => {
   });
 
   it("resolves known slugs and rejects unknown", () => {
+    expect(getProjectWalkthrough("ensembly")?.cvdataKey).toBe("ensembly");
     expect(getProjectWalkthrough("collab-finder")?.cvdataKey).toBe("collab-finder");
     expect(getProjectWalkthrough("thepulimaangani")?.cvdataKey).toBe("thepulimaangani");
     expect(getProjectWalkthrough("adaptate")?.cvdataKey).toBe("adaptate");
@@ -179,6 +180,47 @@ describe("shipped walkthroughs", () => {
 
     const diagram = getArchitectureDiagram(project!);
     expect(diagram?.code).toMatch(/Preferences pack health|Pipeline|kanithanj\.cv/);
+    expect(diagram?.code.split("\n").length).toBeLessThan(28);
+  });
+
+  it("places ensembly operator loop, HITL/HOOTL, pulse-pack, and ledger in the product band", () => {
+    const project = getProjectWalkthrough("ensembly");
+    expect(project).toBeDefined();
+    const product = walkthroughSectionsByBand(project!, "product");
+    const blocks = product.flatMap((section) => section.blocks);
+    const text = blocks.map(blockPlainText).join(" ").toLowerCase();
+    const cards = blocks.find((block) => block.type === "cards");
+
+    expect(blocks.some((block) => block.type === "callout")).toBe(true);
+    expect(cards?.type).toBe("cards");
+    if (cards?.type === "cards") {
+      expect(cards.items.map((item) => item.title)).toEqual([
+        "Operator loop",
+        "HITL / HOOTL runtime",
+        "Pulse-pack",
+        "T1 SQLite ledger",
+      ]);
+      const samples = cards.items.filter((item) => Boolean(item.sample));
+      expect(samples.length).toBeGreaterThanOrEqual(2);
+      expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
+        /not a live|no live session counts/
+      );
+    }
+
+    expect(text).toMatch(/complementary|white hole/);
+    expect(text).toContain("not a second chat");
+    expect(text).toContain("peram-kernel");
+    expect(text).toContain("peram-memory");
+    expect(text).toContain("pulse-pack");
+    expect(text).toMatch(/hitl|hootl/);
+    expect(text).toContain("prototype");
+    expect(text).toMatch(/game of peram/);
+    expect(text).toMatch(/parked/);
+    expect(text).not.toMatch(/\d+\s*%/);
+    expect(text).not.toMatch(/this week|gates this month/);
+
+    const diagram = getArchitectureDiagram(project!);
+    expect(diagram?.code).toMatch(/peram-kernel|pulse-pack|peram-memory|peram-mcp/);
     expect(diagram?.code.split("\n").length).toBeLessThan(28);
   });
 });

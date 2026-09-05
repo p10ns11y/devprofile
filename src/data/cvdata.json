@@ -749,6 +749,20 @@
       "updated": "2026-08-28"
     },
     {
+      "id": 18,
+      "name": "ensembly",
+      "key": "ensembly",
+      "description": "Complementary operator kernel under Grok Bot, Grok Build, and Cursor — HITL/HOOTL gates, T1 SQLite ledger, episodic memory, and pulse-pack sync. Game of Peram is parked in prototype/.",
+      "type": "hobby_oss",
+      "url": "https://github.com/thecuriousts/ensembly",
+      "technologies": ["Rust", "SQLite", "CRDT", "MCP"],
+      "status": "active",
+      "is_open_source": true,
+      "impact": "Operator kernel under capture harnesses",
+      "created": "2016-10-25",
+      "updated": "2026-09-05"
+    },
+    {
       "id": 14,
       "name": "agent-prompt-tuning-lab",
       "key": "agent-prompt-tuning-lab",

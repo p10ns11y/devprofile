@@ -38,7 +38,7 @@ export const BUILDING_BLURB: Record<string, string> = {
     "Ground-up npm validator. Different architecture from the Oneflow Zod lib. One optional Zod model, per-consumer contracts, OpenAPI interop.",
   premflow: "Small C CLI for notes, tasks, pomodoro, a daily journal, search, and a stats view.",
   ensembly:
-    "Operator OS under mass-market agents. Grok captures; ensembly holds done, pending, traces, and learned workflows so you do not re-pay tokens for the same gate. Productizable hub law, not a second chat.",
+    "Operator kernel under mass-market agents. Grok captures; peram-kernel holds done, pending, and denied so you do not re-pay tokens for the same gate. Pulse-pack syncs memory. Game of Peram is parked. Not a second chat.",
   thepulimaangani: "Tamil metre in the browser. Rust/WASM parser and React UI.",
   "shelf-life":
     "Writing — tech books and companions. When a book is on the shelf it has shelf-life. When it is with you it becomes another living experience.",
