@@ -35,6 +35,26 @@ export function ProjectWalkthroughBlocks({ blocks }: { blocks: readonly Walkthro
                 ))}
               </ol>
             );
+          case "cards":
+            return (
+              <ul key={key} role="list" className="projects-cards">
+                {block.items.map((item) => (
+                  <li key={item.title}>
+                    <article className="projects-surface-card" data-card="walkthrough">
+                      <p className="projects-surface-card__kicker">{item.kicker}</p>
+                      <h3 className="projects-surface-card__title">{item.title}</h3>
+                      <p className="projects-surface-card__body">{item.body}</p>
+                      {item.sample ? (
+                        <p className="projects-surface-card__sample" data-sample="">
+                          <span className="projects-surface-card__sample-label">Sample</span>{" "}
+                          {item.sample}
+                        </p>
+                      ) : null}
+                    </article>
+                  </li>
+                ))}
+              </ul>
+            );
           case "mermaid":
             return <ProjectWalkthroughMermaid key={key} code={block.code} />;
           default: {

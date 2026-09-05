@@ -19,24 +19,34 @@ const REQUIRED_SECTION_IDS = [
   "testing-ops",
 ] as const;
 
-function blockTextLength(
+function blockPlainText(
   block: (typeof PROJECT_WALKTHROUGHS)[number]["sections"][number]["blocks"][number]
-): number {
+): string {
   switch (block.type) {
     case "paragraph":
     case "callout":
-      return block.text.length;
+      return block.text;
     case "bullets":
-      return block.items.join(" ").length;
+      return block.items.join(" ");
     case "flow":
-      return block.steps.join(" ").length;
+      return block.steps.join(" ");
     case "mermaid":
-      return block.code.length;
+      return block.code;
+    case "cards":
+      return block.items
+        .map((item) => `${item.title} ${item.kicker} ${item.body} ${item.sample ?? ""}`)
+        .join(" ");
     default: {
       const _exhaustive: never = block;
       return _exhaustive;
     }
   }
+}
+
+function blockTextLength(
+  block: (typeof PROJECT_WALKTHROUGHS)[number]["sections"][number]["blocks"][number]
+): number {
+  return blockPlainText(block).length;
 }
 
 describe("shipped walkthroughs", () => {
@@ -76,6 +86,14 @@ describe("shipped walkthroughs", () => {
           if (block.type === "flow") {
             expect(block.steps.length).toBeGreaterThanOrEqual(3);
           }
+          if (block.type === "cards") {
+            expect(block.items.length).toBeGreaterThanOrEqual(2);
+            for (const item of block.items) {
+              expect(item.title.length).toBeGreaterThan(2);
+              expect(item.body.length).toBeGreaterThan(20);
+              expect(`${item.title} ${item.body}`.toLowerCase()).not.toContain("lorem");
+            }
+          }
         }
       }
     }
@@ -106,26 +124,7 @@ describe("shipped walkthroughs", () => {
     expect(project).toBeDefined();
     const product = walkthroughSectionsByBand(project!, "product");
     const blocks = product.flatMap((section) => section.blocks);
-    const text = blocks
-      .map((block) => {
-        switch (block.type) {
-          case "paragraph":
-          case "callout":
-            return block.text;
-          case "bullets":
-            return block.items.join(" ");
-          case "flow":
-            return block.steps.join(" ");
-          case "mermaid":
-            return block.code;
-          default: {
-            const _exhaustive: never = block;
-            return _exhaustive;
-          }
-        }
-      })
-      .join(" ")
-      .toLowerCase();
+    const text = blocks.map(blockPlainText).join(" ").toLowerCase();
 
     expect(blocks.some((block) => block.type === "callout")).toBe(true);
     expect(blocks.some((block) => block.type === "bullets")).toBe(true);
@@ -139,5 +138,47 @@ describe("shipped walkthroughs", () => {
     expect(text).toContain("wasm");
     expect(text).toContain("tf-idf");
     expect(text).not.toMatch(/transformer/);
+  });
+
+  it("places collab-finder hunt loop, pack health, pipeline, and ledger in the product band", () => {
+    const project = getProjectWalkthrough("collab-finder");
+    expect(project).toBeDefined();
+    const product = walkthroughSectionsByBand(project!, "product");
+    const blocks = product.flatMap((section) => section.blocks);
+    const text = blocks.map(blockPlainText).join(" ").toLowerCase();
+    const cards = blocks.find((block) => block.type === "cards");
+
+    expect(blocks.some((block) => block.type === "callout")).toBe(true);
+    expect(cards?.type).toBe("cards");
+    if (cards?.type === "cards") {
+      expect(cards.items.map((item) => item.title)).toEqual([
+        "Hunt loop",
+        "Preferences pack health",
+        "Pipeline",
+        "Local SQLite ledger",
+      ]);
+      const samples = cards.items.filter((item) => Boolean(item.sample));
+      expect(samples.length).toBeGreaterThanOrEqual(2);
+      expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
+        /not a live machine|enums only/
+      );
+    }
+
+    expect(text).toMatch(/heading cockpit|satellite/);
+    expect(text).toContain("not a second chat");
+    expect(text).toContain("evaluate");
+    expect(text).toContain("prepare");
+    expect(text).toMatch(/pack health|seeded/);
+    expect(text).toContain("stub");
+    expect(text).toContain("pipeline");
+    expect(text).toContain("applied");
+    expect(text).toContain("sqlite");
+    expect(text).toContain("kanithanj.cv");
+    expect(text).not.toMatch(/\d+\s*%/);
+    expect(text).not.toMatch(/this week|applications this month/);
+
+    const diagram = getArchitectureDiagram(project!);
+    expect(diagram?.code).toMatch(/Preferences pack health|Pipeline|kanithanj\.cv/);
+    expect(diagram?.code.split("\n").length).toBeLessThan(28);
   });
 });
