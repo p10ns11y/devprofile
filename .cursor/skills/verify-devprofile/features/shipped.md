@@ -29,7 +29,7 @@ Walkthrough gallery and per-slug detail pages for systems that shipped.
 ## Observable contract
 
 - Every walkthrough with a tech band has `architecture` section `blocks[0].type === "mermaid"`.
-- `getArchitectureDiagram(project)` must be defined for all three slugs.
+- `getArchitectureDiagram(project)` must be defined for all four slugs.
 - Vitest: `src/data/project-walkthroughs.test.ts` asserts diagram-first data shape and exactly four slugs.
 
 ## How to get to it (user POV)
