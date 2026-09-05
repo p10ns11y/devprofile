@@ -67,17 +67,17 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
       "HITL / HOOTL runtime: approve, deny, claim, complete on the machine",
       "T1 SQLite ledger for done, pending, and denied",
       "Pulse-pack memory sync without dual-write ops",
-      "Read-only peram-mcp for Grok and Cursor",
+      "Read-only ensembly-mcp for Grok and Cursor",
       "Game of Peram / Node swarm parked under prototype/",
     ],
     surfaces: [
-      "peram-kernel CLI — runtime and pulse-pack",
-      "peram-memory — episodic CRDT",
-      "peram-mcp — read-only agent wire",
+      "ensembly-kernel CLI — runtime and pulse-pack",
+      "ensembly-memory — episodic CRDT",
+      "ensembly-mcp — read-only agent wire",
       "Issue #1 runtime fixture",
       "prototype/ — parked game and Node stack",
     ],
-    tech: ["Rust", "SQLite", "CRDT", "MCP"],
+    tech: ["ensembly-kernel", "ensembly-memory", "ensembly-mcp", "Rust"],
     cvdataKey: "ensembly",
     repoUrl: "https://github.com/thecuriousts/ensembly",
     sections: [
@@ -100,7 +100,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               },
               {
                 title: "HITL / HOOTL runtime",
-                kicker: "Shipped · peram-kernel",
+                kicker: "Shipped · ensembly-kernel",
                 body: "Life-state, dependency graph, critical path, and a typed message bus. HOOTL agents clear digital thrash. HITL waits for body-world claims or explicit approve and deny. Auth gates never self-approve.",
                 sample:
                   "Fixture actions pay-rent and grocery-errand. Regimes Hootl and HitlWait. Issue #1 fixture only — not a live operator machine.",
@@ -110,12 +110,12 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
                 kicker: "Shipped · memory sync",
                 body: "Portable memory export and import between Grok Bot as the canonical host and a laptop client. Pulse-pack is memory only. Ops SQLite stays single-writer. No live cloud sync and no dual master.",
                 sample:
-                  "Format peram-pulse-pack-v1. Commands export, status, import. Memory merge only — no live session counts.",
+                  "Format ensembly-pulse-pack-v1. Legacy peram-pulse-pack-v1 still imports. Commands export, status, import. Memory merge only — no live session counts.",
               },
               {
                 title: "T1 SQLite ledger",
                 kicker: "Durable memory",
-                body: "Local peram-ops.sqlite is the control source of truth for gates and regime. Episodic peram-memory.json is auxiliary — it records and learns; it never decides gates or priority. Secrets and life data stay off git.",
+                body: "Fresh default is local ensembly-ops.sqlite. Episodic ensembly-memory.json is auxiliary — it records and learns; it never decides gates or priority. Existing peram-ops.sqlite / peram-memory.json still open until migrate-local-paths (copy-if-missing) plus pulse-pack resync. Secrets stay off git.",
               },
             ],
           },
@@ -131,7 +131,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           },
           {
             type: "paragraph",
-            text: "Mass-market agents optimize capture. The Musk cut of 4 September 2026 parked the browser game, Node swarm, and WASM world sim under prototype/. Live crates are peram-kernel, peram-memory, and the read-only peram-mcp wire. Automate the digital. Surface the physical. Wait only for permission.",
+            text: "Mass-market agents optimize capture. The Musk cut of 4 September 2026 parked the browser game, Node swarm, and WASM world sim under prototype/. Live crates are ensembly-kernel, ensembly-memory, and the read-only ensembly-mcp wire. Automate the digital. Surface the physical. Wait only for permission.",
           },
         ],
       },
@@ -146,17 +146,17 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   subgraph harness["Harness"]
     GROK["Grok Bot / Build / Cursor"]
   end
-  subgraph kernel["peram-kernel"]
+  subgraph kernel["ensembly-kernel"]
     RT["HITL / HOOTL runtime"]
     LED["T1 SQLite ledger"]
     PP["pulse-pack"]
     RT --> LED
     RT --> PP
   end
-  subgraph mem["peram-memory"]
+  subgraph mem["ensembly-memory"]
     CRDT["Episodic CRDT"]
   end
-  MCP["peram-mcp"]
+  MCP["ensembly-mcp"]
   GROK -->|"capture"| RT
   RT --> CRDT
   PP -->|"memory merge"| CRDT
@@ -165,9 +165,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "peram-kernel is the control source of truth: life-state, dependency graph, critical path, message bus, backup, and pulse-pack",
-              "peram-memory is an auxiliary CRDT. The kernel never delegates gate or priority decisions to it",
-              "peram-mcp is a read-only satellite for Grok and Cursor. Agents query memory; they do not own the ops DB",
+              "ensembly-kernel is the control source of truth: life-state, dependency graph, critical path, message bus, backup, and pulse-pack",
+              "ensembly-memory is an auxiliary CRDT. The kernel never delegates gate or priority decisions to it",
+              "ensembly-mcp is a read-only satellite for Grok and Cursor. Agents query memory; they do not own the ops DB",
               "Grok Bot is the canonical host for ops SQLite. Laptop import merges memory only",
             ],
           },
@@ -181,9 +181,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Runtime CLI: load, status, tick, approve, deny, claim, complete, reflect against a local DB or the Issue #1 fixture",
+              "Runtime CLI: load, status, tick, approve, deny, claim, complete, reflect against a local DB or the Issue #1 fixture. Primary bin ensembly; one-release alias peram",
               "Pulse-pack: export, status, import. Memory and archive events only — no ops dual-write",
-              "peram-mcp: read-only Model Context Protocol tools for harnesses",
+              "ensembly-mcp: read-only Model Context Protocol tools for harnesses. One-release alias peram-mcp",
               "prototype/: parked Game of Peram client, Node swarm.js, and WASM world sim. Not source of truth",
             ],
           },
@@ -235,8 +235,8 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Dogfood path is cargo test on peram-kernel and peram-memory, then runtime load of the Issue #1 fixture",
-              "peram-mcp builds as a read-only binary. No new chat OS or plugin sprawl",
+              "Dogfood path is cargo test -p ensembly-kernel and cargo test -p ensembly-memory, then runtime load of the Issue #1 fixture",
+              "ensembly-mcp builds as a read-only binary. No new chat OS or plugin sprawl",
               "Privacy default-deny: data/local and private/ stay off git",
               "Thesis copy for HITL and HOOTL lives on this site at /articles/hitl-hootl. It is design law, not live metrics",
             ],

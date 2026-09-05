@@ -209,18 +209,25 @@ describe("shipped walkthroughs", () => {
 
     expect(text).toMatch(/complementary|white hole/);
     expect(text).toContain("not a second chat");
-    expect(text).toContain("peram-kernel");
-    expect(text).toContain("peram-memory");
+    expect(text).toContain("ensembly-kernel");
+    expect(text).toContain("ensembly-memory");
+    expect(text).toContain("ensembly-mcp");
+    expect(text).toContain("ensembly-ops.sqlite");
+    expect(text).toContain("ensembly-pulse-pack-v1");
     expect(text).toContain("pulse-pack");
     expect(text).toMatch(/hitl|hootl/);
     expect(text).toContain("prototype");
     expect(text).toMatch(/game of peram/);
     expect(text).toMatch(/parked/);
+    expect(text).toMatch(/migrate-local-paths/);
     expect(text).not.toMatch(/\d+\s*%/);
     expect(text).not.toMatch(/this week|gates this month/);
 
     const diagram = getArchitectureDiagram(project!);
-    expect(diagram?.code).toMatch(/peram-kernel|pulse-pack|peram-memory|peram-mcp/);
+    expect(diagram?.code).toMatch(/ensembly-kernel/);
+    expect(diagram?.code).toMatch(/ensembly-memory/);
+    expect(diagram?.code).toMatch(/ensembly-mcp/);
+    expect(diagram?.code).not.toMatch(/peram-kernel|peram-memory|peram-mcp/);
     expect(diagram?.code.split("\n").length).toBeLessThan(28);
   });
 });
