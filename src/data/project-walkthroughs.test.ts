@@ -56,11 +56,11 @@ function sectionText(
 }
 
 describe("shipped walkthroughs", () => {
-  it("lists exactly four walkthroughs with the expected slugs", () => {
+  it("lists exactly three walkthroughs with the expected slugs", () => {
     const projects = listProjectWalkthroughs();
-    expect(projects).toHaveLength(4);
+    expect(projects).toHaveLength(3);
     expect(projectWalkthroughSlugs()).toEqual([...SHIPPED_WALKTHROUGH_SLUGS]);
-    expect(new Set(projectWalkthroughSlugs()).size).toBe(4);
+    expect(new Set(projectWalkthroughSlugs()).size).toBe(3);
   });
 
   it("ties every walkthrough to a cvdata project key with product-led structure", () => {
@@ -106,10 +106,10 @@ describe("shipped walkthroughs", () => {
   });
 
   it("resolves known slugs and rejects unknown", () => {
-    expect(getProjectWalkthrough("ensembly")?.cvdataKey).toBe("ensembly");
     expect(getProjectWalkthrough("collab-finder")?.cvdataKey).toBe("collab-finder");
     expect(getProjectWalkthrough("thepulimaangani")?.cvdataKey).toBe("thepulimaangani");
     expect(getProjectWalkthrough("adaptate")?.cvdataKey).toBe("adaptate");
+    expect(getProjectWalkthrough("ensembly")).toBeUndefined();
     expect(getProjectWalkthrough("agent-prompt-tuning-lab")).toBeUndefined();
     expect(getProjectWalkthrough("missing-project")).toBeUndefined();
   });
@@ -214,66 +214,5 @@ describe("shipped walkthroughs", () => {
     expect(productText).not.toContain("zod");
     expect(techText).toContain("zod");
     expect(techText).toMatch(/openapi|json schema/);
-  });
-
-  it("places ensembly daily workflow, human approval, memory sync, and ledger in the product band", () => {
-    const project = getProjectWalkthrough("ensembly");
-    expect(project).toBeDefined();
-    expect(project!.lede).toMatch(/^Grok Bot/);
-    expect(project!.lede).not.toMatch(/\(HITL\).*\(HOOTL\)/);
-    const product = walkthroughSectionsByBand(project!, "product");
-    const tech = walkthroughSectionsByBand(project!, "tech");
-    const blocks = product.flatMap((section) => section.blocks);
-    const text = blocks.map(blockPlainText).join(" ").toLowerCase();
-    const techText = sectionText(tech);
-    const cards = blocks.find((block) => block.type === "cards");
-
-    expect(blocks.some((block) => block.type === "callout")).toBe(true);
-    expect(cards?.type).toBe("cards");
-    if (cards?.type === "cards") {
-      expect(cards.items.map((item) => item.title)).toEqual([
-        "Daily workflow",
-        "Human approval / automated work",
-        "Portable memory sync",
-        "Ops ledger",
-      ]);
-      const examples = cards.items.filter((item) => Boolean(item.example));
-      expect(examples.length).toBeGreaterThanOrEqual(2);
-      expect(examples.map((item) => item.example?.toLowerCase()).join(" ")).toMatch(
-        /household tasks|not a live machine/
-      );
-      expect(examples.map((item) => item.example?.toLowerCase()).join(" ")).toMatch(
-        /household tasks|ensembly-pulse-pack-v1/
-      );
-    }
-
-    expect(text).toMatch(/grok bot|ledger|approve/);
-    expect(text).toMatch(/not a second chat/);
-    expect(text).toContain("ensembly-kernel");
-    expect(text).toContain("ensembly-ops.sqlite");
-    expect(text).toMatch(/human approval|approve or deny/);
-    expect(text).toMatch(/memory sync|portable memory sync/);
-    expect(text).toMatch(/hitl|hootl/);
-    expect(text).not.toMatch(/old installs|one-shot copy|peram-pulse|this person's|not live metrics/);
-    expect(text).not.toMatch(/episodic|game of peram/);
-    expect(text).not.toMatch(/issue #\d+/);
-    expect(text).not.toMatch(/pay-rent|grocery-errand|hitlwait|hootl regime/);
-    expect(text).not.toMatch(/migrate-local-paths/);
-    expect(text).not.toMatch(/\bt1\b/);
-    expect(text).not.toMatch(/\d+\s*%/);
-    expect(text).not.toMatch(/this week|gates this month/);
-
-    expect(techText).toContain("ensembly-memory");
-    expect(techText).toContain("ensembly-mcp");
-    expect(techText).toMatch(/ensembly-pulse-pack-v1|pulse-pack/);
-    expect(techText).not.toMatch(/\bperam\b|alias peram/);
-    expect(techText).toMatch(/prototype/);
-
-    const diagram = getArchitectureDiagram(project!);
-    expect(diagram?.code).toMatch(/ensembly-kernel/);
-    expect(diagram?.code).toMatch(/ensembly-memory/);
-    expect(diagram?.code).toMatch(/ensembly-mcp/);
-    expect(diagram?.code).not.toMatch(/peram-kernel|peram-memory|peram-mcp/);
-    expect(diagram?.code.split("\n").length).toBeLessThan(28);
   });
 });

@@ -57,189 +57,6 @@ export type ProjectWalkthrough = {
 
 export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
-    slug: "ensembly",
-    title: "ensembly — local control layer",
-    lede: "Grok Bot, Grok Build, and Cursor keep the chat. ensembly is the local control layer on your machine. It remembers done, pending, and denied items so you do not re-approve the same work. You approve or deny before gates pass. Routine digital work can clear without you. Memory sync files move between machines. The ops database has one writer. Not a second chat app.",
-    eyebrow: "Systems · local control",
-    audience:
-      "Recruiters and engineers who want approve and deny state under the chat tools, not another chat window.",
-    outcomes: [
-      "Approve, deny, claim, and complete work on your machine",
-      "To-do ledger for done, pending, and denied items",
-      "Memory sync files without two writers on the ops database",
-      "Read-only ensembly-mcp wire for Grok and Cursor",
-    ],
-    surfaces: [
-      "ensembly-kernel CLI — runs gates and memory sync",
-      "ensembly-memory — event memory that merges across machines",
-      "ensembly-mcp — read-only agent wire for Grok and Cursor",
-      "Bundled household-task demo for try-out",
-    ],
-    tech: ["ensembly-kernel", "ensembly-memory", "ensembly-mcp", "Rust"],
-    cvdataKey: "ensembly",
-    repoUrl: "https://github.com/thecuriousts/ensembly",
-    sections: [
-      {
-        id: "product",
-        title: "Product",
-        band: "product",
-        blocks: [
-          {
-            type: "callout",
-            text: "Grok Bot keeps the chat. ensembly-kernel holds done, pending, and denied so you do not re-approve the same item. You approve or deny before gates pass. Not a second chat app.",
-          },
-          {
-            type: "cards",
-            items: [
-              {
-                title: "Daily workflow",
-                kicker: "What you do",
-                body: "Load the household-task demo or your local ops file (ensembly-ops.sqlite). Read status. Run automated ticks. Approve, deny, claim, or complete items waiting on you. Chat tools do not own the ledger.",
-              },
-              {
-                title: "Human approval / automated work",
-                kicker: "Shipped · ensembly-kernel",
-                body: "Routine digital work clears on its own. Physical tasks and auth gates wait for you to approve or deny. Gates never self-approve. Human approval (HITL) and automated work (HOOTL) name those two modes in the repo.",
-                example:
-                  "Household tasks (rent, groceries). Not a live machine.",
-              },
-              {
-                title: "Portable memory sync",
-                kicker: "Shipped · memory sync",
-                body: "Export and import memory sync files between machines. Memory only. The ops file has one writer. No live cloud sync.",
-                example:
-                  "Format ensembly-pulse-pack-v1. Commands export, status, import. Memory merge only.",
-              },
-              {
-                title: "Ops ledger",
-                kicker: "Durable state",
-                body: "Default ops file is ensembly-ops.sqlite on disk. Event memory lives in ensembly-memory.json. It records what happened. It does not decide gates. Secrets stay off git.",
-              },
-            ],
-          },
-          {
-            type: "flow",
-            steps: [
-              "Chat proposes work",
-              "Runtime tick",
-              "Human approval gate",
-              "Ledger write",
-              "Memory file merge",
-            ],
-          },
-        ],
-      },
-      {
-        id: "architecture",
-        title: "Architecture",
-        band: "tech",
-        blocks: [
-          {
-            type: "mermaid",
-            code: `graph TB
-  subgraph tools["Grok Bot / Build / Cursor"]
-    GROK["Chat and capture"]
-  end
-  subgraph kernel["ensembly-kernel"]
-    RT["Human approval + automated work"]
-    LED["SQLite ledger"]
-    PP["pulse-pack"]
-    RT --> LED
-    RT --> PP
-  end
-  subgraph mem["ensembly-memory"]
-    MEM["Mergeable memory"]
-  end
-  MCP["ensembly-mcp (read-only)"]
-  GROK -->|"proposals"| RT
-  RT --> MEM
-  PP -->|"memory merge"| MEM
-  MCP -.->|"read"| MEM`,
-          },
-          {
-            type: "bullets",
-            items: [
-              "ensembly-kernel is the control source of truth: life-state, dependency graph, critical path, message bus, backup, and pulse-pack",
-              "ensembly-memory holds mergeable event memory (CRDT). The kernel never delegates gate or priority decisions to it",
-              "ensembly-mcp (read-only Model Context Protocol wire) lets Grok and Cursor query memory. They do not own the ops database",
-              "Grok Bot on one machine owns ensembly-ops.sqlite. Memory sync imports merge on the other machine",
-            ],
-          },
-        ],
-      },
-      {
-        id: "components",
-        title: "Key components",
-        band: "tech",
-        blocks: [
-          {
-            type: "bullets",
-            items: [
-              "Runtime CLI (bin ensembly): load, status, tick, approve, deny, claim, complete, reflect against a local DB or bundled demo dataset",
-              "Portable memory sync (pulse-pack): export, status, import. Memory and archive events only. No ops dual-write",
-              "ensembly-mcp: read-only Model Context Protocol tools for Grok and Cursor",
-              "prototype/: older stack, not the product",
-            ],
-          },
-        ],
-      },
-      {
-        id: "data-flow",
-        title: "Data flow",
-        band: "tech",
-        blocks: [
-          {
-            type: "flow",
-            steps: [
-              "Chat tool proposes work",
-              "Kernel records pending",
-              "Automated work tick or human approval",
-              "Ledger write",
-              "Optional reflect",
-              "Pulse-pack export on one machine",
-              "Import merges memory on the other",
-            ],
-          },
-          {
-            type: "paragraph",
-            text: "The life-os vault (Projects and Areas) stays separate. ensembly is the local control layer on your machine. Private data stays in data/local and is never part of the MIT grant.",
-          },
-        ],
-      },
-      {
-        id: "tradeoffs",
-        title: "Tradeoffs",
-        band: "tech",
-        blocks: [
-          {
-            type: "bullets",
-            items: [
-              "Works alongside Grok instead of competing as a chat app. No visitor UI. Daily use is CLI and memory sync files",
-              "Single-writer ops SQLite prevents silent gate drift and forbids live dual-write sync. Memory sync is file copy, not a hosted dashboard",
-              "Scope is local CLI and file sync, not a hosted multi-user service",
-            ],
-          },
-        ],
-      },
-      {
-        id: "testing-ops",
-        title: "Testing and ops",
-        band: "tech",
-        blocks: [
-          {
-            type: "bullets",
-            items: [
-              "Dev workflow: cargo test -p ensembly-kernel and cargo test -p ensembly-memory. Optional: load the bundled demo dataset locally",
-              "ensembly-mcp builds as a read-only binary. No new chat app or plugin sprawl",
-              "Privacy default-deny: data/local and private/ stay off git",
-              "More on human approval vs automated work: /articles/hitl-hootl",
-            ],
-          },
-        ],
-      },
-    ],
-  },
-  {
     slug: "collab-finder",
     title: "collab-finder — job hunt desktop app",
     lede: "Desktop app for high-fit job hunting at kanithanj.ai. You approve before anything hits your master CV or apply files. Hunt screens, pack checks, pipeline, local database. Not a chat app.",
@@ -699,24 +516,35 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
 ] as const;
 
 export const SHIPPED_WALKTHROUGH_SLUGS = [
-  "ensembly",
   "collab-finder",
   "thepulimaangani",
   "adaptate",
 ] as const;
 
-export type ProjectWalkthroughSlug = (typeof PROJECT_WALKTHROUGHS)[number]["slug"];
+export type ShippedWalkthroughSlug = (typeof SHIPPED_WALKTHROUGH_SLUGS)[number];
+
+export type ProjectWalkthroughSlug = ShippedWalkthroughSlug;
 
 export function listProjectWalkthroughs(): readonly ProjectWalkthrough[] {
-  return PROJECT_WALKTHROUGHS;
+  const order = new Map(SHIPPED_WALKTHROUGH_SLUGS.map((slug, index) => [slug, index]));
+  return PROJECT_WALKTHROUGHS.filter((project) => order.has(project.slug as ShippedWalkthroughSlug))
+    .slice()
+    .sort(
+      (left, right) =>
+        order.get(left.slug as ShippedWalkthroughSlug)! -
+        order.get(right.slug as ShippedWalkthroughSlug)!
+    );
 }
 
 export function getProjectWalkthrough(slug: string): ProjectWalkthrough | undefined {
+  if (!(SHIPPED_WALKTHROUGH_SLUGS as readonly string[]).includes(slug)) {
+    return undefined;
+  }
   return PROJECT_WALKTHROUGHS.find((project) => project.slug === slug);
 }
 
-export function projectWalkthroughSlugs(): ProjectWalkthroughSlug[] {
-  return PROJECT_WALKTHROUGHS.map((project) => project.slug);
+export function projectWalkthroughSlugs(): ShippedWalkthroughSlug[] {
+  return [...SHIPPED_WALKTHROUGH_SLUGS];
 }
 
 export function walkthroughSectionsByBand(

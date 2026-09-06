@@ -68,7 +68,7 @@ export default function OpenGraphImage() {
               fontFamily: "ui-sans-serif, system-ui, sans-serif",
             }}
           >
-            ensembly · collab-finder · thepulimaangani · Adaptate
+            collab-finder · thepulimaangani · Adaptate
           </div>
         </div>
 
