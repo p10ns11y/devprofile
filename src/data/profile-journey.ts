@@ -339,12 +339,13 @@ export const profileJourney = {
     {
       name: "ensembly",
       href: "https://github.com/thecuriousts/ensembly",
-      stack: "JS · Rust · WASM",
-      summary: "Game of Peram — life as a playable system you authorize, not a black-box sim.",
+      stack: "Rust · SQLite · MCP",
+      summary:
+        "Operator kernel under Grok Bot and Grok Build — gates, pulses, and a local ledger you own.",
       highlights: [
-        "Beacons, HITL gates, and a local kernel keep agency with the human",
-        "Body-world work stays yours — the game does not seize authorization",
-        "JS · Rust · WASM stack under active heat",
+        "HITL / HOOTL gates and a T1 SQLite ledger keep agency with the human",
+        "Pulse-pack syncs memory; Game of Peram stays parked in prototype/",
+        "Rust kernel dogfood — not a second chat OS",
       ],
       watchFor: "Progress without killing inception — spark → friction → next link.",
     },

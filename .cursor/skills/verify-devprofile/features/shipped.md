@@ -21,7 +21,7 @@ Walkthrough gallery and per-slug detail pages for systems that shipped.
 
 - Hero: breadcrumb (Shipped → project), title, lede, audience, outcomes, surfaces, GitHub / live / npm CTAs.
 - Product band: product section blocks (callouts, cards, bullets, paragraphs, flows).
-- `collab-finder` product cards: hunt loop, Preferences pack health, Pipeline, local SQLite ledger — see [shipped-collab-finder.md](./shipped-collab-finder.md).
+- `collab-finder` product cards: hunt loop, pack file checks, pipeline, local database — see [shipped-collab-finder.md](./shipped-collab-finder.md).
 - Tech band: **architecture Mermaid diagram first** (above stack chips and prose), then stack chips, then architecture / components / data-flow / tradeoffs / testing-ops sections.
 - Diagram is the leading block in the architecture section data; the slug page hoists it above chips and strips it from section body copy so prose never precedes the diagram.
 
@@ -30,6 +30,7 @@ Walkthrough gallery and per-slug detail pages for systems that shipped.
 - Every walkthrough with a tech band has `architecture` section `blocks[0].type === "mermaid"`.
 - `getArchitectureDiagram(project)` must be defined for all three slugs.
 - Vitest: `src/data/project-walkthroughs.test.ts` asserts diagram-first data shape and exactly three slugs.
+- `/shipped/ensembly` redirects to `/shipped` (not in the gallery).
 
 ## How to get to it (user POV)
 
@@ -46,5 +47,6 @@ Preconditions: `pnpm verify:doctor` is ok.
 
 ## Gotchas
 
-- `/projects` and `/projects/[slug]` 301 redirect to `/shipped` equivalents.
+- `/projects` and `/projects/[slug]` 301 redirect to `/shipped` equivalents for gallery slugs only.
+- `/projects/ensembly` and `/shipped/ensembly` redirect to `/shipped` (ensembly is not in the hire gallery).
 - Detail pages expose an **All shipped** CTA back to the index.

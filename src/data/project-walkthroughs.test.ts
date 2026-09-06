@@ -34,7 +34,7 @@ function blockPlainText(
       return block.code;
     case "cards":
       return block.items
-        .map((item) => `${item.title} ${item.kicker} ${item.body} ${item.sample ?? ""}`)
+        .map((item) => `${item.title} ${item.kicker} ${item.body} ${item.example ?? ""}`)
         .join(" ");
     default: {
       const _exhaustive: never = block;
@@ -47,6 +47,12 @@ function blockTextLength(
   block: (typeof PROJECT_WALKTHROUGHS)[number]["sections"][number]["blocks"][number]
 ): number {
   return blockPlainText(block).length;
+}
+
+function sectionText(
+  sections: readonly (typeof PROJECT_WALKTHROUGHS)[number]["sections"][number][]
+): string {
+  return sections.flatMap((section) => section.blocks.map(blockPlainText)).join(" ").toLowerCase();
 }
 
 describe("shipped walkthroughs", () => {
@@ -103,6 +109,7 @@ describe("shipped walkthroughs", () => {
     expect(getProjectWalkthrough("collab-finder")?.cvdataKey).toBe("collab-finder");
     expect(getProjectWalkthrough("thepulimaangani")?.cvdataKey).toBe("thepulimaangani");
     expect(getProjectWalkthrough("adaptate")?.cvdataKey).toBe("adaptate");
+    expect(getProjectWalkthrough("ensembly")).toBeUndefined();
     expect(getProjectWalkthrough("agent-prompt-tuning-lab")).toBeUndefined();
     expect(getProjectWalkthrough("missing-project")).toBeUndefined();
   });
@@ -119,25 +126,31 @@ describe("shipped walkthroughs", () => {
     }
   });
 
-  it("places thepulimaangani classical ML in the product band", () => {
+  it("keeps thepulimaangani plain in the product band, classical path in tech", () => {
     const project = getProjectWalkthrough("thepulimaangani");
     expect(project).toBeDefined();
     const product = walkthroughSectionsByBand(project!, "product");
-    const blocks = product.flatMap((section) => section.blocks);
-    const text = blocks.map(blockPlainText).join(" ").toLowerCase();
+    const tech = walkthroughSectionsByBand(project!, "tech");
+    const productText = sectionText(product);
+    const techText = sectionText(tech);
 
-    expect(blocks.some((block) => block.type === "callout")).toBe(true);
-    expect(blocks.some((block) => block.type === "bullets")).toBe(true);
-    expect(text).toContain("dense[51]");
-    expect(text).toContain("engineered features");
-    expect(text).toContain("heuristic");
-    expect(text).toMatch(/hybrid|logistic/);
-    expect(text).toContain("pca");
-    expect(text).toContain("monte carlo");
-    expect(text).toMatch(/dual-truth|classical checker/);
-    expect(text).toContain("wasm");
-    expect(text).toContain("tf-idf");
-    expect(text).not.toMatch(/transformer/);
+    expect(product.some((section) => section.blocks.some((block) => block.type === "callout"))).toBe(
+      true
+    );
+    expect(product.some((section) => section.blocks.some((block) => block.type === "bullets"))).toBe(
+      true
+    );
+    expect(productText).toContain("paste tamil verse");
+    expect(productText).toMatch(/classical rules|classical rule/);
+    expect(productText).toContain("yāppu");
+    expect(productText).not.toContain("dense[51]");
+    expect(productText).not.toMatch(/tier b|pca|monte carlo|hmm|crf|gbdt|neural net|nlp api|already use|migration/);
+
+    expect(techText).toContain("webassembly");
+    expect(techText).toMatch(/offline ml|classical rules/);
+    expect(techText).not.toContain("dense[51]");
+    expect(techText).not.toMatch(/tier b|pca|monte carlo|tf-idf/);
+    expect(techText).not.toMatch(/transformer/);
   });
 
   it("places collab-finder hunt loop, pack health, pipeline, and ledger in the product band", () => {
@@ -153,32 +166,53 @@ describe("shipped walkthroughs", () => {
     if (cards?.type === "cards") {
       expect(cards.items.map((item) => item.title)).toEqual([
         "Hunt loop",
-        "Preferences pack health",
+        "Pack file checks",
         "Pipeline",
-        "Local SQLite ledger",
+        "Local database",
       ]);
-      const samples = cards.items.filter((item) => Boolean(item.sample));
-      expect(samples.length).toBeGreaterThanOrEqual(2);
-      expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
-        /not a live machine|enums only/
+      const examples = cards.items.filter((item) => Boolean(item.example));
+      expect(examples.length).toBeGreaterThanOrEqual(2);
+      expect(examples.map((item) => item.example?.toLowerCase()).join(" ")).toMatch(
+        /not a live machine|no live counts/
       );
     }
 
-    expect(text).toMatch(/heading cockpit|satellite/);
-    expect(text).toContain("not a second chat");
+    expect(text).toMatch(/desktop app|kanithanj/);
+    expect(text).toMatch(/not a chat app|not a chat replacement/);
     expect(text).toContain("evaluate");
     expect(text).toContain("prepare");
-    expect(text).toMatch(/pack health|seeded/);
-    expect(text).toContain("stub");
+    expect(text).toMatch(/pack file|pack files/);
+    expect(text).toMatch(/pack status on preferences/);
     expect(text).toContain("pipeline");
     expect(text).toContain("applied");
-    expect(text).toContain("sqlite");
-    expect(text).toContain("kanithanj.cv");
+    expect(text).toMatch(/local database|stores opportunities/);
+    expect(text).toMatch(/cv generate cli|kanithanj\.cv/);
+    expect(text).toMatch(/master cv on the public portfolio|master cv/);
+    expect(text).not.toMatch(/master cvdata|seeded|missing badge|stub cv/);
+    expect(text).not.toMatch(/\bsqlite\b|\bwal\b|xdg|mvu/);
+    expect(text).not.toMatch(/issue #\d+/);
     expect(text).not.toMatch(/\d+\s*%/);
+    expect(text).not.toMatch(/deferred until|shared storage exists/);
     expect(text).not.toMatch(/this week|applications this month/);
 
     const diagram = getArchitectureDiagram(project!);
-    expect(diagram?.code).toMatch(/Preferences pack health|Pipeline|kanithanj\.cv/);
+    expect(diagram?.code).toMatch(/Preferences pack health|Pipeline|kanithanj\.cv|Packs folder/);
     expect(diagram?.code.split("\n").length).toBeLessThan(28);
+  });
+
+  it("keeps adaptate product copy plain before Zod and OpenAPI names", () => {
+    const project = getProjectWalkthrough("adaptate");
+    expect(project).toBeDefined();
+    const product = walkthroughSectionsByBand(project!, "product");
+    const tech = walkthroughSectionsByBand(project!, "tech");
+    const productText = sectionText(product);
+    const techText = sectionText(tech);
+
+    expect(productText).toMatch(/optional by default|per-consumer rules/);
+    expect(productText).toMatch(/no second schema|same model/);
+    expect(productText).not.toMatch(/multi-tenant edge|overlays|second source of truth|already use|migration/);
+    expect(productText).not.toContain("zod");
+    expect(techText).toContain("zod");
+    expect(techText).toMatch(/openapi|json schema/);
   });
 });

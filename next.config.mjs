@@ -56,6 +56,11 @@ const nextConfig = {
         destination: "/shipped/:slug",
         permanent: true,
       },
+      {
+        source: "/shipped/ensembly",
+        destination: "/shipped",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
