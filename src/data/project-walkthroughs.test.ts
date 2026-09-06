@@ -183,7 +183,7 @@ describe("shipped walkthroughs", () => {
     expect(diagram?.code.split("\n").length).toBeLessThan(28);
   });
 
-  it("places ensembly operator loop, HITL/HOOTL, pulse-pack, and ledger in the product band", () => {
+  it("places ensembly daily workflow, human approval, pulse-pack, and ledger in the product band", () => {
     const project = getProjectWalkthrough("ensembly");
     expect(project).toBeDefined();
     const product = walkthroughSectionsByBand(project!, "product");
@@ -195,10 +195,10 @@ describe("shipped walkthroughs", () => {
     expect(cards?.type).toBe("cards");
     if (cards?.type === "cards") {
       expect(cards.items.map((item) => item.title)).toEqual([
-        "Operator loop",
-        "HITL / HOOTL runtime",
+        "Daily workflow",
+        "Human approval / automated work",
         "Pulse-pack",
-        "T1 SQLite ledger",
+        "SQLite ops ledger",
       ]);
       const samples = cards.items.filter((item) => Boolean(item.sample));
       expect(samples.length).toBeGreaterThanOrEqual(2);

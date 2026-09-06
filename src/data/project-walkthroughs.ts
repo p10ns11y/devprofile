@@ -94,27 +94,27 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "cards",
             items: [
               {
-                title: "Operator loop",
+                title: "Daily workflow",
                 kicker: "What you do",
-                body: "Load a fixture or local ops DB, read status, run HOOTL ticks for digital tasks, then approve, deny, claim, or complete at human approval (HITL) gates. Reflect scores coherence over episodic memory. The kernel tracks the critical path; chat tools do not own the ledger.",
+                body: "Load a fixture or local ops DB, read status, run automated work ticks, then approve, deny, claim, or complete at human approval gates. Reflect scores coherence over episodic memory. The kernel tracks the critical path; chat tools do not own the ledger.",
               },
               {
-                title: "HITL / HOOTL runtime",
+                title: "Human approval / automated work",
                 kicker: "Shipped · ensembly-kernel",
-                body: "Life-state, dependency graph, critical path, and a typed message bus. HOOTL clears routine digital work automatically. HITL waits for you to claim a physical task or explicitly approve or deny. Auth gates never self-approve.",
+                body: "Life-state, dependency graph, critical path, and a typed message bus. Automated work (HOOTL) clears routine digital tasks. Human approval (HITL) waits for you to claim a physical task or explicitly approve or deny. Auth gates never self-approve.",
                 sample:
                   "Fixture actions pay-rent and grocery-errand. Regimes Hootl and HitlWait. Issue #1 fixture only — not a live operator machine.",
               },
               {
                 title: "Pulse-pack",
                 kicker: "Shipped · memory sync",
-                body: "Export and import memory files between Grok Bot on the canonical host and a laptop. Pulse-pack is memory only. The ops SQLite file has one writer. No live cloud sync and no dual master.",
+                body: "Export and import memory files between Grok Bot on your main machine and a laptop. Pulse-pack is memory only. The ops SQLite file has one writer. No live cloud sync and no dual master.",
                 sample:
                   "Format ensembly-pulse-pack-v1. Legacy peram-pulse-pack-v1 still imports. Commands export, status, import. Memory merge only — no live session counts.",
               },
               {
-                title: "T1 SQLite ledger",
-                kicker: "Durable memory",
+                title: "SQLite ops ledger",
+                kicker: "Durable state",
                 body: "Default ops file is local ensembly-ops.sqlite. Episodic ensembly-memory.json is auxiliary. It records and learns. It never decides gates or priority. Existing peram-ops.sqlite and peram-memory.json still open until migrate-local-paths (copy-if-missing) plus pulse-pack resync. Secrets stay off git.",
               },
             ],
@@ -147,7 +147,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
     GROK["Chat and capture"]
   end
   subgraph kernel["ensembly-kernel"]
-    RT["Human approval + HOOTL runtime"]
+    RT["Human approval + automated work"]
     LED["SQLite ledger"]
     PP["pulse-pack"]
     RT --> LED
@@ -168,7 +168,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               "ensembly-kernel is the control source of truth: life-state, dependency graph, critical path, message bus, backup, and pulse-pack",
               "ensembly-memory is an auxiliary CRDT. The kernel never delegates gate or priority decisions to it",
               "ensembly-mcp is read-only for Grok and Cursor. Agents query memory. They do not own the ops DB",
-              "Grok Bot is the canonical host for ops SQLite. Laptop import merges memory only",
+              "Grok Bot on your main machine owns the ops SQLite file. Laptop import merges memory only",
             ],
           },
         ],
@@ -199,16 +199,16 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             steps: [
               "Chat tool proposes work",
               "Kernel records pending",
-              "HOOTL tick or human approval",
+              "Automated work tick or human approval",
               "Ledger write",
               "Optional reflect",
-              "Pulse-pack export on the canonical host",
+              "Pulse-pack export on the main machine",
               "Laptop import merges memory",
             ],
           },
           {
             type: "paragraph",
-            text: "life-os remains the clustered Projects and Areas vault. ensembly is the local operator kernel on your machine. Private life data stays in data/local and is never part of the MIT grant.",
+            text: "The life-os vault (Projects and Areas) stays separate. ensembly is the local ops kernel on your machine. Private life data stays in data/local and is never part of the MIT grant.",
           },
         ],
       },
@@ -220,9 +220,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Works alongside Grok instead of competing as a chat app. No visitor UI. Dogfood is CLI and pulse files",
+              "Works alongside Grok instead of competing as a chat app. No visitor UI. Daily use is CLI and pulse files",
               "Single-writer ops SQLite prevents silent gate drift and forbids live dual-write sync. Pulse-pack is file copy, not a hosted dashboard",
-              "Parking Game of Peram removes a play loop that hiring visitors might expect. The product is gates, pulses, and a ledger",
+              "Moving Game of Peram to prototype/ removes a play loop that hiring visitors might expect. The product is approval gates, pulse files, and a ledger",
             ],
           },
         ],
@@ -235,10 +235,10 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Dogfood path is cargo test -p ensembly-kernel and cargo test -p ensembly-memory, then runtime load of the Issue #1 fixture",
+              "Dev workflow: cargo test -p ensembly-kernel and cargo test -p ensembly-memory, then runtime load of the Issue #1 fixture",
               "ensembly-mcp builds as a read-only binary. No new chat app or plugin sprawl",
               "Privacy default-deny: data/local and private/ stay off git",
-              "Thesis copy for HITL and HOOTL lives on this site at /articles/hitl-hootl. It is design law, not live metrics",
+              "Background essay on human approval (HITL) and automated work (HOOTL) is at /articles/hitl-hootl. Not live metrics",
             ],
           },
         ],
@@ -261,7 +261,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
     ],
     surfaces: [
       "Discover / Mission / Sweden / Xplore",
-      "Preferences — operator pack health",
+      "Preferences — pack health checks",
       "Pipeline — hunt progress",
       "kanithanj.cv CLI",
       "Local SQLite ledger",
@@ -378,7 +378,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             items: [
               "Hunt screens: Discover rail and Quick Target; Mission career boards; Sweden JobTech; Xplore live X plus a guarded cycle",
               "Preferences: pack health checks, kanithanj.cv install, rank packs. Health is local file inspection",
-              "Pipeline: dedicated opportunity query, prep status, and orthogonal post-apply outcomes",
+              "Pipeline: dedicated opportunity query, prep status, and separate post-apply outcomes",
               "kanithanj.cv: status, list, generate, sync. Writes PDFs. Never mutates site master cvdata",
             ],
           },

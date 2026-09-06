@@ -21,7 +21,7 @@ Walkthrough gallery and per-slug detail pages for systems that shipped.
 
 - Hero: breadcrumb (Shipped → project), title, lede, audience, outcomes, surfaces, GitHub / live / npm CTAs.
 - Product band: product section blocks (callouts, cards, bullets, paragraphs, flows).
-- `ensembly` product cards: operator loop, HITL / HOOTL runtime, Pulse-pack, T1 SQLite ledger — see [shipped-ensembly.md](./shipped-ensembly.md).
+- `ensembly` product cards: daily workflow, human approval / automated work, Pulse-pack, SQLite ops ledger — see [shipped-ensembly.md](./shipped-ensembly.md).
 - `collab-finder` product cards: hunt loop, Preferences pack health, Pipeline, local SQLite ledger — see [shipped-collab-finder.md](./shipped-collab-finder.md).
 - Tech band: **architecture Mermaid diagram first** (above stack chips and prose), then stack chips, then architecture / components / data-flow / tradeoffs / testing-ops sections.
 - Diagram is the leading block in the architecture section data; the slug page hoists it above chips and strips it from section body copy so prose never precedes the diagram.
