@@ -59,16 +59,16 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "ensembly",
     title: "ensembly — operator kernel",
-    lede: "A thin complementary kernel under Grok Bot, Grok Build, and Cursor: HITL and HOOTL gates, a T1 SQLite ledger, episodic memory, and pulse-pack sync. Not a second chat OS. Game of Peram stays parked in prototype/.",
+    lede: "Local operator layer for Grok Bot, Grok Build, and Cursor. Human approval (HITL) and automated digital work (HOOTL), a SQLite to-do ledger, episodic memory, and pulse-pack file sync. Not a second chat app. Game of Peram lives in prototype/.",
     eyebrow: "Systems · operator kernel",
     audience:
-      "Hiring visitors and operators who need the layer under capture tools — durable gates and pulses, not another chat window.",
+      "Engineers and recruiters who want to see what runs under the chat tools: durable approve and deny state, not another chat window.",
     outcomes: [
-      "HITL / HOOTL runtime: approve, deny, claim, complete on the machine",
-      "T1 SQLite ledger for done, pending, and denied",
-      "Pulse-pack memory sync without dual-write ops",
+      "Human approval (HITL) and automated digital work (HOOTL): approve, deny, claim, complete on your machine",
+      "SQLite ledger for done, pending, and denied items",
+      "Pulse-pack file sync for memory without dual-write databases",
       "Read-only ensembly-mcp for Grok and Cursor",
-      "Game of Peram / Node swarm parked under prototype/",
+      "Game of Peram browser game and Node swarm parked under prototype/",
     ],
     surfaces: [
       "ensembly-kernel CLI — runtime and pulse-pack",
@@ -88,7 +88,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "Complementary operator kernel — a white hole under Grok Bot, Grok Build, and Cursor. Capture stays on the harness. ensembly holds done, pending, and denied so you do not re-litigate the same gate. Not a second chat OS. Game of Peram is parked in prototype/, not the live product.",
+            text: "Grok Bot keeps the chat. ensembly-kernel holds done, pending, and denied so you do not re-approve the same item. Not a second chat app. Game of Peram is in prototype/, not the live product.",
           },
           {
             type: "cards",
@@ -96,42 +96,42 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               {
                 title: "Operator loop",
                 kicker: "What you do",
-                body: "Load a fixture or local ops DB, read status, tick HOOTL digital work, then approve, deny, claim, or complete at HITL gates. Reflect scores coherence over episodic memory. The kernel names the critical path; the harness does not own the ledger.",
+                body: "Load a fixture or local ops DB, read status, run HOOTL ticks for digital tasks, then approve, deny, claim, or complete at human approval (HITL) gates. Reflect scores coherence over episodic memory. The kernel tracks the critical path; chat tools do not own the ledger.",
               },
               {
                 title: "HITL / HOOTL runtime",
                 kicker: "Shipped · ensembly-kernel",
-                body: "Life-state, dependency graph, critical path, and a typed message bus. HOOTL agents clear digital thrash. HITL waits for body-world claims or explicit approve and deny. Auth gates never self-approve.",
+                body: "Life-state, dependency graph, critical path, and a typed message bus. HOOTL clears routine digital work automatically. HITL waits for you to claim a physical task or explicitly approve or deny. Auth gates never self-approve.",
                 sample:
                   "Fixture actions pay-rent and grocery-errand. Regimes Hootl and HitlWait. Issue #1 fixture only — not a live operator machine.",
               },
               {
                 title: "Pulse-pack",
                 kicker: "Shipped · memory sync",
-                body: "Portable memory export and import between Grok Bot as the canonical host and a laptop client. Pulse-pack is memory only. Ops SQLite stays single-writer. No live cloud sync and no dual master.",
+                body: "Export and import memory files between Grok Bot on the canonical host and a laptop. Pulse-pack is memory only. The ops SQLite file has one writer. No live cloud sync and no dual master.",
                 sample:
                   "Format ensembly-pulse-pack-v1. Legacy peram-pulse-pack-v1 still imports. Commands export, status, import. Memory merge only — no live session counts.",
               },
               {
                 title: "T1 SQLite ledger",
                 kicker: "Durable memory",
-                body: "Fresh default is local ensembly-ops.sqlite. Episodic ensembly-memory.json is auxiliary — it records and learns; it never decides gates or priority. Existing peram-ops.sqlite / peram-memory.json still open until migrate-local-paths (copy-if-missing) plus pulse-pack resync. Secrets stay off git.",
+                body: "Default ops file is local ensembly-ops.sqlite. Episodic ensembly-memory.json is auxiliary. It records and learns. It never decides gates or priority. Existing peram-ops.sqlite and peram-memory.json still open until migrate-local-paths (copy-if-missing) plus pulse-pack resync. Secrets stay off git.",
               },
             ],
           },
           {
             type: "flow",
             steps: [
-              "Harness captures",
+              "Chat proposes work",
               "Runtime tick",
-              "HITL gate",
+              "Human approval gate",
               "Ledger write",
               "Pulse-pack merge",
             ],
           },
           {
             type: "paragraph",
-            text: "Mass-market agents optimize capture. The Musk cut of 4 September 2026 parked the browser game, Node swarm, and WASM world sim under prototype/. Live crates are ensembly-kernel, ensembly-memory, and the read-only ensembly-mcp wire. Automate the digital. Surface the physical. Wait only for permission.",
+            text: "On 4 Sep 2026 the browser game, Node swarm, and WASM world sim moved under prototype/. Live crates are ensembly-kernel, ensembly-memory, and read-only ensembly-mcp.",
           },
         ],
       },
@@ -143,12 +143,12 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "mermaid",
             code: `graph TB
-  subgraph harness["Harness"]
-    GROK["Grok Bot / Build / Cursor"]
+  subgraph tools["Grok Bot / Build / Cursor"]
+    GROK["Chat and capture"]
   end
   subgraph kernel["ensembly-kernel"]
-    RT["HITL / HOOTL runtime"]
-    LED["T1 SQLite ledger"]
+    RT["Human approval + HOOTL runtime"]
+    LED["SQLite ledger"]
     PP["pulse-pack"]
     RT --> LED
     RT --> PP
@@ -156,8 +156,8 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   subgraph mem["ensembly-memory"]
     CRDT["Episodic CRDT"]
   end
-  MCP["ensembly-mcp"]
-  GROK -->|"capture"| RT
+  MCP["ensembly-mcp (read-only)"]
+  GROK -->|"proposals"| RT
   RT --> CRDT
   PP -->|"memory merge"| CRDT
   MCP -.->|"read"| CRDT`,
@@ -167,7 +167,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             items: [
               "ensembly-kernel is the control source of truth: life-state, dependency graph, critical path, message bus, backup, and pulse-pack",
               "ensembly-memory is an auxiliary CRDT. The kernel never delegates gate or priority decisions to it",
-              "ensembly-mcp is a read-only satellite for Grok and Cursor. Agents query memory; they do not own the ops DB",
+              "ensembly-mcp is read-only for Grok and Cursor. Agents query memory. They do not own the ops DB",
               "Grok Bot is the canonical host for ops SQLite. Laptop import merges memory only",
             ],
           },
@@ -182,8 +182,8 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "bullets",
             items: [
               "Runtime CLI: load, status, tick, approve, deny, claim, complete, reflect against a local DB or the Issue #1 fixture. Primary bin ensembly; one-release alias peram",
-              "Pulse-pack: export, status, import. Memory and archive events only — no ops dual-write",
-              "ensembly-mcp: read-only Model Context Protocol tools for harnesses. One-release alias peram-mcp",
+              "Pulse-pack: export, status, import. Memory and archive events only. No ops dual-write",
+              "ensembly-mcp: read-only Model Context Protocol tools for Grok and Cursor. One-release alias peram-mcp",
               "prototype/: parked Game of Peram client, Node swarm.js, and WASM world sim. Not source of truth",
             ],
           },
@@ -197,9 +197,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "flow",
             steps: [
-              "Harness proposes work",
+              "Chat tool proposes work",
               "Kernel records pending",
-              "HOOTL tick or HITL decision",
+              "HOOTL tick or human approval",
               "Ledger write",
               "Optional reflect",
               "Pulse-pack export on the canonical host",
@@ -208,7 +208,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           },
           {
             type: "paragraph",
-            text: "life-os remains the clustered Projects and Areas vault. ensembly is the local digital-clone kernel. Private life data stays in data/local and is never part of the MIT grant.",
+            text: "life-os remains the clustered Projects and Areas vault. ensembly is the local operator kernel on your machine. Private life data stays in data/local and is never part of the MIT grant.",
           },
         ],
       },
@@ -220,7 +220,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Complementing Grok instead of competing as a chat OS means the kernel has no visitor canvas. Dogfood is CLI and pulse files",
+              "Works alongside Grok instead of competing as a chat app. No visitor UI. Dogfood is CLI and pulse files",
               "Single-writer ops SQLite prevents silent gate drift and forbids live dual-write sync. Pulse-pack is file copy, not a hosted dashboard",
               "Parking Game of Peram removes a play loop that hiring visitors might expect. The product is gates, pulses, and a ledger",
             ],
@@ -236,7 +236,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "bullets",
             items: [
               "Dogfood path is cargo test -p ensembly-kernel and cargo test -p ensembly-memory, then runtime load of the Issue #1 fixture",
-              "ensembly-mcp builds as a read-only binary. No new chat OS or plugin sprawl",
+              "ensembly-mcp builds as a read-only binary. No new chat app or plugin sprawl",
               "Privacy default-deny: data/local and private/ stay off git",
               "Thesis copy for HITL and HOOTL lives on this site at /articles/hitl-hootl. It is design law, not live metrics",
             ],
@@ -247,11 +247,11 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   },
   {
     slug: "collab-finder",
-    title: "collab-finder — career heading cockpit",
-    lede: "kanithanj.ai is a Tauri heading cockpit for high-fit roles: hunt, pack health, pipeline, and a local SQLite ledger. Human promote before anything becomes permanent. Not a second chat OS.",
-    eyebrow: "Career · heading cockpit",
+    title: "collab-finder — job hunt desktop app",
+    lede: "kanithanj.ai is a Tauri desktop app for high-fit roles: hunt screens, pack health, pipeline, and a local SQLite ledger. You approve before master CV or submit files change. Not a second chat app.",
+    eyebrow: "Career · desktop app",
     audience:
-      "Hiring visitors and operators who need a career heading cockpit — structured screens, not another chat window.",
+      "Engineers and recruiters who want structured job-hunt screens, not another chat window.",
     outcomes: [
       "Hunt loop: Evaluate → Prepare → Generate on the machine",
       "Preferences pack health without opening a terminal",
@@ -278,7 +278,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "Career heading cockpit — a satellite, not a second chat OS. Structured screens. Cost, fit, and rate gates. HITL promote before master CV or submit artifacts change.",
+            text: "Desktop app for job hunting. Structured screens with cost, fit, and rate checks. You approve before master CV or apply artifacts change. Not a chat replacement.",
           },
           {
             type: "cards",
@@ -291,14 +291,14 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               {
                 title: "Preferences pack health",
                 kicker: "Shipped · Preferences",
-                body: "Operator pack health inspects identity files under the packs directory on disk. No network. Evaluate and Next 10 read those files — they are not compiled into the binary. Missing seed silently falls Evaluate back to stub CV text.",
+                body: "Checks identity files under the packs directory on disk. No network. Evaluate and Next 10 read those files. They are not compiled into the binary. Missing seed silently falls Evaluate back to stub CV text.",
                 sample:
                   "Badge labels Seeded, Degraded, Stub identity, Missing. File kinds ok, stub, missing. Not a live machine.",
               },
               {
                 title: "Pipeline",
                 kicker: "Shipped · Pipeline",
-                body: "Hunt-progress screen. Prep status and post-apply outcome stay orthogonal. A dedicated query keeps applied rows visible when Mission inventory floods recency-limited history.",
+                body: "Hunt progress screen. Prep status and post-apply outcome stay separate. A dedicated query keeps applied rows visible when Mission inventory floods recency-limited history.",
                 sample:
                   "Prep: new, analyzed, prepped, applied, passed, archived. Outcome: waiting, screening, interview, offer, rejected, withdrawn. Enums only — no live counts.",
               },
@@ -321,7 +321,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           },
           {
             type: "paragraph",
-            text: "Job hunting fragments into tabs, notes, and chat logs. This app is the heading cockpit: ledger first. Chat is never the only surface.",
+            text: "Job hunting spreads across tabs, notes, and chat logs. This app keeps a local ledger first. Chat is a helper, not the only UI.",
           },
         ],
       },
@@ -377,7 +377,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "bullets",
             items: [
               "Hunt screens: Discover rail and Quick Target; Mission career boards; Sweden JobTech; Xplore live X plus a guarded cycle",
-              "Preferences: operator pack health, kanithanj.cv install, rank packs. Health is local file inspection",
+              "Preferences: pack health checks, kanithanj.cv install, rank packs. Health is local file inspection",
               "Pipeline: dedicated opportunity query, prep status, and orthogonal post-apply outcomes",
               "kanithanj.cv: status, list, generate, sync. Writes PDFs. Never mutates site master cvdata",
             ],
@@ -403,7 +403,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           },
           {
             type: "paragraph",
-            text: "Promote to the public site is a separate sync of master cvdata. Dynamic web apply CVs from packs stay deferred until shared storage exists; the portfolio PDF path stays master-only.",
+            text: "Promote to the public site is a separate sync of master cvdata. Dynamic web apply CVs from packs stay deferred until shared storage exists. The portfolio PDF path stays master-only.",
           },
         ],
       },
@@ -415,9 +415,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "HITL promote slows automation and prevents silent CV corruption. That friction is intentional",
-              "Desktop (Tauri) adds Rust surface area versus a pure web app; the payoff is OS keychain boundaries and a real offline ledger",
-              "Satellite to the operator loop, not a chat OS. Quest exists; hunt screens own the work",
+              "Human approval before promote slows automation and prevents silent CV corruption. That friction is intentional",
+              "Desktop (Tauri) adds Rust surface area versus a pure web app. The payoff is OS keychain boundaries and a real offline ledger",
+              "Hunt screens own the work. Quest chat exists but is not the primary UI",
             ],
           },
         ],
@@ -444,7 +444,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "thepulimaangani",
     title: "thepulimaangani — Tamil metre in the browser",
-    lede: "Classical Tamil prosody as a cultural-computational product: a Rust metre parser compiled to WASM, wrapped in a React UI, with no backend required for analysis.",
+    lede: "Classical Tamil prosody in the browser: a Rust metre parser compiled to WASM, wrapped in React, with no backend required for analysis.",
     eyebrow: "Creative · metre",
     audience:
       "Scholars, students, and builders who need classical Tamil metre without a remote NLP API.",
@@ -471,25 +471,25 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "Classical ML on the parse plant, not a raw-text net. Mid-level labs can read the breadth as hiring confidence. Frontier labs may find the catalogue obvious.",
+            text: "Classical Tamil metre rules drive the parser, not a raw-text neural net. Paste verse, get segmentation and labels in the browser. No server round-trip for analysis.",
           },
           {
             type: "bullets",
             items: [
-              "Parse plant to dense[51] engineered features. No raw-text TF-IDF or big net on the product path",
+              "Parser pipeline to dense[51] engineered features. No raw-text TF-IDF or big net on the product path",
               "Heuristic metre head plus dense boosts. Optional hybrid multinomial logistic",
-              "PCA, Monte Carlo, entropy/margin. Dual-truth: ML stays separate from the classical checker",
+              "PCA, Monte Carlo, entropy/margin. ML helpers stay separate from the classical checker",
               "Pattern microscope: logistic, linear SVM, k-NN/prototypes, calibration, LDA/MI",
               "Trees and GBDT stay offline. Naive Bayes, clustering, HMM/CRF are research. Not every Tier B method is live in WASM",
             ],
           },
           {
             type: "paragraph",
-            text: "Tamil classical metre (yāppu) is precise linguistic structure, not a vibe check. Most poetry tools either ignore prosody or bury it in desktop corpora that do not travel with the reader.",
+            text: "Tamil classical metre (yāppu) is precise linguistic structure. Most poetry tools either ignore prosody or bury it in desktop corpora that do not travel with the reader.",
           },
           {
             type: "callout",
-            text: "Put the parser in the browser so inspection stays private, portable, and free of a server.",
+            text: "The parser runs in the browser so inspection stays private, portable, and free of a server.",
           },
         ],
       },
@@ -582,7 +582,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "adaptate",
     title: "Adaptate — adaptable Zod / OpenAPI validators",
-    lede: "A ground-up npm validator: one optional Zod model, per-consumer required fields at runtime, and OpenAPI interop — for APIs where static schemas stop at the multi-tenant edge.",
+    lede: "An npm validator library: one optional Zod model, per-consumer required fields at runtime, and OpenAPI interop. Built for APIs where static schemas stop at the multi-tenant edge.",
     eyebrow: "Systems · validation",
     audience:
       "API authors with multi-consumer contracts where Partner A requires fields Partner B must omit.",
@@ -608,11 +608,11 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "One optional base model. Per-consumer required or optional overlays at runtime. OpenAPI interop is a lane, not a second source of truth.",
+            text: "One optional base model. Per-consumer required or optional overlays at runtime. OpenAPI interop shares the same model. No second source of truth.",
           },
           {
             type: "paragraph",
-            text: "Shared models in multi-consumer APIs lie. A single static Zod object either over-constrains everyone or under-validates the callers who need strictness.",
+            text: "Shared models in multi-consumer APIs break down. A single static Zod object either over-constrains everyone or under-validates the callers who need strictness.",
           },
         ],
       },
@@ -633,9 +633,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Dedicated npm surface aimed at dynamic required-field overlays and OpenAPI/JSON Schema interop",
+              "Dedicated npm surface for dynamic required-field overlays and OpenAPI/JSON Schema interop",
               "Validation stays TypeScript-first",
-              "OpenAPI is an interoperability lane — generate or align contracts — not a second source of truth",
+              "OpenAPI is an interoperability bridge. Generate or align contracts. Not a second source of truth",
             ],
           },
         ],

@@ -4,14 +4,14 @@ path: /shipped/collab-finder
 
 # collab-finder walkthrough
 
-Career heading cockpit walkthrough for kanithanj.ai. Product band first: hunt loop, Preferences pack health, Pipeline, local SQLite ledger. Architecture Mermaid follows. Complementary satellite — not a second chat OS.
+Job hunt desktop app walkthrough for kanithanj.ai. Product band first: hunt loop, Preferences pack health, Pipeline, local SQLite ledger. Architecture Mermaid follows. Desktop app — not a second chat app.
 
 Map stays accurate to shipped **collab-finder** `main`: Preferences pack health (merged #32), Pipeline hunt progress (merged #31), kanithanj.cv CLI (merged #29). Do not invent live metrics.
 
 ## Sub-features
 
 - `shipped-hero` — breadcrumb, title, lede, outcomes, surfaces, GitHub / live CTAs.
-- `shipped-product-band` — product sections before the tech band; satellite/not-a-chat callout plus four surface cards.
+- `shipped-product-band` — product sections before the tech band; not-a-chat callout plus four surface cards.
 - `shipped-hunt-loop` — Hunt loop card: Discover / Mission / Sweden / Xplore and Evaluate → Prepare → Generate.
 - `shipped-pack-health` — Preferences pack health card; Seeded / Stub identity / Missing labeled **Sample**.
 - `shipped-pipeline` — Pipeline card; prep and outcome enums labeled **Sample**. No live counts.
@@ -42,4 +42,4 @@ Preconditions: `pnpm verify:doctor` is ok.
 
 - Product cards live in `projects-section--product`, not the tech band.
 - Pack-health and pipeline copy describes shipped enums and file kinds. It is not a live operator machine.
-- Complementary framing: career heading cockpit satellite. Do not describe this page as a chat OS, ensembly, life-os, or botify walkthrough.
+- Plain framing: desktop app for job hunting. Do not describe this page as a chat app, ensembly, life-os, or botify walkthrough.

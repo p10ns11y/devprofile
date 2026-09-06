@@ -165,8 +165,8 @@ describe("shipped walkthroughs", () => {
       );
     }
 
-    expect(text).toMatch(/heading cockpit|satellite/);
-    expect(text).toContain("not a second chat");
+    expect(text).toMatch(/desktop app|kanithanj/);
+    expect(text).toMatch(/not a second chat|not a chat replacement/);
     expect(text).toContain("evaluate");
     expect(text).toContain("prepare");
     expect(text).toMatch(/pack health|seeded/);
@@ -207,8 +207,8 @@ describe("shipped walkthroughs", () => {
       );
     }
 
-    expect(text).toMatch(/complementary|white hole/);
-    expect(text).toContain("not a second chat");
+    expect(text).toMatch(/grok bot|ledger|approve/);
+    expect(text).toMatch(/not a second chat|not a chat replacement/);
     expect(text).toContain("ensembly-kernel");
     expect(text).toContain("ensembly-memory");
     expect(text).toContain("ensembly-mcp");
@@ -218,7 +218,7 @@ describe("shipped walkthroughs", () => {
     expect(text).toMatch(/hitl|hootl/);
     expect(text).toContain("prototype");
     expect(text).toMatch(/game of peram/);
-    expect(text).toMatch(/parked/);
+    expect(text).toMatch(/parked|moved under prototype/);
     expect(text).toMatch(/migrate-local-paths/);
     expect(text).not.toMatch(/\d+\s*%/);
     expect(text).not.toMatch(/this week|gates this month/);

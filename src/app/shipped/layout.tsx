@@ -5,7 +5,7 @@ import "@/styles/shipped.css";
 
 const title = "Shipped — product walkthroughs";
 const description =
-  "Product-led walkthroughs for systems that shipped: operator kernel, career heading cockpit, Tamil metre in WASM, and adaptable validators.";
+  "Product-led walkthroughs for systems that shipped: operator kernel, job hunt desktop app, Tamil metre in WASM, and adaptable validators.";
 
 export const metadata: Metadata = {
   title,
