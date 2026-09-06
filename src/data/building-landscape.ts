@@ -38,7 +38,7 @@ export const BUILDING_BLURB: Record<string, string> = {
     "Ground-up npm validator. Different architecture from the Oneflow Zod lib. One optional Zod model, per-consumer contracts, OpenAPI interop.",
   premflow: "Small C CLI for notes, tasks, pomodoro, a daily journal, search, and a stats view.",
   ensembly:
-    "Local operator layer under Grok and Cursor. Chat tools capture work; ensembly-kernel stores done, pending, and denied. Pulse-pack syncs memory. Game of Peram is in prototype/. Not a second chat app.",
+    "Local control layer under Grok and Cursor. Chat tools capture work; ensembly-kernel stores done, pending, and denied. Portable memory sync files. Not a second chat app.",
   thepulimaangani: "Tamil metre in the browser. Rust/WASM parser and React UI.",
   "shelf-life":
     "Writing — tech books and companions. When a book is on the shelf it has shelf-life. When it is with you it becomes another living experience.",

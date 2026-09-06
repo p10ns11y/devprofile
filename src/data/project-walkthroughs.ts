@@ -58,24 +58,22 @@ export type ProjectWalkthrough = {
 export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "ensembly",
-    title: "ensembly — operator kernel",
-    lede: "Local operator layer for Grok Bot, Grok Build, and Cursor. Human approval (HITL) and automated digital work (HOOTL), a SQLite to-do ledger, episodic memory, and pulse-pack file sync. Not a second chat app. Game of Peram lives in prototype/.",
-    eyebrow: "Systems · operator kernel",
+    title: "ensembly — local control layer",
+    lede: "Local control layer for Grok Bot, Grok Build, and Cursor. Human approval (HITL) and automated digital work (HOOTL), a SQLite to-do ledger, mergeable episodic memory, and portable memory sync files. Not a second chat app.",
+    eyebrow: "Systems · local control",
     audience:
       "Engineers and recruiters who want to see what runs under the chat tools: durable approve and deny state, not another chat window.",
     outcomes: [
       "Human approval (HITL) and automated digital work (HOOTL): approve, deny, claim, complete on your machine",
       "SQLite ledger for done, pending, and denied items",
-      "Pulse-pack file sync for memory without dual-write databases",
+      "Portable memory sync files without dual-write databases",
       "Read-only ensembly-mcp for Grok and Cursor",
-      "Game of Peram browser game and Node swarm parked under prototype/",
     ],
     surfaces: [
-      "ensembly-kernel CLI — runtime and pulse-pack",
-      "ensembly-memory — episodic CRDT",
+      "ensembly-kernel CLI — runtime and memory sync",
+      "ensembly-memory — mergeable episodic memory",
       "ensembly-mcp — read-only agent wire",
-      "Issue #1 runtime fixture",
-      "prototype/ — parked game and Node stack",
+      "Bundled demo dataset for try-out",
     ],
     tech: ["ensembly-kernel", "ensembly-memory", "ensembly-mcp", "Rust"],
     cvdataKey: "ensembly",
@@ -88,7 +86,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "Grok Bot keeps the chat. ensembly-kernel holds done, pending, and denied so you do not re-approve the same item. Not a second chat app. Game of Peram is in prototype/, not the live product.",
+            text: "Grok Bot keeps the chat. ensembly-kernel holds done, pending, and denied so you do not re-approve the same item. Not a second chat app.",
           },
           {
             type: "cards",
@@ -96,26 +94,26 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               {
                 title: "Daily workflow",
                 kicker: "What you do",
-                body: "Load a fixture or local ops DB, read status, run automated work ticks, then approve, deny, claim, or complete at human approval gates. Reflect scores coherence over episodic memory. The kernel tracks the critical path; chat tools do not own the ledger.",
+                body: "Load a demo dataset or local ops DB, read status, run automated work ticks, then approve, deny, claim, or complete at human approval gates. Reflect scores coherence over episodic memory. The kernel tracks the critical path; chat tools do not own the ledger.",
               },
               {
                 title: "Human approval / automated work",
                 kicker: "Shipped · ensembly-kernel",
                 body: "Life-state, dependency graph, critical path, and a typed message bus. Automated work (HOOTL) clears routine digital tasks. Human approval (HITL) waits for you to claim a physical task or explicitly approve or deny. Auth gates never self-approve.",
                 sample:
-                  "Fixture actions pay-rent and grocery-errand. Regimes Hootl and HitlWait. Issue #1 fixture only — not a live operator machine.",
+                  "A small demo dataset of household tasks (rent, groceries) in automated vs waiting-for-you modes. Not this person's live machine.",
               },
               {
-                title: "Pulse-pack",
+                title: "Portable memory sync",
                 kicker: "Shipped · memory sync",
-                body: "Export and import memory files between Grok Bot on your main machine and a laptop. Pulse-pack is memory only. The ops SQLite file has one writer. No live cloud sync and no dual master.",
+                body: "Export and import portable memory sync files between Grok Bot on your main machine and a laptop. Memory only. The ops SQLite file has one writer. No live cloud sync and no dual master.",
                 sample:
                   "Format ensembly-pulse-pack-v1. Legacy peram-pulse-pack-v1 still imports. Commands export, status, import. Memory merge only — no live session counts.",
               },
               {
                 title: "SQLite ops ledger",
                 kicker: "Durable state",
-                body: "Default ops file is local ensembly-ops.sqlite. Episodic ensembly-memory.json is auxiliary. It records and learns. It never decides gates or priority. Existing peram-ops.sqlite and peram-memory.json still open until migrate-local-paths (copy-if-missing) plus pulse-pack resync. Secrets stay off git.",
+                body: "Default ops file is local ensembly-ops.sqlite. Episodic ensembly-memory.json is auxiliary. It records and learns. It never decides gates or priority. Old installs keep working; a one-shot copy renames local files if you want the new names. Secrets stay off git.",
               },
             ],
           },
@@ -126,12 +124,8 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               "Runtime tick",
               "Human approval gate",
               "Ledger write",
-              "Pulse-pack merge",
+              "Memory file merge",
             ],
-          },
-          {
-            type: "paragraph",
-            text: "On 4 Sep 2026 the browser game, Node swarm, and WASM world sim moved under prototype/. Live crates are ensembly-kernel, ensembly-memory, and read-only ensembly-mcp.",
           },
         ],
       },
@@ -154,7 +148,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
     RT --> PP
   end
   subgraph mem["ensembly-memory"]
-    CRDT["Episodic CRDT"]
+    CRDT["Mergeable memory"]
   end
   MCP["ensembly-mcp (read-only)"]
   GROK -->|"proposals"| RT
@@ -166,7 +160,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "bullets",
             items: [
               "ensembly-kernel is the control source of truth: life-state, dependency graph, critical path, message bus, backup, and pulse-pack",
-              "ensembly-memory is an auxiliary CRDT. The kernel never delegates gate or priority decisions to it",
+              "ensembly-memory is auxiliary mergeable memory (CRDT). The kernel never delegates gate or priority decisions to it",
               "ensembly-mcp is read-only for Grok and Cursor. Agents query memory. They do not own the ops DB",
               "Grok Bot on your main machine owns the ops SQLite file. Laptop import merges memory only",
             ],
@@ -181,10 +175,10 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Runtime CLI: load, status, tick, approve, deny, claim, complete, reflect against a local DB or the Issue #1 fixture. Primary bin ensembly; one-release alias peram",
-              "Pulse-pack: export, status, import. Memory and archive events only. No ops dual-write",
+              "Runtime CLI: load, status, tick, approve, deny, claim, complete, reflect against a local DB or bundled demo dataset. Primary bin ensembly; one-release alias peram",
+              "Portable memory sync (pulse-pack): export, status, import. Memory and archive events only. No ops dual-write",
               "ensembly-mcp: read-only Model Context Protocol tools for Grok and Cursor. One-release alias peram-mcp",
-              "prototype/: parked Game of Peram client, Node swarm.js, and WASM world sim. Not source of truth",
+              "prototype/: an older browser game and Node stack. Not the product",
             ],
           },
         ],
@@ -208,7 +202,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           },
           {
             type: "paragraph",
-            text: "The life-os vault (Projects and Areas) stays separate. ensembly is the local ops kernel on your machine. Private life data stays in data/local and is never part of the MIT grant.",
+            text: "The life-os vault (Projects and Areas) stays separate. ensembly is the local control layer on your machine. Private life data stays in data/local and is never part of the MIT grant.",
           },
         ],
       },
@@ -220,9 +214,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Works alongside Grok instead of competing as a chat app. No visitor UI. Daily use is CLI and pulse files",
-              "Single-writer ops SQLite prevents silent gate drift and forbids live dual-write sync. Pulse-pack is file copy, not a hosted dashboard",
-              "Moving Game of Peram to prototype/ removes a play loop that hiring visitors might expect. The product is approval gates, pulse files, and a ledger",
+              "Works alongside Grok instead of competing as a chat app. No visitor UI. Daily use is CLI and memory sync files",
+              "Single-writer ops SQLite prevents silent gate drift and forbids live dual-write sync. Memory sync is file copy, not a hosted dashboard",
+              "Scope is local CLI and file sync, not a hosted multi-user service",
             ],
           },
         ],
@@ -235,7 +229,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Dev workflow: cargo test -p ensembly-kernel and cargo test -p ensembly-memory, then runtime load of the Issue #1 fixture",
+              "Dev workflow: cargo test -p ensembly-kernel and cargo test -p ensembly-memory. Optional: load the bundled demo dataset locally",
               "ensembly-mcp builds as a read-only binary. No new chat app or plugin sprawl",
               "Privacy default-deny: data/local and private/ stay off git",
               "Background essay on human approval (HITL) and automated work (HOOTL) is at /articles/hitl-hootl. Not live metrics",
@@ -293,18 +287,18 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
                 kicker: "Shipped · Preferences",
                 body: "Checks identity files under the packs directory on disk. No network. Evaluate and Next 10 read those files. They are not compiled into the binary. Missing seed silently falls Evaluate back to stub CV text.",
                 sample:
-                  "Badge labels Seeded, Degraded, Stub identity, Missing. File kinds ok, stub, missing. Not a live machine.",
+                  "Demo badge labels such as Seeded or Missing. Not a live machine.",
               },
               {
                 title: "Pipeline",
                 kicker: "Shipped · Pipeline",
                 body: "Hunt progress screen. Prep status and post-apply outcome stay separate. A dedicated query keeps applied rows visible when Mission inventory floods recency-limited history.",
                 sample:
-                  "Prep: new, analyzed, prepped, applied, passed, archived. Outcome: waiting, screening, interview, offer, rejected, withdrawn. Enums only — no live counts.",
+                  "Fixed prep stages and outcome labels in the app. No live counts.",
               },
               {
                 title: "Local SQLite ledger",
-                kicker: "Durable memory",
+                kicker: "Durable state",
                 body: "WAL SQLite on the machine for opportunities, prep, events, and history. Secrets stay in the OS keyring. Multi-device sync is not the product. Optional local backup and export scripts — not a hosted dashboard.",
               },
             ],
@@ -476,11 +470,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Parser pipeline to dense[51] engineered features. No raw-text TF-IDF or big net on the product path",
-              "Heuristic metre head plus dense boosts. Optional hybrid multinomial logistic",
-              "PCA, Monte Carlo, entropy/margin. ML helpers stay separate from the classical checker",
-              "Pattern microscope: logistic, linear SVM, k-NN/prototypes, calibration, LDA/MI",
-              "Trees and GBDT stay offline. Naive Bayes, clustering, HMM/CRF are research. Not every Tier B method is live in WASM",
+              "Paste Tamil verse and get syllable segmentation plus metre labels on screen",
+              "Classical rule checker runs first; optional ML helpers stay separate",
+              "Analysis stays in the browser. Text is not sent to a remote API",
             ],
           },
           {
@@ -513,6 +505,11 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               "Hot path is Rust: parser and prosody rules compile to WebAssembly",
               "React loads the WASM module once and calls into it for analysis",
               "UI state stays in TypeScript; static hosting is enough for the demo",
+              "Parser pipeline to dense[51] engineered features. No raw-text TF-IDF or big net on the product path",
+              "Heuristic metre head plus dense boosts. Optional hybrid multinomial logistic",
+              "PCA, Monte Carlo, entropy/margin. ML helpers stay separate from the classical checker",
+              "Pattern microscope: logistic, linear SVM, k-NN/prototypes, calibration, LDA/MI",
+              "Trees and GBDT stay offline. Naive Bayes, clustering, HMM/CRF are research. Not every Tier B method is live in WASM",
             ],
           },
         ],

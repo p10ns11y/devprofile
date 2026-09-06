@@ -49,6 +49,12 @@ function blockTextLength(
   return blockPlainText(block).length;
 }
 
+function sectionText(
+  sections: readonly (typeof PROJECT_WALKTHROUGHS)[number]["sections"][number][]
+): string {
+  return sections.flatMap((section) => section.blocks.map(blockPlainText)).join(" ").toLowerCase();
+}
+
 describe("shipped walkthroughs", () => {
   it("lists exactly four walkthroughs with the expected slugs", () => {
     const projects = listProjectWalkthroughs();
@@ -120,25 +126,35 @@ describe("shipped walkthroughs", () => {
     }
   });
 
-  it("places thepulimaangani classical ML in the product band", () => {
+  it("keeps thepulimaangani ML depth in the tech band, plain product copy upfront", () => {
     const project = getProjectWalkthrough("thepulimaangani");
     expect(project).toBeDefined();
     const product = walkthroughSectionsByBand(project!, "product");
-    const blocks = product.flatMap((section) => section.blocks);
-    const text = blocks.map(blockPlainText).join(" ").toLowerCase();
+    const tech = walkthroughSectionsByBand(project!, "tech");
+    const productText = sectionText(product);
+    const techText = sectionText(tech);
 
-    expect(blocks.some((block) => block.type === "callout")).toBe(true);
-    expect(blocks.some((block) => block.type === "bullets")).toBe(true);
-    expect(text).toContain("dense[51]");
-    expect(text).toContain("engineered features");
-    expect(text).toContain("heuristic");
-    expect(text).toMatch(/hybrid|logistic/);
-    expect(text).toContain("pca");
-    expect(text).toContain("monte carlo");
-    expect(text).toMatch(/dual-truth|classical checker/);
-    expect(text).toContain("wasm");
-    expect(text).toContain("tf-idf");
-    expect(text).not.toMatch(/transformer/);
+    expect(product.some((section) => section.blocks.some((block) => block.type === "callout"))).toBe(
+      true
+    );
+    expect(product.some((section) => section.blocks.some((block) => block.type === "bullets"))).toBe(
+      true
+    );
+    expect(productText).toContain("paste tamil verse");
+    expect(productText).toContain("classical rule checker");
+    expect(productText).not.toContain("dense[51]");
+    expect(productText).not.toMatch(/tier b/);
+
+    expect(techText).toContain("dense[51]");
+    expect(techText).toContain("engineered features");
+    expect(techText).toContain("heuristic");
+    expect(techText).toMatch(/hybrid|logistic/);
+    expect(techText).toContain("pca");
+    expect(techText).toContain("monte carlo");
+    expect(techText).toContain("classical checker");
+    expect(techText).toContain("wasm");
+    expect(techText).toContain("tf-idf");
+    expect(techText).not.toMatch(/transformer/);
   });
 
   it("places collab-finder hunt loop, pack health, pipeline, and ledger in the product band", () => {
@@ -161,7 +177,7 @@ describe("shipped walkthroughs", () => {
       const samples = cards.items.filter((item) => Boolean(item.sample));
       expect(samples.length).toBeGreaterThanOrEqual(2);
       expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
-        /not a live machine|enums only/
+        /not a live machine|no live counts/
       );
     }
 
@@ -170,11 +186,11 @@ describe("shipped walkthroughs", () => {
     expect(text).toContain("evaluate");
     expect(text).toContain("prepare");
     expect(text).toMatch(/pack health|seeded/);
-    expect(text).toContain("stub");
     expect(text).toContain("pipeline");
     expect(text).toContain("applied");
     expect(text).toContain("sqlite");
     expect(text).toContain("kanithanj.cv");
+    expect(text).not.toMatch(/issue #\d+/);
     expect(text).not.toMatch(/\d+\s*%/);
     expect(text).not.toMatch(/this week|applications this month/);
 
@@ -183,12 +199,14 @@ describe("shipped walkthroughs", () => {
     expect(diagram?.code.split("\n").length).toBeLessThan(28);
   });
 
-  it("places ensembly daily workflow, human approval, pulse-pack, and ledger in the product band", () => {
+  it("places ensembly daily workflow, human approval, memory sync, and ledger in the product band", () => {
     const project = getProjectWalkthrough("ensembly");
     expect(project).toBeDefined();
     const product = walkthroughSectionsByBand(project!, "product");
+    const tech = walkthroughSectionsByBand(project!, "tech");
     const blocks = product.flatMap((section) => section.blocks);
     const text = blocks.map(blockPlainText).join(" ").toLowerCase();
+    const techText = sectionText(tech);
     const cards = blocks.find((block) => block.type === "cards");
 
     expect(blocks.some((block) => block.type === "callout")).toBe(true);
@@ -197,31 +215,38 @@ describe("shipped walkthroughs", () => {
       expect(cards.items.map((item) => item.title)).toEqual([
         "Daily workflow",
         "Human approval / automated work",
-        "Pulse-pack",
+        "Portable memory sync",
         "SQLite ops ledger",
       ]);
       const samples = cards.items.filter((item) => Boolean(item.sample));
       expect(samples.length).toBeGreaterThanOrEqual(2);
       expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
-        /not a live|no live session counts/
+        /not this person's live machine|no live session counts/
+      );
+      expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
+        /demo dataset|household tasks/
       );
     }
 
     expect(text).toMatch(/grok bot|ledger|approve/);
     expect(text).toMatch(/not a second chat|not a chat replacement/);
     expect(text).toContain("ensembly-kernel");
-    expect(text).toContain("ensembly-memory");
-    expect(text).toContain("ensembly-mcp");
-    expect(text).toContain("ensembly-ops.sqlite");
-    expect(text).toContain("ensembly-pulse-pack-v1");
-    expect(text).toContain("pulse-pack");
+    expect(text).toContain("human approval");
+    expect(text).toMatch(/portable memory sync|memory sync files/);
     expect(text).toMatch(/hitl|hootl/);
-    expect(text).toContain("prototype");
-    expect(text).toMatch(/game of peram/);
-    expect(text).toMatch(/parked|moved under prototype/);
-    expect(text).toMatch(/migrate-local-paths/);
+    expect(text).toMatch(/old installs keep working|one-shot copy/);
+    expect(text).not.toMatch(/game of peram/);
+    expect(text).not.toMatch(/issue #\d+/);
+    expect(text).not.toMatch(/pay-rent|grocery-errand|hitlwait|hootl regime/);
+    expect(text).not.toMatch(/migrate-local-paths/);
+    expect(text).not.toMatch(/\bt1\b/);
     expect(text).not.toMatch(/\d+\s*%/);
     expect(text).not.toMatch(/this week|gates this month/);
+
+    expect(techText).toContain("ensembly-memory");
+    expect(techText).toContain("ensembly-mcp");
+    expect(techText).toMatch(/ensembly-pulse-pack-v1|pulse-pack/);
+    expect(techText).toMatch(/prototype/);
 
     const diagram = getArchitectureDiagram(project!);
     expect(diagram?.code).toMatch(/ensembly-kernel/);
