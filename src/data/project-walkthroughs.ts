@@ -10,13 +10,13 @@ export type WalkthroughSectionId =
 
 export type WalkthroughMermaidBlock = { type: "mermaid"; code: string };
 
-/** Scannable product surface — keep body short; mark examples in `sample`. */
+/** Scannable product surface — keep body short; optional `example` for a concrete illustration. */
 export type WalkthroughCard = {
   title: string;
   kicker: string;
   body: string;
-  /** Example or enum — rendered with an explicit Sample label. Not live metrics. */
-  sample?: string;
+  /** Concrete illustration: demo data, UI labels, or a format name. Not live metrics. Rendered with an "Example" label. */
+  example?: string;
 };
 
 export type WalkthroughBlock =
@@ -100,14 +100,14 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
                 title: "Human approval / automated work",
                 kicker: "Shipped · ensembly-kernel",
                 body: "Routine digital work clears on its own. Physical tasks and auth gates wait for you to approve or deny. Gates never self-approve. Human approval (HITL) and automated work (HOOTL) name those two modes in the repo.",
-                sample:
-                  "Demo data: household tasks (rent, groceries). Not a live machine.",
+                example:
+                  "Household tasks (rent, groceries). Not a live machine.",
               },
               {
                 title: "Portable memory sync",
                 kicker: "Shipped · memory sync",
                 body: "Export and import memory sync files between machines. Memory only. The ops file has one writer. No live cloud sync.",
-                sample:
+                example:
                   "Format ensembly-pulse-pack-v1. Commands export, status, import. Memory merge only.",
               },
               {
@@ -286,15 +286,15 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
                 title: "Pack file checks",
                 kicker: "Shipped · Preferences",
                 body: "Shows whether your pack files on disk are ready. Evaluate and Next 10 read those files. They are not built into the app. Missing files make Evaluate use placeholder text.",
-                sample:
-                  "Demo badges for pack status. Not a live machine.",
+                example:
+                  "Pack status on Preferences. Not a live machine.",
               },
               {
                 title: "Pipeline",
                 kicker: "Shipped · Pipeline",
                 body: "Tracks where each role stands before and after you apply. Applied rows stay visible even when Mission lists get long.",
-                sample:
-                  "Fixed prep stages and outcome labels in the app. No live counts.",
+                example:
+                  "Fixed prep stages and outcome labels. No live counts.",
               },
               {
                 title: "Local database",

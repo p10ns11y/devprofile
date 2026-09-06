@@ -34,7 +34,7 @@ function blockPlainText(
       return block.code;
     case "cards":
       return block.items
-        .map((item) => `${item.title} ${item.kicker} ${item.body} ${item.sample ?? ""}`)
+        .map((item) => `${item.title} ${item.kicker} ${item.body} ${item.example ?? ""}`)
         .join(" ");
     default: {
       const _exhaustive: never = block;
@@ -170,9 +170,9 @@ describe("shipped walkthroughs", () => {
         "Pipeline",
         "Local database",
       ]);
-      const samples = cards.items.filter((item) => Boolean(item.sample));
-      expect(samples.length).toBeGreaterThanOrEqual(2);
-      expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
+      const examples = cards.items.filter((item) => Boolean(item.example));
+      expect(examples.length).toBeGreaterThanOrEqual(2);
+      expect(examples.map((item) => item.example?.toLowerCase()).join(" ")).toMatch(
         /not a live machine|no live counts/
       );
     }
@@ -182,7 +182,7 @@ describe("shipped walkthroughs", () => {
     expect(text).toContain("evaluate");
     expect(text).toContain("prepare");
     expect(text).toMatch(/pack file|pack files/);
-    expect(text).toMatch(/demo badges for pack status/);
+    expect(text).toMatch(/pack status on preferences/);
     expect(text).toContain("pipeline");
     expect(text).toContain("applied");
     expect(text).toMatch(/local database|stores opportunities/);
@@ -237,12 +237,12 @@ describe("shipped walkthroughs", () => {
         "Portable memory sync",
         "Ops ledger",
       ]);
-      const samples = cards.items.filter((item) => Boolean(item.sample));
-      expect(samples.length).toBeGreaterThanOrEqual(2);
-      expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
-        /demo data|not a live machine/
+      const examples = cards.items.filter((item) => Boolean(item.example));
+      expect(examples.length).toBeGreaterThanOrEqual(2);
+      expect(examples.map((item) => item.example?.toLowerCase()).join(" ")).toMatch(
+        /household tasks|not a live machine/
       );
-      expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
+      expect(examples.map((item) => item.example?.toLowerCase()).join(" ")).toMatch(
         /household tasks|ensembly-pulse-pack-v1/
       );
     }

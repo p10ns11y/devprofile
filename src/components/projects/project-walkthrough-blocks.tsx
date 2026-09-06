@@ -44,10 +44,10 @@ export function ProjectWalkthroughBlocks({ blocks }: { blocks: readonly Walkthro
                       <p className="projects-surface-card__kicker">{item.kicker}</p>
                       <h3 className="projects-surface-card__title">{item.title}</h3>
                       <p className="projects-surface-card__body">{item.body}</p>
-                      {item.sample ? (
-                        <p className="projects-surface-card__sample" data-sample="">
-                          <span className="projects-surface-card__sample-label">Sample</span>{" "}
-                          {item.sample}
+                      {item.example ? (
+                        <p className="projects-surface-card__example" data-example="">
+                          <span className="projects-surface-card__example-label">Example</span>{" "}
+                          {item.example}
                         </p>
                       ) : null}
                     </article>

@@ -334,7 +334,7 @@
   text-wrap: pretty;
 }
 
-.projects-surface-card__sample {
+.projects-surface-card__example {
   margin: 0.7rem 0 0;
   padding: 0.5rem 0.65rem;
   border-radius: 0.55rem;
@@ -345,7 +345,7 @@
   color: var(--focus-ink-soft);
 }
 
-.projects-surface-card__sample-label {
+.projects-surface-card__example-label {
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.1em;
