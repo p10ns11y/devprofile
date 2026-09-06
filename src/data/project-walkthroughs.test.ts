@@ -126,7 +126,7 @@ describe("shipped walkthroughs", () => {
     }
   });
 
-  it("keeps thepulimaangani ML depth in the tech band, plain product copy upfront", () => {
+  it("keeps thepulimaangani plain in the product band, classical path in tech", () => {
     const project = getProjectWalkthrough("thepulimaangani");
     expect(project).toBeDefined();
     const product = walkthroughSectionsByBand(project!, "product");
@@ -141,19 +141,15 @@ describe("shipped walkthroughs", () => {
       true
     );
     expect(productText).toContain("paste tamil verse");
-    expect(productText).toContain("classical rule checker");
+    expect(productText).toContain("classical rule");
+    expect(productText).toContain("yāppu");
     expect(productText).not.toContain("dense[51]");
-    expect(productText).not.toMatch(/tier b/);
+    expect(productText).not.toMatch(/tier b|pca|monte carlo|hmm|crf|gbdt/);
 
-    expect(techText).toContain("dense[51]");
-    expect(techText).toContain("engineered features");
-    expect(techText).toContain("heuristic");
-    expect(techText).toMatch(/hybrid|logistic/);
-    expect(techText).toContain("pca");
-    expect(techText).toContain("monte carlo");
-    expect(techText).toContain("classical checker");
-    expect(techText).toContain("wasm");
-    expect(techText).toContain("tf-idf");
+    expect(techText).toContain("webassembly");
+    expect(techText).toMatch(/offline ml|classical rules/);
+    expect(techText).not.toContain("dense[51]");
+    expect(techText).not.toMatch(/tier b|pca|monte carlo|tf-idf/);
     expect(techText).not.toMatch(/transformer/);
   });
 
@@ -185,18 +181,37 @@ describe("shipped walkthroughs", () => {
     expect(text).toMatch(/not a second chat|not a chat replacement/);
     expect(text).toContain("evaluate");
     expect(text).toContain("prepare");
-    expect(text).toMatch(/pack health|seeded/);
+    expect(text).toMatch(/pack health|packs folder/);
+    expect(text).toMatch(/demo badges for pack status/);
     expect(text).toContain("pipeline");
     expect(text).toContain("applied");
-    expect(text).toContain("sqlite");
-    expect(text).toContain("kanithanj.cv");
+    expect(text).toMatch(/local sqlite database|sqlite database on this machine/);
+    expect(text).toMatch(/cv generate cli|kanithanj\.cv/);
+    expect(text).toMatch(/master cv on the public portfolio|master cv/);
+    expect(text).not.toMatch(/master cvdata/);
+    expect(text).not.toMatch(/\bwal sqlite\b|xdg|mvu|stub cv/);
     expect(text).not.toMatch(/issue #\d+/);
     expect(text).not.toMatch(/\d+\s*%/);
     expect(text).not.toMatch(/this week|applications this month/);
 
     const diagram = getArchitectureDiagram(project!);
-    expect(diagram?.code).toMatch(/Preferences pack health|Pipeline|kanithanj\.cv/);
+    expect(diagram?.code).toMatch(/Preferences pack health|Pipeline|kanithanj\.cv|Packs folder/);
     expect(diagram?.code.split("\n").length).toBeLessThan(28);
+  });
+
+  it("keeps adaptate product copy plain before Zod and OpenAPI names", () => {
+    const project = getProjectWalkthrough("adaptate");
+    expect(project).toBeDefined();
+    const product = walkthroughSectionsByBand(project!, "product");
+    const tech = walkthroughSectionsByBand(project!, "tech");
+    const productText = sectionText(product);
+    const techText = sectionText(tech);
+
+    expect(productText).toMatch(/optional by default|per-consumer rules/);
+    expect(productText).not.toMatch(/multi-tenant edge|overlays/);
+    expect(productText).not.toContain("zod");
+    expect(techText).toContain("zod");
+    expect(techText).toMatch(/openapi|json schema/);
   });
 
   it("places ensembly daily workflow, human approval, memory sync, and ledger in the product band", () => {

@@ -242,23 +242,23 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "collab-finder",
     title: "collab-finder — job hunt desktop app",
-    lede: "kanithanj.ai is a Tauri desktop app for high-fit roles: hunt screens, pack health, pipeline, and a local SQLite ledger. You approve before master CV or submit files change. Not a second chat app.",
+    lede: "Desktop app for high-fit job hunting at kanithanj.ai. You approve before anything is written to your master CV or apply files. Hunt screens, pack health, pipeline, and a local database — not a chat replacement.",
     eyebrow: "Career · desktop app",
     audience:
       "Engineers and recruiters who want structured job-hunt screens, not another chat window.",
     outcomes: [
-      "Hunt loop: Evaluate → Prepare → Generate on the machine",
-      "Preferences pack health without opening a terminal",
-      "Pipeline hunt progress with prep and post-apply outcomes",
-      "Local SQLite ledger. Credentials stay on the machine",
-      "Named apply PDFs via kanithanj.cv overlays",
+      "Hunt flow: Evaluate → Prepare → Generate apply PDF on your machine",
+      "Pack health checks without opening a terminal",
+      "Pipeline tracks prep and post-apply outcomes",
+      "Local SQLite database. Credentials stay on the machine",
+      "Named apply PDFs via the CV generate CLI (kanithanj.cv)",
     ],
     surfaces: [
-      "Discover / Mission / Sweden / Xplore",
+      "Discover / Mission / Sweden / Xplore hunt screens",
       "Preferences — pack health checks",
       "Pipeline — hunt progress",
-      "kanithanj.cv CLI",
-      "Local SQLite ledger",
+      "CV generate CLI (kanithanj.cv)",
+      "Local SQLite database",
     ],
     tech: ["Tauri", "Rust", "React", "TypeScript", "SQLite"],
     cvdataKey: "collab-finder",
@@ -272,7 +272,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "Desktop app for job hunting. Structured screens with cost, fit, and rate checks. You approve before master CV or apply artifacts change. Not a chat replacement.",
+            text: "Desktop app for job hunting at kanithanj.ai. Structured screens with cost, fit, and rate checks. You approve before the master CV on the public portfolio site or apply files change. Not a chat replacement.",
           },
           {
             type: "cards",
@@ -280,14 +280,14 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               {
                 title: "Hunt loop",
                 kicker: "What you do",
-                body: "Discover, Mission, Sweden, and Xplore ingest roles. Quick Target: paste a URL or JD, Evaluate fit, Prepare, Generate apply CV, then mark Applied. Click a rail row to restore fit and prep from SQLite — no extra model call.",
+                body: "Browse Discover, Mission, Sweden, or Xplore for roles. In Quick Target, paste a job URL or description, evaluate fit, prepare notes, generate an apply CV, then mark Applied. Click a saved row to restore fit and prep from the local database without calling the model again.",
               },
               {
                 title: "Preferences pack health",
                 kicker: "Shipped · Preferences",
-                body: "Checks identity files under the packs directory on disk. No network. Evaluate and Next 10 read those files. They are not compiled into the binary. Missing seed silently falls Evaluate back to stub CV text.",
+                body: "Checks identity files in the packs folder on disk. No network. Evaluate and Next 10 read those files. They are not compiled into the app. If pack files are missing, Evaluate uses placeholder text.",
                 sample:
-                  "Demo badge labels such as Seeded or Missing. Not a live machine.",
+                  "Demo badges for pack status. Not a live machine.",
               },
               {
                 title: "Pipeline",
@@ -299,18 +299,18 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               {
                 title: "Local SQLite ledger",
                 kicker: "Durable state",
-                body: "WAL SQLite on the machine for opportunities, prep, events, and history. Secrets stay in the OS keyring. Multi-device sync is not the product. Optional local backup and export scripts — not a hosted dashboard.",
+                body: "Local SQLite database on this machine for opportunities, prep, events, and history. Secrets stay in the OS keyring. Multi-device sync is not the product. Optional local backup and export scripts — not a hosted dashboard.",
               },
             ],
           },
           {
             type: "flow",
             steps: [
-              "Hunt ingest",
-              "Evaluate + Prepare",
-              "Pack on disk",
-              "kanithanj.cv generate",
-              "Pipeline outcome",
+              "Find roles",
+              "Evaluate and prepare",
+              "Packs on disk",
+              "CV generate CLI",
+              "Track outcome",
             ],
           },
           {
@@ -338,26 +338,26 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
     PH --> PK
   end
   subgraph persist["Ledger"]
-    DB["SQLite WAL"]
+    DB["Local SQLite"]
     PL["Pipeline"]
     DB --> PL
   end
   subgraph apply["Apply"]
-    XDG["XDG application pack"]
+    PKOUT["Packs folder"]
     CLI["kanithanj.cv"]
-    XDG --> CLI
+    PKOUT --> CLI
   end
   PK --> QT
   QT --> DB
-  QT --> XDG`,
+  QT --> PKOUT`,
           },
           {
             type: "bullets",
             items: [
-              "Tauri 2 shell: React/TypeScript MVU talks to a Rust core over a narrow command surface",
+              "Tauri desktop shell (Rust + React): UI calls a Rust core for secrets and file work",
               "Secrets and pause guards stay in Rust so the UI cannot casually export credentials",
-              "SQLite WAL is the durable ledger for opportunities, prep, events, and pipeline dates",
-              "Master cvdata in the public portfolio is never mutated by apply — overlays merge at generate time",
+              "Local SQLite database (WAL mode) holds opportunities, prep, events, and pipeline dates",
+              "Master CV on the public portfolio site is never mutated by apply — per-job changes merge at generate time",
             ],
           },
         ],
@@ -371,9 +371,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "bullets",
             items: [
               "Hunt screens: Discover rail and Quick Target; Mission career boards; Sweden JobTech; Xplore live X plus a guarded cycle",
-              "Preferences: pack health checks, kanithanj.cv install, rank packs. Health is local file inspection",
+              "Preferences: pack health checks, CV generate CLI install, rank packs. Health is local file inspection",
               "Pipeline: dedicated opportunity query, prep status, and separate post-apply outcomes",
-              "kanithanj.cv: status, list, generate, sync. Writes PDFs. Never mutates site master cvdata",
+              "CV generate CLI (kanithanj.cv): status, list, generate, sync. Writes PDFs. Never mutates the master CV on the public portfolio site",
             ],
           },
         ],
@@ -397,7 +397,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           },
           {
             type: "paragraph",
-            text: "Promote to the public site is a separate sync of master cvdata. Dynamic web apply CVs from packs stay deferred until shared storage exists. The portfolio PDF path stays master-only.",
+            text: "Promote to the public site is a separate sync of the master CV. Dynamic web apply CVs from packs stay deferred until shared storage exists. The portfolio PDF path stays master-only.",
           },
         ],
       },
@@ -410,7 +410,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "bullets",
             items: [
               "Human approval before promote slows automation and prevents silent CV corruption. That friction is intentional",
-              "Desktop (Tauri) adds Rust surface area versus a pure web app. The payoff is OS keychain boundaries and a real offline ledger",
+              "Tauri desktop adds Rust surface area versus a pure web app. The payoff is OS keychain boundaries and a real offline ledger",
               "Hunt screens own the work. Quest chat exists but is not the primary UI",
             ],
           },
@@ -425,10 +425,10 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "bullets",
             items: [
               "CI quality gates ship with the 1.0.0 cut",
-              "Pack health unit tests cover missing, seeded, and stub identity files",
+              "Pack health unit tests cover missing, seeded, and placeholder identity files",
               "Pipeline verify runner plus merge-status tests keep applied rows from being dropped",
-              "Overlay merge behavior is covered in this portfolio repo so PDF featured projects stay deterministic",
-              "Ops stay boring: local SQLite, packs under ~/.local/share/collab-finder, CLI sync for cvdata",
+              "Per-job CV merge behavior is covered in this portfolio repo so PDF featured projects stay deterministic",
+              "Ops stay boring: local SQLite, packs under ~/.local/share/collab-finder, CLI sync for the master CV",
             ],
           },
         ],
@@ -446,7 +446,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
       "Segmentation and metre labels in the browser",
       "No analysis backend or text shipped to a remote NLP API",
       "Deterministic Rust core reusable outside the web shell",
-      "Engineered dense[51] features. No raw-text net on the product path",
+      "Hand-built feature vector. No raw-text net on the product path",
     ],
     surfaces: [
       "Paste / editor surface for verse",
@@ -471,7 +471,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "bullets",
             items: [
               "Paste Tamil verse and get syllable segmentation plus metre labels on screen",
-              "Classical rule checker runs first; optional ML helpers stay separate",
+              "Classical rule checker and rule-based metre head run first",
               "Analysis stays in the browser. Text is not sent to a remote API",
             ],
           },
@@ -505,11 +505,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               "Hot path is Rust: parser and prosody rules compile to WebAssembly",
               "React loads the WASM module once and calls into it for analysis",
               "UI state stays in TypeScript; static hosting is enough for the demo",
-              "Parser pipeline to dense[51] engineered features. No raw-text TF-IDF or big net on the product path",
-              "Heuristic metre head plus dense boosts. Optional hybrid multinomial logistic",
-              "PCA, Monte Carlo, entropy/margin. ML helpers stay separate from the classical checker",
-              "Pattern microscope: logistic, linear SVM, k-NN/prototypes, calibration, LDA/MI",
-              "Trees and GBDT stay offline. Naive Bayes, clustering, HMM/CRF are research. Not every Tier B method is live in WASM",
+              "Offline ML helpers stay out of the browser path; live analysis uses classical rules and a rule-based metre head",
             ],
           },
         ],
@@ -578,14 +574,14 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   },
   {
     slug: "adaptate",
-    title: "Adaptate — adaptable Zod / OpenAPI validators",
-    lede: "An npm validator library: one optional Zod model, per-consumer required fields at runtime, and OpenAPI interop. Built for APIs where static schemas stop at the multi-tenant edge.",
+    title: "Adaptate — runtime validation for shared API models",
+    lede: "npm library that keeps one shared model optional by default, then tightens required fields per API consumer at runtime, with docs and gateway interop. Built on Zod with OpenAPI / JSON Schema bridges when different consumers need different required fields.",
     eyebrow: "Systems · validation",
     audience:
-      "API authors with multi-consumer contracts where Partner A requires fields Partner B must omit.",
+      "API authors where Partner A requires fields Partner B must omit.",
     outcomes: [
       "One optional base model shared across consumers",
-      "Per-consumer required/optional overlays at runtime",
+      "Per-consumer rules for required and optional fields at runtime",
       "OpenAPI / JSON Schema interop without a second source of truth",
     ],
     surfaces: [
@@ -605,11 +601,11 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "One optional base model. Per-consumer required or optional overlays at runtime. OpenAPI interop shares the same model. No second source of truth.",
+            text: "One shared model with every field optional by default. Per-consumer rules tighten what is required at runtime. Docs and gateways can share the same model through OpenAPI / JSON Schema. No second source of truth.",
           },
           {
             type: "paragraph",
-            text: "Shared models in multi-consumer APIs break down. A single static Zod object either over-constrains everyone or under-validates the callers who need strictness.",
+            text: "When Partner A requires fields Partner B must omit, a single static schema breaks down. It either over-constrains everyone or under-validates the callers who need strictness.",
           },
         ],
       },
@@ -630,9 +626,10 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Dedicated npm surface for dynamic required-field overlays and OpenAPI/JSON Schema interop",
-              "Validation stays TypeScript-first",
-              "OpenAPI is an interoperability bridge. Generate or align contracts. Not a second source of truth",
+              "npm packages (@adaptate/core, utils, adaptate) for runtime validation in Node",
+              "Consumer adapters apply per-consumer rules keyed by route or caller",
+              "Validation stays TypeScript-first on top of Zod",
+              "OpenAPI / JSON Schema bridges generate or align contracts — not a second source of truth",
             ],
           },
         ],
@@ -646,7 +643,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "bullets",
             items: [
               "Base model: fields optional by default so the shared shape stays honest",
-              "Consumer adapters: runtime required/optional overlays keyed by consumer or route context",
+              "Consumer adapters: runtime per-consumer rules keyed by consumer or route context",
               "Interop helpers: bridges toward OpenAPI / JSON Schema for docs and gateways",
             ],
           },
@@ -661,7 +658,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             type: "flow",
             steps: [
               "Request context selects consumer contract",
-              "Adapter composes base + overlay",
+              "Adapter composes base + per-consumer rules",
               "Parse / validate payload",
               "Typed result or structured error",
             ],
@@ -680,8 +677,8 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Runtime composition is more flexible than codegen-per-partner and harder to exhaustively type than a closed Zod union",
-              "Publishing as npm packages forces semver discipline; breaking overlay semantics is a major",
+              "Runtime per-consumer rules are more flexible than codegen-per-partner and harder to exhaustively type than a closed Zod union",
+              "Publishing as npm packages forces semver discipline; breaking rule semantics is a major version",
               "OpenAPI interop lags exotic Zod refinements — document the subset you promise",
             ],
           },
@@ -695,7 +692,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Unit tests lock overlay precedence, unknown-key policy, and missing-field errors",
+              "Unit tests lock per-consumer rule precedence, unknown-key policy, and missing-field errors",
               "Package publish is the release train; consumers pin versions",
               "CI runs type-check and the validation matrix before npm",
             ],

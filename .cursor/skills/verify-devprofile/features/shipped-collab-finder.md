@@ -4,17 +4,17 @@ path: /shipped/collab-finder
 
 # collab-finder walkthrough
 
-Job hunt desktop app walkthrough for kanithanj.ai. Product band first: hunt loop, Preferences pack health, Pipeline, local SQLite ledger. Architecture Mermaid follows. Desktop app — not a second chat app.
+Job hunt desktop app walkthrough for kanithanj.ai. Product band first: hunt loop, Preferences pack health, Pipeline, local SQLite ledger. Architecture Mermaid follows. Desktop app — not a chat replacement.
 
-Map stays accurate to shipped **collab-finder** `main`: Preferences pack health (merged #32), Pipeline hunt progress (merged #31), kanithanj.cv CLI (merged #29). Do not invent live metrics.
+Map stays accurate to shipped **collab-finder** `main`: Preferences pack health, Pipeline hunt progress, CV generate CLI (kanithanj.cv). Do not invent live metrics.
 
 ## Sub-features
 
 - `shipped-hero` — breadcrumb, title, lede, outcomes, surfaces, GitHub / live CTAs.
 - `shipped-product-band` — product sections before the tech band; not-a-chat callout plus four surface cards.
-- `shipped-hunt-loop` — Hunt loop card: Discover / Mission / Sweden / Xplore and Evaluate → Prepare → Generate.
-- `shipped-pack-health` — Preferences pack health card; Seeded / Stub identity / Missing labeled **Sample**.
-- `shipped-pipeline` — Pipeline card; prep and outcome enums labeled **Sample**. No live counts.
+- `shipped-hunt-loop` — Hunt loop card: Discover / Mission / Sweden / Xplore and evaluate → prepare → generate.
+- `shipped-pack-health` — Preferences pack health card; demo badge **Sample**. Not a live machine.
+- `shipped-pipeline` — Pipeline card; fixed stage labels **Sample**. No live counts.
 - `shipped-ledger` — Local SQLite ledger card.
 - `shipped-tech-band` — "Tech and architecture" heading with Mermaid diagram (hunt / grounding / ledger / apply), stack chips, and tech sections.
 
@@ -22,7 +22,7 @@ Map stays accurate to shipped **collab-finder** `main`: Preferences pack health 
 
 - Product band includes cards titled Hunt loop, Preferences pack health, Pipeline, Local SQLite ledger.
 - Sample lines use `data-sample` and the visible word **Sample**.
-- Architecture diagram is mermaid-first and names Preferences pack health, Pipeline, and kanithanj.cv.
+- Architecture diagram is mermaid-first and names Preferences pack health, Pipeline, Packs folder, and kanithanj.cv.
 - Vitest: `src/data/project-walkthroughs.test.ts` asserts this product-band shape.
 
 ## How to get to it (user POV)
@@ -41,5 +41,5 @@ Preconditions: `pnpm verify:doctor` is ok.
 ## Gotchas
 
 - Product cards live in `projects-section--product`, not the tech band.
-- Pack-health and pipeline copy describes shipped enums and file kinds. It is not a live operator machine.
+- Pack-health and pipeline **Sample** lines are demo labels only. They are not a live operator machine.
 - Plain framing: desktop app for job hunting. Do not describe this page as a chat app, ensembly, life-os, or botify walkthrough.
