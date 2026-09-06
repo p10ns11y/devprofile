@@ -218,6 +218,8 @@ describe("shipped walkthroughs", () => {
   it("places ensembly daily workflow, human approval, memory sync, and ledger in the product band", () => {
     const project = getProjectWalkthrough("ensembly");
     expect(project).toBeDefined();
+    expect(project!.lede).toMatch(/^Grok Bot/);
+    expect(project!.lede).not.toMatch(/\(HITL\).*\(HOOTL\)/);
     const product = walkthroughSectionsByBand(project!, "product");
     const tech = walkthroughSectionsByBand(project!, "tech");
     const blocks = product.flatMap((section) => section.blocks);
@@ -232,7 +234,7 @@ describe("shipped walkthroughs", () => {
         "Daily workflow",
         "Human approval / automated work",
         "Portable memory sync",
-        "SQLite ops ledger",
+        "Ops ledger",
       ]);
       const samples = cards.items.filter((item) => Boolean(item.sample));
       expect(samples.length).toBeGreaterThanOrEqual(2);
@@ -245,13 +247,14 @@ describe("shipped walkthroughs", () => {
     }
 
     expect(text).toMatch(/grok bot|ledger|approve/);
-    expect(text).toMatch(/not a second chat|not a chat replacement/);
+    expect(text).toMatch(/not a second chat/);
     expect(text).toContain("ensembly-kernel");
-    expect(text).toContain("human approval");
-    expect(text).toMatch(/portable memory sync|memory sync files/);
+    expect(text).toContain("ensembly-ops.sqlite");
+    expect(text).toMatch(/human approval|approve or deny/);
+    expect(text).toMatch(/memory sync|portable memory sync/);
     expect(text).toMatch(/hitl|hootl/);
     expect(text).toMatch(/old installs keep working|one-shot copy/);
-    expect(text).not.toMatch(/game of peram/);
+    expect(text).not.toMatch(/episodic|game of peram/);
     expect(text).not.toMatch(/issue #\d+/);
     expect(text).not.toMatch(/pay-rent|grocery-errand|hitlwait|hootl regime/);
     expect(text).not.toMatch(/migrate-local-paths/);

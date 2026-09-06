@@ -20,7 +20,7 @@ Map stays accurate to shipped **ensembly** `master` at `8e88b01` (merged #13): l
 
 ## Observable contract
 
-- Product band includes cards titled Daily workflow, Human approval / automated work, Portable memory sync, SQLite ops ledger.
+- Product band includes cards titled Daily workflow, Human approval / automated work, Portable memory sync, Ops ledger.
 - Sample lines use `data-sample` and the visible word **Sample**.
 - Architecture diagram is mermaid-first and names ensembly-kernel, pulse-pack, ensembly-memory, and ensembly-mcp.
 - Copy states this is not a second chat app. Game-of-Peram / prototype scope stays in the tech band only if mentioned.

@@ -59,21 +59,21 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "ensembly",
     title: "ensembly — local control layer",
-    lede: "Local control layer for Grok Bot, Grok Build, and Cursor. Human approval (HITL) and automated digital work (HOOTL), a SQLite to-do ledger, mergeable episodic memory, and portable memory sync files. Not a second chat app.",
+    lede: "Grok Bot, Grok Build, and Cursor keep the chat. ensembly is the local control layer on your machine. It remembers done, pending, and denied items so you do not re-approve the same work. You approve or deny before gates pass. Routine digital work can clear without you. Memory sync files move between machines. The ops database has one writer. Not a second chat app.",
     eyebrow: "Systems · local control",
     audience:
-      "Engineers and recruiters who want to see what runs under the chat tools: durable approve and deny state, not another chat window.",
+      "Recruiters and engineers who want approve and deny state under the chat tools, not another chat window.",
     outcomes: [
-      "Human approval (HITL) and automated digital work (HOOTL): approve, deny, claim, complete on your machine",
-      "SQLite ledger for done, pending, and denied items",
-      "Portable memory sync files without dual-write databases",
-      "Read-only ensembly-mcp for Grok and Cursor",
+      "Approve, deny, claim, and complete work on your machine",
+      "To-do ledger for done, pending, and denied items",
+      "Memory sync files without two writers on the ops database",
+      "Read-only ensembly-mcp wire for Grok and Cursor",
     ],
     surfaces: [
-      "ensembly-kernel CLI — runtime and memory sync",
-      "ensembly-memory — mergeable episodic memory",
-      "ensembly-mcp — read-only agent wire",
-      "Bundled demo dataset for try-out",
+      "ensembly-kernel CLI — runs gates and memory sync",
+      "ensembly-memory — event memory that merges across machines",
+      "ensembly-mcp — read-only agent wire for Grok and Cursor",
+      "Bundled household-task demo for try-out",
     ],
     tech: ["ensembly-kernel", "ensembly-memory", "ensembly-mcp", "Rust"],
     cvdataKey: "ensembly",
@@ -86,7 +86,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "Grok Bot keeps the chat. ensembly-kernel holds done, pending, and denied so you do not re-approve the same item. Not a second chat app.",
+            text: "Grok Bot keeps the chat. ensembly-kernel holds done, pending, and denied so you do not re-approve the same item. You approve or deny before gates pass. Not a second chat app.",
           },
           {
             type: "cards",
@@ -94,26 +94,26 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               {
                 title: "Daily workflow",
                 kicker: "What you do",
-                body: "Load a demo dataset or local ops DB, read status, run automated work ticks, then approve, deny, claim, or complete at human approval gates. Reflect scores coherence over episodic memory. The kernel tracks the critical path; chat tools do not own the ledger.",
+                body: "Load the household-task demo or your local ops file (ensembly-ops.sqlite). Read status. Run automated ticks. Approve, deny, claim, or complete items waiting on you. Chat tools do not own the ledger.",
               },
               {
                 title: "Human approval / automated work",
                 kicker: "Shipped · ensembly-kernel",
-                body: "Life-state, dependency graph, critical path, and a typed message bus. Automated work (HOOTL) clears routine digital tasks. Human approval (HITL) waits for you to claim a physical task or explicitly approve or deny. Auth gates never self-approve.",
+                body: "Routine digital work clears on its own. Physical tasks and auth gates wait for you to approve or deny. Gates never self-approve. Human approval (HITL) and automated work (HOOTL) name those two modes in the repo.",
                 sample:
                   "A small demo dataset of household tasks (rent, groceries) in automated vs waiting-for-you modes. Not this person's live machine.",
               },
               {
                 title: "Portable memory sync",
                 kicker: "Shipped · memory sync",
-                body: "Export and import portable memory sync files between Grok Bot on your main machine and a laptop. Memory only. The ops SQLite file has one writer. No live cloud sync and no dual master.",
+                body: "Export and import memory sync files between Grok Bot on your main machine and a laptop. Memory only. The ops file has one writer. No live cloud sync.",
                 sample:
                   "Format ensembly-pulse-pack-v1. Legacy peram-pulse-pack-v1 still imports. Commands export, status, import. Memory merge only — no live session counts.",
               },
               {
-                title: "SQLite ops ledger",
+                title: "Ops ledger",
                 kicker: "Durable state",
-                body: "Default ops file is local ensembly-ops.sqlite. Episodic ensembly-memory.json is auxiliary. It records and learns. It never decides gates or priority. Old installs keep working; a one-shot copy renames local files if you want the new names. Secrets stay off git.",
+                body: "Default ops file is ensembly-ops.sqlite on disk. Event memory lives in ensembly-memory.json. It records what happened. It does not decide gates. Old installs keep working; a one-shot copy renames files if you want the new names. Secrets stay off git.",
               },
             ],
           },
@@ -148,21 +148,21 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
     RT --> PP
   end
   subgraph mem["ensembly-memory"]
-    CRDT["Mergeable memory"]
+    MEM["Mergeable memory"]
   end
   MCP["ensembly-mcp (read-only)"]
   GROK -->|"proposals"| RT
-  RT --> CRDT
-  PP -->|"memory merge"| CRDT
-  MCP -.->|"read"| CRDT`,
+  RT --> MEM
+  PP -->|"memory merge"| MEM
+  MCP -.->|"read"| MEM`,
           },
           {
             type: "bullets",
             items: [
               "ensembly-kernel is the control source of truth: life-state, dependency graph, critical path, message bus, backup, and pulse-pack",
-              "ensembly-memory is auxiliary mergeable memory (CRDT). The kernel never delegates gate or priority decisions to it",
-              "ensembly-mcp is read-only for Grok and Cursor. Agents query memory. They do not own the ops DB",
-              "Grok Bot on your main machine owns the ops SQLite file. Laptop import merges memory only",
+              "ensembly-memory holds mergeable event memory (CRDT). The kernel never delegates gate or priority decisions to it",
+              "ensembly-mcp (read-only Model Context Protocol wire) lets Grok and Cursor query memory. They do not own the ops database",
+              "Grok Bot on your main machine owns ensembly-ops.sqlite. Laptop import merges memory only",
             ],
           },
         ],
@@ -202,7 +202,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           },
           {
             type: "paragraph",
-            text: "The life-os vault (Projects and Areas) stays separate. ensembly is the local control layer on your machine. Private life data stays in data/local and is never part of the MIT grant.",
+            text: "The life-os vault (Projects and Areas) stays separate. ensembly is the local control layer on your machine. Private data stays in data/local and is never part of the MIT grant.",
           },
         ],
       },
