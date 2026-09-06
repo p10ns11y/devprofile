@@ -242,23 +242,23 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "collab-finder",
     title: "collab-finder — job hunt desktop app",
-    lede: "Desktop app for high-fit job hunting at kanithanj.ai. You approve before anything is written to your master CV or apply files. Hunt screens, pack health, pipeline, and a local database — not a chat replacement.",
+    lede: "Desktop app for high-fit job hunting at kanithanj.ai. You approve before anything hits your master CV or apply files. Hunt screens, pack checks, pipeline, local database. Not a chat app.",
     eyebrow: "Career · desktop app",
     audience:
-      "Engineers and recruiters who want structured job-hunt screens, not another chat window.",
+      "Recruiters and engineers who want job-hunt screens, not another chat window.",
     outcomes: [
-      "Hunt flow: Evaluate → Prepare → Generate apply PDF on your machine",
-      "Pack health checks without opening a terminal",
-      "Pipeline tracks prep and post-apply outcomes",
-      "Local SQLite database. Credentials stay on the machine",
+      "Evaluate roles, prepare, generate apply PDFs on your machine",
+      "Check pack files without a terminal",
+      "Track prep and post-apply outcomes",
+      "Local database; credentials stay on the machine",
       "Named apply PDFs via the CV generate CLI (kanithanj.cv)",
     ],
     surfaces: [
       "Discover / Mission / Sweden / Xplore hunt screens",
-      "Preferences — pack health checks",
+      "Preferences — pack file checks",
       "Pipeline — hunt progress",
       "CV generate CLI (kanithanj.cv)",
-      "Local SQLite database",
+      "Local database on this machine",
     ],
     tech: ["Tauri", "Rust", "React", "TypeScript", "SQLite"],
     cvdataKey: "collab-finder",
@@ -272,7 +272,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "Desktop app for job hunting at kanithanj.ai. Structured screens with cost, fit, and rate checks. You approve before the master CV on the public portfolio site or apply files change. Not a chat replacement.",
+            text: "Desktop app for job hunting at kanithanj.ai. Screens check cost, fit, and rate. You approve before the master CV on the public portfolio site or apply files change. Not a chat app.",
           },
           {
             type: "cards",
@@ -280,26 +280,26 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
               {
                 title: "Hunt loop",
                 kicker: "What you do",
-                body: "Browse Discover, Mission, Sweden, or Xplore for roles. In Quick Target, paste a job URL or description, evaluate fit, prepare notes, generate an apply CV, then mark Applied. Click a saved row to restore fit and prep from the local database without calling the model again.",
+                body: "Open Discover, Mission, Sweden, or Xplore. Paste a job link or description in Quick Target. Evaluate fit, prepare notes, generate an apply CV, mark Applied. Reopen a saved row to load fit and prep from the local database without another model call.",
               },
               {
-                title: "Preferences pack health",
+                title: "Pack file checks",
                 kicker: "Shipped · Preferences",
-                body: "Checks identity files in the packs folder on disk. No network. Evaluate and Next 10 read those files. They are not compiled into the app. If pack files are missing, Evaluate uses placeholder text.",
+                body: "Shows whether your pack files on disk are ready. Evaluate and Next 10 read those files. They are not built into the app. Missing files make Evaluate use placeholder text.",
                 sample:
                   "Demo badges for pack status. Not a live machine.",
               },
               {
                 title: "Pipeline",
                 kicker: "Shipped · Pipeline",
-                body: "Hunt progress screen. Prep status and post-apply outcome stay separate. A dedicated query keeps applied rows visible when Mission inventory floods recency-limited history.",
+                body: "Tracks where each role stands before and after you apply. Applied rows stay visible even when Mission lists get long.",
                 sample:
                   "Fixed prep stages and outcome labels in the app. No live counts.",
               },
               {
-                title: "Local SQLite ledger",
+                title: "Local database",
                 kicker: "Durable state",
-                body: "Local SQLite database on this machine for opportunities, prep, events, and history. Secrets stay in the OS keyring. Multi-device sync is not the product. Optional local backup and export scripts — not a hosted dashboard.",
+                body: "Stores opportunities, prep, events, and history on this machine. Secrets stay in the OS keyring. No cloud sync. Local backup optional.",
               },
             ],
           },
@@ -308,14 +308,14 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
             steps: [
               "Find roles",
               "Evaluate and prepare",
-              "Packs on disk",
-              "CV generate CLI",
+              "Pack files on disk",
+              "Generate apply CV (kanithanj.cv)",
               "Track outcome",
             ],
           },
           {
             type: "paragraph",
-            text: "Job hunting spreads across tabs, notes, and chat logs. This app keeps a local ledger first. Chat is a helper, not the only UI.",
+            text: "Job hunting spreads across tabs and chat logs. This app keeps a local record. Chat helps; screens do the work.",
           },
         ],
       },
@@ -332,7 +332,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
     QT["Evaluate → Prepare → Generate"]
     SRC --> QT
   end
-  subgraph ground["Grounding"]
+  subgraph ground["Pack files"]
     PH["Preferences pack health"]
     PK["Identity packs on disk"]
     PH --> PK
@@ -354,10 +354,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Tauri desktop shell (Rust + React): UI calls a Rust core for secrets and file work",
-              "Secrets and pause guards stay in Rust so the UI cannot casually export credentials",
-              "Local SQLite database (WAL mode) holds opportunities, prep, events, and pipeline dates",
-              "Master CV on the public portfolio site is never mutated by apply — per-job changes merge at generate time",
+              "Tauri desktop shell (Rust + React): UI calls Rust for secrets and file work",
+              "Local database (SQLite, WAL mode) holds opportunities, prep, events, and pipeline dates",
+              "Master CV on the public portfolio site is never changed by apply — job edits merge when you generate a PDF",
             ],
           },
         ],
@@ -438,15 +437,15 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "thepulimaangani",
     title: "thepulimaangani — Tamil metre in the browser",
-    lede: "Classical Tamil prosody in the browser: a Rust metre parser compiled to WASM, wrapped in React, with no backend required for analysis.",
+    lede: "Classical Tamil metre in the browser. Paste verse, get syllable splits and metre labels. No server required.",
     eyebrow: "Creative · metre",
     audience:
-      "Scholars, students, and builders who need classical Tamil metre without a remote NLP API.",
+      "Students, scholars, and builders who need Tamil metre without calling a remote API.",
     outcomes: [
-      "Segmentation and metre labels in the browser",
-      "No analysis backend or text shipped to a remote NLP API",
-      "Deterministic Rust core reusable outside the web shell",
-      "Hand-built feature vector. No raw-text net on the product path",
+      "Syllable splits and metre labels in the browser",
+      "Text stays on your machine — no remote API",
+      "Rust parser you can reuse outside the web app",
+      "Rule-based checker, not a general text model",
     ],
     surfaces: [
       "Paste / editor surface for verse",
@@ -465,23 +464,19 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "Classical Tamil metre rules drive the parser, not a raw-text neural net. Paste verse, get segmentation and labels in the browser. No server round-trip for analysis.",
+            text: "Classical Tamil rules drive the check, not a general text model. Paste verse, read labels in the browser. Nothing is uploaded for analysis.",
           },
           {
             type: "bullets",
             items: [
-              "Paste Tamil verse and get syllable segmentation plus metre labels on screen",
-              "Classical rule checker and rule-based metre head run first",
-              "Analysis stays in the browser. Text is not sent to a remote API",
+              "Paste Tamil verse. See syllable splits and metre labels.",
+              "Classical rules run first.",
+              "Nothing leaves your browser.",
             ],
           },
           {
             type: "paragraph",
-            text: "Tamil classical metre (yāppu) is precise linguistic structure. Most poetry tools either ignore prosody or bury it in desktop corpora that do not travel with the reader.",
-          },
-          {
-            type: "callout",
-            text: "The parser runs in the browser so inspection stays private, portable, and free of a server.",
+            text: "Tamil classical metre (yāppu) is strict structure. Most tools skip it or lock it in desktop-only files.",
           },
         ],
       },
@@ -502,10 +497,10 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
           {
             type: "bullets",
             items: [
-              "Hot path is Rust: parser and prosody rules compile to WebAssembly",
-              "React loads the WASM module once and calls into it for analysis",
+              "Rust parser compiles to WebAssembly (WASM) for the browser hot path",
+              "React loads the module once and calls it for each analysis",
               "UI state stays in TypeScript; static hosting is enough for the demo",
-              "Offline ML helpers stay out of the browser path; live analysis uses classical rules and a rule-based metre head",
+              "Offline ML helpers stay out of the browser path; live analysis uses classical rules",
             ],
           },
         ],
@@ -575,14 +570,14 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "adaptate",
     title: "Adaptate — runtime validation for shared API models",
-    lede: "npm library that keeps one shared model optional by default, then tightens required fields per API consumer at runtime, with docs and gateway interop. Built on Zod with OpenAPI / JSON Schema bridges when different consumers need different required fields.",
+    lede: "One shared model, optional by default. Per-consumer rules set what is required at runtime. Docs and gateways use the same model. Uses Zod with OpenAPI / JSON Schema when consumers need different required fields.",
     eyebrow: "Systems · validation",
     audience:
       "API authors where Partner A requires fields Partner B must omit.",
     outcomes: [
-      "One optional base model shared across consumers",
-      "Per-consumer rules for required and optional fields at runtime",
-      "OpenAPI / JSON Schema interop without a second source of truth",
+      "One optional base model for all consumers",
+      "Per-consumer rules at runtime",
+      "Same model for code, docs, and gateways",
     ],
     surfaces: [
       "npm packages (@adaptate/core, utils, adaptate)",
@@ -601,11 +596,11 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "One shared model with every field optional by default. Per-consumer rules tighten what is required at runtime. Docs and gateways can share the same model through OpenAPI / JSON Schema. No second source of truth.",
+            text: "Every field starts optional. Per-consumer rules set what each caller must send. Docs and gateways read the same model. No second schema file.",
           },
           {
             type: "paragraph",
-            text: "When Partner A requires fields Partner B must omit, a single static schema breaks down. It either over-constrains everyone or under-validates the callers who need strictness.",
+            text: "When Partner A needs fields Partner B skips, one static schema fails. It blocks everyone or checks too little.",
           },
         ],
       },

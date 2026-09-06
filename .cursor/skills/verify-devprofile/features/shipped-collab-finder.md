@@ -20,7 +20,7 @@ Map stays accurate to shipped **collab-finder** `main`: Preferences pack health,
 
 ## Observable contract
 
-- Product band includes cards titled Hunt loop, Preferences pack health, Pipeline, Local SQLite ledger.
+- Product band includes cards titled Hunt loop, Pack file checks, Pipeline, Local database.
 - Sample lines use `data-sample` and the visible word **Sample**.
 - Architecture diagram is mermaid-first and names Preferences pack health, Pipeline, Packs folder, and kanithanj.cv.
 - Vitest: `src/data/project-walkthroughs.test.ts` asserts this product-band shape.

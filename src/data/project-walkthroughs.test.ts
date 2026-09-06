@@ -141,10 +141,10 @@ describe("shipped walkthroughs", () => {
       true
     );
     expect(productText).toContain("paste tamil verse");
-    expect(productText).toContain("classical rule");
+    expect(productText).toMatch(/classical rules|classical rule/);
     expect(productText).toContain("yāppu");
     expect(productText).not.toContain("dense[51]");
-    expect(productText).not.toMatch(/tier b|pca|monte carlo|hmm|crf|gbdt/);
+    expect(productText).not.toMatch(/tier b|pca|monte carlo|hmm|crf|gbdt|neural net|nlp api/);
 
     expect(techText).toContain("webassembly");
     expect(techText).toMatch(/offline ml|classical rules/);
@@ -166,9 +166,9 @@ describe("shipped walkthroughs", () => {
     if (cards?.type === "cards") {
       expect(cards.items.map((item) => item.title)).toEqual([
         "Hunt loop",
-        "Preferences pack health",
+        "Pack file checks",
         "Pipeline",
-        "Local SQLite ledger",
+        "Local database",
       ]);
       const samples = cards.items.filter((item) => Boolean(item.sample));
       expect(samples.length).toBeGreaterThanOrEqual(2);
@@ -178,18 +178,18 @@ describe("shipped walkthroughs", () => {
     }
 
     expect(text).toMatch(/desktop app|kanithanj/);
-    expect(text).toMatch(/not a second chat|not a chat replacement/);
+    expect(text).toMatch(/not a chat app|not a chat replacement/);
     expect(text).toContain("evaluate");
     expect(text).toContain("prepare");
-    expect(text).toMatch(/pack health|packs folder/);
+    expect(text).toMatch(/pack file|pack files/);
     expect(text).toMatch(/demo badges for pack status/);
     expect(text).toContain("pipeline");
     expect(text).toContain("applied");
-    expect(text).toMatch(/local sqlite database|sqlite database on this machine/);
+    expect(text).toMatch(/local database|stores opportunities/);
     expect(text).toMatch(/cv generate cli|kanithanj\.cv/);
     expect(text).toMatch(/master cv on the public portfolio|master cv/);
-    expect(text).not.toMatch(/master cvdata/);
-    expect(text).not.toMatch(/\bwal sqlite\b|xdg|mvu|stub cv/);
+    expect(text).not.toMatch(/master cvdata|seeded|missing badge|stub cv/);
+    expect(text).not.toMatch(/\bsqlite\b|\bwal\b|xdg|mvu/);
     expect(text).not.toMatch(/issue #\d+/);
     expect(text).not.toMatch(/\d+\s*%/);
     expect(text).not.toMatch(/this week|applications this month/);
@@ -208,7 +208,8 @@ describe("shipped walkthroughs", () => {
     const techText = sectionText(tech);
 
     expect(productText).toMatch(/optional by default|per-consumer rules/);
-    expect(productText).not.toMatch(/multi-tenant edge|overlays/);
+    expect(productText).toMatch(/no second schema|same model/);
+    expect(productText).not.toMatch(/multi-tenant edge|overlays|second source of truth/);
     expect(productText).not.toContain("zod");
     expect(techText).toContain("zod");
     expect(techText).toMatch(/openapi|json schema/);
