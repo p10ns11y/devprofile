@@ -144,7 +144,7 @@ describe("shipped walkthroughs", () => {
     expect(productText).toMatch(/classical rules|classical rule/);
     expect(productText).toContain("yāppu");
     expect(productText).not.toContain("dense[51]");
-    expect(productText).not.toMatch(/tier b|pca|monte carlo|hmm|crf|gbdt|neural net|nlp api/);
+    expect(productText).not.toMatch(/tier b|pca|monte carlo|hmm|crf|gbdt|neural net|nlp api|already use|migration/);
 
     expect(techText).toContain("webassembly");
     expect(techText).toMatch(/offline ml|classical rules/);
@@ -192,6 +192,7 @@ describe("shipped walkthroughs", () => {
     expect(text).not.toMatch(/\bsqlite\b|\bwal\b|xdg|mvu/);
     expect(text).not.toMatch(/issue #\d+/);
     expect(text).not.toMatch(/\d+\s*%/);
+    expect(text).not.toMatch(/deferred until|shared storage exists/);
     expect(text).not.toMatch(/this week|applications this month/);
 
     const diagram = getArchitectureDiagram(project!);
@@ -209,7 +210,7 @@ describe("shipped walkthroughs", () => {
 
     expect(productText).toMatch(/optional by default|per-consumer rules/);
     expect(productText).toMatch(/no second schema|same model/);
-    expect(productText).not.toMatch(/multi-tenant edge|overlays|second source of truth/);
+    expect(productText).not.toMatch(/multi-tenant edge|overlays|second source of truth|already use|migration/);
     expect(productText).not.toContain("zod");
     expect(techText).toContain("zod");
     expect(techText).toMatch(/openapi|json schema/);
@@ -239,10 +240,10 @@ describe("shipped walkthroughs", () => {
       const samples = cards.items.filter((item) => Boolean(item.sample));
       expect(samples.length).toBeGreaterThanOrEqual(2);
       expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
-        /not this person's live machine|no live session counts/
+        /demo data|not a live machine/
       );
       expect(samples.map((item) => item.sample?.toLowerCase()).join(" ")).toMatch(
-        /demo dataset|household tasks/
+        /household tasks|ensembly-pulse-pack-v1/
       );
     }
 
@@ -253,7 +254,7 @@ describe("shipped walkthroughs", () => {
     expect(text).toMatch(/human approval|approve or deny/);
     expect(text).toMatch(/memory sync|portable memory sync/);
     expect(text).toMatch(/hitl|hootl/);
-    expect(text).toMatch(/old installs keep working|one-shot copy/);
+    expect(text).not.toMatch(/old installs|one-shot copy|peram-pulse|this person's|not live metrics/);
     expect(text).not.toMatch(/episodic|game of peram/);
     expect(text).not.toMatch(/issue #\d+/);
     expect(text).not.toMatch(/pay-rent|grocery-errand|hitlwait|hootl regime/);
@@ -265,6 +266,7 @@ describe("shipped walkthroughs", () => {
     expect(techText).toContain("ensembly-memory");
     expect(techText).toContain("ensembly-mcp");
     expect(techText).toMatch(/ensembly-pulse-pack-v1|pulse-pack/);
+    expect(techText).not.toMatch(/\bperam\b|alias peram/);
     expect(techText).toMatch(/prototype/);
 
     const diagram = getArchitectureDiagram(project!);
