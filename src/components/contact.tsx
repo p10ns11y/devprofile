@@ -10,6 +10,7 @@ import { SectionShell } from "./site/SectionShell";
 import { SiteButton } from "./site/SiteButton";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { VoiceTalkContactChannel, VoiceTalkLink } from "./voice-talk-link";
 
 const headingId = "contact-heading";
 
@@ -163,12 +164,16 @@ export function Contact() {
                 </span>
               </a>
             ))}
+            <VoiceTalkContactChannel />
           </address>
 
-          <nav className="contact-cv-actions" aria-label="CV">
+          <nav className="contact-cv-actions" aria-label="Profile and voice">
             <SiteButton href="/?cv=view" variant="secondary">
               View CV
             </SiteButton>
+            <VoiceTalkLink className="inline-flex min-h-11 items-center justify-center rounded-lg border border-border px-5 text-sm font-medium text-text1 transition-colors hover:border-link hover:text-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-brand-emphasis)">
+              Talk instead
+            </VoiceTalkLink>
           </nav>
         </aside>
       </div>
