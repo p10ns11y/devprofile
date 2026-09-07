@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Header } from "@/components/header";
 import ProfileQA from "@/components/profile-qa";
+import { VoiceTalkLink } from "@/components/voice-talk-link";
 
 /**
  * Q&A product moment: fixed-height interview desk.
@@ -36,7 +37,10 @@ export default function ProfileQAPage() {
                   Real answers from my experience — try a suggested question or write your own
                 </p>
               </div>
-              <p className="hidden text-xs text-text2 sm:block">Your answer appears on the right</p>
+              <div className="hidden text-right sm:block">
+                <p className="text-xs text-text2">Your answer appears on the right</p>
+                <VoiceTalkLink className="mt-1 inline-block text-xs text-link underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-brand-emphasis)" />
+              </div>
             </div>
           </header>
 

@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/components/ui/utils";
 import { lcvInteract } from "@/lib/lcv-interact";
+import { isVoiceReceivePublic } from "@/lib/voice/config/resolve-voice-receive";
 import cvdata from "../data/cvdata.json";
 import { Icon, type IconName } from "./icon";
 import { SiteButton } from "./site/SiteButton";
@@ -22,11 +23,14 @@ type NavItem = {
 
 const primaryNav: NavItem[] = [];
 
+const voiceNavItem: NavItem[] = isVoiceReceivePublic() ? [{ name: "Talk", href: "/call" }] : [];
+
 const standaloneNav: NavItem[] = [
   { name: "Articles", href: "/articles" },
   { name: "Shipped", href: "/shipped" },
   { name: "Building", href: "/building" },
   { name: "Q&A", href: "/qa" },
+  ...voiceNavItem,
   { name: "CV", href: "__cv__" },
   { name: "Profile", href: "/profile" },
   { name: "X", href: "/x", icon: "X", iconOnly: true },

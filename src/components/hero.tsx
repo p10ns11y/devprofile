@@ -2,6 +2,7 @@ import cvdata from "@/data/cvdata.json";
 import { landingInvite } from "@/data/landing-invite";
 import { SiteButton } from "./site/SiteButton";
 import { SocialLinks } from "./social-links";
+import { VoiceTalkLink } from "./voice-talk-link";
 
 export function Hero() {
   return (
@@ -30,6 +31,7 @@ export function Hero() {
                   {action.label}
                 </SiteButton>
               ))}
+              <VoiceTalkLink className="hero-cta inline-flex min-h-11 items-center justify-center rounded-lg border border-border px-5 text-sm font-medium text-text1 transition-colors hover:border-link hover:text-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-brand-emphasis)" />
             </nav>
 
             <div className="hero-trail">
