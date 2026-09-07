@@ -163,7 +163,7 @@ const PROJECT_HINTS: Array<[RegExp, string]> = [
   [/selfie-sign|selfie-signin|rekognition/i, "selfie-signin"],
   [/adaptate/i, "adaptate"],
   [/latex-cv/i, "latex-cv"],
-  [/grok-dia/i, "grok-dia"],
+  [/grok-daily-productivity-extensions|grok-dia/i, "grok-daily-productivity-extensions"],
 ];
 
 /** Parse `- suggestion` bullets from cv-suggestions.md */

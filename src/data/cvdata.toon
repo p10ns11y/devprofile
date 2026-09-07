@@ -432,21 +432,21 @@ technologies_archive:
   Miscellaneous[6]: Data Visualization,KPI Implementation,SEO Optimization,Accessibility Compliance,Speech Recognition,Chat Bot Development
 projects[13]:
   - id: 13
-    name: Grok Dia
-    key: grok-dia
-    description: Browser extension to ask Grok about page context (whole or selected text). Shipped 2025; paused — devprofile /call voice receive and collab-finder carry the workflow forward.
+    name: grok-daily-productivity-extensions
+    key: grok-daily-productivity-extensions
+    description: Grok Dia renamed into this monorepo. Two extracted Chrome extensions — Ask Grok (apps/ask-grok) and Vocab Builder (apps/vocab-builder). Legacy combined build in src/extension is deprecated. Optional productive extension later if needed.
     type: hobby_oss
-    url: "https://github.com/p10ns11y/grok-dia-extension/"
-    technologies[2]: Browser Extension,AI Integration
+    url: "https://github.com/p10ns11y/grok-daily-productivity-extensions"
+    technologies[3]: Browser Extension,AI Integration,Chrome Extension
     date: September 2025
-    status: stopped
+    status: development
     is_open_source: true
     meta:
       app_store: false
-      status: stopped
-      paused: true
+      status: development
+      renamed_from: Grok Dia
       oss: true
-    impact: Historical in-page AI helper (paused)
+    impact: Ask Grok + Vocab Builder Chrome extensions (renamed from Grok Dia)
     image: "https://imagine-public.x.ai/imagine-public/images/4c1973c9-61b3-48d9-b728-e2ff145b8610.png"
   - id: 12
     name: Selfie Signin
