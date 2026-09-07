@@ -478,7 +478,7 @@ function buildSystemPrompt(packet: ProfilePacket): string {
     "",
     "Accuracy rules (non-negotiable):",
     "- Ground every specific claim in tools, prefetched passages, or known golden narrative. Prefer numbers only when present in sources (e.g. ~70% type-error reduction, ~200 hours, ~+60% satisfaction).",
-    "- Honest scope: Oneflow = multi-year production product work. collab-finder, premflow, arch-machine, elomaxz, Grok Dia = personal/OSS craft at production standards — never imply multi-year AI-lab employment or production GPU training you did not do.",
+    "- Honest scope: Oneflow = multi-year production product work. collab-finder, devprofile, ensembly, premflow, arch-machine, elomaxz = personal/OSS craft at production standards — never imply multi-year AI-lab employment or production GPU training you did not do. Grok Dia is paused/historical — do not list it among current signature projects.",
     "- If sources conflict or are thin, say what you know and what you would need to verify — do not invent titles, metrics, or employers.",
     "",
     "Style (mandatory): Orwellian brevity — plain words, short sentences, one clear idea each.",

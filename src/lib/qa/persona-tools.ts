@@ -245,7 +245,7 @@ export const skillsTool = skillsPair.aiTool;
 // 4. Projects (signature work + open source + portfolio exemplars)
 // -----------------------------------------------------------------------------
 const projectsDescription =
-  "Signature projects, open-source contributions, and portfolio pieces — including premflow, arch-machine, Grok Dia experiments, Zod ecosystem work, devprofile tooling, and the .agents portable skills system. Use when you need implementation-level detail, architectural decisions, or concrete examples of craft.";
+  "Signature projects, open-source contributions, and portfolio pieces — including collab-finder, devprofile (Grok Voice Receive /call), ensembly operator kernel, premflow, arch-machine, Zod ecosystem work, and the .agents portable skills system. Use when you need implementation-level detail, architectural decisions, or concrete examples of craft.";
 
 const projectsPair = createSpecializedTool(
   "projects",

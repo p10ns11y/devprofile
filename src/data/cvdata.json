@@ -780,18 +780,19 @@
       "id": 13,
       "name": "Grok Dia",
       "key": "grok-dia",
-      "description": "Extension to ask Grok for more information with whole and selected text context",
+      "description": "Browser extension to ask Grok about page context (whole or selected text). Shipped 2025; paused — devprofile /call voice receive and collab-finder carry the workflow forward.",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/grok-dia-extension/",
       "technologies": ["Browser Extension", "AI Integration"],
-      "status": "development",
+      "status": "stopped",
       "is_open_source": true,
       "meta": {
         "app_store": false,
-        "status": "development",
+        "status": "stopped",
+        "paused": true,
         "oss": true
       },
-      "impact": "In page AI helper",
+      "impact": "Historical in-page AI helper (paused)",
       "image": "https://imagine-public.x.ai/imagine-public/images/4c1973c9-61b3-48d9-b728-e2ff145b8610.png",
       "created": "2025-09-09",
       "updated": "2026-05-22"

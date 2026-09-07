@@ -25,7 +25,7 @@ function inferExpectedSections(question, tier) {
     sections.push("Experience", "Work Experience");
   }
   if (/zod|nullish|pr #1702/i.test(q)) sections.push("Projects", "Open Source");
-  if (/premflow|arch-machine|grok dia|latex-cv/i.test(q))
+  if (/premflow|arch-machine|collab-finder|devprofile|ensembly|latex-cv/i.test(q))
     sections.push("Projects", "Hobby OSS Projects");
   if (/thesis|eeaas|2016|energy efficiency|epic predictor/i.test(q)) {
     sections.push("Education", "Publications", "Projects");

@@ -36,7 +36,7 @@ Proposed an intelligent “epic predictor” orchestrator using participatory se
 Grew through four roles and delivered compounding impact: 70% reduction in type errors + 200+ hours saved via automated TypeScript migration, +60% user satisfaction from a new JSON rich-text editor, built the Integration Team from zero, led cultural shift to self-organizing teams, and rewrote the entire E2E suite in Playwright. Clear evidence of technical depth + leadership + sustained ownership.
 
 **3. Builder Who Turns Personal Friction into Public Leverage**  
-Shipped tools that became daily infrastructure (premflow: C productivity CLI used many times daily, evolved from a tiny script into an elomaxz-backed MVU app so features scale without spaghetti; arch-machine: one-command hardened Arch Linux for ML/AI; Grok Dia: instant contextual AI on any page) and made high-impact open-source contributions (Zod PR #1702 fixing nullish chaining for thousands of schemas; react-intl Babel plugin as real npm package). This pattern — solve my own pain → make it better for everyone — is my signature.
+Shipped tools that became daily infrastructure (premflow: C productivity CLI used many times daily, evolved from a tiny script into an elomaxz-backed MVU app so features scale without spaghetti; arch-machine: one-command hardened Arch Linux for ML/AI; collab-finder: local Tauri apply cockpit with human promote gates; devprofile: public hire site with grounded Q&A and Grok Voice Receive on /call) and made high-impact open-source contributions (Zod PR #1702 fixing nullish chaining for thousands of schemas; react-intl Babel plugin as real npm package). This pattern — solve my own pain → make it better for everyone — is my signature.
 
 These three together tell a complete story: patient visionary + reliable executor + relentless simplifier.
 
@@ -65,7 +65,9 @@ These three together tell a complete story: patient visionary + reliable executo
 - **elomaxz** (p10ns11y/elomaxz): Hybrid Model-View-Update framework for C — tagged messages, pure update, first-class Cmd/Effect, composition. The form of simplification when a tool outgrows “delete until 300 lines”: scale large with less *application* chaos because the framework carries the loop.
 - **arch-machine**: Profile-based Arch Linux bootstrap with security audits and self-healing for ML/AI workstations (ROCm, Kubernetes, etc.). One command fortress.
 - **collab-finder** (personal, Tauri + Rust + React/TypeScript): Agentic desktop app for high-fit opportunity discovery via live X API + xAI. Self-guarded autonomous reactor (cost, fit, rate-limit gates), MCP-oriented tooling, and CV sidecar proposals that never mutate master cvdata without explicit promote. Signal for SpaceXAI-style agent infra interviews: production craft applied to agents—not a claim of multi-year AI-lab employment.
-- **Grok Dia / Ask Grok Extension**: Browser extension for contextual Grok queries on any page. Research velocity tool.
+- **devprofile** + **Grok Voice Receive** (`/call`): Public hire site with grounded Q&A and inbound voice receptionist on the same corpus — ephemeral tokens, real Grok voice, leave_message capture.
+- **ensembly** (thecuriousts/ensembly): Local operator kernel under Grok Bot, Grok Build, and Cursor — HITL/HOOTL gates, T1 SQLite ledger, episodic memory, pulse-pack sync. Honest scope: complementary control layer, not a second chat app.
+- **Grok Dia / Ask Grok Extension** (paused): Browser extension for contextual Grok queries on any page — shipped 2025, paused; superseded by devprofile voice receive and collab-finder workflows.
 - **Zod PR #1702**: Fixed ordering in nullish method chaining (affected thousands of production codebases). Personal friction → public good.
 - **devprofile/.agents repo**: Living lab for AI-era engineering skills (agent-assisted development, long-term maintainability, secure workflows).
 
