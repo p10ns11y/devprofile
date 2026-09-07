@@ -41,6 +41,9 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# voice receive message store (local dev)
+.data/
+
 # vercel
 .vercel
 
