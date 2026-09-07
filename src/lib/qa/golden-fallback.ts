@@ -38,7 +38,7 @@ function pickBestExample(
   if (examples.length === 0) {
     return {
       q: "General professional background",
-      a: "I focus on turning personal friction into quiet, compounding infrastructure — from my 2016 thesis work through Oneflow transformations, premflow, and tools like Grok Dia. Everything I build respects human attention and time.",
+      a: "I focus on turning personal friction into quiet, compounding infrastructure — from my 2016 thesis work through Oneflow transformations, premflow, collab-finder, and devprofile with grounded Q&A. Everything I build respects human attention and time.",
     };
   }
 

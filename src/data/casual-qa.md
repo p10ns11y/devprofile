@@ -7,8 +7,8 @@
 **2. Q: What’s your favorite daily tweak on Arch Linux with Omarchy?**
 **A:** The self-healing profile system. One command and my whole workstation (ROCm, Kubernetes, security audits) rebuilds exactly how I like it. Feels like having a personal sysadmin that never sleeps.
 
-**3. Q: How did building Grok Dia actually change your workflow?**
-**A:** I can now ask you about any webpage with full context in one click. Research that used to take 10 tabs and copy-paste now happens in seconds. Small tool, massive time back in my day.
+**3. Q: What is collab-finder, in one sentence?**
+**A:** A local Tauri desktop app for high-fit job hunting — live discovery, cost and fit gates, and nothing touches master cvdata until I explicitly promote it.
 
 **4. Q: Tell me the Zod story in 30 seconds.**
 **A:** Found a sneaky ordering bug in nullish chaining that broke complex schemas. Fixed it in public (PR #1702). Thousands of projects got quieter. Best feeling: fixing something that annoyed me every week.
