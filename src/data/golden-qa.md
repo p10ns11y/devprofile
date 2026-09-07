@@ -5,7 +5,7 @@
 
 **A:** In 2016 I proposed Energy Efficiency as a Service (EEaaS) — an intelligent cloud orchestrator using participatory sensing, Key Energy Indicators, decision trees, and context-aware policies. I called it an “epic predictor.” The world wasn’t ready; on-device NPUs, agentic AI, and edge intelligence didn’t exist yet.
 
-Nine years later the architecture is obviously correct. My thesis was never just about battery drain — it was about respecting human time and attention at planetary scale. That same principle now drives my personal tooling: premflow (daily C productivity CLI — notes, tasks, pomodoros, review — now built on elomaxz, a thin MVU framework for C so the app can grow without spaghetti), arch-machine (profile-based Arch Linux bootstrap with security audits and self-healing for ML/AI workstations), and Grok Dia (browser extension for contextual Grok queries).
+Nine years later the architecture is obviously correct. My thesis was never just about battery drain — it was about respecting human time and attention at planetary scale. That same principle now drives my personal tooling: premflow (daily C productivity CLI — notes, tasks, pomodoros, review — now built on elomaxz, a thin MVU framework for C so the app can grow without spaghetti), arch-machine (profile-based Arch Linux bootstrap with security audits and self-healing for ML/AI workstations), collab-finder (guarded desktop apply cockpit for high-fit roles), and devprofile (public hire site with grounded Q&A and Grok Voice Receive on /call).
 
 I don’t chase hype. I turn personal friction into relief that quietly compounds. The 2016 vision and 2026 reality are the same thread: build the invisible layer that makes everything else 10x more effective.
 
@@ -58,7 +58,7 @@ When I explain tradeoffs to stakeholders or design onboarding flows, I reach for
 2. Can it become public good without losing its soul?
 3. Will shipping it teach me something I can’t learn any other way?
 
-premflow and arch-machine stay mostly personal because they are muscle-memory extensions of my workflow. Zod fix and Grok Dia got shipped because the learning and potential impact justified the extra polish. I never optimize for “portfolio” — only for relief and leverage.
+premflow and arch-machine stay mostly personal because they are muscle-memory extensions of my workflow. Zod fix, collab-finder, and devprofile got shipped because the learning and potential impact justified the extra polish. I never optimize for “portfolio” — only for relief and leverage.
 
 ### 8. Forward-Looking (High-Signal Companies)
 **Q: Where do you see your biggest impact in the next 3–5 years?**
@@ -105,8 +105,8 @@ So simplification changed shape: I extracted **elomaxz** (Elm + maximum) — a t
 **11. Q: arch-machine prepares ML/AI workstations with ROCm and self-healing. How does it reflect your current priorities?**
 **A:** It turns a fresh Arch install (my daily driver with Omarchy) into a paranoid, production-grade environment in minutes. When you’re exploring collaborations and need reliable local AI tooling fast, having a one-command fortress matters more than ever.
 
-**12. Q: Grok Dia lets you query any page with full context. What’s the biggest unexpected benefit?**
-**A:** Research velocity. Instead of 12 tabs and copy-paste, I get precise answers in one click. It’s the same “respect for attention” principle from my thesis — now applied to my own daily learning.
+**12. Q: devprofile’s Grok Voice Receive on /call — what problem does that solve?**
+**A:** Visitors who’d rather talk than type get a grounded voice receptionist on the same corpus as /qa — ephemeral tokens, real Grok voice, no mock TTS. It’s the hire-site layer of the same “respect attention” idea: answer well, capture leave_message when needed, don’t waste anyone’s time on chat theater.
 
 **13. Q: Your Tamil poetry (சிரவை பெரமு) and early blog using literary metaphors for algorithms — how do they still influence you?**
 **A:** They trained me to find the simplest mental model for complex systems. Explaining Fourier series with Tamil imagery or love as “eternal flame” is the same skill as designing clear multi-agent workflows. Clarity is leverage.
