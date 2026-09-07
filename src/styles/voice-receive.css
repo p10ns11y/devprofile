@@ -310,7 +310,7 @@
   @media (prefers-reduced-motion: reduce) {
     .voice-receive__control-ring,
     .voice-receive__status-dot {
-      animation: none !important;
+      animation: none;
     }
 
     .voice-receive__control {
