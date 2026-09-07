@@ -24,7 +24,7 @@ Peram doesn’t just ship code. He ships **relief**.
 - He got tired of manually compiling LaTeX CVs → built a fully automated Rust + GitHub Actions + S3 pipeline that turns a commit into a public PDF + PR.
 - He got tired of reinstalling Arch Linux every few months → built `arch-machine`, a declarative one-command developer environment.
 - He got tired of context-switching between notes, tasks, and focus sessions → wrote `premflow` in C (because speed matters when you actually use something every single day).
-- He wanted a local apply cockpit with hard gates before anything mutates his CV → shipped **collab-finder** 1.0.0 (Tauri + Rust + React) in August 2026. (An earlier `Grok Dia` browser extension shipped in 2025 but is paused — devprofile’s `/call` voice receive and collab-finder carry that thread forward.)
+- He wanted to ask Grok about any webpage with full context → shipped **Grok Dia** in 2025, then renamed and extracted **Ask Grok** and **Vocab Builder** into [grok-daily-productivity-extensions](https://github.com/p10ns11y/grok-daily-productivity-extensions). He wanted a local apply cockpit with hard gates before anything mutates his CV → shipped **collab-finder** 1.0.0 (Tauri + Rust + React) in August 2026.
 
 These aren’t side projects. They are **personal operating systems** — tools so deeply integrated into his life that they become invisible. That’s the mark of a true builder: the best tools are the ones you forget you’re using.
 
