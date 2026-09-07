@@ -13,7 +13,7 @@ export type VoiceSessionStatus =
 
 export interface VoiceRealtimeCallbacks {
   onStatus?: (status: VoiceSessionStatus) => void;
-  onTranscript?: (role: "user" | "assistant", text: string) => void;
+  onTranscript?: (role: "user" | "assistant", text: string, partial?: boolean) => void;
   onError?: (message: string) => void;
 }
 
@@ -169,9 +169,22 @@ export class VoiceRealtimeSession {
       if (delta) this.schedulePlayback(delta);
     }
 
+    if (type === "conversation.item.input_audio_transcription.delta") {
+      const delta = (parsed.delta as string) || "";
+      if (delta) this.callbacks.onTranscript?.("user", delta, true);
+    }
+
     if (type === "conversation.item.input_audio_transcription.completed") {
       const transcript = (parsed.transcript as string) || "";
-      if (transcript) this.callbacks.onTranscript?.("user", transcript);
+      if (transcript) this.callbacks.onTranscript?.("user", transcript, false);
+    }
+
+    if (
+      type === "response.output_audio_transcript.delta" ||
+      type === "response.audio_transcript.delta"
+    ) {
+      const delta = (parsed.delta as string) || "";
+      if (delta) this.callbacks.onTranscript?.("assistant", delta, true);
     }
 
     if (
@@ -179,7 +192,7 @@ export class VoiceRealtimeSession {
       type === "response.audio_transcript.done"
     ) {
       const transcript = (parsed.transcript as string) || "";
-      if (transcript) this.callbacks.onTranscript?.("assistant", transcript);
+      if (transcript) this.callbacks.onTranscript?.("assistant", transcript, false);
     }
 
     if (type === "response.function_call_arguments.done") {
