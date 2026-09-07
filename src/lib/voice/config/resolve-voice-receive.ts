@@ -1,6 +1,9 @@
 /**
  * Voice receive feature flag — server kill switch.
  * UI links use NEXT_PUBLIC_ENABLE_VOICE_RECEIVE (build-time).
+ *
+ * ENABLE_VOICE_RECEIVE is not NEXT_PUBLIC_* — it is undefined in client bundles.
+ * Gate /call in app/call/page.tsx on the server and pass the boolean into client UI.
  */
 export function isVoiceReceiveEnabled(): boolean {
   return process.env.ENABLE_VOICE_RECEIVE === "true";

@@ -1,4 +1,5 @@
 import { CallPageClient } from "@/components/call-page-client";
+import { isVoiceReceiveEnabled } from "@/lib/voice/config/resolve-voice-receive";
 
 export const metadata = {
   title: "Talk — Voice reception",
@@ -7,5 +8,8 @@ export const metadata = {
 };
 
 export default function CallPage() {
-  return <CallPageClient />;
+  // ENABLE_VOICE_RECEIVE is server-only; evaluate here and pass into the client shell.
+  const enabled = isVoiceReceiveEnabled();
+
+  return <CallPageClient enabled={enabled} />;
 }
