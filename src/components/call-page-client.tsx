@@ -4,10 +4,13 @@ import { motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { VoiceReceiveClient } from "@/components/voice-receive-client";
-import { isVoiceReceiveEnabled } from "@/lib/voice/config/resolve-voice-receive";
 
-export function CallPageClient() {
-  const enabled = isVoiceReceiveEnabled();
+interface CallPageClientProps {
+  /** Server-evaluated from ENABLE_VOICE_RECEIVE — do not read that env var in this client module. */
+  enabled: boolean;
+}
+
+export function CallPageClient({ enabled }: CallPageClientProps) {
   const reduceMotion = useReducedMotion();
 
   return (

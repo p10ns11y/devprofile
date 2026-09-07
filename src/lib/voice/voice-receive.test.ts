@@ -29,6 +29,15 @@ describe("resolve-voice-receive", () => {
     expect(isVoiceReceiveEnabled()).toBe(true);
   });
 
+  it("must be evaluated on the server for /call (not in use client modules)", () => {
+    // Regression guard: client bundles cannot read ENABLE_VOICE_RECEIVE.
+    // app/call/page.tsx passes the result into CallPageClient as the enabled prop.
+    delete process.env.ENABLE_VOICE_RECEIVE;
+    expect(isVoiceReceiveEnabled()).toBe(false);
+    process.env.ENABLE_VOICE_RECEIVE = "true";
+    expect(isVoiceReceiveEnabled()).toBe(true);
+  });
+
   it("public flag follows NEXT_PUBLIC_ENABLE_VOICE_RECEIVE", () => {
     process.env.NEXT_PUBLIC_ENABLE_VOICE_RECEIVE = "true";
     expect(isVoiceReceivePublic()).toBe(true);
