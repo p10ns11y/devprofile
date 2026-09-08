@@ -1,8 +1,8 @@
+import Link from "next/link";
 import cvdata from "@/data/cvdata.json";
 import { landingInvite } from "@/data/landing-invite";
 import { SiteButton } from "./site/SiteButton";
 import { SocialLinks } from "./social-links";
-import { VoiceTalkLink } from "./voice-talk-link";
 
 export function Hero() {
   return (
@@ -13,8 +13,8 @@ export function Hero() {
             <div className="hero-stack">
               <h1 className="hero-name">{cvdata.name}</h1>
               <p className="hero-role">{landingInvite.role}</p>
-              <p className="hero-place">
-                {landingInvite.place}. {landingInvite.location}. {landingInvite.seat}
+              <p className="hero-meta">
+                {landingInvite.place} · {landingInvite.location}
               </p>
             </div>
 
@@ -31,7 +31,22 @@ export function Hero() {
                   {action.label}
                 </SiteButton>
               ))}
-              <VoiceTalkLink className="hero-cta inline-flex min-h-11 items-center justify-center rounded-lg border border-border px-5 text-sm font-medium text-text1 transition-colors hover:border-link hover:text-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-brand-emphasis)" />
+              {landingInvite.heroLinks.length > 0 ? (
+                <p className="hero-text-links">
+                  {landingInvite.heroLinks.map((link, index) => (
+                    <span key={link.href} className="hero-text-links__item">
+                      {index > 0 ? (
+                        <span className="hero-text-links__sep" aria-hidden="true">
+                          ·
+                        </span>
+                      ) : null}
+                      <Link href={link.href} className="hero-text-link">
+                        {link.label}
+                      </Link>
+                    </span>
+                  ))}
+                </p>
+              ) : null}
             </nav>
 
             <div className="hero-trail">

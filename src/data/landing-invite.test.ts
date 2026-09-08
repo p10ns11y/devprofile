@@ -16,6 +16,11 @@ describe("landingInvite", () => {
     expect(landingInvite.proofs).toHaveLength(6);
     expect(landingInvite.proofs.map((proof) => proof.n)).toEqual([1, 2, 3, 4, 5, 6]);
     expect(landingInvite.nowDisclaimer).toMatch(/March to August 2026/);
+    expect(landingInvite.heroLinks.map((link) => link.label)).toEqual([
+      "Building",
+      "Q&A",
+      "Articles",
+    ]);
     const collab = landingInvite.proofs.find((proof) => proof.n === 2);
     expect(collab?.href?.url).toContain("github.com/p10ns11y/collab-finder");
   });

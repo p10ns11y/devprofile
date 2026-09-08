@@ -13,7 +13,7 @@ export function Experience() {
       <SectionHeading
         id={headingId}
         title="Evidence"
-        description={landingInvite.workLead}
+        description={landingInvite.workLead || undefined}
         showUnderline
       />
 

@@ -95,6 +95,13 @@ export function getLanding() {
       label: action.label,
       variant: action.variant as "primary" | "secondary",
     })),
+    heroLinks: ("hero_links" in raw && Array.isArray(raw.hero_links)
+      ? raw.hero_links
+      : []
+    ).map((link) => ({
+      href: link.href,
+      label: link.label,
+    })),
     contactLead: raw.contact_lead,
     contactAside: raw.contact_aside,
     formPlaceholder: raw.form_placeholder,

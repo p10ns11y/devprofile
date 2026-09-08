@@ -47,7 +47,7 @@ export function Background() {
       <SectionHeading
         id={headingId}
         title="Academic"
-        description="The Uppsala master's ran from 2010 to 2016. I stayed with the thesis a bit longer through a personal interval — marriage, settling in — then published it as a conference paper and a journal article."
+        description="Uppsala MSc (2010–2016). Thesis → IEEE + Wiley."
         showUnderline
       />
 

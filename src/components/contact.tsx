@@ -10,7 +10,6 @@ import { SectionShell } from "./site/SectionShell";
 import { SiteButton } from "./site/SiteButton";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { VoiceTalkContactChannel, VoiceTalkLink } from "./voice-talk-link";
 
 const headingId = "contact-heading";
 
@@ -72,7 +71,7 @@ export function Contact() {
       <SectionHeading
         id={headingId}
         title="Get in touch"
-        description={landingInvite.contactLead}
+        description={landingInvite.contactLead || undefined}
         showUnderline
       />
 
@@ -138,12 +137,9 @@ export function Contact() {
         </section>
 
         <aside className="min-w-0" aria-labelledby={`${headingId}-connect`}>
-          <div className="contact-aside-intro">
-            <h3 id={`${headingId}-connect`} className="subsection-title">
-              Direct channels
-            </h3>
-            <p className="contact-aside-lead">{landingInvite.contactAside}</p>
-          </div>
+          <h3 id={`${headingId}-connect`} className="subsection-title">
+            Direct channels
+          </h3>
 
           <address className="contact-channels not-italic">
             {contactInfo.map((info) => (
@@ -164,17 +160,7 @@ export function Contact() {
                 </span>
               </a>
             ))}
-            <VoiceTalkContactChannel />
           </address>
-
-          <nav className="contact-cv-actions" aria-label="Profile and voice">
-            <SiteButton href="/?cv=view" variant="secondary">
-              View CV
-            </SiteButton>
-            <VoiceTalkLink className="inline-flex min-h-11 items-center justify-center rounded-lg border border-border px-5 text-sm font-medium text-text1 transition-colors hover:border-link hover:text-link focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-brand-emphasis)">
-              Talk instead
-            </VoiceTalkLink>
-          </nav>
         </aside>
       </div>
     </SectionShell>

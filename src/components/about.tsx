@@ -10,7 +10,7 @@ export function About() {
       <SectionHeading
         id={headingId}
         title="What you are hiring"
-        description={landingInvite.summary}
+        description={landingInvite.summary || undefined}
         showUnderline
       />
 
@@ -29,9 +29,9 @@ export function About() {
       </ol>
 
       <p className="hire-arc">
-        The long arc from 2015 orchestration to 2026 local agent work lives in{" "}
-        <a href={landingInvite.arcHref.url}>{landingInvite.arcHref.label}</a>. Architecture
-        walkthroughs for shipped systems are on <a href="/shipped">Shipped</a>.
+        2015 orchestration → 2026 local agents:{" "}
+        <a href={landingInvite.arcHref.url}>{landingInvite.arcHref.label}</a> ·{" "}
+        <a href="/shipped">Shipped</a> walkthroughs
       </p>
     </SectionShell>
   );
