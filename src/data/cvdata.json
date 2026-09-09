@@ -715,8 +715,7 @@
       "technologies": ["Tauri", "Rust", "React", "TypeScript", "SQLite"],
       "status": "active",
       "is_open_source": true,
-      "impact": "Production apply cockpit (kanithanj.ai)",
-      "public_url": "https://kanithanj.ai",
+      "impact": "Production apply cockpit (kanithanj.ai desktop app)",
       "created": "2026-06-04",
       "updated": "2026-08-25"
     },

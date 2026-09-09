@@ -71,7 +71,7 @@ export function ProjectWalkthroughHero({ project }: { project: ProjectWalkthroug
               success: project.liveUrl,
             })}
           >
-            Open live
+            {project.liveLabel ?? "Open live"}
           </SiteButton>
         ) : null}
         {project.npmUrl ? (

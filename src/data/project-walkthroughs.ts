@@ -51,6 +51,8 @@ export type ProjectWalkthrough = {
   cvdataKey: string;
   repoUrl: string;
   liveUrl?: string;
+  /** CTA label for `liveUrl`. Defaults to "Open live" (websites). Use "GitHub release" for installable binaries. */
+  liveLabel?: string;
   npmUrl?: string;
   sections: readonly WalkthroughSection[];
 };
@@ -59,10 +61,9 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "collab-finder",
     title: "collab-finder — job hunt desktop app",
-    lede: "Desktop app for high-fit job hunting at kanithanj.ai. You approve before anything hits your master CV or apply files. Hunt screens, pack checks, pipeline, local database. Not a chat app.",
+    lede: "Desktop app for high-fit job hunting. You approve before anything hits your master CV or apply files. Hunt screens, pack checks, pipeline, local database. Not a chat app.",
     eyebrow: "Career · desktop app",
-    audience:
-      "Recruiters and engineers who want job-hunt screens, not another chat window.",
+    audience: "Recruiters and engineers who want job-hunt screens, not another chat window.",
     outcomes: [
       "Evaluate roles, prepare, generate apply PDFs on your machine",
       "Check pack files without a terminal",
@@ -80,7 +81,8 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
     tech: ["Tauri", "Rust", "React", "TypeScript", "SQLite"],
     cvdataKey: "collab-finder",
     repoUrl: "https://github.com/p10ns11y/collab-finder",
-    liveUrl: "https://kanithanj.ai",
+    liveUrl: "https://github.com/p10ns11y/collab-finder/releases/latest",
+    liveLabel: "GitHub release",
     sections: [
       {
         id: "product",
@@ -89,7 +91,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "Desktop app for job hunting at kanithanj.ai. Screens check cost, fit, and rate. You approve before the master CV on the public portfolio site or apply files change. Not a chat app.",
+            text: "Desktop app for job hunting. Screens check cost, fit, and rate. You approve before the master CV on the public portfolio site or apply files change. Not a chat app.",
           },
           {
             type: "cards",
@@ -103,15 +105,13 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
                 title: "Pack file checks",
                 kicker: "Shipped · Preferences",
                 body: "Shows whether your pack files on disk are ready. Evaluate and Next 10 read those files. They are not built into the app. Missing files make Evaluate use placeholder text.",
-                example:
-                  "Pack status on Preferences. Not a live machine.",
+                example: "Pack status on Preferences. Not a live machine.",
               },
               {
                 title: "Pipeline",
                 kicker: "Shipped · Pipeline",
                 body: "Tracks where each role stands before and after you apply. Applied rows stay visible even when Mission lists get long.",
-                example:
-                  "Fixed prep stages and outcome labels. No live counts.",
+                example: "Fixed prep stages and outcome labels. No live counts.",
               },
               {
                 title: "Local database",
@@ -256,8 +256,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
     title: "thepulimaangani — Tamil metre in the browser",
     lede: "Classical Tamil metre in the browser. Paste verse, get syllable splits and metre labels. No server required.",
     eyebrow: "Creative · metre",
-    audience:
-      "Students, scholars, and builders who need Tamil metre without calling a remote API.",
+    audience: "Students, scholars, and builders who need Tamil metre without calling a remote API.",
     outcomes: [
       "Syllable splits and metre labels in the browser",
       "Text stays on your machine — no remote API",
@@ -389,8 +388,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
     title: "Adaptate — runtime validation for shared API models",
     lede: "One shared model, optional by default. Per-consumer rules set what is required at runtime. Docs and gateways use the same model. Uses Zod with OpenAPI / JSON Schema when consumers need different required fields.",
     eyebrow: "Systems · validation",
-    audience:
-      "API authors where Partner A requires fields Partner B must omit.",
+    audience: "API authors where Partner A requires fields Partner B must omit.",
     outcomes: [
       "One optional base model for all consumers",
       "Per-consumer rules at runtime",
@@ -515,11 +513,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   },
 ] as const;
 
-export const SHIPPED_WALKTHROUGH_SLUGS = [
-  "collab-finder",
-  "thepulimaangani",
-  "adaptate",
-] as const;
+export const SHIPPED_WALKTHROUGH_SLUGS = ["collab-finder", "thepulimaangani", "adaptate"] as const;
 
 export type ShippedWalkthroughSlug = (typeof SHIPPED_WALKTHROUGH_SLUGS)[number];
 

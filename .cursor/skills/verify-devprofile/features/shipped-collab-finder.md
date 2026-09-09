@@ -10,7 +10,7 @@ Map stays accurate to shipped **collab-finder** `main`: Preferences pack health,
 
 ## Sub-features
 
-- `shipped-hero` — breadcrumb, title, lede, outcomes, surfaces, GitHub / live CTAs.
+- `shipped-hero` — breadcrumb, title, lede, outcomes, surfaces, GitHub source / GitHub release CTAs.
 - `shipped-product-band` — product sections before the tech band; not-a-chat callout plus four surface cards.
 - `shipped-hunt-loop` — Hunt loop card: Discover / Mission / Sweden / Xplore and evaluate → prepare → generate.
 - `shipped-pack-health` — Preferences pack health card; pack status labeled **Example**. Not a live machine.
@@ -43,3 +43,4 @@ Preconditions: `pnpm verify:doctor` is ok.
 - Product cards live in `projects-section--product`, not the tech band.
 - Pack-health and pipeline **Example** lines are demo labels only. They are not a live operator machine.
 - Plain framing: desktop app for job hunting. Do not describe this page as a chat app, ensembly, life-os, or botify walkthrough.
+- Second CTA is **GitHub release** (`/releases/latest`).

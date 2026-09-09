@@ -34,7 +34,7 @@ describe("master CV pick", () => {
     project("adaptate", "2026-07-15"),
     project("collab-finder", "2026-08-25", {
       created: "2026-06-04",
-      public_url: "https://kanithanj.ai",
+      public_url: "https://live.example.com",
     }),
     project("agent-prompt-tuning-lab", "2026-08-17"),
     project("thepulimaangani", "2026-08-02", { created: "2020-04-09" }),
@@ -52,7 +52,7 @@ describe("master CV pick", () => {
 
   it("shows the live host, not a reach badge", () => {
     const featured = getCvFeaturedProjects(projects);
-    expect(projectPublicHostLabel(featured[0]!)).toBe("kanithanj.ai");
+    expect(projectPublicHostLabel(featured[0]!)).toBe("live.example.com");
     expect(projectPublicHostLabel(featured[1]!)).toBeUndefined();
   });
 
