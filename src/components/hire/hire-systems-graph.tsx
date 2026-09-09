@@ -1,12 +1,15 @@
+import Link from "next/link";
+import { LandscapeAtlas } from "@/components/building/landscape-atlas";
 import type { HireContent } from "@/lib/hire-content";
+import { lcvPreview } from "@/lib/hire-lcv";
 import type { SystemNode } from "@/lib/hire-systems";
+import "@/styles/building.css";
 
 type HireSystemsGraphProps = {
   systems: HireContent["systems"];
 };
 
-function SysNode({ node }: { node: SystemNode }) {
-  const className = `hire-phi__sys-node${node.id === "cvdata" ? " hire-phi__sys-node--hub" : ""}`;
+function NodeName({ node, className }: { node: SystemNode; className: string }) {
   if (node.href) {
     return (
       <a href={node.href} className={className}>
@@ -19,40 +22,41 @@ function SysNode({ node }: { node: SystemNode }) {
 
 export function HireSystemsGraph({ systems }: HireSystemsGraphProps) {
   const byId = Object.fromEntries(systems.nodes.map((node) => [node.id, node]));
+  const record = byId[systems.recordKey];
+  const site = byId["devprofile"];
+  const cockpit = byId["collab-finder"];
 
   return (
-    <figure className="hire-phi__map" aria-labelledby="hire-systems-caption">
-      <ol className="hire-phi__sys-flows">
-        {systems.edges.map((edge) => {
-          const from = byId[edge.from];
-          const to = byId[edge.to];
-          if (!from || !to) return null;
-          return (
-            <li key={`${edge.from}-${edge.to}`} className="hire-phi__sys-flow">
-              <SysNode node={from} />
-              <span className="hire-phi__sys-edge">{edge.label}</span>
-              <SysNode node={to} />
-            </li>
-          );
-        })}
-      </ol>
+    <figure
+      className="hire-phi__map"
+      aria-labelledby="hire-systems-caption"
+      aria-describedby="hire-atlas-desc"
+      {...lcvPreview}
+    >
+      {record && site && cockpit ? (
+        <p className="hire-phi__record">
+          <NodeName node={record} className="hire-phi__atlas-link" /> feeds{" "}
+          <NodeName node={site} className="hire-phi__atlas-link" /> (this site) and{" "}
+          <NodeName node={cockpit} className="hire-phi__atlas-link" /> apply packs. One file, no
+          drift.
+        </p>
+      ) : null}
+
+      <p id="hire-atlas-desc" className="sr-only">
+        Five cluster bands and four area docks feeding one operator loop, ensembly. cvdata is the
+        record plane behind devprofile and collab-finder. participatory-mesh runs only the allowlist
+        at the Systems dock.
+      </p>
+
+      <LandscapeAtlas embedded />
+
       <figcaption id="hire-systems-caption" className="hire-phi__map-caption">
-        {systems.caption}
+        {systems.caption} Full landscape on{" "}
+        <Link href="/building" className="hire-phi__map-caption-link">
+          Building
+        </Link>
+        .
       </figcaption>
-      <ul className="hire-phi__map-legend">
-        {systems.nodes.map((node) => (
-          <li key={node.id} className="hire-phi__legend-item">
-            {node.href ? (
-              <a href={node.href} className="hire-phi__legend-link">
-                {node.label}
-              </a>
-            ) : (
-              <span className="hire-phi__legend-name">{node.label}</span>
-            )}
-            <span className="hire-phi__legend-role">{node.role}</span>
-          </li>
-        ))}
-      </ul>
     </figure>
   );
 }

@@ -90,9 +90,6 @@ export function HireLanding({ content }: HireLandingProps) {
           <div className={layout.proofs} style={proofStyle}>
             {content.proofs.map((proof) => (
               <article key={proof.n} className="hire-phi__proof-card">
-                <span className="hire-phi__proof-eyebrow">
-                  Proof {String(proof.n).padStart(2, "0")}
-                </span>
                 <h3 className="hire-phi__proof-title">{proof.title}</h3>
                 <p className="hire-phi__proof-line">{proof.line}</p>
                 {proof.href ? (
@@ -124,8 +121,8 @@ export function HireLanding({ content }: HireLandingProps) {
               How the pieces connect
             </h2>
             <p className="hire-phi__section-lead">
-              One record, one operator kernel, one allowlist. Not separate demos with copied
-              prompts.
+              Five cluster bands on the left. Work falls through four area docks into one operator
+              loop. Not separate demos with copied prompts.
             </p>
           </header>
           <div className={layout.systems}>

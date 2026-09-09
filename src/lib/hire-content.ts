@@ -1,5 +1,11 @@
 import cvdata from "@/data/cvdata.json";
-import { hireSystemEdges, hireSystemNodes, hireSystemsCaption } from "@/lib/hire-systems";
+import {
+  hireOperatorKey,
+  hireRecordKey,
+  hireSystemEdges,
+  hireSystemNodes,
+  hireSystemsCaption,
+} from "@/lib/hire-systems";
 import { getLanding, getWorkClaims } from "@/lib/homepage-from-cvdata";
 
 /** Hire surface proof cap — full list remains on CV / articles. */
@@ -41,6 +47,8 @@ export function getHireContent() {
       nodes: hireSystemNodes,
       edges: hireSystemEdges,
       caption: hireSystemsCaption,
+      operatorKey: hireOperatorKey,
+      recordKey: hireRecordKey,
     },
   };
 }

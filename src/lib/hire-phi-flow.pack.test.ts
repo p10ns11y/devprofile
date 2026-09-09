@@ -10,6 +10,11 @@ function block(selector: string): string {
 }
 
 describe("hire-phi-flow pack rules", () => {
+  it("reserves the first screen for the hero so #about is not a cut strip", () => {
+    expect(block(".hire-phi__hero")).toContain("min-height: 100dvh");
+    expect(block(".hire-phi__hero")).toContain("justify-content: center");
+  });
+
   it("centers a packed hero CTA cluster instead of end-parking when wide", () => {
     expect(css).not.toContain("@container (min-width: 28rem)");
     expect(block(".hire-phi__hero-reach")).toContain("fit-content");
@@ -22,12 +27,6 @@ describe("hire-phi-flow pack rules", () => {
     expect(css).not.toContain("@container (min-width: 20rem)");
     expect(block(".hire-phi__interactives")).toMatch(/flex-start|text-align:\s*start/);
     expect(block(".hire-phi__interactives")).not.toContain("flex-end");
-  });
-
-  it("packs systems flows instead of stretching edge labels across a void", () => {
-    expect(block(".hire-phi__sys-flows")).toContain("fit-content");
-    expect(block(".hire-phi__sys-flow")).toContain("flex-start");
-    expect(block(".hire-phi__sys-flow")).not.toContain("space-between");
   });
 
   it("packs channel icon and text instead of stretching a canyon", () => {

@@ -17,6 +17,8 @@ const ALLOWED = [
   /1fr\s+1fr/,
   /grid-template-columns:\s*1fr;/,
   /repeat\(auto-fit,\s*minmax\(/,
+  /var\(--phi-gap-4\)/,
+  /1fr\s+auto/,
 ];
 
 const lines = css.split("\n");

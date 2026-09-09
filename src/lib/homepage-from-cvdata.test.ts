@@ -45,6 +45,8 @@ describe("getWorkClaims", () => {
     expect(adaptate?.detail).toMatch(/Did not port/);
     expect(adaptate?.detail).not.toMatch(/became adaptate/i);
     expect(adaptate?.href?.url).toContain("adaptate");
+    expect(adaptate?.where).toBe("Personal OSS.");
+    expect(adaptate?.where).not.toMatch(/github\.com/);
   });
 
   it("points Innovative Adjacent Thinking at IEEE, Wiley, and the thesis PDF", () => {

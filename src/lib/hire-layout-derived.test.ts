@@ -31,13 +31,14 @@ describe("deriveHireLayout", () => {
     const plan = deriveHireLayout(getHireContent());
     expect(plan.systems.mode).toBe("stack");
     expect(plan.proofs.mode).toBe("auto-fit-dense");
-    expect(plan.hero.peek).toBe(true);
+    expect(plan.hero.peek).toBe(false);
   });
 
   it("pairs systems only when disclaimer is short and the legend is light", () => {
     const light = withContent({
       nowDisclaimer: "Short slice note.",
       systems: {
+        ...getHireContent().systems,
         nodes: getHireContent().systems.nodes.slice(0, 2),
         edges: [],
         caption: "x",
@@ -73,7 +74,7 @@ describe("deriveHireLayout", () => {
     expect(classes.proofs).toBe("hire-phi__proofs--auto-fit");
     expect(classes.proofs).not.toMatch(/span-/);
     expect(classes.heroReach).toBe("hire-phi__hero-reach");
-    expect(classes.heroPeek).toBe("hire-phi__hero--peek");
+    expect(classes.heroPeek).toBe("");
     expect(classes.evidenceLinks).toContain("hire-phi__interactives");
     expect(classes.proofs).not.toContain("interactives");
   });

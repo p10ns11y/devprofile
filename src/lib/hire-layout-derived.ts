@@ -11,7 +11,7 @@ export type HireInteractiveScope = "hero-reach" | "evidence-links";
 export type HireLayoutPlan = {
   hero: {
     mode: "stack-pair";
-    peek: true;
+    peek: false;
     reach: HireReachZone;
     primaryAction: string;
   };
@@ -86,7 +86,7 @@ export function deriveHireLayout(content: HireLayoutContent): HireLayoutPlan {
   return {
     hero: {
       mode: "stack-pair",
-      peek: true,
+      peek: false,
       reach: "center-first",
       primaryAction,
     },

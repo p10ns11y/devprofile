@@ -21,8 +21,9 @@ test.describe("Homepage", () => {
     await page.goto("/");
 
     await openMobileMenuIfNeeded(page, isMobile);
-    await siteNav(page, isMobile).locator('a[href="/x"]').click();
-    await expect(page).toHaveURL(/\/x$/);
+    // /x client transitions panic Turbopack locally; /building is the hire path under test.
+    await siteNav(page, isMobile).locator('a[href="/building"]').click();
+    await expect(page).toHaveURL(/\/building$/);
 
     await page.goBack();
     await expect(page).toHaveURL("/");
@@ -58,12 +59,13 @@ test.describe("Homepage", () => {
     await expect(hero.locator(".hire-phi__text-link")).toHaveCount(3);
   });
 
-  test("should keep proof prose start-aligned and peek the next section", async ({ page }) => {
+  test("should keep proof prose start-aligned and keep #about below the desktop fold", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
     await page.goto("/");
 
     const proofs = page.locator("#about .hire-phi__proof-line");
-    await expect(proofs.first()).toBeVisible();
     await expect(proofs.first()).toHaveCSS("text-align", "start");
     await expect(page.locator("#about .hire-phi__proofs--auto-fit")).not.toHaveClass(
       /hire-phi__interactives/
@@ -71,7 +73,11 @@ test.describe("Homepage", () => {
 
     const aboutBox = await page.locator("#hire-about-heading").boundingBox();
     expect(aboutBox).toBeTruthy();
-    expect(aboutBox && aboutBox.y).toBeLessThan(720);
+    expect(aboutBox && aboutBox.y).toBeGreaterThanOrEqual(720);
+
+    const proofCard = await page.locator("#about .hire-phi__proof-card").first().boundingBox();
+    expect(proofCard).toBeTruthy();
+    expect(proofCard && proofCard.y).toBeGreaterThanOrEqual(720);
   });
 
   test("should keep contact direct channels as links only", async ({ page }) => {
