@@ -2,9 +2,7 @@ import cvdata from "@/data/cvdata.json";
 
 type WorkRow = (typeof cvdata.work_experience)[number];
 
-export function isIndependentWork(
-  row: WorkRow
-): row is WorkRow & { kind: "independent_work" } {
+export function isIndependentWork(row: WorkRow): row is WorkRow & { kind: "independent_work" } {
   return "kind" in row && row.kind === "independent_work";
 }
 
@@ -95,6 +93,12 @@ export function getLanding() {
       label: action.label,
       variant: action.variant as "primary" | "secondary",
     })),
+    heroLinks: ("hero_links" in raw && Array.isArray(raw.hero_links) ? raw.hero_links : []).map(
+      (link) => ({
+        href: link.href,
+        label: link.label,
+      })
+    ),
     contactLead: raw.contact_lead,
     contactAside: raw.contact_aside,
     formPlaceholder: raw.form_placeholder,
