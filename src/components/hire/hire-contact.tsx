@@ -1,6 +1,7 @@
 "use client";
 
 import { Mail, MapPin, Send } from "lucide-react";
+import type { ComponentType } from "react";
 import { useState } from "react";
 import { XIcon } from "@/components/icon";
 import { SiteButton } from "@/components/site/SiteButton";
@@ -36,7 +37,7 @@ export function HireContact({ content, layoutClass }: HireContactProps) {
   };
 
   const channels: Array<{
-    icon: typeof XIcon;
+    icon: ComponentType<{ className: string }>;
     label: string | null;
     value: string;
     href: string;
@@ -154,7 +155,7 @@ export function HireContact({ content, layoutClass }: HireContactProps) {
                     : {})}
                 >
                   <span className="hire-phi__channel-icon" aria-hidden="true">
-                    <ch.icon className="size-4" decorative />
+                    <ch.icon className="size-4" />
                   </span>
                   {ch.label ? <span className="hire-phi__channel-label">{ch.label}</span> : null}
                   <span className="hire-phi__channel-value">{ch.value}</span>
