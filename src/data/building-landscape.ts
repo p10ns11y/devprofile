@@ -34,7 +34,7 @@ export const BUILDING_BLURB: Record<string, string> = {
   "shellyxz.sh":
     "Portable multi-shell kernel. PATH contract, plugin isolation, not a dotfiles dump.",
   "participatory-mesh":
-    "On-prem CommandFabric for a Tailscale mesh. Untrusted bots dispatch allowlisted commands only — the product is the allowlist, not chat. Pairs with ensembly: authorize and claim, then dispatch onto another participant.",
+    "Elixir/OTP CommandFabric. An explicit allowlist across a distributed mesh. Transport and host tools are swappable. The product is the allowlist, not chat. Pairs with ensembly: authorize and claim, then dispatch onto another participant.",
   elomaxz: "Elm-style hybrid MVU for C. Tagged messages, pure update, first-class Cmd/Effect.",
   adaptate:
     "npm library: one optional shared model, per-consumer required fields at runtime, OpenAPI interop.",

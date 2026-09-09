@@ -88,6 +88,12 @@ describe("building landscape", () => {
     expect(BUILDING_SINGULARITY.sublabel).toBe("white hole");
   });
 
+  it("describes participatory-mesh as an OTP allowlist mesh, not a Tailscale product", () => {
+    expect(BUILDING_BLURB["participatory-mesh"]).toMatch(/Elixir\/OTP/);
+    expect(BUILDING_BLURB["participatory-mesh"]).toMatch(/allowlist/);
+    expect(BUILDING_BLURB["participatory-mesh"]).not.toMatch(/Tailscale/i);
+  });
+
   it("publishes participatory-mesh on the systems band instead of private mesh", () => {
     const keys = BUILDING_PROJECTS.map((project) => project.key);
     expect(keys).toContain("participatory-mesh");
@@ -96,6 +102,16 @@ describe("building landscape", () => {
     expect(layoutAtlas().stars.find((star) => star.key === "participatory-mesh")?.href).toContain(
       "thecuriousts/participatory-mesh"
     );
+  });
+
+  it("lays out a hire cut without empty-area docks", () => {
+    const scene = layoutAtlas(["collab-finder", "devprofile", "participatory-mesh"]);
+    expect(scene.stars.map((star) => star.key).sort()).toEqual(
+      ["collab-finder", "devprofile", "participatory-mesh"].sort()
+    );
+    expect(scene.operator?.key).toBe("ensembly");
+    expect(scene.docks.map((dock) => dock.area).sort()).toEqual(["career", "systems"]);
+    expect(scene.bands).toHaveLength(3);
   });
 
   it("does not reuse systems as a cluster id", () => {

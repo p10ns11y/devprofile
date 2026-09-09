@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
   ATLAS_EPITHET_DY,
   ATLAS_NAME_BASELINE,
@@ -7,7 +8,6 @@ import {
   starNameAnchorX,
   visibleProjects,
 } from "@/components/building/atlas-layout";
-import { WhiteHoleInvoker, WhiteHoleTip } from "@/components/building/white-hole-gloss";
 import { BUILDING_AREAS, BUILDING_CLUSTERS, BUILDING_SINGULARITY } from "@/data/building-landscape";
 
 export type {
@@ -109,169 +109,172 @@ function ProjectMark({ placedStar }: { placedStar: PlacedStar }) {
   return <a href={placedStar.href}>{mark}</a>;
 }
 
-export function LandscapeAtlas() {
-  const scene = layoutAtlas();
+type LandscapeAtlasProps = {
+  keys?: readonly string[];
+  embedded?: boolean;
+  sinkExtra?: ReactNode;
+  afterFigure?: ReactNode;
+};
+
+export function LandscapeAtlas({
+  keys,
+  embedded = false,
+  sinkExtra,
+  afterFigure,
+}: LandscapeAtlasProps = {}) {
+  const scene = layoutAtlas(keys);
+  const label = `${scene.bands.length} cluster bands and ${scene.docks.length} area docks feeding one operator loop`;
+
+  const svg = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${scene.width} ${scene.height}`}
+      preserveAspectRatio="xMinYMid meet"
+      role="img"
+      aria-label={label}
+      className="building-atlas__svg"
+    >
+      <defs>
+        <linearGradient id="atlas-flow" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="var(--atlas-ink)" stopOpacity="0.16" />
+          <stop offset="100%" stopColor="#6b7788" stopOpacity="0.7" />
+        </linearGradient>
+        <radialGradient id="wh-halo" cx="70%" cy="48%" r="62%">
+          <stop offset="0%" stopColor="#f4f8ff" stopOpacity="0.95" />
+          <stop offset="32%" stopColor="#c5d4ea" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="#c5d4ea" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id="wh-depth" cx="30%" cy="45%" r="75%">
+          <stop offset="0%" stopColor="#0b1018" stopOpacity="0.88" />
+          <stop offset="70%" stopColor="#1c2838" stopOpacity="0.2" />
+          <stop offset="100%" stopColor="#dce6f4" stopOpacity="0.05" />
+        </radialGradient>
+        <linearGradient id="wh-caustic" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#1a2330" />
+          <stop offset="55%" stopColor="#9eb4d0" />
+          <stop offset="100%" stopColor="#f7fbff" />
+        </linearGradient>
+        <radialGradient id="wh-infall" cx="28%" cy="50%" r="72%">
+          <stop offset="0%" stopColor="#06080c" />
+          <stop offset="100%" stopColor="#1a2330" />
+        </radialGradient>
+        <radialGradient id="wh-core" cx="62%" cy="42%" r="68%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="45%" stopColor="#e7f0ff" />
+          <stop offset="100%" stopColor="#b8cbe4" stopOpacity="0.15" />
+        </radialGradient>
+        <clipPath id="wh-left">
+          <rect x="-80" y="-80" width="80" height="160" />
+        </clipPath>
+        <filter id="wh-soft" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="2.4" />
+        </filter>
+      </defs>
+
+      <rect width={scene.width} height={scene.height} fill="var(--atlas-ground)" />
+
+      {scene.bands.map((clusterBand) => (
+        <rect
+          key={`band-${clusterBand.cluster}`}
+          className="building-atlas__band"
+          x={0}
+          y={clusterBand.y}
+          width={scene.stars[0] ? scene.stars[0].x + scene.stars[0].r + 4 : 0}
+          height={clusterBand.height}
+        />
+      ))}
+
+      {scene.grid.map((seg) => (
+        <line
+          key={`grid-${seg.y1}`}
+          x1={seg.x1}
+          x2={seg.x2}
+          y1={seg.y1}
+          y2={seg.y2}
+          className="building-atlas__grid"
+        />
+      ))}
+
+      {scene.hops.map((hop) => (
+        <path
+          key={`hop-${hop.key}`}
+          d={hop.d}
+          className="building-atlas__hop"
+          fill="none"
+          stroke="url(#atlas-flow)"
+          strokeWidth="1.25"
+        />
+      ))}
+
+      {scene.trunks.map((trunk) => (
+        <path
+          key={`trunk-${trunk.key}`}
+          d={trunk.d}
+          className="building-atlas__trunk"
+          fill="none"
+          stroke="url(#atlas-flow)"
+          strokeWidth="1.6"
+        />
+      ))}
+
+      {scene.bands.map((clusterBand) => (
+        <text
+          key={clusterBand.cluster}
+          x={clusterBand.titleX}
+          y={clusterBand.titleY}
+          className="building-atlas__cluster"
+        >
+          {clusterBand.title}
+        </text>
+      ))}
+
+      {scene.stars.map((placedStar) => (
+        <ProjectMark key={placedStar.key} placedStar={placedStar} />
+      ))}
+
+      {scene.docks.map((areaDock) => (
+        <g key={areaDock.area} className="building-atlas__dock-group">
+          <ellipse
+            cx={areaDock.x}
+            cy={areaDock.y}
+            rx={areaDock.rx}
+            ry={areaDock.ry}
+            className="building-atlas__dock"
+          />
+          <text
+            x={dockLabelX(areaDock)}
+            y={areaDock.y + ATLAS_NAME_BASELINE}
+            className="building-atlas__area"
+          >
+            {areaDock.title}
+          </text>
+        </g>
+      ))}
+
+      <g transform={`translate(${scene.sink.x}, ${scene.sink.y})`}>
+        <WhiteHole />
+        <text className="building-atlas__sink-label" textAnchor="middle" y="58">
+          {BUILDING_SINGULARITY.label}
+        </text>
+        {sinkExtra}
+      </g>
+
+      {scene.operator ? <ProjectMark placedStar={scene.operator} /> : null}
+    </svg>
+  );
+
+  if (embedded) {
+    return <div className="building-atlas building-atlas--embedded">{svg}</div>;
+  }
 
   return (
     <figure className="building-atlas">
-      <svg
-        viewBox={`0 0 ${scene.width} ${scene.height}`}
-        preserveAspectRatio="xMinYMid meet"
-        role="img"
-        aria-labelledby="atlas-title atlas-desc"
-        className="building-atlas__svg"
-      >
-        <title id="atlas-title">
-          Five cluster bands and four area docks feeding one operator loop, drawn as a white hole.
-        </title>
-        <desc id="atlas-desc">
-          Cluster bands on the left hold the work. Names sit left of stars. Hops run to four area
-          docks — Career, Systems, Creative, Learning — then trunks to a Penrose white hole, the
-          other side of a black hole. A black hole would capture; this hole emits. The operator sits
-          beside it as the exit.
-        </desc>
-        <defs>
-          <linearGradient id="atlas-flow" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="var(--atlas-ink)" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#6b7788" stopOpacity="0.7" />
-          </linearGradient>
-          <radialGradient id="wh-halo" cx="70%" cy="48%" r="62%">
-            <stop offset="0%" stopColor="#f4f8ff" stopOpacity="0.95" />
-            <stop offset="32%" stopColor="#c5d4ea" stopOpacity="0.28" />
-            <stop offset="100%" stopColor="#c5d4ea" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="wh-depth" cx="30%" cy="45%" r="75%">
-            <stop offset="0%" stopColor="#0b1018" stopOpacity="0.88" />
-            <stop offset="70%" stopColor="#1c2838" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="#dce6f4" stopOpacity="0.05" />
-          </radialGradient>
-          <linearGradient id="wh-caustic" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#1a2330" />
-            <stop offset="55%" stopColor="#9eb4d0" />
-            <stop offset="100%" stopColor="#f7fbff" />
-          </linearGradient>
-          <radialGradient id="wh-infall" cx="28%" cy="50%" r="72%">
-            <stop offset="0%" stopColor="#06080c" />
-            <stop offset="100%" stopColor="#1a2330" />
-          </radialGradient>
-          <radialGradient id="wh-core" cx="62%" cy="42%" r="68%">
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="45%" stopColor="#e7f0ff" />
-            <stop offset="100%" stopColor="#b8cbe4" stopOpacity="0.15" />
-          </radialGradient>
-          <clipPath id="wh-left">
-            <rect x="-80" y="-80" width="80" height="160" />
-          </clipPath>
-          <filter id="wh-soft" x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="2.4" />
-          </filter>
-        </defs>
-
-        <rect width={scene.width} height={scene.height} fill="var(--atlas-ground)" />
-
-        {scene.bands.map((clusterBand) => (
-          <rect
-            key={`band-${clusterBand.cluster}`}
-            className="building-atlas__band"
-            x={0}
-            y={clusterBand.y}
-            width={scene.stars[0] ? scene.stars[0].x + scene.stars[0].r + 4 : 0}
-            height={clusterBand.height}
-          />
-        ))}
-
-        {scene.grid.map((seg) => (
-          <line
-            key={`grid-${seg.y1}`}
-            x1={seg.x1}
-            x2={seg.x2}
-            y1={seg.y1}
-            y2={seg.y2}
-            className="building-atlas__grid"
-          />
-        ))}
-
-        {scene.hops.map((hop) => (
-          <path
-            key={`hop-${hop.key}`}
-            d={hop.d}
-            className="building-atlas__hop"
-            fill="none"
-            stroke="url(#atlas-flow)"
-            strokeWidth="1.25"
-          />
-        ))}
-
-        {scene.trunks.map((trunk) => (
-          <path
-            key={`trunk-${trunk.key}`}
-            d={trunk.d}
-            className="building-atlas__trunk"
-            fill="none"
-            stroke="url(#atlas-flow)"
-            strokeWidth="1.6"
-          />
-        ))}
-
-        {scene.bands.map((clusterBand) => (
-          <text
-            key={clusterBand.cluster}
-            x={clusterBand.titleX}
-            y={clusterBand.titleY}
-            className="building-atlas__cluster"
-          >
-            {clusterBand.title}
-          </text>
-        ))}
-
-        {scene.stars.map((placedStar) => (
-          <ProjectMark key={placedStar.key} placedStar={placedStar} />
-        ))}
-
-        {scene.docks.map((areaDock) => (
-          <g key={areaDock.area} className="building-atlas__dock-group">
-            <ellipse
-              cx={areaDock.x}
-              cy={areaDock.y}
-              rx={areaDock.rx}
-              ry={areaDock.ry}
-              className="building-atlas__dock"
-            />
-            <text
-              x={dockLabelX(areaDock)}
-              y={areaDock.y + ATLAS_NAME_BASELINE}
-              className="building-atlas__area"
-            >
-              {areaDock.title}
-            </text>
-          </g>
-        ))}
-
-        <g transform={`translate(${scene.sink.x}, ${scene.sink.y})`}>
-          <WhiteHole />
-          <text className="building-atlas__sink-label" textAnchor="middle" y="58">
-            {BUILDING_SINGULARITY.label}
-          </text>
-          <foreignObject
-            className="building-atlas__hole-invoker-host"
-            x="-168"
-            y="-96"
-            width="336"
-            height="176"
-          >
-            <div className="building-atlas__hole-invoker-box">
-              <WhiteHoleInvoker />
-            </div>
-          </foreignObject>
-        </g>
-
-        {scene.operator ? <ProjectMark placedStar={scene.operator} /> : null}
-      </svg>
+      {svg}
       <figcaption className="building-atlas__caption">
         {BUILDING_SINGULARITY.line} A Penrose white hole is the other side of a black hole.
-        participatory-mesh is public CommandFabric — allowlisted dispatch, not a chat plane.
+        participatory-mesh is public CommandFabric. Allowlisted dispatch, not a chat plane.
       </figcaption>
-      <WhiteHoleTip />
+      {afterFigure}
     </figure>
   );
 }

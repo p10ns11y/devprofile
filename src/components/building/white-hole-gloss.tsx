@@ -32,6 +32,22 @@ export function WhiteHoleInvoker() {
   );
 }
 
+export function WhiteHoleGlossHost() {
+  return (
+    <foreignObject
+      className="building-atlas__hole-invoker-host"
+      x="-168"
+      y="-96"
+      width="336"
+      height="176"
+    >
+      <div className="building-atlas__hole-invoker-box">
+        <WhiteHoleInvoker />
+      </div>
+    </foreignObject>
+  );
+}
+
 export function WhiteHoleTip() {
   return (
     <div id={WHITE_HOLE_TIP_ID} popover="auto" className="building-atlas__hole-tip">
