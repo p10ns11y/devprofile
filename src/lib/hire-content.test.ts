@@ -36,8 +36,10 @@ describe("getHireContent", () => {
       "devprofile",
       "collab-finder",
       "ensembly",
+      "participatory-mesh",
     ]);
     expect(systems.nodes.map((node) => node.id)).not.toContain("life-os");
+    expect(systems.nodes.map((node) => node.id)).not.toContain("mesh");
     expect(systems.edges.every((edge) => edge.label.length > 0)).toBe(true);
   });
 });

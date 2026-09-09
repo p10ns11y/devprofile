@@ -38,6 +38,10 @@ export const hireSystemNodes: SystemNode[] = [
   projectNode("devprofile", "Public hire surface, grounded Q&A, CV as a build artifact"),
   projectNode("collab-finder", "Local Tauri apply cockpit — human promote before anything sticks"),
   projectNode("ensembly", "Operator kernel under Grok Bot and Grok Build — HITL gates, T1 ledger"),
+  projectNode(
+    "participatory-mesh",
+    "CommandFabric on a Tailscale mesh — bots dispatch allowlisted verbs only"
+  ),
 ];
 
 export const hireSystemEdges: SystemEdge[] = [
@@ -45,7 +49,8 @@ export const hireSystemEdges: SystemEdge[] = [
   { from: "cvdata", to: "collab-finder", label: "role-fit packs" },
   { from: "ensembly", to: "collab-finder", label: "gates before promote" },
   { from: "ensembly", to: "devprofile", label: "agent skills + verify" },
+  { from: "ensembly", to: "participatory-mesh", label: "authorize, then dispatch" },
 ];
 
 export const hireSystemsCaption =
-  "cvdata feeds the site and the apply cockpit. ensembly gates both.";
+  "cvdata feeds the site and the apply cockpit. ensembly gates promote. participatory-mesh runs only the allowlist.";

@@ -17,9 +17,10 @@ export const BUILDING_FALLBACK_URL: Record<string, string> = {
   premflow: "https://github.com/thecuriousts/premflow",
   ensembly: "https://github.com/thecuriousts/ensembly",
   "shelf-life": "https://github.com/thecuriousts/shelf-life",
+  "participatory-mesh": "https://github.com/thecuriousts/participatory-mesh",
 };
 
-export const BUILDING_PRIVATE = new Set(["mesh"]);
+export const BUILDING_PRIVATE = new Set<string>();
 
 export const BUILDING_BLURB: Record<string, string> = {
   "collab-finder":
@@ -32,7 +33,8 @@ export const BUILDING_BLURB: Record<string, string> = {
   "arch-machine": "Hardened Arch workstation installer and control plane.",
   "shellyxz.sh":
     "Portable multi-shell kernel. PATH contract, plugin isolation, not a dotfiles dump.",
-  mesh: "Private cooking for devices and networks. Not a public repo.",
+  "participatory-mesh":
+    "On-prem CommandFabric for a Tailscale mesh. Untrusted bots dispatch allowlisted commands only — the product is the allowlist, not chat. Pairs with ensembly: authorize and claim, then dispatch onto another participant.",
   elomaxz: "Elm-style hybrid MVU for C. Tagged messages, pure update, first-class Cmd/Effect.",
   adaptate:
     "npm library: one optional shared model, per-consumer required fields at runtime, OpenAPI interop.",
@@ -93,7 +95,7 @@ export const BUILDING_PROJECTS: readonly AtlasProject[] = [
   { key: "premflow", cluster: "foundations-infra", area: "systems" },
   { key: "arch-machine", cluster: "foundations-infra", area: "systems" },
   { key: "shellyxz.sh", cluster: "foundations-infra", area: "systems" },
-  { key: "mesh", cluster: "foundations-infra", area: "systems" },
+  { key: "participatory-mesh", cluster: "foundations-infra", area: "systems" },
   {
     key: "thepulimaangani",
     cluster: "cultural-creative",

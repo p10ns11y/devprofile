@@ -1,70 +1,41 @@
 import type { HireContent } from "@/lib/hire-content";
-
-const nodeLayout: Record<string, { x: number; y: number }> = {
-  cvdata: { x: 200, y: 150 },
-  devprofile: { x: 320, y: 70 },
-  "collab-finder": { x: 320, y: 240 },
-  ensembly: { x: 80, y: 240 },
-};
+import type { SystemNode } from "@/lib/hire-systems";
 
 type HireSystemsGraphProps = {
   systems: HireContent["systems"];
 };
 
+function SysNode({ node }: { node: SystemNode }) {
+  const className = `hire-phi__sys-node${node.id === "cvdata" ? " hire-phi__sys-node--hub" : ""}`;
+  if (node.href) {
+    return (
+      <a href={node.href} className={className}>
+        {node.label}
+      </a>
+    );
+  }
+  return <span className={className}>{node.label}</span>;
+}
+
 export function HireSystemsGraph({ systems }: HireSystemsGraphProps) {
+  const byId = Object.fromEntries(systems.nodes.map((node) => [node.id, node]));
+
   return (
     <figure className="hire-phi__map" aria-labelledby="hire-systems-caption">
-      <svg
-        viewBox="0 0 400 320"
-        className="hire-phi__map-svg"
-        role="img"
-        aria-labelledby="hire-systems-caption"
-      >
-        <title id="hire-systems-svg-title">
-          How cvdata, devprofile, collab-finder, and ensembly connect
-        </title>
+      <ol className="hire-phi__sys-flows">
         {systems.edges.map((edge) => {
-          const from = nodeLayout[edge.from];
-          const to = nodeLayout[edge.to];
+          const from = byId[edge.from];
+          const to = byId[edge.to];
           if (!from || !to) return null;
           return (
-            <g key={`${edge.from}-${edge.to}`}>
-              <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} className="hire-phi__map-edge" />
-              <text
-                x={(from.x + to.x) / 2}
-                y={(from.y + to.y) / 2 - 6}
-                className="hire-phi__map-edge-label"
-                textAnchor="middle"
-              >
-                {edge.label}
-              </text>
-            </g>
+            <li key={`${edge.from}-${edge.to}`} className="hire-phi__sys-flow">
+              <SysNode node={from} />
+              <span className="hire-phi__sys-edge">{edge.label}</span>
+              <SysNode node={to} />
+            </li>
           );
         })}
-        {systems.nodes.map((node) => {
-          const pos = nodeLayout[node.id];
-          if (!pos) return null;
-          const isHub = node.id === "cvdata";
-          return (
-            <g key={node.id}>
-              <circle
-                cx={pos.x}
-                cy={pos.y}
-                r={isHub ? 28 : 22}
-                className={`hire-phi__map-node${isHub ? " hire-phi__map-node--hub" : ""}`}
-              />
-              <text
-                x={pos.x}
-                y={pos.y + 4}
-                className="hire-phi__map-node-label"
-                textAnchor="middle"
-              >
-                {node.label}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
+      </ol>
       <figcaption id="hire-systems-caption" className="hire-phi__map-caption">
         {systems.caption}
       </figcaption>

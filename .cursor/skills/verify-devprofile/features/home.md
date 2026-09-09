@@ -10,7 +10,7 @@ Production hire landing: φ-flow `HireLanding` from cvdata → derive → CSS. H
 
 - `home-hero` — name, role, thesis, Building primary + text View CV / Q&A / Articles.
 - `home-about` — “What you are hiring” auto-fit proofs.
-- `home-systems` — evidenced graph (cvdata, devprofile, collab-finder, ensembly).
+- `home-systems` — packed flows (cvdata, devprofile, collab-finder, ensembly, participatory-mesh).
 - `home-work` — Evidence column pack.
 - `home-contact` — form + Direct channels (no XChat, no Talk instead).
 

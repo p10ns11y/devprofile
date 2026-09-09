@@ -124,7 +124,8 @@ export function HireLanding({ content }: HireLandingProps) {
               How the pieces connect
             </h2>
             <p className="hire-phi__section-lead">
-              Named projects share gates and receipts — not separate demos with copied prompts.
+              One record, one operator kernel, one allowlist. Not separate demos with copied
+              prompts.
             </p>
           </header>
           <div className={layout.systems}>

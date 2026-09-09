@@ -762,6 +762,20 @@
       "updated": "2026-09-05"
     },
     {
+      "id": 19,
+      "name": "participatory-mesh",
+      "key": "participatory-mesh",
+      "description": "On-prem CommandFabric for a Tailscale mesh — untrusted bots dispatch allowlisted commands only. Pairs with ensembly: authorize and claim, then dispatch onto another participant.",
+      "type": "hobby_oss",
+      "url": "https://github.com/thecuriousts/participatory-mesh",
+      "technologies": ["Elixir", "Erlang/OTP", "Tailscale"],
+      "status": "active",
+      "is_open_source": true,
+      "impact": "Allowlisted multi-device dispatch",
+      "created": "2026-09-08",
+      "updated": "2026-09-09"
+    },
+    {
       "id": 14,
       "name": "agent-prompt-tuning-lab",
       "key": "agent-prompt-tuning-lab",
@@ -1024,7 +1038,7 @@
     "seat": "Open to AI-native product or agent roles, and to senior fullstack roles where using AI is already part of the job.",
     "thesis": "Scarce: shipping agentic workflows with taste, evals, and judgment — not another React demo.",
     "summary": "",
-    "now_disclaimer": "Named projects below are the March to August 2026 slice, not the whole interval from December 2024.",
+    "now_disclaimer": "Named projects below are the March to September 2026 slice, not the whole interval from December 2024.",
     "proofs": [
       {
         "n": 1,

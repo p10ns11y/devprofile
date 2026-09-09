@@ -19,4 +19,13 @@ describe("hireSystemNodes", () => {
       expect(ids.has(edge.to)).toBe(true);
     }
   });
+
+  it("puts participatory-mesh on the ensembly dispatch edge", () => {
+    expect(hireSystemNodes.some((node) => node.id === "participatory-mesh")).toBe(true);
+    expect(hireSystemEdges).toContainEqual({
+      from: "ensembly",
+      to: "participatory-mesh",
+      label: "authorize, then dispatch",
+    });
+  });
 });

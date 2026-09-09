@@ -24,6 +24,12 @@ describe("hire-phi-flow pack rules", () => {
     expect(block(".hire-phi__interactives")).not.toContain("flex-end");
   });
 
+  it("packs systems flows instead of stretching edge labels across a void", () => {
+    expect(block(".hire-phi__sys-flows")).toContain("fit-content");
+    expect(block(".hire-phi__sys-flow")).toContain("flex-start");
+    expect(block(".hire-phi__sys-flow")).not.toContain("space-between");
+  });
+
   it("packs channel icon and text instead of stretching a canyon", () => {
     const channel = block(".hire-phi__channel");
     expect(channel).not.toContain("space-between");

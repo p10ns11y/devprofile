@@ -32,7 +32,7 @@ Pretext (`@chenglou/pretext`) is **out** unless CSS packing later needs measured
 
 1. **Hero `#home`** — φ-split cluster (`@container`). Left: `Available now · Stockholm`, name, role. Right: seat + thesis **start-aligned**. Under that, **one packed CTA cluster** (Building + View CV · Q&A · Articles + social), `width: fit-content`, **centered**. End-align the packed cluster only if center orphans a leftover row. Never `width: 100%` + `flex-end` / `space-between`. Hero is content-tall, not `100vh`, so the next heading peeks.
 2. **Proofs `#about`** — “What you are hiring”. Auto-fit dense cards (`minmax(var(--hire-proof-min), 1fr)`). Eyebrow `PROOF NN` end-aligned; title + prose **start-aligned**. Repo links are in-card text, **not** reach/interactives.
-3. **Systems `#systems`** — Evidenced graph + legend. Nodes/edges only from `cvdata` projects + the cvdata hub. Stack by default; pair only when derive says the disclaimer is short **and** the legend is light.
+3. **Systems `#systems`** — Evidenced **packed flows** + legend (node → label → node, `fit-content` — not a 7px SVG with labels in the void). Nodes/edges only from `cvdata` projects + the cvdata hub, including **participatory-mesh**. Stack by default; pair only when derive says the disclaimer is short **and** the legend is light.
 4. **Evidence `#work`** — CSS `columns` pack. Family is a per-card eyebrow (no Product | Development void). Link rows may use reach; body text stays start-aligned.
 5. **Contact `#contact`** — Named exception: equal columns from 768px. Form + Direct channels. No Talk CTAs, no duplicate CV row. Each channel is a **tight row**: icon + label/value with a φ gap — not icon at one edge and text at the other. X: icon + `@handle` only.
 

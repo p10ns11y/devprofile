@@ -14,7 +14,7 @@ See [PLAN.md](PLAN.md) for the 8 optical marks this landing must pass.
 |---|-----------|------|
 | 1 | Quiet leverage | One thesis line earns the scroll; wit in copy, not chrome |
 | 2 | Connected systems | Glanceable evidenced graph — not a toy pile |
-| 3 | Depth glanceable | Outsider sees how cvdata → devprofile / collab-finder / ensembly connect |
+| 3 | Depth glanceable | Outsider sees how cvdata → devprofile / collab-finder / ensembly / participatory-mesh connect |
 | 4 | Restraint | **Building** primary; **View CV** text secondary; no Talk-instead; no dual filled buttons |
 | 5 | Editorial | Type + whitespace; no SaaS metric tiles, purple/neon, glassmorphism |
 | 6 | Receipts | Figures and links from **cvdata** only; honest OSS vs employment |
