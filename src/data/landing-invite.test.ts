@@ -12,11 +12,17 @@ describe("landingInvite", () => {
     expect(blob).not.toMatch(/https:\/\/kanithanj\.ai/);
   });
 
-  it("keeps six numbered proofs and the 2026 slice disclaimer", () => {
+  it("keeps six numbered proofs and distilled thesis", () => {
     expect(landingInvite.proofs).toHaveLength(6);
     expect(landingInvite.proofs.map((proof) => proof.n)).toEqual([1, 2, 3, 4, 5, 6]);
-    expect(landingInvite.nowDisclaimer).toMatch(/March to August 2026/);
+    expect(landingInvite.thesis).toMatch(/Scarce: shipping agentic workflows/);
     const collab = landingInvite.proofs.find((proof) => proof.n === 2);
     expect(collab?.href?.url).toContain("github.com/p10ns11y/collab-finder");
+  });
+
+  it("exposes quiet hero links separate from primary CTA", () => {
+    expect(landingInvite.heroActions).toHaveLength(1);
+    expect(landingInvite.heroActions[0]?.label).toBe("View CV");
+    expect(landingInvite.heroLinks.map((l) => l.label)).toEqual(["Building", "Q&A", "Articles"]);
   });
 });
