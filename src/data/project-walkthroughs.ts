@@ -61,7 +61,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
   {
     slug: "collab-finder",
     title: "collab-finder — job hunt desktop app",
-    lede: "Desktop app for high-fit job hunting. kanithanj.ai is an installable binary from GitHub Releases, not a website. You approve before anything hits your master CV or apply files. Hunt screens, pack checks, pipeline, local database. Not a chat app.",
+    lede: "Desktop app for high-fit job hunting. You approve before anything hits your master CV or apply files. Hunt screens, pack checks, pipeline, local database. Not a chat app.",
     eyebrow: "Career · desktop app",
     audience: "Recruiters and engineers who want job-hunt screens, not another chat window.",
     outcomes: [
@@ -91,7 +91,7 @@ export const PROJECT_WALKTHROUGHS: readonly ProjectWalkthrough[] = [
         blocks: [
           {
             type: "callout",
-            text: "Desktop app for job hunting. kanithanj.ai is an installable binary from GitHub Releases, not a website. Screens check cost, fit, and rate. You approve before the master CV on the public portfolio site or apply files change. Not a chat app.",
+            text: "Desktop app for job hunting. Screens check cost, fit, and rate. You approve before the master CV on the public portfolio site or apply files change. Not a chat app.",
           },
           {
             type: "cards",

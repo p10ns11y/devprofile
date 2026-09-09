@@ -4,7 +4,7 @@ path: /shipped/collab-finder
 
 # collab-finder walkthrough
 
-Job hunt desktop app walkthrough for kanithanj.ai (installable GitHub Release binary, not a website). Product band first: hunt loop, Preferences pack health, Pipeline, local SQLite ledger. Architecture Mermaid follows. Desktop app — not a chat replacement.
+Job hunt desktop app walkthrough for kanithanj.ai. Product band first: hunt loop, Preferences pack health, Pipeline, local SQLite ledger. Architecture Mermaid follows. Desktop app — not a chat replacement.
 
 Map stays accurate to shipped **collab-finder** `main`: Preferences pack health, Pipeline hunt progress, CV generate CLI (kanithanj.cv). Do not invent live metrics.
 
@@ -43,4 +43,4 @@ Preconditions: `pnpm verify:doctor` is ok.
 - Product cards live in `projects-section--product`, not the tech band.
 - Pack-health and pipeline **Example** lines are demo labels only. They are not a live operator machine.
 - Plain framing: desktop app for job hunting. Do not describe this page as a chat app, ensembly, life-os, or botify walkthrough.
-- kanithanj.ai is the desktop binary name. The second CTA is **GitHub release** (`/releases/latest`), not a live website.
+- Second CTA is **GitHub release** (`/releases/latest`).

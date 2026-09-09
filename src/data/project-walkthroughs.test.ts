@@ -158,14 +158,11 @@ describe("shipped walkthroughs", () => {
     expect(techText).not.toMatch(/transformer/);
   });
 
-  it("points collab-finder live CTA at GitHub Releases, not a website", () => {
+  it("points collab-finder live CTA at GitHub Releases", () => {
     const project = getProjectWalkthrough("collab-finder");
     expect(project).toBeDefined();
     expect(project?.liveUrl).toBe("https://github.com/p10ns11y/collab-finder/releases/latest");
     expect(project?.liveLabel).toBe("GitHub release");
-    expect(project?.lede.toLowerCase()).toMatch(/github release/);
-    expect(project?.lede.toLowerCase()).toMatch(/not a website/);
-    expect(project?.lede.toLowerCase()).not.toMatch(/job hunting at kanithanj/);
     expect(project?.liveUrl).not.toBe("https://kanithanj.ai");
 
     const cvProject = cvdata.projects.find((row) => row.key === "collab-finder");
