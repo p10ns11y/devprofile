@@ -30,9 +30,9 @@ Pretext (`@chenglou/pretext`) is **out** unless CSS packing later needs measured
 
 ## Section recipes (production `/` only)
 
-1. **Hero `#home`** — φ-split cluster (`@container`). Left: `Available now · Stockholm`, name, role. Right: seat + thesis **start-aligned**. Under that, **one packed CTA cluster** (Building + View CV · Q&A · Articles + social), `width: fit-content`, **centered**. End-align the packed cluster only if center orphans a leftover row. Never `width: 100%` + `flex-end` / `space-between`. Hero is content-tall, not `100vh`, so the next heading peeks.
-2. **Proofs `#about`** — “What you are hiring”. Auto-fit dense cards (`minmax(var(--hire-proof-min), 1fr)`). Eyebrow `PROOF NN` end-aligned; title + prose **start-aligned**. Repo links are in-card text, **not** reach/interactives.
-3. **Systems `#systems`** — Evidenced **packed flows** + legend (node → label → node, `fit-content` — not a 7px SVG with labels in the void). Nodes/edges only from `cvdata` projects + the cvdata hub, including **participatory-mesh**. Stack by default; pair only when derive says the disclaimer is short **and** the legend is light.
+1. **Hero `#home`** — φ-split cluster (`@container`). Left: `Available now · Stockholm`, name, role. Right: seat + thesis **start-aligned**. Under that, **one packed CTA cluster** (Building + View CV · Q&A · Articles + social), `width: fit-content`, **centered**. End-align the packed cluster only if center orphans a leftover row. Never `width: 100%` + `flex-end` / `space-between`. Hero is `min-height: 100dvh` so `#about` is not a cut strip on the first screen.
+2. **Proofs `#about`** — “What you are hiring”. Auto-fit dense cards (`minmax(var(--hire-proof-min), 1fr)`). Title + prose **start-aligned**. No `PROOF NN` eyebrow. Repo links are in-card text, **not** reach/interactives.
+3. **Systems `#systems`** — Same full `LandscapeAtlas` as `/building` (five clusters → four docks → operator loop). `cvdata` is the record plane in prose, not a left-band star. `ensembly` sits at the sink. Brief evolve line + embedded atlas; keep **Full landscape on Building** link. Stack by default.
 4. **Evidence `#work`** — CSS `columns` pack. Family is a per-card eyebrow (no Product | Development void). Link rows may use reach; body text stays start-aligned.
 5. **Contact `#contact`** — Named exception: equal columns from 768px. Form + Direct channels. No Talk CTAs, no duplicate CV row. Each channel is a **tight row**: icon + label/value with a φ gap — not icon at one edge and text at the other. X: icon + `@handle` only.
 
@@ -66,7 +66,7 @@ Operator SoT: attached marks (do not edit). Gates green alone is not enough.
 |---|------|------|
 | 1 | Building main, CV secondary | Primary filled button = Building; View CV is a text link |
 | 2 | Right-container CTAs aligned | Packed cluster **centered** under thesis; social sits with the CTAs — not stranded at the far right |
-| 3 | Hero shorter than the fold | `#about` heading (“What you are hiring”) peeks in a 1280×720 first viewport |
+| 3 | Hero owns the first desktop screen | `#about` heading and proof cards sit at or below the fold in a 1280×720 first viewport |
 | 4 | Proof prose not right-aligned | `.hire-phi__proof-line` / titles `text-align: start`; no interactives class on the grid |
 | 5 | Content-led pack | `auto-fit` / `columns`; grep-clean of `span-8`/`span-4` in hire JSX |
 | 6 | No “XChat” | X channel is icon + `@handle` — label does not need explaining |
@@ -88,7 +88,7 @@ pnpm taste:check
 
 Playwright (Brave Beta, when available): `tests/e2e/homepage.spec.ts`.
 
-Optical: screenshot `#home`+`#about` peek, proof cards, evidence pack, Direct channels — desktop 1280 and phone 375 — against the attached marks.
+Optical: screenshot `#home` (full first screen), `#about` proof cards unclipped, evidence pack, Direct channels — desktop 1280 and phone 375 — against the attached marks.
 
 ---
 

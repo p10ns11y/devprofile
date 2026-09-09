@@ -65,7 +65,7 @@ RouteBand → Section → Cluster → Cell → Mark
 | Grid φ-split | Hero | `.phi-split` |
 | Auto-fit dense | Proofs | `repeat(auto-fit, minmax(var(--hire-proof-min), 1fr))` |
 | CSS columns | Evidence | `data-evidence-cols` from derive |
-| Stack | Systems (default) | pair only when derive says balanced |
+| Hire atlas | Systems `#systems` | full LandscapeAtlas (same as /building) |
 
 ---
 
@@ -97,7 +97,8 @@ The operator mark was: related marks stay a **tight pack**. For the hero CTA clu
 
 | Exception | Ratio | Reason |
 |-----------|-------|--------|
-| Systems graph SVG | fixed `viewBox` | Diagram, not typographic φ |
+| Hire atlas | LandscapeAtlas SVG (full) | Same renderer and scene as /building; not a CSS-grid fake |
+| Hero fold | `min-height: 100dvh` | First screen is the hero; `#about` is not clipped |
 | Auto-fit proofs | `repeat(auto-fit, minmax(...))` | Derived dense pack |
 | Contact form / channels | `1fr 1fr` from 768px | Named: `contact-split` |
 

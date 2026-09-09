@@ -14,7 +14,7 @@ Editorial hierarchy and whitespace carry prestige. Cards only when they hold evi
 |------|---------------|--------|
 | Display | `--font-display` (Instrument Serif) | Name, section titles, thesis |
 | Body | `--font-body` (DM Sans) | Prose, UI, labels |
-| Eyebrow | 0.8125rem, uppercase, tracking 0.06em, `--color-text-muted` | Place, PROOF NN, family |
+| Eyebrow | 0.8125rem, uppercase, tracking 0.06em, `--color-text-muted` | Place, family |
 
 Section titles: `clamp(1.5rem, 3vw, 2rem)`, display family, weight 400.
 
@@ -46,7 +46,7 @@ Related marks stay packed. Never stretch a row and park siblings on opposite edg
 | Hero CTA + social | Pack (`fit-content`), **center** under thesis | End-align the *whole pack* only if center orphans a leftover row |
 | Evidence links | Pack with start-aligned prose | — |
 | Direct channels | Icon + text, `flex-start` + gap | Never `space-between` |
-| Proofs | Title + prose start; `PROOF NN` eyebrow may sit at the card end | No interactives class |
+| Proofs | Title + prose start | No interactives class |
 
 **Forbidden:** `center-then-end` (center, then `flex-end` once a container is “wide enough”); full-width `flex-end` / `space-between` on CTA, social, or channel rows.
 
