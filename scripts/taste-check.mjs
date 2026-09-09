@@ -59,10 +59,10 @@ if (css.includes("@container (min-width: 20rem)")) {
 if (/\.hire-phi__channel\s*\{[^}]*space-between/.test(css)) {
   hits.push("hire-phi-flow.css: channel row uses space-between (icon/text canyon)");
 }
-if (/\.hire-phi__hero-reach \.hire-phi__actions\s*\{[^}]*width:\s*100%/.test(css)) {
+if (/\.hire-phi__hero-reach \.hire-phi__actions\s*\{[^}]*(?<!-)width:\s*100%/.test(css)) {
   hits.push("hire-phi-flow.css: hero actions stretched to full width");
 }
-if (/\.hire-phi__hero-social-wrap\s*\{[^}]*width:\s*100%/.test(css)) {
+if (/\.hire-phi__hero-social-wrap\s*\{[^}]*(?<!-)width:\s*100%/.test(css)) {
   hits.push("hire-phi-flow.css: hero social wrap stretched to full width");
 }
 

@@ -14,8 +14,8 @@ describe("hire-phi-flow pack rules", () => {
     expect(css).not.toContain("@container (min-width: 28rem)");
     expect(block(".hire-phi__hero-reach")).toContain("fit-content");
     expect(block(".hire-phi__hero-reach")).toContain("justify-content: center");
-    expect(block(".hire-phi__hero-reach .hire-phi__actions")).not.toMatch(/width:\s*100%/);
-    expect(block(".hire-phi__hero-social-wrap")).not.toMatch(/width:\s*100%/);
+    expect(block(".hire-phi__hero-reach .hire-phi__actions")).not.toMatch(/(?<!-)width:\s*100%/);
+    expect(block(".hire-phi__hero-social-wrap")).not.toMatch(/(?<!-)width:\s*100%/);
   });
 
   it("keeps evidence link rows packed with start-aligned prose", () => {
