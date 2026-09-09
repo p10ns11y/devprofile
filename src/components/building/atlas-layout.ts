@@ -242,8 +242,11 @@ export function dockLabelX(areaDock: AreaDock): number {
   return areaDock.x + areaDock.rx + AREA_LABEL_GAP;
 }
 
-export function visibleProjects(): PlacedStar[] {
+export function visibleProjects(keys?: readonly string[]): PlacedStar[] {
   return BUILDING_PROJECTS.flatMap((project) => {
+    if (keys && !keys.includes(project.key) && project.role !== "operator") {
+      return [];
+    }
     const catalogRow = projectByKey(project.key);
     const href = catalogRow?.url ?? BUILDING_FALLBACK_URL[project.key];
     const detail = BUILDING_BLURB[project.key] ?? catalogRow?.description;
@@ -273,8 +276,8 @@ export function visibleProjects(): PlacedStar[] {
   });
 }
 
-export function layoutAtlas(): AtlasScene {
-  const resolved = visibleProjects();
+export function layoutAtlas(keys?: readonly string[]): AtlasScene {
+  const resolved = visibleProjects(keys);
   const members = resolved.filter((star) => star.role !== "operator");
   const operatorSeed = resolved.find((star) => star.role === "operator");
 
@@ -326,17 +329,17 @@ export function layoutAtlas(): AtlasScene {
     bandCursorY += bandHeight + BAND_SEAM;
   }
 
-  let sceneHeight = Math.max(bandCursorY + BOTTOM_PAD, 520);
+  let sceneHeight = bandCursorY + BOTTOM_PAD;
   const sink = { x: SINK_X, y: sceneHeight / 2 };
   const dockX = lerp(starX + VOID_PAD, sink.x - HOLE_CLEARANCE, 0.62);
 
-  const dockDrafts = BUILDING_AREAS.map((areaRecord) => {
+  const dockDrafts = BUILDING_AREAS.flatMap((areaRecord) => {
     const memberYs = stars.filter((star) => star.area === areaRecord.id).map((star) => star.y);
-    const centroidY =
-      memberYs.length === 0
-        ? sink.y
-        : memberYs.reduce((total, starY) => total + starY, 0) / memberYs.length;
-    return { areaRecord, centroidY };
+    if (memberYs.length === 0) {
+      return [];
+    }
+    const centroidY = memberYs.reduce((total, starY) => total + starY, 0) / memberYs.length;
+    return [{ areaRecord, centroidY }];
   });
   const packOrder = dockDrafts
     .map((draft, draftIndex) => ({ draftIndex, y: draft.centroidY }))

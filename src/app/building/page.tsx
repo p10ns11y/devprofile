@@ -1,4 +1,5 @@
 import { BuildingSpacemap, LandscapeAtlas } from "@/components/building/landscape-atlas";
+import { WhiteHoleGlossHost, WhiteHoleTip } from "@/components/building/white-hole-gloss";
 import { PageShell } from "@/components/site/PageShell";
 import { SiteButton } from "@/components/site/SiteButton";
 
@@ -22,7 +23,7 @@ export default function BuildingPage() {
             craft.
           </p>
         </header>
-        <LandscapeAtlas />
+        <LandscapeAtlas sinkExtra={<WhiteHoleGlossHost />} afterFigure={<WhiteHoleTip />} />
         <BuildingSpacemap />
       </article>
     </PageShell>

@@ -21,14 +21,17 @@ test.describe("Homepage", () => {
     await page.goto("/");
 
     await openMobileMenuIfNeeded(page, isMobile);
-    await siteNav(page, isMobile).locator('a[href="/x"]').click();
-    await expect(page).toHaveURL(/\/x$/);
+    // /x client transitions panic Turbopack locally; /building is the hire path under test.
+    await siteNav(page, isMobile).locator('a[href="/building"]').click();
+    await expect(page).toHaveURL(/\/building$/);
 
     await page.goBack();
     await expect(page).toHaveURL("/");
   });
 
-  test("should display hero section correctly", async ({ page }) => {
+  test("should display a distilled hero with Building primary and text secondaries", async ({
+    page,
+  }) => {
     await page.goto("/");
 
     await expect(page.locator("#home")).toBeVisible();
@@ -37,15 +40,57 @@ test.describe("Homepage", () => {
       "Peramanathan Sathyamoorthy"
     );
     await expect(hero.getByText("AI-native product / agent engineer")).toBeVisible();
-    await expect(hero.getByText(/Available now/)).toBeVisible();
+    await expect(hero.getByText(/Available now · Stockholm/)).toBeVisible();
+    await expect(
+      hero.getByText(/Scarce: shipping agentic workflows with taste, evals, and judgment/)
+    ).toBeVisible();
     await expect(hero.getByText(leftoverOneLiner)).toHaveCount(0);
     await expect(hero.getByRole("link", { name: "View CV" })).toBeVisible();
     await expect(hero.getByRole("link", { name: "Building" })).toHaveAttribute(
       "href",
       "/?building=view"
     );
+    await expect(hero.getByRole("link", { name: "Building" })).toHaveClass(/bg-brand/);
+    await expect(hero.getByRole("link", { name: "Q&A" })).toHaveAttribute("href", "/qa");
+    await expect(hero.getByRole("link", { name: "Articles" })).toHaveAttribute("href", "/articles");
+    await expect(hero.getByRole("link", { name: "Talk instead" })).toHaveCount(0);
     await expect(hero.getByRole("link", { name: "Download CV" })).toHaveCount(0);
     await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveCount(0);
+    await expect(hero.locator(".hire-phi__text-link")).toHaveCount(3);
+  });
+
+  test("should keep proof prose start-aligned and keep #about below the desktop fold", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.goto("/");
+
+    const proofs = page.locator("#about .hire-phi__proof-line");
+    await expect(proofs.first()).toHaveCSS("text-align", "start");
+    await expect(page.locator("#about .hire-phi__proofs--auto-fit")).not.toHaveClass(
+      /hire-phi__interactives/
+    );
+
+    const aboutBox = await page.locator("#hire-about-heading").boundingBox();
+    expect(aboutBox).toBeTruthy();
+    expect(aboutBox && aboutBox.y).toBeGreaterThanOrEqual(720);
+
+    const proofCard = await page.locator("#about .hire-phi__proof-card").first().boundingBox();
+    expect(proofCard).toBeTruthy();
+    expect(proofCard && proofCard.y).toBeGreaterThanOrEqual(720);
+  });
+
+  test("should keep contact direct channels as links only", async ({ page }) => {
+    await page.goto("/#contact");
+
+    const contact = page.locator("#contact");
+    await expect(contact.getByRole("heading", { name: "Direct channels" })).toBeVisible();
+    await expect(contact.getByRole("link", { name: "Talk instead" })).toHaveCount(0);
+    await expect(contact.getByRole("link", { name: /Talk/ })).toBeVisible();
+    await expect(contact.getByRole("link", { name: /Talk/ })).toHaveAttribute("href", "/call");
+    await expect(contact.locator(".hire-phi__contact-actions")).toHaveCount(0);
+    await expect(contact.getByRole("link", { name: /sathyam\.peram@gmail\.com/ })).toBeVisible();
+    await expect(contact.getByRole("link", { name: /@peramanathan/ })).toBeVisible();
   });
 
   test("should keep certificates off the primary homepage scroll", async ({ page }) => {
@@ -62,8 +107,8 @@ test.describe("Homepage", () => {
     await expect(page.locator("#work")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Evidence" })).toBeVisible();
     const work = page.locator("#work");
-    await expect(work.getByRole("heading", { name: "Product", exact: true })).toBeVisible();
-    await expect(work.getByRole("heading", { name: "Development", exact: true })).toBeVisible();
+    await expect(work.getByText("Product", { exact: true }).first()).toBeVisible();
+    await expect(work.getByText("Development", { exact: true }).first()).toBeVisible();
     await expect(work.getByText("70%")).toBeVisible();
     await expect(page.getByRole("heading", { name: "Behavior Driven Development" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Senior Software Engineer" })).toHaveCount(0);
@@ -82,7 +127,7 @@ test.describe("Homepage", () => {
     );
     await expect(
       work.locator(
-        'a.claim-evidence__link[href="https://www.npmjs.com/package/babel-plugin-react-intl-messages-generator"]'
+        'a[href="https://www.npmjs.com/package/babel-plugin-react-intl-messages-generator"]'
       )
     ).toHaveText("Source");
   });

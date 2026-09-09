@@ -19,7 +19,22 @@ export function VoiceTalkLink({ className, children = "Talk instead" }: VoiceTal
   );
 }
 
-/** Contact-section channel row — gated like nav and hero Talk links. */
+/** Hire Direct-channels row — always linked; /call itself owns the enable gate. */
+export function HireVoiceTalkChannel() {
+  return (
+    <Link href="/call" className="hire-phi__channel" data-lcv="voice-talk-link">
+      <span className="hire-phi__channel-icon" aria-hidden="true">
+        <AudioLines className="size-4" />
+      </span>
+      <span className="hire-phi__channel-text">
+        <span className="hire-phi__channel-label">Talk</span>
+        <span className="hire-phi__channel-value">Voice reception — same answers as Q&amp;A</span>
+      </span>
+    </Link>
+  );
+}
+
+/** Legacy contact-section channel row — gated like hero Talk links. */
 export function VoiceTalkContactChannel() {
   if (!isVoiceReceivePublic()) return null;
 

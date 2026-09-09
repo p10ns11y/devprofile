@@ -46,7 +46,8 @@ describe("building landscape", () => {
       const href = projectByKey(project.key)?.url ?? BUILDING_FALLBACK_URL[project.key];
       expect(href, project.key).toMatch(/^https:\/\//);
     }
-    expect(BUILDING_PRIVATE.has("mesh")).toBe(true);
+    expect(BUILDING_PRIVATE.has("mesh")).toBe(false);
+    expect(BUILDING_PRIVATE.has("participatory-mesh")).toBe(false);
   });
 
   it("keeps plugins in the reactor, ensembly as operator, foundations-infra as merged systems", () => {
@@ -60,9 +61,14 @@ describe("building landscape", () => {
     expect(ensembly?.role).toBe("operator");
     expect(ensembly?.cluster).toBe("agentic-reactor");
     expect(foundationsKeys).toEqual(
-      expect.arrayContaining(["arch-machine", "shellyxz.sh", "mesh"])
+      expect.arrayContaining(["arch-machine", "shellyxz.sh", "packedbox", "participatory-mesh"])
     );
+    expect(BUILDING_FALLBACK_URL.packedbox).toContain("p10ns11y/packedbox");
+    expect(BUILDING_BLURB.packedbox).toMatch(/Melt of shellyxz\.sh and arch-machine/);
     expect(BUILDING_FALLBACK_URL.plugins).toContain("p10ns11y/plugins");
+    expect(BUILDING_FALLBACK_URL["participatory-mesh"]).toContain(
+      "thecuriousts/participatory-mesh"
+    );
   });
 
   it("keeps hop curves, trunks, and grid out of label ink", () => {
@@ -82,6 +88,32 @@ describe("building landscape", () => {
     expect(BUILDING_SINGULARITY.tooltip).toMatch(/Penrose white hole/);
     expect(BUILDING_SINGULARITY.tooltip).toMatch(/white hole emits/i);
     expect(BUILDING_SINGULARITY.sublabel).toBe("white hole");
+  });
+
+  it("describes participatory-mesh as an OTP allowlist mesh, not a Tailscale product", () => {
+    expect(BUILDING_BLURB["participatory-mesh"]).toMatch(/Elixir\/OTP/);
+    expect(BUILDING_BLURB["participatory-mesh"]).toMatch(/allowlist/);
+    expect(BUILDING_BLURB["participatory-mesh"]).not.toMatch(/Tailscale/i);
+  });
+
+  it("publishes participatory-mesh on the systems band instead of private mesh", () => {
+    const keys = BUILDING_PROJECTS.map((project) => project.key);
+    expect(keys).toContain("participatory-mesh");
+    expect(keys).not.toContain("mesh");
+    expect(layoutAtlas().stars.some((star) => star.key === "participatory-mesh")).toBe(true);
+    expect(layoutAtlas().stars.find((star) => star.key === "participatory-mesh")?.href).toContain(
+      "thecuriousts/participatory-mesh"
+    );
+  });
+
+  it("lays out a hire cut without empty-area docks", () => {
+    const scene = layoutAtlas(["collab-finder", "devprofile", "participatory-mesh"]);
+    expect(scene.stars.map((star) => star.key).sort()).toEqual(
+      ["collab-finder", "devprofile", "participatory-mesh"].sort()
+    );
+    expect(scene.operator?.key).toBe("ensembly");
+    expect(scene.docks.map((dock) => dock.area).sort()).toEqual(["career", "systems"]);
+    expect(scene.bands).toHaveLength(3);
   });
 
   it("does not reuse systems as a cluster id", () => {
