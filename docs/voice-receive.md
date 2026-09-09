@@ -22,7 +22,7 @@ Inbound speech-to-speech on the hire site: a portfolio receptionist answers prof
 | Browser auth | Ephemeral client secrets only (`xai-client-secret.{token}` in `sec-websocket-protocol`). **Never** ship `XAI_API_KEY` to the client. |
 | Token mint | Server `POST https://api.x.ai/v1/realtime/client_secrets` via `POST /api/voice/ephemeral-token` |
 | Grounding | Prefer `file_search` + `XAI_PROFILE_COLLECTION`; fallback server tool `profile_search` wrapping `handleQaRequest` |
-| Route | `/call` (+ “Talk instead” from `/qa` and homepage when enabled) |
+| Route | `/call` (+ “Talk instead” from `/qa` when enabled; not a homepage CTA) |
 | Feature flag | `ENABLE_VOICE_RECEIVE` (server) · `NEXT_PUBLIC_ENABLE_VOICE_RECEIVE` (UI links) |
 
 Reference: [xAI Speech-to-Speech](https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech) · [Ephemeral tokens](https://docs.x.ai/developers/model-capabilities/audio/ephemeral-tokens)

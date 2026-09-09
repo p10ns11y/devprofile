@@ -4,13 +4,15 @@ path: /
 
 # Home
 
-Hiring landing: name from cvdata, invite copy, GitRoll aside, About, credentials, experience, contact.
+Production hire landing: φ-flow `HireLanding` from cvdata → derive → CSS. Hero, proofs, systems, evidence, contact.
 
 ## Sub-features
 
-- `home-hero` — name heading and Profile actions (View experience, View CV, Live GitHub activity).
-- `home-about` — “What you are hiring”.
-- `home-credentials` — Credentials and Browse all certificates.
+- `home-hero` — name, role, thesis, Building primary + text View CV / Q&A / Articles.
+- `home-about` — “What you are hiring” auto-fit proofs.
+- `home-systems` — evidenced graph (cvdata, devprofile, collab-finder, ensembly).
+- `home-work` — Evidence column pack.
+- `home-contact` — form + Direct channels (no XChat, no Talk instead).
 
 ## How to get to it (user POV)
 
@@ -22,11 +24,13 @@ Hiring landing: name from cvdata, invite copy, GitRoll aside, About, credentials
 Preconditions: `pnpm verify:doctor` is ok.
 
 - **UX / content.** `VERIFY_FEATURE=/ pnpm test:e2e:ux`.
-- **Pixels.** `VERIFY_FEATURE=/ pnpm test:e2e:visual`. GitRoll CURISM is a static `/images/curism.png` — do not mark it `data-visual-live` (that paints Playwright’s magenta mask over real art).
-- **Phrases.** `tests/e2e/homepage.spec.ts` still owns the 9+ years line and CTA names.
+- **Pixels.** `VERIFY_FEATURE=/ pnpm test:e2e:visual`.
+- **Phrases.** `tests/e2e/homepage.spec.ts` owns CTA names, proof alignment, and evidence receipts.
 
 ## Gotchas
 
 - Header sits inside layout `<main>`, so there is no `role=banner`.
 - “Get in touch” is header/contact, not a hero CTA.
-- `#projects` is not mounted on this page.
+- `#projects` and `#academic` are not mounted on this page.
+- Course proof links live on `/certificates`.
+- Reach/interactives classes belong on hero actions and evidence links only — never on the proofs grid.
