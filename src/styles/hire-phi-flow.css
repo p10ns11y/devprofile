@@ -200,37 +200,28 @@
     margin-bottom: var(--phi-gap-2);
   }
 
+  /* Packed CTA + social cluster. Center the pack — never width:100% + flex-end. */
   .hire-phi__hero-reach {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: var(--phi-gap-2);
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
   }
 
   .hire-phi__hero-reach .hire-phi__actions {
     justify-content: center;
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
   }
 
   .hire-phi__hero-social-wrap {
     display: flex;
-    width: 100%;
+    width: fit-content;
     justify-content: center;
-  }
-
-  @container (min-width: 28rem) {
-    .hire-phi__hero-reach {
-      align-items: flex-end;
-    }
-
-    .hire-phi__hero-reach .hire-phi__actions {
-      justify-content: flex-end;
-    }
-
-    .hire-phi__hero-social-wrap {
-      justify-content: flex-end;
-    }
   }
 
   .hire-phi__arc-note {
@@ -490,17 +481,10 @@
     text-decoration: underline;
   }
 
-  /* Link/action rows only — never attach to proof grids */
+  /* Link/action rows only — pack with start-aligned prose. Never attach to proof grids. */
   .hire-phi__interactives {
-    justify-content: center;
-    text-align: center;
-  }
-
-  @container (min-width: 20rem) {
-    .hire-phi__interactives {
-      justify-content: flex-end;
-      text-align: end;
-    }
+    justify-content: flex-start;
+    text-align: start;
   }
 
   .hire-phi__contact {
@@ -559,12 +543,16 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--phi-gap-3);
+    justify-content: flex-start;
+    gap: var(--phi-gap-2);
     padding: var(--phi-gap-2) 0;
     border-bottom: 1px solid var(--color-border-subtle);
     text-decoration: none;
     color: inherit;
+  }
+
+  .hire-phi__channel:last-child {
+    border-bottom: 0;
   }
 
   .hire-phi__channel:hover {
@@ -581,10 +569,10 @@
   .hire-phi__channel-text {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 0.125rem;
     min-width: 0;
-    text-align: end;
+    text-align: start;
   }
 
   .hire-phi__channel-label {

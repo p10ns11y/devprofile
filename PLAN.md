@@ -30,11 +30,11 @@ Pretext (`@chenglou/pretext`) is **out** unless CSS packing later needs measured
 
 ## Section recipes (production `/` only)
 
-1. **Hero `#home`** — φ-split cluster (`@container`). Left: `Available now · Stockholm`, name, role. Right: seat (cvdata), thesis pull-quote, **one** reach group (primary **Building** + text **View CV · Q&A · Articles** + social). Reach: center on narrow, end on wide. Hero is content-tall, not `100vh`, so the next heading peeks.
+1. **Hero `#home`** — φ-split cluster (`@container`). Left: `Available now · Stockholm`, name, role. Right: seat + thesis **start-aligned**. Under that, **one packed CTA cluster** (Building + View CV · Q&A · Articles + social), `width: fit-content`, **centered**. End-align the packed cluster only if center orphans a leftover row. Never `width: 100%` + `flex-end` / `space-between`. Hero is content-tall, not `100vh`, so the next heading peeks.
 2. **Proofs `#about`** — “What you are hiring”. Auto-fit dense cards (`minmax(var(--hire-proof-min), 1fr)`). Eyebrow `PROOF NN` end-aligned; title + prose **start-aligned**. Repo links are in-card text, **not** reach/interactives.
 3. **Systems `#systems`** — Evidenced graph + legend. Nodes/edges only from `cvdata` projects + the cvdata hub. Stack by default; pair only when derive says the disclaimer is short **and** the legend is light.
 4. **Evidence `#work`** — CSS `columns` pack. Family is a per-card eyebrow (no Product | Development void). Link rows may use reach; body text stays start-aligned.
-5. **Contact `#contact`** — Named exception: equal columns from 768px. Form + Direct channels. No Talk CTAs, no duplicate CV row. X: icon + `@handle` only. Email / Location: icon + label + value; text block end-aligned.
+5. **Contact `#contact`** — Named exception: equal columns from 768px. Form + Direct channels. No Talk CTAs, no duplicate CV row. Each channel is a **tight row**: icon + label/value with a φ gap — not icon at one edge and text at the other. X: icon + `@handle` only.
 
 Academic / course proofs stay on `/certificates` (not a sixth landing section).
 
@@ -65,12 +65,12 @@ Operator SoT: attached marks (do not edit). Gates green alone is not enough.
 | # | Mark | Pass |
 |---|------|------|
 | 1 | Building main, CV secondary | Primary filled button = Building; View CV is a text link |
-| 2 | Right-container CTAs aligned | One reach group: center (narrow) or end (wide) — not left-tucked or mixed |
+| 2 | Right-container CTAs aligned | Packed cluster **centered** under thesis; social sits with the CTAs — not stranded at the far right |
 | 3 | Hero shorter than the fold | `#about` heading (“What you are hiring”) peeks in a 1280×720 first viewport |
 | 4 | Proof prose not right-aligned | `.hire-phi__proof-line` / titles `text-align: start`; no interactives class on the grid |
 | 5 | Content-led pack | `auto-fit` / `columns`; grep-clean of `span-8`/`span-4` in hire JSX |
 | 6 | No “XChat” | X channel is icon + `@handle` — label does not need explaining |
-| 7 | Channel rows | Icon start; Email/Location label+value end-aligned; hairline dividers |
+| 7 | Channel rows | Icon + text packed with a small gap; no `space-between` void |
 | 8 | No wasted major voids | Evidence is column-pack; systems stack when the legend is heavy |
 
 ---

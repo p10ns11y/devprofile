@@ -3,7 +3,8 @@ import type { HireContent } from "@/lib/hire-content";
 /** Web-only layout plan — derived from content shape, never forks cvdata facts. */
 export type HirePackMode = "stack" | "stack-pair" | "auto-fit-dense" | "columns" | "contact-split";
 
-export type HireReachZone = "center-then-end";
+/** Pack the action group, then center it. End-align only if center would orphan a leftover. */
+export type HireReachZone = "center-first";
 
 export type HireInteractiveScope = "hero-reach" | "evidence-links";
 
@@ -86,7 +87,7 @@ export function deriveHireLayout(content: HireLayoutContent): HireLayoutPlan {
     hero: {
       mode: "stack-pair",
       peek: true,
-      reach: "center-then-end",
+      reach: "center-first",
       primaryAction,
     },
     proofs: { mode: "auto-fit-dense", minCell: proofMinCell(content.proofs.length) },
@@ -94,7 +95,7 @@ export function deriveHireLayout(content: HireLayoutContent): HireLayoutPlan {
     evidence: { mode: "columns", counts: evidenceColumnCounts(evidenceCardCount(content)) },
     contact: { mode: "contact-split" },
     interactives: {
-      reach: "center-then-end",
+      reach: "center-first",
       scopes: interactiveScopes(content),
     },
   };

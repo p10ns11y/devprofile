@@ -19,8 +19,8 @@ See [PLAN.md](PLAN.md) for the 8 optical marks this landing must pass.
 | 5 | Editorial | Type + whitespace; no SaaS metric tiles, purple/neon, glassmorphism |
 | 6 | Receipts | Figures and links from **cvdata** only; honest OSS vs employment |
 | 7 | Space | Evidence packs dense; no rigid family gutter |
-| 7b | Reach | Hero actions + evidence links center→end; proof prose start-aligned |
-| 7c | Channels | X is icon + `@handle`; Email/Location icon + label + value |
+| 7b | CTA pack | Hero actions + social are one **centered** pack; evidence links pack with their prose; proof prose start-aligned |
+| 7c | Channels | Icon + `@handle` / Email / Location as a **tight row** — no canyon between icon and text |
 | 8 | Product voice | Hire-visitor readable; no Steward/coach/meta |
 | 9 | Subtract first | Remove Talk CTAs and text walls before adding chrome |
 
@@ -39,6 +39,8 @@ See [PLAN.md](PLAN.md) for the 8 optical marks this landing must pass.
 | Coach/meta copy | Rewrite for hire visitor or delete |
 | Nested `<main>` | Single `#main` from layout |
 | Wasted major void | CSS-column evidence pack |
+| `center-then-end` / full-width `flex-end` | Pack the group (`fit-content`), then center. Right only if center orphans a leftover |
+| Channel `space-between` | Icon and text belong together; `gap` not a stretched gutter |
 
 ---
 

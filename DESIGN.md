@@ -37,6 +37,19 @@ Section titles: `clamp(1.5rem, 3vw, 2rem)`, display family, weight 400.
 
 φ gaps live on `.hire-phi` (`--phi-gap-0` … `--phi-gap-5`). Band inset: `--marketing-inset-x`. Header offset: `--header-offset`.
 
+## Alignment (hire `/`)
+
+Related marks stay packed. Never stretch a row and park siblings on opposite edges.
+
+| Surface | Default | Escalation |
+|---------|---------|------------|
+| Hero CTA + social | Pack (`fit-content`), **center** under thesis | End-align the *whole pack* only if center orphans a leftover row |
+| Evidence links | Pack with start-aligned prose | — |
+| Direct channels | Icon + text, `flex-start` + gap | Never `space-between` |
+| Proofs | Title + prose start; `PROOF NN` eyebrow may sit at the card end | No interactives class |
+
+**Forbidden:** `center-then-end` (center, then `flex-end` once a container is “wide enough”); full-width `flex-end` / `space-between` on CTA, social, or channel rows.
+
 ## Where primary is allowed
 
 1. Hero `hero_actions` — first action only (`variant: primary`) → **Building**.
