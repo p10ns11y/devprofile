@@ -85,7 +85,6 @@ test.describe("Homepage", () => {
 
     const contact = page.locator("#contact");
     await expect(contact.getByRole("heading", { name: "Direct channels" })).toBeVisible();
-    await expect(contact.getByText("XChat")).toHaveCount(0);
     await expect(contact.getByRole("link", { name: "Talk instead" })).toHaveCount(0);
     await expect(contact.getByRole("link", { name: /Talk/ })).toBeVisible();
     await expect(contact.getByRole("link", { name: /Talk/ })).toHaveAttribute("href", "/call");

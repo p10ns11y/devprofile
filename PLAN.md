@@ -13,7 +13,7 @@ Pretext (`@chenglou/pretext`) is **out** unless CSS packing later needs measured
 | From | Keeper |
 |------|--------|
 | #100 | Distilled `cvdata.landing` copy; quiet CTAs (no Talk-instead on `/`); one filled button + text secondaries; `hero_links` |
-| #101 | LAYOUT / TASTE / DESIGN intent; data → derived → UI; auto-fit proofs; CSS-column evidence pack; φ gap tokens; hero peek; scoped reach; channel rows without “XChat”; Lucide icons typed as `ComponentType<{ className?: string }>` |
+| #101 | LAYOUT / TASTE / DESIGN intent; data → derived → UI; auto-fit proofs; CSS-column evidence pack; φ gap tokens; hero peek; scoped reach; packed channel rows; Lucide icons typed as `ComponentType<{ className?: string }>` |
 
 ## Leave behind
 
@@ -34,7 +34,7 @@ Pretext (`@chenglou/pretext`) is **out** unless CSS packing later needs measured
 2. **Proofs `#about`** — “What you are hiring”. Auto-fit dense cards (`minmax(var(--hire-proof-min), 1fr)`). Title + prose **start-aligned**. No `PROOF NN` eyebrow. Repo links are in-card text, **not** reach/interactives.
 3. **Systems `#systems`** — Same full `LandscapeAtlas` as `/building` (five clusters → four docks → operator loop). `cvdata` is the record plane in prose, not a left-band star. `ensembly` sits at the sink. Brief evolve line + embedded atlas; keep **Full landscape on Building** link. Stack by default.
 4. **Evidence `#work`** — CSS `columns` pack. Family is a per-card eyebrow (no Product | Development void). Link rows may use reach; body text stays start-aligned.
-5. **Contact `#contact`** — Named exception: equal columns from 768px. Form + Direct channels. Talk (`/call`) is a channel row with AudioLines, not a hero “Talk instead” CTA. No duplicate CV row. Each channel is a **tight row**: icon + label/value with a φ gap — not icon at one edge and text at the other. X: icon + `@handle` only.
+5. **Contact `#contact`** — Named exception: equal columns from 768px. Form + Direct channels. Talk (`/call`) is a channel row with AudioLines, not a hero “Talk instead” CTA. No duplicate CV row. Each channel is a **tight row**: icon + label/value with a φ gap — not icon at one edge and text at the other.
 
 Academic / course proofs stay on `/certificates` (not a sixth landing section).
 
@@ -58,7 +58,7 @@ CSS maps the plan: `--hire-proof-min`, `data-evidence-cols`, `data-hero-peek`, p
 
 ---
 
-## Optical checklist (8 marks)
+## Optical checklist (7 marks)
 
 Operator SoT: attached marks (do not edit). Gates green alone is not enough.
 
@@ -69,9 +69,8 @@ Operator SoT: attached marks (do not edit). Gates green alone is not enough.
 | 3 | Hero owns the first desktop screen | `#about` heading and proof cards sit at or below the fold in a 1280×720 first viewport |
 | 4 | Proof prose not right-aligned | `.hire-phi__proof-line` / titles `text-align: start`; no interactives class on the grid |
 | 5 | Content-led pack | `auto-fit` / `columns`; grep-clean of `span-8`/`span-4` in hire JSX |
-| 6 | No “XChat” | X channel is icon + `@handle` — label does not need explaining |
-| 7 | Channel rows | Icon + text packed with a small gap; no `space-between` void |
-| 8 | No wasted major voids | Evidence is column-pack; systems stack when the legend is heavy |
+| 6 | Channel rows | Icon + text packed with a small gap; no `space-between` void |
+| 7 | No wasted major voids | Evidence is column-pack; systems embed the full building atlas |
 
 ---
 

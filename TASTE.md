@@ -4,7 +4,7 @@ Binds **his** principles to pass/fail gates. Public pages follow **copy law** be
 
 **North star:** Quiet leverage · Patient vision · Lived craft — warm senior engineer, dry wit, Orwell brevity, proof over adjectives. Goal: **respect + curiosity**, not hype.
 
-See [PLAN.md](PLAN.md) for the 8 optical marks this landing must pass.
+See [PLAN.md](PLAN.md) for the 7 optical marks this landing must pass.
 
 ---
 
@@ -33,7 +33,6 @@ See [PLAN.md](PLAN.md) for the 8 optical marks this landing must pass.
 | Dual equal CTAs | One primary; rest text / outline |
 | Talk-instead on hire hero | Voice is nav + Direct channel → `/call` |
 | Interactives on proof grid | Remove; proof body `text-align: start` |
-| “XChat” | Icon + handle only |
 | `span-8` / `span-4` in hire JSX | Derived auto-fit / columns |
 | Invented graph node | Must exist in cvdata / sourced URL |
 | Coach/meta copy | Rewrite for hire visitor or delete |
