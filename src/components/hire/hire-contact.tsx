@@ -35,10 +35,16 @@ export function HireContact({ content, layoutClass }: HireContactProps) {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const channels = [
+  const channels: Array<{
+    icon: typeof XIcon;
+    label: string | null;
+    value: string;
+    href: string;
+    external?: boolean;
+  }> = [
     {
       icon: XIcon,
-      label: "XChat",
+      label: null,
       value: cvdata.cv_social_links.x_handle,
       href: cvdata.cv_social_links.x,
       external: true,
@@ -132,7 +138,7 @@ export function HireContact({ content, layoutClass }: HireContactProps) {
             </form>
           </div>
 
-          <aside className="hire-phi__cluster">
+          <aside className="hire-phi__contact-aside">
             {content.contactAside ? (
               <p className="hire-phi__section-lead">{content.contactAside}</p>
             ) : null}
@@ -140,20 +146,18 @@ export function HireContact({ content, layoutClass }: HireContactProps) {
             <address className="hire-phi__channels not-italic">
               {channels.map((ch) => (
                 <a
-                  key={ch.label}
+                  key={ch.href}
                   href={ch.href}
-                  className="hire-phi__channel hire-phi__interactives"
+                  className="hire-phi__channel"
                   {...(ch.external
                     ? { target: "_blank", rel: "nofollow noreferrer noopener" }
                     : {})}
                 >
-                  <span aria-hidden="true">
-                    <ch.icon className="w-4 h-4" decorative />
+                  <span className="hire-phi__channel-icon" aria-hidden="true">
+                    <ch.icon className="size-4" decorative />
                   </span>
-                  <span>
-                    <span className="hire-phi__channel-label">{ch.label}</span>
-                    <span className="hire-phi__channel-value">{ch.value}</span>
-                  </span>
+                  {ch.label ? <span className="hire-phi__channel-label">{ch.label}</span> : null}
+                  <span className="hire-phi__channel-value">{ch.value}</span>
                 </a>
               ))}
             </address>

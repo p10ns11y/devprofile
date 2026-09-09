@@ -1065,9 +1065,9 @@
       }
     ],
     "arc": { "label": "Articles", "url": "/articles" },
-    "hero_actions": [{ "href": "/?cv=view", "label": "View CV", "variant": "primary" }],
+    "hero_actions": [{ "href": "/?building=view", "label": "Building", "variant": "primary" }],
     "hero_links": [
-      { "href": "/?building=view", "label": "Building" },
+      { "href": "/?cv=view", "label": "View CV" },
       { "href": "/qa", "label": "Q&A" },
       { "href": "/articles", "label": "Articles" }
     ],

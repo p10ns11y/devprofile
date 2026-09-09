@@ -16,4 +16,21 @@ describe("deriveHireLayout", () => {
     expect(classes.proofs).toBe("hire-phi__proofs--auto-fit");
     expect(classes.proofs).not.toMatch(/span-/);
   });
+
+  it("derives Building as primary CTA and hero peek + scoped reach", () => {
+    const content = getHireContent();
+    const plan = deriveHireLayout(content);
+    expect(plan.hero.primaryAction).toBe("Building");
+    expect(plan.hero.peek).toBe(true);
+    expect(plan.hero.reach).toBe("center-then-end");
+    expect(plan.interactives.scopes).toEqual(["hero-reach", "evidence-links"]);
+    expect(plan.interactives.scopes).not.toContain("proofs");
+  });
+
+  it("exposes hero reach and peek hooks without proofs interactives", () => {
+    const classes = hireLayoutClassNames(deriveHireLayout(getHireContent()));
+    expect(classes.heroReach).toBe("hire-phi__hero-reach");
+    expect(classes.heroPeek).toBe("hire-phi__hero--peek");
+    expect(classes).not.toHaveProperty("interactives");
+  });
 });

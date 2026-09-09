@@ -16,7 +16,7 @@ test.describe("Hire landing taste gates", () => {
       await expect(hero.getByText("Voice reception")).toHaveCount(0);
 
       const primaryButtons = hero.locator("a.bg-brand, button.bg-brand");
-      const filledPrimary = hero.getByRole("link", { name: "View CV" });
+      const filledPrimary = hero.getByRole("link", { name: "Building" });
       await expect(filledPrimary).toBeVisible();
       await expect(primaryButtons).toHaveCount(1);
 

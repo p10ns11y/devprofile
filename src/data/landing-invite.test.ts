@@ -22,7 +22,7 @@ describe("landingInvite", () => {
 
   it("exposes quiet hero links separate from primary CTA", () => {
     expect(landingInvite.heroActions).toHaveLength(1);
-    expect(landingInvite.heroActions[0]?.label).toBe("View CV");
-    expect(landingInvite.heroLinks.map((l) => l.label)).toEqual(["Building", "Q&A", "Articles"]);
+    expect(landingInvite.heroActions[0]?.label).toBe("Building");
+    expect(landingInvite.heroLinks.map((l) => l.label)).toEqual(["View CV", "Q&A", "Articles"]);
   });
 });

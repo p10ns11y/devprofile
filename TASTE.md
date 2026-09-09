@@ -13,12 +13,12 @@ Binds **his** principles to pass/fail gates. Not a generic portfolio essay. Publ
 | 1 | Quiet leverage | Calm hierarchy; wit in copy, not chrome; one thesis line earns the scroll |
 | 2 | Connected systems | Glanceable **graph** (nodes + labeled edges) or equivalent; not a toy pile |
 | 3 | Depth glanceable | Outsider can see *how* cvdata → devprofile → collab-finder → ensembly connect without a wall of prose |
-| 4 | Restraint | **One** primary CTA + text/outline secondaries; no Talk-instead stacks; no dual filled buttons; no orphan button rows |
+| 4 | Restraint | **Building** primary button; **View CV** text secondary; no Talk-instead stacks; no dual filled buttons |
 | 5 | Editorial | Type + whitespace carry prestige; evidence in rows/cards with hierarchy — not SaaS metric tiles, purple/neon AI skin, glassmorphism, identical icon grids |
 | 6 | Receipts | Figures, where-lines, repo links from **cvdata / shipped** only; honest OSS vs employment scope |
 | 7 | Viewports | Must-show unclipped @ phone-short 375×667, phone, tablet, desktop; `document` overflow-x = 0; LCV stress on must-show OK |
 | 7b | Space discipline | Evidence packs dense — no rigid family columns with tall empty gutter |
-| 7c | Reach | Interactives (Source, GitHub, IEEE) center-to-right in cells — not left-tucked |
+| 7c | Reach | Hero actions + evidence links center→right; proof prose start-aligned; channels icon+label+value in one row |
 | 8 | Product voice | Hire-visitor readable; first-person where he speaks; no Steward/coach/meta (“this page proves…”, “designed for reviewers”) |
 | 9 | Agent-verifiable | `data-lcv` marks, feature-map paths, `pnpm lcv:probe`, `pnpm test:lab-taste`, `DESIGN.md` tokens |
 | 10 | Subtract first | Remove Talk CTAs and text walls before adding new layout chrome |
@@ -39,7 +39,9 @@ Binds **his** principles to pass/fail gates. Not a generic portfolio essay. Publ
 | LinkedIn-ese | Passionate, synergy, thought leader | cvdata-grounded lines; delete adjectives |
 | Identical card grid | Same-weight tiles shouting | One editorial lead + varied proof weights |
 | Wasted major void | Rigid two-column family split (tall Product, short Development) with empty gutter | CSS-column evidence pack; family as card eyebrow |
-| Left-tucked interactives | Source/GitHub links hugging cell start | `.hire-phi__interactives` — center → end reach zone |
+| Left-tucked interactives | Source/GitHub links hugging cell start | `.hire-phi__interactives` on evidence links + `.hire-phi__hero-reach` — not proofs grid |
+| Proof prose end-aligned | Right-aligned proof body from reach leak | Remove interactives from proofs; `.hire-phi__proof-link` start-aligned |
+| Awkward channel label | “XChat” or stacked label/value with wide gutter | Row: icon · label · value; label `X` + `@handle` |
 | Fixed span choreography | `span-8`/`span-4` in JSX as layout authority | Derived auto-fit + CSS dense pack |
 | Invented graph node | Project not in cvdata/shipped | Remove node or edge |
 | Coach/meta copy | Sentence only makes sense to Steward ↔ operator | Rewrite for hire visitor or delete |

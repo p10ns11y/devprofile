@@ -29,7 +29,7 @@ export function HireLanding({ content, labNotice = false }: HireLandingProps) {
       ) : null}
       <Header />
 
-      <section id="home" className="hire-phi__hero">
+      <section id="home" className={`hire-phi__hero ${layout.heroPeek}`}>
         <div className="phi-route-band hire-phi__cluster">
           <div className={`phi-split hire-phi__split ${layout.hero}`}>
             <div>
@@ -44,30 +44,32 @@ export function HireLanding({ content, labNotice = false }: HireLandingProps) {
               <blockquote className="hire-phi__thesis" {...lcvMustShow}>
                 {content.thesis}
               </blockquote>
-              <nav className="hire-phi__actions" aria-label="Profile actions">
-                {content.heroActions.map((action) => (
-                  <SiteButton key={action.href} href={action.href} variant={action.variant}>
-                    {action.label}
-                  </SiteButton>
-                ))}
-                {content.heroLinks.length > 0 ? (
-                  <span className={layout.textLinks}>
-                    {content.heroLinks.map((link, index) => (
-                      <span key={link.href} className="hire-phi__text-links__item">
-                        {index > 0 ? (
-                          <span className="hire-phi__text-links__sep" aria-hidden="true">
-                            ·
-                          </span>
-                        ) : null}
-                        <Link href={link.href} className="hire-phi__text-link">
-                          {link.label}
-                        </Link>
-                      </span>
-                    ))}
-                  </span>
-                ) : null}
-              </nav>
-              <SocialLinks size="compact" align="start" />
+              <div className={layout.heroReach}>
+                <nav className="hire-phi__actions" aria-label="Profile actions">
+                  {content.heroActions.map((action) => (
+                    <SiteButton key={action.href} href={action.href} variant={action.variant}>
+                      {action.label}
+                    </SiteButton>
+                  ))}
+                  {content.heroLinks.length > 0 ? (
+                    <span className={layout.textLinks}>
+                      {content.heroLinks.map((link, index) => (
+                        <span key={link.href} className="hire-phi__text-links__item">
+                          {index > 0 ? (
+                            <span className="hire-phi__text-links__sep" aria-hidden="true">
+                              ·
+                            </span>
+                          ) : null}
+                          <Link href={link.href} className="hire-phi__text-link">
+                            {link.label}
+                          </Link>
+                        </span>
+                      ))}
+                    </span>
+                  ) : null}
+                </nav>
+                <SocialLinks size="compact" className="hire-phi__hero-social" />
+              </div>
             </div>
           </div>
         </div>
@@ -82,7 +84,7 @@ export function HireLanding({ content, labNotice = false }: HireLandingProps) {
             {content.summary ? <p className="hire-phi__section-lead">{content.summary}</p> : null}
           </header>
 
-          <div className={`${layout.proofs} ${layout.interactives}`}>
+          <div className={layout.proofs}>
             {content.proofs.map((proof) => (
               <article key={proof.n} className="hire-phi__proof-card">
                 <span className="hire-phi__proof-eyebrow">
@@ -91,7 +93,7 @@ export function HireLanding({ content, labNotice = false }: HireLandingProps) {
                 <h3 className="hire-phi__proof-title">{proof.title}</h3>
                 <p className="hire-phi__proof-line">{proof.line}</p>
                 {proof.href ? (
-                  <a href={proof.href.url} className="hire-phi__proof-link hire-phi__interactives">
+                  <a href={proof.href.url} className="hire-phi__proof-link">
                     {proof.href.label} →
                   </a>
                 ) : null}

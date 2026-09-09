@@ -11,7 +11,7 @@ Native CSS only. Document flow owns layout; GPU aesthetics (gradients, blur, mot
 | Layer | Source | Rule |
 |-------|--------|------|
 | **cvdata** | Textual SoT | Every statement about the person. Keys identify facts. Name stays **`cvdata`**. |
-| **Derived** | `hire-layout-derived.ts` | Web-only pack modes, column counts, reach zone. Pure functions — facts never fork. |
+| **Derived** | `hire-layout-derived.ts` | Web-only pack modes, column counts, reach scope, hero peek, CTA hierarchy. Pure functions — facts never fork. |
 | **UI + CSS** | `HireLanding` + `hire-phi-flow.css` | Renders the plan. **No fixed span classes in JSX as layout authority.** |
 
 Pipeline: **cvdata → hire-content → deriveHireLayout → CSS hooks**.
@@ -63,7 +63,9 @@ Implemented in `src/styles/hire-phi-flow.css`:
 | `.hire-phi__proofs--auto-fit` | Dense auto-fit proof grid (derived min cell width) |
 | `.hire-phi__systems--stack` | Single-column systems pack (default) |
 | `.hire-phi__evidence-pack` | CSS columns — dense card flow; no rigid family columns |
-| `.hire-phi__interactives` | Links/CTAs aligned center (narrow) → end (reach zone) |
+| `.hire-phi__hero--peek` | Shorter hero — next section heading peeks in first viewport |
+| `.hire-phi__hero-reach` | Hero actions + social: center (narrow) → end (wide); **not** proofs |
+| `.hire-phi__interactives` | Evidence link rows only — center (narrow) → end (reach zone) |
 | `.phi-gap-*` | Margin/padding utilities bound to gap tokens |
 
 ### Gap tokens (φ series, rem)
@@ -99,7 +101,7 @@ Implemented in `src/styles/hire-phi-flow.css`:
 2. **Shared start line** — section titles and hero name align to one left edge within the band.
 3. **No orphan CTA rows** — primary + secondaries wrap as one flex group; never a lone button on its own row at desktop when avoidable.
 4. **No wasted major voids** — do not split uneven content into rigid equal columns (e.g. Product | Development) that leave a tall empty gutter; use CSS columns, dense grid, or single flow so cards pack.
-5. **Interactive reach zone** — links and secondary CTAs in evidence/contact cells align **center on narrow clusters**, **end (right) from ~20rem cluster width** — optical center-to-right for right-handed reach; prose stays start-aligned.
+5. **Interactive reach zone** — hero action row + evidence link rows align **center on narrow clusters**, **end (right) from ~20–28rem cluster width**. Prose and proof body stay start-aligned; **never** apply reach to proofs grid containers.
 6. **Single `#main`** — from root layout; page content lives inside, never nested `<main>`.
 7. **Must-show marks** — thesis + contact heading carry `data-lcv="must-show"`.
 

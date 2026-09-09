@@ -45,7 +45,7 @@
     .phi-split,
     .hire-phi__split {
       grid-template-columns: 1.618fr 1fr;
-      align-items: end;
+      align-items: start;
     }
 
     .phi-split--inverse,
@@ -58,7 +58,7 @@
     .phi-split:not(.hire-phi__split),
     .hire-phi__split {
       grid-template-columns: 1.618fr 1fr;
-      align-items: end;
+      align-items: start;
     }
   }
 
@@ -170,7 +170,6 @@
 
   .hire-phi__section-header {
     margin-bottom: var(--phi-gap-4);
-    max-width: 42rem;
   }
 
   .hire-phi__section-title {
@@ -189,8 +188,56 @@
   }
 
   .hire-phi__hero {
-    padding-block: var(--phi-gap-5);
-    padding-top: calc(var(--phi-gap-5) + var(--header-offset, 5rem));
+    padding-block: var(--phi-gap-4);
+    padding-top: calc(var(--phi-gap-4) + var(--header-offset, 5rem));
+  }
+
+  .hire-phi__hero--peek {
+    padding-bottom: var(--phi-gap-2);
+  }
+
+  .hire-phi__hero--peek .hire-phi__seat {
+    margin-bottom: var(--phi-gap-2);
+  }
+
+  .hire-phi__hero--peek .hire-phi__thesis {
+    margin-bottom: var(--phi-gap-2);
+  }
+
+  .hire-phi__hero-reach {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--phi-gap-2);
+    width: 100%;
+  }
+
+  @container (min-width: 28rem) {
+    .hire-phi__hero-reach {
+      align-items: flex-end;
+    }
+  }
+
+  .hire-phi__hero-reach .hire-phi__actions {
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  @container (min-width: 28rem) {
+    .hire-phi__hero-reach .hire-phi__actions {
+      justify-content: flex-end;
+    }
+  }
+
+  .hire-phi__hero-social {
+    justify-content: center;
+  }
+
+  @container (min-width: 28rem) {
+    .hire-phi__hero-social {
+      justify-content: flex-end;
+    }
   }
 
   .hire-phi__arc-note {
@@ -251,8 +298,8 @@
     font-weight: 500;
     color: var(--color-link);
     text-decoration: none;
-    align-self: flex-end;
-    text-align: end;
+    align-self: flex-start;
+    text-align: start;
   }
 
   .hire-phi__proof-link:hover {
@@ -468,7 +515,7 @@
     text-decoration: underline;
   }
 
-  /* Interactive reach zone — center-to-right within cells */
+  /* Interactive reach zone — hero actions + evidence links only (never proofs grid) */
   .hire-phi__interactives {
     justify-content: center;
     text-align: center;
@@ -496,6 +543,11 @@
       grid-template-columns: 1fr 1fr;
       align-items: start;
     }
+  }
+
+  .hire-phi__contact-aside {
+    padding: var(--phi-gap-3);
+    min-width: 0;
   }
 
   .hire-phi__contact-form {
@@ -531,6 +583,7 @@
 
   .hire-phi__channel {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: var(--phi-gap-2);
     padding: var(--phi-gap-2) 0;
@@ -543,18 +596,25 @@
     color: var(--color-link);
   }
 
+  .hire-phi__channel-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
   .hire-phi__channel-label {
-    display: block;
     font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--color-text-muted);
+    flex-shrink: 0;
   }
 
   .hire-phi__channel-value {
-    display: block;
     font-size: 0.9375rem;
+    min-width: 0;
   }
 
   .hire-phi__contact-actions {
