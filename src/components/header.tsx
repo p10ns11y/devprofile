@@ -1,13 +1,12 @@
 "use client";
 
-import { ChevronDown, X as CloseIcon, Menu } from "lucide-react";
+import { AudioLines, ChevronDown, X as CloseIcon, Menu } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { type ComponentType, useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/components/ui/utils";
 import { lcvInteract } from "@/lib/lcv-interact";
-import { isVoiceReceivePublic } from "@/lib/voice/config/resolve-voice-receive";
 import cvdata from "../data/cvdata.json";
 import { Icon, type IconName } from "./icon";
 import { SiteButton } from "./site/SiteButton";
@@ -18,19 +17,19 @@ type NavItem = {
   name: string;
   href: string;
   icon?: IconName;
+  /** Lucide (or compatible) glyph when not using brand SVG iconsMap. */
+  Mark?: ComponentType<{ className?: string }>;
   iconOnly?: boolean;
 };
 
 const primaryNav: NavItem[] = [];
-
-const voiceNavItem: NavItem[] = isVoiceReceivePublic() ? [{ name: "Talk", href: "/call" }] : [];
 
 const standaloneNav: NavItem[] = [
   { name: "Articles", href: "/articles" },
   { name: "Shipped", href: "/shipped" },
   { name: "Building", href: "/building" },
   { name: "Q&A", href: "/qa" },
-  ...voiceNavItem,
+  { name: "Talk", href: "/call", Mark: AudioLines },
   { name: "CV", href: "__cv__" },
   { name: "Profile", href: "/profile" },
   { name: "X", href: "/x", icon: "X", iconOnly: true },
@@ -139,9 +138,13 @@ export function Header() {
           />
           <span className={mobile ? undefined : "lg:sr-only"}>{item.name}</span>
         </span>
-      ) : item.icon ? (
+      ) : item.icon || item.Mark ? (
         <span className={cn("inline-flex items-center gap-2", mobile && "justify-center")}>
-          <Icon name={item.icon} className="size-4 shrink-0 fill-current" aria-hidden="true" />
+          {item.icon ? (
+            <Icon name={item.icon} className="size-4 shrink-0 fill-current" aria-hidden="true" />
+          ) : item.Mark ? (
+            <item.Mark className="size-4 shrink-0" aria-hidden="true" />
+          ) : null}
           {item.name}
         </span>
       ) : (

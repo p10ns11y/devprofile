@@ -87,7 +87,8 @@ test.describe("Homepage", () => {
     await expect(contact.getByRole("heading", { name: "Direct channels" })).toBeVisible();
     await expect(contact.getByText("XChat")).toHaveCount(0);
     await expect(contact.getByRole("link", { name: "Talk instead" })).toHaveCount(0);
-    await expect(contact.getByRole("link", { name: "Talk", exact: true })).toHaveCount(0);
+    await expect(contact.getByRole("link", { name: /Talk/ })).toBeVisible();
+    await expect(contact.getByRole("link", { name: /Talk/ })).toHaveAttribute("href", "/call");
     await expect(contact.locator(".hire-phi__contact-actions")).toHaveCount(0);
     await expect(contact.getByRole("link", { name: /sathyam\.peram@gmail\.com/ })).toBeVisible();
     await expect(contact.getByRole("link", { name: /@peramanathan/ })).toBeVisible();

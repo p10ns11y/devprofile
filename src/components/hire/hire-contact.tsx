@@ -7,6 +7,7 @@ import { XIcon } from "@/components/icon";
 import { SiteButton } from "@/components/site/SiteButton";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { HireVoiceTalkChannel } from "@/components/voice-talk-link";
 import cvdata from "@/data/cvdata.json";
 import type { HireContent } from "@/lib/hire-content";
 import { lcvMustShow } from "@/lib/hire-lcv";
@@ -165,6 +166,7 @@ export function HireContact({ content, layoutClass }: HireContactProps) {
                   </span>
                 </a>
               ))}
+              <HireVoiceTalkChannel />
             </address>
           </aside>
         </div>

@@ -15,7 +15,7 @@ See [PLAN.md](PLAN.md) for the 8 optical marks this landing must pass.
 | 1 | Quiet leverage | One thesis line earns the scroll; wit in copy, not chrome |
 | 2 | Connected systems | Glanceable evidenced graph — not a toy pile |
 | 3 | Depth glanceable | Outsider sees the same /building atlas: clusters → docks → operator loop; cvdata is the record behind the public surfaces |
-| 4 | Restraint | **Building** primary; **View CV** text secondary; no Talk-instead; no dual filled buttons |
+| 4 | Restraint | **Building** primary; **View CV** text secondary; no Talk-instead on hero; Talk lives in nav + Direct channels |
 | 5 | Editorial | Type + whitespace; no SaaS metric tiles, purple/neon, glassmorphism |
 | 6 | Receipts | Figures and links from **cvdata** only; honest OSS vs employment |
 | 7 | Space | Evidence packs dense; no rigid family gutter |
@@ -31,7 +31,7 @@ See [PLAN.md](PLAN.md) for the 8 optical marks this landing must pass.
 | Tell | Fix |
 |------|-----|
 | Dual equal CTAs | One primary; rest text / outline |
-| Talk-instead on hire | Voice lives on `/call` |
+| Talk-instead on hire hero | Voice is nav + Direct channel → `/call` |
 | Interactives on proof grid | Remove; proof body `text-align: start` |
 | “XChat” | Icon + handle only |
 | `span-8` / `span-4` in hire JSX | Derived auto-fit / columns |
