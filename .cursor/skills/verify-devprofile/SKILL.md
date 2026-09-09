@@ -86,3 +86,17 @@ node scripts/verify-devprofile-doctor.mjs
 ```
 
 Feature map loader: `tests/e2e/helpers/feature-map.ts`. Asserts: `assertUx`, `assertContent`, `assertPixelBaseline`, `assertFocusEssayCardImagesPaint`.
+
+## LCV probe (layout-content-view)
+
+Vendored from `p10ns11y/plugins` at `vendor/layout-content-view/`. Composes with this feature map — never duplicate routes.
+
+```bash
+pnpm lcv:probe
+VERIFY_FEATURE=/lab/landing-a pnpm lcv:probe
+pnpm taste:check
+```
+
+Findings: `artifacts/lcv/findings.json`. Fail kinds: must-show clipped, document overflow-x, missing landmarks, occlusion, scroll-trap, interact-unlinked.
+
+Lab hire + stress fixtures in `features/lab-hire.md` and `features/lab-stress-*.md`. Retired A–G redirect to `/lab/hire`. Mark `data-lcv=must-show|preview` in product markup; critic checks `TASTE.md` + `DESIGN.md` (writer ≠ judge).
