@@ -61,8 +61,10 @@ describe("building landscape", () => {
     expect(ensembly?.role).toBe("operator");
     expect(ensembly?.cluster).toBe("agentic-reactor");
     expect(foundationsKeys).toEqual(
-      expect.arrayContaining(["arch-machine", "shellyxz.sh", "participatory-mesh"])
+      expect.arrayContaining(["arch-machine", "shellyxz.sh", "packedbox", "participatory-mesh"])
     );
+    expect(BUILDING_FALLBACK_URL.packedbox).toContain("p10ns11y/packedbox");
+    expect(BUILDING_BLURB.packedbox).toMatch(/Melt of shellyxz\.sh and arch-machine/);
     expect(BUILDING_FALLBACK_URL.plugins).toContain("p10ns11y/plugins");
     expect(BUILDING_FALLBACK_URL["participatory-mesh"]).toContain(
       "thecuriousts/participatory-mesh"

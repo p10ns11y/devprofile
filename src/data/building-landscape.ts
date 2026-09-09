@@ -10,6 +10,7 @@ export const BUILDING_SINGULARITY = {
 export const BUILDING_FALLBACK_URL: Record<string, string> = {
   "arch-machine": "https://github.com/p10ns11y/arch-machine",
   elomaxz: "https://github.com/p10ns11y/elomaxz",
+  packedbox: "https://github.com/p10ns11y/packedbox",
   "prototype-it-to-explain-itself": "https://github.com/p10ns11y/prototype-it-to-explain-itself",
   skills: "https://github.com/p10ns11y/skills",
   plugins: "https://github.com/p10ns11y/plugins",
@@ -33,6 +34,8 @@ export const BUILDING_BLURB: Record<string, string> = {
   "arch-machine": "Hardened Arch workstation installer and control plane.",
   "shellyxz.sh":
     "Portable multi-shell kernel. PATH contract, plugin isolation, not a dotfiles dump.",
+  packedbox:
+    "Melt of shellyxz.sh and arch-machine. Portable Linux bootstrap (Arch, Debian, Ubuntu) with a shared PATH contract and terminal pack for reliable setup on cloud servers, Grok Bot Computer, and cloud agent machines.",
   "participatory-mesh":
     "Elixir/OTP CommandFabric. An explicit allowlist across a distributed mesh. Transport and host tools are swappable. The product is the allowlist, not chat. Pairs with ensembly: authorize and claim, then dispatch onto another participant.",
   elomaxz: "Elm-style hybrid MVU for C. Tagged messages, pure update, first-class Cmd/Effect.",
@@ -95,6 +98,7 @@ export const BUILDING_PROJECTS: readonly AtlasProject[] = [
   { key: "premflow", cluster: "foundations-infra", area: "systems" },
   { key: "arch-machine", cluster: "foundations-infra", area: "systems" },
   { key: "shellyxz.sh", cluster: "foundations-infra", area: "systems" },
+  { key: "packedbox", cluster: "foundations-infra", area: "systems" },
   { key: "participatory-mesh", cluster: "foundations-infra", area: "systems" },
   {
     key: "thepulimaangani",
