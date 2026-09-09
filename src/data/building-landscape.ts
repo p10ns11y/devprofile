@@ -23,7 +23,7 @@ export const BUILDING_PRIVATE = new Set(["mesh"]);
 
 export const BUILDING_BLURB: Record<string, string> = {
   "collab-finder":
-    "Desktop app for high-fit job hunting at kanithanj.ai. Approve before apply files change (1.0.0 shipped 19 Aug 2026).",
+    "Desktop app for high-fit job hunting. kanithanj.ai is an installable binary from GitHub Releases, not a website. Approve before apply files change (1.0.0 shipped 19 Aug 2026).",
   "agent-prompt-tuning-lab":
     "Privacy-first toolkit: local agent transcripts to datasets, skills, and gold exemplars.",
   skills: "Portable agent skills extracted from lived workflows, not generic prompt packs.",

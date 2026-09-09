@@ -52,7 +52,10 @@ function blockTextLength(
 function sectionText(
   sections: readonly (typeof PROJECT_WALKTHROUGHS)[number]["sections"][number][]
 ): string {
-  return sections.flatMap((section) => section.blocks.map(blockPlainText)).join(" ").toLowerCase();
+  return sections
+    .flatMap((section) => section.blocks.map(blockPlainText))
+    .join(" ")
+    .toLowerCase();
 }
 
 describe("shipped walkthroughs", () => {
@@ -134,23 +137,39 @@ describe("shipped walkthroughs", () => {
     const productText = sectionText(product);
     const techText = sectionText(tech);
 
-    expect(product.some((section) => section.blocks.some((block) => block.type === "callout"))).toBe(
-      true
-    );
-    expect(product.some((section) => section.blocks.some((block) => block.type === "bullets"))).toBe(
-      true
-    );
+    expect(
+      product.some((section) => section.blocks.some((block) => block.type === "callout"))
+    ).toBe(true);
+    expect(
+      product.some((section) => section.blocks.some((block) => block.type === "bullets"))
+    ).toBe(true);
     expect(productText).toContain("paste tamil verse");
     expect(productText).toMatch(/classical rules|classical rule/);
     expect(productText).toContain("yāppu");
     expect(productText).not.toContain("dense[51]");
-    expect(productText).not.toMatch(/tier b|pca|monte carlo|hmm|crf|gbdt|neural net|nlp api|already use|migration/);
+    expect(productText).not.toMatch(
+      /tier b|pca|monte carlo|hmm|crf|gbdt|neural net|nlp api|already use|migration/
+    );
 
     expect(techText).toContain("webassembly");
     expect(techText).toMatch(/offline ml|classical rules/);
     expect(techText).not.toContain("dense[51]");
     expect(techText).not.toMatch(/tier b|pca|monte carlo|tf-idf/);
     expect(techText).not.toMatch(/transformer/);
+  });
+
+  it("points collab-finder live CTA at GitHub Releases, not a website", () => {
+    const project = getProjectWalkthrough("collab-finder");
+    expect(project).toBeDefined();
+    expect(project?.liveUrl).toBe("https://github.com/p10ns11y/collab-finder/releases/latest");
+    expect(project?.liveLabel).toBe("GitHub release");
+    expect(project?.lede.toLowerCase()).toMatch(/github release/);
+    expect(project?.lede.toLowerCase()).toMatch(/not a website/);
+    expect(project?.lede.toLowerCase()).not.toMatch(/job hunting at kanithanj/);
+    expect(project?.liveUrl).not.toBe("https://kanithanj.ai");
+
+    const cvProject = cvdata.projects.find((row) => row.key === "collab-finder");
+    expect(JSON.stringify(cvProject)).not.toContain("https://kanithanj.ai");
   });
 
   it("places collab-finder hunt loop, pack health, pipeline, and ledger in the product band", () => {
@@ -210,7 +229,9 @@ describe("shipped walkthroughs", () => {
 
     expect(productText).toMatch(/optional by default|per-consumer rules/);
     expect(productText).toMatch(/no second schema|same model/);
-    expect(productText).not.toMatch(/multi-tenant edge|overlays|second source of truth|already use|migration/);
+    expect(productText).not.toMatch(
+      /multi-tenant edge|overlays|second source of truth|already use|migration/
+    );
     expect(productText).not.toContain("zod");
     expect(techText).toContain("zod");
     expect(techText).toMatch(/openapi|json schema/);
