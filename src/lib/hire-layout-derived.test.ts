@@ -22,7 +22,7 @@ describe("deriveHireLayout", () => {
   it("widens proof cells when fewer proofs ship", () => {
     const many = deriveHireLayout(getHireContent());
     const few = deriveHireLayout(withContent({ proofs: getHireContent().proofs.slice(0, 3) }));
-    expect(many.proofs.minCell).toBe("min(100%, 18rem)");
+    expect(many.proofs.minCell).toBe("min(100%, 20rem)");
     expect(few.proofs.minCell).toBe("min(100%, 22rem)");
     expect(few.proofs.minCell).not.toBe(many.proofs.minCell);
   });

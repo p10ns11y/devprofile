@@ -54,7 +54,7 @@ function proofMinCell(proofCount: number): string {
   if (proofCount <= 3) {
     return "min(100%, 22rem)";
   }
-  return "min(100%, 18rem)";
+  return "min(100%, 20rem)";
 }
 
 function systemsMode(content: HireLayoutContent): "stack" | "stack-pair" {

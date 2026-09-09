@@ -64,7 +64,9 @@ export function HireLanding({ content }: HireLandingProps) {
                     </span>
                   ) : null}
                 </nav>
-                <SocialLinks size="compact" align="start" className="hire-phi__hero-social" />
+                <div className="hire-phi__hero-social-wrap">
+                  <SocialLinks size="compact" align="start" className="hire-phi__hero-social" />
+                </div>
               </div>
             </div>
           </div>

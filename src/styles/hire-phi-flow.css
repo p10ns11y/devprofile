@@ -7,7 +7,7 @@
     --phi-gap-3: 1.618rem;
     --phi-gap-4: 2.618rem;
     --phi-gap-5: 4.236rem;
-    --hire-proof-min: min(100%, 18rem);
+    --hire-proof-min: min(100%, 20rem);
   }
 
   .phi-route-band,
@@ -213,9 +213,9 @@
     width: 100%;
   }
 
-  .hire-phi__hero-social {
+  .hire-phi__hero-social-wrap {
+    display: flex;
     width: 100%;
-    margin-inline: 0;
     justify-content: center;
   }
 
@@ -228,7 +228,7 @@
       justify-content: flex-end;
     }
 
-    .hire-phi__hero-social {
+    .hire-phi__hero-social-wrap {
       justify-content: flex-end;
     }
   }
