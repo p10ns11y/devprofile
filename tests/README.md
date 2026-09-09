@@ -97,6 +97,23 @@ Both hide Vercel / Next overlay chrome so it cannot steal clicks.
 
 ---
 
+## `pnpm lcv:probe` — layout-content-view (geometry)
+
+Vendored from `p10ns11y/plugins` (`vendor/layout-content-view/`). Walks the same feature map as UX tests. Brave required.
+
+```bash
+pnpm verify:doctor
+pnpm lcv:probe
+VERIFY_FEATURE=/lab/landing-d pnpm lcv:probe
+pnpm taste:check    # exit 1 if findings JSON has fail:true
+```
+
+Named viewports: phone-short 375×667, phone, tablet, desktop. Findings: `artifacts/lcv/findings.json`.
+
+Lab taste rubric: `pnpm test:lab-taste` (one primary CTA, no Talk instead, terse copy). SoT: root `TASTE.md`, `DESIGN.md`.
+
+---
+
 ## `pnpm test:e2e:visual` — pixels
 
 ```bash

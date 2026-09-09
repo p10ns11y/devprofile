@@ -1,0 +1,943 @@
+{
+  "origin": "http://localhost:3000",
+  "plugin": "/workspace/vendor/layout-content-view/scripts",
+  "paths": [
+    "/"
+  ],
+  "viewports": [
+    "phone-short",
+    "phone",
+    "tablet",
+    "desktop"
+  ],
+  "stress": false,
+  "machines": [
+    {
+      "path": "/",
+      "viewport": "phone-short",
+      "layoutMode": {
+        "w": 375,
+        "h": 667,
+        "orientation": "portrait"
+      },
+      "uiState": "menu:closed",
+      "machine": {
+        "states": [
+          "/",
+          "/#contact",
+          "/?cv=view",
+          "/articles",
+          "/building",
+          "/certificates",
+          "/profile",
+          "/qa",
+          "/shipped",
+          "/x",
+          "menu:closed",
+          "menu:open",
+          "theme:dim",
+          "theme:light",
+          "view:current"
+        ],
+        "edges": [
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/articles",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/shipped",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/building",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/qa",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/?cv=view",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/profile",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/x",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/certificates",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-theme",
+            "from": "theme:light",
+            "success": "theme:dim",
+            "fail": "theme:light",
+            "interrupted": "theme:light",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-menu",
+            "from": "menu:closed",
+            "success": "menu:open",
+            "fail": "menu:closed",
+            "interrupted": "menu:closed",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/articles",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/shipped",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/building",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/qa",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/?cv=view",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/profile",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/x",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/certificates",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-theme",
+            "from": "theme:light",
+            "success": "theme:dim",
+            "fail": "theme:light",
+            "interrupted": "theme:light",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/#contact",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/#contact",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          }
+        ]
+      }
+    },
+    {
+      "path": "/",
+      "viewport": "phone",
+      "layoutMode": {
+        "w": 375,
+        "h": 812,
+        "orientation": "portrait"
+      },
+      "uiState": "menu:closed",
+      "machine": {
+        "states": [
+          "/",
+          "/#contact",
+          "/?cv=view",
+          "/articles",
+          "/building",
+          "/certificates",
+          "/profile",
+          "/qa",
+          "/shipped",
+          "/x",
+          "menu:closed",
+          "menu:open",
+          "theme:dim",
+          "theme:light",
+          "view:current"
+        ],
+        "edges": [
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/articles",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/shipped",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/building",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/qa",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/?cv=view",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/profile",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/x",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/certificates",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-theme",
+            "from": "theme:light",
+            "success": "theme:dim",
+            "fail": "theme:light",
+            "interrupted": "theme:light",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-menu",
+            "from": "menu:closed",
+            "success": "menu:open",
+            "fail": "menu:closed",
+            "interrupted": "menu:closed",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/articles",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/shipped",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/building",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/qa",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/?cv=view",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/profile",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/x",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/certificates",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-theme",
+            "from": "theme:light",
+            "success": "theme:dim",
+            "fail": "theme:light",
+            "interrupted": "theme:light",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/#contact",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/#contact",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          }
+        ]
+      }
+    },
+    {
+      "path": "/",
+      "viewport": "tablet",
+      "layoutMode": {
+        "w": 768,
+        "h": 1024,
+        "orientation": "portrait"
+      },
+      "uiState": "menu:closed",
+      "machine": {
+        "states": [
+          "/",
+          "/#contact",
+          "/?cv=view",
+          "/articles",
+          "/building",
+          "/certificates",
+          "/profile",
+          "/qa",
+          "/shipped",
+          "/x",
+          "menu:closed",
+          "menu:open",
+          "theme:dim",
+          "theme:light",
+          "view:current"
+        ],
+        "edges": [
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/articles",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/shipped",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/building",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/qa",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/?cv=view",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/profile",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/x",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/certificates",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-theme",
+            "from": "theme:light",
+            "success": "theme:dim",
+            "fail": "theme:light",
+            "interrupted": "theme:light",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-menu",
+            "from": "menu:closed",
+            "success": "menu:open",
+            "fail": "menu:closed",
+            "interrupted": "menu:closed",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/articles",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/shipped",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/building",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/qa",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/?cv=view",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/profile",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/x",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/certificates",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-theme",
+            "from": "theme:light",
+            "success": "theme:dim",
+            "fail": "theme:light",
+            "interrupted": "theme:light",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/#contact",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/#contact",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          }
+        ]
+      }
+    },
+    {
+      "path": "/",
+      "viewport": "desktop",
+      "layoutMode": {
+        "w": 1280,
+        "h": 720,
+        "orientation": "landscape"
+      },
+      "uiState": "menu:closed",
+      "machine": {
+        "states": [
+          "/",
+          "/#contact",
+          "/?cv=view",
+          "/articles",
+          "/building",
+          "/certificates",
+          "/profile",
+          "/qa",
+          "/shipped",
+          "/x",
+          "menu:closed",
+          "menu:open",
+          "theme:dim",
+          "theme:light",
+          "view:current"
+        ],
+        "edges": [
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/articles",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/shipped",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/building",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/qa",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/?cv=view",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/profile",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/x",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/certificates",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-theme",
+            "from": "theme:light",
+            "success": "theme:dim",
+            "fail": "theme:light",
+            "interrupted": "theme:light",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-menu",
+            "from": "menu:closed",
+            "success": "menu:open",
+            "fail": "menu:closed",
+            "interrupted": "menu:closed",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/articles",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/shipped",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/building",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/qa",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/?cv=view",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/profile",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/x",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "navigate",
+            "from": "view:current",
+            "success": "/certificates",
+            "fail": "view:current",
+            "interrupted": "view:current",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "toggle-theme",
+            "from": "theme:light",
+            "success": "theme:dim",
+            "fail": "theme:light",
+            "interrupted": "theme:light",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/#contact",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          },
+          {
+            "event": "",
+            "from": "",
+            "success": "/#contact",
+            "fail": "",
+            "interrupted": "",
+            "disabled": false,
+            "linked": true
+          }
+        ]
+      }
+    }
+  ],
+  "totals": {
+    "samples": 96,
+    "fail": 0,
+    "info": 0,
+    "ok": 96
+  },
+  "byKind": {
+    "ok": 96
+  },
+  "errors": [],
+  "findings": []
+}

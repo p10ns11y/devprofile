@@ -2,7 +2,15 @@ import { existsSync } from "node:fs";
 import type { PlaywrightTestConfig } from "@playwright/test";
 
 /** System Brave Beta (Chromium). Override with BRAVE_BETA_PATH if installed elsewhere. */
-export const BRAVE_BETA_EXECUTABLE = process.env.BRAVE_BETA_PATH ?? "/usr/bin/brave-browser-beta";
+const BRAVE_CANDIDATES = [
+  process.env.BRAVE_BETA_PATH,
+  "/usr/bin/brave-browser-beta",
+  "/usr/bin/brave-browser-stable",
+  "/usr/bin/brave-browser",
+].filter(Boolean) as string[];
+
+export const BRAVE_BETA_EXECUTABLE =
+  BRAVE_CANDIDATES.find((path) => existsSync(path)) ?? "/usr/bin/brave-browser-beta";
 
 type BraveBetaLaunchOptions = NonNullable<
   NonNullable<PlaywrightTestConfig["use"]>["launchOptions"]

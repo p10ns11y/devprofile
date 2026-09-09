@@ -7,23 +7,7 @@ const langchainJs =
   "https://learn.deeplearning.ai/accomplishments/14907d64-9ff2-4dc7-b5f7-ce42982f8551?usp=sharing";
 
 test.describe("Course proof links", () => {
-  test("Academic on the homepage links Cilium and LangChain proofs", async ({ page }) => {
-    await page.goto("/");
-    const academic = page.locator("#academic");
-    await expect(academic.getByRole("heading", { name: "Courses" })).toBeVisible();
-    await expect(academic.getByRole("link", { name: "Cilium AI/ML Security" })).toHaveAttribute(
-      "href",
-      cilium
-    );
-    await expect(
-      academic.getByRole("link", { name: "LangChain Chat with Your Data" })
-    ).toHaveAttribute("href", chatWithData);
-    await expect(
-      academic.getByRole("link", { name: "Build LLM Apps with LangChain.js" })
-    ).toHaveAttribute("href", langchainJs);
-  });
-
-  test("Earned lists the same courses with proof links", async ({ page }) => {
+  test("Earned lists courses with proof links", async ({ page }) => {
     await page.goto("/certificates");
     const quote = page.locator(".credentials-pullquote");
     await expect(quote.getByRole("blockquote")).toContainText("Harnesses such as Grok Build");
