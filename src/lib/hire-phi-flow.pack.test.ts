@@ -23,6 +23,15 @@ describe("hire-phi-flow pack rules", () => {
     expect(block(".hire-phi__hero-social-wrap")).not.toMatch(/(?<!-)width:\s*100%/);
   });
 
+  it("renders text secondaries before the primary Building button", () => {
+    const src = readFileSync(join(process.cwd(), "src/components/hire/hire-landing.tsx"), "utf8");
+    const links = src.indexOf("content.heroLinks.length");
+    const actions = src.indexOf("content.heroActions.map");
+    expect(links).toBeGreaterThan(-1);
+    expect(actions).toBeGreaterThan(-1);
+    expect(links).toBeLessThan(actions);
+  });
+
   it("keeps evidence link rows packed with start-aligned prose", () => {
     expect(css).not.toContain("@container (min-width: 20rem)");
     expect(block(".hire-phi__interactives")).toMatch(/flex-start|text-align:\s*start/);

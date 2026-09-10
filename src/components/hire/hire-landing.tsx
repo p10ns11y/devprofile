@@ -42,11 +42,6 @@ export function HireLanding({ content }: HireLandingProps) {
               </blockquote>
               <div className={layout.heroReach}>
                 <nav className="hire-phi__actions" aria-label="Profile actions">
-                  {content.heroActions.map((action) => (
-                    <SiteButton key={action.href} href={action.href} variant={action.variant}>
-                      {action.label}
-                    </SiteButton>
-                  ))}
                   {content.heroLinks.length > 0 ? (
                     <span className={layout.textLinks}>
                       {content.heroLinks.map((link, index) => (
@@ -63,6 +58,11 @@ export function HireLanding({ content }: HireLandingProps) {
                       ))}
                     </span>
                   ) : null}
+                  {content.heroActions.map((action) => (
+                    <SiteButton key={action.href} href={action.href} variant={action.variant}>
+                      {action.label}
+                    </SiteButton>
+                  ))}
                 </nav>
                 <div className="hire-phi__hero-social-wrap">
                   <SocialLinks size="compact" align="center" className="hire-phi__hero-social" />

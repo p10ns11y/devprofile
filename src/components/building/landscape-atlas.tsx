@@ -311,14 +311,32 @@ export function BuildingSpacemap() {
         {rows.map((row) => (
           <tr key={row.key}>
             <th scope="row">
+              <span className="building-spacemap__label" aria-hidden="true">
+                Project
+              </span>
               {row.href ? <a href={row.href}>{row.name}</a> : row.name}
               {row.epithet ? (
                 <small className="building-spacemap__epithet">{row.epithet}</small>
               ) : null}
             </th>
-            <td>{row.cluster}</td>
-            <td>{row.area}</td>
-            <td>{row.detail}</td>
+            <td>
+              <span className="building-spacemap__label" aria-hidden="true">
+                Cluster
+              </span>
+              {row.cluster}
+            </td>
+            <td>
+              <span className="building-spacemap__label" aria-hidden="true">
+                Area
+              </span>
+              {row.area}
+            </td>
+            <td>
+              <span className="building-spacemap__label" aria-hidden="true">
+                What it is
+              </span>
+              {row.detail}
+            </td>
           </tr>
         ))}
       </tbody>

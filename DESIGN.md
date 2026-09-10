@@ -43,7 +43,7 @@ Related marks stay packed. Never stretch a row and park siblings on opposite edg
 
 | Surface | Default | Escalation |
 |---------|---------|------------|
-| Hero CTA + social | Pack (`fit-content`), **center** under thesis | End-align the *whole pack* only if center orphans a leftover row |
+| Hero CTA + social | Pack (`fit-content`), **center** under thesis; Building last in the action row | End-align the *whole pack* only if center orphans a leftover row |
 | Evidence links | Pack with start-aligned prose | — |
 | Direct channels | Icon + text, `flex-start` + gap | Never `space-between` |
 | Proofs | Title + prose start | No interactives class |

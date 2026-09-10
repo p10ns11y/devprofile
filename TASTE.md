@@ -19,7 +19,7 @@ See [PLAN.md](PLAN.md) for the 7 optical marks this landing must pass.
 | 5 | Editorial | Type + whitespace; no SaaS metric tiles, purple/neon, glassmorphism |
 | 6 | Receipts | Figures and links from **cvdata** only; honest OSS vs employment |
 | 7 | Space | Evidence packs dense; no rigid family gutter |
-| 7b | CTA pack | Hero actions + social are one **centered** pack; evidence links pack with their prose; proof prose start-aligned |
+| 7b | CTA pack | Hero actions + social are one **centered** pack (View CV · Q&A · Articles, then Building last in the row); evidence links pack with their prose; proof prose start-aligned |
 | 7c | Channels | Icon + `@handle` / Email / Location as a **tight row** — no canyon between icon and text |
 | 8 | Product voice | Hire-visitor readable; no Steward/coach/meta |
 | 9 | Subtract first | Remove Talk CTAs and text walls before adding chrome |
