@@ -76,7 +76,7 @@ RouteBand → Section → Cluster → Cell → Mark
 3. No orphan CTA rows — primary + secondaries are one flex group.
 4. No wasted major voids — no rigid Product \| Development columns.
 5. **Pack related marks** — never stretch a row and fling siblings to opposite edges (`width: 100%` + `space-between` / `flex-end`).
-   - **Hero CTAs + social:** one packed group (`width: fit-content; max-width: 100%`) that **edge-hugs** the right cell’s end. Text secondaries (View CV · Q&A · Articles) precede the primary; **Building is rightmost** in that action pack. Social shares the same end edge. Never `width: 100%` + `space-between`.
+   - **Hero CTAs + social:** one packed group (`width: fit-content; max-width: 100%`), **centered** under the thesis. In the action row, text secondaries precede Building (primary is **last in that row**). End-align that *whole pack* only if centering would orphan a leftover row — **not** because the column got wide.
    - **Evidence links:** pack with start-aligned prose (do not fly to the card’s end).
    - **Channels:** icon + label/value with a φ gap, start-aligned.
    - Never put reach classes on proof grids or proof prose.
@@ -89,7 +89,7 @@ RouteBand → Section → Cluster → Cell → Mark
 
 `center-then-end` (center on narrow, `flex-end` from ~28rem / ~20rem) was wrong. It treated “center **or** right” as “always park the group on the end edge once the column is wide.” Combined with `width: 100%`, that stranded social icons at the far right of the thesis column. The same mistake on channels (`justify-content: space-between` + end-aligned text) threw icons and Email/Location across a void.
 
-The operator mark was: related marks stay a **tight pack**. For the hero CTA cluster, **edge-hug** that pack at the right cell’s end — never `width: 100%` + `space-between`, and never `center-then-end` at a width breakpoint.
+The operator mark was: related marks stay a **tight pack**. For the hero CTA cluster, **prefer center**; use right only when center *fails* (orphan leftover) — never as the wide-column default. Building is last in the action row; that is order, not pack-level `flex-end`.
 
 ---
 

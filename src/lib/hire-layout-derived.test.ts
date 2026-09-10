@@ -51,8 +51,8 @@ describe("deriveHireLayout", () => {
     const content = getHireContent();
     expect(content.proofs.some((proof) => proof.href)).toBe(true);
     const plan = deriveHireLayout(content);
-    expect(plan.hero.reach).toBe("edge-hug");
-    expect(plan.interactives.reach).toBe("edge-hug");
+    expect(plan.hero.reach).toBe("center-first");
+    expect(plan.interactives.reach).toBe("center-first");
     expect(plan.interactives.scopes).toEqual(["hero-reach", "evidence-links"]);
     expect(plan.interactives.scopes).not.toContain("proofs");
   });

@@ -15,16 +15,11 @@ describe("hire-phi-flow pack rules", () => {
     expect(block(".hire-phi__hero")).toContain("justify-content: center");
   });
 
-  it("edge-hugs a packed hero CTA cluster at the right cell without stretching", () => {
+  it("centers a packed hero CTA cluster instead of end-parking when wide", () => {
     expect(css).not.toContain("@container (min-width: 28rem)");
     expect(block(".hire-phi__hero-reach")).toContain("fit-content");
-    expect(block(".hire-phi__hero-reach")).toContain("justify-content: flex-end");
-    expect(block(".hire-phi__hero-reach")).toContain("margin-inline-start: auto");
-    expect(block(".hire-phi__hero-reach .hire-phi__actions")).toContain(
-      "justify-content: flex-end"
-    );
+    expect(block(".hire-phi__hero-reach")).toContain("justify-content: center");
     expect(block(".hire-phi__hero-reach .hire-phi__actions")).not.toMatch(/(?<!-)width:\s*100%/);
-    expect(block(".hire-phi__hero-social-wrap")).toContain("justify-content: flex-end");
     expect(block(".hire-phi__hero-social-wrap")).not.toMatch(/(?<!-)width:\s*100%/);
   });
 
