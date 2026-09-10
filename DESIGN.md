@@ -43,12 +43,13 @@ Related marks stay packed. Never stretch a row and park siblings on opposite edg
 
 | Surface | Default | Escalation |
 |---------|---------|------------|
-| Hero CTA + social | Pack (`fit-content`), **center** under thesis | End-align the *whole pack* only if center orphans a leftover row |
+| Hero CTA + social | Pack (`fit-content` children), **hug end** of the thesis / stacked-right cell | Left cell would hug start. Never center the primary action row |
 | Evidence links | Pack with start-aligned prose | — |
 | Direct channels | Icon + text, `flex-start` + gap | Never `space-between` |
 | Proofs | Title + prose start | No interactives class |
+| Building spacemap | Full “What it is” text | Stack under 48rem; no clipped cells |
 
-**Forbidden:** `center-then-end` (center, then `flex-end` once a container is “wide enough”); full-width `flex-end` / `space-between` on CTA, social, or channel rows.
+**Forbidden:** `center-then-end`; centering the primary action row; `space-between` on CTA, social, or channel rows.
 
 ## Where primary is allowed
 

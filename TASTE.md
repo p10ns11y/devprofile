@@ -19,7 +19,7 @@ See [PLAN.md](PLAN.md) for the 7 optical marks this landing must pass.
 | 5 | Editorial | Type + whitespace; no SaaS metric tiles, purple/neon, glassmorphism |
 | 6 | Receipts | Figures and links from **cvdata** only; honest OSS vs employment |
 | 7 | Space | Evidence packs dense; no rigid family gutter |
-| 7b | CTA pack | Hero actions + social are one **centered** pack; evidence links pack with their prose; proof prose start-aligned |
+| 7b | CTA pack | Hero actions + social pack and **hug the thesis-column end**; evidence links pack with their prose; proof prose start-aligned |
 | 7c | Channels | Icon + `@handle` / Email / Location as a **tight row** — no canyon between icon and text |
 | 8 | Product voice | Hire-visitor readable; no Steward/coach/meta |
 | 9 | Subtract first | Remove Talk CTAs and text walls before adding chrome |
@@ -38,8 +38,9 @@ See [PLAN.md](PLAN.md) for the 7 optical marks this landing must pass.
 | Coach/meta copy | Rewrite for hire visitor or delete |
 | Nested `<main>` | Single `#main` from layout |
 | Wasted major void | CSS-column evidence pack |
-| `center-then-end` / full-width `flex-end` | Pack the group (`fit-content`), then center. Right only if center orphans a leftover |
+| `center-then-end` / centering the primary action row | Pack, then hug the container edge (end in the thesis / stacked-right cell) |
 | Channel `space-between` | Icon and text belong together; `gap` not a stretched gutter |
+| Spacemap cells clipped | Stack or `overflow-x: auto` — never `overflow: hidden` mid-word |
 
 ---
 

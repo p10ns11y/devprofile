@@ -252,10 +252,17 @@
   color: var(--color-text);
 }
 
+.building-spacemap-wrap {
+  container-type: inline-size;
+  min-width: 0;
+  margin-top: 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .building-spacemap {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
 }
 
 .building-spacemap th,
@@ -265,6 +272,7 @@
   border-bottom: 1px solid var(--color-border-subtle);
   vertical-align: top;
   font-size: 0.9375rem;
+  overflow-wrap: anywhere;
 }
 
 .building-spacemap thead th {
@@ -285,6 +293,60 @@
   font-weight: 400;
   color: var(--color-text-muted);
   letter-spacing: 0.04em;
+}
+
+@container (max-width: 48rem) {
+  .building-spacemap {
+    display: block;
+  }
+
+  .building-spacemap caption {
+    display: block;
+    width: 100%;
+  }
+
+  .building-spacemap thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .building-spacemap tbody,
+  .building-spacemap tr,
+  .building-spacemap th,
+  .building-spacemap td {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .building-spacemap tr {
+    padding: 0.75rem 0 1rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .building-spacemap th[scope="row"],
+  .building-spacemap td {
+    padding: 0.2rem 0;
+    border-bottom: 0;
+  }
+
+  .building-spacemap td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.1rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -75,8 +75,8 @@ RouteBand → Section → Cluster → Cell → Mark
 2. Shared start line — section titles and hero name share the band edge.
 3. No orphan CTA rows — primary + secondaries are one flex group.
 4. No wasted major voids — no rigid Product \| Development columns.
-5. **Pack related marks** — never stretch a row and fling siblings to opposite edges (`width: 100%` + `space-between` / `flex-end`).
-   - **Hero CTAs + social:** one packed group (`width: fit-content; max-width: 100%`), **centered** under the thesis. End-align that *whole pack* only if centering would orphan a leftover row — **not** because the column got wide.
+5. **Pack related marks** — never stretch a row and fling siblings to opposite edges (`space-between` on a full-width track).
+   - **Primary-action edge hug:** the packed CTA + social group follows the container’s natural side. Left cell → start. Right cell (and the stacked former-right cell on phone) → **end**. Do **not** center the primary action row. Children stay `fit-content` with a φ gap so hugging end does not recreate a canyon.
    - **Evidence links:** pack with start-aligned prose (do not fly to the card’s end).
    - **Channels:** icon + label/value with a φ gap, start-aligned.
    - Never put reach classes on proof grids or proof prose.
@@ -87,9 +87,9 @@ RouteBand → Section → Cluster → Cell → Mark
 
 ## Spec bug (corrected)
 
-`center-then-end` (center on narrow, `flex-end` from ~28rem / ~20rem) was wrong. It treated “center **or** right” as “always park the group on the end edge once the column is wide.” Combined with `width: 100%`, that stranded social icons at the far right of the thesis column. The same mistake on channels (`justify-content: space-between` + end-aligned text) threw icons and Email/Location across a void.
+`center-then-end` (center on narrow, `flex-end` from a width breakpoint) was wrong because it **stretched** the track and parked related marks on opposite edges.
 
-The operator mark was: related marks stay a **tight pack**. For the hero CTA cluster, **prefer center**; use right only when center *fails* (orphan leftover) — never as the wide-column default.
+Centering the packed CTA cluster in the thesis / stacked-right cell was also wrong. **Law: primary-action edge hug.** Pack the group, then hug start in a left cell and **end** in a right cell. On phone the stacked CTA block is still the former right cell — keep end alignment. Social follows the same edge. `space-between` on channels remains forbidden.
 
 ---
 
@@ -100,7 +100,7 @@ The operator mark was: related marks stay a **tight pack**. For the hero CTA clu
 | Hire atlas | LandscapeAtlas SVG (full) | Same renderer and scene as /building; not a CSS-grid fake |
 | Hero fold | `min-height: 100dvh` | First screen is the hero; `#about` is not clipped |
 | Auto-fit proofs | `repeat(auto-fit, minmax(...))` | Derived dense pack |
-| Contact form / channels | `1fr 1fr` from 768px | Named: `contact-split` |
+| Spacemap table | stack under 48rem container | Full “What it is” text; no clipped cells |
 
 ---
 

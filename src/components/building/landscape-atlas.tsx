@@ -297,31 +297,33 @@ export function BuildingSpacemap() {
   }));
 
   return (
-    <table className="building-spacemap">
-      <caption className="building-spacemap__caption">Spacemap of public work</caption>
-      <thead>
-        <tr>
-          <th scope="col">Project</th>
-          <th scope="col">Cluster</th>
-          <th scope="col">Area</th>
-          <th scope="col">What it is</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr key={row.key}>
-            <th scope="row">
-              {row.href ? <a href={row.href}>{row.name}</a> : row.name}
-              {row.epithet ? (
-                <small className="building-spacemap__epithet">{row.epithet}</small>
-              ) : null}
-            </th>
-            <td>{row.cluster}</td>
-            <td>{row.area}</td>
-            <td>{row.detail}</td>
+    <div className="building-spacemap-wrap">
+      <table className="building-spacemap">
+        <caption className="building-spacemap__caption">Spacemap of public work</caption>
+        <thead>
+          <tr>
+            <th scope="col">Project</th>
+            <th scope="col">Cluster</th>
+            <th scope="col">Area</th>
+            <th scope="col">What it is</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.key}>
+              <th scope="row">
+                {row.href ? <a href={row.href}>{row.name}</a> : row.name}
+                {row.epithet ? (
+                  <small className="building-spacemap__epithet">{row.epithet}</small>
+                ) : null}
+              </th>
+              <td data-label="Cluster">{row.cluster}</td>
+              <td data-label="Area">{row.area}</td>
+              <td data-label="What it is">{row.detail}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

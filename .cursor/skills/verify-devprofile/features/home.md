@@ -34,5 +34,5 @@ Preconditions: `pnpm verify:doctor` is ok.
 - `#projects` and `#academic` are not mounted on this page.
 - Course proof links live on `/certificates`.
 - Reach/interactives classes belong on hero actions and evidence links only — never on the proofs grid.
-- Hero CTAs + social are one **packed, centered** cluster (`fit-content`). Do not implement `center-then-end` (center, then `flex-end` from ~28rem) or `width: 100%` + end justify — that strands icons at the far right.
+- Hero CTAs + social pack and **hug the end** of the thesis column (phone included). Do not center the primary action row. Do not implement `center-then-end` or `space-between` — that strands icons away from the CTAs.
 - Channel rows pack icon + text with a gap. `space-between` on `.hire-phi__channel` is a fail.

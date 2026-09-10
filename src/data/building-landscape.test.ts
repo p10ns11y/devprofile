@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { layoutAtlas } from "@/components/building/atlas-layout";
 import { projectByKey } from "@/lib/homepage-from-cvdata";
@@ -122,5 +124,13 @@ describe("building landscape", () => {
     expect(
       BUILDING_AREAS.some((areaRecord) => areaRecord.id === ("systems" satisfies AreaId))
     ).toBe(true);
+  });
+
+  it("stacks the spacemap on a narrow container so What it is is not clipped", () => {
+    const css = readFileSync(join(process.cwd(), "src/styles/building.css"), "utf8");
+    expect(css).toMatch(/\.building-spacemap-wrap[\s\S]*overflow-x:\s*auto/);
+    expect(css).toContain("@container (max-width: 48rem)");
+    expect(css).toMatch(/\.building-spacemap tr[\s\S]*display:\s*block/);
+    expect(css).toContain("overflow-wrap: anywhere");
   });
 });
