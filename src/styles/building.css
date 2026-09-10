@@ -254,8 +254,10 @@
 
 .building-spacemap {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+  table-layout: auto;
 }
 
 .building-spacemap th,
@@ -265,6 +267,13 @@
   border-bottom: 1px solid var(--color-border-subtle);
   vertical-align: top;
   font-size: 0.9375rem;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+  min-width: 0;
+}
+
+.building-spacemap__label {
+  display: none;
 }
 
 .building-spacemap thead th {
@@ -285,6 +294,51 @@
   font-weight: 400;
   color: var(--color-text-muted);
   letter-spacing: 0.04em;
+}
+
+@media (max-width: 47.99rem) {
+  .building-spacemap,
+  .building-spacemap tbody,
+  .building-spacemap tr,
+  .building-spacemap th,
+  .building-spacemap td {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .building-spacemap thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .building-spacemap tr {
+    padding-block: 0.85rem;
+  }
+
+  .building-spacemap th,
+  .building-spacemap td {
+    border-bottom: 0;
+    padding: 0.3rem 0;
+  }
+
+  .building-spacemap__label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.15rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
