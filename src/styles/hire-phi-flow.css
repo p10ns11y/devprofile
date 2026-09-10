@@ -193,20 +193,20 @@
     padding-bottom: var(--phi-gap-4);
   }
 
-  /* Packed CTA + social cluster. Center the pack — never width:100% + flex-end. */
+  /* Packed CTA + social cluster. Edge-hug the right cell — never width:100% + space-between. */
   .hire-phi__hero-reach {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     gap: var(--phi-gap-2);
     width: fit-content;
     max-width: 100%;
-    margin-inline: auto;
+    margin-inline-start: auto;
   }
 
   .hire-phi__hero-reach .hire-phi__actions {
-    justify-content: center;
+    justify-content: flex-end;
     width: fit-content;
     max-width: 100%;
   }
@@ -214,7 +214,7 @@
   .hire-phi__hero-social-wrap {
     display: flex;
     width: fit-content;
-    justify-content: center;
+    justify-content: flex-end;
   }
 
   .hire-phi__arc-note {

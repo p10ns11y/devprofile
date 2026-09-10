@@ -5,7 +5,7 @@ import cvdata from "../data/cvdata.json";
 type SocialLinksProps = {
   className?: string;
   size?: "default" | "compact";
-  align?: "center" | "start";
+  align?: "center" | "start" | "end";
 };
 
 export function SocialLinks({ className, size = "default", align = "center" }: SocialLinksProps) {
@@ -16,7 +16,11 @@ export function SocialLinks({ className, size = "default", align = "center" }: S
       aria-label="Profile links"
       className={cn(
         "flex w-fit items-center",
-        align === "start" ? "justify-start" : "mx-auto justify-center",
+        align === "start"
+          ? "justify-start"
+          : align === "end"
+            ? "justify-end"
+            : "mx-auto justify-center",
         compact ? "gap-2" : "gap-3 sm:gap-4",
         className
       )}

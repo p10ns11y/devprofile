@@ -53,6 +53,9 @@ test.describe("Homepage", () => {
     await expect(hero.getByRole("link", { name: "Building" })).toHaveClass(/bg-brand/);
     await expect(hero.getByRole("link", { name: "Q&A" })).toHaveAttribute("href", "/qa");
     await expect(hero.getByRole("link", { name: "Articles" })).toHaveAttribute("href", "/articles");
+    await expect(
+      hero.getByRole("navigation", { name: "Profile actions" }).getByRole("link")
+    ).toHaveText(["View CV", "Q&A", "Articles", "Building"]);
     await expect(hero.getByRole("link", { name: "Talk instead" })).toHaveCount(0);
     await expect(hero.getByRole("link", { name: "Download CV" })).toHaveCount(0);
     await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveCount(0);

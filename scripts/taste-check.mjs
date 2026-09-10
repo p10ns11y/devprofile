@@ -24,7 +24,7 @@ const tells = [
   { re: /XChat/, why: "XChat label — use icon + @handle" },
   { re: /span-8|span-4|col-span-8|col-span-4/, why: "Fixed span choreography" },
   { re: /life-os/, why: "Invented graph node (not in cvdata.projects)" },
-  { re: /center-then-end/, why: "center-then-end reach — pack + center-first" },
+  { re: /center-then-end/, why: "center-then-end reach — pack + edge-hug" },
 ];
 
 const hits = [];
