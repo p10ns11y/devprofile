@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CountryPayChart } from "@/components/pay-report/country-pay-chart";
 import { PageShell } from "@/components/site/PageShell";
 import { SectionHeading } from "@/components/site/SectionHeading";
@@ -508,11 +509,10 @@ export default function PayReportPage() {
         <SectionHeading id="experience-heading" title="Why my experience fits the senior band" />
         <div className="pay-report__body">
           <p>
-            <a href="/cv">Oneflow AB</a>
-            , Stockholm, April 2017 to December 2024: JavaScript Developer, then Full Stack
-            Integration Engineer, then Engineering Team Lead (October 2021 to December 2022, about
-            14 months), then Senior Software Engineer. Weavler AB, Stockholm, January 2016 to March
-            2017: Full Stack Developer.
+            <Link href="/cv">Oneflow AB</Link>, Stockholm, April 2017 to December 2024: JavaScript
+            Developer, then Full Stack Integration Engineer, then Engineering Team Lead (October
+            2021 to December 2022, about 14 months), then Senior Software Engineer. Weavler AB,
+            Stockholm, January 2016 to March 2017: Full Stack Developer.
           </p>
           <p>
             Durations are counted from the start month to the end month: 7 years 8 months plus 1
@@ -536,17 +536,17 @@ export default function PayReportPage() {
             Since December 2024 I have been on a career break for personal and family-care reasons.
             During it I have kept building in public, choosing the problems, tools and ideas that
             give a strong signal and are likely to last. My senior and team lead work at Oneflow
-            falls in the last three years before the break. Since then the way I work has moved forward: I start several connected
-            projects at once and direct coding agents to build them, and I review what
-            they produce. The projects below are that work.
+            falls in the last three years before the break. Since then the way I work has moved
+            forward. The projects began one after another, slowly at first. After a while the
+            connections between them started to evolve and the work became organized. I direct
+            coding agents and review what they produce. The projects below are that work.
           </p>
           <p>
-            I started these projects in parallel, each aimed at a real problem of mine, and chose
-            them so each one works a different part of software engineering: desktop apps, systems
-            programming in C, Rust compiled to WebAssembly, API validation, and machine setup. I
-            wrote the first proposals and decided how the projects connect. Coding agents then
-            drafted much of the detailed design, architecture and code from those proposals, and I
-            steered and reviewed it.
+            Each project aimed at a real problem of mine, and each one works a different part of
+            software engineering: desktop apps, systems programming in C, Rust compiled to
+            WebAssembly, API validation, and machine setup. I wrote the first proposals. Coding
+            agents then drafted much of the detailed design, architecture and code, and I steered
+            and reviewed it.
           </p>
           <p>
             What ties them together is the claim I made in{" "}
@@ -583,7 +583,67 @@ export default function PayReportPage() {
             <li>
               <a href="https://github.com/p10ns11y/skills">skills</a> and{" "}
               <a href="https://github.com/p10ns11y/plugins">plugins</a> hold reusable agent
-              playbooks, commands and hooks, and collab-finder loads the skills.
+              playbooks, commands and hooks, and collab-finder loads the skills. Original plugins in
+              that repository:
+              <ul>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/arch-machine">
+                    arch-machine
+                  </a>{" "}
+                  is an agent interface for the arch-machine toolkit: a thin install first, with
+                  archy as the control plane.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/eva-emptiness">
+                    eva-emptiness
+                  </a>{" "}
+                  is reasoning when the map is missing: Prior, Probe, Simulate, Score, then act or
+                  ask.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/layout-content-view">
+                    layout-content-view
+                  </a>{" "}
+                  checks that a page layout tree stays reachable and required text is not clipped.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/mission-map">
+                    mission-map
+                  </a>{" "}
+                  names a checkable goal, a graph of stages, the critical path, and the next step.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/odysseus-navigator">
+                    odysseus-navigator
+                  </a>{" "}
+                  is judgment over the outer control graph and eva-emptiness: one bottleneck, one
+                  mistake, one next step.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/premflow">premflow</a> is
+                  slash commands that capture notes, wins, and tasks and run review, through the
+                  premflow command-line tool.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/pulse-memory">
+                    pulse-memory
+                  </a>{" "}
+                  admits sparse, dated, sourced snippets into memory and resolves contradictions
+                  without averaging them.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/uncertainty-laws">
+                    uncertainty-laws
+                  </a>{" "}
+                  is four probability checks for unclear decisions: expected value, base rates,
+                  variance and ruin, then Kelly.
+                </li>
+              </ul>
+              <a href="https://github.com/p10ns11y/plugins/blob/main/pstack-map/LICENSE">
+                pstack-map
+              </a>{" "}
+              is not an original design. It is a map of Cursor&apos;s poteto pstack plugin, and it
+              does not copy the playbooks.
             </li>
             <li>
               <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a> checks Tamil
