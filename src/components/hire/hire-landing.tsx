@@ -10,6 +10,7 @@ import { SocialLinks } from "@/components/social-links";
 import type { HireContent } from "@/lib/hire-content";
 import { deriveHireLayoutClasses } from "@/lib/hire-layout-derived";
 import { lcvMustShow } from "@/lib/hire-lcv";
+import { TARGET_RANGE_HREF, TARGET_RANGE_LABEL } from "@/lib/pay-report-bands";
 
 type HireLandingProps = {
   content: HireContent;
@@ -40,6 +41,9 @@ export function HireLanding({ content }: HireLandingProps) {
               <blockquote className="hire-phi__thesis" {...lcvMustShow}>
                 {content.thesis}
               </blockquote>
+              <p className="hire-phi__target">
+                <Link href={TARGET_RANGE_HREF}>{TARGET_RANGE_LABEL}</Link>
+              </p>
               <div className={layout.heroReach}>
                 <nav className="hire-phi__actions" aria-label="Profile actions">
                   {content.heroLinks.length > 0 ? (
