@@ -508,9 +508,7 @@ export default function PayReportPage() {
         <SectionHeading id="experience-heading" title="Why my experience fits the senior band" />
         <div className="pay-report__body">
           <p>
-            <a href="https://github.com/p10ns11y/devprofile/blob/main/src/data/cvdata.json">
-              Oneflow AB
-            </a>
+            <a href="/cv">Oneflow AB</a>
             , Stockholm, April 2017 to December 2024: JavaScript Developer, then Full Stack
             Integration Engineer, then Engineering Team Lead (October 2021 to December 2022, about
             14 months), then Senior Software Engineer. Weavler AB, Stockholm, January 2016 to March
@@ -538,7 +536,7 @@ export default function PayReportPage() {
             Since December 2024 I have been on a career break, and I have kept building in public
             the whole time. My senior and team lead work at Oneflow falls in the last three years
             before the break. Since then the way I work has moved forward: I start several connected
-            projects at once and direct coding agents to design and build them, and I review what
+            projects at once and direct coding agents to build them, and I review what
             they produce. The projects below are that work.
           </p>
           <p>
