@@ -525,94 +525,95 @@ export default function PayReportPage() {
         </div>
       </SectionShell>
 
-      <SectionShell id="how-the-work-was-run" headingId="how-the-work-was-run-heading">
-        <SectionHeading id="how-the-work-was-run-heading" title="How the work was run" />
+      <SectionShell
+        id="why-the-break-doesnt-set-me-back"
+        headingId="why-the-break-doesnt-set-me-back-heading"
+      >
+        <SectionHeading
+          id="why-the-break-doesnt-set-me-back-heading"
+          title="Why the break doesn't set me back"
+        />
         <div className="pay-report__body">
-          <p>The design and architecture are mine. Coding agents wrote much of the code.</p>
           <p>
-            <a href="https://github.com/thecuriousts/ensembly/issues/1">ensembly issue 1</a>, 24
-            July 2026, is still open.
+            Since December 2024 I have been on a career break, and I have kept building in public
+            the whole time. My senior and team lead work at Oneflow falls in the last three years
+            before the break. Since then the way I work has moved forward: I start several connected
+            projects at once and direct coding agents to design and build them, and I review what
+            they produce. The projects below are that work.
           </p>
           <p>
-            Human in the loop: I check chores and payments in a game-style view and approve steps
-            that need a person (
+            I started these projects in parallel, each aimed at a real problem of mine, and chose
+            them so each one works a different part of software engineering: desktop apps, systems
+            programming in C, Rust compiled to WebAssembly, API validation, and machine setup. I
+            wrote the first proposals and decided how the projects connect. Coding agents then
+            drafted much of the detailed design, architecture and code from those proposals, and I
+            steered and reviewed it.
+          </p>
+          <p>
+            What ties them together is{" "}
+            <a href="https://github.com/thecuriousts/ensembly/issues/1">ensembly issue 1</a> (opened
+            24 July 2026, still open): which work an agent can do on its own and which steps need a
+            person. A person checks chores and payments in a game-style view and approves the steps
+            that need them (
             <a href="https://github.com/thecuriousts/ensembly/pull/10">pull request 10</a>
-            ).
-          </p>
-          <p>
-            Human out of the loop: helper agents do the rest. Urgency and importance form a graph;
-            PERT and Monte Carlo find the critical path (
+            ). The rest of the time, agents work through a task graph ranked by urgency and
+            importance, with PERT and Monte Carlo runs finding the critical path (
             <a href="https://github.com/thecuriousts/ensembly/pull/2">pull request 2</a>
-            ).
-          </p>
-          <p>
-            <a href="https://www.anthropic.com/research/building-effective-agents">
-              Anthropic (19 Dec 2024)
-            </a>{" "}
-            describes agents that proceed once the task is clear and pause at a checkpoint or a
-            blocker, and{" "}
+            ). The same question is central in current agent research (
+            <a href="https://www.anthropic.com/research/building-effective-agents">Anthropic</a>,{" "}
             <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/">
-              METR (19 Mar 2025)
-            </a>{" "}
-            found task length at 50% reliability had doubled about every 7 months.
+              METR
+            </a>
+            ).
           </p>
           <ul>
             <li>
-              <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a> finds roles that
-              fit, builds a tailored application pack for each, and tracks outcomes. A rejection
-              changes ranking only when the note has specific feedback. The person submits and
-              handles CAPTCHA and BankID.
+              <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a> is a Tauri, Rust
+              and React desktop app for job search. It finds roles that fit and builds an
+              application pack for each, and a rejection changes its ranking only when it carries
+              specific feedback. Submitting, CAPTCHA and BankID stay with the person, which is the
+              same split as in ensembly issue 1.
             </li>
             <li>
-              <a href="https://github.com/p10ns11y/skills">skills</a>: playbooks collab-finder and{" "}
-              <a href="https://github.com/p10ns11y/plugins">plugins</a> use.
+              <a href="https://github.com/p10ns11y/skills">skills</a> and{" "}
+              <a href="https://github.com/p10ns11y/plugins">plugins</a> hold reusable agent
+              playbooks, commands and hooks, and collab-finder loads the skills.
             </li>
             <li>
-              <a href="https://github.com/p10ns11y/plugins">plugins</a>: commands and hooks;{" "}
-              <a href="https://github.com/p10ns11y/plugins/blob/main/README.md">README</a> points at
-              skills.
+              <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a> checks Tamil
+              poetic metre in the browser, using a Rust parser compiled to WebAssembly with a React
+              UI.
             </li>
             <li>
-              <a href="https://github.com/p10ns11y/devprofile">This site</a>: CV, pages, and checks
-              (
+              <a href="https://github.com/p10ns11y/elomaxz">elomaxz</a> is an MVU framework for C,
+              and the <a href="https://github.com/p10ns11y/packedbox">packedbox</a> command-line
+              tool uses it.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/adaptate">adaptate</a> keeps API types, runtime
+              required-field checks and OpenAPI in one Zod schema.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/packedbox">packedbox</a>,{" "}
+              <a href="https://github.com/p10ns11y/arch-machine">arch-machine</a> and{" "}
+              <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a> cover the bootstrap,
+              the Arch profiles and the shell setup.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/devprofile">This site</a> holds the CV and the
+              public pages, and its visitor routes are listed in a{" "}
               <a href="https://github.com/p10ns11y/devprofile/tree/main/.cursor/skills/verify-devprofile/features">
                 verify map
-              </a>
-              ).
-            </li>
-            <li>
-              <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a>: Tamil
-              prosody, React over Rust WASM.
-            </li>
-            <li>
-              <a href="https://github.com/p10ns11y/elomaxz">elomaxz</a>: MVU for C.{" "}
-              <a href="https://github.com/p10ns11y/packedbox">packedbox</a> CLI uses it.
-            </li>
-            <li>
-              <a href="https://github.com/p10ns11y/adaptate">adaptate</a>: one Zod schema, runtime
-              required fields, OpenAPI.
-            </li>
-            <li>
-              <a href="https://github.com/p10ns11y/life-os">life-os</a>: personal notes.{" "}
-              <a href="https://github.com/thecuriousts/ensembly">ensembly</a>: memory between runs.
-            </li>
-            <li>
-              <a href="https://github.com/p10ns11y/packedbox">packedbox</a>: Linux bootstrap.{" "}
-              <a href="https://github.com/p10ns11y/packedbox/blob/main/README.md">README</a> points
-              at <a href="https://github.com/p10ns11y/arch-machine">arch-machine</a> and{" "}
-              <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a>.
-            </li>
-            <li>
-              <a href="https://github.com/p10ns11y/arch-machine">arch-machine</a>: Arch install,
-              profiles.
-            </li>
-            <li>
-              <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a>: zsh, bash, fish.
+              </a>{" "}
+              that the checks run against.
             </li>
           </ul>
           <p>
-            <a href="https://github.com/p10ns11y/skills/blob/master/LICENSE">skills is MIT</a>.
-            Others are public code except the two MIT plugin folders,{" "}
+            <a href="https://github.com/p10ns11y/skills/blob/master/LICENSE">skills</a>,{" "}
+            <a href="https://github.com/p10ns11y/elomaxz/blob/master/LICENSE">elomaxz</a>,{" "}
+            <a href="https://github.com/p10ns11y/adaptate/blob/main/LICENSE">adaptate</a>, and{" "}
+            <a href="https://github.com/thecuriousts/ensembly/blob/master/LICENSE.md">ensembly</a>{" "}
+            are MIT licensed, as are two plugin folders (
             <a href="https://github.com/p10ns11y/plugins/blob/main/layout-content-view/LICENSE">
               layout-content-view
             </a>{" "}
@@ -620,7 +621,12 @@ export default function PayReportPage() {
             <a href="https://github.com/p10ns11y/plugins/blob/main/pstack-map/LICENSE">
               pstack-map
             </a>
-            .
+            ).{" "}
+            <a href="https://github.com/p10ns11y/arch-machine/blob/sentinel/LICENSE">
+              arch-machine
+            </a>{" "}
+            is under the GNU General Public License, version 3. The other repositories are public
+            but have no license.
           </p>
         </div>
       </SectionShell>
