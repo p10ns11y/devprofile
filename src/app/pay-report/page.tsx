@@ -646,7 +646,17 @@ export default function PayReportPage() {
           </p>
           <p>
             This is the question frontier labs are working on now, namely when an agent should act
-            on its own and when it should hand control back to a person.
+            on its own and when it should hand control back:{" "}
+            <a href="https://www.anthropic.com/research/building-effective-agents">
+              Anthropic (19 Dec 2024)
+            </a>{" "}
+            describes agents that proceed once the task is clear and pause for a person at a
+            checkpoint or a blocker, and{" "}
+            <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/">
+              METR (19 Mar 2025)
+            </a>{" "}
+            found the length of task an agent finishes on its own, at 50% reliability, had doubled
+            about every 7 months.
           </p>
           <p>
             From April 2026 I had little time and a tight budget. I started a few public projects,
