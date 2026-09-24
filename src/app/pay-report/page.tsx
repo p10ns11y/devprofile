@@ -626,15 +626,54 @@ export default function PayReportPage() {
         <SectionHeading id="how-the-work-was-run-heading" title="How the work was run" />
         <div className="pay-report__body">
           <p>
+            I opened{" "}
+            <a href="https://github.com/thecuriousts/ensembly/issues/1">ensembly issue 1</a> on 24
+            July 2026. It is still open. It asks how a person stays in the loop for some steps and
+            out of it for the rest.
+          </p>
+          <p>
+            Human in the loop: I check that digital chores and payments are on track through an
+            optional game-style view, and I approve the steps that need a person. That view sits in
+            the prototype moved by{" "}
+            <a href="https://github.com/thecuriousts/ensembly/pull/10">pull request 10</a>.
+          </p>
+          <p>
+            Human out of the loop: helper agents do the work the rest of the time. Tasks ranked by
+            urgency and importance become a graph, and PERT and Monte Carlo runs find the critical
+            path. <a href="https://github.com/thecuriousts/ensembly/pull/2">Pull request 2</a> adds
+            that graph, the critical path, and those two runs, with a person still approving the
+            steps that need one.
+          </p>
+          <p>
+            This is the question frontier labs are working on now, namely when an agent should act
+            on its own and when it should hand control back to a person.
+          </p>
+          <p>
             From April 2026 I had little time and a tight budget. I started a few public projects,
             kept the tooling small, and learned to direct frontier models and coding agents inside
             checks I could read.
           </p>
           <p>
             I started <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a>{" "}
-            (kanithanj.ai) so application fit, preparation, and the next step live in one local
-            desktop app. Version 1.0.0 shipped on 19 August 2026, as the <Link href="/cv">CV</Link>{" "}
-            records. Pull requests run the{" "}
+            (kanithanj.ai) so the next step and the notes live in one local desktop app. Version
+            1.0.0 shipped on 19 August 2026, as the <Link href="/cv">CV</Link> records.{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/releases/tag/v1.1.0">
+              Version 1.1.0
+            </a>{" "}
+            ships binaries built by CI. A ranking weight moves only when a note gives specific
+            feedback; a generic note leaves the weight unchanged (
+            <a href="https://github.com/p10ns11y/collab-finder/pull/78">pull request 78</a>
+            ). The{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/pull/50">
+              verify map in pull request 50
+            </a>{" "}
+            pins CI actions to full commit SHAs, and{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/pull/52">pull request 52</a> adds
+            another verify runner. A generated PDF is checked so its text stays in one reading order
+            (<a href="https://github.com/p10ns11y/collab-finder/pull/71">pull request 71</a>
+            ), and a later pull cannot put that text back into two columns (
+            <a href="https://github.com/p10ns11y/collab-finder/pull/73">pull request 73</a>
+            ). Pull requests run the{" "}
             <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/ci.yml">
               CI workflow
             </a>
@@ -676,9 +715,9 @@ export default function PayReportPage() {
             lints, tests, and builds on each pull request.
           </p>
           <p>
-            <a href="https://github.com/thecuriousts/ensembly">ensembly</a> is a thin control and
-            memory layer on the machine I work from, so notes survive from one coding-agent run to
-            the next. Personal notes also live in{" "}
+            <a href="https://github.com/thecuriousts/ensembly">ensembly</a> is also the thin control
+            and memory layer on the machine I work from, so notes survive from one coding-agent run
+            to the next. Personal notes also live in{" "}
             <a href="https://github.com/p10ns11y/life-os">life-os</a>.
           </p>
           <p>
