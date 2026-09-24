@@ -587,63 +587,59 @@ export default function PayReportPage() {
               that repository:
               <ul>
                 <li>
-                  <a href="https://github.com/p10ns11y/plugins/tree/main/arch-machine">
-                    arch-machine
-                  </a>{" "}
-                  is an agent interface for the arch-machine toolkit: a thin install first, with
-                  archy as the control plane.
-                </li>
-                <li>
                   <a href="https://github.com/p10ns11y/plugins/tree/main/eva-emptiness">
                     eva-emptiness
                   </a>{" "}
-                  is reasoning when the map is missing: Prior, Probe, Simulate, Score, then act or
-                  ask.
+                  plans from a blank sheet: prior, probe, simulate, score, then act or ask.
                 </li>
                 <li>
-                  <a href="https://github.com/p10ns11y/plugins/tree/main/layout-content-view">
-                    layout-content-view
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/premflow">premflow</a>{" "}
+                  keeps notes, wins, tasks, and coaching, driven through the premflow command-line
+                  tool.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/arch-machine">
+                    arch-machine
                   </a>{" "}
-                  checks that a page layout tree stays reachable and required text is not clipped.
+                  starts thin and expands only with consent.
                 </li>
                 <li>
                   <a href="https://github.com/p10ns11y/plugins/tree/main/mission-map">
                     mission-map
                   </a>{" "}
-                  names a checkable goal, a graph of stages, the critical path, and the next step.
-                </li>
-                <li>
-                  <a href="https://github.com/p10ns11y/plugins/tree/main/odysseus-navigator">
-                    odysseus-navigator
-                  </a>{" "}
-                  is judgment over the outer control graph and eva-emptiness: one bottleneck, one
-                  mistake, one next step.
-                </li>
-                <li>
-                  <a href="https://github.com/p10ns11y/plugins/tree/main/premflow">premflow</a> is
-                  slash commands that capture notes, wins, and tasks and run review, through the
-                  premflow command-line tool.
-                </li>
-                <li>
-                  <a href="https://github.com/p10ns11y/plugins/tree/main/pulse-memory">
-                    pulse-memory
-                  </a>{" "}
-                  admits sparse, dated, sourced snippets into memory and resolves contradictions
-                  without averaging them.
+                  is a mission briefing with a critical path and a way to replan.
                 </li>
                 <li>
                   <a href="https://github.com/p10ns11y/plugins/tree/main/uncertainty-laws">
                     uncertainty-laws
                   </a>{" "}
-                  is four probability checks for unclear decisions: expected value, base rates,
-                  variance and ruin, then Kelly.
+                  covers rough checks for uncertain decisions: expected value, base rates, ruin, and
+                  Kelly.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/odysseus-navigator">
+                    odysseus-navigator
+                  </a>{" "}
+                  finds common engineering judgment mistakes and names a fix for each.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/pulse-memory">
+                    pulse-memory
+                  </a>{" "}
+                  takes in short tagged memories instead of dumping everything, and resolves
+                  contradictions.
+                </li>
+                <li>
+                  <a href="https://github.com/p10ns11y/plugins/tree/main/layout-content-view">
+                    layout-content-view
+                  </a>{" "}
+                  checks that web layout, content, and view stay stable, and was first tried on this
+                  site.
                 </li>
               </ul>
-              <a href="https://github.com/p10ns11y/plugins/blob/main/pstack-map/LICENSE">
-                pstack-map
-              </a>{" "}
-              is not an original design. It is a map of Cursor&apos;s poteto pstack plugin, and it
-              does not copy the playbooks.
+              <a href="https://github.com/p10ns11y/plugins/tree/main/pstack-map">pstack-map</a> is a
+              playbook map from Cursor&apos;s pstack, by Lauren Tan under the MIT license, onto my
+              own skills. It does not copy pstack.
             </li>
             <li>
               <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a> checks Tamil
