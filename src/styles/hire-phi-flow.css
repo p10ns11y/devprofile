@@ -156,10 +156,20 @@
     font-size: clamp(1.125rem, 2.2vw, 1.5rem);
     font-style: italic;
     line-height: 1.45;
-    margin: 0 0 var(--phi-gap-3);
+    margin: 0 0 var(--phi-gap-2);
     padding-top: var(--phi-gap-1);
     border-top: 1px solid var(--color-border-subtle);
     text-wrap: pretty;
+  }
+
+  .hire-phi__target {
+    margin: 0 0 var(--phi-gap-3);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .hire-phi__target a {
+    color: var(--color-link);
   }
 
   .hire-phi__section-header {

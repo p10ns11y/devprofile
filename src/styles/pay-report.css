@@ -1,0 +1,175 @@
+.pay-report {
+  padding-top: var(--header-offset);
+  padding-bottom: 4.5rem;
+}
+
+.pay-report .section-heading {
+  text-align: start;
+}
+
+.pay-report .section-heading .section-lead,
+.pay-report .section-lead {
+  margin-inline: 0;
+  max-width: 42rem;
+}
+
+.pay-report__intro {
+  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.pay-report__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  max-width: 42rem;
+  color: var(--color-text1);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.pay-report__body--wide {
+  max-width: none;
+}
+
+.pay-report__body p,
+.pay-report__body ul,
+.pay-report__body .subsection-title {
+  margin: 0;
+}
+
+.pay-report__body ul {
+  padding-left: 1.2rem;
+}
+
+.pay-report__body li + li {
+  margin-top: 0.65rem;
+}
+
+.pay-report__body a,
+.pay-report__recheck a {
+  color: var(--color-link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.pay-report__scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pay-report table {
+  width: 100%;
+  min-width: 40rem;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.pay-report caption {
+  caption-side: bottom;
+  padding-top: 0.65rem;
+  text-align: left;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text2);
+}
+
+.pay-report th,
+.pay-report td {
+  padding: 0.45rem 0.65rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  vertical-align: top;
+}
+
+.pay-report th:first-child,
+.pay-report td:first-child {
+  text-align: left;
+}
+
+.pay-report th {
+  font-weight: 600;
+  color: var(--color-text2);
+}
+
+.pay-report tr[data-row="sweden"] th,
+.pay-report tr[data-row="sweden"] td {
+  font-weight: 700;
+}
+
+.pay-report__recheck {
+  margin: 0;
+  font-size: 0.8125rem;
+}
+
+.pay-report__chart-figure {
+  margin: 0;
+}
+
+.pay-report__chart-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.85rem;
+}
+
+.pay-report__chart-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  line-height: 1.25;
+}
+
+.pay-report__chart-subheading {
+  color: var(--color-text2);
+  font-size: 0.9375rem;
+}
+
+.pay-report__chart-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.pay-report__chart {
+  display: block;
+  width: 100%;
+  min-width: 44rem;
+  height: auto;
+  color: var(--color-text1);
+}
+
+.pay-report__chart-label,
+.pay-report__chart-tick-label,
+.pay-report__chart-axis,
+.pay-report__chart-legend {
+  fill: currentColor;
+  font-family: var(--font-body), "DM Sans", sans-serif;
+}
+
+.pay-report__chart-label {
+  font-size: 12px;
+}
+
+.pay-report__chart-tick-label,
+.pay-report__chart-legend,
+.pay-report__chart-axis {
+  font-size: 11px;
+  fill: var(--color-text2);
+}
+
+.pay-report__chart-guide,
+.pay-report__chart-tick {
+  stroke: var(--color-border-subtle);
+  stroke-width: 1;
+}
+
+.pay-report__chart-bar {
+  fill: color-mix(in oklch, var(--color-brand-emphasis) 72%, var(--color-text1));
+}
+
+.pay-report__chart-median {
+  fill: var(--color-text1);
+  stroke: var(--color-surface1);
+  stroke-width: 1;
+}

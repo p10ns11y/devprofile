@@ -19,6 +19,7 @@ LCV continues the tree: Routes → Viewports → Orientation → Layouts → Con
 ## Features
 
 - [Home](./home.md)
+- [Developer pay report](./pay-report.md)
 - [Profile Q&A](./qa.md)
 - [Posts on X](./x.md)
 - [Profile](./profile.md)
