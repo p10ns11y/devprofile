@@ -509,25 +509,26 @@ export default function PayReportPage() {
         <SectionHeading id="experience-heading" title="Why my experience fits the senior band" />
         <div className="pay-report__body">
           <p>
-            Oneflow AB, Stockholm, April 2017 to December 2024, is about 7 years 8 months.
-            Progression: JavaScript Developer (Apr 2017–Feb 2019), then Full Stack Integration
-            Engineer (Mar 2019–Sep 2021, when I set up the integration team), then Engineering Team
-            Lead (Oct 2021–Dec 2022), then Senior Software Engineer (Jan 2023–Dec 2024). Oneflow
-            alone is 7 years 8 months, which is just under the 8–15 year band.
+            Oneflow AB, Stockholm, April 2017 to December 2024, is 7 years 8 months. Progression:
+            JavaScript Developer (Apr 2017–Feb 2019), then Full Stack Integration Engineer (Mar
+            2019–Sep 2021, when I set up the integration team), then Engineering Team Lead (Oct
+            2021–Dec 2022), then Senior Software Engineer (Jan 2023–Dec 2024). Oneflow alone is 7
+            years 8 months, which is just under the 8–15 year band.
           </p>
           <p>
-            Weavler AB, Stockholm: Full Stack Developer, January 2016 to March 2017, 1 year 3
+            Weavler AB, Stockholm: Full Stack Developer, January 2016 to March 2017, 1 year 2
             months. That role is listed in the <Link href="/cv">CV on this site</Link>.
           </p>
           <p>
-            The employment total used on this page is 7 years 8 months plus 1 year 3 months, about 8
-            years 11 months of professional employment, which is inside the 8–15 year band. That is
-            the count being used. The 2015 summer internship is not included.
+            Durations are counted from the start month to the end month. The employment total used
+            on this page is 7 years 8 months plus 1 year 2 months, 8 years 10 months of professional
+            employment, which is inside the 8–15 year band. That is the count being used. The 2015
+            summer internship is not included.
           </p>
           <p>
             From December 2024 onward I have been in family care while building and running my own
             software in public. I count that only as far as public commits back it up, and I do not
-            add it to the 8 years 11 months above. Counts below are public commits by{" "}
+            add it to the 8 years 10 months above. Counts below are public commits by{" "}
             <a href="https://github.com/p10ns11y">p10ns11y</a> on 24 Sep 2026.
           </p>
           <p>
@@ -557,7 +558,7 @@ export default function PayReportPage() {
             current, hands-on production engineering in TypeScript, React, Rust and Tauri.
           </p>
           <p>
-            Eight years 11 months of employment puts me in the 8–15 year survey band. Team lead
+            Eight years 10 months of employment puts me in the 8–15 year survey band. Team lead
             experience maps to the SCB IT architect (2511) and IT manager level 2 (1312) rows. The
             8–15 year survey band is for individual contributors, and I am using it as the reference
             for a senior individual contributor role.
