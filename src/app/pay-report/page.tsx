@@ -570,7 +570,8 @@ export default function PayReportPage() {
             <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/">
               METR
             </a>
-            ).
+            ). The product I see doing this best today is Grok Bot: agents plan, check and carry out
+            the work in the background, and I step in only to approve the steps that need a person.
           </p>
           <ul>
             <li>
