@@ -32,7 +32,8 @@
 }
 
 .pay-report__body p,
-.pay-report__body ul {
+.pay-report__body ul,
+.pay-report__body .subsection-title {
   margin: 0;
 }
 

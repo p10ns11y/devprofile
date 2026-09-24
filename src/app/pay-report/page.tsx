@@ -625,11 +625,14 @@ export default function PayReportPage() {
       <SectionShell id="how-the-work-was-run" headingId="how-the-work-was-run-heading">
         <SectionHeading id="how-the-work-was-run-heading" title="How the work was run" />
         <div className="pay-report__body">
+          <h3 id="range-of-thinking" className="subsection-title">
+            Range of thinking
+          </h3>
           <p>
             I opened{" "}
             <a href="https://github.com/thecuriousts/ensembly/issues/1">ensembly issue 1</a> on 24
-            July 2026. It is still open. It asks how a person stays in the loop for some steps and
-            out of it for the rest.
+            July 2026. It is still open. That issue is the design: how a person stays in the loop
+            for some steps and out of it for the rest.
           </p>
           <p>
             Human in the loop: I check that digital chores and payments are on track through an
@@ -659,93 +662,136 @@ export default function PayReportPage() {
             about every 7 months.
           </p>
           <p>
-            From April 2026 I had little time and a tight budget. I started a few public projects,
-            kept the tooling small, and learned to direct frontier models and coding agents inside
-            checks I could read.
-          </p>
-          <p>
-            I started <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a>{" "}
-            (kanithanj.ai) so the next step and the notes live in one local desktop app. Version
-            1.0.0 shipped on 19 August 2026, as the <Link href="/cv">CV</Link> records.{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/releases/tag/v1.1.0">
-              Version 1.1.0
-            </a>{" "}
-            ships binaries built by CI. A ranking weight moves only when a note gives specific
-            feedback; a generic note leaves the weight unchanged (
-            <a href="https://github.com/p10ns11y/collab-finder/pull/78">pull request 78</a>
-            ). The{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/pull/50">
-              verify map in pull request 50
-            </a>{" "}
-            pins CI actions to full commit SHAs, and{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/pull/52">pull request 52</a> adds
-            another verify runner. A generated PDF is checked so its text stays in one reading order
-            (<a href="https://github.com/p10ns11y/collab-finder/pull/71">pull request 71</a>
-            ), and a later pull cannot put that text back into two columns (
-            <a href="https://github.com/p10ns11y/collab-finder/pull/73">pull request 73</a>
-            ). Pull requests run the{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/ci.yml">
-              CI workflow
-            </a>
-            , and the{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.agents/overlays/collab-finder-verify.md">
-              verify overlay
-            </a>{" "}
-            names the commands that check must run. The app carries a copy of shared procedures
+            <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a> (kanithanj.ai)
+            keeps the next step and the notes in one local desktop app. Version 1.0.0 shipped on 19
+            August 2026, as the <Link href="/cv">CV</Link> records. It carries shared procedures
             under{" "}
             <a href="https://github.com/p10ns11y/collab-finder/tree/main/.agents/skills">
               .agents/skills
             </a>
-            , drawn from the <a href="https://github.com/p10ns11y/skills">skills</a> library. Those
-            procedures are also packaged in{" "}
+            , drawn from the <a href="https://github.com/p10ns11y/skills">skills</a> library, and
+            those procedures are packaged in{" "}
             <a href="https://github.com/p10ns11y/plugins">plugins</a>, whose{" "}
             <a href="https://github.com/p10ns11y/plugins/blob/main/README.md">README</a> points back
-            at the skills library.
-          </p>
-          <p>
-            I started <a href="https://github.com/p10ns11y/devprofile">this site</a> so the CV, the
-            public pages, and the checks share one record. Visitor routes are listed in the{" "}
-            <a href="https://github.com/p10ns11y/devprofile/tree/main/.cursor/skills/verify-devprofile/features">
-              verify map
-            </a>
-            .
-          </p>
-          <p>
+            at the skills library. <a href="https://github.com/p10ns11y/devprofile">This site</a>{" "}
+            keeps the CV, the public pages, and the checks in one record.{" "}
             <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a> is a Rust
-            parser compiled to WASM with a React UI, so Tamil metre can run in the browser. Its{" "}
-            <a href="https://github.com/p10ns11y/thepulimaangani/blob/malar/.github/workflows/ci.yml">
-              CI workflow
-            </a>{" "}
-            builds that path. <a href="https://github.com/p10ns11y/elomaxz">elomaxz</a> is an MVU
-            framework for C, so a small program stays predictable.{" "}
-            <a href="https://github.com/p10ns11y/adaptate">adaptate</a> is a runtime validator; its{" "}
-            <a href="https://github.com/p10ns11y/adaptate/blob/main/.github/workflows/ci.yml">
-              CI workflow
-            </a>{" "}
-            lints, tests, and builds on each pull request.
-          </p>
-          <p>
-            <a href="https://github.com/thecuriousts/ensembly">ensembly</a> is also the thin control
-            and memory layer on the machine I work from, so notes survive from one coding-agent run
-            to the next. Personal notes also live in{" "}
-            <a href="https://github.com/p10ns11y/life-os">life-os</a>.
-          </p>
-          <p>
-            The machine setup is split on purpose.{" "}
+            parser compiled to WASM with a React UI, so Tamil metre can run in the browser.{" "}
+            <a href="https://github.com/p10ns11y/elomaxz">elomaxz</a> is an MVU framework for C.{" "}
+            <a href="https://github.com/p10ns11y/adaptate">adaptate</a> is a runtime validator.{" "}
+            <a href="https://github.com/thecuriousts/ensembly">ensembly</a> is also the control and
+            memory layer on the machine I work from, so notes survive from one coding-agent run to
+            the next. Personal notes also live in{" "}
+            <a href="https://github.com/p10ns11y/life-os">life-os</a>.{" "}
             <a href="https://github.com/p10ns11y/packedbox">packedbox</a> is the portable Linux
             bootstrap. Its{" "}
             <a href="https://github.com/p10ns11y/packedbox/blob/main/README.md">README</a> points at{" "}
             <a href="https://github.com/p10ns11y/arch-machine">arch-machine</a> for the Arch
             profiles and at <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a> for
-            the shell. packedbox runs a{" "}
-            <a href="https://github.com/p10ns11y/packedbox/blob/main/.github/workflows/ubuntu-path.yml">
-              path-contract check
+            the shell.
+          </p>
+          <h3 id="built-with-little-time-and-money" className="subsection-title">
+            Built with little time and money
+          </h3>
+          <p>
+            From April 2026 I had little time and a tight budget. I kept the tooling small and
+            directed frontier models and coding agents inside checks I could read.
+          </p>
+          <p>
+            Pull requests run the{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/ci.yml#L34">
+              collab-finder CI workflow
+            </a>
+            . The fitness job checks that actions stay pinned to full commit SHAs (
+            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/ci.yml#L45">
+              action pin check
+            </a>
+            , added in{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/pull/50">pull request 50</a>
+            ). The check job runs type-check and verify, and on a release change it also runs Rust
+            tests (
+            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/ci.yml#L92">
+              release check
+            </a>
+            ).{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/releases/tag/v1.1.0">
+              Version 1.1.0
             </a>{" "}
-            in CI. arch-machine runs{" "}
-            <a href="https://github.com/p10ns11y/arch-machine/blob/sentinel/.github/workflows/ci.yml">
-              shell and config checks
+            ships binaries built by the{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/release.yml#L25">
+              release workflow
+            </a>
+            .{" "}
+            <a href="https://github.com/p10ns11y/adaptate/blob/main/.github/workflows/ci.yml#L30">
+              adaptate CI
             </a>{" "}
-            in CI.
+            lints,{" "}
+            <a href="https://github.com/p10ns11y/adaptate/blob/main/.github/workflows/ci.yml#L33">
+              tests
+            </a>
+            , and builds on each pull request, with checkout and Node setup pinned to full SHAs.{" "}
+            <a href="https://github.com/p10ns11y/thepulimaangani/blob/malar/.github/workflows/ci.yml#L14">
+              thepulimaangani CI
+            </a>{" "}
+            builds the WASM path and runs its tests; the later coverage report does not fail the
+            workflow. packedbox runs{" "}
+            <a href="https://github.com/p10ns11y/packedbox/blob/main/.github/workflows/ubuntu-path.yml#L37">
+              path-contract tests
+            </a>{" "}
+            in CI. On arch-machine, shell and config steps run and do not fail the job; the{" "}
+            <a href="https://github.com/p10ns11y/arch-machine/blob/sentinel/.github/workflows/ci.yml#L61">
+              schedule tests
+            </a>{" "}
+            and the{" "}
+            <a href="https://github.com/p10ns11y/arch-machine/blob/sentinel/.github/workflows/ci.yml#L72">
+              cargo tests
+            </a>{" "}
+            do.
+          </p>
+          <p>
+            The{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.agents/overlays/collab-finder-verify.md">
+              verify overlay
+            </a>{" "}
+            names the commands a check must run.{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/pull/52">Pull request 52</a> adds
+            another verify runner. Visitor routes on this site are listed in the{" "}
+            <a href="https://github.com/p10ns11y/devprofile/tree/main/.cursor/skills/verify-devprofile/features">
+              verify map
+            </a>
+            . A generated PDF is checked so its text stays in one reading order (
+            <a href="https://github.com/p10ns11y/collab-finder/pull/71">pull request 71</a>
+            ), and a later pull cannot put that text back into two columns (
+            <a href="https://github.com/p10ns11y/collab-finder/pull/73">pull request 73</a>
+            ). A ranking weight moves only when a note gives specific feedback; a generic note
+            leaves the weight unchanged (
+            <a href="https://github.com/p10ns11y/collab-finder/pull/78">pull request 78</a>
+            ).
+          </p>
+          <p>
+            The pay-report scripts can be re-run from the repository:{" "}
+            <a href={REPRODUCE_SCRIPT_URL}>reproduce.py</a>,{" "}
+            <a href={EMPLOYER_COST_SCRIPT_URL}>employer_cost.py</a>,{" "}
+            <a href={PRICE_TAGS_SCRIPT_URL}>price_tags.py</a>, and{" "}
+            <a href={MERGED_PRS_SCRIPT_URL}>merged_prs.py</a>.
+          </p>
+          <h3 id="others-can-build-on-it" className="subsection-title">
+            Others can build on it
+          </h3>
+          <p>
+            The <a href="https://github.com/p10ns11y/skills">skills</a> library is{" "}
+            <a href="https://github.com/p10ns11y/skills/blob/master/LICENSE">MIT</a>. Others can
+            copy it. <a href="https://github.com/p10ns11y/plugins">plugins</a> has no license at the
+            repository root, so that repository is public code.{" "}
+            <a href="https://github.com/p10ns11y/plugins/blob/main/layout-content-view/LICENSE">
+              layout-content-view
+            </a>{" "}
+            and{" "}
+            <a href="https://github.com/p10ns11y/plugins/blob/main/pstack-map/LICENSE">
+              pstack-map
+            </a>{" "}
+            are each MIT, and those two folders can be copied.{" "}
+            <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a> is public code.
           </p>
         </div>
       </SectionShell>
