@@ -509,11 +509,11 @@ export default function PayReportPage() {
         <SectionHeading id="experience-heading" title="Why my experience fits the senior band" />
         <div className="pay-report__body">
           <p>
-            Oneflow AB, Stockholm, April 2017 to December 2024, is 7 years 8 months. Progression:
-            JavaScript Developer (Apr 2017–Feb 2019), then Full Stack Integration Engineer (Mar
-            2019–Sep 2021, when I set up the integration team), then Engineering Team Lead (Oct
-            2021–Dec 2022), then Senior Software Engineer (Jan 2023–Dec 2024). Oneflow alone is 7
-            years 8 months, which is just under the 8–15 year band.
+            Oneflow alone is 7 years 8 months (Oneflow AB, Stockholm, April 2017 to December 2024),
+            which is just under the 8–15 year band. Progression: JavaScript Developer (Apr 2017–Feb
+            2019), then Full Stack Integration Engineer (Mar 2019–Sep 2021, when I set up the
+            integration team), then Engineering Team Lead (Oct 2021–Dec 2022), then Senior Software
+            Engineer (Jan 2023–Dec 2024).
           </p>
           <p>
             Weavler AB, Stockholm: Full Stack Developer, January 2016 to March 2017, 1 year 2
@@ -559,7 +559,7 @@ export default function PayReportPage() {
           </p>
           <p>
             Eight years 10 months of employment puts me in the 8–15 year survey band. Team lead
-            experience maps to the SCB IT architect (2511) and IT manager level 2 (1312) rows. The
+            experience, about 14 months, is closest to the SCB IT manager level 2 (1312) row. The
             8–15 year survey band is for individual contributors, and I am using it as the reference
             for a senior individual contributor role.
           </p>
