@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { CountryPayChart } from "@/components/pay-report/country-pay-chart";
 import { PageShell } from "@/components/site/PageShell";
 import { SectionHeading } from "@/components/site/SectionHeading";
@@ -18,34 +17,6 @@ import {
 
 const ECB_RATES_URL =
   "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html";
-
-const MERGED_PRS_SCRIPT_URL =
-  "https://github.com/p10ns11y/devprofile/blob/main/data/pay-report-2025/merged_prs.py";
-
-const MERGED_PRS_APR_SEP = [
-  ["p10ns11y/collab-finder", 75],
-  ["p10ns11y/devprofile", 57],
-  ["p10ns11y/thepulimaangani", 50],
-  ["p10ns11y/arch-machine", 41],
-  ["p10ns11y/adaptate", 29],
-  ["thecuriousts/ensembly", 22],
-  ["p10ns11y/plugins", 16],
-  ["p10ns11y/shellyxz.sh", 15],
-  ["p10ns11y/skills", 9],
-  ["p10ns11y/life-os", 8],
-  ["p10ns11y/grok-build", 5],
-  ["p10ns11y/packedbox", 5],
-  ["p10ns11y/sorkalam-extension", 5],
-  ["p10ns11y/p10ns11y", 4],
-  ["thecuriousts/premflow", 4],
-  ["p10ns11y/agent-prompt-tuning-lab", 3],
-  ["p10ns11y/prototype-it-to-explain-itself", 2],
-  ["p10ns11y/dev-machine-guard-linux", 1],
-  ["p10ns11y/elomaxz", 1],
-  ["p10ns11y/grok-daily-productivity-extensions", 1],
-  ["p10ns11y/latex-cv", 1],
-  ["thecuriousts/participatory-mesh", 1],
-] as const;
 
 function Recheck({ href }: { href: string }) {
   return (
@@ -537,87 +508,19 @@ export default function PayReportPage() {
         <SectionHeading id="experience-heading" title="Why my experience fits the senior band" />
         <div className="pay-report__body">
           <p>
-            Oneflow alone is 7 years 8 months (Oneflow AB, Stockholm, April 2017 to December 2024),
-            which is just under the 8–15 year band. Progression: JavaScript Developer (Apr 2017–Feb
-            2019), then Full Stack Integration Engineer (Mar 2019–Sep 2021, when I set up the
-            integration team), then Engineering Team Lead (Oct 2021–Dec 2022), then Senior Software
-            Engineer (Jan 2023–Dec 2024).
-          </p>
-          <p>
-            Weavler AB, Stockholm: Full Stack Developer, January 2016 to March 2017, 1 year 2
-            months. That role is listed in the <Link href="/cv">CV on this site</Link>.
-          </p>
-          <p>
-            Durations are counted from the start month to the end month. The employment total used
-            on this page is 7 years 8 months plus 1 year 2 months, 8 years 10 months of professional
-            employment, which is inside the 8–15 year band. That is the count being used. The 2015
-            summer internship is not included.
-          </p>
-          <p>
-            From December 2024 onward I have been in family care while building and running my own
-            software in public. I count that only as far as merged pull requests back it up, and I
-            do not add it to the 8 years 10 months above. Merged PRs authored by p10ns11y in public
-            repos, counted on 24 Sep 2026.
-          </p>
-          <p>
-            December 2024 to March 2026 was intermittent public work:{" "}
-            <a href="https://github.com/search?q=is%3Apr+is%3Amerged+author%3Ap10ns11y+merged%3A2024-12-01..2026-03-31&type=pullrequests">
-              37 merged pull requests
+            <a href="https://github.com/p10ns11y/devprofile/blob/main/src/data/cvdata.json">
+              Oneflow AB
             </a>
-            . That period is intermittent and is not counted as full-time experience.
-          </p>
-          <Recheck href={MERGED_PRS_SCRIPT_URL} />
-          <p>
-            April 2026 to 24 September 2026 has been sustained public work:{" "}
-            <a href="https://github.com/search?q=is%3Apr+is%3Amerged+author%3Ap10ns11y+merged%3A2026-04-01..2026-09-24&type=pullrequests">
-              355 merged pull requests
-            </a>
-            . That includes <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a>{" "}
-            (kanithanj.ai, a Tauri + Rust + React desktop app; version 1.0.0 shipped 19 August 2026
-            per the CV), <a href="https://github.com/p10ns11y/elomaxz">elomaxz</a> (an MVU framework
-            for C), <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a> (Rust
-            compiled to WASM with a React UI),{" "}
-            <a href="https://github.com/p10ns11y/adaptate">adaptate</a>, and{" "}
-            <a href="https://github.com/p10ns11y/devprofile">this site</a>.
-          </p>
-          <div className="pay-report__scroll">
-            <table>
-              <caption>
-                Merged pull requests from 1 Apr 2026 to 24 Sep 2026, by public repository.
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">Repository</th>
-                  <th scope="col">Merged pull requests</th>
-                </tr>
-              </thead>
-              <tbody>
-                {MERGED_PRS_APR_SEP.map(([repo, count]) => (
-                  <tr key={repo}>
-                    <th scope="row">
-                      <a href={`https://github.com/${repo}`}>{repo}</a>
-                    </th>
-                    <td>{count}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <Recheck href={MERGED_PRS_SCRIPT_URL} />
-          <p>
-            The break does not reset the level. The SCB and survey bands measure years in the job
-            market, and my senior and lead work (team lead October 2021–December 2022, then senior
-            engineer to December 2024) sits inside the last three years before the break. The skills
-            that make someone senior — owning an integration surface in other companies&apos; CRMs
-            and public API, leading and hiring for a team, modernising a live codebase in place to
-            TypeScript — do not expire in under two years. The public work since April 2026 shows
-            current, hands-on production engineering in TypeScript, React, Rust and Tauri.
+            , Stockholm, April 2017 to December 2024: JavaScript Developer, then Full Stack
+            Integration Engineer, then Engineering Team Lead (October 2021 to December 2022, about
+            14 months), then Senior Software Engineer. Weavler AB, Stockholm, January 2016 to March
+            2017: Full Stack Developer.
           </p>
           <p>
-            Eight years 10 months of employment puts me in the 8–15 year survey band. Team lead
-            experience, about 14 months, is closest to the SCB IT manager level 2 (1312) row. The
-            8–15 year survey band is for individual contributors, and I am using it as the reference
-            for a senior individual contributor role.
+            Durations are counted from the start month to the end month: 7 years 8 months plus 1
+            year 2 months, 8 years 10 months in total. That total sits in the 8–15 year survey band
+            for individual contributors, which I use as the reference for a senior individual
+            contributor role.
           </p>
         </div>
       </SectionShell>
@@ -625,173 +528,101 @@ export default function PayReportPage() {
       <SectionShell id="how-the-work-was-run" headingId="how-the-work-was-run-heading">
         <SectionHeading id="how-the-work-was-run-heading" title="How the work was run" />
         <div className="pay-report__body">
-          <h3 id="range-of-thinking" className="subsection-title">
-            Range of thinking
-          </h3>
+          <p>The design and architecture are mine. Coding agents wrote much of the code.</p>
           <p>
-            I opened{" "}
-            <a href="https://github.com/thecuriousts/ensembly/issues/1">ensembly issue 1</a> on 24
-            July 2026. It is still open. That issue is the design: how a person stays in the loop
-            for some steps and out of it for the rest.
+            <a href="https://github.com/thecuriousts/ensembly/issues/1">ensembly issue 1</a>, opened
+            24 July 2026, is still open.
           </p>
           <p>
-            Human in the loop: I check that digital chores and payments are on track through an
-            optional game-style view, and I approve the steps that need a person. That view sits in
-            the prototype moved by{" "}
-            <a href="https://github.com/thecuriousts/ensembly/pull/10">pull request 10</a>.
-          </p>
-          <p>
-            Human out of the loop: helper agents do the work the rest of the time. Tasks ranked by
-            urgency and importance become a graph, and PERT and Monte Carlo runs find the critical
-            path. <a href="https://github.com/thecuriousts/ensembly/pull/2">Pull request 2</a> adds
-            that graph, the critical path, and those two runs, with a person still approving the
-            steps that need one.
-          </p>
-          <p>
-            This is the question frontier labs are working on now, namely when an agent should act
-            on its own and when it should hand control back:{" "}
-            <a href="https://www.anthropic.com/research/building-effective-agents">
-              Anthropic (19 Dec 2024)
-            </a>{" "}
-            describes agents that proceed once the task is clear and pause for a person at a
-            checkpoint or a blocker, and{" "}
-            <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/">
-              METR (19 Mar 2025)
-            </a>{" "}
-            found the length of task an agent finishes on its own, at 50% reliability, had doubled
-            about every 7 months.
-          </p>
-          <p>
-            <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a> (kanithanj.ai)
-            keeps the next step and the notes in one local desktop app. Version 1.0.0 shipped on 19
-            August 2026, as the <Link href="/cv">CV</Link> records. It carries shared procedures
-            under{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/tree/main/.agents/skills">
-              .agents/skills
-            </a>
-            , drawn from the <a href="https://github.com/p10ns11y/skills">skills</a> library, and
-            those procedures are packaged in{" "}
-            <a href="https://github.com/p10ns11y/plugins">plugins</a>, whose{" "}
-            <a href="https://github.com/p10ns11y/plugins/blob/main/README.md">README</a> points back
-            at the skills library. <a href="https://github.com/p10ns11y/devprofile">This site</a>{" "}
-            keeps the CV, the public pages, and the checks in one record.{" "}
-            <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a> is a Rust
-            parser compiled to WASM with a React UI, so Tamil metre can run in the browser.{" "}
-            <a href="https://github.com/p10ns11y/elomaxz">elomaxz</a> is an MVU framework for C.{" "}
-            <a href="https://github.com/p10ns11y/adaptate">adaptate</a> is a runtime validator.{" "}
-            <a href="https://github.com/thecuriousts/ensembly">ensembly</a> is also the control and
-            memory layer on the machine I work from, so notes survive from one coding-agent run to
-            the next. Personal notes also live in{" "}
-            <a href="https://github.com/p10ns11y/life-os">life-os</a>.{" "}
-            <a href="https://github.com/p10ns11y/packedbox">packedbox</a> is the portable Linux
-            bootstrap. Its{" "}
-            <a href="https://github.com/p10ns11y/packedbox/blob/main/README.md">README</a> points at{" "}
-            <a href="https://github.com/p10ns11y/arch-machine">arch-machine</a> for the Arch
-            profiles and at <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a> for
-            the shell.
-          </p>
-          <h3 id="built-with-little-time-and-money" className="subsection-title">
-            Built with little time and money
-          </h3>
-          <p>
-            From April 2026 I had little time and a tight budget. I kept the tooling small and
-            directed frontier models and coding agents inside checks I could read.
-          </p>
-          <p>
-            Pull requests run the{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/ci.yml#L34">
-              collab-finder CI workflow
-            </a>
-            . The fitness job checks that actions stay pinned to full commit SHAs (
-            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/ci.yml#L45">
-              action pin check
-            </a>
-            , added in{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/pull/50">pull request 50</a>
-            ). The check job runs type-check and verify, and on a release change it also runs Rust
-            tests (
-            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/ci.yml#L92">
-              release check
-            </a>
-            ).{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/releases/tag/v1.1.0">
-              Version 1.1.0
-            </a>{" "}
-            ships binaries built by the{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/release.yml#L25">
-              release workflow
-            </a>
-            .{" "}
-            <a href="https://github.com/p10ns11y/adaptate/blob/main/.github/workflows/ci.yml#L30">
-              adaptate CI
-            </a>{" "}
-            lints,{" "}
-            <a href="https://github.com/p10ns11y/adaptate/blob/main/.github/workflows/ci.yml#L33">
-              tests
-            </a>
-            , and builds on each pull request, with checkout and Node setup pinned to full SHAs.{" "}
-            <a href="https://github.com/p10ns11y/thepulimaangani/blob/malar/.github/workflows/ci.yml#L14">
-              thepulimaangani CI
-            </a>{" "}
-            builds the WASM path and runs its tests; the later coverage report does not fail the
-            workflow. packedbox runs{" "}
-            <a href="https://github.com/p10ns11y/packedbox/blob/main/.github/workflows/ubuntu-path.yml#L37">
-              path-contract tests
-            </a>{" "}
-            in CI. On arch-machine, shell and config steps run and do not fail the job; the{" "}
-            <a href="https://github.com/p10ns11y/arch-machine/blob/sentinel/.github/workflows/ci.yml#L61">
-              schedule tests
-            </a>{" "}
-            and the{" "}
-            <a href="https://github.com/p10ns11y/arch-machine/blob/sentinel/.github/workflows/ci.yml#L72">
-              cargo tests
-            </a>{" "}
-            do.
-          </p>
-          <p>
-            The{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.agents/overlays/collab-finder-verify.md">
-              verify overlay
-            </a>{" "}
-            names the commands a check must run.{" "}
-            <a href="https://github.com/p10ns11y/collab-finder/pull/52">Pull request 52</a> adds
-            another verify runner. Visitor routes on this site are listed in the{" "}
-            <a href="https://github.com/p10ns11y/devprofile/tree/main/.cursor/skills/verify-devprofile/features">
-              verify map
-            </a>
-            . A generated PDF is checked so its text stays in one reading order (
-            <a href="https://github.com/p10ns11y/collab-finder/pull/71">pull request 71</a>
-            ), and a later pull cannot put that text back into two columns (
-            <a href="https://github.com/p10ns11y/collab-finder/pull/73">pull request 73</a>
-            ). A ranking weight moves only when a note gives specific feedback; a generic note
-            leaves the weight unchanged (
-            <a href="https://github.com/p10ns11y/collab-finder/pull/78">pull request 78</a>
+            Human in the loop: I check chores and payments in a game-style view and approve steps
+            that need a person (
+            <a href="https://github.com/thecuriousts/ensembly/pull/10">pull request 10</a>
             ).
           </p>
           <p>
-            The pay-report scripts can be re-run from the repository:{" "}
-            <a href={REPRODUCE_SCRIPT_URL}>reproduce.py</a>,{" "}
-            <a href={EMPLOYER_COST_SCRIPT_URL}>employer_cost.py</a>,{" "}
-            <a href={PRICE_TAGS_SCRIPT_URL}>price_tags.py</a>, and{" "}
-            <a href={MERGED_PRS_SCRIPT_URL}>merged_prs.py</a>.
+            Human out of the loop: helper agents do the rest, on a graph of urgency and importance,
+            using PERT and Monte Carlo for the critical path (
+            <a href="https://github.com/thecuriousts/ensembly/pull/2">pull request 2</a>
+            ).
           </p>
-          <h3 id="others-can-build-on-it" className="subsection-title">
-            Others can build on it
-          </h3>
           <p>
-            The <a href="https://github.com/p10ns11y/skills">skills</a> library is{" "}
-            <a href="https://github.com/p10ns11y/skills/blob/master/LICENSE">MIT</a>. Others can
-            copy it. <a href="https://github.com/p10ns11y/plugins">plugins</a> has no license at the
-            repository root, so that repository is public code.{" "}
+            <a href="https://www.anthropic.com/research/building-effective-agents">
+              Anthropic (19 Dec 2024)
+            </a>{" "}
+            describes agents that proceed once the task is clear and pause at a checkpoint or a
+            blocker, and{" "}
+            <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/">
+              METR (19 Mar 2025)
+            </a>{" "}
+            found task length at 50% reliability had doubled about every 7 months.
+          </p>
+          <ul>
+            <li>
+              <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a>: next step and
+              notes; step in only for a check; uses{" "}
+              <a href="https://github.com/p10ns11y/skills">skills</a>.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/skills">skills</a>: failed-run playbooks for
+              collab-finder and <a href="https://github.com/p10ns11y/plugins">plugins</a>.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/plugins">plugins</a>: commands and hooks;{" "}
+              <a href="https://github.com/p10ns11y/plugins/blob/main/README.md">README</a> points at
+              skills.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/devprofile">This site</a>: CV, pages, and checks
+              (
+              <a href="https://github.com/p10ns11y/devprofile/tree/main/.cursor/skills/verify-devprofile/features">
+                verify map
+              </a>
+              ).
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a>: Tamil
+              prosody in the browser, React over Rust WASM.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/elomaxz">elomaxz</a>: MVU for C.{" "}
+              <a href="https://github.com/p10ns11y/packedbox">packedbox</a> CLI uses it.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/adaptate">adaptate</a>: one Zod schema, runtime
+              required fields, OpenAPI.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/life-os">life-os</a>: personal notes.{" "}
+              <a href="https://github.com/thecuriousts/ensembly">ensembly</a>: memory between
+              coding-agent runs.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/packedbox">packedbox</a>: Linux bootstrap, one
+              PATH contract.{" "}
+              <a href="https://github.com/p10ns11y/packedbox/blob/main/README.md">README</a> points
+              at <a href="https://github.com/p10ns11y/arch-machine">arch-machine</a> and{" "}
+              <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a>.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/arch-machine">arch-machine</a>: Arch install,
+              profiles. Shells do the work.
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a>: zsh, bash, and
+              fish.
+            </li>
+          </ul>
+          <p>
+            <a href="https://github.com/p10ns11y/skills/blob/master/LICENSE">skills is MIT</a>, and
+            the others are public code except the two MIT plugin folders,{" "}
             <a href="https://github.com/p10ns11y/plugins/blob/main/layout-content-view/LICENSE">
               layout-content-view
             </a>{" "}
             and{" "}
             <a href="https://github.com/p10ns11y/plugins/blob/main/pstack-map/LICENSE">
               pstack-map
-            </a>{" "}
-            are each MIT, and those two folders can be copied.{" "}
-            <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a> is public code.
+            </a>
+            .
           </p>
         </div>
       </SectionShell>
