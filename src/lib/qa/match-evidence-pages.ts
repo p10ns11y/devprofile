@@ -17,7 +17,12 @@ function keywordScore(keyword: string, haystack: string): number {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
-  if (!normalized || !haystack.includes(normalized)) {
+  if (!normalized) {
+    return 0;
+  }
+  const paddedHaystack = ` ${haystack} `;
+  const paddedKeyword = ` ${normalized} `;
+  if (!paddedHaystack.includes(paddedKeyword)) {
     return 0;
   }
   return normalized.split(/\s+/).filter(Boolean).length;

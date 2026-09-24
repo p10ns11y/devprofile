@@ -36,4 +36,18 @@ describe("matchEvidencePages", () => {
 
     expect(links[0]?.href).toBe("/pay-report#target-range");
   });
+
+  it("does not match keywords inside other words", () => {
+    const lawsLinks = matchEvidencePages(
+      "Tell me about uncertainty-laws",
+      "uncertainty-laws is a concept in decision theory."
+    );
+    expect(lawsLinks.some((link) => link.id === "certificates")).toBe(false);
+
+    const generateLinks = matchEvidencePages(
+      "How do you generate apply PDFs?",
+      "We generate PDFs locally without another model call."
+    );
+    expect(generateLinks.some((link) => link.id === "pay-target-range")).toBe(false);
+  });
 });
