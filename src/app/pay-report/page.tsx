@@ -534,19 +534,11 @@ export default function PayReportPage() {
         <div className="pay-report__body">
           <p>
             Since December 2024 I have been on a career break for personal and family-care reasons.
-          </p>
-          <p>
-            <strong>
-              During it I have kept building in public, choosing the problems, tools and ideas that
-              give a strong signal and are likely to last.
-            </strong>
-          </p>
-          <p>
             My senior and team lead work at Oneflow falls in the last three years before the break.
             Since then the way I work has moved forward. The projects began one after another,
             slowly at first. After a while the connections between them started to evolve and the
-            work became organized. I direct coding agents and review what they produce. The projects
-            below are that work.
+            work settled into one system. I direct coding agents and review what they produce. The
+            projects below are that work.
           </p>
           <p>
             Each project aimed at a real problem of mine, and each one works a different part of
@@ -565,9 +557,10 @@ export default function PayReportPage() {
             : in any field and any workforce, the only loops that will last split the work in two.
             In one part, a person checks the state of things and approves only the steps that need
             them. In the other, agents do the rest on their own. I reached this independently, from
-            reading, building, and watching how agents actually perform. ensembly puts both parts
-            into code: a game-style view where a person checks chores and payments and approves the
-            steps that need them (
+            reading, building, and watching how agents actually perform. That claim also shapes what
+            I build in public: I choose the problems, tools and ideas that give a strong signal and
+            are likely to last. ensembly puts both parts into code: a game-style view where a person
+            checks chores and payments and approves the steps that need them (
             <a href="https://github.com/thecuriousts/ensembly/pull/10">PR 10</a>
             ), and a task graph ranked by urgency and importance, where PERT and Monte Carlo runs
             find the critical path for the agents (
@@ -608,7 +601,8 @@ export default function PayReportPage() {
                   <a href="https://github.com/p10ns11y/plugins/tree/main/arch-machine">
                     arch-machine
                   </a>{" "}
-                  starts thin and expands only with consent.
+                  lets an agent check and set up an Arch Linux machine from a minimal base, and adds
+                  larger pieces such as security modules only after explicit confirmation.
                 </li>
                 <li>
                   <a href="https://github.com/p10ns11y/plugins/tree/main/mission-map">
