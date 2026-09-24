@@ -533,9 +533,10 @@ export default function PayReportPage() {
         />
         <div className="pay-report__body">
           <p>
-            Since December 2024 I have been on a career break for personal and family-care reasons,
-            and I have kept building in public the whole time. My senior and team lead work at Oneflow falls in the last three years
-            before the break. Since then the way I work has moved forward: I start several connected
+            Since December 2024 I have been on a career break for personal and family-care reasons.
+            During it I have kept building in public, choosing the problems, tools and ideas that
+            give a strong signal and are likely to last. My senior and team lead work at Oneflow
+            falls in the last three years before the break. Since then the way I work has moved forward: I start several connected
             projects at once and direct coding agents to build them, and I review what
             they produce. The projects below are that work.
           </p>
