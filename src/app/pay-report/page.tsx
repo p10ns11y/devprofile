@@ -590,7 +590,7 @@ export default function PayReportPage() {
                   <a href="https://github.com/p10ns11y/plugins/tree/main/eva-emptiness">
                     eva-emptiness
                   </a>{" "}
-                  plans from a blank sheet: prior, probe, simulate, score, then act or ask.
+                  reasons when the map is missing: prior, probe, simulate, score, then act or ask.
                 </li>
                 <li>
                   <a href="https://github.com/p10ns11y/plugins/tree/main/premflow">premflow</a>{" "}
@@ -607,7 +607,8 @@ export default function PayReportPage() {
                   <a href="https://github.com/p10ns11y/plugins/tree/main/mission-map">
                     mission-map
                   </a>{" "}
-                  is a mission briefing with a critical path and a way to replan.
+                  takes a checkable goal and a graph of stages, marks the critical path and the next
+                  step, and does not say what will happen.
                 </li>
                 <li>
                   <a href="https://github.com/p10ns11y/plugins/tree/main/uncertainty-laws">
@@ -620,7 +621,7 @@ export default function PayReportPage() {
                   <a href="https://github.com/p10ns11y/plugins/tree/main/odysseus-navigator">
                     odysseus-navigator
                   </a>{" "}
-                  finds common engineering judgment mistakes and names a fix for each.
+                  gives a judgment: one bottleneck, one mistake, and one next step.
                 </li>
                 <li>
                   <a href="https://github.com/p10ns11y/plugins/tree/main/pulse-memory">
