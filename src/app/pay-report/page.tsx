@@ -19,6 +19,34 @@ import {
 const ECB_RATES_URL =
   "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html";
 
+const MERGED_PRS_SCRIPT_URL =
+  "https://github.com/p10ns11y/devprofile/blob/main/data/pay-report-2025/merged_prs.py";
+
+const MERGED_PRS_APR_SEP = [
+  ["p10ns11y/collab-finder", 75],
+  ["p10ns11y/devprofile", 57],
+  ["p10ns11y/thepulimaangani", 50],
+  ["p10ns11y/arch-machine", 41],
+  ["p10ns11y/adaptate", 29],
+  ["thecuriousts/ensembly", 22],
+  ["p10ns11y/plugins", 16],
+  ["p10ns11y/shellyxz.sh", 15],
+  ["p10ns11y/skills", 9],
+  ["p10ns11y/life-os", 8],
+  ["p10ns11y/grok-build", 5],
+  ["p10ns11y/packedbox", 5],
+  ["p10ns11y/sorkalam-extension", 5],
+  ["p10ns11y/p10ns11y", 4],
+  ["thecuriousts/premflow", 4],
+  ["p10ns11y/agent-prompt-tuning-lab", 3],
+  ["p10ns11y/prototype-it-to-explain-itself", 2],
+  ["p10ns11y/dev-machine-guard-linux", 1],
+  ["p10ns11y/elomaxz", 1],
+  ["p10ns11y/grok-daily-productivity-extensions", 1],
+  ["p10ns11y/latex-cv", 1],
+  ["thecuriousts/participatory-mesh", 1],
+] as const;
+
 function Recheck({ href }: { href: string }) {
   return (
     <p className="pay-report__recheck">
@@ -527,20 +555,24 @@ export default function PayReportPage() {
           </p>
           <p>
             From December 2024 onward I have been in family care while building and running my own
-            software in public. I count that only as far as public commits back it up, and I do not
-            add it to the 8 years 10 months above. Counts below are public commits by{" "}
-            <a href="https://github.com/p10ns11y">p10ns11y</a> on 24 Sep 2026.
+            software in public. I count that only as far as merged pull requests back it up, and I
+            do not add it to the 8 years 10 months above. Merged PRs authored by p10ns11y in public
+            repos, counted on 24 Sep 2026.
           </p>
           <p>
-            December 2024 to March 2026 was intermittent public work, about 250 public commits over
-            16 months (including adaptate 1.0.0 pre-releases in December 2024, latex-cv, this site,
-            and selfie-sign-in-flow-using-v0-xAI). That period is intermittent and is not counted as
-            full-time experience.
+            December 2024 to March 2026 was intermittent public work:{" "}
+            <a href="https://github.com/search?q=is%3Apr+is%3Amerged+author%3Ap10ns11y+merged%3A2024-12-01..2026-03-31&type=pullrequests">
+              37 merged pull requests
+            </a>
+            . That period is intermittent and is not counted as full-time experience.
           </p>
+          <Recheck href={MERGED_PRS_SCRIPT_URL} />
           <p>
-            April 2026 to September 2026 has been sustained, near-daily public work, about 1,770
-            public commits (about 860 in April–June 2026 and about 910 in July–24 Sep 2026). That
-            includes <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a>{" "}
+            April 2026 to 24 September 2026 has been sustained public work:{" "}
+            <a href="https://github.com/search?q=is%3Apr+is%3Amerged+author%3Ap10ns11y+merged%3A2026-04-01..2026-09-24&type=pullrequests">
+              355 merged pull requests
+            </a>
+            . That includes <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a>{" "}
             (kanithanj.ai, a Tauri + Rust + React desktop app; version 1.0.0 shipped 19 August 2026
             per the CV), <a href="https://github.com/p10ns11y/elomaxz">elomaxz</a> (an MVU framework
             for C), <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a> (Rust
@@ -548,6 +580,30 @@ export default function PayReportPage() {
             <a href="https://github.com/p10ns11y/adaptate">adaptate</a>, and{" "}
             <a href="https://github.com/p10ns11y/devprofile">this site</a>.
           </p>
+          <div className="pay-report__scroll">
+            <table>
+              <caption>
+                Merged pull requests from 1 Apr 2026 to 24 Sep 2026, by public repository.
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Repository</th>
+                  <th scope="col">Merged pull requests</th>
+                </tr>
+              </thead>
+              <tbody>
+                {MERGED_PRS_APR_SEP.map(([repo, count]) => (
+                  <tr key={repo}>
+                    <th scope="row">
+                      <a href={`https://github.com/${repo}`}>{repo}</a>
+                    </th>
+                    <td>{count}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <Recheck href={MERGED_PRS_SCRIPT_URL} />
           <p>
             The break does not reset the level. The SCB and survey bands measure years in the job
             market, and my senior and lead work (team lead October 2021–December 2022, then senior
@@ -562,6 +618,85 @@ export default function PayReportPage() {
             experience, about 14 months, is closest to the SCB IT manager level 2 (1312) row. The
             8–15 year survey band is for individual contributors, and I am using it as the reference
             for a senior individual contributor role.
+          </p>
+        </div>
+      </SectionShell>
+
+      <SectionShell id="how-the-work-was-run" headingId="how-the-work-was-run-heading">
+        <SectionHeading id="how-the-work-was-run-heading" title="How the work was run" />
+        <div className="pay-report__body">
+          <p>
+            From April 2026 I had little time and a tight budget. I started a few public projects,
+            kept the tooling small, and learned to direct frontier models and coding agents inside
+            checks I could read.
+          </p>
+          <p>
+            I started <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a>{" "}
+            (kanithanj.ai) so application fit, preparation, and the next step live in one local
+            desktop app. Version 1.0.0 shipped on 19 August 2026, as the <Link href="/cv">CV</Link>{" "}
+            records. Pull requests run the{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.github/workflows/ci.yml">
+              CI workflow
+            </a>
+            , and the{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/blob/main/.agents/overlays/collab-finder-verify.md">
+              verify overlay
+            </a>{" "}
+            names the commands that check must run. The app carries a copy of shared procedures
+            under{" "}
+            <a href="https://github.com/p10ns11y/collab-finder/tree/main/.agents/skills">
+              .agents/skills
+            </a>
+            , drawn from the <a href="https://github.com/p10ns11y/skills">skills</a> library. Those
+            procedures are also packaged in{" "}
+            <a href="https://github.com/p10ns11y/plugins">plugins</a>, whose{" "}
+            <a href="https://github.com/p10ns11y/plugins/blob/main/README.md">README</a> points back
+            at the skills library.
+          </p>
+          <p>
+            I started <a href="https://github.com/p10ns11y/devprofile">this site</a> so the CV, the
+            public pages, and the checks share one record. Visitor routes are listed in the{" "}
+            <a href="https://github.com/p10ns11y/devprofile/tree/main/.cursor/skills/verify-devprofile/features">
+              verify map
+            </a>
+            .
+          </p>
+          <p>
+            <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a> is a Rust
+            parser compiled to WASM with a React UI, so Tamil metre can run in the browser. Its{" "}
+            <a href="https://github.com/p10ns11y/thepulimaangani/blob/malar/.github/workflows/ci.yml">
+              CI workflow
+            </a>{" "}
+            builds that path. <a href="https://github.com/p10ns11y/elomaxz">elomaxz</a> is an MVU
+            framework for C, so a small program stays predictable.{" "}
+            <a href="https://github.com/p10ns11y/adaptate">adaptate</a> is a runtime validator; its{" "}
+            <a href="https://github.com/p10ns11y/adaptate/blob/main/.github/workflows/ci.yml">
+              CI workflow
+            </a>{" "}
+            lints, tests, and builds on each pull request.
+          </p>
+          <p>
+            <a href="https://github.com/thecuriousts/ensembly">ensembly</a> is a thin control and
+            memory layer on the machine I work from, so notes survive from one coding-agent run to
+            the next. Personal notes also live in{" "}
+            <a href="https://github.com/p10ns11y/life-os">life-os</a>.
+          </p>
+          <p>
+            The machine setup is split on purpose.{" "}
+            <a href="https://github.com/p10ns11y/packedbox">packedbox</a> is the portable Linux
+            bootstrap. Its{" "}
+            <a href="https://github.com/p10ns11y/packedbox/blob/main/README.md">README</a> points at{" "}
+            <a href="https://github.com/p10ns11y/arch-machine">arch-machine</a> for the Arch
+            profiles and at <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a> for
+            the shell. packedbox runs a{" "}
+            <a href="https://github.com/p10ns11y/packedbox/blob/main/.github/workflows/ubuntu-path.yml">
+              path-contract check
+            </a>{" "}
+            in CI. arch-machine runs{" "}
+            <a href="https://github.com/p10ns11y/arch-machine/blob/sentinel/.github/workflows/ci.yml">
+              shell and config checks
+            </a>{" "}
+            in CI.
           </p>
         </div>
       </SectionShell>
