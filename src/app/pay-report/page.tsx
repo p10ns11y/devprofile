@@ -537,8 +537,9 @@ export default function PayReportPage() {
             My senior and team lead work at Oneflow falls in the last three years before the break.
             Since then the way I work has moved forward. The projects began one after another,
             slowly at first. After a while the connections between them started to evolve and the
-            work settled into one system. I direct coding agents and review what they produce. The
-            projects below are that work.
+            work settled into one system.{" "}
+            <strong>I direct coding agents and review what they produce.</strong> The projects below
+            are that work.
           </p>
           <p>
             Each project aimed at a real problem of mine, and each one works a different part of
@@ -554,13 +555,19 @@ export default function PayReportPage() {
             <a href="https://x.com/Peramanathan/status/2082782510078132545">
               stated publicly on 30 July 2026
             </a>
-            : in any field and any workforce, the only loops that will last split the work in two.
-            In one part, a person checks the state of things and approves only the steps that need
-            them. In the other, agents do the rest on their own. I reached this independently, from
-            reading, building, and watching how agents actually perform. That claim also shapes what
-            I build in public: I choose the problems, tools and ideas that give a strong signal and
-            are likely to last. ensembly puts both parts into code: a game-style view where a person
-            checks chores and payments and approves the steps that need them (
+            : in any field and any workforce, the only loops that will last split the work in two.{" "}
+            <strong>
+              In one part, a person checks the state of things and approves only the steps that need
+              them. In the other, agents do the rest on their own.
+            </strong>{" "}
+            I reached this independently, from reading, building, and watching how agents actually
+            perform. That claim also shapes what I build in public:{" "}
+            <strong>
+              I choose the problems, tools and ideas that give a strong signal and are likely to
+              last.
+            </strong>{" "}
+            ensembly puts both parts into code: a game-style view where a person checks chores and
+            payments and approves the steps that need them (
             <a href="https://github.com/thecuriousts/ensembly/pull/10">PR 10</a>
             ), and a task graph ranked by urgency and importance, where PERT and Monte Carlo runs
             find the critical path for the agents (
