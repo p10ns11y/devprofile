@@ -552,12 +552,16 @@ export default function PayReportPage() {
           <p>
             What ties them together is the claim I made in{" "}
             <a href="https://github.com/thecuriousts/ensembly/issues/1">ensembly issue 1</a> (opened
-            24 July 2026): in any field and any workforce, the only loops that will last split the
-            work in two. In one part, a person checks the state of things and approves only the
-            steps that need them. In the other, agents do the rest on their own. I reached this
-            independently, from reading, building, and watching how agents actually perform.
-            ensembly puts both parts into code: a game-style view where a person checks chores and
-            payments and approves the steps that need them (
+            24 July 2026) and{" "}
+            <a href="https://x.com/Peramanathan/status/2082782510078132545">
+              stated publicly on 30 July 2026
+            </a>
+            : in any field and any workforce, the only loops that will last split the work in two.
+            In one part, a person checks the state of things and approves only the steps that need
+            them. In the other, agents do the rest on their own. I reached this independently, from
+            reading, building, and watching how agents actually perform. ensembly puts both parts
+            into code: a game-style view where a person checks chores and payments and approves the
+            steps that need them (
             <a href="https://github.com/thecuriousts/ensembly/pull/10">PR 10</a>
             ), and a task graph ranked by urgency and importance, where PERT and Monte Carlo runs
             find the critical path for the agents (
