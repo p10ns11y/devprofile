@@ -530,8 +530,8 @@ export default function PayReportPage() {
         <div className="pay-report__body">
           <p>The design and architecture are mine. Coding agents wrote much of the code.</p>
           <p>
-            <a href="https://github.com/thecuriousts/ensembly/issues/1">ensembly issue 1</a>, opened
-            24 July 2026, is still open.
+            <a href="https://github.com/thecuriousts/ensembly/issues/1">ensembly issue 1</a>, 24
+            July 2026, is still open.
           </p>
           <p>
             Human in the loop: I check chores and payments in a game-style view and approve steps
@@ -540,8 +540,8 @@ export default function PayReportPage() {
             ).
           </p>
           <p>
-            Human out of the loop: helper agents do the rest, on a graph of urgency and importance,
-            using PERT and Monte Carlo for the critical path (
+            Human out of the loop: helper agents do the rest. Urgency and importance form a graph;
+            PERT and Monte Carlo find the critical path (
             <a href="https://github.com/thecuriousts/ensembly/pull/2">pull request 2</a>
             ).
           </p>
@@ -558,13 +558,14 @@ export default function PayReportPage() {
           </p>
           <ul>
             <li>
-              <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a>: next step and
-              notes; step in only for a check; uses{" "}
-              <a href="https://github.com/p10ns11y/skills">skills</a>.
+              <a href="https://github.com/p10ns11y/collab-finder">collab-finder</a> finds roles that
+              fit, builds a tailored application pack for each, and tracks outcomes. A rejection
+              changes ranking only when the note has specific feedback. The person submits and
+              handles CAPTCHA and BankID.
             </li>
             <li>
-              <a href="https://github.com/p10ns11y/skills">skills</a>: failed-run playbooks for
-              collab-finder and <a href="https://github.com/p10ns11y/plugins">plugins</a>.
+              <a href="https://github.com/p10ns11y/skills">skills</a>: playbooks collab-finder and{" "}
+              <a href="https://github.com/p10ns11y/plugins">plugins</a> use.
             </li>
             <li>
               <a href="https://github.com/p10ns11y/plugins">plugins</a>: commands and hooks;{" "}
@@ -581,7 +582,7 @@ export default function PayReportPage() {
             </li>
             <li>
               <a href="https://github.com/p10ns11y/thepulimaangani">thepulimaangani</a>: Tamil
-              prosody in the browser, React over Rust WASM.
+              prosody, React over Rust WASM.
             </li>
             <li>
               <a href="https://github.com/p10ns11y/elomaxz">elomaxz</a>: MVU for C.{" "}
@@ -593,28 +594,25 @@ export default function PayReportPage() {
             </li>
             <li>
               <a href="https://github.com/p10ns11y/life-os">life-os</a>: personal notes.{" "}
-              <a href="https://github.com/thecuriousts/ensembly">ensembly</a>: memory between
-              coding-agent runs.
+              <a href="https://github.com/thecuriousts/ensembly">ensembly</a>: memory between runs.
             </li>
             <li>
-              <a href="https://github.com/p10ns11y/packedbox">packedbox</a>: Linux bootstrap, one
-              PATH contract.{" "}
+              <a href="https://github.com/p10ns11y/packedbox">packedbox</a>: Linux bootstrap.{" "}
               <a href="https://github.com/p10ns11y/packedbox/blob/main/README.md">README</a> points
               at <a href="https://github.com/p10ns11y/arch-machine">arch-machine</a> and{" "}
               <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a>.
             </li>
             <li>
               <a href="https://github.com/p10ns11y/arch-machine">arch-machine</a>: Arch install,
-              profiles. Shells do the work.
+              profiles.
             </li>
             <li>
-              <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a>: zsh, bash, and
-              fish.
+              <a href="https://github.com/p10ns11y/shellyxz.sh">shellyxz.sh</a>: zsh, bash, fish.
             </li>
           </ul>
           <p>
-            <a href="https://github.com/p10ns11y/skills/blob/master/LICENSE">skills is MIT</a>, and
-            the others are public code except the two MIT plugin folders,{" "}
+            <a href="https://github.com/p10ns11y/skills/blob/master/LICENSE">skills is MIT</a>.
+            Others are public code except the two MIT plugin folders,{" "}
             <a href="https://github.com/p10ns11y/plugins/blob/main/layout-content-view/LICENSE">
               layout-content-view
             </a>{" "}
