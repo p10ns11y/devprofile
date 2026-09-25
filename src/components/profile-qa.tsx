@@ -2,10 +2,12 @@
 
 import { ArrowUp, ChevronDown, Loader2, MessageSquareText } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import Link from "next/link";
 import type React from "react";
-import { useEffect, useId, useReducer, useRef } from "react";
+import { useEffect, useId, useMemo, useReducer, useRef } from "react";
 import { cn } from "@/components/ui/utils";
 import { lcvInteract } from "@/lib/lcv-interact";
+import { matchEvidencePages } from "@/lib/qa/match-evidence-pages";
 import { getSuggestedQuestionsByCategory } from "@/lib/qa/suggested-questions";
 import {
   fetchQaAnswer,
@@ -61,6 +63,12 @@ export function ProfileQA({ className }: ProfileQAProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const answerRef = useRef<HTMLElement>(null);
   const showStrategy = process.env.NODE_ENV === "development";
+  const siteLinks = useMemo(() => {
+    if (status !== "success" || !result?.answer || !activeQuestion) {
+      return [];
+    }
+    return matchEvidencePages(activeQuestion, result.answer);
+  }, [status, result?.answer, activeQuestion]);
 
   // Keep the answer stage in the eye-line after each response (mobile + any residual scroll).
   useEffect(() => {
@@ -256,10 +264,7 @@ export function ProfileQA({ className }: ProfileQAProps) {
         </form>
 
         {/* Scrollable pane: ONLY the answer/empty/loading/error lives here */}
-        <div
-          className="min-h-0 flex-1 overflow-y-auto overscroll-contain"
-          data-lcv="must-show"
-        >
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain" data-lcv="must-show">
           <AnimatePresence mode="wait">
             {status === "error" && error && (
               <motion.div
@@ -376,6 +381,29 @@ export function ProfileQA({ className }: ProfileQAProps) {
                     </span>
                   )}
                 </div>
+
+                {siteLinks.length > 0 ? (
+                  <nav
+                    aria-label="Related on this site"
+                    className="border-t border-border/20 px-4 py-4 sm:px-5"
+                  >
+                    <p className="mb-2 text-[11px] font-semibold tracking-wide text-text2 uppercase">
+                      On this site
+                    </p>
+                    <ul className="flex flex-wrap gap-2">
+                      {siteLinks.map((link) => (
+                        <li key={link.id}>
+                          <Link
+                            href={link.href}
+                            className="inline-flex rounded-full border border-border/40 bg-surface1 px-3 py-1.5 text-xs font-medium text-text1 underline-offset-4 transition-colors hover:border-brand/40 hover:text-link focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                ) : null}
 
                 {(result.details?.length ?? 0) > 0 && (
                   <details className="group border-t border-border/20">
