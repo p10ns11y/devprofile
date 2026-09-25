@@ -1,6 +1,7 @@
 export type QaEvidencePageLink = {
   id: string;
   path: string;
+  search?: string;
   anchor?: string;
   label: string;
   keywords: readonly string[];
@@ -56,6 +57,7 @@ export const QA_EVIDENCE_PAGES: readonly QaEvidencePageLink[] = [
   {
     id: "profile-long-arc",
     path: "/profile",
+    search: "view=scroll",
     anchor: "long-arc",
     label: "Profile — long arc",
     keywords: ["career arc", "career journey", "2016", "master", "oneflow", "8 years"],
@@ -63,6 +65,7 @@ export const QA_EVIDENCE_PAGES: readonly QaEvidencePageLink[] = [
   {
     id: "profile-featured",
     path: "/profile",
+    search: "view=scroll",
     anchor: "featured",
     label: "Profile — featured work",
     keywords: ["featured", "premflow", "proud", "signature project", "top achievement"],
@@ -70,6 +73,7 @@ export const QA_EVIDENCE_PAGES: readonly QaEvidencePageLink[] = [
   {
     id: "profile-pocs",
     path: "/profile",
+    search: "view=scroll",
     anchor: "proof-of-concepts",
     label: "Profile — proof of concepts",
     keywords: ["proof of concept", "poc", "experiment", "multi-agent", "agent infrastructure"],
@@ -77,6 +81,7 @@ export const QA_EVIDENCE_PAGES: readonly QaEvidencePageLink[] = [
   {
     id: "profile-story",
     path: "/profile",
+    search: "view=scroll",
     anchor: "an-inch-at-a-time",
     label: "Profile — story",
     keywords: ["story", "inch at a time", "philosophy", "craft"],
@@ -161,6 +166,10 @@ export const QA_EVIDENCE_PAGES: readonly QaEvidencePageLink[] = [
   },
 ];
 
-export function evidencePageHref(link: Pick<QaEvidencePageLink, "path" | "anchor">): string {
-  return link.anchor ? `${link.path}#${link.anchor}` : link.path;
+export function evidencePageHref(
+  link: Pick<QaEvidencePageLink, "path" | "search" | "anchor">
+): string {
+  const query = link.search ? `?${link.search}` : "";
+  const hash = link.anchor ? `#${link.anchor}` : "";
+  return `${link.path}${query}${hash}`;
 }
