@@ -539,11 +539,16 @@ export function slideIndexByCue(cue: string): number {
   return profileDeckSlides.findIndex((slide) => slide.cue === cue);
 }
 
-/** Resolve share URL value — cue first, then legacy internal id. */
 export function resolveSlideIndex(slideParam: string | null | undefined): number {
   if (!slideParam) return 0;
   const byCue = slideIndexByCue(slideParam);
   if (byCue >= 0) return byCue;
   const byId = slideIndexById(slideParam);
-  return byId >= 0 ? byId : 0;
+  if (byId >= 0) return byId;
+  const chapter = profileDeckNav.find((entry) => entry.id === slideParam);
+  if (chapter) {
+    const chapterStart = slideIndexById(chapter.firstSlideId);
+    if (chapterStart >= 0) return chapterStart;
+  }
+  return 0;
 }
