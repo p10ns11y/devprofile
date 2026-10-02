@@ -2,6 +2,44 @@
 
 This repository includes **portable agent skills** under [`.agents/skills/`](.agents/skills/).
 
+## Working agreement for coding agents
+
+Inspired by NVIDIA's TensorRT Model Connect agent guide (https://nvidia.github.io/TensorRT-Model-Connect/agent-guide).
+
+### Before you act
+- Read the AGENTS.md closest to the files you are changing; it wins over this block.
+- Check the branch, `git status`, remotes, and any uncommitted changes. Changes you did not make belong to the user: leave them alone.
+- Use the repo's real config, scripts, and manifests (package.json, Cargo.toml, CI files, lockfiles). Do not guess commands or versions.
+- An empty skill list does not mean no skill covers the task. Look for SKILL.md files and read them directly.
+
+### Workflow
+1. Read the instructions.
+2. Inspect the current state.
+3. Scope and verify using [Agent workflow (triage first)](#agent-workflow-triage-first) and [Conventions](#conventions) below.
+4. Report (format below).
+5. Wait for approval before anything external or destructive.
+
+### Report format
+- **Read only:** what you confirmed by reading code or docs, without running anything.
+- **Ran locally:** the exact commands and what they printed.
+- **Tests and CI:** which suites or CI jobs ran, and their results.
+- **Not run:** every relevant check you skipped, and why. Always include this list, even if it is "none".
+
+### Never
+- Weaken a test, tolerance, assertion, or CI check just to make it pass. Fix the cause or report the failure.
+- Swap a pinned version, model, or dependency for one that is "close enough".
+- Put credentials, tokens, private URLs, real host names, usernames, home paths, or personal data in commits, PRs, issues, or any other public output. Use aliases such as `laptop-1`.
+
+### Stop and ask first
+- Before you delete, overwrite, reset, rebase, force-push, merge, publish, or deploy, or do anything outside the scope you were given.
+- On a conflict, show it concretely (files, lines, both versions) and ask. Do not pick a side silently.
+
+### Code style
+- Near-zero comments. Make the code explain itself through names and structure.
+- Subtract first: remove before you add, and keep new seams small enough to delete later.
+- Do not rewrite working code you were not asked to touch.
+- Write in ordinary English: no internal slang or code words, and don't use vague words like "gate" when "check", "filter", or "precondition" says it better.
+
 ## Agent Skills — Connected System
 
 This project uses a **two-skill connected system**:
