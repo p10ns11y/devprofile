@@ -10,6 +10,16 @@ export const metadata: Metadata = {
   title: "Profile — Peramanathan Sathyamoorthy",
   description:
     "GitHub profile overview as a viewport deck: story, Featured, Cooking, POCs, long arc, writing, and archive — same curated content, slide presentation.",
+  alternates: { canonical: "/profile" },
+  openGraph: {
+    title: "Profile — Peramanathan Sathyamoorthy",
+    description:
+      "GitHub profile overview as a viewport deck: story, Featured, Cooking, POCs, long arc, writing, and archive — same curated content, slide presentation.",
+    url: "/profile",
+    siteName: "Peramanathan Sathyamoorthy",
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 /**

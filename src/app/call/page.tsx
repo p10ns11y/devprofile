@@ -5,6 +5,16 @@ export const metadata = {
   title: "Talk — Voice reception",
   description:
     "Speak with the portfolio receptionist — grounded answers from the same corpus as Q&A.",
+  alternates: { canonical: "/call" },
+  openGraph: {
+    title: "Talk — Voice reception",
+    description:
+      "Speak with the portfolio receptionist — grounded answers from the same corpus as Q&A.",
+    url: "/call",
+    siteName: "Peramanathan Sathyamoorthy",
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function CallPage() {
