@@ -1,6 +1,7 @@
 "use client";
 
 import { Mic, MicOff, PhoneOff } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useId, useRef, useState } from "react";
 import { cn } from "@/components/ui/utils";
 import type { VoiceSessionStatus } from "@/lib/voice/realtime-client";
@@ -24,9 +25,11 @@ const STATUS_HINT: Record<VoiceSessionStatus, string> = {
   listening: "Speak naturally. Say you want to leave a message for a direct follow-up.",
   speaking: "Playing the receptionist reply.",
   thinking: "Looking up an answer from the profile.",
-  error: "Check microphone permission and that voice receive is enabled on this deployment.",
+  error: "Voice calls are unavailable right now. Text Q&A has the same answers.",
   ended: "Start another call anytime, or use text Q&A.",
 };
+
+const VOICE_UNAVAILABLE = "Voice is unavailable right now";
 
 interface VoiceReceiveClientProps {
   className?: string;
@@ -56,15 +59,18 @@ export function VoiceReceiveClient({ className }: VoiceReceiveClientProps) {
     const session = new VoiceRealtimeSession({
       onStatus: setStatus,
       onTranscript: upsertTranscript,
-      onError: (message) => setError(message),
+      onError: (message) => {
+        console.error("[voice] session", message);
+        setError(VOICE_UNAVAILABLE);
+      },
     });
     sessionRef.current = session;
 
     try {
       await session.start();
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Could not start call";
-      setError(message);
+      console.error("[voice] start", err);
+      setError(VOICE_UNAVAILABLE);
       setStatus("error");
     }
   }, [upsertTranscript]);
@@ -163,7 +169,12 @@ export function VoiceReceiveClient({ className }: VoiceReceiveClientProps) {
       {status === "error" ? (
         <p className="voice-receive__error">
           <MicOff className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-          <span>{STATUS_HINT.error}</span>
+          <span>
+            {STATUS_HINT.error}{" "}
+            <Link href="/qa" className="text-link underline-offset-4 hover:underline">
+              Open text Q&A
+            </Link>
+          </span>
         </p>
       ) : null}
     </div>
