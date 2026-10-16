@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Header } from "@/components/header";
 import { ProfileDeck } from "@/components/profile-deck";
@@ -6,21 +5,7 @@ import { ProfileJourney } from "@/components/profile-journey";
 import { PageShell } from "@/components/site/PageShell";
 import { ProfileViewSwitch } from "./profile-view-switch";
 
-export const metadata: Metadata = {
-  title: "Profile — Peramanathan Sathyamoorthy",
-  description:
-    "GitHub profile overview as a viewport deck: story, Featured, Cooking, POCs, long arc, writing, and archive — same curated content, slide presentation.",
-  alternates: { canonical: "/profile" },
-  openGraph: {
-    title: "Profile — Peramanathan Sathyamoorthy",
-    description:
-      "GitHub profile overview as a viewport deck: story, Featured, Cooking, POCs, long arc, writing, and archive — same curated content, slide presentation.",
-    url: "/profile",
-    siteName: "Peramanathan Sathyamoorthy",
-    locale: "en_US",
-    type: "website",
-  },
-};
+export { generateMetadata } from "./social-metadata";
 
 /**
  * THESIS: Curated GitHub journey as a type-first viewport deck — reading over decoration.

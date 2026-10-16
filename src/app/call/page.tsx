@@ -1,21 +1,7 @@
 import { CallPageClient } from "@/components/call-page-client";
 import { isVoiceReceiveEnabled } from "@/lib/voice/config/resolve-voice-receive";
 
-export const metadata = {
-  title: "Talk — Voice reception",
-  description:
-    "Speak with the portfolio receptionist — grounded answers from the same corpus as Q&A.",
-  alternates: { canonical: "/call" },
-  openGraph: {
-    title: "Talk — Voice reception",
-    description:
-      "Speak with the portfolio receptionist — grounded answers from the same corpus as Q&A.",
-    url: "/call",
-    siteName: "Peramanathan Sathyamoorthy",
-    locale: "en_US",
-    type: "website",
-  },
-};
+export { generateMetadata } from "./social-metadata";
 
 export default function CallPage() {
   // ENABLE_VOICE_RECEIVE is server-only; evaluate here and pass into the client shell.

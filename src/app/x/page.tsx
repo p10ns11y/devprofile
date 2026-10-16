@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { XDateRangePicker } from "@/components/x/XDateRangePicker";
@@ -9,20 +8,7 @@ import { groupPastIntervalsByMonth, splitCurrentAndPastIntervals } from "@/lib/x
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Posts on X - Peramanathan Sathyamoorthy",
-  description: "Browse posts on X in 8-day windows — search archives from December 2024 to today.",
-  alternates: { canonical: "/x" },
-  openGraph: {
-    title: "Posts on X - Peramanathan Sathyamoorthy",
-    description:
-      "Browse posts on X in 8-day windows — search archives from December 2024 to today.",
-    url: "/x",
-    siteName: "Peramanathan Sathyamoorthy",
-    locale: "en_US",
-    type: "website",
-  },
-};
+export { generateMetadata } from "./social-metadata";
 
 export default function XSearchPage() {
   const intervals = generateXSearchIntervals();
