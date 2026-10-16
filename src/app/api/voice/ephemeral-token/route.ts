@@ -29,8 +29,9 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("[voice] ephemeral-token", error);
-    const message = error instanceof Error ? error.message : "Token mint failed";
-    const status = message.includes("not configured") ? 503 : 500;
+    const detail = error instanceof Error ? error.message : "";
+    const status = detail.includes("not configured") ? 503 : 502;
+    const message = "Voice is unavailable right now.";
     return new Response(JSON.stringify({ message }), {
       status,
       headers: { "Content-Type": "application/json" },
