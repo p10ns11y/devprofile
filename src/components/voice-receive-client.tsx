@@ -6,6 +6,12 @@ import { useCallback, useId, useRef, useState } from "react";
 import { cn } from "@/components/ui/utils";
 import type { VoiceSessionStatus } from "@/lib/voice/realtime-client";
 import { VoiceRealtimeSession } from "@/lib/voice/realtime-client";
+import {
+  MICROPHONE_HINT,
+  presentVoiceStartError,
+  type VoiceFailureCopy,
+  voiceStatusHint,
+} from "@/lib/voice/start-failure";
 import type { TranscriptLine } from "@/lib/voice/transcript-merge";
 import { upsertTranscriptLine } from "@/lib/voice/transcript-merge";
 
@@ -25,11 +31,9 @@ const STATUS_HINT: Record<VoiceSessionStatus, string> = {
   listening: "Speak naturally. Say you want to leave a message for a direct follow-up.",
   speaking: "Playing the receptionist reply.",
   thinking: "Looking up an answer from the profile.",
-  error: "Voice calls are unavailable right now. Text Q&A has the same answers.",
+  error: MICROPHONE_HINT,
   ended: "Start another call anytime, or use text Q&A.",
 };
-
-const VOICE_UNAVAILABLE = "Voice is unavailable right now";
 
 interface VoiceReceiveClientProps {
   className?: string;
@@ -37,7 +41,7 @@ interface VoiceReceiveClientProps {
 
 export function VoiceReceiveClient({ className }: VoiceReceiveClientProps) {
   const [status, setStatus] = useState<VoiceSessionStatus>("idle");
-  const [error, setError] = useState<string | null>(null);
+  const [failure, setFailure] = useState<VoiceFailureCopy | null>(null);
   const [transcript, setTranscript] = useState<TranscriptLine[]>([]);
   const sessionRef = useRef<VoiceRealtimeSession | null>(null);
   const statusId = useId();
@@ -52,7 +56,7 @@ export function VoiceReceiveClient({ className }: VoiceReceiveClientProps) {
   );
 
   const startCall = useCallback(async () => {
-    setError(null);
+    setFailure(null);
     setTranscript([]);
     sessionRef.current?.end();
 
@@ -61,7 +65,7 @@ export function VoiceReceiveClient({ className }: VoiceReceiveClientProps) {
       onTranscript: upsertTranscript,
       onError: (message) => {
         console.error("[voice] session", message);
-        setError(VOICE_UNAVAILABLE);
+        setFailure(presentVoiceStartError(message));
       },
     });
     sessionRef.current = session;
@@ -70,7 +74,7 @@ export function VoiceReceiveClient({ className }: VoiceReceiveClientProps) {
       await session.start();
     } catch (err) {
       console.error("[voice] start", err);
-      setError(VOICE_UNAVAILABLE);
+      setFailure(presentVoiceStartError(err));
       setStatus("error");
     }
   }, [upsertTranscript]);
@@ -86,8 +90,8 @@ export function VoiceReceiveClient({ className }: VoiceReceiveClientProps) {
     status === "speaking" ||
     status === "thinking";
 
-  const statusMessage = error ?? STATUS_LABEL[status];
-  const hint = error ? STATUS_HINT.error : STATUS_HINT[status];
+  const statusMessage = failure?.message ?? STATUS_LABEL[status];
+  const hint = voiceStatusHint(status, failure, STATUS_HINT);
 
   return (
     <div className={cn("voice-receive", className)}>
@@ -170,7 +174,7 @@ export function VoiceReceiveClient({ className }: VoiceReceiveClientProps) {
         <p className="voice-receive__error">
           <MicOff className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
           <span>
-            {STATUS_HINT.error}{" "}
+            {hint}{" "}
             <Link href="/qa" className="text-link underline-offset-4 hover:underline">
               Open text Q&A
             </Link>
