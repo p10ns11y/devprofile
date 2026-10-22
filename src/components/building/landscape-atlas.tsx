@@ -167,17 +167,61 @@ function LoopLayer({ scene }: LoopLayerProps) {
   );
 }
 
-const DECISION_TARGETS = [
-  { id: "apps", label: "apps", x: -76 },
-  { id: "harnesses", label: "harnesses", x: 0 },
-  { id: "bots", label: "SI bots", x: 76 },
+const COORDINATION_TARGETS = [
+  { id: "apps", label: "apps" },
+  { id: "harnesses", label: "harnesses" },
+  { id: "bots", label: "SI bots" },
+  { id: "mesh", label: "mesh of devices" },
+  { id: "computer", label: "Bot computer" },
 ] as const;
 
 const PORTAL_NAME_Y = 98;
 const PORTAL_NOTE_Y = 113;
-const FAN_TOP_Y = 124;
-const FAN_Y = 170;
-const OWN_BOTS_Y = 210;
+const SPINE_X = -30;
+const SPINE_TOP_Y = 122;
+const ROW_FIRST_Y = 142;
+const ROW_STEP = 22;
+const LABEL_X = -16;
+
+function rowY(index: number): number {
+  return ROW_FIRST_Y + index * ROW_STEP;
+}
+
+function OwnBots({ y }: { y: number }) {
+  return (
+    <g data-loop="own-bots">
+      <path d={`M 34 ${y} L 74 ${y}`} className="building-loop__decide-line" fill="none" />
+      {[46, 58, 70].map((cx) => (
+        <circle key={cx} cx={cx} cy={y} r="2.6" className="building-loop__seed-static" />
+      ))}
+      <text x="82" y={y + 4} className="building-loop__kind-note">
+        delegates to its own bots
+      </text>
+    </g>
+  );
+}
+
+function BotComputer({ y }: { y: number }) {
+  return (
+    <g data-loop="bot-computer">
+      <rect x="72" y={y - 8} width="58" height="16" rx="3" className="building-loop__machine" />
+      {[78, 96, 114].map((vmX) => (
+        <rect
+          key={vmX}
+          x={vmX}
+          y={y - 4}
+          width="12"
+          height="8"
+          rx="1.5"
+          className="building-loop__vm"
+        />
+      ))}
+      <text x="138" y={y + 4} className="building-loop__kind-note">
+        VMs inside
+      </text>
+    </g>
+  );
+}
 
 /** Grok Bot + Ensembly are the portal itself: pulse at the core, coordination under the throat. */
 function PortalCore({ operator }: { operator: PlacedStar | undefined }) {
@@ -195,32 +239,29 @@ function PortalCore({ operator }: { operator: PlacedStar | undefined }) {
       <text y={PORTAL_NOTE_Y} className="building-loop__kind-note" textAnchor="middle">
         memory, heartbeat, decisions
       </text>
-      {DECISION_TARGETS.map((target) => (
-        <g key={target.id}>
-          <path
-            d={`M 0 ${FAN_TOP_Y} C 0 ${FAN_TOP_Y + 22}, ${target.x} ${FAN_Y - 34}, ${target.x} ${FAN_Y - 14}`}
-            className="building-loop__decide-line"
-            fill="none"
-            markerEnd="url(#loop-arrow)"
-          />
-          <text x={target.x} y={FAN_Y} className="building-loop__kind" textAnchor="middle">
-            {target.label}
-          </text>
-        </g>
-      ))}
-      {[-16, 0, 16].map((dx) => (
-        <g key={dx}>
-          <path
-            d={`M 76 ${FAN_Y + 8} L ${76 + dx} ${OWN_BOTS_Y - 5}`}
-            className="building-loop__decide-line"
-            fill="none"
-          />
-          <circle cx={76 + dx} cy={OWN_BOTS_Y} r="2.6" className="building-loop__seed-static" />
-        </g>
-      ))}
-      <text x="102" y={OWN_BOTS_Y + 4} className="building-loop__kind-note">
-        delegates to its own bots
-      </text>
+      <path
+        d={`M ${SPINE_X} ${SPINE_TOP_Y} L ${SPINE_X} ${rowY(COORDINATION_TARGETS.length - 1)}`}
+        className="building-loop__decide-line"
+        fill="none"
+      />
+      {COORDINATION_TARGETS.map((target, index) => {
+        const y = rowY(index);
+        return (
+          <g key={target.id} data-coordinates={target.id}>
+            <path
+              d={`M ${SPINE_X} ${y} L ${LABEL_X - 6} ${y}`}
+              className="building-loop__decide-line"
+              fill="none"
+              markerEnd="url(#loop-arrow)"
+            />
+            <text x={LABEL_X} y={y + 4} className="building-loop__kind">
+              {target.label}
+            </text>
+            {target.id === "bots" ? <OwnBots y={y} /> : null}
+            {target.id === "computer" ? <BotComputer y={y} /> : null}
+          </g>
+        );
+      })}
     </g>
   );
 }
@@ -310,7 +351,7 @@ export function LandscapeAtlas({
   afterFigure,
 }: LandscapeAtlasProps = {}) {
   const scene = layoutAtlas(keys);
-  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; fleet seeds carry work into one portal, which is Grok Bot and ensembly together; inside it ensembly keeps memory and heartbeat and is the decision model for repeatable coordination across apps, harnesses and SI bots, and Grok Bot, the SI platform, delegates to its own bots the same way; release returns sparks, flames, dust and stars; feedback and decay close the loop`;
+  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; fleet seeds carry work into one portal, which is Grok Bot and ensembly together; inside it ensembly keeps memory and heartbeat and is the decision model for repeatable coordination across apps, harnesses, SI bots, a mesh of devices and the Bot computer with its VMs, and Grok Bot, the SI platform, delegates to its own bots the same way; release returns sparks, flames, dust and stars; feedback and decay close the loop`;
 
   const svg = (
     <svg

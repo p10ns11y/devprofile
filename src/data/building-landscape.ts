@@ -135,7 +135,7 @@ export const BUILDING_LOOP_STAGES = [
   {
     id: "pulse",
     label: "Ensembly",
-    line: "The portal's memory and heartbeat, and its decision model: coordination stays programmatically repeatable across apps, harnesses and SI bots, Grok Bot included.",
+    line: "The portal's memory and heartbeat, and its decision model: coordination stays programmatically repeatable across apps, harnesses, SI bots (Grok Bot included), a mesh of devices and the Bot computer with its VMs.",
   },
   {
     id: "platform",

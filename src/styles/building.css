@@ -439,6 +439,14 @@
   stroke: var(--color-text);
   stroke-width: 1.4;
 }
+.building-loop__machine {
+  fill: var(--atlas-ground);
+  stroke: var(--loop-soft);
+  stroke-width: 1;
+}
+.building-loop__vm {
+  fill: var(--loop-faint);
+}
 .building-loop__seed-static {
   fill: var(--loop-warm);
 }
