@@ -109,7 +109,7 @@ function LoopLayer({ scene }: LoopLayerProps) {
   const topY = 26;
   const bottomY = height - 22;
   const feedback = `M ${glyphX} ${firstY - 16} C ${glyphX} ${topY}, ${glyphX} ${topY}, ${glyphX - 60} ${topY} L 60 ${topY} C 24 ${topY}, 24 ${topY}, 24 ${topY + 30}`;
-  const decay = `M 24 ${height - 64} C 24 ${bottomY}, 24 ${bottomY}, 60 ${bottomY} L ${sink.x - 170} ${bottomY} C ${sink.x - 120} ${bottomY}, ${sink.x - 112} ${sink.y + 80}, ${sink.x - 70} ${sink.y + 22}`;
+  const decay = `M 24 ${height - 64} C 24 ${bottomY}, 24 ${bottomY}, 60 ${bottomY} L ${scene.pipe.x1 - 60} ${bottomY} C ${scene.pipe.x1 - 10} ${bottomY}, ${scene.pipe.x1} ${sink.y + 80}, ${scene.pipe.x1} ${sink.y + 10}`;
   return (
     <g className="building-loop">
       <path
@@ -160,7 +160,10 @@ function LoopLayer({ scene }: LoopLayerProps) {
           key={`seed-${trunk.key}`}
           r="3"
           className="building-loop__seed"
-          style={{ offsetPath: `path("${trunk.d}")`, animationDelay: `${index * -1.1}s` }}
+          style={{
+            offsetPath: `path("${trunk.d} L ${scene.pipe.x2} ${scene.pipe.y}")`,
+            animationDelay: `${index * -1.1}s`,
+          }}
         />
       ))}
     </g>
@@ -351,7 +354,7 @@ export function LandscapeAtlas({
   afterFigure,
 }: LandscapeAtlasProps = {}) {
   const scene = layoutAtlas(keys);
-  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; fleet seeds carry work into one portal, which is Grok Bot and ensembly together; inside it ensembly keeps memory and heartbeat and is the decision model for repeatable coordination across apps, harnesses, SI bots, a mesh of devices and the Bot computer with its VMs, and Grok Bot, the SI platform, delegates to its own bots the same way; release returns sparks, flames, dust and stars; feedback and decay close the loop`;
+  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; todos from every project cluster merge into one priority-list pipe, and the fleet flows out of it into one portal, which is Grok Bot and ensembly together; inside it ensembly keeps memory and heartbeat and is the decision model for repeatable coordination across apps, harnesses, SI bots, a mesh of devices and the Bot computer with its VMs, and Grok Bot, the SI platform, delegates to its own bots the same way; release returns sparks, flames, dust and stars; feedback and decay close the loop`;
 
   const svg = (
     <svg
@@ -455,6 +458,20 @@ export function LandscapeAtlas({
           strokeWidth="1.6"
         />
       ))}
+
+      <g className="building-loop__pipe-group" data-loop="priority-pipe">
+        <line
+          x1={scene.pipe.x1}
+          x2={scene.pipe.x2}
+          y1={scene.pipe.y}
+          y2={scene.pipe.y}
+          className="building-loop__pipe"
+        />
+        <circle cx={scene.pipe.x1} cy={scene.pipe.y} r="3.5" className="building-loop__merge" />
+        <text x={scene.pipe.x1 + 10} y={scene.pipe.y + 20} className="building-loop__kind-note">
+          one priority list
+        </text>
+      </g>
 
       <LoopLayer scene={scene} />
 

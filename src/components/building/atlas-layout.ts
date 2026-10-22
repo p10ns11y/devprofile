@@ -65,6 +65,7 @@ export type AtlasScene = {
   sink: { x: number; y: number };
   hops: Curve[];
   trunks: Curve[];
+  pipe: { x1: number; x2: number; y: number };
   grid: GridSeg[];
   ink: InkRect[];
   collisions: Array<{ curveOrGrid: string; ink: InkRect }>;
@@ -85,7 +86,7 @@ const BAND_SEAM = 8;
 const TOP_PAD = 64;
 const BOTTOM_PAD = 76;
 const SCENE_WIDTH = 1340;
-const SINK_X = 980;
+const SINK_X = 1050;
 const VOID_PAD = 40;
 const HOLE_CLEARANCE = 155;
 const DOCK_RX = 8;
@@ -97,7 +98,9 @@ const EPITHET_DY = 18;
 const NAME_BASELINE = 4;
 const GRID_INSET = 8;
 const HOP_RIM = 2;
-const SINK_TRUNK_INSET = 92;
+const SINK_TRUNK_INSET = 70;
+/** Todos from every area merge here into one priority-list pipe before the portal. */
+const PIPE_MERGE_BACK = 210;
 const OPERATOR_BACK = -40;
 const CUBIC_SAMPLES = 36;
 const NAME_INK_HEIGHT = 14;
@@ -332,7 +335,7 @@ export function layoutAtlas(keys?: readonly string[]): AtlasScene {
 
   let sceneHeight = bandCursorY + BOTTOM_PAD;
   const sink = { x: SINK_X, y: sceneHeight / 2 };
-  const dockX = lerp(starX + VOID_PAD, sink.x - HOLE_CLEARANCE, 0.62);
+  const dockX = lerp(starX + VOID_PAD, sink.x - HOLE_CLEARANCE, 0.45);
 
   const dockDrafts = BUILDING_AREAS.flatMap((areaRecord) => {
     const memberYs = stars.filter((star) => star.area === areaRecord.id).map((star) => star.y);
@@ -387,7 +390,7 @@ export function layoutAtlas(keys?: readonly string[]): AtlasScene {
     const startX = areaDock.x + areaDock.rx + AREA_LABEL_GAP + areaTitleWidth + TRUNK_AFTER_LABEL;
     return {
       key: areaDock.area,
-      d: hopCurve(startX, areaDock.y, sink.x - SINK_TRUNK_INSET, sink.y),
+      d: hopCurve(startX, areaDock.y, sink.x - PIPE_MERGE_BACK, sink.y),
       kind: "trunk" as const,
     };
   });
@@ -485,6 +488,7 @@ export function layoutAtlas(keys?: readonly string[]): AtlasScene {
     sink,
     hops,
     trunks,
+    pipe: { x1: sink.x - PIPE_MERGE_BACK, x2: sink.x - SINK_TRUNK_INSET, y: sink.y },
     grid,
     ink,
     collisions,

@@ -145,7 +145,7 @@ export const BUILDING_LOOP_STAGES = [
   {
     id: "fleet",
     label: "Fleet seeds",
-    line: "Bots carry work from areas and clusters into the portal.",
+    line: "Todos come from many projects and clusters, but they merge into one priority list. The fleet flows out of that single pipe into the portal.",
   },
   {
     id: "release",
