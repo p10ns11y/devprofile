@@ -44,8 +44,10 @@ export function HireSystemsGraph({ systems }: HireSystemsGraphProps) {
 
       <p id="hire-atlas-desc" className="sr-only">
         Five cluster bands and four area docks feeding one portal; release feeds back and decay
-        returns as raw material. ensembly is the pulse. cvdata is the record plane behind devprofile
-        and collab-finder. participatory-mesh runs only the allowlist at the Systems dock.
+        returns as raw material. ensembly is the pulse and the decision model for repeatable
+        coordination across apps, harnesses and SI bots; Grok Bot coordinates and delegates to its
+        own bots through it. cvdata is the record plane behind devprofile and collab-finder.
+        participatory-mesh runs only the allowlist at the Systems dock.
       </p>
 
       <LandscapeAtlas embedded />

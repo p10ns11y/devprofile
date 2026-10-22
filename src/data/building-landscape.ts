@@ -134,8 +134,13 @@ export const BUILDING_LOOP_STAGES = [
   },
   {
     id: "pulse",
-    label: "Ensembly pulse",
-    line: "Memory and heartbeat that keep the loop from forgetting. A pulse, not a hole.",
+    label: "Ensembly",
+    line: "Memory and heartbeat that keep the loop from forgetting, and the decision model that makes coordination programmatically repeatable across apps, harnesses and SI bots, Grok Bot included.",
+  },
+  {
+    id: "platform",
+    label: "SI platform",
+    line: "Grok Bot coordinates its own bots the same way: it delegates work to them, decides through Ensembly and remembers through it too.",
   },
   {
     id: "fleet",

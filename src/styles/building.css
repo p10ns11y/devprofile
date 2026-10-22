@@ -467,3 +467,27 @@
     offset-distance: 60%;
   }
 }
+
+.building-loop__decide-line {
+  stroke: var(--building-ink-soft, currentColor);
+  stroke-width: 1;
+  opacity: 0.55;
+}
+
+.building-loop__uses {
+  stroke: var(--building-ink-soft, currentColor);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  opacity: 0.5;
+}
+
+.building-loop__platform {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+
+.building-loop__seed-static {
+  fill: currentColor;
+  opacity: 0.7;
+}

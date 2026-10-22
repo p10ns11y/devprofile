@@ -167,6 +167,12 @@ function LoopLayer({ scene }: LoopLayerProps) {
   );
 }
 
+const DECISION_TARGETS = [
+  { id: "apps", label: "apps", x: -84 },
+  { id: "harnesses", label: "harnesses", x: 0 },
+  { id: "bots", label: "SI bots", x: 96 },
+] as const;
+
 function EnsemblyPulse({ x, y }: { x: number; y: number }) {
   return (
     <g className="building-loop__pulse" transform={`translate(${x} ${y})`}>
@@ -180,6 +186,51 @@ function EnsemblyPulse({ x, y }: { x: number; y: number }) {
       <text x="20" y="30" className="building-loop__kind-note">
         pulse: memory + heartbeat
       </text>
+      <text x="20" y="44" className="building-loop__kind-note">
+        decides: repeatable coordination
+      </text>
+      <g className="building-loop__decide" data-loop="ensembly-decides">
+        {DECISION_TARGETS.map((target) => (
+          <g key={target.id}>
+            <path
+              d={`M 0 52 C 0 70, ${target.x} 66, ${target.x} 88`}
+              className="building-loop__decide-line"
+              fill="none"
+              markerEnd="url(#loop-arrow)"
+            />
+            <text x={target.x} y={102} className="building-loop__kind" textAnchor="middle">
+              {target.label}
+            </text>
+          </g>
+        ))}
+        <path d="M 96 108 L 96 124" className="building-loop__decide-line" fill="none" />
+        <circle cx="96" cy="132" r="7" className="building-loop__platform" />
+        <text x="110" y="136" className="building-loop__kind">
+          Grok Bot
+        </text>
+        <text x="110" y="150" className="building-loop__kind-note">
+          SI platform: delegates to its own bots
+        </text>
+        {[-22, 0, 22].map((dx) => (
+          <g key={dx}>
+            <path
+              d={`M 96 139 L ${96 + dx} 160`}
+              className="building-loop__decide-line"
+              fill="none"
+            />
+            <circle cx={96 + dx} cy="164" r="3" className="building-loop__seed-static" />
+          </g>
+        ))}
+        <path
+          d="M 89 132 C 40 132, -24 110, -18 30"
+          className="building-loop__uses"
+          fill="none"
+          markerEnd="url(#loop-arrow)"
+        />
+        <text x="36" y="128" className="building-loop__kind-note" textAnchor="end">
+          and uses Ensembly too
+        </text>
+      </g>
     </g>
   );
 }
@@ -269,7 +320,7 @@ export function LandscapeAtlas({
   afterFigure,
 }: LandscapeAtlasProps = {}) {
   const scene = layoutAtlas(keys);
-  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; fleet seeds carry work into one portal, release returns sparks, flames, dust and stars, feedback and decay close the loop, ensembly keeps the pulse`;
+  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; fleet seeds carry work into one portal, release returns sparks, flames, dust and stars, feedback and decay close the loop, ensembly keeps the pulse and is the decision model for repeatable coordination across apps, harnesses and SI bots; Grok Bot, the SI platform, delegates to its own bots through ensembly and uses it too`;
 
   const svg = (
     <svg

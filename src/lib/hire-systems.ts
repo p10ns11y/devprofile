@@ -134,4 +134,4 @@ export function hireLandscapeDocks(rows: HireLandscapeRow[]): HireLandscapeDock[
 }
 
 export const hireSystemsCaption =
-  "ensembly is the pulse of the loop. participatory-mesh runs only the allowlist.";
+  "ensembly is the pulse of the loop and the decision model for repeatable coordination. participatory-mesh runs only the allowlist.";
