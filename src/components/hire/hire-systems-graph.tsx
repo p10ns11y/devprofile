@@ -43,9 +43,9 @@ export function HireSystemsGraph({ systems }: HireSystemsGraphProps) {
       ) : null}
 
       <p id="hire-atlas-desc" className="sr-only">
-        Five cluster bands and four area docks feeding one operator loop, ensembly. cvdata is the
-        record plane behind devprofile and collab-finder. participatory-mesh runs only the allowlist
-        at the Systems dock.
+        Five cluster bands and four area docks feeding one portal; release feeds back and decay
+        returns as raw material. ensembly is the pulse. cvdata is the record plane behind devprofile
+        and collab-finder. participatory-mesh runs only the allowlist at the Systems dock.
       </p>
 
       <LandscapeAtlas embedded />

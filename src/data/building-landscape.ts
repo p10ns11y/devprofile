@@ -1,10 +1,11 @@
 export const BUILDING_SINGULARITY = {
   id: "loop",
-  label: "One operator loop",
+  label: "One portal",
   sublabel: "white hole",
-  line: "Projects fall in on the left. The operator is the other face: a white hole. Output, not capture. Personal stack, not a lab claim.",
+  line: "Fleet seeds carry work from areas into one portal. It is dark at intake and a white hole at release. What comes out (sparks, flames, dust, stars) feeds back into the map, and retired work drifts back in as raw material. Personal stack, not a lab claim.",
+  womb: "Grok is the womb of the loop: work enters, is formed, and is born back out through the same portal.",
   tooltip:
-    "A Penrose white hole is the other side of a black hole: same throat, reverse arrow. A black hole captures; a white hole emits. Projects fall in on the left. What comes out is shipped work, not a gallery of repos.",
+    "A Penrose white hole is the other side of a black hole: same throat, reverse arrow. A black hole captures; a white hole emits. Work enters on the left. What comes out is shipped work, not a gallery of repos.",
 } as const;
 
 export const BUILDING_FALLBACK_URL: Record<string, string> = {
@@ -123,3 +124,44 @@ export function projectsInCluster(cluster: ClusterId): AtlasProject[] {
 export function projectsInArea(area: AreaId): AtlasProject[] {
   return BUILDING_PROJECTS.filter((project) => project.area === area);
 }
+
+export const BUILDING_LOOP_STAGES = [
+  { id: "universe", label: "Universe", line: "Areas hold clusters, which hold projects." },
+  {
+    id: "portal",
+    label: "Portal",
+    line: "Work enters dark at intake and leaves as a white hole at release. Grok forms it inside.",
+  },
+  {
+    id: "pulse",
+    label: "Ensembly pulse",
+    line: "Memory and heartbeat that keep the loop from forgetting. A pulse, not a hole.",
+  },
+  {
+    id: "fleet",
+    label: "Fleet seeds",
+    line: "Bots carry work from areas and clusters into the portal.",
+  },
+  {
+    id: "release",
+    label: "Release",
+    line: "Sparks (ideas), flames (active builds), dust (fragments), stars (shipped PRs, deploys, releases, applications).",
+  },
+  {
+    id: "feedback",
+    label: "Feedback",
+    line: "Learnings, new requirements and changes flow back and reshape areas, clusters and projects.",
+  },
+  {
+    id: "decay",
+    label: "Decay",
+    line: "Retired, replaced, archived or melted projects drift back to the portal as raw material.",
+  },
+] as const;
+
+export const BUILDING_RELEASE_KINDS = [
+  { id: "spark", label: "sparks", note: "ideas" },
+  { id: "flame", label: "flames", note: "active builds" },
+  { id: "dust", label: "dust", note: "fragments" },
+  { id: "star", label: "stars", note: "shipped PRs, deploys, releases, applications" },
+] as const;

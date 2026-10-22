@@ -346,3 +346,124 @@
     scroll-timeline: none;
   }
 }
+
+/* Life-cycle loop (#115) */
+.building-loop__feedback,
+.building-loop__decay {
+  stroke: #6b7788;
+  stroke-width: 1.3;
+  opacity: 0.75;
+}
+.building-loop__feedback {
+  stroke-dasharray: 6 5;
+  animation: building-loop-flow 3.2s linear infinite;
+}
+.building-loop__decay {
+  stroke-dasharray: 2 6;
+  stroke-linecap: round;
+  animation: building-loop-flow 6s linear infinite;
+}
+.building-loop__arrow {
+  fill: #6b7788;
+}
+.building-loop__ray {
+  stroke: #9eb4d0;
+  stroke-width: 1.1;
+}
+.building-loop__note,
+.building-loop__kind-note {
+  font-size: 11px;
+  fill: #4f5a68;
+}
+.building-loop__face {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  fill: #4f5a68;
+}
+.building-loop__kind {
+  font-size: 13px;
+  fill: var(--atlas-ink, #1a2330);
+}
+.building-loop__glyph {
+  fill: #c2721e;
+}
+.building-loop__glyph--dust {
+  fill: #6b7788;
+}
+.building-loop__glyph--star {
+  fill: #1a2330;
+}
+.building-loop__seed {
+  fill: #c2721e;
+  offset-rotate: 0deg;
+  animation: building-loop-seed 4.4s ease-in infinite;
+}
+.building-loop__pulse-ring {
+  fill: none;
+  stroke: #c2721e;
+  stroke-width: 1.2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: building-loop-pulse 2.4s ease-out infinite;
+}
+.building-loop__pulse-ring--late {
+  animation-delay: 1.2s;
+}
+.building-loop__beat {
+  stroke: #c2721e;
+  stroke-width: 1.3;
+}
+.building-atlas__portal-line {
+  display: block;
+  margin-top: 0.4rem;
+}
+.building-loop__legend {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+@keyframes building-loop-flow {
+  to {
+    stroke-dashoffset: -44;
+  }
+}
+@keyframes building-loop-seed {
+  from {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  to {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+@keyframes building-loop-pulse {
+  from {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .building-loop__feedback,
+  .building-loop__decay,
+  .building-loop__pulse-ring {
+    animation: none;
+  }
+  .building-loop__seed {
+    animation: none;
+    offset-distance: 60%;
+  }
+}
