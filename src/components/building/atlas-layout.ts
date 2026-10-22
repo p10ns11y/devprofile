@@ -98,12 +98,13 @@ const NAME_BASELINE = 4;
 const GRID_INSET = 8;
 const HOP_RIM = 2;
 const SINK_TRUNK_INSET = 92;
-const OPERATOR_BACK = 42;
+const OPERATOR_BACK = -40;
 const CUBIC_SAMPLES = 36;
 const NAME_INK_HEIGHT = 14;
 const SINK_LABEL_TOP = 46;
 const SINK_LABEL_HEIGHT = 36;
-const OPERATOR_BELOW_SINK = 102;
+const OPERATOR_BELOW_SINK = 140;
+const OPERATOR_CLUSTER_DEPTH = 120;
 
 function approxInkWidth(text: string, cap: number): number {
   return Math.min(Math.max(text.length * CHAR_WIDTH, 8), cap);
@@ -402,7 +403,7 @@ export function layoutAtlas(keys?: readonly string[]): AtlasScene {
 
   let operator: PlacedStar | undefined;
   if (operatorSeed) {
-    // Lower-left of the halo, below sink type, so trunks meeting at sink.y miss the name.
+    // Ensembly is drawn inside the portal; this only reserves depth for the coordination fan.
     const operatorY = sink.y + OPERATOR_BELOW_SINK;
     operator = {
       ...operatorSeed,
@@ -410,7 +411,7 @@ export function layoutAtlas(keys?: readonly string[]): AtlasScene {
       y: operatorY,
       r: OPERATOR_RADIUS,
     };
-    sceneHeight = Math.max(sceneHeight, operatorY + BOTTOM_PAD);
+    sceneHeight = Math.max(sceneHeight, operatorY + OPERATOR_CLUSTER_DEPTH);
   }
 
   const ink: InkRect[] = [];

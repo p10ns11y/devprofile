@@ -130,17 +130,17 @@ export const BUILDING_LOOP_STAGES = [
   {
     id: "portal",
     label: "Portal",
-    line: "Work enters dark at intake and leaves as a white hole at release. Grok forms it inside.",
+    line: "Grok Bot and Ensembly together are the portal. Work enters dark at intake, is formed inside, and leaves as a white hole at release.",
   },
   {
     id: "pulse",
     label: "Ensembly",
-    line: "Memory and heartbeat that keep the loop from forgetting, and the decision model that makes coordination programmatically repeatable across apps, harnesses and SI bots, Grok Bot included.",
+    line: "The portal's memory and heartbeat, and its decision model: coordination stays programmatically repeatable across apps, harnesses and SI bots, Grok Bot included.",
   },
   {
     id: "platform",
     label: "SI platform",
-    line: "Grok Bot coordinates its own bots the same way: it delegates work to them, decides through Ensembly and remembers through it too.",
+    line: "Grok Bot coordinates its own bots the same way from inside the portal: it delegates to them and decides and remembers through Ensembly.",
   },
   {
     id: "fleet",

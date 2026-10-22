@@ -109,7 +109,7 @@ function LoopLayer({ scene }: LoopLayerProps) {
   const topY = 26;
   const bottomY = height - 22;
   const feedback = `M ${glyphX} ${firstY - 16} C ${glyphX} ${topY}, ${glyphX} ${topY}, ${glyphX - 60} ${topY} L 60 ${topY} C 24 ${topY}, 24 ${topY}, 24 ${topY + 30}`;
-  const decay = `M 24 ${height - 64} C 24 ${bottomY}, 24 ${bottomY}, 60 ${bottomY} L ${sink.x - 260} ${bottomY} C ${sink.x - 150} ${bottomY}, ${sink.x - 120} ${sink.y + 40}, ${sink.x - 62} ${sink.y + 14}`;
+  const decay = `M 24 ${height - 64} C 24 ${bottomY}, 24 ${bottomY}, 60 ${bottomY} L ${sink.x - 170} ${bottomY} C ${sink.x - 120} ${bottomY}, ${sink.x - 112} ${sink.y + 80}, ${sink.x - 70} ${sink.y + 22}`;
   return (
     <g className="building-loop">
       <path
@@ -168,69 +168,59 @@ function LoopLayer({ scene }: LoopLayerProps) {
 }
 
 const DECISION_TARGETS = [
-  { id: "apps", label: "apps", x: -84 },
+  { id: "apps", label: "apps", x: -76 },
   { id: "harnesses", label: "harnesses", x: 0 },
-  { id: "bots", label: "SI bots", x: 96 },
+  { id: "bots", label: "SI bots", x: 76 },
 ] as const;
 
-function EnsemblyPulse({ x, y }: { x: number; y: number }) {
+const PORTAL_NAME_Y = 98;
+const PORTAL_NOTE_Y = 113;
+const FAN_TOP_Y = 124;
+const FAN_Y = 170;
+const OWN_BOTS_Y = 210;
+
+/** Grok Bot + Ensembly are the portal itself: pulse at the core, coordination under the throat. */
+function PortalCore({ operator }: { operator: PlacedStar | undefined }) {
+  const ensembly = <tspan className="building-loop__portal-ensembly">Ensembly</tspan>;
   return (
-    <g className="building-loop__pulse" transform={`translate(${x} ${y})`}>
-      <circle r="16" className="building-loop__pulse-ring" />
-      <circle r="16" className="building-loop__pulse-ring building-loop__pulse-ring--late" />
-      <path
-        d="M -40 26 L -22 26 L -17 18 L -11 34 L -6 22 L -2 26 L 14 26"
-        className="building-loop__beat"
-        fill="none"
-      />
-      <text x="20" y="30" className="building-loop__kind-note">
-        pulse: memory + heartbeat
-      </text>
-      <text x="20" y="44" className="building-loop__kind-note">
-        decides: repeatable coordination
-      </text>
-      <g className="building-loop__decide" data-loop="ensembly-decides">
-        {DECISION_TARGETS.map((target) => (
-          <g key={target.id}>
-            <path
-              d={`M 0 52 C 0 70, ${target.x} 66, ${target.x} 88`}
-              className="building-loop__decide-line"
-              fill="none"
-              markerEnd="url(#loop-arrow)"
-            />
-            <text x={target.x} y={102} className="building-loop__kind" textAnchor="middle">
-              {target.label}
-            </text>
-          </g>
-        ))}
-        <path d="M 96 108 L 96 124" className="building-loop__decide-line" fill="none" />
-        <circle cx="96" cy="132" r="7" className="building-loop__platform" />
-        <text x="110" y="136" className="building-loop__kind">
-          Grok Bot
-        </text>
-        <text x="110" y="150" className="building-loop__kind-note">
-          SI platform: delegates to its own bots
-        </text>
-        {[-22, 0, 22].map((dx) => (
-          <g key={dx}>
-            <path
-              d={`M 96 139 L ${96 + dx} 160`}
-              className="building-loop__decide-line"
-              fill="none"
-            />
-            <circle cx={96 + dx} cy="164" r="3" className="building-loop__seed-static" />
-          </g>
-        ))}
-        <path
-          d="M 89 132 C 40 132, -24 110, -18 30"
-          className="building-loop__uses"
-          fill="none"
-          markerEnd="url(#loop-arrow)"
-        />
-        <text x="36" y="128" className="building-loop__kind-note" textAnchor="end">
-          and uses Ensembly too
-        </text>
+    <g className="building-loop__portal" data-loop="portal-core">
+      <ellipse cy="150" rx="150" ry="110" fill="url(#wh-halo)" opacity="0.35" />
+      <g transform="translate(25 -5)" className="building-loop__pulse">
+        <circle r="12" className="building-loop__pulse-ring" />
+        <circle r="12" className="building-loop__pulse-ring building-loop__pulse-ring--late" />
       </g>
+      <text y={PORTAL_NAME_Y} className="building-loop__node-name" textAnchor="middle">
+        Grok Bot + {operator?.href ? <a href={operator.href}>{ensembly}</a> : ensembly}
+      </text>
+      <text y={PORTAL_NOTE_Y} className="building-loop__kind-note" textAnchor="middle">
+        memory, heartbeat, decisions
+      </text>
+      {DECISION_TARGETS.map((target) => (
+        <g key={target.id}>
+          <path
+            d={`M 0 ${FAN_TOP_Y} C 0 ${FAN_TOP_Y + 22}, ${target.x} ${FAN_Y - 34}, ${target.x} ${FAN_Y - 14}`}
+            className="building-loop__decide-line"
+            fill="none"
+            markerEnd="url(#loop-arrow)"
+          />
+          <text x={target.x} y={FAN_Y} className="building-loop__kind" textAnchor="middle">
+            {target.label}
+          </text>
+        </g>
+      ))}
+      {[-16, 0, 16].map((dx) => (
+        <g key={dx}>
+          <path
+            d={`M 76 ${FAN_Y + 8} L ${76 + dx} ${OWN_BOTS_Y - 5}`}
+            className="building-loop__decide-line"
+            fill="none"
+          />
+          <circle cx={76 + dx} cy={OWN_BOTS_Y} r="2.6" className="building-loop__seed-static" />
+        </g>
+      ))}
+      <text x="102" y={OWN_BOTS_Y + 4} className="building-loop__kind-note">
+        delegates to its own bots
+      </text>
     </g>
   );
 }
@@ -320,7 +310,7 @@ export function LandscapeAtlas({
   afterFigure,
 }: LandscapeAtlasProps = {}) {
   const scene = layoutAtlas(keys);
-  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; fleet seeds carry work into one portal, release returns sparks, flames, dust and stars, feedback and decay close the loop, ensembly keeps the pulse and is the decision model for repeatable coordination across apps, harnesses and SI bots; Grok Bot, the SI platform, delegates to its own bots through ensembly and uses it too`;
+  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; fleet seeds carry work into one portal, which is Grok Bot and ensembly together; inside it ensembly keeps memory and heartbeat and is the decision model for repeatable coordination across apps, harnesses and SI bots, and Grok Bot, the SI platform, delegates to its own bots the same way; release returns sparks, flames, dust and stars; feedback and decay close the loop`;
 
   const svg = (
     <svg
@@ -467,17 +457,22 @@ export function LandscapeAtlas({
           {BUILDING_SINGULARITY.label}
         </text>
         {sinkExtra}
+        <PortalCore operator={scene.operator} />
       </g>
-
-      {scene.operator ? <EnsemblyPulse x={scene.operator.x} y={scene.operator.y} /> : null}
-      {scene.operator ? <ProjectMark placedStar={scene.operator} /> : null}
     </svg>
+  );
+
+  const viewport = (
+    // biome-ignore lint/a11y/noNoninteractiveTabindex: lets keyboard users scroll the map sideways on narrow screens
+    <div className="building-atlas__viewport" role="region" aria-label="Space map" tabIndex={0}>
+      {svg}
+    </div>
   );
 
   if (embedded) {
     return (
       <div className="building-atlas building-atlas--embedded">
-        {svg}
+        {viewport}
         <LoopStages />
       </div>
     );
@@ -485,7 +480,7 @@ export function LandscapeAtlas({
 
   return (
     <figure className="building-atlas">
-      {svg}
+      {viewport}
       <figcaption className="building-atlas__caption">
         {BUILDING_SINGULARITY.line} A Penrose white hole is the other side of a black hole.
         participatory-mesh is public CommandFabric. Allowlisted dispatch, not a chat plane.
