@@ -8,7 +8,13 @@ import {
   starNameAnchorX,
   visibleProjects,
 } from "@/components/building/atlas-layout";
-import { BUILDING_AREAS, BUILDING_CLUSTERS, BUILDING_SINGULARITY } from "@/data/building-landscape";
+import {
+  BUILDING_AREAS,
+  BUILDING_CLUSTERS,
+  BUILDING_LOOP_STAGES,
+  BUILDING_RELEASE_KINDS,
+  BUILDING_SINGULARITY,
+} from "@/data/building-landscape";
 
 export type {
   AreaDock,
@@ -59,6 +65,146 @@ function WhiteHole() {
       <path d="M 26 -18 C 58 -48, 96 -44, 128 -28" className="white-hole__ray" fill="none" />
       <path d="M 26 18 C 58 48, 96 44, 128 28" className="white-hole__ray" fill="none" />
     </g>
+  );
+}
+
+type ReleaseKind = (typeof BUILDING_RELEASE_KINDS)[number]["id"];
+
+const RELEASE_SHORT: Record<ReleaseKind, string> = {
+  spark: "ideas",
+  flame: "active builds",
+  dust: "fragments",
+  star: "shipped work",
+};
+
+function ReleaseGlyph({ kind }: { kind: ReleaseKind }) {
+  if (kind === "spark") {
+    return <path d="M 0 -8 L 2 -2 L 8 0 L 2 2 L 0 8 L -2 2 L -8 0 L -2 -2 Z" />;
+  }
+  if (kind === "flame") {
+    return <path d="M 0 -9 C 6 -3, 6 4, 0 8 C -6 4, -6 -3, 0 -9 Z" />;
+  }
+  if (kind === "dust") {
+    return (
+      <>
+        <circle cx="-5" cy="2" r="1.6" />
+        <circle cx="1" cy="-4" r="1.3" />
+        <circle cx="5" cy="3" r="1.8" />
+        <circle cx="-1" cy="6" r="1.1" />
+      </>
+    );
+  }
+  return (
+    <path d="M 0 -9 L 2.6 -3 L 9 -2.8 L 4 1.4 L 5.6 8 L 0 4.4 L -5.6 8 L -4 1.4 L -9 -2.8 L -2.6 -3 Z" />
+  );
+}
+
+type LoopLayerProps = { scene: ReturnType<typeof layoutAtlas> };
+
+function LoopLayer({ scene }: LoopLayerProps) {
+  const { sink, width, height } = scene;
+  const glyphX = sink.x + 150;
+  const step = 64;
+  const firstY = sink.y - (step * (BUILDING_RELEASE_KINDS.length - 1)) / 2;
+  const topY = 26;
+  const bottomY = height - 22;
+  const feedback = `M ${glyphX} ${firstY - 16} C ${glyphX} ${topY}, ${glyphX} ${topY}, ${glyphX - 60} ${topY} L 60 ${topY} C 24 ${topY}, 24 ${topY}, 24 ${topY + 30}`;
+  const decay = `M 24 ${height - 64} C 24 ${bottomY}, 24 ${bottomY}, 60 ${bottomY} L ${sink.x - 260} ${bottomY} C ${sink.x - 150} ${bottomY}, ${sink.x - 120} ${sink.y + 40}, ${sink.x - 62} ${sink.y + 14}`;
+  return (
+    <g className="building-loop">
+      <path
+        d={feedback}
+        className="building-loop__feedback"
+        fill="none"
+        markerEnd="url(#loop-arrow)"
+      />
+      <text x={width / 2 - 120} y={topY + 16} className="building-loop__note">
+        feedback: learnings, requirements, changes reshape the map
+      </text>
+      <path d={decay} className="building-loop__decay" fill="none" markerEnd="url(#loop-arrow)" />
+      <text x={80} y={bottomY - 8} className="building-loop__note">
+        decay: retired, archived, melted work drifts back as raw material
+      </text>
+      <text x={sink.x - 132} y={sink.y - 44} className="building-loop__face" textAnchor="end">
+        intake
+      </text>
+      <text x={sink.x + 70} y={sink.y - 56} className="building-loop__face">
+        release
+      </text>
+      {BUILDING_RELEASE_KINDS.map((kind, index) => {
+        const y = firstY + index * step;
+        return (
+          <g key={kind.id} data-release={kind.id}>
+            <path
+              d={`M ${sink.x + 40} ${sink.y} C ${sink.x + 90} ${sink.y}, ${glyphX - 50} ${y}, ${glyphX - 14} ${y}`}
+              className="building-loop__ray"
+              fill="none"
+            />
+            <g
+              transform={`translate(${glyphX} ${y})`}
+              className={`building-loop__glyph building-loop__glyph--${kind.id}`}
+            >
+              <ReleaseGlyph kind={kind.id} />
+            </g>
+            <text x={glyphX + 16} y={y + 1} className="building-loop__kind">
+              {kind.label}
+            </text>
+            <text x={glyphX + 16} y={y + 15} className="building-loop__kind-note">
+              {RELEASE_SHORT[kind.id]}
+            </text>
+          </g>
+        );
+      })}
+      {scene.trunks.map((trunk, index) => (
+        <circle
+          key={`seed-${trunk.key}`}
+          r="3"
+          className="building-loop__seed"
+          style={{ offsetPath: `path("${trunk.d}")`, animationDelay: `${index * -1.1}s` }}
+        />
+      ))}
+    </g>
+  );
+}
+
+function EnsemblyPulse({ x, y }: { x: number; y: number }) {
+  return (
+    <g className="building-loop__pulse" transform={`translate(${x} ${y})`}>
+      <circle r="16" className="building-loop__pulse-ring" />
+      <circle r="16" className="building-loop__pulse-ring building-loop__pulse-ring--late" />
+      <path
+        d="M -40 26 L -22 26 L -17 18 L -11 34 L -6 22 L -2 26 L 14 26"
+        className="building-loop__beat"
+        fill="none"
+      />
+      <text x="20" y="30" className="building-loop__kind-note">
+        pulse: memory + heartbeat
+      </text>
+    </g>
+  );
+}
+
+function LoopStages() {
+  return (
+    <ol className="sr-only">
+      {BUILDING_LOOP_STAGES.map((stage) => (
+        <li key={stage.id}>
+          {stage.label}: {stage.line}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function LoopLegend() {
+  return (
+    <ul className="building-loop__legend" aria-label="Loop legend">
+      {BUILDING_LOOP_STAGES.map((stage) => (
+        <li key={stage.id} data-stage={stage.id}>
+          <strong>{stage.label}</strong> {stage.line}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -123,7 +269,7 @@ export function LandscapeAtlas({
   afterFigure,
 }: LandscapeAtlasProps = {}) {
   const scene = layoutAtlas(keys);
-  const label = `${scene.bands.length} cluster bands and ${scene.docks.length} area docks feeding one operator loop`;
+  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; fleet seeds carry work into one portal, release returns sparks, flames, dust and stars, feedback and decay close the loop, ensembly keeps the pulse`;
 
   const svg = (
     <svg
@@ -166,6 +312,17 @@ export function LandscapeAtlas({
         <clipPath id="wh-left">
           <rect x="-80" y="-80" width="80" height="160" />
         </clipPath>
+        <marker
+          id="loop-arrow"
+          viewBox="0 0 8 8"
+          refX="6"
+          refY="4"
+          markerWidth="7"
+          markerHeight="7"
+          orient="auto-start-reverse"
+        >
+          <path d="M 0 0 L 8 4 L 0 8 Z" className="building-loop__arrow" />
+        </marker>
         <filter id="wh-soft" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="2.4" />
         </filter>
@@ -217,6 +374,8 @@ export function LandscapeAtlas({
         />
       ))}
 
+      <LoopLayer scene={scene} />
+
       {scene.bands.map((clusterBand) => (
         <text
           key={clusterBand.cluster}
@@ -259,21 +418,30 @@ export function LandscapeAtlas({
         {sinkExtra}
       </g>
 
+      {scene.operator ? <EnsemblyPulse x={scene.operator.x} y={scene.operator.y} /> : null}
       {scene.operator ? <ProjectMark placedStar={scene.operator} /> : null}
     </svg>
   );
 
   if (embedded) {
-    return <div className="building-atlas building-atlas--embedded">{svg}</div>;
+    return (
+      <div className="building-atlas building-atlas--embedded">
+        {svg}
+        <LoopStages />
+      </div>
+    );
   }
 
   return (
     <figure className="building-atlas">
       {svg}
+      <LoopStages />
       <figcaption className="building-atlas__caption">
         {BUILDING_SINGULARITY.line} A Penrose white hole is the other side of a black hole.
         participatory-mesh is public CommandFabric. Allowlisted dispatch, not a chat plane.
+        <span className="building-atlas__portal-line">{BUILDING_SINGULARITY.womb}</span>
       </figcaption>
+      <LoopLegend />
       {afterFigure}
     </figure>
   );

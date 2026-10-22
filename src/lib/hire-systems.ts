@@ -134,4 +134,4 @@ export function hireLandscapeDocks(rows: HireLandscapeRow[]): HireLandscapeDock[
 }
 
 export const hireSystemsCaption =
-  "ensembly sits at the operator loop. participatory-mesh runs only the allowlist.";
+  "ensembly is the pulse of the loop. participatory-mesh runs only the allowlist.";
