@@ -293,6 +293,7 @@
 .building-spacemap th:nth-child(4),
 .building-spacemap td:nth-child(4) {
   width: 100%;
+  overflow-wrap: break-word;
 }
 
 .building-spacemap__label {
