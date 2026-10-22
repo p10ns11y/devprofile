@@ -125,8 +125,9 @@ export function HireLanding({ content }: HireLandingProps) {
               How the pieces connect
             </h2>
             <p className="hire-phi__section-lead">
-              Five cluster bands feed four area docks; their todos merge into one priority list that
-              feeds one portal. What it releases feeds back. Not separate demos with copied prompts.
+              Five cluster bands feed four area docks; their todos pour into one priority funnel
+              that feeds one portal. What it releases feeds back. Not separate demos with copied
+              prompts.
             </p>
           </header>
           <div className={layout.systems}>

@@ -473,6 +473,13 @@
   stroke: var(--color-text);
   stroke-width: 1.4;
 }
+.building-loop__funnel-body {
+  fill: color-mix(in oklch, var(--color-text) 4%, transparent);
+}
+.building-loop__funnel-edge {
+  stroke: var(--loop-faint);
+  stroke-width: 1;
+}
 .building-loop__pipe {
   stroke: var(--loop-soft);
   stroke-width: 4;

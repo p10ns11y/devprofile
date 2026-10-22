@@ -66,6 +66,7 @@ export type AtlasScene = {
   hops: Curve[];
   trunks: Curve[];
   pipe: { x1: number; x2: number; y: number };
+  funnel: { mouthX: number; top: number; bottom: number; neckX: number; y: number };
   grid: GridSeg[];
   ink: InkRect[];
   collisions: Array<{ curveOrGrid: string; ink: InkRect }>;
@@ -101,6 +102,8 @@ const HOP_RIM = 2;
 const SINK_TRUNK_INSET = 70;
 /** Todos from every area merge here into one priority-list pipe before the portal. */
 const PIPE_MERGE_BACK = 210;
+const FUNNEL_MOUTH_GAP = 18;
+const FUNNEL_LIP = 22;
 const OPERATOR_BACK = -40;
 const CUBIC_SAMPLES = 36;
 const NAME_INK_HEIGHT = 14;
@@ -335,7 +338,7 @@ export function layoutAtlas(keys?: readonly string[]): AtlasScene {
 
   let sceneHeight = bandCursorY + BOTTOM_PAD;
   const sink = { x: SINK_X, y: sceneHeight / 2 };
-  const dockX = lerp(starX + VOID_PAD, sink.x - HOLE_CLEARANCE, 0.45);
+  const dockX = lerp(starX + VOID_PAD, sink.x - HOLE_CLEARANCE, 0.35);
 
   const dockDrafts = BUILDING_AREAS.flatMap((areaRecord) => {
     const memberYs = stars.filter((star) => star.area === areaRecord.id).map((star) => star.y);
@@ -394,6 +397,15 @@ export function layoutAtlas(keys?: readonly string[]): AtlasScene {
       kind: "trunk" as const,
     };
   });
+
+  const dockYs = docks.map((areaDock) => areaDock.y);
+  const funnel = {
+    mouthX: Math.min(...docks.map((areaDock) => areaDock.x - areaDock.rx)) - FUNNEL_MOUTH_GAP,
+    top: Math.min(...dockYs) - FUNNEL_LIP,
+    bottom: Math.max(...dockYs) + FUNNEL_LIP,
+    neckX: sink.x - PIPE_MERGE_BACK,
+    y: sink.y,
+  };
 
   const gridStartX = starX + STAR_RADIUS + GRID_INSET;
   const gridEndX = dockX - DOCK_RX - GRID_INSET;
@@ -488,6 +500,7 @@ export function layoutAtlas(keys?: readonly string[]): AtlasScene {
     sink,
     hops,
     trunks,
+    funnel,
     pipe: { x1: sink.x - PIPE_MERGE_BACK, x2: sink.x - SINK_TRUNK_INSET, y: sink.y },
     grid,
     ink,

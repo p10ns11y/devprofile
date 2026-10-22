@@ -99,6 +99,23 @@ function ReleaseGlyph({ kind }: { kind: ReleaseKind }) {
   );
 }
 
+/** Wide mouth spans every area dock; the neck is the single priority-list pipe. */
+function PriorityFunnel({ funnel }: { funnel: ReturnType<typeof layoutAtlas>["funnel"] }) {
+  const { mouthX, top, bottom, neckX, y } = funnel;
+  const reach = neckX - mouthX;
+  const neck = 3;
+  const upper = `M ${mouthX} ${top} C ${mouthX + reach * 0.78} ${top}, ${neckX - reach * 0.2} ${y - neck}, ${neckX} ${y - neck}`;
+  const lower = `M ${mouthX} ${bottom} C ${mouthX + reach * 0.78} ${bottom}, ${neckX - reach * 0.2} ${y + neck}, ${neckX} ${y + neck}`;
+  const body = `${upper} L ${neckX} ${y + neck} C ${neckX - reach * 0.2} ${y + neck}, ${mouthX + reach * 0.78} ${bottom}, ${mouthX} ${bottom} Z`;
+  return (
+    <g className="building-loop__funnel" data-loop="priority-funnel">
+      <path d={body} className="building-loop__funnel-body" />
+      <path d={upper} className="building-loop__funnel-edge" fill="none" />
+      <path d={lower} className="building-loop__funnel-edge" fill="none" />
+    </g>
+  );
+}
+
 type LoopLayerProps = { scene: ReturnType<typeof layoutAtlas> };
 
 function LoopLayer({ scene }: LoopLayerProps) {
@@ -354,7 +371,7 @@ export function LandscapeAtlas({
   afterFigure,
 }: LandscapeAtlasProps = {}) {
   const scene = layoutAtlas(keys);
-  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; todos from every project cluster merge into one priority-list pipe, and the fleet flows out of it into one portal, which is Grok Bot and ensembly together; inside it ensembly keeps memory and heartbeat and is the decision model for repeatable coordination across apps, harnesses, SI bots, a mesh of devices and the Bot computer with its VMs, and Grok Bot, the SI platform, delegates to its own bots the same way; release returns sparks, flames, dust and stars; feedback and decay close the loop`;
+  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; todos pour from every project cluster into a priority funnel whose wide mouth spans all the areas; its narrow neck is one priority-list pipe, and the fleet leaves single file into one portal, which is Grok Bot and ensembly together; inside it ensembly keeps memory and heartbeat and is the decision model for repeatable coordination across apps, harnesses, SI bots, a mesh of devices and the Bot computer with its VMs, and Grok Bot, the SI platform, delegates to its own bots the same way; release returns sparks, flames, dust and stars; feedback and decay close the loop`;
 
   const svg = (
     <svg
@@ -436,6 +453,8 @@ export function LandscapeAtlas({
           className="building-atlas__grid"
         />
       ))}
+
+      <PriorityFunnel funnel={scene.funnel} />
 
       {scene.hops.map((hop) => (
         <path

@@ -43,13 +43,13 @@ export function HireSystemsGraph({ systems }: HireSystemsGraphProps) {
       ) : null}
 
       <p id="hire-atlas-desc" className="sr-only">
-        Five cluster bands and four area docks whose todos merge into one priority-list pipe feeding
-        one portal; release feeds back and decay returns as raw material. Grok Bot and ensembly
-        together are the portal: ensembly keeps memory and heartbeat and decides repeatable
-        coordination across apps, harnesses, SI bots, a mesh of devices and the Bot computer with
-        its VMs, and Grok Bot delegates to its own bots the same way. cvdata is the record plane
-        behind devprofile and collab-finder. participatory-mesh runs only the allowlist at the
-        Systems dock.
+        Five cluster bands and four area docks whose todos pour into one priority funnel; its neck
+        is a single pipe feeding one portal; release feeds back and decay returns as raw material.
+        Grok Bot and ensembly together are the portal: ensembly keeps memory and heartbeat and
+        decides repeatable coordination across apps, harnesses, SI bots, a mesh of devices and the
+        Bot computer with its VMs, and Grok Bot delegates to its own bots the same way. cvdata is
+        the record plane behind devprofile and collab-finder. participatory-mesh runs only the
+        allowlist at the Systems dock.
       </p>
 
       <LandscapeAtlas embedded />
