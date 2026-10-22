@@ -2,7 +2,7 @@ export const BUILDING_SINGULARITY = {
   id: "loop",
   label: "One portal",
   sublabel: "white hole",
-  line: "Fleet seeds carry work from areas into one portal. It is dark at intake and a white hole at release. What comes out (sparks, flames, dust, stars) feeds back into the map, and retired work drifts back in as raw material. Personal stack, not a lab claim.",
+  line: "Todos from every area merge into one priority list, and fleet seeds carry it into one portal. It is dark at intake and a white hole at release. What comes out (sparks, flames, dust, stars) feeds back into the map, and retired work drifts back in as raw material. Personal stack, not a lab claim.",
   womb: "Grok is the womb of the loop: work enters, is formed, and is born back out through the same portal.",
   tooltip:
     "A Penrose white hole is the other side of a black hole: same throat, reverse arrow. A black hole captures; a white hole emits. Work enters on the left. What comes out is shipped work, not a gallery of repos.",
