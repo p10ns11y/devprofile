@@ -435,7 +435,6 @@ export function LandscapeAtlas({
   return (
     <figure className="building-atlas">
       {svg}
-      <LoopStages />
       <figcaption className="building-atlas__caption">
         {BUILDING_SINGULARITY.line} A Penrose white hole is the other side of a black hole.
         participatory-mesh is public CommandFabric. Allowlisted dispatch, not a chat plane.
