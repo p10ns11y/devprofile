@@ -2,7 +2,7 @@ export const BUILDING_SINGULARITY = {
   id: "loop",
   label: "One portal",
   sublabel: "white hole",
-  line: "Fleet seeds carry work from areas into one portal. It is dark at intake and a white hole at release. What comes out (sparks, flames, dust, stars) feeds back into the map, and retired work drifts back in as raw material. Personal stack, not a lab claim.",
+  line: "Todos from every area pour into one priority funnel, and fleet seeds leave it single file into one portal. It is dark at intake and a white hole at release. What comes out (sparks, flames, dust, stars) feeds back into the map, and retired work drifts back in as raw material. Personal stack, not a lab claim.",
   womb: "Grok is the womb of the loop: work enters, is formed, and is born back out through the same portal.",
   tooltip:
     "A Penrose white hole is the other side of a black hole: same throat, reverse arrow. A black hole captures; a white hole emits. Work enters on the left. What comes out is shipped work, not a gallery of repos.",
@@ -130,17 +130,22 @@ export const BUILDING_LOOP_STAGES = [
   {
     id: "portal",
     label: "Portal",
-    line: "Work enters dark at intake and leaves as a white hole at release. Grok forms it inside.",
+    line: "Grok Bot and Ensembly together are the portal. Work enters dark at intake, is formed inside, and leaves as a white hole at release.",
   },
   {
     id: "pulse",
-    label: "Ensembly pulse",
-    line: "Memory and heartbeat that keep the loop from forgetting. A pulse, not a hole.",
+    label: "Ensembly",
+    line: "The portal's memory and heartbeat, and its decision model: coordination stays programmatically repeatable across apps, harnesses, SI bots (Grok Bot included), a mesh of devices and the Bot computer with its VMs.",
+  },
+  {
+    id: "platform",
+    label: "SI platform",
+    line: "Grok Bot coordinates its own bots the same way from inside the portal: it delegates to them and decides and remembers through Ensembly.",
   },
   {
     id: "fleet",
     label: "Fleet seeds",
-    line: "Bots carry work from areas and clusters into the portal.",
+    line: "Todos pour in from every project and cluster through a funnel whose mouth spans all the areas. Its neck is one priority list, and the fleet leaves it single file toward the portal.",
   },
   {
     id: "release",

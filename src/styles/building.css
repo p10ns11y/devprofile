@@ -155,7 +155,7 @@
 
 .building-atlas__epithet {
   fill: var(--color-text-muted);
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0.06em;
   text-anchor: end;
 }
@@ -168,7 +168,7 @@
 
 .building-atlas__area {
   fill: var(--color-text-muted);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.04em;
 }
 
@@ -267,9 +267,33 @@
   border-bottom: 1px solid var(--color-border-subtle);
   vertical-align: top;
   font-size: 0.9375rem;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
   text-wrap: pretty;
-  min-width: 0;
+}
+
+/* Project, Cluster, Area: never split a word; "What it is" takes the rest */
+.building-spacemap th:nth-child(-n + 3),
+.building-spacemap td:nth-child(-n + 3) {
+  white-space: nowrap;
+  padding-right: 1.5rem;
+}
+.building-spacemap th:nth-child(1) {
+  min-width: 11rem;
+}
+.building-spacemap th:nth-child(2),
+.building-spacemap td:nth-child(2) {
+  min-width: 10rem;
+}
+.building-spacemap th:nth-child(3),
+.building-spacemap td:nth-child(3) {
+  min-width: 6rem;
+}
+.building-spacemap th:nth-child(4),
+.building-spacemap td:nth-child(4) {
+  width: 100%;
+  overflow-wrap: break-word;
 }
 
 .building-spacemap__label {
@@ -324,8 +348,18 @@
     padding-block: 0.85rem;
   }
 
+  .building-spacemap__caption {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+
   .building-spacemap th,
-  .building-spacemap td {
+  .building-spacemap td,
+  .building-spacemap th:nth-child(n),
+  .building-spacemap td:nth-child(n) {
+    min-width: 0;
+    white-space: normal;
     border-bottom: 0;
     padding: 0.3rem 0;
   }
@@ -347,62 +381,82 @@
   }
 }
 
-/* Life-cycle loop (#115) */
+/* Life-cycle loop (#115, #117): one type scale, theme inks, halo behind all text */
+.building-atlas__svg {
+  --loop-soft: color-mix(in oklch, var(--color-text) 48%, transparent);
+  --loop-faint: color-mix(in oklch, var(--color-text) 28%, transparent);
+  --loop-warm: var(--color-brand-emphasis);
+}
+.building-loop__note,
+.building-loop__kind-note,
+.building-loop__face,
+.building-loop__kind,
+.building-loop__node-name {
+  paint-order: stroke fill;
+  stroke: var(--atlas-ground);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
 .building-loop__feedback,
 .building-loop__decay {
-  stroke: #6b7788;
-  stroke-width: 1.3;
-  opacity: 0.75;
+  stroke: var(--loop-soft);
+  stroke-width: 1.1;
 }
 .building-loop__feedback {
   stroke-dasharray: 6 5;
   animation: building-loop-flow 3.2s linear infinite;
 }
 .building-loop__decay {
-  stroke-dasharray: 2 6;
+  stroke-dasharray: 1.5 5;
   stroke-linecap: round;
   animation: building-loop-flow 6s linear infinite;
 }
 .building-loop__arrow {
-  fill: #6b7788;
+  fill: var(--loop-soft);
 }
 .building-loop__ray {
-  stroke: #9eb4d0;
-  stroke-width: 1.1;
+  stroke: var(--loop-faint);
+  stroke-width: 1;
 }
 .building-loop__note,
 .building-loop__kind-note {
-  font-size: 11px;
-  fill: #4f5a68;
+  font-size: 11.5px;
+  letter-spacing: 0.01em;
+  fill: var(--color-text-muted);
 }
 .building-loop__face {
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  fill: #4f5a68;
+  fill: var(--color-text-muted);
 }
 .building-loop__kind {
-  font-size: 13px;
-  fill: var(--atlas-ink, #1a2330);
+  font-size: 12.5px;
+  fill: var(--color-text);
+}
+.building-loop__node-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  fill: var(--color-text);
 }
 .building-loop__glyph {
-  fill: #c2721e;
+  fill: var(--loop-warm);
 }
 .building-loop__glyph--dust {
-  fill: #6b7788;
+  fill: var(--loop-soft);
 }
 .building-loop__glyph--star {
-  fill: #1a2330;
+  fill: var(--color-text);
 }
 .building-loop__seed {
-  fill: #c2721e;
+  fill: var(--loop-warm);
   offset-rotate: 0deg;
   animation: building-loop-seed 4.4s ease-in infinite;
 }
 .building-loop__pulse-ring {
   fill: none;
-  stroke: #c2721e;
-  stroke-width: 1.2;
+  stroke: var(--loop-warm);
+  stroke-width: 1;
   transform-box: fill-box;
   transform-origin: center;
   animation: building-loop-pulse 2.4s ease-out infinite;
@@ -410,9 +464,42 @@
 .building-loop__pulse-ring--late {
   animation-delay: 1.2s;
 }
-.building-loop__beat {
-  stroke: #c2721e;
-  stroke-width: 1.3;
+.building-loop__decide-line {
+  stroke: var(--loop-soft);
+  stroke-width: 1;
+}
+.building-loop__platform {
+  fill: var(--atlas-ground);
+  stroke: var(--color-text);
+  stroke-width: 1.4;
+}
+.building-loop__funnel-body {
+  fill: color-mix(in oklch, var(--color-text) 4%, transparent);
+}
+.building-loop__funnel-edge {
+  stroke: var(--loop-faint);
+  stroke-width: 1;
+}
+.building-loop__pipe {
+  stroke: var(--loop-soft);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.building-loop__merge {
+  fill: var(--atlas-ground);
+  stroke: var(--color-text);
+  stroke-width: 1.4;
+}
+.building-loop__machine {
+  fill: var(--atlas-ground);
+  stroke: var(--loop-soft);
+  stroke-width: 1;
+}
+.building-loop__vm {
+  fill: var(--loop-faint);
+}
+.building-loop__seed-static {
+  fill: var(--loop-warm);
 }
 .building-atlas__portal-line {
   display: block;
@@ -420,11 +507,19 @@
 }
 .building-loop__legend {
   list-style: none;
-  margin: 0.75rem 0 0;
+  margin: 1rem 0 0;
   padding: 0;
   display: grid;
-  gap: 0.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 0.5rem 1.5rem;
   font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+.building-loop__legend strong {
+  display: block;
+  color: var(--color-text);
+  font-weight: 600;
 }
 
 @keyframes building-loop-flow {
@@ -465,5 +560,22 @@
   .building-loop__seed {
     animation: none;
     offset-distance: 60%;
+  }
+}
+
+/* Narrow screens: keep the map legible and let it scroll sideways */
+.building-atlas__viewport:focus-visible {
+  outline: 2px solid var(--color-brand-emphasis);
+  outline-offset: 2px;
+}
+@media (max-width: 767px) {
+  .building-atlas__viewport {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .building-atlas__viewport .building-atlas__svg {
+    width: 980px;
+    max-width: none;
   }
 }

@@ -99,6 +99,23 @@ function ReleaseGlyph({ kind }: { kind: ReleaseKind }) {
   );
 }
 
+/** Wide mouth spans every area dock; the neck is the single priority-list pipe. */
+function PriorityFunnel({ funnel }: { funnel: ReturnType<typeof layoutAtlas>["funnel"] }) {
+  const { mouthX, top, bottom, neckX, y } = funnel;
+  const reach = neckX - mouthX;
+  const neck = 3;
+  const upper = `M ${mouthX} ${top} C ${mouthX + reach * 0.78} ${top}, ${neckX - reach * 0.2} ${y - neck}, ${neckX} ${y - neck}`;
+  const lower = `M ${mouthX} ${bottom} C ${mouthX + reach * 0.78} ${bottom}, ${neckX - reach * 0.2} ${y + neck}, ${neckX} ${y + neck}`;
+  const body = `${upper} L ${neckX} ${y + neck} C ${neckX - reach * 0.2} ${y + neck}, ${mouthX + reach * 0.78} ${bottom}, ${mouthX} ${bottom} Z`;
+  return (
+    <g className="building-loop__funnel" data-loop="priority-funnel">
+      <path d={body} className="building-loop__funnel-body" />
+      <path d={upper} className="building-loop__funnel-edge" fill="none" />
+      <path d={lower} className="building-loop__funnel-edge" fill="none" />
+    </g>
+  );
+}
+
 type LoopLayerProps = { scene: ReturnType<typeof layoutAtlas> };
 
 function LoopLayer({ scene }: LoopLayerProps) {
@@ -109,7 +126,7 @@ function LoopLayer({ scene }: LoopLayerProps) {
   const topY = 26;
   const bottomY = height - 22;
   const feedback = `M ${glyphX} ${firstY - 16} C ${glyphX} ${topY}, ${glyphX} ${topY}, ${glyphX - 60} ${topY} L 60 ${topY} C 24 ${topY}, 24 ${topY}, 24 ${topY + 30}`;
-  const decay = `M 24 ${height - 64} C 24 ${bottomY}, 24 ${bottomY}, 60 ${bottomY} L ${sink.x - 260} ${bottomY} C ${sink.x - 150} ${bottomY}, ${sink.x - 120} ${sink.y + 40}, ${sink.x - 62} ${sink.y + 14}`;
+  const decay = `M 24 ${height - 64} C 24 ${bottomY}, 24 ${bottomY}, 60 ${bottomY} L ${scene.pipe.x1 - 60} ${bottomY} C ${scene.pipe.x1 - 10} ${bottomY}, ${scene.pipe.x1} ${sink.y + 80}, ${scene.pipe.x1} ${sink.y + 10}`;
   return (
     <g className="building-loop">
       <path
@@ -160,26 +177,111 @@ function LoopLayer({ scene }: LoopLayerProps) {
           key={`seed-${trunk.key}`}
           r="3"
           className="building-loop__seed"
-          style={{ offsetPath: `path("${trunk.d}")`, animationDelay: `${index * -1.1}s` }}
+          style={{
+            offsetPath: `path("${trunk.d} L ${scene.pipe.x2} ${scene.pipe.y}")`,
+            animationDelay: `${index * -1.1}s`,
+          }}
         />
       ))}
     </g>
   );
 }
 
-function EnsemblyPulse({ x, y }: { x: number; y: number }) {
+const COORDINATION_TARGETS = [
+  { id: "apps", label: "apps" },
+  { id: "harnesses", label: "harnesses" },
+  { id: "bots", label: "SI bots" },
+  { id: "mesh", label: "mesh of devices" },
+  { id: "computer", label: "Bot computer" },
+] as const;
+
+const PORTAL_NAME_Y = 98;
+const PORTAL_NOTE_Y = 113;
+const SPINE_X = -30;
+const SPINE_TOP_Y = 122;
+const ROW_FIRST_Y = 142;
+const ROW_STEP = 22;
+const LABEL_X = -16;
+
+function rowY(index: number): number {
+  return ROW_FIRST_Y + index * ROW_STEP;
+}
+
+function OwnBots({ y }: { y: number }) {
   return (
-    <g className="building-loop__pulse" transform={`translate(${x} ${y})`}>
-      <circle r="16" className="building-loop__pulse-ring" />
-      <circle r="16" className="building-loop__pulse-ring building-loop__pulse-ring--late" />
+    <g data-loop="own-bots">
+      <path d={`M 34 ${y} L 74 ${y}`} className="building-loop__decide-line" fill="none" />
+      {[46, 58, 70].map((cx) => (
+        <circle key={cx} cx={cx} cy={y} r="2.6" className="building-loop__seed-static" />
+      ))}
+      <text x="82" y={y + 4} className="building-loop__kind-note">
+        delegates to its own bots
+      </text>
+    </g>
+  );
+}
+
+function BotComputer({ y }: { y: number }) {
+  return (
+    <g data-loop="bot-computer">
+      <rect x="72" y={y - 8} width="58" height="16" rx="3" className="building-loop__machine" />
+      {[78, 96, 114].map((vmX) => (
+        <rect
+          key={vmX}
+          x={vmX}
+          y={y - 4}
+          width="12"
+          height="8"
+          rx="1.5"
+          className="building-loop__vm"
+        />
+      ))}
+      <text x="138" y={y + 4} className="building-loop__kind-note">
+        VMs inside
+      </text>
+    </g>
+  );
+}
+
+/** Grok Bot + Ensembly are the portal itself: pulse at the core, coordination under the throat. */
+function PortalCore({ operator }: { operator: PlacedStar | undefined }) {
+  const ensembly = <tspan className="building-loop__portal-ensembly">Ensembly</tspan>;
+  return (
+    <g className="building-loop__portal" data-loop="portal-core">
+      <ellipse cy="150" rx="150" ry="110" fill="url(#wh-halo)" opacity="0.35" />
+      <g transform="translate(25 -5)" className="building-loop__pulse">
+        <circle r="12" className="building-loop__pulse-ring" />
+        <circle r="12" className="building-loop__pulse-ring building-loop__pulse-ring--late" />
+      </g>
+      <text y={PORTAL_NAME_Y} className="building-loop__node-name" textAnchor="middle">
+        Grok Bot + {operator?.href ? <a href={operator.href}>{ensembly}</a> : ensembly}
+      </text>
+      <text y={PORTAL_NOTE_Y} className="building-loop__kind-note" textAnchor="middle">
+        memory, heartbeat, decisions
+      </text>
       <path
-        d="M -40 26 L -22 26 L -17 18 L -11 34 L -6 22 L -2 26 L 14 26"
-        className="building-loop__beat"
+        d={`M ${SPINE_X} ${SPINE_TOP_Y} L ${SPINE_X} ${rowY(COORDINATION_TARGETS.length - 1)}`}
+        className="building-loop__decide-line"
         fill="none"
       />
-      <text x="20" y="30" className="building-loop__kind-note">
-        pulse: memory + heartbeat
-      </text>
+      {COORDINATION_TARGETS.map((target, index) => {
+        const y = rowY(index);
+        return (
+          <g key={target.id} data-coordinates={target.id}>
+            <path
+              d={`M ${SPINE_X} ${y} L ${LABEL_X - 6} ${y}`}
+              className="building-loop__decide-line"
+              fill="none"
+              markerEnd="url(#loop-arrow)"
+            />
+            <text x={LABEL_X} y={y + 4} className="building-loop__kind">
+              {target.label}
+            </text>
+            {target.id === "bots" ? <OwnBots y={y} /> : null}
+            {target.id === "computer" ? <BotComputer y={y} /> : null}
+          </g>
+        );
+      })}
     </g>
   );
 }
@@ -269,7 +371,7 @@ export function LandscapeAtlas({
   afterFigure,
 }: LandscapeAtlasProps = {}) {
   const scene = layoutAtlas(keys);
-  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; fleet seeds carry work into one portal, release returns sparks, flames, dust and stars, feedback and decay close the loop, ensembly keeps the pulse`;
+  const label = `Life-cycle loop: ${scene.bands.length} cluster bands and ${scene.docks.length} area docks; todos pour from every project cluster into a priority funnel whose wide mouth spans all the areas; its narrow neck is one priority-list pipe, and the fleet leaves single file into one portal, which is Grok Bot and ensembly together; inside it ensembly keeps memory and heartbeat and is the decision model for repeatable coordination across apps, harnesses, SI bots, a mesh of devices and the Bot computer with its VMs, and Grok Bot, the SI platform, delegates to its own bots the same way; release returns sparks, flames, dust and stars; feedback and decay close the loop`;
 
   const svg = (
     <svg
@@ -352,6 +454,8 @@ export function LandscapeAtlas({
         />
       ))}
 
+      <PriorityFunnel funnel={scene.funnel} />
+
       {scene.hops.map((hop) => (
         <path
           key={`hop-${hop.key}`}
@@ -373,6 +477,20 @@ export function LandscapeAtlas({
           strokeWidth="1.6"
         />
       ))}
+
+      <g className="building-loop__pipe-group" data-loop="priority-pipe">
+        <line
+          x1={scene.pipe.x1}
+          x2={scene.pipe.x2}
+          y1={scene.pipe.y}
+          y2={scene.pipe.y}
+          className="building-loop__pipe"
+        />
+        <circle cx={scene.pipe.x1} cy={scene.pipe.y} r="3.5" className="building-loop__merge" />
+        <text x={scene.pipe.x1 + 10} y={scene.pipe.y + 20} className="building-loop__kind-note">
+          one priority list
+        </text>
+      </g>
 
       <LoopLayer scene={scene} />
 
@@ -416,17 +534,22 @@ export function LandscapeAtlas({
           {BUILDING_SINGULARITY.label}
         </text>
         {sinkExtra}
+        <PortalCore operator={scene.operator} />
       </g>
-
-      {scene.operator ? <EnsemblyPulse x={scene.operator.x} y={scene.operator.y} /> : null}
-      {scene.operator ? <ProjectMark placedStar={scene.operator} /> : null}
     </svg>
+  );
+
+  const viewport = (
+    // biome-ignore lint/a11y/noNoninteractiveTabindex: lets keyboard users scroll the map sideways on narrow screens
+    <div className="building-atlas__viewport" role="region" aria-label="Space map" tabIndex={0}>
+      {svg}
+    </div>
   );
 
   if (embedded) {
     return (
       <div className="building-atlas building-atlas--embedded">
-        {svg}
+        {viewport}
         <LoopStages />
       </div>
     );
@@ -434,7 +557,7 @@ export function LandscapeAtlas({
 
   return (
     <figure className="building-atlas">
-      {svg}
+      {viewport}
       <figcaption className="building-atlas__caption">
         {BUILDING_SINGULARITY.line} A Penrose white hole is the other side of a black hole.
         participatory-mesh is public CommandFabric. Allowlisted dispatch, not a chat plane.
