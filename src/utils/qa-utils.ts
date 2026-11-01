@@ -60,10 +60,7 @@ export async function prepareData() {
     { section: "Citizenship", content: `I am a ${cvdata.contact.citizenship} citizen` },
     {
       section: "Contact",
-      content:
-        cvdata.contact.phone && cvdata.contact.phone_public !== false
-          ? `My email is ${cvdata.contact.email} and phone is ${cvdata.contact.phone}`
-          : `My email is ${cvdata.contact.email}`,
+      content: `My email is ${cvdata.contact.email}`,
     }
   );
 

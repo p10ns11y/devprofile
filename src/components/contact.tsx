@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Send } from "lucide-react";
 import { useState } from "react";
 import { landingInvite } from "@/data/landing-invite";
 import cvdata from "../data/cvdata.json";
@@ -48,16 +48,6 @@ export function Contact() {
       value: cvdata.contact.email,
       href: `mailto:${cvdata.contact.email}`,
     },
-    ...(cvdata.contact.phone && cvdata.contact.phone_public !== false
-      ? [
-          {
-            icon: Phone,
-            title: "Phone",
-            value: cvdata.contact.phone,
-            href: `tel:${cvdata.contact.phone}`,
-          },
-        ]
-      : []),
     {
       icon: MapPin,
       title: "Location",
