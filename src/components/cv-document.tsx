@@ -282,14 +282,6 @@ const CVDocument = ({ data = defaultData, featuredKeys }: CVDocumentProps = {}) 
           <Link src={`mailto:${data.contact.email}`} style={styles.link}>
             <Text>{data.contact.email}</Text>
           </Link>
-          {data.contact.phone && data.contact.phone_public !== false ? (
-            <>
-              <Text style={{ color: "#bbb" }}>·</Text>
-              <Link src={`tel:${data.contact.phone}`} style={styles.link}>
-                <Text>{data.contact.phone}</Text>
-              </Link>
-            </>
-          ) : null}
           <Text style={{ color: "#bbb" }}>·</Text>
           <Text>{data.contact.citizenship}</Text>
         </View>
