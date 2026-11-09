@@ -218,8 +218,8 @@
 
   @media (orientation: landscape) and (max-height: 32rem) {
     .hire-phi__hero {
-      padding-top: calc(var(--phi-gap-2) + var(--header-offset, 5rem));
-      padding-bottom: var(--phi-gap-2);
+      padding-top: calc(var(--phi-gap-1) + var(--header-offset, 5rem));
+      padding-bottom: var(--phi-gap-1);
     }
 
     .phi-split,
@@ -251,7 +251,8 @@
     }
 
     .hire-phi__hero-reach {
-      margin-top: var(--phi-gap-2);
+      margin-top: var(--phi-gap-1);
+      gap: var(--phi-gap-1);
     }
   }
 
