@@ -117,6 +117,12 @@ The operator mark was: related marks stay a **tight pack**. For the hero CTA clu
 pnpm layout:phi-check
 pnpm taste:check
 pnpm test:unbreakable
+pnpm sweep:unbreakable
+pnpm test:unit src/lib/hire-hero-math.test.ts
 ```
 
-`pnpm test:unbreakable` sweeps hire must-show marks across a w×h domain in both orientations (named viewports, phones, foldables, tablets, ultrawide, and an unbroken long-string stress). It uses Chrome via `playwright.unbreakable.ts` so it can run in CI without Brave Beta.
+`pnpm test:unbreakable` sweeps hire must-show marks across curated viewports and orientations, a 400-W unbroken-string stress, German and Finnish compound stress, and checks that `f(content, θ, w)` matches live hero column boxes on a width grid. It uses Chrome via `playwright.unbreakable.ts` so it can run in CI without Brave Beta.
+
+`pnpm sweep:unbreakable` reruns the full 691-point grid (named LCV + devices + 40px width lattice + zoom + long-W) plus the locale stresses and writes `docs/unbreakable-layout/sweep-latest.json`. The latest counted report lives in `docs/unbreakable-layout/SWEEP.md`.
+
+Hero layout math (`src/lib/hire-hero-math.ts`) is `L = f(content, θ, w)`. Wrap thresholds are computed from measure-once run widths. The interval check proves must-show marks stay inside the viewport width on `[280, 3840]` under the CSS model, after splitting at the `80rem` band. That is a proof of the model, not of the browser; line counts stay sampled because the DOM uses `text-wrap: balance` / `pretty`.
