@@ -17,7 +17,7 @@ export default defineConfig({
     screenshot: "only-on-failure",
     viewport: { width: 1280, height: 720 },
     deviceScaleFactor: 1,
-    reducedMotion: "reduce",
+    contextOptions: { reducedMotion: "reduce" },
     launchOptions: {
       ...(chromePath ? { executablePath: chromePath } : {}),
       args: ["--no-sandbox", "--disable-dev-shm-usage", "--hide-scrollbars"],
