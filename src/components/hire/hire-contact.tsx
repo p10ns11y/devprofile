@@ -71,6 +71,7 @@ export function HireContact({ content, layoutClass }: HireContactProps) {
   return (
     <section
       id="contact"
+      data-section="contact"
       className="hire-phi__section hire-phi__contact"
       aria-labelledby="hire-contact-heading"
     >

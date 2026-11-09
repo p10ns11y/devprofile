@@ -116,4 +116,7 @@ The operator mark was: related marks stay a **tight pack**. For the hero CTA clu
 ```bash
 pnpm layout:phi-check
 pnpm taste:check
+pnpm test:unbreakable
 ```
+
+`pnpm test:unbreakable` sweeps hire must-show marks across a w×h domain in both orientations (named viewports, phones, foldables, tablets, ultrawide, and an unbroken long-string stress). It uses Chrome via `playwright.unbreakable.ts` so it can run in CI without Brave Beta.

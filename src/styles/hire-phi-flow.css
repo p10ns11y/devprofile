@@ -203,6 +203,65 @@
     padding-bottom: var(--phi-gap-4);
   }
 
+  .hire-phi :is(h1, h2, h3, blockquote, p, li, a) {
+    overflow-wrap: anywhere;
+  }
+
+  .hire-phi__name,
+  .hire-phi__thesis,
+  .hire-phi__section-title,
+  .hire-phi__role,
+  .hire-phi__proof-title,
+  .hire-phi__channel-value {
+    min-width: 0;
+  }
+
+  @media (orientation: landscape) and (max-height: 32rem) {
+    .hire-phi__hero {
+      padding-top: calc(var(--phi-gap-2) + var(--header-offset, 5rem));
+      padding-bottom: var(--phi-gap-2);
+    }
+
+    .phi-split,
+    .hire-phi__split {
+      gap: var(--phi-gap-2);
+    }
+
+    .hire-phi__eyebrow {
+      margin-bottom: var(--phi-gap-1);
+    }
+
+    .hire-phi__name {
+      font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+      margin-bottom: var(--phi-gap-0);
+    }
+
+    .hire-phi__thesis {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      padding-top: var(--phi-gap-0);
+      margin-bottom: var(--phi-gap-1);
+    }
+
+    .hire-phi__seat {
+      margin-bottom: var(--phi-gap-1);
+    }
+
+    .hire-phi__target {
+      margin-bottom: 0;
+    }
+
+    .hire-phi__hero-reach {
+      margin-top: var(--phi-gap-2);
+    }
+  }
+
+  @media (orientation: landscape) and (max-height: 32rem) and (min-width: 30rem) {
+    .phi-split,
+    .hire-phi__split {
+      grid-template-columns: 1.618fr 1fr;
+    }
+  }
+
   /* Packed CTA + social cluster. Center the pack — never width:100% + flex-end. */
   .hire-phi__hero-reach {
     display: flex;
@@ -213,6 +272,7 @@
     width: fit-content;
     max-width: 100%;
     margin-inline: auto;
+    margin-top: var(--phi-gap-3);
   }
 
   .hire-phi__hero-reach .hire-phi__actions {

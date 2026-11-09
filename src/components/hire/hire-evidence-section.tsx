@@ -18,6 +18,7 @@ export function HireEvidenceSection({ content, layout }: HireEvidenceSectionProp
   return (
     <section
       id="work"
+      data-section="work"
       className="hire-phi__section hire-phi__section--muted"
       aria-labelledby="hire-work-heading"
       {...lcvPreview}
