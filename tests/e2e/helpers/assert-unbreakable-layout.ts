@@ -215,6 +215,69 @@ export function measureHireLayout(): LayoutMeasure {
     });
   }
 
+  const brand = document.querySelector(
+    "header[data-lcv-machine='site-nav'] nav[aria-label='Primary'] > a"
+  );
+  if (brand) {
+    const cs = getComputedStyle(brand);
+    const ellipse =
+      String(cs.textOverflow).includes("ellipsis") &&
+      (cs.overflowX === "hidden" || cs.overflow === "hidden" || cs.overflowY === "hidden");
+    const overflowing = (brand as HTMLElement).scrollWidth > (brand as HTMLElement).clientWidth + 1;
+    const box = brand.getBoundingClientRect();
+    const snippet = (brand.textContent || "").trim().replace(/\s+/g, " ").slice(0, 60);
+    if (ellipse && overflowing) {
+      findings.push({
+        kind: "header-brand-truncate",
+        target: cls(brand),
+        detail: snippet,
+      });
+    }
+    if (box.right > vw + 1 || overflowing) {
+      findings.push({
+        kind: "header-brand-overflow",
+        target: cls(brand),
+        detail: snippet || "brand extends past its box or the viewport",
+      });
+    }
+  }
+
+  document.querySelectorAll(".hire-phi__channel").forEach((channel) => {
+    const value = channel.querySelector(".hire-phi__channel-value") ?? channel;
+    const text = (value.textContent || "").trim();
+    if (!text.includes("@") && !/mailto:/i.test(channel.getAttribute("href") || "")) {
+      return;
+    }
+    const box = value.getBoundingClientRect();
+    const overflowing =
+      (value as HTMLElement).scrollWidth > (value as HTMLElement).clientWidth + 1 ||
+      box.right > vw + 1;
+    if (overflowing) {
+      findings.push({
+        kind: "email-channel-overflow",
+        target: cls(value),
+        detail: text.replace(/\s+/g, " ").slice(0, 80),
+      });
+    }
+  });
+
+  document
+    .querySelectorAll(".building-atlas__viewport, .building-atlas__narrow")
+    .forEach((node) => {
+      const surface = node as HTMLElement;
+      const vis = getComputedStyle(surface);
+      if (vis.display === "none" || vis.visibility === "hidden") {
+        return;
+      }
+      if (surface.scrollWidth > surface.clientWidth + 1) {
+        findings.push({
+          kind: "atlas-pan",
+          target: cls(surface),
+          detail: `scrollWidth ${surface.scrollWidth} > clientWidth ${surface.clientWidth}`,
+        });
+      }
+    });
+
   const landmark =
     !!document.querySelector("main, [role='main']") && !!document.querySelector("h1");
   if (!landmark) {
@@ -249,4 +312,28 @@ export function restoreMustShow(backup: string[]): void {
   nodes.forEach((el, i) => {
     if (backup[i] != null) el.textContent = backup[i];
   });
+}
+
+export const LOCALE_STRESS: Record<"de" | "fi", string[]> = {
+  de: [
+    "Wolf-Friedrich Weißkirchen-Großmann",
+    "Knapp: Softwareentwicklungszusammenarbeit mit Geschmack, Urteilsvermögen und Verantwortung — kein weiteres React-Demonstrationsbeispiel.",
+    "Kontaktaufnahme und Zusammenarbeitsschnittstellen",
+  ],
+  fi: [
+    "Peramanathan Sathyamoorthy",
+    "Harvinaista: kokonaisvaltainen ohjelmistokehitysyhteistyömahdollisuus maulla, harkinnalla ja vastuulla — ei jälleen yksi React-esittely.",
+    "Yhteydenottolomakevaihtoehdot",
+  ],
+};
+
+export function fillMustShowWithTexts(texts: string[]): string[] {
+  const nodes = Array.from(document.querySelectorAll("[data-lcv='must-show']"));
+  const backup = nodes.map((el) => el.textContent ?? "");
+  nodes.forEach((el, i) => {
+    if (texts[i] != null) {
+      el.textContent = texts[i];
+    }
+  });
+  return backup;
 }

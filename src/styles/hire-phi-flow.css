@@ -203,6 +203,15 @@
     padding-bottom: var(--phi-gap-4);
   }
 
+  /* Tall portraits: start on the φ rhythm instead of floating in the leftover dvh. */
+  @media (orientation: portrait) and (min-height: 50rem) {
+    .hire-phi__hero {
+      justify-content: flex-start;
+      padding-top: calc(var(--phi-gap-5) + var(--header-offset, 5rem));
+      padding-bottom: var(--phi-gap-5);
+    }
+  }
+
   .hire-phi :is(h1, h2, h3, blockquote, p, li, a) {
     overflow-wrap: anywhere;
   }
@@ -504,6 +513,12 @@
     padding-block: var(--phi-gap-5);
   }
 
+  .hire-phi__contact-grid,
+  .hire-phi__contact-form {
+    min-width: 0;
+    max-width: 100%;
+  }
+
   .hire-phi__contact-grid {
     display: grid;
     gap: var(--phi-gap-4);
@@ -550,18 +565,22 @@
     display: flex;
     flex-direction: column;
     margin-block: var(--phi-gap-3);
+    min-width: 0;
+    max-width: 100%;
   }
 
   .hire-phi__channel {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     gap: var(--phi-gap-2);
     padding: var(--phi-gap-2) 0;
     border-bottom: 1px solid var(--color-border-subtle);
     text-decoration: none;
     color: inherit;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .hire-phi__channel:last-child {
@@ -581,10 +600,12 @@
 
   .hire-phi__channel-text {
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
     align-items: flex-start;
     gap: 0.125rem;
     min-width: 0;
+    max-width: 100%;
     text-align: start;
   }
 
@@ -597,8 +618,12 @@
   }
 
   .hire-phi__channel-value {
+    display: block;
+    width: 100%;
     font-size: 0.9375rem;
     min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
   .hire-phi [id] {

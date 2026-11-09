@@ -162,7 +162,7 @@ export function Header() {
       <nav aria-label="Primary" className="site-container flex items-center gap-3 py-4 sm:gap-4">
         <Link
           href="/"
-          className="min-w-0 max-w-[45vw] sm:max-w-none truncate text-md font-semibold text-text1 hover:text-[var(--color-link)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-emphasis)]"
+          className="min-w-0 flex-1 lg:flex-none [overflow-wrap:anywhere] text-md font-semibold text-text1 hover:text-[var(--color-link)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-brand-emphasis)]"
         >
           {cvdata.name_with_initial}
         </Link>

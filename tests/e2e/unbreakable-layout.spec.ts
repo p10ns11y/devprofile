@@ -1,7 +1,10 @@
 import { expect, test } from "@playwright/test";
+import { layoutHero, type PreparedHero } from "../../src/lib/hire-hero-math";
 import {
   curatedViewports,
+  fillMustShowWithTexts,
   fillMustShowWithUnbroken,
+  LOCALE_STRESS,
   measureHireLayout,
   restoreMustShow,
   type SweepViewport,
@@ -54,6 +57,24 @@ test.describe("unbreakable hire layout", () => {
     }
     await page.evaluate(restoreMustShow, backup);
 
+    for (const [locale, texts] of Object.entries(LOCALE_STRESS)) {
+      const localeBackup = await page.evaluate(fillMustShowWithTexts, texts);
+      for (const vp of longTextTargets) {
+        await page.setViewportSize({ width: vp.w, height: vp.h });
+        await page.evaluate(
+          () =>
+            new Promise<void>((resolve) => {
+              requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+            })
+        );
+        const measured = await page.evaluate(measureHireLayout);
+        if (measured.findings.length > 0) {
+          failures.push({ ...vp, name: `${locale}/${vp.name}`, findings: measured.findings });
+        }
+      }
+      await page.evaluate(restoreMustShow, localeBackup);
+    }
+
     expect(failures, JSON.stringify(failures, null, 2)).toEqual([]);
   });
 
@@ -71,5 +92,119 @@ test.describe("unbreakable hire layout", () => {
     expect(box.y + box.height).toBeLessThanOrEqual(390 + 1);
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(844 + 1);
+  });
+
+  test("hero f(content, θ, w) matches DOM column boxes on the width grid", async ({ page }) => {
+    test.setTimeout(120_000);
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.goto("/");
+    await page.locator("h1.hire-phi__name").waitFor();
+
+    const prepared = await page.evaluate(() => {
+      const prepare = (
+        selector: string
+      ): { text: string; runs: Array<{ text: string; width: number; isSpace: boolean }> } => {
+        const el = document.querySelector(selector);
+        if (!el) {
+          throw new Error(`missing ${selector}`);
+        }
+        const cs = getComputedStyle(el);
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          throw new Error("canvas");
+        }
+        ctx.font = `${cs.fontStyle} ${cs.fontWeight} 16px ${cs.fontFamily}`;
+        const text = (el.textContent || "").replace(/\s+/g, " ").trim();
+        return {
+          text,
+          runs: text
+            .split(/(\s+)/)
+            .filter((part) => part.length > 0)
+            .map((part) => ({
+              text: part,
+              width: ctx.measureText(part).width,
+              isSpace: /^\s+$/.test(part),
+            })),
+        };
+      };
+      return {
+        name: prepare(".hire-phi__name"),
+        thesis: prepare(".hire-phi__thesis"),
+      };
+    });
+
+    const widths = Array.from(
+      { length: Math.floor((1920 - 280) / 40) + 1 },
+      (_, i) => 280 + i * 40
+    );
+    const samples: Array<{ w: number; h: number }> = [
+      ...widths.map((w) => ({ w, h: 812 })),
+      { w: 812, h: 375 },
+      { w: 844, h: 390 },
+      { w: 1280, h: 720 },
+      { w: 720, h: 1280 },
+    ];
+
+    const mismatches: unknown[] = [];
+    for (const sample of samples) {
+      await page.setViewportSize({ width: sample.w, height: sample.h });
+      await page.evaluate(
+        () =>
+          new Promise<void>((resolve) => {
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+          })
+      );
+      const boxes = await page.evaluate(() => {
+        const box = (selector: string) => {
+          const el = document.querySelector(selector);
+          if (!el) {
+            throw new Error(`missing ${selector}`);
+          }
+          const r = el.getBoundingClientRect();
+          const cs = getComputedStyle(el);
+          const lh = Number.parseFloat(cs.lineHeight);
+          return {
+            x: r.x,
+            width: r.width,
+            lines: lh > 0 ? Math.round(r.height / lh) : 0,
+          };
+        };
+        return {
+          inner: { w: window.innerWidth, h: window.innerHeight },
+          name: box(".hire-phi__name"),
+          thesis: box(".hire-phi__thesis"),
+        };
+      });
+      const modeled = layoutHero(prepared as PreparedHero, boxes.inner.w, boxes.inner.h);
+      const check = (
+        id: "name" | "thesis",
+        actual: { x: number; width: number; lines: number }
+      ) => {
+        const expected = modeled[id];
+        if (Math.abs(actual.x - expected.x) > 3 || Math.abs(actual.width - expected.width) > 3) {
+          mismatches.push({
+            ...sample,
+            inner: boxes.inner,
+            id,
+            actual,
+            expected: { x: expected.x, width: expected.width, lines: expected.lines },
+          });
+        }
+        if (actual.lines > 0 && expected.lines > 0 && Math.abs(actual.lines - expected.lines) > 1) {
+          mismatches.push({
+            kind: "line-count",
+            ...sample,
+            id,
+            actual: actual.lines,
+            expected: expected.lines,
+          });
+        }
+      };
+      check("name", boxes.name);
+      check("thesis", boxes.thesis);
+    }
+
+    expect(mismatches, JSON.stringify(mismatches, null, 2)).toEqual([]);
   });
 });

@@ -14,6 +14,20 @@ import { lcvMustShow } from "@/lib/hire-lcv";
 
 type FormStatus = "idle" | "loading" | "error" | "success";
 
+function breakableToken(value: string) {
+  const at = value.indexOf("@");
+  if (at <= 0) {
+    return value;
+  }
+  return (
+    <>
+      {value.slice(0, at)}
+      <wbr />
+      {value.slice(at)}
+    </>
+  );
+}
+
 type ChannelIcon = ComponentType<{ className?: string }>;
 
 type HireContactProps = {
@@ -163,7 +177,7 @@ export function HireContact({ content, layoutClass }: HireContactProps) {
                   </span>
                   <span className="hire-phi__channel-text">
                     {ch.label ? <span className="hire-phi__channel-label">{ch.label}</span> : null}
-                    <span className="hire-phi__channel-value">{ch.value}</span>
+                    <span className="hire-phi__channel-value">{breakableToken(ch.value)}</span>
                   </span>
                 </a>
               ))}
