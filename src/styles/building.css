@@ -563,19 +563,206 @@
   }
 }
 
-/* Narrow screens: keep the map legible and let it scroll sideways */
+/* Narrow screens: a stacked editorial map — no sideways pan. */
 .building-atlas__viewport:focus-visible {
   outline: 2px solid var(--color-brand-emphasis);
   outline-offset: 2px;
 }
-@media (max-width: 767px) {
-  .building-atlas__viewport {
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
+
+.building-atlas__narrow {
+  display: none;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  padding: 1.618rem 1rem;
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface1);
+}
+
+.building-atlas__narrow-clusters {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.618rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.building-atlas__narrow-cluster {
+  min-width: 0;
+  max-width: 100%;
+  padding: 0.618rem 1rem;
+  background: color-mix(in oklch, var(--color-text) 4.5%, transparent);
+}
+
+.building-atlas__narrow-cluster-title {
+  margin: 0 0 0.618rem;
+  color: var(--color-brand-emphasis);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+}
+
+.building-atlas__narrow-stars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.382rem 1rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.building-atlas__narrow-stars > li {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.building-atlas__narrow-star {
+  display: flex;
+  align-items: baseline;
+  gap: 0.382rem;
+  min-width: 0;
+  max-width: 100%;
+  color: inherit;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+
+a.building-atlas__narrow-star:hover {
+  color: var(--color-link);
+}
+
+a.building-atlas__narrow-star:focus-visible {
+  outline: 2px solid var(--color-brand-emphasis);
+  outline-offset: 3px;
+}
+
+.building-atlas__narrow-dot {
+  flex-shrink: 0;
+  align-self: center;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--color-text);
+}
+
+.building-atlas__narrow-name {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.building-atlas__narrow-epithet {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-style: italic;
+}
+
+.building-atlas__narrow-pour {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.618rem;
+  margin-top: 1.618rem;
+  min-width: 0;
+}
+
+.building-atlas__narrow-kicker {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.building-atlas__narrow-docks {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.382rem;
+  margin: 0;
+  padding: 0;
+}
+
+.building-atlas__narrow-dock {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.building-atlas__narrow-funnel {
+  height: 1.618rem;
+  margin-inline: 0.618rem;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklch, var(--color-text) 16%, transparent),
+    color-mix(in oklch, var(--color-text) 7%, transparent)
+  );
+  clip-path: polygon(4% 0, 96% 0, 62% 100%, 38% 100%);
+}
+
+.building-atlas__narrow-pipe {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.building-atlas__narrow-portal {
+  min-width: 0;
+  padding: 1rem 1rem 1.236rem;
+  border: 1px solid var(--color-border-subtle);
+  background: color-mix(in oklch, var(--color-text) 3%, var(--color-surface1));
+  text-align: center;
+}
+
+.building-atlas__narrow-portal-label {
+  margin: 0 0 0.382rem;
+  color: var(--color-brand-emphasis);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.building-atlas__narrow-portal-name {
+  margin: 0 0 0.382rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow-wrap: break-word;
+}
+
+.building-atlas__narrow-portal-name a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.building-atlas__narrow-portal-name a:hover {
+  color: var(--color-link);
+}
+
+.building-atlas__narrow-portal-note {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 50.75rem) {
+  .building-atlas__wide {
+    display: none;
   }
-  .building-atlas__viewport .building-atlas__svg {
-    width: 980px;
-    max-width: none;
+
+  .building-atlas__narrow {
+    display: block;
   }
 }

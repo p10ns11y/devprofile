@@ -27,6 +27,8 @@
     "type-check": "tsc --noEmit",
     "editor:sync": "node scripts/sync-editor-profile.mjs",
     "test:e2e": "playwright test",
+    "test:unbreakable": "playwright test -c playwright.unbreakable.ts",
+    "sweep:unbreakable": "node scripts/unbreakable-sweep.mjs",
     "test:e2e:ui": "node scripts/playwright-ui-brave.mjs",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",

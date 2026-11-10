@@ -1,0 +1,99 @@
+{
+  "origin": "http://localhost:3000/",
+  "elapsed_s": 28,
+  "samples": 703,
+  "fails": 0,
+  "pass": 703,
+  "core691": {
+    "samples": 691,
+    "fails": 0,
+    "pass": 691
+  },
+  "must_show_on_first": [
+    "Peramanathan Sathyamoorthy",
+    "Scarce: shipping agentic workflows with ",
+    "Get in touch"
+  ],
+  "must_show_count": 3,
+  "by_kind": {},
+  "by_bucket": {
+    "device": {
+      "n": 46,
+      "fail": 0
+    },
+    "grid": {
+      "n": 627,
+      "fail": 0
+    },
+    "lcv-named": {
+      "n": 3,
+      "fail": 0
+    },
+    "lcv-named-flipped": {
+      "n": 3,
+      "fail": 0
+    },
+    "locale-de": {
+      "n": 6,
+      "fail": 0
+    },
+    "locale-fi": {
+      "n": 6,
+      "fail": 0
+    },
+    "long-text": {
+      "n": 6,
+      "fail": 0
+    },
+    "zoom200": {
+      "n": 6,
+      "fail": 0
+    }
+  },
+  "examples": {},
+  "named_lcv": [
+    {
+      "name": "lcv-named/375x812",
+      "w": 375,
+      "h": 812,
+      "fail": false,
+      "findings": []
+    },
+    {
+      "name": "lcv-named-flipped/812x375",
+      "w": 812,
+      "h": 375,
+      "fail": false,
+      "findings": []
+    },
+    {
+      "name": "lcv-named/768x1024",
+      "w": 768,
+      "h": 1024,
+      "fail": false,
+      "findings": []
+    },
+    {
+      "name": "lcv-named-flipped/1024x768",
+      "w": 1024,
+      "h": 768,
+      "fail": false,
+      "findings": []
+    },
+    {
+      "name": "lcv-named/1280x720",
+      "w": 1280,
+      "h": 720,
+      "fail": false,
+      "findings": []
+    },
+    {
+      "name": "lcv-named-flipped/720x1280",
+      "w": 720,
+      "h": 1280,
+      "fail": false,
+      "findings": []
+    }
+  ],
+  "failing_viewports": []
+}
