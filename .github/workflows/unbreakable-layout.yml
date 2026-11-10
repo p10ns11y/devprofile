@@ -1,0 +1,27 @@
+name: Unbreakable layout
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  sweep:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Install Chromium for Playwright
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Sweep hire layout across viewports
+        run: pnpm test:unbreakable
+        env:
+          CI: true
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000

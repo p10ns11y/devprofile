@@ -357,6 +357,75 @@ function ProjectMark({ placedStar }: { placedStar: PlacedStar }) {
   return <a href={placedStar.href}>{mark}</a>;
 }
 
+function NarrowAtlasFlow({ keys }: { keys?: readonly string[] }) {
+  const placed = visibleProjects(keys);
+  const members = placed.filter((star) => star.role !== "operator");
+  const operator = placed.find((star) => star.role === "operator");
+  const clusters = BUILDING_CLUSTERS.map((clusterRecord) => ({
+    ...clusterRecord,
+    members: members.filter((star) => star.cluster === clusterRecord.id),
+  })).filter((clusterRecord) => clusterRecord.members.length > 0);
+
+  return (
+    <section className="building-atlas__narrow" aria-label="Space map">
+      <ol className="building-atlas__narrow-clusters">
+        {clusters.map((clusterRecord) => (
+          <li
+            key={clusterRecord.id}
+            className="building-atlas__narrow-cluster"
+            data-cluster={clusterRecord.id}
+          >
+            <h3 className="building-atlas__narrow-cluster-title">{clusterRecord.title}</h3>
+            <ul className="building-atlas__narrow-stars">
+              {clusterRecord.members.map((placedStar) => {
+                const body = (
+                  <>
+                    <span className="building-atlas__narrow-dot" data-star={starKind(placedStar)} />
+                    <span className="building-atlas__narrow-name">{placedStar.name}</span>
+                    {placedStar.epithet ? (
+                      <span className="building-atlas__narrow-epithet">{placedStar.epithet}</span>
+                    ) : null}
+                  </>
+                );
+                return (
+                  <li key={placedStar.key}>
+                    {placedStar.href ? (
+                      <a href={placedStar.href} className="building-atlas__narrow-star">
+                        {body}
+                      </a>
+                    ) : (
+                      <span className="building-atlas__narrow-star">{body}</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </li>
+        ))}
+      </ol>
+      <div className="building-atlas__narrow-pour">
+        <p className="building-atlas__narrow-kicker">Todos pour toward one portal</p>
+        <ul className="building-atlas__narrow-docks">
+          {BUILDING_AREAS.map((areaRecord) => (
+            <li key={areaRecord.id} className="building-atlas__narrow-dock">
+              {areaRecord.title}
+            </li>
+          ))}
+        </ul>
+        <div className="building-atlas__narrow-funnel" aria-hidden="true" />
+        <p className="building-atlas__narrow-pipe">one priority list</p>
+        <div className="building-atlas__narrow-portal">
+          <p className="building-atlas__narrow-portal-label">{BUILDING_SINGULARITY.label}</p>
+          <p className="building-atlas__narrow-portal-name">
+            Grok Bot + {operator?.href ? <a href={operator.href}>Ensembly</a> : "Ensembly"}
+          </p>
+          <p className="building-atlas__narrow-portal-note">memory, heartbeat, decisions</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 type LandscapeAtlasProps = {
   keys?: readonly string[];
   embedded?: boolean;
@@ -540,10 +609,12 @@ export function LandscapeAtlas({
   );
 
   const viewport = (
-    // biome-ignore lint/a11y/noNoninteractiveTabindex: lets keyboard users scroll the map sideways on narrow screens
-    <div className="building-atlas__viewport" role="region" aria-label="Space map" tabIndex={0}>
-      {svg}
-    </div>
+    <>
+      <section className="building-atlas__viewport building-atlas__wide" aria-label="Space map">
+        {svg}
+      </section>
+      <NarrowAtlasFlow keys={keys} />
+    </>
   );
 
   if (embedded) {
