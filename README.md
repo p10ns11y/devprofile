@@ -1,6 +1,8 @@
 
 # Peramanathan Sathyamoorthy CV & Portfolio
 
+Live: [captain.kingsparrow.space](https://captain.kingsparrow.space) · [/articles](https://captain.kingsparrow.space/articles) · [/qa](https://captain.kingsparrow.space/qa)
+
 A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's professional portfolio as a Senior Software Engineer. Built with Next.js 16 App Router, featuring profile Q&A, interactive document viewing, and automated PDF CV generation.
 
 ## ✨ Features
