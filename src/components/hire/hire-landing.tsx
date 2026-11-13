@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { HireColorfiguresFigure } from "@/components/hire/hire-colorfigures-figure";
 import { HireContact } from "@/components/hire/hire-contact";
 import { HireEvidenceSection } from "@/components/hire/hire-evidence-section";
 import { HireSystemsGraph } from "@/components/hire/hire-systems-graph";
@@ -10,18 +11,32 @@ import { SocialLinks } from "@/components/social-links";
 import type { HireContent } from "@/lib/hire-content";
 import { deriveHireLayoutClasses } from "@/lib/hire-layout-derived";
 import { lcvMustShow } from "@/lib/hire-lcv";
+import type { HireVisualLanguage } from "@/lib/hire-visual-language";
 import { TARGET_RANGE_HREF, TARGET_RANGE_LABEL } from "@/lib/pay-report-bands";
 
 type HireLandingProps = {
   content: HireContent;
+  visualLanguage?: HireVisualLanguage | null;
 };
 
-export function HireLanding({ content }: HireLandingProps) {
+export function HireLanding({ content, visualLanguage = null }: HireLandingProps) {
   const layout = deriveHireLayoutClasses(content);
   const proofStyle = { "--hire-proof-min": layout.proofMinCell } as CSSProperties;
+  const colorfigures = visualLanguage === "colorfigures";
+  const rootClass = [
+    "hire-phi",
+    "min-h-screen",
+    "min-w-0",
+    "bg-surface1",
+    "text-text1",
+    "overflow-x-clip",
+    colorfigures ? "hire-phi--colorfigures" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <div className="hire-phi min-h-screen min-w-0 bg-surface1 text-text1 overflow-x-clip">
+    <div className={rootClass}>
       <Header />
 
       <section id="home" data-section="home" className={`hire-phi__hero ${layout.heroPeek}`}>
@@ -76,6 +91,8 @@ export function HireLanding({ content }: HireLandingProps) {
           </div>
         </div>
       </section>
+
+      {colorfigures ? <HireColorfiguresFigure /> : null}
 
       <section
         id="about"

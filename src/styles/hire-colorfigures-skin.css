@@ -1,0 +1,51 @@
+/* Colorfigures research skin (θ). Colour and paper only — type size and
+   letter-spacing stay on the default hire tokens so hero math still holds. */
+.hire-phi--colorfigures {
+  --color-background: #f2efe7;
+  --color-surface1: #f2efe7;
+  --color-surface2: #efe8d8;
+  --color-surface-raised: #f7f3ea;
+  --color-text: #231e16;
+  --color-text1: #231e16;
+  --color-text-muted: #5c564c;
+  --color-text2: #5c564c;
+  --color-border-subtle: color-mix(in srgb, #231e16 16%, transparent);
+  --brand: #cf5038;
+  --color-brand-emphasis: #9a3c2a;
+  --color-link: #9a3c2a;
+  background-color: #f2efe7;
+  color: #231e16;
+}
+
+.hire-cf__section {
+  padding-top: var(--phi-gap-4);
+}
+
+.hire-cf__frame-wrap {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.hire-cf__frame {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: min(36rem, 70dvh);
+  min-height: 20rem;
+  border: 1px solid color-mix(in srgb, #231e16 18%, transparent);
+  border-radius: 0.5rem;
+  background: #f2efe7;
+}
+
+.hire-cf__credit {
+  margin: var(--phi-gap-2) 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.hire-cf__credit a {
+  color: var(--color-link);
+}
