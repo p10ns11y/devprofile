@@ -27,11 +27,16 @@ export function HireColorfiguresFigure() {
           </p>
         </header>
         <div className="hire-cf__frame-wrap">
+          {/* Same-origin static figure. sandbox is defence in depth: scripts must
+              run the press, and same-origin lets the figure read its own ?embed=
+              params. The pair cannot stop a hostile same-origin script, but this
+              file is ours. The MIT notice stays on the parent, not in the frame. */}
           <iframe
             className="hire-cf__frame"
             title="Hire desk, a hand-inked isometric card press"
             src={FIGURE_SRC}
             loading="lazy"
+            sandbox="allow-scripts allow-same-origin"
           />
         </div>
         <p className="hire-cf__credit">

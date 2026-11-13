@@ -11,6 +11,16 @@ built on iso-glow and iso-figure by Tolga Cohce. See-through views follow
 Anatomy by Ryan (MIT). Licence files are in `third_party/colorfigures/` and
 next to the shipped page.
 
+
+## Accessibility notes
+
+Primary hire buttons on this skin use `--color-brand-emphasis` (`#9a3c2a`) so
+white text reaches 6.88:1 (the mid tomato `#cf5038` is 4.32:1). The embed
+honours `prefers-reduced-motion`: turntable is hidden and scripted motion
+finishes in one step. The iframe is sandboxed (`allow-scripts allow-same-origin`);
+the MIT notice stays on the parent page, and the in-frame credit is off when
+`embed=1`.
+
 ## Proof
 
 `pnpm test:unbreakable` runs the same invariant sweep on `/` and on

@@ -12,6 +12,9 @@
   html.embed header, html.embed .idea { display: none !important; }
   html.embed body { margin: 0; background: #f2efe7; }
   html.embed .stage { margin: 0 !important; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
 </style>
 <style>.mcap{display:none!important}@media (max-width:560px){.stat .v{font-size:20px!important}.stats{align-items:flex-end}}@media (min-width:561px){.vset{top:4px!important}#stats{top:var(--vset-h,44px)!important}}</style><style>@media (max-width:560px){body > header{display:none}}</style><script>window.FIG_A = () => innerWidth <= 560 ? 1.1 : .75;</script><script>window.LBL_U = () => { if (innerWidth > 560) return 0; const s = document.getElementById("fig"); return s && s.clientWidth && s.viewBox.baseVal.width ? s.viewBox.baseVal.width / s.clientWidth : 0; };</script></head><body>
 <script>
@@ -983,13 +986,14 @@ function ejectCard(st, ui) {
   st.cards = (st.cards || 0) + 1;
 }
 
-if (new URLSearchParams(location.search).get('embed') === '1') {
-  document.documentElement.classList.add('embed');
-}
+const embed = new URLSearchParams(location.search).get('embed') === '1';
+if (embed) document.documentElement.classList.add('embed');
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const ui = mountFigure({
   fig: 'R1',
   turn: 'full',
+  credit: embed ? false : true,
   title: 'Hire desk',
   size: [DESK_BW, DESK_BD, MAX_H],
   palette: 'tomato',
@@ -1017,6 +1021,19 @@ const ui = mountFigure({
   },
 });
 xrMount(() => ui, () => '');
+
+if (reduceMotion) {
+  ui.animate = (step) => {
+    let n = 0;
+    while (step(1) !== false && n++ < 32) {}
+    ui.render();
+  };
+  const turntable = document.getElementById('vspin');
+  if (turntable) {
+    turntable.hidden = true;
+    turntable.setAttribute('aria-hidden', 'true');
+  }
+}
 </script><style>@media (max-width:560px),(pointer:coarse){#art{filter:none!important}.ctl:has(#wb){display:none!important}}</style><style>@media (max-width:560px){html body .kpad{width:100%;box-sizing:border-box;justify-content:space-between;gap:10px;margin:10px 0 0;padding:0;border:0;background:none;box-shadow:none}
 html body .kpad .dp{display:flex;gap:8px}html body .kpad .hub{display:none}
 html body .kpad .k{width:46px;height:42px;font-size:14px;border-radius:9px}

@@ -49,3 +49,10 @@
 .hire-cf__credit a {
   color: var(--color-link);
 }
+
+/* Primary SiteButton uses bg-brand (var(--brand)). White on #cf5038 is 4.32:1.
+   Route those buttons through the darker emphasis token (#9a3c2a, 6.88:1). */
+.hire-phi--colorfigures :is(a, button).bg-brand {
+  --brand: var(--color-brand-emphasis);
+  --color-brand: var(--color-brand-emphasis);
+}
