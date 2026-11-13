@@ -219,3 +219,26 @@ for (const surface of surfaces) {
     });
   });
 }
+
+test.describe("Colorfigures research skin: embed contract", () => {
+  test("sandboxes the iframe and keeps the MIT credit on the parent", async ({ page }) => {
+    await page.goto("/?vl=colorfigures");
+    const frame = page.locator("iframe.hire-cf__frame");
+    await expect(frame).toBeVisible();
+    await expect(frame).toHaveAttribute("sandbox", "allow-scripts");
+    await expect(frame).not.toHaveAttribute("sandbox", /same-origin/);
+
+    const credit = page.locator(".hire-cf__credit");
+    await expect(credit).toBeVisible();
+    await expect(credit).toContainText("Colorfigures");
+    await expect(credit).toContainText("MIT");
+    await expect(credit.locator('a[href="/skins/colorfigures/LICENSE"]')).toBeVisible();
+
+    // Smoke the embed under the unique-origin sandbox (and reduced motion from this project).
+    const embed = page.frameLocator("iframe.hire-cf__frame");
+    await expect(embed.locator("#fig")).toBeVisible({ timeout: 15_000 });
+    await expect(embed.getByRole("button", { name: "Load a card" })).toBeVisible();
+    await embed.getByRole("button", { name: "Load a card" }).click();
+    await expect(embed.locator("#readout")).toContainText(/card loaded/i);
+  });
+});
