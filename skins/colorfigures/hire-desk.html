@@ -347,6 +347,40 @@ const embed = new URLSearchParams(location.search).get('embed') === '1';
 if (embed) document.documentElement.classList.add('embed');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Under reduced motion, shrink orbit drag to 20% of the finger/pointer travel
+// so turning the desk stays possible without large camera swings.
+const DRAG_DAMP = 0.2;
+const origAddEventListener = Element.prototype.addEventListener;
+if (reduceMotion) {
+  Element.prototype.addEventListener = function(type, listener, options) {
+    if (type === 'pointermove' && this && this.id === 'fig' && typeof listener === 'function') {
+      let start = null;
+      origAddEventListener.call(this, 'pointerdown', (e) => {
+        if (e.button) return;
+        start = { x: e.clientX, y: e.clientY };
+      }, true);
+      origAddEventListener.call(this, 'pointerup', () => { start = null; }, true);
+      origAddEventListener.call(this, 'pointercancel', () => { start = null; }, true);
+      const damped = function(e) {
+        if (!start) return listener.call(this, e);
+        const cx = start.x + (e.clientX - start.x) * DRAG_DAMP;
+        const cy = start.y + (e.clientY - start.y) * DRAG_DAMP;
+        const fake = new Proxy(e, {
+          get(target, prop) {
+            if (prop === 'clientX') return cx;
+            if (prop === 'clientY') return cy;
+            const v = target[prop];
+            return typeof v === 'function' ? v.bind(target) : v;
+          }
+        });
+        return listener.call(this, fake);
+      };
+      return origAddEventListener.call(this, type, damped, options);
+    }
+    return origAddEventListener.call(this, type, listener, options);
+  };
+}
+
 const ui = mountFigure({
   fig: 'R1',
   turn: 'full',
@@ -380,6 +414,7 @@ const ui = mountFigure({
 xrMount(() => ui, () => '');
 
 if (reduceMotion) {
+  Element.prototype.addEventListener = origAddEventListener;
   ui.animate = (step) => {
     let n = 0;
     while (step(1) !== false && n++ < 32) {}
