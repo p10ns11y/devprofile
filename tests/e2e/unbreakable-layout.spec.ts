@@ -241,4 +241,66 @@ test.describe("Colorfigures research skin: embed contract", () => {
     await embed.getByRole("button", { name: "Load a card" }).click();
     await expect(embed.locator("#readout")).toContainText(/card loaded/i);
   });
+
+  test("damps pointer-drag orbit to 20% under reduced motion", async ({ page, browser }) => {
+    const drag = async (target: typeof page, dx: number) => {
+      await target.goto("/skins/colorfigures/hire-desk.html?embed=1");
+      await target.locator("#fig").waitFor();
+      return target.evaluate(async (travel: number) => {
+        const fig = document.getElementById("fig");
+        const art = document.getElementById("art");
+        if (!(fig instanceof SVGElement) || !(art instanceof SVGGraphicsElement)) {
+          throw new Error("missing #fig or #art");
+        }
+        const before = art.getBBox();
+        const r = fig.getBoundingClientRect();
+        const x = r.left + r.width / 2;
+        const y = r.top + r.height / 2;
+        let seen = 0;
+        const record = (e: PointerEvent) => {
+          if (e.type === "pointermove") seen = e.clientX - x;
+        };
+        fig.addEventListener("pointermove", record);
+        const fire = (type: string, cx: number, cy: number, extra: PointerEventInit = {}) => {
+          fig.dispatchEvent(
+            new PointerEvent(type, {
+              bubbles: true,
+              cancelable: true,
+              pointerId: 1,
+              pointerType: "mouse",
+              clientX: cx,
+              clientY: cy,
+              ...extra,
+            })
+          );
+        };
+        fire("pointerdown", x, y, { button: 0, buttons: 1 });
+        fire("pointermove", x + travel, y, { buttons: 1 });
+        fire("pointerup", x + travel, y, { button: 0 });
+        fig.removeEventListener("pointermove", record);
+        await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+        const after = art.getBBox();
+        return {
+          damp: document.documentElement.dataset.dragDamp ?? "",
+          seen,
+          mag: Math.hypot(after.x - before.x, after.y - before.y),
+        };
+      }, dx);
+    };
+
+    const travel = 80;
+    const damped = await drag(page, travel);
+    expect(damped.damp).toBe("0.2");
+    expect(damped.seen).toBeCloseTo(travel * 0.2, 5);
+
+    const fullCtx = await browser.newContext({ reducedMotion: "no-preference" });
+    const fullPage = await fullCtx.newPage();
+    const full = await drag(fullPage, travel);
+    await fullCtx.close();
+    expect(full.damp).toBe("");
+    expect(full.seen).toBeCloseTo(travel, 5);
+    expect(full.mag).toBeGreaterThan(0);
+    expect(damped.mag).toBeGreaterThan(0);
+    expect(damped.mag).toBeLessThan(full.mag);
+  });
 });

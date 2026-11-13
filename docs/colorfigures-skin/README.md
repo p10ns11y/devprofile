@@ -17,7 +17,7 @@ next to the shipped page.
 Primary hire buttons on this skin use `--color-brand-emphasis` (`#9a3c2a`) so
 white text reaches 6.88:1 (the mid tomato `#cf5038` is 4.32:1). The embed
 honours `prefers-reduced-motion`: turntable is hidden, scripted motion
-finishes in one step, and pointer-drag orbit is damped to 20% travel. The
+finishes in one step, and pointer-drag orbit on #fig is damped to 20% travel. The
 iframe is sandboxed (`allow-scripts` only, unique origin). The MIT notice
 stays on the parent page, and the in-frame credit is off when `embed=1`.
 
