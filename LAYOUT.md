@@ -111,6 +111,16 @@ The operator mark was: related marks stay a **tight pack**. For the hero CTA clu
 
 ---
 
+
+## Research skin
+
+The Colorfigures hire-desk figure is a research skin, not a new layout. Open it
+with `/?vl=colorfigures`. Production `/` stays the default HireLanding. The
+skin changes paper and ink colour only; type size and letter-spacing stay on
+the default hero θ, so `pnpm test:unbreakable` must pass on both `/` and
+`/?vl=colorfigures`. The figure sits below the hero, after the first screen.
+The MIT notice lives next to the figure and in `third_party/colorfigures/`.
+
 ## Verification
 
 ```bash

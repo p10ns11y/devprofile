@@ -1,0 +1,377 @@
+<!doctype html>
+<!--
+  Hire desk figure. Drawn for this site with the Colorfigures engine (MIT).
+  Copyright (c) 2026 April Zhu (Colorfigures, iso-glow)
+  Copyright (c) 2026 Tolga Cohce (iso-figure)
+  See third_party/colorfigures/LICENSE and NOTICE.md.
+  https://april-zhu.com/colorfigures
+-->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hire desk</title>
+<style>
+  html.embed header, html.embed .idea { display: none !important; }
+  html.embed body { margin: 0; background: #f2efe7; }
+  html.embed .stage { margin: 0 !important; }
+</style>
+</head><body>
+<script src="core.js"></script>
+<script>
+/*
+  Hire desk — a desk-top card press in the site's warm orange.
+
+  How it works:
+  1. Load a blank card into the front slot. Guides carry it under the platen.
+  2. Press the lever. A cam on the shaft drives the platen down onto an inked
+     die, then a coil spring returns it.
+  3. Eject the stamped card onto the desk board.
+
+  Parts (case): shell, front slot, lever, handle, hinge bosses.
+  Parts (structure): desk board, blotter, card stack, paperweight.
+  Parts (mechanism): platen, die, ink pad, coil spring, cam, shaft, guides.
+  Every part is held by another: die on platen, pad on the floor of the well,
+  spring between platen and the case roof, shaft in the hinge bosses, lever
+  on the shaft.
+
+  Colour: Colorfigures tomato, close to the hire-page brand orange, on warm paper.
+*/
+const DESK_BW = 108, DESK_BD = 76, DESK_BH = 3, DESK_BR = 7;
+const DESK_TOP = boardTop(0, 0, DESK_BW, DESK_BD, DESK_BH, DESK_BR);
+
+const PRESS_X0 = 28, PRESS_X1 = 70;          // depth (front at PRESS_X1)
+const PRESS_Y0 = 16, PRESS_Y1 = 60;          // width
+const PRESS_Z0 = DESK_BH, PRESS_Z1 = DESK_BH + 30;
+const PRESS_R = 5;
+const SLOT_Z = DESK_BH + 6, SLOT_H = 2.2, SLOT_Y0 = 24, SLOT_Y1 = 52;
+const SHAFT_Y = PRESS_Y0 - 2, SHAFT_X = (PRESS_X0 + PRESS_X1) / 2, SHAFT_Z = PRESS_Z1 - 2;
+const PLATEN_Z0 = DESK_BH + 9;
+const MAX_H = 62;
+
+const BRAND = { l:'#ef6a4c', m:'#cf5038', d:'#4a2219' }; // tomato, site accent
+const DIE_M = { l:'#c9a24c', m:'#9a7a2e', d:'#4a3a14' };
+const CARD_M = { l:'#fff8e8', m:'#efe4c8', d:'#c9b896' };
+const INK_BLUE = '#1c2948';
+
+const deskLerp = (a, b, t) => a + (b - a) * t;
+const deskMixv = (a, b, t) => [deskLerp(a[0], b[0], t), deskLerp(a[1], b[1], t), deskLerp(a[2], b[2], t)];
+
+function cardPose(st) {
+  // x: depth of the card centre. loaded/pressed sit in the slot; ejected sits on the board in front.
+  const width = 26, depth = 18, thick = 0.7;
+  let cx, cy, cz, angle = 0;
+  cy = (SLOT_Y0 + SLOT_Y1) / 2;
+  if (st.stage === 'out') {
+    cx = PRESS_X1 + 18;
+    cz = DESK_BH + thick;
+    angle = -12 * Math.PI / 180;
+  } else {
+    const t = st.stage === 'in' || st.stage === 'down' ? st.inT : 0;
+    cx = deskLerp(PRESS_X1 + 8, (PRESS_X0 + PRESS_X1) / 2 + 2, t);
+    cz = SLOT_Z + thick / 2;
+  }
+  const platen = st.stage === 'down' ? st.pressT : 0;
+  if (st.stage === 'down') cz = SLOT_Z + thick / 2 - 0.4 * platen;
+  return { cx, cy, cz, width, depth, thick, angle, stamped: st.stage === 'down' || st.stage === 'out' };
+}
+
+function cardBox(p) {
+  const ca = Math.cos(p.angle), sa = Math.sin(p.angle);
+  const corners = [[-p.depth/2, -p.width/2], [p.depth/2, -p.width/2], [p.depth/2, p.width/2], [-p.depth/2, p.width/2]]
+    .map(([dx, dy]) => [p.cx + dx * ca - dy * sa, p.cy + dx * sa + dy * ca]);
+  const xs = corners.map(c => c[0]), ys = corners.map(c => c[1]);
+  return [[Math.min(...xs), Math.min(...ys), p.cz - p.thick], [Math.max(...xs), Math.max(...ys), p.cz + p.thick]];
+}
+
+function drawCard(p) {
+  const ca = Math.cos(p.angle), sa = Math.sin(p.angle);
+  const corner = (dx, dy, z) => [p.cx + dx * ca - dy * sa, p.cy + dx * sa + dy * ca, z];
+  const hx = p.depth / 2, hy = p.width / 2;
+  const top = [corner(-hx, -hy, p.cz + p.thick/2), corner(hx, -hy, p.cz + p.thick/2), corner(hx, hy, p.cz + p.thick/2), corner(-hx, hy, p.cz + p.thick/2)];
+  const bot = top.map(q => [q[0], q[1], p.cz - p.thick/2]);
+  let s = loft(bot, top, n => toneI(n, CARD_M)) + fill(pd(top), CARD_M.l);
+  if (p.stamped && vis([0, 0, 1])) {
+    const mark = [corner(-4, -6, p.cz + p.thick/2 + 0.05), corner(4, -6, p.cz + p.thick/2 + 0.05), corner(4, 6, p.cz + p.thick/2 + 0.05), corner(-4, 6, p.cz + p.thick/2 + 0.05)];
+    s += fill(pd(mark), BRAND.m) + ink(pd(mark), 0.7);
+    s += tx(p.cx, p.cy, p.cz + p.thick/2 + 0.08, 'FIT', 3.2, '#fff8e8');
+  }
+  s += hullInk([...top, ...bot], 1.2);
+  return s;
+}
+
+function blotter() {
+  const y0 = 8, y1 = 68, x0 = 8, x1 = 96;
+  const A = on(PZ(DESK_BH), rectUV(y0, x0, y1, x1)); // wait, rectUV is (y,z) or (u,v)?
+  // board is in x (depth) y (width). A blotter on z = DESK_BH: profile in (x,y).
+  const pts = [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
+  const top = pts.map(([x, y]) => [x, y, DESK_BH + 0.15]);
+  return fill(pd(top), '#d7c7a6') + ink(pd(top), 1);
+}
+
+function stackOfCards() {
+  const cx = 88, cy = 28, n = 5;
+  let s = '';
+  const parts = [];
+  for (let i = 0; i < n; i++) {
+    const z0 = DESK_BH + 0.2 + i * 0.7, z1 = z0 + 0.65;
+    const hx = 8, hy = 11;
+    const A = [[cx-hx, cy-hy, z0], [cx+hx, cy-hy, z0], [cx+hx, cy+hy, z0], [cx-hx, cy+hy, z0]];
+    const B = A.map(p => [p[0], p[1], z1]);
+    s += loft(A, B, nrm => toneI(nrm, CARD_M)) + fill(pd(B), CARD_M.l) + hullInk([...A, ...B], 0.9);
+  }
+  return s;
+}
+
+function paperweight() {
+  const cx = 90, cy = 54, r = 4.5, z0 = DESK_BH + 0.2, z1 = z0 + 3.2;
+  return cyl(cx, cy, z0, z1, r, METAL, toneI, 1.1, 16) +
+    (vis([0,0,1]) ? fill(pd(on(PZ(z1), ellUV(cx, cy, r, r, 16))), METAL.l) : '');
+}
+
+function leverGeo(pressT) {
+  // pressT 0 = up, 1 = fully down. Lever rotates around the shaft (axis +Y).
+  const a0 = 18 * Math.PI/180, a1 = 78 * Math.PI/180;
+  const a = deskLerp(a0, a1, pressT);
+  const dir = [Math.cos(a), 0, Math.sin(a)]; // in x-z, out from shaft toward handle when up-ish
+  // When up, handle is high and a bit back; when down, handle comes forward and down.
+  // a measured from +X toward +Z.
+  const len = 28;
+  const handle = [SHAFT_X + dir[0] * len, SHAFT_Y - 6, SHAFT_Z + dir[2] * len];
+  const mid = deskMixv([SHAFT_X, SHAFT_Y, SHAFT_Z], handle, 0.55);
+  return { a, dir, handle, mid, pressT };
+}
+
+function pressCase(m) {
+  const x0 = PRESS_X0, x1 = PRESS_X1, y0 = PRESS_Y0, y1 = PRESS_Y1, z0 = PRESS_Z0, z1 = PRESS_Z1;
+  // Rounded body: sweep a rounded y-z profile along x.
+  const prof = rrUV(y0, z0, y1, z1, PRESS_R);
+  const A = on(PX(x0), prof), B = on(PX(x1), prof);
+  let s = extrude(prof, x0, x1, m);
+  if (vis([1,0,0])) s += fill(pd(B), tone([1,0,0], m));
+  if (vis([-1,0,0])) s += fill(pd(A), tone([-1,0,0], m));
+  s += hullInk([...A, ...B], 2.6);
+  // front slot opening (only when the front faces the viewer)
+  if (vis([1,0,0])) {
+    const slot = on(PX(x1 + 0.15), rrUV(SLOT_Y0, SLOT_Z, SLOT_Y1, SLOT_Z + SLOT_H, 0.6));
+    s += fill(pd(slot), '#2a1a16') + ink(pd(slot), 1.5);
+  }
+  return s;
+}
+
+function mechanism(st, k) {
+  // Drawn in see-through over the ghosted case. Opacity is applied by the caller.
+  const pressT = st.stage === 'down' ? st.pressT : (st.stage === 'out' ? 0 : 0);
+  const drop = 7 * (st.stage === 'down' ? st.pressT : 0);
+  const platZ = PLATEN_Z0 + 8 - drop;
+  const items = [];
+
+  // guide rails along x, either side of the slot
+  const rail = (y) => {
+    const a = [PRESS_X0 + 4, y, SLOT_Z], b = [PRESS_X1 - 2, y, SLOT_Z];
+    items.push({ at: deskMixv(a, b, 0.5), box: [[a[0], y-0.6, SLOT_Z-0.6], [b[0], y+0.6, SLOT_Z+0.6]], svg: rod(a, b, 0.6, METAL, toneI, 0.8, 0.6, 10) });
+  };
+  rail(SLOT_Y0 - 0.8);
+  rail(SLOT_Y1 + 0.8);
+
+  // ink pad in the well
+  const pad = { x0: PRESS_X0 + 10, x1: PRESS_X1 - 10, y0: SLOT_Y0 + 1, y1: SLOT_Y1 - 1, z0: DESK_BH + 3.2, z1: DESK_BH + 4.4 };
+  const padA = [[pad.x0, pad.y0, pad.z0], [pad.x1, pad.y0, pad.z0], [pad.x1, pad.y1, pad.z0], [pad.x0, pad.y1, pad.z0]];
+  const padB = padA.map(p => [p[0], p[1], pad.z1]);
+  items.push({ at: [(pad.x0+pad.x1)/2, (pad.y0+pad.y1)/2, pad.z1], box: [[pad.x0, pad.y0, pad.z0], [pad.x1, pad.y1, pad.z1]],
+    svg: loft(padA, padB, n => toneI(n, DARK)) + fill(pd(padB), INK_BLUE) + hullInk([...padA, ...padB], 0.9) });
+
+  // platen (block) and die under it
+  const px0 = PRESS_X0 + 12, px1 = PRESS_X1 - 12, py0 = SLOT_Y0 + 2, py1 = SLOT_Y1 - 2;
+  const pz0 = platZ, pz1 = platZ + 4;
+  const pA = [[px0, py0, pz0], [px1, py0, pz0], [px1, py1, pz0], [px0, py1, pz0]];
+  const pB = pA.map(p => [p[0], p[1], pz1]);
+  items.push({ at: [(px0+px1)/2, (py0+py1)/2, pz0], box: [[px0, py0, pz0], [px1, py1, pz1]],
+    svg: loft(pA, pB, n => toneI(n, METAL)) + fill(pd(pB), METAL.l) + hullInk([...pA, ...pB], 1.1) });
+
+  const dx0 = px0 + 4, dx1 = px1 - 4, dy0 = py0 + 4, dy1 = py1 - 4;
+  const dz0 = pz0 - 1.4, dz1 = pz0;
+  const dA = [[dx0, dy0, dz0], [dx1, dy0, dz0], [dx1, dy1, dz0], [dx0, dy1, dz0]];
+  const dB = dA.map(p => [p[0], p[1], dz1]);
+  items.push({ at: [(dx0+dx1)/2, (dy0+dy1)/2, dz0], box: [[dx0, dy0, dz0], [dx1, dy1, dz1]],
+    svg: loft(dA, dB, n => toneI(n, DIE_M)) + fill(pd(dA), DIE_M.d) + hullInk([...dA, ...dB], 0.9) });
+
+  // coil spring from platen top to case roof
+  const sc = [(px0+px1)/2, (py0+py1)/2];
+  const springZ0 = pz1, springZ1 = PRESS_Z1 - 2;
+  let coil = '';
+  const turns = 7, pts = [];
+  for (let i = 0; i <= turns * 8; i++) {
+    const t = i / (turns * 8);
+    const ang = t * turns * 2 * Math.PI;
+    pts.push([sc[0] + 2.1 * Math.cos(ang), sc[1] + 2.1 * Math.sin(ang), deskLerp(springZ0, springZ1, t)]);
+  }
+  coil += `<path d="${pd(pts, false)}" fill="none" stroke="${METAL.m}" stroke-width="1.1"/>`;
+  items.push({ at: [sc[0], sc[1], (springZ0+springZ1)/2], box: [[sc[0]-2.2, sc[1]-2.2, springZ0], [sc[0]+2.2, sc[1]+2.2, springZ1]], svg: coil });
+
+  // shaft through the hinge
+  const sh0 = [SHAFT_X, PRESS_Y0 - 4, SHAFT_Z], sh1 = [SHAFT_X, PRESS_Y1 + 1, SHAFT_Z];
+  items.push({ at: [SHAFT_X, (PRESS_Y0+PRESS_Y1)/2, SHAFT_Z], box: [[SHAFT_X-1.2, PRESS_Y0-4, SHAFT_Z-1.2], [SHAFT_X+1.2, PRESS_Y1+1, SHAFT_Z+1.2]],
+    svg: cylAxSafe(sh0, sh1, 1.1, METAL) });
+
+  // cam on the shaft, driving the platen
+  const camR = 3.2 + 2.2 * (st.stage === 'down' ? st.pressT : 0);
+  const camC = [SHAFT_X, (PRESS_Y0 + PRESS_Y1) / 2, SHAFT_Z];
+  items.push({ at: camC, box: [[camC[0]-4, camC[1]-1.5, camC[2]-4], [camC[0]+4, camC[1]+1.5, camC[2]+4]],
+    svg: cylAxSafe([camC[0], camC[1]-1.4, camC[2]], [camC[0], camC[1]+1.4, camC[2]], camR, DARK) });
+
+  return byDepth(items);
+}
+
+function cylAxSafe(c0, c1, r, M) {
+  const ax = norm(sub(c1, c0));
+  const tmp = Math.abs(ax[2]) < 0.9 ? [0,0,1] : [1,0,0];
+  const e1 = norm(cross(ax, tmp)), e2 = norm(cross(ax, e1));
+  const ring = (c, n=14) => Array.from({length:n}, (_,i) => {
+    const t = i/n*2*Math.PI;
+    return [c[0] + (e1[0]*Math.cos(t)+e2[0]*Math.sin(t))*r, c[1] + (e1[1]*Math.cos(t)+e2[1]*Math.sin(t))*r, c[2] + (e1[2]*Math.cos(t)+e2[2]*Math.sin(t))*r];
+  });
+  const A = ring(c0), B = ring(c1);
+  let s = loft(A, B, n => toneI(n, M));
+  const capB = vis(ax), cap = capB ? B : A, cn = capB ? ax : [-ax[0],-ax[1],-ax[2]];
+  if (vis(cn)) s += fill(pd(cap), toneI(cn, M));
+  s += hullInk([...A, ...B], 1);
+  return s;
+}
+
+function drawLever(st) {
+  const g = leverGeo(st.stage === 'down' ? st.pressT : 0);
+  const arm0 = [SHAFT_X, SHAFT_Y, SHAFT_Z];
+  const arm1 = g.handle;
+  const arm = cylAxSafe(arm0, arm1, 1.3, DARK);
+  const grip = cylAxSafe(arm1, [arm1[0], arm1[1] - 8, arm1[2]], 2.4, BRAND);
+  const box = [
+    [Math.min(arm0[0], arm1[0]) - 3, Math.min(arm0[1], arm1[1]) - 9, Math.min(arm0[2], arm1[2]) - 3],
+    [Math.max(arm0[0], arm1[0]) + 3, Math.max(arm0[1], arm1[1]) + 3, Math.max(arm0[2], arm1[2]) + 3]
+  ];
+  return { at: g.mid, box, svg: act('lever', arm + grip) };
+}
+
+function caseBox() {
+  return [[PRESS_X0, PRESS_Y0, PRESS_Z0], [PRESS_X1, PRESS_Y1, PRESS_Z1]];
+}
+
+function scene(st) {
+  const k = ease(st.xr || 0);
+  const m = BRAND;
+  const parts = [];
+
+  // desk board first, then its shadow later via board()
+  const boardSvg = board(0, 0, DESK_BW, DESK_BD, DESK_BH, DESK_BR);
+  parts.push({ at: [DESK_BW/2, DESK_BD/2, 0], box: [[0,0,0],[DESK_BW, DESK_BD, DESK_BH]], svg: boardSvg });
+
+  parts.push({ at: [52, 38, DESK_BH], box: [[8,8,DESK_BH],[96,68,DESK_BH+0.3]], svg: blotter() });
+  parts.push({ at: [88, 28, DESK_BH+2], box: [[80,17,DESK_BH],[96,39,DESK_BH+4]], svg: stackOfCards() });
+  parts.push({ at: [90, 54, DESK_BH+2], box: [[85,49,DESK_BH],[95,59,DESK_BH+4]], svg: paperweight() });
+
+  // case: closed, or ghosted in see-through
+  const body = () => pressCase(m);
+  if (k > 0) {
+    const ghost = xrGhost(body, '', k, '', PRESS_X0, PRESS_X1, m);
+    parts.push({ at: [(PRESS_X0+PRESS_X1)/2, (PRESS_Y0+PRESS_Y1)/2, (PRESS_Z0+PRESS_Z1)/2], box: caseBox(), svg: ghost });
+    parts.push({ at: [(PRESS_X0+PRESS_X1)/2, (PRESS_Y0+PRESS_Y1)/2, PLATEN_Z0], box: caseBox(), svg: `<g opacity="${k}">${mechanism(st, k)}</g>` });
+  } else {
+    parts.push({ at: [(PRESS_X0+PRESS_X1)/2, (PRESS_Y0+PRESS_Y1)/2, (PRESS_Z0+PRESS_Z1)/2], box: caseBox(), svg: body() });
+  }
+
+  // lever always outside the case
+  parts.push(drawLever(st));
+
+  // card, if present
+  if (st.stage !== 'empty') {
+    const p = cardPose(st);
+    parts.push({ at: [p.cx, p.cy, p.cz], box: cardBox(p), svg: act('card', drawCard(p)) });
+  }
+
+  // hinge bosses on the left side of the case
+  const boss = cylAxSafe([SHAFT_X, PRESS_Y0 - 3.2, SHAFT_Z], [SHAFT_X, PRESS_Y0 + 1.5, SHAFT_Z], 2.2, DARK);
+  parts.push({ at: [SHAFT_X, PRESS_Y0, SHAFT_Z], box: [[SHAFT_X-2.4, PRESS_Y0-3.4, SHAFT_Z-2.4],[SHAFT_X+2.4, PRESS_Y0+1.6, SHAFT_Z+2.4]], svg: boss });
+
+  // cast shadow of the press on the board
+  const foot = [[PRESS_X0, PRESS_Y0, DESK_BH], [PRESS_X1, PRESS_Y0, DESK_BH], [PRESS_X1, PRESS_Y1, DESK_BH], [PRESS_X0, PRESS_Y1, DESK_BH]];
+  const sh = castShadow(foot, DESK_BH, DESK_TOP);
+  parts.push({ at: [(PRESS_X0+PRESS_X1)/2, (PRESS_Y0+PRESS_Y1)/2, 0.1], box: [[PRESS_X0-4, PRESS_Y0-4, 0],[PRESS_X1+8, PRESS_Y1+8, DESK_BH]], svg: sh });
+
+  return byDepth(parts);
+}
+
+function labels(st) {
+  const k = ease(st.xr || 0);
+  if (k <= 0.6) return '';
+  const pressOn = st.stage === 'down';
+  const items = [
+    { at: [SHAFT_X, SHAFT_Y, SHAFT_Z], text: 'SHAFT', on: pressOn },
+    { at: [(PRESS_X0+PRESS_X1)/2, (PRESS_Y0+PRESS_Y1)/2, PLATEN_Z0 + 8], text: 'PLATEN', on: pressOn },
+    { at: [(PRESS_X0+PRESS_X1)/2, (PRESS_Y0+PRESS_Y1)/2, DESK_BH + 4], text: 'INK PAD', on: pressOn },
+    { at: [(PRESS_X0+PRESS_X1)/2, (PRESS_Y0+PRESS_Y1)/2, PRESS_Z1 - 6], text: 'COIL SPRING', on: pressOn },
+    { at: [SHAFT_X, (PRESS_Y0+PRESS_Y1)/2, SHAFT_Z], text: 'CAM', on: pressOn },
+    { at: [(PRESS_X0+PRESS_X1)/2, SLOT_Y0 - 0.8, SLOT_Z], text: 'GUIDE RAIL', on: st.stage === 'in' },
+    { at: [PRESS_X1, (SLOT_Y0+SLOT_Y1)/2, SLOT_Z], text: 'CARD SLOT', on: st.stage === 'in' },
+    { at: leverGeo(st.stage === 'down' ? st.pressT : 0).handle, text: 'LEVER', on: pressOn },
+  ];
+  return xrCallouts(items, [0, DESK_BW, 0, DESK_BD, 0, MAX_H]);
+}
+
+function loadCard(st, ui) {
+  if (st.stage !== 'empty') { ui.flash('Eject the card first'); return; }
+  st.stage = 'in';
+  st.inT = 0;
+  ui.animate(dt => {
+    st.inT = Math.min(1, st.inT + dt / 500);
+    return st.inT < 1;
+  });
+}
+
+function pressLever(st, ui) {
+  if (st.stage !== 'in') { ui.flash('Load a card first'); return; }
+  st.stage = 'down';
+  st.pressT = 0;
+  ui.animate(dt => {
+    st.pressT = Math.min(1, st.pressT + dt / 450);
+    return st.pressT < 1;
+  });
+}
+
+function ejectCard(st, ui) {
+  if (st.stage !== 'down') { ui.flash(st.stage === 'empty' ? 'Load a card first' : 'Press the lever first'); return; }
+  st.stage = 'out';
+  st.cards = (st.cards || 0) + 1;
+}
+
+if (new URLSearchParams(location.search).get('embed') === '1') {
+  document.documentElement.classList.add('embed');
+}
+
+const ui = mountFigure({
+  fig: 'R1',
+  turn: 'full',
+  title: 'Hire desk',
+  size: [DESK_BW, DESK_BD, MAX_H],
+  palette: 'tomato',
+  state: { stage: 'empty', inT: 0, pressT: 0, cards: 0 },
+  scene: (st) => scene(st) + labels(st),
+  readout: st => st.stage === 'empty' ? 'empty' : st.stage === 'in' ? 'card loaded' : st.stage === 'down' ? 'stamped' : 'card on the desk',
+  stats: st => [{ label: 'Cards stamped', value: String(st.cards || 0) }],
+  buttonsLabel: 'Press',
+  buttons: [
+    { label: 'Load a card', onClick: loadCard },
+    { label: 'Press the lever', onClick: pressLever },
+    { label: 'Eject the card', onClick: ejectCard },
+  ],
+  acts: {
+    lever: (st, el, ui) => { if (st.stage === 'in') pressLever(st, ui); else if (st.stage === 'empty') ui.flash('Load a card first'); },
+    card: (st, el, ui) => { if (st.stage === 'down') ejectCard(st, ui); },
+  },
+  params: (st, q) => {
+    if (q.get('stage') === 'in' || q.get('stage') === 'down' || q.get('stage') === 'out') {
+      st.stage = q.get('stage');
+      st.inT = 1;
+      st.pressT = st.stage === 'down' || st.stage === 'out' ? 1 : 0;
+    }
+    if (q.get('cards')) st.cards = Number(q.get('cards')) || 0;
+  },
+});
+xrMount(() => ui, () => '');
+</script></body></html>
