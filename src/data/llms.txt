@@ -1,0 +1,25 @@
+# Peramanathan Sathyamoorthy
+
+> Senior Software Engineer and product / agent engineer. Swedish citizen, based in Stockholm. Available now.
+
+## Profile for agents
+
+- Full profile: https://captain.kingsparrow.space/agents.md
+- Portfolio: https://captain.kingsparrow.space
+- What I am building: https://captain.kingsparrow.space/building
+- Shipped work: https://captain.kingsparrow.space/shipped
+- CV (PDF): https://captain.kingsparrow.space/cv.pdf
+
+## Public work
+
+- adaptate (Zod/OpenAPI model validator): https://github.com/p10ns11y/adaptate
+  npm: adaptate, @adaptate/core, @adaptate/utils (latest 2.4.2, SLSA Provenance)
+  Docs: https://adaptate-site.vercel.app
+- kanithanj.ai (roles you can grow into): https://kanithanj-ai.vercel.app
+  Source: https://github.com/p10ns11y/collab-finder
+
+## Contact
+
+- GitHub: https://github.com/p10ns11y
+- X: https://x.com/peramanathan
+- Email: sathyam.peram@gmail.com
