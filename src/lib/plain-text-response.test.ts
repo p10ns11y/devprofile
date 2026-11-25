@@ -132,6 +132,7 @@ describe("robots and sitemap", () => {
     for (const walkthrough of PROJECT_WALKTHROUGHS) {
       expect(urls).toContain(`${PRODUCTION_SITE_ORIGIN}/shipped/${walkthrough.slug}`);
     }
+    expect(urls).not.toContain(`${PRODUCTION_SITE_ORIGIN}/pay-report`);
     expect(urls).not.toContain(`${PRODUCTION_SITE_ORIGIN}/api/cv/download`);
     expect(urls).not.toContain(`${PRODUCTION_SITE_ORIGIN}/dev/ghcards-preview`);
   });

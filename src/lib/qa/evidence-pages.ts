@@ -9,27 +9,6 @@ export type QaEvidencePageLink = {
 
 export const QA_EVIDENCE_PAGES: readonly QaEvidencePageLink[] = [
   {
-    id: "pay-target-range",
-    path: "/pay-report",
-    anchor: "target-range",
-    label: "Pay report — target range",
-    keywords: ["target range", "compensation", "salary", "pay band", "next chapter", "rate"],
-  },
-  {
-    id: "pay-experience",
-    path: "/pay-report",
-    anchor: "experience",
-    label: "Pay report — senior band fit",
-    keywords: ["senior band", "years of experience", "oneflow", "8 years", "experience fits"],
-  },
-  {
-    id: "pay-break",
-    path: "/pay-report",
-    anchor: "why-the-break-doesnt-set-me-back",
-    label: "Pay report — career break",
-    keywords: ["career break", "gap", "break doesn't", "time away"],
-  },
-  {
     id: "focus-eeaas",
     path: "/focus/eeaas-to-agents",
     label: "Essay — EEaaS to agents",

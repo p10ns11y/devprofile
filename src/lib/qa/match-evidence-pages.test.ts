@@ -30,11 +30,11 @@ describe("matchEvidencePages", () => {
 
   it("builds hrefs with anchors when present", () => {
     const links = matchEvidencePages(
-      "What is your target compensation range?",
-      "See the pay report target range section."
+      "What did you build in thepulimaangani?",
+      "thepulimaangani is a Tamil prosody parser in the browser."
     );
 
-    expect(links[0]?.href).toBe("/pay-report#target-range");
+    expect(links[0]?.href).toBe("/shipped/thepulimaangani#section-product");
   });
 
   it("does not match keywords inside other words", () => {
@@ -48,6 +48,6 @@ describe("matchEvidencePages", () => {
       "How do you generate apply PDFs?",
       "We generate PDFs locally without another model call."
     );
-    expect(generateLinks.some((link) => link.id === "pay-target-range")).toBe(false);
+    expect(generateLinks.some((link) => link.id === "certificates")).toBe(false);
   });
 });

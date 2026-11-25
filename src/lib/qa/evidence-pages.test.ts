@@ -22,7 +22,7 @@ describe("QA evidence page map", () => {
   });
 
   it("fails fast when an anchor disappears from source", () => {
-    const broken = QA_EVIDENCE_PAGES.find((link) => link.id === "pay-target-range");
+    const broken = QA_EVIDENCE_PAGES.find((link) => link.id === "home-work");
     expect(broken).toBeDefined();
 
     const message = validateEvidencePageLink({

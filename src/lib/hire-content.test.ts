@@ -7,6 +7,10 @@ describe("getHireContent", () => {
     const blob = JSON.stringify(content);
     expect(content.role).toContain("Senior Product and Systems Engineer · AI/SI agentic workflows");
     expect(content.place).toBe("Available now");
+    expect(content.seat).toBe(
+      "Senior Product and Systems Engineer · AI/SI agentic workflows. Open to senior product and fullstack roles in Stockholm or EU-remote."
+    );
+    expect(JSON.stringify(content)).not.toContain("pay-report");
     expect(content.thesis).toMatch(/Scarce: shipping agentic workflows/);
     expect(blob).not.toMatch(/ReactJS/);
     expect(blob).not.toMatch(/9\+ years in scalable/);

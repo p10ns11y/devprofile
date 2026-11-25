@@ -11,7 +11,6 @@ const STATIC_PATHS = [
   "/profile",
   "/x",
   "/certificates",
-  "/pay-report",
   "/llms.txt",
   "/llms-full.txt",
   "/ideas.md",
