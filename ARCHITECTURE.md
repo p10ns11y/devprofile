@@ -13,7 +13,7 @@ Technical overview of the DevProfile application: structure, routes, tooling, an
 │   ├── certificates/            # Certificate files
 │   └── images/
 ├── scripts/
-│   ├── generate-pdf.tsx
+│   ├── generate-pdf.mjs
 │   ├── generate-sw-version.mjs
 │   ├── playwright-ui-brave.mjs  # E2E UI without bundled Chromium
 │   └── sync-editor-profile.mjs

@@ -2,7 +2,7 @@
 
 > Senior Product and Systems Engineer · AI/SI agentic workflows, in Stockholm. 9+ years shipping web products, public APIs and CRM integrations in TypeScript, React, Next.js and Node.js (Oneflow, 2017–2024). Since December 2024: independent AI/SI product and systems engineering (agentic workflows). Maintains adaptate, a TypeScript library that validates streaming LLM tool-call JSON (about 1,000 npm downloads a month per package; 2.4.2 on 24 November 2026). EU work authorised, no sponsorship needed. Can start within two weeks of an offer.
 
-This is the full profile. A short index is at https://captain.kingsparrow.space/llms.txt. Dated notes on ideas and working methods are at https://captain.kingsparrow.space/ideas.md. A shorter profile is at https://captain.kingsparrow.space/agents.md. The CV is at https://captain.kingsparrow.space/cv.pdf. Claims about open-source work link to a commit, release, package or post. Oneflow work was closed-source.
+This is the full profile. A short index is at https://captain.kingsparrow.space/llms.txt. A shorter profile is at https://captain.kingsparrow.space/agents.md. The CV is at https://captain.kingsparrow.space/cv.pdf. Claims about open-source work link to a commit, release, package or post. Oneflow work was closed-source.
 
 ## 1. Identity summary
 
@@ -14,7 +14,7 @@ Since December 2024 his role has been Independent AI/SI product and systems engi
 
 - adaptate, a TypeScript validation library on npm (adaptate, @adaptate/core, @adaptate/utils).
 - kanithanj, a local-first decision app (Tauri, Rust, React, SQLite); 1.0.0 on 19 August 2026 and 1.3.0 on 23 November 2026. Source: https://github.com/p10ns11y/collab-finder.
-- Ensembly, a Rust service for one shared SQLite ledger and one approval flow.
+- Ensembly, a Rust operator kernel for one shared SQLite ledger and one approval flow.
 - Agent plugins and a skills library for Grok Build, Cursor and Claude Code.
 - A Next.js portfolio and CV pipeline from one data source.
 
@@ -26,7 +26,7 @@ Most of his deep-learning and systems work is private. The public repositories a
 - Citizenship: Swedish
 - Work rights: EU work authorised, no sponsorship needed
 - Start: can start within two weeks of an offer
-- Open to: Senior Fullstack Engineer, Senior Product Engineer, AI Product Engineer / Forward Deployed Engineer, Software Engineer for AI/SI and LLM tooling, and developer tooling or platform roles, in Stockholm, remote in the EU, or on site in the EU
+- Open to: Senior Fullstack Engineer, Senior Product Engineer, AI Product Engineer / Forward Deployed Engineer, Software Engineer for AI/SI and LLM tooling, and developer tooling or platform roles, anywhere in the world where he can grow with warm people.
 - Languages: English (proficient), Swedish (basic)
 
 Contact:
@@ -44,7 +44,7 @@ Contact:
 
 ### Independent AI/SI product and systems engineering (agentic workflows), December 2024 to present, Stockholm
 
-Shipped open-source libraries, a desktop app, a shared ledger service, agent plugins and a public portfolio. Details are in section 5.
+Shipped open-source libraries, a desktop app, a shared ledger service, agent plugins and a public portfolio (section 5).
 
 ### Oneflow AB, Stockholm, April 2017 to December 2024
 
@@ -124,13 +124,13 @@ Numbers. On a 966-character sample, the incremental feed made 966 character visi
 
 Site: https://kanithanj-ai.vercel.app · source: https://github.com/p10ns11y/collab-finder · walkthrough: https://captain.kingsparrow.space/shipped/collab-finder
 
-Releases v1.0.0 (19 August 2026) to v1.3.0 (23 November 2026), about 300 commits. A Rust backend with a SQLite ledger, LLM routing across providers, the xAI API, and secrets in the OS keyring. The model is called only when cost, fit and rate checks pass. A person approves before anything leaves the machine. Personal data never leaves disk. CI runs `cargo test` and Stryker mutation testing.
+Releases v1.0.0 (19 August 2026) to v1.3.0 (23 November 2026). A Rust backend with a SQLite ledger, LLM routing across providers, the xAI API, and secrets in the OS keyring. The model is called only when cost, fit and rate checks pass. A person approves before anything leaves the machine. Personal data never leaves disk. CI runs `cargo test` and Stryker mutation testing. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized. XState drives the Settings xAI key/model panel in the app; model-based tests walk its generated paths.
 
 ### 5.3 Ensembly: one shared ledger and one approval flow
 
 Link: https://github.com/thecuriousts/ensembly · essays: https://captain.kingsparrow.space/articles
 
-A Rust service, rebuilt on 12 July 2026 (commit 4f35ce1; tag v0.1.0 marks the previous, 2016 commit), that gives several coding-agent tools one shared SQLite ledger and one approval flow. Bots and harnesses propose; Ensembly authorises, claims and completes. One writer owns the ledger, with idempotent retries (PR #91).
+A Rust operator kernel that gives several coding-agent tools one shared SQLite ledger and one approval flow. Bots and harnesses propose; Ensembly authorises, claims and completes. One writer owns the ledger, with idempotent retries.
 
 ### 5.4 Agent plugins marketplace
 
@@ -205,4 +205,4 @@ Selected courses
 
 ## 9. Short summary
 
-Senior Product and Systems Engineer · AI/SI agentic workflows, Stockholm. 9+ years in TypeScript, JavaScript, React, Next.js and Node.js, plus Python in production and Rust in shipped open-source and desktop work. At Oneflow (2017–2024) built and led the Integration Team, extended the public API, shipped HubSpot, SuperOffice and Teamtailor work, mentored the team, set up Playwright testing and led a TypeScript migration. Since December 2024, in Independent AI/SI product and systems engineering (agentic workflows): maintainer of adaptate on npm, builder of kanithanj (Tauri, Rust, React, SQLite) and Ensembly (a Rust service for one shared ledger and one approval flow), and author of agent plugins and skills for Grok Build, Cursor and Claude Code. MSc Computer Science, Uppsala University; two IoT papers. EU work authorised, no sponsorship needed; can start within two weeks. Full profile: https://captain.kingsparrow.space/llms-full.txt
+Senior Product and Systems Engineer · AI/SI agentic workflows, Stockholm. 9+ years in TypeScript, JavaScript, React, Next.js and Node.js, plus Python in production and Rust in shipped open-source and desktop work. At Oneflow (2017–2024) built and led the Integration Team, extended the public API, shipped HubSpot, SuperOffice and Teamtailor work, mentored the team, set up Playwright testing and led a TypeScript migration. Since December 2024, in Independent AI/SI product and systems engineering (agentic workflows): maintainer of adaptate on npm, builder of kanithanj (Tauri, Rust, React, SQLite) and Ensembly (a Rust operator kernel for one shared ledger and one approval flow), and author of agent plugins and skills for Grok Build, Cursor and Claude Code. MSc Computer Science, Uppsala University; two IoT papers. EU work authorised, no sponsorship needed; can start within two weeks. Full profile: https://captain.kingsparrow.space/llms-full.txt

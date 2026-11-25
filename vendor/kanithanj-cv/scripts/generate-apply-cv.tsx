@@ -1,12 +1,9 @@
 /**
  * Generate a portfolio-styled apply CV from master cvdata + optional pack overlay.
  *
- * Leftover local writer. Apply PDFs: kanithanj.cv (collab-finder).
- * Site master PDF: pnpm generate-pdf.
- *
- * Usage:
- *   bun scripts/generate-apply-cv.tsx    # leftover; prefer kanithanj.cv generate
- *   bun scripts/generate-apply-cv.tsx <pack|opp_N|id>
+ * Usage (writer — prefer `kanithanj.cv generate`):
+ *   bun scripts/generate-apply-cv.tsx              # master CV → out/apply/cv.pdf
+ *   bun scripts/generate-apply-cv.tsx <pack|opp_N> # role-fit pack PDF
  *
  * Output filename rule (always):
  *   {name}-{role}-{id}.pdf
@@ -17,28 +14,49 @@
  *   out/apply/<pack-slug>/{name-role-id}.pdf
  *   out/apply/<pack-slug>/cv.pdf          # alias
  *   application_packs/<slug>/submit/{name-role-id}.pdf  (if submit/ exists)
+ *   {name-role-id}-cover-letter.pdf       # same folders, only when cover-letter.md has text
  *
  * Does NOT mutate src/data/cvdata.json or public/cv.pdf.
+ * An empty cover letter is skipped. No placeholder PDF is written.
  */
-
+import ReactPDF from "@react-pdf/renderer";
 import {
   copyFileSync,
   existsSync,
   mkdirSync,
   readdirSync,
   readFileSync,
+  unlinkSync,
   writeFileSync,
 } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import ReactPDF from "@react-pdf/renderer";
-import CVDocument from "@/components/cv-document";
-import masterData from "@/data/cvdata.json";
-import { buildApplyCvFilename, resolveApplyJobId } from "@/lib/apply-cv-filename";
+import CoverLetterDocument from "@/components/cover-letter-document";
+import { contactEmailFromCvdata, planCoverLetterPdf } from "@/lib/cover-letter";
+import {
+  buildApplyCvFilename,
+  resolveApplyJobId,
+} from "@/lib/apply-cv-filename";
 import { applyCvOverlay, type CvOverlayV1 } from "@/lib/cv-overlay";
+import { renderTypstCv } from "@/lib/render-typst-cv";
+import { packsRootPath, resolveCvdataPointer, resolvePacksRoot } from "@/lib/cv-paths";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
+
+function loadMasterData(): Record<string, unknown> {
+  const pointer = resolveCvdataPointer(root, process.env);
+  if (pointer.kind === "missing") {
+    console.error("No cvdata.json found.");
+    for (const path of pointer.tried) console.error(`  tried ${path}`);
+    console.error("Set CVDATA_SRC or put a file at the default config path.");
+    process.exit(1);
+  }
+  const path = pointer.kind === "linked" ? pointer.path : pointer.path;
+  return JSON.parse(readFileSync(path, "utf8")) as Record<string, unknown>;
+}
+
+const masterData = loadMasterData();
 
 type PackManifest = {
   schema?: string;
@@ -56,13 +74,21 @@ type PackManifest = {
 
 function usage(): never {
   console.error(`Usage:
-  kanithanj.cv                      master CV → out/apply/cv.pdf
-  kanithanj.cv <pack|opp_N|id>      role-fit pack PDF
-  kanithanj.cv <pack> --no-submit-copy`);
+  bun scripts/generate-apply-cv.tsx
+  bun scripts/generate-apply-cv.tsx <pack|opp_N|id> [--no-submit-copy]
+  bun scripts/generate-apply-cv.tsx --master --out <file.pdf>
+
+Prefer: kanithanj.cv generate [pack]`);
   process.exit(1);
 }
 
-async function writeMasterCv(): Promise<void> {
+async function writeMasterCv(outOverride?: string): Promise<void> {
+  if (outOverride) {
+    const target = resolve(process.cwd(), outOverride);
+    await renderTypstCv(masterData, target);
+    console.log(target);
+    return;
+  }
   const personName =
     typeof masterData.name === "string" && masterData.name.trim()
       ? masterData.name.trim()
@@ -76,7 +102,7 @@ async function writeMasterCv(): Promise<void> {
   mkdirSync(applyOutDir, { recursive: true });
   const namedPdf = join(applyOutDir, namedFile);
   const masterPdf = join(applyOutDir, "cv.pdf");
-  await ReactPDF.render(<CVDocument data={masterData as typeof masterData} />, namedPdf);
+  await renderTypstCv(masterData, namedPdf);
   copyFileSync(namedPdf, masterPdf);
   console.log(masterPdf);
 }
@@ -94,7 +120,7 @@ function readManifest(packDir: string): PackManifest | null {
 /** Resolve pack folder by slug, opp_N, bare id, or manifest opportunity_id / slug. */
 function resolvePack(
   packsRoot: string,
-  packArg: string
+  packArg: string,
 ): { packDir: string; folderName: string; manifest: PackManifest | null } {
   const direct = join(packsRoot, packArg);
   if (existsSync(direct)) {
@@ -142,7 +168,7 @@ function resolvePack(
 function resolveSlug(
   folderName: string,
   manifest: PackManifest | null,
-  overlay: CvOverlayV1 | null
+  overlay: CvOverlayV1 | null,
 ): string {
   if (manifest?.slug && String(manifest.slug).trim()) {
     return String(manifest.slug).trim();
@@ -163,7 +189,7 @@ const PROJECT_HINTS: Array<[RegExp, string]> = [
   [/selfie-sign|selfie-signin|rekognition/i, "selfie-signin"],
   [/adaptate/i, "adaptate"],
   [/latex-cv/i, "latex-cv"],
-  [/grok-daily-productivity-extensions|grok-dia/i, "grok-daily-productivity-extensions"],
+  [/grok-dia/i, "grok-dia"],
 ];
 
 /** Parse `- suggestion` bullets from cv-suggestions.md */
@@ -180,7 +206,7 @@ function parseSuggestionBullets(md: string): string[] {
  */
 function synthesizeOverlayFromPackFiles(
   packDir: string,
-  manifest: PackManifest | null
+  manifest: PackManifest | null,
 ): CvOverlayV1 | null {
   const suggestionsPath = join(packDir, "cv-suggestions.md");
   const exceptionalPath = join(packDir, "exceptional-work.md");
@@ -189,10 +215,14 @@ function synthesizeOverlayFromPackFiles(
     ? parseSuggestionBullets(readFileSync(suggestionsPath, "utf8"))
     : [];
   const exceptional = existsSync(exceptionalPath)
-    ? readFileSync(exceptionalPath, "utf8").replace(/^#.*$/m, "").trim()
+    ? readFileSync(exceptionalPath, "utf8")
+        .replace(/^#.*$/m, "")
+        .trim()
     : "";
   const research = existsSync(researchPath)
-    ? readFileSync(researchPath, "utf8").replace(/^#.*$/m, "").trim()
+    ? readFileSync(researchPath, "utf8")
+        .replace(/^#.*$/m, "")
+        .trim()
     : "";
 
   if (!suggestions.length && !exceptional) return null;
@@ -214,7 +244,8 @@ function synthesizeOverlayFromPackFiles(
   const blobL = blob.toLowerCase();
   const co = company.charAt(0).toUpperCase() + company.slice(1);
   const role = title.replace(/Typescript/g, "TypeScript");
-  const secure = blobL.includes("secur") || blobL.includes("rekognition") || blobL.includes("auth");
+  const secure =
+    blobL.includes("secur") || blobL.includes("rekognition") || blobL.includes("auth");
   const hook = secure
     ? "Senior Software Engineer with fullstack web dev specialization, with deep ownership of production integrations, platform reliability, and secure data flows."
     : "Senior Software Engineer with fullstack web dev specialization, with deep ownership of production integrations, platform reliability, and high-signal delivery.";
@@ -229,11 +260,7 @@ function synthesizeOverlayFromPackFiles(
     if (i >= 0) career = career.slice(0, i).trim();
   }
   const recentItems: string[] = [];
-  if (
-    blobL.includes("rekognition") ||
-    blobL.includes("selfie") ||
-    featured.includes("selfie-signin")
-  ) {
+  if (blobL.includes("rekognition") || blobL.includes("selfie") || featured.includes("selfie-signin")) {
     recentItems.push("AWS Rekognition identity flows");
   }
   if (blobL.includes("zod") || blobL.includes("schema")) {
@@ -263,19 +290,95 @@ function synthesizeOverlayFromPackFiles(
   };
 }
 
+function removeCoverLetterCopies(dirs: string[], filename: string): void {
+  for (const dir of dirs) {
+    for (const name of [filename, "cover-letter.pdf"]) {
+      const path = join(dir, name);
+      if (existsSync(path)) unlinkSync(path);
+    }
+  }
+}
+
+/**
+ * Write the ATS cover-letter PDF beside the CV when the pack letter has text.
+ * Heading-only or missing markdown removes any previous letter PDF and returns skipped.
+ */
+async function writePackCoverLetter(opts: {
+  packDir: string;
+  outDir: string;
+  flatOutDir: string;
+  submitDir: string;
+  personName: string;
+  roleTitle: string;
+  jobId: string;
+  email: string | null;
+  roleTitleLabel: string | null;
+  companyLabel: string | null;
+}): Promise<{ filename: string | null; skipped: "empty" | null }> {
+  const mdPath = join(opts.packDir, "cover-letter.md");
+  const markdown = existsSync(mdPath) ? readFileSync(mdPath, "utf8") : "";
+  const plan = planCoverLetterPdf(markdown, {
+    personName: opts.personName,
+    roleTitle: opts.roleTitle,
+    jobId: opts.jobId,
+  });
+  const dirs = [opts.outDir, opts.flatOutDir];
+  if (existsSync(opts.submitDir)) dirs.push(opts.submitDir);
+  if (plan.action === "skip") {
+    removeCoverLetterCopies(dirs, plan.filename);
+    console.log("Cover letter has no text — skipped PDF");
+    return { filename: null, skipped: "empty" };
+  }
+
+  mkdirSync(opts.outDir, { recursive: true });
+  const outPdf = join(opts.outDir, plan.filename);
+  console.log(`Generating ${outPdf} …`);
+  await ReactPDF.render(
+    <CoverLetterDocument
+      personName={opts.personName}
+      body={plan.body}
+      email={opts.email}
+      roleTitle={opts.roleTitleLabel}
+      company={opts.companyLabel}
+    />,
+    outPdf,
+  );
+  console.log(`Wrote ${outPdf}`);
+
+  const flatPdf = join(opts.flatOutDir, plan.filename);
+  if (flatPdf !== outPdf) {
+    copyFileSync(outPdf, flatPdf);
+    console.log(`Wrote ${flatPdf}`);
+  }
+  copyFileSync(outPdf, join(opts.outDir, "cover-letter.pdf"));
+  if (existsSync(opts.submitDir)) {
+    const submitPdf = join(opts.submitDir, plan.filename);
+    copyFileSync(outPdf, submitPdf);
+    console.log(`Copied → ${submitPdf}`);
+  }
+  return { filename: plan.filename, skipped: null };
+}
+
 async function main() {
   const args = process.argv.slice(2).filter((a) => a !== "--");
   if (args.includes("-h") || args.includes("--help")) usage();
   const noSubmitCopy = args.includes("--no-submit-copy");
-  const packArg = args.find((a) => !a.startsWith("-"));
-  if (!packArg) {
-    await writeMasterCv();
+  const outAt = args.indexOf("--out");
+  const outOverride = outAt >= 0 ? args[outAt + 1] : undefined;
+  const packArg = args.find((a, i) => !a.startsWith("-") && i !== outAt + 1);
+  if (!packArg || args.includes("--master")) {
+    await writeMasterCv(outOverride);
     return;
   }
 
-  const packsRoot = join(root, "application_packs");
-  if (!existsSync(packsRoot)) {
-    console.error("Missing application_packs/ — run: pnpm link-application-packs");
+  const resolvedPacks = resolvePacksRoot(root, process.env);
+  const packsRoot = packsRootPath(resolvedPacks);
+  if (!packsRoot) {
+    console.error("No application packs found.");
+    if (resolvedPacks.kind === "missing") {
+      console.error(`Tried: ${resolvedPacks.tried.join(", ")}`);
+    }
+    console.error("Export a pack from kanithanj.ai, or set COLLAB_FINDER_PACKS.");
     process.exit(1);
   }
 
@@ -304,7 +407,9 @@ async function main() {
 
   const slug = resolveSlug(folderName, manifest, overlay);
   const company = manifest?.company ?? null;
-  const title = (manifest?.title && String(manifest.title).trim()) || "role";
+  const title =
+    (manifest?.title && String(manifest.title).trim()) ||
+    "role";
   const date = manifest?.date ?? null;
   const personName =
     typeof masterData.name === "string" && masterData.name.trim()
@@ -329,17 +434,14 @@ async function main() {
     console.log(`Role: ${[company, title].filter(Boolean).join(" — ")}`);
   }
 
-  const { data, featuredKeys } = applyCvOverlay(masterData, overlay);
+  const { data, featuredKeys, upsertedKeys } = applyCvOverlay(masterData, overlay);
 
   const outDir = join(root, "out", "apply", slug);
   mkdirSync(outDir, { recursive: true });
   const outPdf = join(outDir, cvFileName);
 
   console.log(`Generating ${outPdf} …`);
-  await ReactPDF.render(
-    <CVDocument data={data as typeof masterData} featuredKeys={featuredKeys} />,
-    outPdf
-  );
+  const rendered = await renderTypstCv(data, outPdf, { featuredKeys, upsertedKeys });
   console.log(`Wrote ${outPdf}`);
 
   // Flat upload path: out/apply/{name-role-id}.pdf
@@ -354,6 +456,23 @@ async function main() {
   // Convenience alias for tools that always look for cv.pdf
   copyFileSync(outPdf, join(outDir, "cv.pdf"));
 
+  const roleLabel =
+    manifest?.title && String(manifest.title).trim() ? String(manifest.title).trim() : null;
+  const companyLabel =
+    company && String(company).trim() ? String(company).trim() : null;
+  const letter = await writePackCoverLetter({
+    packDir,
+    outDir,
+    flatOutDir,
+    submitDir: join(packDir, "submit"),
+    personName,
+    roleTitle: title,
+    jobId,
+    email: contactEmailFromCvdata(masterData),
+    roleTitleLabel: roleLabel,
+    companyLabel,
+  });
+
   const snapshot = {
     pack_folder: folderName,
     pack_slug: slug,
@@ -366,13 +485,12 @@ async function main() {
     person_name: personName,
     cv_filename: cvFileName,
     cv_filename_rule: "name-role-id.pdf",
+    cover_letter_filename: letter.filename,
+    cover_letter_skipped: letter.skipped,
     generated_at: new Date().toISOString(),
     overlay_path: existsSync(overlayPath) ? overlayPath : null,
     featured_keys: featuredKeys ?? null,
-    projects_shown: (featuredKeys ?? []).map((key) => {
-      const p = data.projects.find((proj) => (proj.key ?? proj.name) === key);
-      return p ? { key, name: p.name, url: p.url } : { key, missing: true };
-    }),
+    projects_shown: rendered.projectsShown,
   };
   writeFileSync(join(outDir, "meta.json"), `${JSON.stringify(snapshot, null, 2)}\n`);
 

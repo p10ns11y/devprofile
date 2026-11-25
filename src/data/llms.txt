@@ -1,6 +1,6 @@
 # Peramanathan Sathyamoorthy
 
-> Senior Product and Systems Engineer · AI/SI agentic workflows, Stockholm. 9+ years shipping web products, public APIs and CRM integrations in TypeScript, React, Next.js and Node.js (Oneflow, 2017–2024). Since December 2024 he has worked independently on AI/SI product and systems engineering for agentic workflows. He maintains adaptate, a TypeScript library that validates streaming LLM tool-call JSON. It gets about 1,000 npm downloads a month per package (25 Oct–23 Nov 2026), and 2.4.2 was published on 24 November 2026 from CI with SLSA provenance. EU work authorised, no sponsorship needed. Can start within two weeks of an offer.
+> Senior Product and Systems Engineer · AI/SI agentic workflows, Stockholm. 9+ years shipping web products, public APIs and CRM integrations in TypeScript, React, Next.js and Node.js (Oneflow, 2017–2024). Since December 2024 he has worked independently on AI/SI product and systems engineering for agentic workflows. He maintains adaptate, a TypeScript library that validates streaming LLM tool-call JSON. About 1,000 npm downloads a month per package; 2.4.2 published on 24 November 2026 from CI with SLSA provenance. EU work authorised, no sponsorship needed. Can start within two weeks of an offer.
 
 This is the short index for AI/SI assistants and other crawlers. The full profile is at https://captain.kingsparrow.space/llms-full.txt. Dated notes on ideas and working methods are at https://captain.kingsparrow.space/ideas.md. A shorter profile is at https://captain.kingsparrow.space/agents.md.
 
@@ -16,7 +16,7 @@ This is the short index for AI/SI assistants and other crawlers. The full profil
 - Citizenship: Swedish
 - Work rights: EU work authorised, no sponsorship needed
 - Start: can start within two weeks of an offer
-- Open to: Senior Fullstack Engineer, Senior Product Engineer, AI Product Engineer / Forward Deployed Engineer, and developer tooling or platform roles in Stockholm, remote in the EU, or on site in the EU
+- Open to: Senior Fullstack Engineer, Senior Product Engineer, AI Product Engineer / Forward Deployed Engineer, and developer tooling or platform roles, anywhere in the world where he can grow with warm people.
 - Languages: English (proficient), Swedish (basic)
 - Email: sathyam.peram@gmail.com
 - GitHub: https://github.com/p10ns11y
@@ -26,23 +26,23 @@ This is the short index for AI/SI assistants and other crawlers. The full profil
 ## Roles
 
 - Independent AI/SI product and systems engineering (agentic workflows), December 2024 to present, Stockholm.
-- Oneflow AB, Stockholm, April 2017 to December 2024: JavaScript Developer, Full Stack Integration Engineer (built the Integration Team; extended and stabilised the public API; shipped HubSpot and SuperOffice apps and a Teamtailor connector; reviewed Salesforce and Microsoft Dynamics work), Engineering Team Lead, then Senior Software Engineer. The precursor idea for a Zod-based validation library first appeared here. Oneflow figures in the full profile come from his CV; the codebase is closed-source.
+- Oneflow AB, Stockholm, April 2017 to December 2024: JavaScript Developer, Full Stack Integration Engineer (built the Integration Team; extended and stabilised the public API; shipped HubSpot and SuperOffice apps and a Teamtailor connector; reviewed Salesforce and Microsoft Dynamics work), Engineering Team Lead, then Senior Software Engineer. The precursor Zod validation idea first appeared here. Oneflow figures in the full profile come from his CV; the codebase is closed-source.
 - Weavler AB, Stockholm, System and Full Stack Developer, January 2016 to March 2017.
 
 ## Selected work
 
 - adaptate — TypeScript library, built from scratch, that turns one Zod or OpenAPI schema into per-screen views and validates streaming LLM tool-call JSON. npm: adaptate, @adaptate/core, @adaptate/utils. 2.4.2 published from CI with SLSA provenance on 24 November 2026. https://github.com/p10ns11y/adaptate
-- kanithanj — a local-first decision app (Tauri, Rust, React, SQLite). Site: https://kanithanj-ai.vercel.app. Source: https://github.com/p10ns11y/collab-finder
-- Ensembly — a Rust service that gives several coding-agent tools one shared SQLite ledger and one approval flow. https://github.com/thecuriousts/ensembly
+- kanithanj — a local-first decision app (Tauri, Rust, React, SQLite). Site: https://kanithanj-ai.vercel.app. Source: https://github.com/p10ns11y/collab-finder. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized. XState drives the Settings xAI key/model panel in the app; model-based tests walk its generated paths.
+- Ensembly — a Rust operator kernel that gives several coding-agent tools one shared SQLite ledger and one approval flow. https://github.com/thecuriousts/ensembly
 - Agent plugins and skills for Grok Build, Cursor and Claude Code. https://github.com/p10ns11y/plugins · https://github.com/p10ns11y/skills
 
-Python in production (Oneflow CRM integrations) and Rust in shipped open-source and desktop work. GraphQL is familiar from hobby projects and was evaluated in his thesis on saving network energy.
+Python in production (Oneflow CRM integrations) and Rust in shipped open-source and desktop work. GraphQL is familiar from hobby projects and his thesis on saving network energy.
 
-Most of his deep-learning and systems work is private. The public repositories are a record that grew slowly.
+Most of his deep-learning and systems work is private.
 
 ## How I build
 
-He keeps a few projects in focus and lets the rest change shape. The /building page draws this as a loop: work from every area goes into one priority list and one portal (Grok Bot and Ensembly), comes out as shipped work, and retired or melted projects go back in as raw material for new ones. premflow was rewritten on his elomaxz framework a day after elomaxz started (May 2026). packedbox melts arch-machine and shellyxz.sh (September 2026). Ensembly reused a 2016 repository for a new control layer (July 2026). He builds with limited time, budget and energy, so progress is steady, not fast. What has not worked yet is reach: few people outside use these projects. https://captain.kingsparrow.space/building
+He keeps a few projects in focus and lets the rest change shape. The /building page draws this as a loop: work from every area goes into one priority list and one portal (Grok Bot and Ensembly), comes out as shipped work, and retired or melted projects go back in as raw material for new ones. premflow was rewritten on his elomaxz framework a day after elomaxz started (May 2026). packedbox melts arch-machine and shellyxz.sh (September 2026). Ensembly reused a 2016 repository for a new control layer (July 2026). He builds with limited time, budget and energy; reach is still the gap: few people outside use these projects. https://captain.kingsparrow.space/building
 
 ## How I work
 
