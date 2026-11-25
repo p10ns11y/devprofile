@@ -10,8 +10,12 @@ const script = join(pkgRoot, "scripts/generate-apply-cv.tsx");
 const out = join(repo, "public/cv.pdf");
 const cvdata = join(repo, "src/data/cvdata.json");
 const result = spawnSync("bun", [script, "--master", "--out", out], {
-  cwd: repo,
+  cwd: pkgRoot,
   stdio: "inherit",
   env: { ...process.env, CVDATA_SRC: cvdata },
 });
+if (result.error) {
+  console.error(result.error);
+  process.exit(1);
+}
 process.exit(result.status ?? 1);
