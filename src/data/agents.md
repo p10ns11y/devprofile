@@ -11,17 +11,19 @@ This file: https://captain.kingsparrow.space/agents.md
 
 Nine or more years building web products, public APIs, and development systems, mostly in TypeScript, JavaScript, React, and Node.js, with Python and Rust in production and personal work. At Oneflow (2017–2024) I owned integrations and the public API, led a team, then returned to senior engineering for a TypeScript migration and permissions work. Since December 2024 I have shipped public products, including adaptate on npm and the public kanithanj.ai site.
 
-Available now. Open to product or agent roles, and to senior fullstack roles where working with SI is already part of the job.
+Available now; can start within two weeks of an offer. Open to product or agent roles, and to senior fullstack roles where working with SI is already part of the job.
 
-## Availability
+## Availability and work rights
 
-- Available now
+- Available now; can start within two weeks of an offer
 - Swedish citizen, based in Stockholm
+- EU work authorised, no sponsorship needed
 
 ## Contact
 
 - GitHub: https://github.com/p10ns11y
 - X: https://x.com/peramanathan
+- LinkedIn: https://www.linkedin.com/in/sathyam-peram/
 - Email: sathyam.peram@gmail.com
 
 ## Roles

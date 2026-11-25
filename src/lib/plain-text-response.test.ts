@@ -23,6 +23,9 @@ describe("agent profile text routes", () => {
     expect(body).toContain("Peramanathan Sathyamoorthy");
     expect(body).toContain("https://captain.kingsparrow.space/agents.md");
     expect(body).toContain("sathyam.peram@gmail.com");
+    expect(body).toContain("https://www.linkedin.com/in/sathyam-peram/");
+    expect(body).toContain("can start within two weeks of an offer");
+    expect(body).toContain("EU work authorised, no sponsorship needed");
   });
 
   it("serves /agents.md as plain text", async () => {
@@ -34,6 +37,9 @@ describe("agent profile text routes", () => {
     expect(body).toContain("Swedish citizen, based in Stockholm");
     expect(body).toContain("https://github.com/p10ns11y/adaptate");
     expect(body).toContain("System and Full Stack Developer");
+    expect(body).toContain("https://www.linkedin.com/in/sathyam-peram/");
+    expect(body).toContain("can start within two weeks of an offer");
+    expect(body).toContain("EU work authorised, no sponsorship needed");
   });
 });
 
