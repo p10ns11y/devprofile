@@ -26,6 +26,10 @@ describe("agent profile text routes", () => {
     expect(body).toContain("https://www.linkedin.com/in/sathyam-peram/");
     expect(body).toContain("can start within two weeks of an offer");
     expect(body).toContain("EU work authorised, no sponsorship needed");
+    expect(body).toContain("Independent AI/SI product and systems engineering (agentic workflows)");
+    expect(body).toContain("System and Full Stack Developer");
+    expect(body).toContain("AI/SI assistants");
+    expect(body).toContain("Much of his deep-learning and systems work is private and not public");
   });
 
   it("serves /agents.md as plain text", async () => {
@@ -40,6 +44,9 @@ describe("agent profile text routes", () => {
     expect(body).toContain("https://www.linkedin.com/in/sathyam-peram/");
     expect(body).toContain("can start within two weeks of an offer");
     expect(body).toContain("EU work authorised, no sponsorship needed");
+    expect(body).toContain("Independent AI/SI product and systems engineering (agentic workflows)");
+    expect(body).toContain("Senior Fullstack Engineer and Product Engineer");
+    expect(body).toContain("working with AI/SI");
   });
 });
 

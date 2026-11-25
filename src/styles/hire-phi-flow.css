@@ -192,6 +192,31 @@
     max-width: 40rem;
   }
 
+  .hire-phi__summary {
+    display: grid;
+    gap: var(--phi-gap-3);
+    max-width: 40rem;
+  }
+
+  .hire-phi__summary p,
+  .hire-phi__summary li {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text2);
+    margin: 0;
+  }
+
+  .hire-phi__summary ul {
+    margin: 0;
+    padding-inline-start: 1.25rem;
+    display: grid;
+    gap: var(--phi-gap-2);
+  }
+
+  .hire-phi__summary a {
+    color: var(--color-link);
+  }
+
   .hire-phi__hero {
     box-sizing: border-box;
     display: flex;

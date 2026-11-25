@@ -1,6 +1,6 @@
 # Peramanathan Sathyamoorthy
 
-Senior Software Engineer and product / agent engineer. Swedish citizen, based in Stockholm.
+Senior Fullstack Engineer and Product Engineer. Swedish citizen, based in Stockholm.
 
 Portfolio: https://captain.kingsparrow.space
 Building: https://captain.kingsparrow.space/building
@@ -11,7 +11,7 @@ This file: https://captain.kingsparrow.space/agents.md
 
 Nine or more years building web products, public APIs, and development systems, mostly in TypeScript, JavaScript, React, and Node.js, with Python and Rust in production and personal work. At Oneflow (2017–2024) I owned integrations and the public API, led a team, then returned to senior engineering for a TypeScript migration and permissions work. Since December 2024 I have shipped public products, including adaptate on npm and the public kanithanj.ai site.
 
-Available now; can start within two weeks of an offer. Open to product or agent roles, and to senior fullstack roles where working with SI is already part of the job.
+Available now; can start within two weeks of an offer. Open to product or agent roles, and to senior fullstack roles where working with AI/SI is already part of the job.
 
 ## Availability and work rights
 
@@ -28,7 +28,7 @@ Available now; can start within two weeks of an offer. Open to product or agent 
 
 ## Roles
 
-- Independent work, December 2024–present. Shipped public products listed below.
+- Independent AI/SI product and systems engineering (agentic workflows), December 2024–present. Shipped public products listed below.
 - Oneflow AB, Stockholm, April 2017–December 2024
   - Senior Software Engineer, January 2023–December 2024. TypeScript migration in a mixed JavaScript/Flow codebase, including a conversion script that kept version history; unified ACL permissions.
   - Engineering Team Lead, October 2021–December 2022. Mentored the team, hiring and onboarding; Playwright end-to-end suite; a lightweight Zod validation library; rich-text editor work.

@@ -10,11 +10,15 @@ import { CvModal } from "@/components/cv/cv-modal";
 import { PersonJsonLd } from "@/components/person-json-ld";
 import { SWRegister } from "@/components/sw-register";
 import { ThemeProvider } from "@/components/theme-provider";
-import cvdata from "@/data/cvdata.json";
 import { getMetadataBase } from "@/lib/site-url";
 
-const siteTitle = `${cvdata.name} — ${cvdata.landing.role}`;
-const siteDescription = cvdata.landing.meta_description;
+const siteTitle = "Peramanathan Sathyamoorthy: Senior Fullstack and Product Engineer";
+const siteDescription =
+  "Peramanathan Sathyamoorthy: Senior Fullstack Engineer and Product Engineer in Stockholm. TypeScript, React, Next.js, Node.js, Rust, LLM tooling and agents. Maintainer of adaptate on npm. EU work authorised; can start within two weeks.";
+const siteOgDescription =
+  "TypeScript, React, Node.js and Rust engineer in Stockholm. Ships adaptate on npm, kanithanj.ai, the Ensembly agent kernel and agent plugins for Grok Build, Cursor and Claude Code.";
+const siteTwitterDescription =
+  "TypeScript, React, Node.js and Rust engineer in Stockholm. adaptate on npm, kanithanj.ai, Ensembly and agent plugins. EU work authorised.";
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -33,22 +37,54 @@ export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
   title: siteTitle,
   description: siteDescription,
+  keywords: [
+    "Senior Fullstack Engineer",
+    "Product Engineer",
+    "Senior Software Engineer",
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Node.js",
+    "Rust",
+    "Tauri",
+    "Python",
+    "Zod",
+    "OpenAPI",
+    "LLM tooling",
+    "agents",
+    "MCP",
+    "agent memory",
+    "evals",
+    "Playwright",
+    "CI/CD",
+    "supply-chain security",
+    "Stockholm",
+    "Sweden",
+    "EU",
+  ],
+  authors: [{ name: "Peramanathan Sathyamoorthy" }],
   alternates: {
     canonical: "/",
+    types: {
+      "text/plain": "/llms.txt",
+      "text/markdown": "/agents.md",
+    },
   },
   openGraph: {
+    type: "profile",
+    firstName: "Peramanathan",
+    lastName: "Sathyamoorthy",
     title: siteTitle,
-    description: siteDescription,
+    description: siteOgDescription,
     url: "/",
     siteName: "Peramanathan Sathyamoorthy",
     locale: "en_US",
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
-    description: siteDescription,
-    creator: "@peramanathan",
+    description: siteTwitterDescription,
+    creator: "@Peramanathan",
   },
 };
 
