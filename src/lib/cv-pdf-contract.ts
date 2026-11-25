@@ -33,6 +33,8 @@ export type CvPdfContract = {
   kanithanj: string;
 };
 
+export type PdfBullet = string | { lead?: string; text?: string; links?: unknown };
+
 function formatDate(value: string): string {
   if (value === "Present") {
     return "Present";
@@ -50,25 +52,30 @@ function orgLabel(company: string, location: string): string {
   return city ? `${short}, ${city}` : short;
 }
 
+export function typstBulletText(bullet: PdfBullet): string {
+  if (typeof bullet === "string") return bullet;
+  return `${bullet.lead ?? ""}${bullet.text ?? ""}`;
+}
+
 export function extractCvPdfContract(data: typeof cvdata = cvdata): CvPdfContract {
   const independent = data.work_experience[0];
-  const responsibilities = independent.responsibilities;
-  const kanithanj = responsibilities.find((row) => row.toLowerCase().includes("kanithanj"));
+  const bullets = ((independent as { pdf_bullets?: PdfBullet[] }).pdf_bullets ?? []).map(typstBulletText);
+  const kanithanj = bullets.find((row) => row.toLowerCase().includes("kanithanj"));
   if (!kanithanj) {
-    throw new Error("cvdata is missing a Kanithanj responsibility");
+    throw new Error("cvdata is missing a Kanithanj pdf_bullet");
   }
   if (!kanithanj.includes(KANITHANJ_PUBLIC_LINE)) {
-    throw new Error("Kanithanj responsibility is missing the approved public-use line");
+    throw new Error("Kanithanj pdf_bullet is missing the approved public-use line");
   }
 
-  const ensemblyStart = responsibilities.findIndex((row) => row.startsWith("Ensembly:"));
-  if (ensemblyStart < 0 || ensemblyStart + 2 >= responsibilities.length) {
-    throw new Error("cvdata is missing the three Ensembly bullets");
+  const ensemblyStart = bullets.findIndex((row) => /ensembly/i.test(row));
+  if (ensemblyStart < 0 || ensemblyStart + 2 >= bullets.length) {
+    throw new Error("cvdata is missing the three Ensembly pdf_bullets");
   }
   const ensembly_bullets = [
-    responsibilities[ensemblyStart].replace(/^Ensembly:\s*/, ""),
-    responsibilities[ensemblyStart + 1],
-    responsibilities[ensemblyStart + 2],
+    bullets[ensemblyStart].replace(/^Ensembly\s*—\s*/, "").replace(/^Ensembly:\s*/, ""),
+    bullets[ensemblyStart + 1],
+    bullets[ensemblyStart + 2],
   ];
 
   return {

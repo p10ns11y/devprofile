@@ -23,7 +23,6 @@
     "precommit": "pnpm imports:fix && pnpm format && pnpm lint:fix && pnpm lint",
     "generate-pdf": "node scripts/generate-pdf.mjs",
     "link-application-packs": "node scripts/link-application-packs.mjs",
-    "generate-apply-cv": "bun scripts/generate-apply-cv.tsx",
     "type-check": "tsc --noEmit",
     "editor:sync": "node scripts/sync-editor-profile.mjs",
     "test:e2e": "playwright test",

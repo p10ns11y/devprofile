@@ -76,7 +76,7 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 4. **Generate initial CV PDF** (optional, first deploy)
    ```bash
    pnpm run generate-pdf
-   # or: bun scripts/generate-pdf.tsx
+   # or: node scripts/generate-pdf.mjs
    ```
 
 ## 🏃 Development
@@ -173,7 +173,7 @@ pnpm imports:fix      # Organize imports only (assist action)
 pnpm type-check       # tsc --noEmit
 
 # PDF
-pnpm generate-pdf     # bun scripts/generate-pdf.tsx
+pnpm generate-pdf     # node scripts/generate-pdf.mjs
 
 # Editor profile
 pnpm editor:sync      # sync .editor profile → .vscode / Cursor

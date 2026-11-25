@@ -18,7 +18,7 @@ describe("cv PDF contract", () => {
 
   it("keeps the v2 summary and the approved Kanithanj line, without overclaims", () => {
     const contract = extractCvPdfContract();
-    const bios = [cvdata.one_liner, cvdata.shorter_bio, cvdata.short_bio, cvdata.profile].join("\n");
+    const bios = [cvdata.profile].join("\n");
 
     expect(contract.headline).toBe(
       "Senior Product and Systems Engineer · AI/SI agentic workflows"

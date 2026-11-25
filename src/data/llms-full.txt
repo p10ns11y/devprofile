@@ -2,7 +2,7 @@
 
 > Senior Product and Systems Engineer · AI/SI agentic workflows, in Stockholm. 9+ years shipping web products, public APIs and CRM integrations in TypeScript, React, Next.js and Node.js (Oneflow, 2017–2024). Since December 2024: independent AI/SI product and systems engineering (agentic workflows). Maintains adaptate, a TypeScript library that validates streaming LLM tool-call JSON (about 1,000 npm downloads a month per package; 2.4.2 on 24 November 2026). EU work authorised, no sponsorship needed. Can start within two weeks of an offer.
 
-This is the full profile. A short index is at https://captain.kingsparrow.space/llms.txt. Dated notes on ideas and working methods are at https://captain.kingsparrow.space/ideas.md. A shorter profile is at https://captain.kingsparrow.space/agents.md. The CV is at https://captain.kingsparrow.space/cv.pdf. Claims about open-source work link to a commit, release, package or post. Oneflow work was closed-source.
+This is the full profile. A short index is at https://captain.kingsparrow.space/llms.txt. A shorter profile is at https://captain.kingsparrow.space/agents.md. The CV is at https://captain.kingsparrow.space/cv.pdf. Claims about open-source work link to a commit, release, package or post. Oneflow work was closed-source.
 
 ## 1. Identity summary
 
@@ -44,7 +44,7 @@ Contact:
 
 ### Independent AI/SI product and systems engineering (agentic workflows), December 2024 to present, Stockholm
 
-Shipped open-source libraries, a desktop app, a shared ledger service, agent plugins and a public portfolio. Details are in section 5.
+Shipped open-source libraries, a desktop app, a shared ledger service, agent plugins and a public portfolio (section 5).
 
 ### Oneflow AB, Stockholm, April 2017 to December 2024
 
@@ -181,7 +181,7 @@ As of 25 November 2026 these projects have not yet served other people: 0–3 Gi
 - Rules enforced by tooling: README examples run as tests; hooks that ask before `git push` and deny force-push.
 - Verify before irreversible acts: merges, releases, payments, deletions.
 - Small, reviewable PRs; one source of truth for data.
-- Today that means agents load only the context that can change the next step. Essays: https://captain.kingsparrow.space/articles
+- The same idea since his MSc research (IEEE CloudCom 2015): cut the cost of each observation while decisions improve. Today that means agents load only the context that can change the next step. Essays: https://captain.kingsparrow.space/articles
 - Dated notes and earlier working methods: https://captain.kingsparrow.space/ideas.md
 
 ## 8. Research, education and courses

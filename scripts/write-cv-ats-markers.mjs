@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -24,6 +25,6 @@ if (markers.length !== 13 || markers.some((row) => !row)) {
   console.error("expected 13 non-empty markers from cvdata");
   process.exit(1);
 }
-const out = process.argv[2] || join(repo, "public/cv-ats-markers.txt");
+const out = process.argv[2] || join(tmpdir(), "cv-ats-markers.txt");
 writeFileSync(out, `${markers.join("\n")}\n`);
 console.log(out);

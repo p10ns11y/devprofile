@@ -37,3 +37,18 @@ jobs:
           MARKERS=$(mktemp)
           node scripts/write-cv-ats-markers.mjs "$MARKERS"
           bun vendor/kanithanj-cv/scripts/typst-ats-smoke.tsx --pdf public/cv.pdf --markers-file "$MARKERS"
+
+  unit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Unit tests
+        run: pnpm exec vitest run --exclude src/lib/hire-phi-flow.pack.test.ts

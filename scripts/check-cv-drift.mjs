@@ -7,12 +7,14 @@ import {
   compactBullet,
   typstFactMismatches,
   requiredPdfSnippets,
+  independentJob,
+  pdfBullets,
+  typstItemText,
 } from "./typst-from-canonical.mjs";
 
 function searchKey(value) {
-  return compactBullet(value).replace(/^([^:]{1,80}): /, "$1 ");
+  return compactBullet(value);
 }
-
 
 const repo = join(dirname(fileURLToPath(import.meta.url)), "..");
 const cvdata = JSON.parse(readFileSync(join(repo, "src/data/cvdata.json"), "utf8"));
@@ -25,13 +27,10 @@ const KANITHANJ_I =
 
 fails.push(...typstFactMismatches(cvdata));
 
-const indie = (cvdata.work_experience || []).find((job) => job.kind === "independent_work") || {};
-const bullets = (indie.responsibilities || []).join(" ");
-if (!bullets.includes(KANITHANJ_HE)) {
-  fails.push("independent work_experience is missing the Kanithanj public-use line");
-}
-if (!JSON.stringify(cvdata.cv_pdf?.independent || "").includes(KANITHANJ_HE)) {
-  fails.push("stored typst independent section is missing the Kanithanj public-use line");
+const indie = independentJob(cvdata);
+const typstBullets = pdfBullets(indie).map(typstItemText).join(" ");
+if (!typstBullets.includes(KANITHANJ_HE)) {
+  fails.push("independent pdf_bullets is missing the Kanithanj public-use line");
 }
 
 if (!existsSync(pdf)) fails.push("public/cv.pdf is missing; run prebuild/generate-pdf");
@@ -73,4 +72,4 @@ if (fails.length) {
   for (const row of fails) console.error(`FAIL: ${row}`);
   process.exit(1);
 }
-console.log("OK cvdata typst facts, bullets, dates and committed typst PDF agree");
+console.log("OK cvdata typst facts, pdf_bullets, dates and committed typst PDF agree");
