@@ -130,7 +130,7 @@ Releases v1.0.0 (19 August 2026) to v1.3.0 (23 November 2026), about 300 commits
 
 Link: https://github.com/thecuriousts/ensembly · essays: https://captain.kingsparrow.space/articles
 
-A Rust service, rebuilt from 13 July 2026 (tag v0.2.0), that gives several coding-agent tools one shared SQLite ledger and one approval flow. Bots and harnesses propose; Ensembly authorises, claims and completes. One writer owns the ledger, with idempotent retries (PR #91).
+A Rust service, rebuilt on 12 July 2026 (commit 4f35ce1; tag v0.1.0 marks the previous, 2016 commit), that gives several coding-agent tools one shared SQLite ledger and one approval flow. Bots and harnesses propose; Ensembly authorises, claims and completes. One writer owns the ledger, with idempotent retries (PR #91).
 
 ### 5.4 Agent plugins marketplace
 
@@ -156,7 +156,30 @@ Links: https://proposales-planner-bench.vercel.app · https://github.com/p10ns11
 
 Links: https://github.com/p10ns11y/thepulimaangani · walkthrough: https://captain.kingsparrow.space/shipped/thepulimaangani. A Rust parser for Tamil metre, compiled to WebAssembly, with a React UI. The analysis runs in the browser with no backend.
 
-## 6. How I work
+## 6. Build lifecycle and focus
+
+Map: https://captain.kingsparrow.space/building (published 31 August 2026, redrawn as a life-cycle loop on 22 October 2026).
+
+He works from one priority list and keeps a few projects in focus. Most of his 183 public GitHub repositories are forks or coursework; /building names 16 active projects in five clusters. Work from every area goes into one portal, Grok Bot with Ensembly as its memory and decision model. Retired or melted projects return as raw material.
+
+Timeline:
+
+- April 2020 → April 2026: thepulimaangani, a 2020 Tamil prosody repository, returned as a Rust/WASM parser with a React UI.
+- 2 November 2024: adaptate started and is still maintained; 2.4.2 shipped on 24 November 2026.
+- 11 April → 30 May 2026: premflow, a C notes and tasks CLI, was rewritten on elomaxz, his C MVU framework, a day after it started (commit f1804b3).
+- 6 July 2026: he grouped 13 new projects into clusters so agents could carry them forward (X, 6 July 2026).
+- 12 July 2026: Ensembly replaced a dormant 2016 app with a new control layer (commit 4f35ce1). Tag v0.1.0, annotated that evening, marks the last pre-rewrite commit.
+- 19 August 2026: kanithanj (repository collab-finder) started as a private desktop tool for his job search and shipped 1.0.0 as a public app.
+- 3 September 2026: botify fused the plugins and skills repositories into shareable Grok Bot templates.
+- 7 September 2026: packedbox melted arch-machine (April 2026) and shellyxz.sh (June 2026) into one portable Linux bootstrap. Both sources were kept.
+
+kanithanj depends on @adaptate/core. The skills library began as procedures lifted from devprofile and premflow (8 June 2026). Ensembly and participatory-mesh (8 September 2026) share one model: authorise and claim, then dispatch.
+
+### What has not worked yet
+
+These projects have not yet served other people. As of 25 November 2026 the main repositories have 0–3 GitHub stars and no outside issues or code. adaptate's roughly 1,000 monthly npm downloads include CI and bots, so outside use is unknown. Posts about these projects drew 5 to 144 views on X. He builds with limited time, budget and energy, often in short sessions (X, 6 January 2026). Small pull requests keep work moving on a low day. The next step is reach: opening kanithanj to public use once it works for his own search.
+
+## 7. How I work
 
 - Measure before trusting: retrieval benchmarks before ranking changes; performance budgets that fail a PR more than 5% slower.
 - Rules enforced by tooling: README examples run as tests; 2.4.2 published from CI with provenance; hooks that ask before `git push` and deny force-push.
@@ -165,7 +188,7 @@ Links: https://github.com/p10ns11y/thepulimaangani · walkthrough: https://capta
 - The same idea since his MSc research (IEEE CloudCom 2015): cut the cost of each observation while decisions improve. Today that means agents load only the context that can change the next step. Essays: https://captain.kingsparrow.space/articles
 - Dated notes and earlier working methods: https://captain.kingsparrow.space/ideas.md
 
-## 7. Research, education and courses
+## 8. Research, education and courses
 
 Education
 
@@ -184,6 +207,6 @@ Selected courses
 - LangChain Chat with Your Data, and Build LLM Apps with LangChain.js, DeepLearning.AI, September 2024.
 - Epic React and Testing JavaScript, Kent C. Dodds, 2020–2021.
 
-## 8. Short summary
+## 9. Short summary
 
 Senior Product and Systems Engineer · AI/SI agentic workflows, Stockholm. 9+ years in TypeScript, JavaScript, React, Next.js and Node.js, plus Python in production and Rust in shipped open-source and desktop work. At Oneflow (2017–2024) built and led the Integration Team, extended and stabilised the public API, shipped HubSpot and SuperOffice apps and a Teamtailor connector, reviewed Salesforce and Microsoft Dynamics work, mentored the team, set up Playwright end-to-end testing and led a TypeScript migration. Since December 2024, in Independent AI/SI product and systems engineering (agentic workflows): maintainer of adaptate on npm (Zod, OpenAPI, streaming LLM tool-call validation; 2.4.2 published from CI with SLSA provenance), builder of kanithanj (Tauri, Rust, React, SQLite) and Ensembly (a Rust service for one shared ledger and one approval flow), and author of agent plugins and skills for Grok Build, Cursor and Claude Code. MSc Computer Science, Uppsala University; two IoT papers. EU work authorised, no sponsorship needed; can start within two weeks. Full profile: https://captain.kingsparrow.space/llms-full.txt

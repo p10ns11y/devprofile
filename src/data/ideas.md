@@ -101,6 +101,11 @@ Each trait has a dated, public example.
 - Public evidence from 2017 to 2024 is thinner than from 2025 on, because most of that work was in a closed-source codebase. Oneflow outcomes and percentages come from his CV and were not checked against outside sources.
 - His X posts from 2011 to 2024 are mostly personal and general. Technical posting starts in earnest in late 2024.
 - No public talks or conference recordings were found apart from the 2020 git lightning-talk repository and the 2015 conference paper.
+- Reach is the gap so far. The projects have few outside users, stars or contributors yet.
+
+### 8.4 Build lifecycle
+
+Projects form, melt into each other and come back as new ones; nothing useful is thrown away. The loop is drawn at https://captain.kingsparrow.space/building, with a dated timeline and an honest note on reach in section 6 of https://captain.kingsparrow.space/llms-full.txt.
 
 ## 9. How skills and plugins help the work
 
