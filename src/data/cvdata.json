@@ -142,7 +142,7 @@
         },
         {
           "lead": "Ensembly",
-          "text": " \u2014 a Rust service that gives several coding-agent tools (Grok Bot, Grok Build, Cursor, Claude Code) one shared SQLite ledger and one approval flow. Agents propose; the ledger authorizes, claims and completes, with idempotent retries and a one-command installer per harness.",
+          "text": " \u2014 a Rust operator kernel under many agent harnesses (Grok Bot, Grok Build, Cursor, Claude Code). Agents propose; one single-writer SQLite ledger authorizes, claims and completes, with idempotent retries and a one-command installer per harness.",
           "links": [
             {
               "url": "https://github.com/thecuriousts/ensembly",
@@ -158,7 +158,7 @@
         },
         {
           "lead": "Agent plugins and skills",
-          "text": " \u2014 public plugins in a marketplace for Grok Build, Claude Code and Cursor, and skills in the public repo.",
+          "text": " \u2014 25 plugins in a public marketplace for Grok Build, Claude Code and Cursor, and 49 skills in the public repo.",
           "links": [
             {
               "url": "https://github.com/p10ns11y/plugins",
@@ -1718,7 +1718,7 @@
     "document": {
       "title": "Peramanathan Sathyamoorthy \u2013 CV \u2013 Product and Systems Engineer, AI/SI agentic workflows",
       "author": "Peramanathan Sathyamoorthy",
-      "description": "Senior Software Engineer (9+ years), Stockholm, Sweden. AI/SI product and systems engineering for agentic workflows; fullstack and product engineering; TypeScript, React, Rust, Python. EU work authorisation. Available now; can start within two weeks. Ensembly: a Rust service under Grok Bot, Grok Build, Cursor and Claude Code with a single-writer ledger, append-only record layer, CRDT episodic memory, pulse memory sync, MCP server, evalbench and a semi-decision model. Agent-readable profile: https://captain.kingsparrow.space/llms.txt",
+      "description": "Senior Software Engineer (9+ years), Stockholm, Sweden. AI/SI product and systems engineering for agentic workflows; fullstack and product engineering; TypeScript, React, Rust, Python. EU work authorisation. Available now; can start within two weeks. Ensembly: Rust operator kernel under Grok Bot, Grok Build, Cursor and Claude Code with a single-writer ledger, append-only record layer, CRDT episodic memory, pulse memory sync, MCP server, evalbench and a semi-decision model. Agent-readable profile: https://captain.kingsparrow.space/llms.txt",
       "keywords": [
         "Senior Software Engineer",
         "Product Engineer",
@@ -1748,6 +1748,7 @@
         "Amazon Web Services (AWS)",
         "Vercel",
         "Vercel AI SDK",
+        "operator kernel",
         "record layer",
         "append-only log",
         "event time",
@@ -1894,7 +1895,7 @@
         "dates": "Jul 2015 \u2013 Sep 2015"
       }
     ],
-    "profile_in_brief": "Senior Fullstack Engineer and Product Engineer, Stockholm. 9+ years in TypeScript, JavaScript, React, Next.js and Node.js, plus Python and Rust. At Oneflow (2017\u20132024) founded the Integration Team, extended and stabilised the public API, built HubSpot and SuperOffice apps and a Teamtailor connector, reviewed Salesforce and Microsoft Dynamics work, led the team, set up Playwright end-to-end testing and led a TypeScript migration. Since December 2024: maintainer of Adaptate on npm (Zod, OpenAPI, streaming validation; 2.4.2 with SLSA provenance from CI), builder of kanithanj (Tauri, Rust, React, SQLite) and Ensembly (a Rust service: single-writer ledger, append-only record layer, CRDT memory, pulse memory sync, MCP), and author of agent plugins and skills for Grok Build, Cursor and Claude Code. Strengths: LLM tooling, agents, context and memory design, evals, CI\u2060/\u2060CD, supply-chain security, accessibility. MSc Computer Science, Uppsala University; two IoT papers. EU work authorised, no sponsorship needed; can start within two weeks. Full profile: captain.kingsparrow.space/llms.txt",
+    "profile_in_brief": "Senior Fullstack Engineer and Product Engineer, Stockholm. 9+ years in TypeScript, JavaScript, React, Next.js and Node.js, plus Python and Rust. At Oneflow (2017\u20132024) founded the Integration Team, ran the public API and CRM integrations (HubSpot, SuperOffice, Teamtailor), led the team, set up Playwright end-to-end testing and led a TypeScript migration. Since December 2024: maintainer of Adaptate on npm (Zod, OpenAPI, streaming validation; 2.4.2 with SLSA provenance), builder of kanithanj (Tauri, Rust, React, SQLite) and Ensembly (Rust agent kernel: single-writer ledger, append-only record layer, CRDT memory, pulse memory sync, MCP), and author of agent plugins and skills for Grok Build, Cursor and Claude Code. Strengths: LLM tooling, agents, context and memory design, evals, CI/CD, supply-chain security, accessibility. MSc Computer Science, Uppsala University; two IoT papers. EU work authorised, no sponsorship needed; can start within two weeks. Full profile: captain.kingsparrow.space/llms.txt",
     "publications": [
       {
         "title": "Cilium AI/ML Security",
@@ -1914,7 +1915,7 @@
         }
       },
       {
-        "title": "Energy Efficiency as an Orchestration Service for Mobile Internet of Things",
+        "title": "Energy Efficiency as an Orchestration Service for the Mobile Internet of Things",
         "org": null,
         "dates": "Nov 2015",
         "detail": {

@@ -46,7 +46,7 @@
     }
   ],
   "ensembly_bullets": [
-    "a Rust service that gives several coding-agent tools (Grok Bot, Grok Build, Cursor, Claude Code) one shared SQLite ledger and one approval flow. Agents propose; the ledger authorizes, claims and completes, with idempotent retries and a one-command installer per harness.",
+    "a Rust operator kernel under many agent harnesses (Grok Bot, Grok Build, Cursor, Claude Code). Agents propose; one single-writer SQLite ledger authorizes, claims and completes, with idempotent retries and a one-command installer per harness.",
     "Append-only record layer with event time, hybrid logical clocks, versioned envelopes and writer provenance; CRDT episodic memory that advises but never decides; pulse-pack memory sync between hosts; a read-only MCP server.",
     "evalbench and a retrieval benchmark measure memory before it is trusted; a semi-decision model proposes and waits for my confirmation, so it suggests and I decide."
   ],

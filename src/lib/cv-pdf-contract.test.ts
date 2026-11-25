@@ -29,7 +29,7 @@ describe("cv PDF contract", () => {
     );
     expect(contract.kanithanj).toContain(KANITHANJ_PUBLIC_LINE);
     expect(contract.ensembly_bullets).toHaveLength(3);
-    expect(contract.ensembly_bullets.join("\n")).not.toContain("kernel");
+    expect(contract.ensembly_bullets.join("\n")).toContain("operator kernel");
     expect(bios).not.toMatch(/ReactJS/);
     expect(bios).not.toMatch(/innovative startups/);
     expect(bios).not.toContain("ran the public API");

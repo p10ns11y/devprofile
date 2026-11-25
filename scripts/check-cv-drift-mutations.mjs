@@ -101,6 +101,14 @@ try {
   expectFail(runCheck(dir), "add a typst experience entry with no work_experience row");
   restore();
 
+  const cTitle = JSON.parse(readFileSync(join(dir, "src/data/cvdata.json"), "utf8"));
+  if (!cTitle.cv_pdf?.experience?.[0]) fail("missing typst experience entry to mutate title/org");
+  cTitle.cv_pdf.experience[0].title = "Principal Staff Engineer";
+  cTitle.cv_pdf.experience[0].org = "Google";
+  writeFileSync(join(dir, "src/data/cvdata.json"), `${JSON.stringify(cTitle, null, 2)}\n`);
+  expectFail(runCheck(dir), "Principal Staff Engineer – Google");
+  restore();
+
   const c6 = JSON.parse(readFileSync(join(dir, "src/data/cvdata.json"), "utf8"));
   if (c6.contact?.email && c6.cv_pdf?.contact_line) {
     for (const part of c6.cv_pdf.contact_line) {
@@ -119,4 +127,4 @@ try {
 } finally {
   rmSync(dir, { recursive: true, force: true });
 }
-console.log("OK cv drift mutations (summary, stale PDF, pdf_bullet, typst date, unmapped entry, contact email)");
+console.log("OK cv drift mutations (summary, stale PDF, pdf_bullet, typst date, unmapped entry, Principal Staff Engineer – Google, contact email)");

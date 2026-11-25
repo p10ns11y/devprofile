@@ -31,7 +31,6 @@ A modern, full-stack web application showcasing Peramanathan Sathyamoorthy's pro
 - **Motion** — Animation (`motion/react`)
 
 ### AI & Document Processing
-- **@react-pdf/renderer** — PDF generation from React
 - **react-pdf** — In-browser PDF viewing
 - **@huggingface/transformers** — Local embeddings (Profile Q&A retrieval)
 

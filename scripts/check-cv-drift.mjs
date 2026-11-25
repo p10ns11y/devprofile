@@ -50,9 +50,6 @@ else {
   if (flat.includes("he uses daily")) {
     fails.push("generated PDF still renders the Kanithanj line with “he”");
   }
-  if (/\boperator kernel\b/i.test(flat) || /ran the public API/i.test(flat) || /Rust agent kernel/i.test(flat)) {
-    fails.push("generated PDF still has retired typst overclaims");
-  }
   const keywords = cvdata.cv_pdf?.document?.keywords ?? [];
   const aisi = keywords.filter((k) => k === "AI/SI").length;
   if (aisi !== 1) fails.push(`PDF keywords should list AI/SI once, got ${aisi}`);

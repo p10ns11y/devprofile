@@ -142,6 +142,20 @@ export function requiredPdfSnippets(cvdata) {
   return snippets.filter((row) => typo(row).length > 0);
 }
 
+
+export function typstTitleMatches(typstTitle, canonicalTitle) {
+  const got = typo(typstTitle);
+  const want = typo(canonicalTitle);
+  return got === want || want.startsWith(got);
+}
+
+export function typstOrgMatches(typstOrg, company) {
+  const org = typo(typstOrg ?? "");
+  const full = typo(company ?? "");
+  const short = typo((company ?? "").split(",")[0]);
+  return Boolean(short) && (org === full || org.startsWith(short) || org.includes(short));
+}
+
 export function typstFactMismatches(cvdata) {
   const view = cvdata.cv_pdf ?? {};
   const fails = [];
@@ -188,6 +202,12 @@ export function typstFactMismatches(cvdata) {
     }
     const want = typstDate(canonical.start_date, canonical.end_date);
     if (job.dates !== want) fails.push(`${job.title ?? canonical.title} typst dates ${job.dates} drift from ${want}`);
+    if (!typstTitleMatches(job.title, canonical.title)) {
+      fails.push(`typst experience title ${job.title} drifts from work_experience title ${canonical.title}`);
+    }
+    if (!typstOrgMatches(job.org, canonical.company)) {
+      fails.push(`typst experience org ${job.org} drifts from work_experience company ${canonical.company}`);
+    }
   });
 
   (cvdata.work_experience ?? []).forEach((job, index) => {

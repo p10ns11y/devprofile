@@ -4,13 +4,6 @@ import withVercelToolbar from "@vercel/toolbar/plugins/next";
 const nextConfig = {
   images: {},
   serverExternalPackages: [
-    "@react-pdf/renderer",
-    "@react-pdf/render",
-    "@react-pdf/layout",
-    "@react-pdf/font",
-    "@react-pdf/pdfkit",
-    "@react-pdf/primitives",
-    "@react-pdf/fns",
     "@huggingface/transformers",
     "onnxruntime-node",
   ],
