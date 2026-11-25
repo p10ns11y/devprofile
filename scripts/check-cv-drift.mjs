@@ -1,48 +1,71 @@
 import { spawnSync } from "node:child_process";
-import { readFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  typo,
+  compactBullet,
+  typstFactMismatches,
+  requiredPdfSnippets,
+} from "./typst-from-canonical.mjs";
+
+function searchKey(value) {
+  return compactBullet(value).replace(/^([^:]{1,80}): /, "$1 ");
+}
+
 
 const repo = join(dirname(fileURLToPath(import.meta.url)), "..");
 const cvdata = JSON.parse(readFileSync(join(repo, "src/data/cvdata.json"), "utf8"));
 const pdf = join(repo, "public/cv.pdf");
 const fails = [];
+const KANITHANJ_HE =
+  "Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized.";
+const KANITHANJ_I =
+  "Began as a private desktop app I use daily and is now heading to public use once fully actualized.";
 
-if (!cvdata.cv_pdf) fails.push("cvdata.cv_pdf is missing");
-if (cvdata.cv_pdf?.summary !== cvdata.profile) fails.push("cv_pdf.summary drifts from profile");
-if (cvdata.cv_pdf?.headline !== cvdata.landing?.role) fails.push("cv_pdf.headline drifts from landing.role");
-if (cvdata.cv_pdf?.name !== cvdata.name) fails.push("cv_pdf.name drifts from name");
+fails.push(...typstFactMismatches(cvdata));
 
-const line = "Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized.";
 const indie = (cvdata.work_experience || []).find((job) => job.kind === "independent_work") || {};
 const bullets = (indie.responsibilities || []).join(" ");
-if (!bullets.includes(line)) fails.push("independent work_experience is missing the Kanithanj public-use line");
-const typstKanithanj = JSON.stringify(cvdata.cv_pdf?.independent || "");
-if (!typstKanithanj.includes(line)) fails.push("cv_pdf independent section is missing the Kanithanj public-use line");
+if (!bullets.includes(KANITHANJ_HE)) {
+  fails.push("independent work_experience is missing the Kanithanj public-use line");
+}
+if (!JSON.stringify(cvdata.cv_pdf?.independent || "").includes(KANITHANJ_HE)) {
+  fails.push("stored typst independent section is missing the Kanithanj public-use line");
+}
 
 if (!existsSync(pdf)) fails.push("public/cv.pdf is missing; run prebuild/generate-pdf");
 else {
   const text = spawnSync("pdftotext", [pdf, "-"], { encoding: "utf8" });
   if (text.status !== 0) fails.push(`pdftotext failed: ${text.stderr}`);
-  const typo = (s) => s.replace(/\s+/g, " ").replace(/'/g, "’");
   const flat = typo(text.stdout || "");
-  const needed = [
-    cvdata.name,
-    cvdata.landing.role,
-    cvdata.profile,
-    line,
-    "Ensembly",
-    "Adaptate",
-    "Oneflow",
-    cvdata.current_role,
-  ];
-  for (const marker of needed) {
-    if (!flat.includes(typo(marker))) {
-      fails.push(`generated PDF is missing cvdata text: ${marker.slice(0, 80)}`);
+  const compact = compactBullet(flat);
+  for (const marker of requiredPdfSnippets(cvdata)) {
+    if (!compact.includes(searchKey(marker))) {
+      fails.push(`generated PDF is missing cvdata text: ${typo(marker).slice(0, 80)}`);
     }
+  }
+  if (!compact.includes(searchKey(KANITHANJ_I))) {
+    fails.push("generated PDF is missing the first-person Kanithanj line");
+  }
+  if (flat.includes("he uses daily")) {
+    fails.push("generated PDF still renders the Kanithanj line with “he”");
   }
   if (/\boperator kernel\b/i.test(flat) || /ran the public API/i.test(flat) || /Rust agent kernel/i.test(flat)) {
     fails.push("generated PDF still has retired typst overclaims");
+  }
+  const keywords = cvdata.cv_pdf?.document?.keywords ?? [];
+  const aisi = keywords.filter((k) => k === "AI/SI").length;
+  if (aisi !== 1) fails.push(`PDF keywords should list AI/SI once, got ${aisi}`);
+}
+
+if (process.env.CV_DRIFT_SKIP_GIT !== "1") {
+  const diff = spawnSync("git", ["diff", "--exit-code", "--", "public/cv.pdf"], {
+    cwd: repo,
+    encoding: "utf8",
+  });
+  if (diff.status !== 0) {
+    fails.push("public/cv.pdf is stale or dirty; regenerate with SOURCE_DATE_EPOCH and commit the typst PDF");
   }
 }
 
@@ -50,4 +73,4 @@ if (fails.length) {
   for (const row of fails) console.error(`FAIL: ${row}`);
   process.exit(1);
 }
-console.log("OK cvdata and typst PDF agree on headline, summary, role, Kanithanj line, and Ensembly");
+console.log("OK cvdata typst facts, bullets, dates and committed typst PDF agree");

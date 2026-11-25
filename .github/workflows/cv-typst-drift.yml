@@ -27,9 +27,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Generate typst CV from cvdata
-        run: pnpm generate-pdf
+        run: SOURCE_DATE_EPOCH=0 pnpm generate-pdf
       - name: Fail on cvdata / PDF drift
         run: pnpm check:cv-drift
+      - name: Drift mutation suite
+        run: pnpm check:cv-mutations
       - name: ATS 13/13 + 8/8 on the generated PDF
-        working-directory: node_modules/kanithanj-cv
-        run: bun scripts/typst-ats-smoke.tsx --pdf ${{ github.workspace }}/public/cv.pdf --personal
+        run: |
+          MARKERS=$(mktemp)
+          node scripts/write-cv-ats-markers.mjs "$MARKERS"
+          bun vendor/kanithanj-cv/scripts/typst-ats-smoke.tsx --pdf public/cv.pdf --markers-file "$MARKERS"

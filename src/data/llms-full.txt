@@ -181,7 +181,7 @@ As of 25 November 2026 these projects have not yet served other people: 0–3 Gi
 - Rules enforced by tooling: README examples run as tests; hooks that ask before `git push` and deny force-push.
 - Verify before irreversible acts: merges, releases, payments, deletions.
 - Small, reviewable PRs; one source of truth for data.
-- The same idea since his MSc research (IEEE CloudCom 2015): cut the cost of each observation while decisions improve. Today that means agents load only the context that can change the next step. Essays: https://captain.kingsparrow.space/articles
+- Today that means agents load only the context that can change the next step. Essays: https://captain.kingsparrow.space/articles
 - Dated notes and earlier working methods: https://captain.kingsparrow.space/ideas.md
 
 ## 8. Research, education and courses

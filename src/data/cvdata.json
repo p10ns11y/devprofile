@@ -12,7 +12,7 @@
   "profile": "Senior software engineer with 9+ years shipping web products. Nearly eight of them were at Oneflow, a contract management platform, where I grew from JavaScript developer to founding the Integration Team, leading an engineering team and moving a live codebase to TypeScript. Since December 2024 I have worked independently on AI/SI product and systems engineering for agentic workflows. Master's degrees in Computer Science and Operations Research. Available now and can start within two weeks of an offer, for a senior fullstack, product or Forward Deployed Engineer role.",
   "contact": {
     "email": "sathyam.peram@gmail.com",
-    "phone_hint": "Waiting for Telenor to reactivate — omit from public CV/contact until then",
+    "phone_hint": "Waiting for Telenor to reactivate \u2014 omit from public CV/contact until then",
     "github": "@p10ns11y",
     "citizenship": "Swedish"
   },
@@ -69,12 +69,14 @@
       "kind": "independent_work",
       "note": "Most of my deep learning and systems work is private; the public repos grew slowly as I learned.",
       "responsibilities": [
-        "Adaptate: the precursor idea first appeared at Oneflow as a small Zod-based validation helper; Adaptate is a from-scratch open-source rebuild. One Zod schema; each consumer declares the fields it needs at runtime, with OpenAPI interop and streaming validation. Three npm packages (adaptate, @adaptate/core, @adaptate/utils) at 2.4.2, published with SLSA provenance; docs at https://adaptate-site.vercel.app.",
-        "kanithanj (collab-finder): a local-first Tauri, Rust and React desktop app that runs an agentic workflow over listings and documents. Typed Rust checks (fit, cost, rate) run before any model call; a human-in-the-loop step approves changes and spend. 1.0.0 in Aug 2026, now 1.3.0; https://kanithanj-ai.vercel.app. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized.",
-        "Ensembly: a Rust service that gives several coding-agent tools (Grok Bot, Grok Build, Cursor, Claude Code) one shared SQLite ledger and one approval flow. Agents propose; one single-writer SQLite ledger authorizes, claims and completes, with idempotent retries and a one-command installer per harness.",
+        "Adaptate: the precursor idea first appeared at Oneflow as a small Zod-based validation helper; Adaptate is a from-scratch open-source rebuild. One Zod schema; each consumer declares the fields it needs at runtime, with OpenAPI interop and streaming validation. Three npm packages at 2.4.2, published with SLSA provenance.",
+        "kanithanj (collab-finder) a local-first desktop app that runs an agentic workflow over listings and documents. Typed Rust checks (fit, cost, rate) run before any model call; a human-in-the-loop step approves changes and spend. 1.0.0 in Aug 2026, now 1.3.0. Tauri, React, SQLite. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized.",
+        "Event planner: a live web app: type one sentence, get ranked venues back. Parses the brief with xAI through the Vercel AI SDK, with a scripted fallback. Next.js, Adaptate, end-to-end tests.",
+        "thepulimaangani: classical Tamil prosody in the browser. A Rust parser compiled to WebAssembly splits poems into metrical units behind a React (TanStack Start) interface, with no server.",
+        "Ensembly: a Rust service that gives several coding-agent tools (Grok Bot, Grok Build, Cursor, Claude Code) one shared SQLite ledger and one approval flow. Agents propose; the ledger authorizes, claims and completes, with idempotent retries and a one-command installer per harness.",
         "Append-only record layer with event time, hybrid logical clocks, versioned envelopes and writer provenance; CRDT episodic memory that advises but never decides; pulse-pack memory sync between hosts; a read-only MCP server.",
         "evalbench and a retrieval benchmark measure memory before it is trusted; a semi-decision model proposes and waits for my confirmation, so it suggests and I decide.",
-        "Compiled a Rust Tamil-metre parser to WebAssembly and shipped a React UI (thepulimaangani), so prosody analysis runs in the browser without a backend."
+        "Agent plugins and skills: public plugins in a marketplace for Grok Build, Claude Code and Cursor, and skills in the public repo."
       ],
       "tools": [
         "TypeScript",
@@ -91,9 +93,9 @@
       "end_date": "December 2024",
       "duration": "24 months",
       "responsibilities": [
-        "Strategically integrated TypeScript into a mixed legacy codebase with FlowType and JavaScript, resulting in a 70% reduction in type-related errors, significantly enhancing code reliability and maintainability. Leveraged previously introduced Zod’s type inference for robust type hinting in business data",
-        "Automated the conversion of JavaScript modules to TypeScript with a custom script preserving the version control history, saving over 200 hours of manual work and accelerating development timelines",
-        "Unified distributed ACL permissions into a single utility module, managing complex contexts and user roles (owner, guest) to simplify maintenance, migration and enhance scalability."
+        "Introduced TypeScript into a mixed Flow and JavaScript codebase, cutting type-related errors by 70%; used Zod inference for typed business data.",
+        "Automated JavaScript-to-TypeScript conversion with a script that preserved version history, saving 200+ hours of manual work.",
+        "Unified scattered access-control (ACL) permission logic into one module covering contexts and roles, easing maintenance and migration."
       ],
       "tools": [
         "TypeScript",
@@ -109,10 +111,9 @@
       "end_date": "December 2022",
       "duration": "15 months",
       "responsibilities": [
-        "Co-led the development of a new JSON-based rich text editor seamlessly integrating with legacy HTML, increasing user satisfaction by 60% and providing a modern, cohesive editing experience.",
-        "Mentored and empowered the development team to a self-organizing model, overseeing hiring and onboarding while instilling a continuous improvement culture. This resulted in increased productivity, stronger ownership, and scalable team practices.",
-        "Pioneered an end-to-end testing transformation with Playwright, starting with an innovative approach to replicate mob testing scenarios. This significantly reduced regressions and boosted efficiency. Later, I spearheaded a complete rewrite of the end-to-end testing suite in Playwright.",
-        "Engineered a lightweight Zod-based data validation library which streamlined data validation and minimized runtime errors."
+        "Co-led a new JSON-based rich text editor that integrates with legacy HTML, raising user satisfaction by 60%.",
+        "Moved the team to a self-organizing model; ran hiring and onboarding and built a continuous-improvement culture.",
+        "Led the end-to-end testing transformation, from mob testing to a full rewrite of the suite in Playwright, reducing regressions."
       ],
       "tools": [
         "JavaScript",
@@ -138,9 +139,9 @@
       "end_date": "September 2021",
       "duration": "31 months",
       "responsibilities": [
-        "Established the Integration Team from the ground up, creating foundational processes and best practices for long-term scalability, while strategically aligning integration solutions with business needs.",
-        "Designed multi-client applications with Python and React.js, facilitating seamless integrations with platforms like HubSpot and SuperOffice, expanding Oneflow’s reach and interoperability. Helped Microsoft Dynamics and Salesforce Development with reviews and frontend decision making. Built connector application extensions for the CRM integrations and Teamtailor",
-        "Stabilized and enhanced the Public API, which enabled a robust third-party integration ecosystem, contributing to client satisfaction and platform versatility."
+        "Founded the Integration Team and its processes, aligning integrations with business needs.",
+        "Built Python and React integrations with HubSpot, SuperOffice and Teamtailor; reviewed Microsoft Dynamics and Salesforce work.",
+        "Stabilized and extended the Public API, enabling a third-party integration ecosystem."
       ],
       "tools": [
         "Python",
@@ -157,9 +158,8 @@
       "end_date": "February 2019",
       "duration": "23 months",
       "responsibilities": [
-        "Innovatively Integrated React Router into a Backbone.js-based client to build Identity and Access Management, facilitate faster prototyping cross-linked user management and efficient testing.",
-        "Optimized CI build processes, reducing build times by 40%,",
-        "Contributed to modernizing the legacy codebase by transitioning to React.js."
+        "Integrated React Router into a Backbone.js client to build Identity and Access Management with faster prototyping and testing.",
+        "Optimized continuous integration (CI) builds, cutting build times by 40%, and helped move the legacy codebase to React."
       ],
       "tools": [
         "Python",
@@ -174,10 +174,7 @@
       "end_date": "March 2017",
       "duration": "15 months",
       "responsibilities": [
-        "Managed AWS cloud infrastructure, reducing operational costs by 40%.",
-        "Integrated services like Mandrill, Slack bots, and PayPal, improving platform functionality. Implemented SEO strategies with server-side rendering.",
-        "Designed responsive email templates for email clients and browsers.",
-        "Created an intelligent notification and chat bot for onboarding and FAQs. Developed a open source babel plug-in to quickly implement translations to the entire project. Enhanced accessibility with text customization and color filters, aligned with WCAG standards. Experimented advanced features like speech synthesis and recognition, improving accessibility."
+        "Accessible artisan e-commerce platform (1.6M SEK grant from the Swedish Post and Telecom Authority). Managed AWS infrastructure, reducing operating costs by 40%; integrated Mandrill, Slack bots and PayPal."
       ],
       "tools": [
         "JavaScript",
@@ -198,11 +195,7 @@
       "start_date": "July 2015",
       "end_date": "September 2015",
       "duration": "3 months",
-      "responsibilities": [
-        "Applied MongoDB aggregation and map-reduce to generate structured reports from millions of raw data samples for footfall analytics.",
-        "Enhanced full-stack dashboard with gulp build and key performance indicators.",
-        "Explored migrating tech stack to Reactjs and Eve Python framework."
-      ],
+      "responsibilities": [],
       "tools": [
         "MongoDB",
         "AngularJS",
@@ -606,7 +599,7 @@
         "name": "Wireless Communications and Mobile Computing",
         "link": "https://onlinelibrary.wiley.com/journal/6302",
         "ISSN": "1530-8677",
-        "copy_right": "© John Wiley & Sons Ltd"
+        "copy_right": "\u00a9 John Wiley & Sons Ltd"
       },
       "abstact": "This paper proposes a novel power management solution for resource-constrained devices in the context of Internet of Things (IoT). We focus on smartphones in the IoT, as they are getting increasingly popular and equipped with strong sensing capabilities. Smartphones have complex and asynchronous power consumption incurred by heterogeneous components including their on-board sensors. Their interaction with the cloud allows them to offload computation tasks and access remote data storage. In this work, we aim at monitoring the power consumption behaviours of the smartphones, profiling both individual applications and the system as a whole, to make better decisions in power management. We design a cloud orchestration architecture as an epic predictor of behaviours of smart devices by extracting their application characteristics and resource utilization. We design and implement this architecture to perform energy profiling and data analysis on massive data logs. This cloud orchestration architecture coordinates a number of cloud-based services and supports dynamic workflows between service components, which can reduce energy consumption in the energy profiling process itself. Experimental results showed that small portion of applications dominate the energy consumption of smartphones. Heuristic profiling can effectively reduce energy consumption in data logging and communications without scarifying the accuracy of power monitoring."
     },
@@ -792,7 +785,7 @@
     ]
   },
   "technologies_archive": {
-    "_note": "Historical / broad stack snapshot. Not rendered on CV web or PDF — only `technologies` is.",
+    "_note": "Historical / broad stack snapshot. Not rendered on CV web or PDF \u2014 only `technologies` is.",
     "AI": [
       "LangChainjs",
       "Agents"
@@ -887,7 +880,7 @@
       "id": 16,
       "name": "thepulimaangani",
       "key": "thepulimaangani",
-      "description": "Tamil metre in the browser — Rust/WASM parser and React UI (live demo).",
+      "description": "Tamil metre in the browser \u2014 Rust/WASM parser and React UI (live demo).",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/thepulimaangani",
       "technologies": [
@@ -906,7 +899,7 @@
       "id": 17,
       "name": "devprofile",
       "key": "devprofile",
-      "description": "Public portfolio and apply-CV — Next.js, grounded Q&A, Focus essays.",
+      "description": "Public portfolio and apply-CV \u2014 Next.js, grounded Q&A, Focus essays.",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/devprofile",
       "technologies": [
@@ -924,7 +917,7 @@
       "id": 18,
       "name": "ensembly",
       "key": "ensembly",
-      "description": "Complementary operator kernel under Grok Bot, Grok Build, and Cursor — HITL/HOOTL gates, T1 SQLite ledger, episodic memory, and pulse-pack sync. Game of Peram is parked in prototype/.",
+      "description": "Complementary operator kernel under Grok Bot, Grok Build, and Cursor \u2014 HITL/HOOTL gates, T1 SQLite ledger, episodic memory, and pulse-pack sync. Game of Peram is parked in prototype/.",
       "type": "hobby_oss",
       "url": "https://github.com/thecuriousts/ensembly",
       "technologies": [
@@ -970,7 +963,7 @@
       ],
       "status": "active",
       "is_open_source": true,
-      "impact": "Local transcript → eval assets",
+      "impact": "Local transcript \u2192 eval assets",
       "created": "2026-06-01",
       "updated": "2026-08-17"
     },
@@ -1027,7 +1020,7 @@
       "id": 11,
       "name": "latex-cv",
       "key": "latex-cv",
-      "description": "A LaTeX-based CV and cover letter generator designed for efficient document creation and automation. It supports manual PDF compilation from .tex files, bulk generation via a Rust script, and integrated workflows for VSCode and GitHub Actions. The project automates PDF builds, uploads them to AWS S3 with public access for sharing, and creates pull requests for review—ideal for maintaining versioned resumes in a professional portfolio. Includes a visually appealing CV layout with a profile photo, contact details, and structured sections for work experience, skills, and education",
+      "description": "A LaTeX-based CV and cover letter generator designed for efficient document creation and automation. It supports manual PDF compilation from .tex files, bulk generation via a Rust script, and integrated workflows for VSCode and GitHub Actions. The project automates PDF builds, uploads them to AWS S3 with public access for sharing, and creates pull requests for review\u2014ideal for maintaining versioned resumes in a professional portfolio. Includes a visually appealing CV layout with a profile photo, contact details, and structured sections for work experience, skills, and education",
       "type": "personal",
       "url": "https://github.com/p10ns11y/latex-cv",
       "technologies": [
@@ -1265,23 +1258,23 @@
     }
   ],
   "landing": {
-    "role": "Senior Product and Systems Engineer · AI/SI agentic workflows",
+    "role": "Senior Product and Systems Engineer \u00b7 AI/SI agentic workflows",
     "place": "Available now",
     "location": "Stockholm",
-    "seat": "Senior Product and Systems Engineer · AI/SI agentic workflows. Open to senior product and fullstack roles in Stockholm or EU-remote.",
-    "thesis": "Scarce: shipping agentic workflows with taste, evals, and judgment — not another React demo.",
+    "seat": "Senior Product and Systems Engineer \u00b7 AI/SI agentic workflows. Open to senior product and fullstack roles in Stockholm or EU-remote.",
+    "thesis": "Scarce: shipping agentic workflows with taste, evals, and judgment \u2014 not another React demo.",
     "summary": "",
     "now_disclaimer": "Named projects below are the March to September 2026 slice, not the whole interval from December 2024.",
     "proofs": [
       {
         "n": 1,
         "title": "I have landed a product in other companies' tools",
-        "line": "Oneflow: CRM clients and public API inside HubSpot, SuperOffice, Salesforce, Dynamics — their permission models, not a demo embed."
+        "line": "Oneflow: CRM clients and public API inside HubSpot, SuperOffice, Salesforce, Dynamics \u2014 their permission models, not a demo embed."
       },
       {
         "n": 2,
         "title": "An agent is a control loop, not a chat box",
-        "line": "collab-finder: local Tauri loop. Cost, fit, rate limits, human promote — prompt is the cheap part.",
+        "line": "collab-finder: local Tauri loop. Cost, fit, rate limits, human promote \u2014 prompt is the cheap part.",
         "project_key": "collab-finder",
         "link_label": "collab-finder on GitHub"
       },
@@ -1293,19 +1286,19 @@
       {
         "n": 4,
         "title": "One data source, so tools cannot drift",
-        "line": "One cvdata file for site and PDFs — no silent forks.",
+        "line": "One cvdata file for site and PDFs \u2014 no silent forks.",
         "project_key": "devprofile",
         "link_label": "devprofile on GitHub"
       },
       {
         "n": 5,
         "title": "I modernize a living codebase in place",
-        "line": "Oneflow: in-place JS/Flow → TypeScript. ~70% fewer type errors, ~200 hours saved vs rewrite."
+        "line": "Oneflow: in-place JS/Flow \u2192 TypeScript. ~70% fewer type errors, ~200 hours saved vs rewrite."
       },
       {
         "n": 6,
         "title": "I go below the web stack when that is where it breaks",
-        "line": "Rust→WASM Tamil metre in-browser. collab-finder: local SQLite, not hosted chat.",
+        "line": "Rust\u2192WASM Tamil metre in-browser. collab-finder: local SQLite, not hosted chat.",
         "project_key": "thepulimaangani",
         "link_label": "thepulimaangani on GitHub"
       }
@@ -1339,7 +1332,7 @@
     "contact_aside": "",
     "form_placeholder": "Role, company, and why you are writing.",
     "credentials_quote": "Harnesses such as Grok Build, and persistent-agent swarms such as Grok Bot, are becoming mostly sufficient even for advanced work. Well-crafted courses, built with deliberate team effort and AI assistance, still offer powerful leverage. They compress extensive research, impose useful structure, and surface new ways of thinking, saving the learner significant time and friction. What ultimately matters most is the learner's own curiosity and interest. The highest-value courses deliver outcomes that are highly applicable, pragmatic, and relevant to the current state of the art, creating positive impact for both the individual and society while remaining cost-effective.",
-    "meta_description": "Available now in Stockholm. Senior Product and Systems Engineer · AI/SI agentic workflows.",
+    "meta_description": "Available now in Stockholm. Senior Product and Systems Engineer \u00b7 AI/SI agentic workflows.",
     "work_lead": "",
     "claim_families": [
       {
@@ -1580,7 +1573,7 @@
   },
   "cv_pdf": {
     "document": {
-      "title": "Peramanathan Sathyamoorthy – CV – Product and Systems Engineer, AI/SI agentic workflows",
+      "title": "Peramanathan Sathyamoorthy \u2013 CV \u2013 Product and Systems Engineer, AI/SI agentic workflows",
       "author": "Peramanathan Sathyamoorthy",
       "description": "Senior Software Engineer (9+ years), Stockholm, Sweden. AI/SI product and systems engineering for agentic workflows; fullstack and product engineering; TypeScript, React, Rust, Python. EU work authorisation. Available now; can start within two weeks. Ensembly: a Rust service under Grok Bot, Grok Build, Cursor and Claude Code with a single-writer ledger, append-only record layer, CRDT episodic memory, pulse memory sync, MCP server, evalbench and a semi-decision model. Agent-readable profile: https://captain.kingsparrow.space/llms.txt",
       "keywords": [
@@ -1590,8 +1583,7 @@
         "Forward Deployed Engineer",
         "Agentic Engineer",
         "agentic systems",
-        "AI",
-        "SI",
+        "AI/SI",
         "agentic workflows",
         "Grok Bot",
         "Model Context Protocol (MCP)",
@@ -1635,7 +1627,7 @@
       ]
     },
     "name": "Peramanathan Sathyamoorthy",
-    "headline": "Senior Product and Systems Engineer · AI/SI agentic workflows",
+    "headline": "Senior Product and Systems Engineer \u00b7 AI/SI agentic workflows",
     "contact_line": [
       {
         "text": "Stockholm, Sweden"
@@ -1716,7 +1708,7 @@
     "independent": {
       "title": "Independent AI/SI product and systems engineering (agentic workflows)",
       "org": null,
-      "dates": "Dec 2024 – Present",
+      "dates": "Dec 2024 \u2013 Present",
       "note": "Most of my deep learning and systems work is private; the public repos grew slowly as I learned.",
       "note_link": {
         "url": "https://captain.kingsparrow.space/building",
@@ -1725,7 +1717,7 @@
       "items": [
         {
           "lead": "Adaptate",
-          "text": " — the precursor idea first appeared at Oneflow as a small Zod-based validation helper; Adaptate is a from-scratch open-source rebuild. One Zod schema; each consumer declares the fields it needs at runtime, with OpenAPI interop and streaming validation. Three npm packages at 2.4.2, published with SLSA provenance.",
+          "text": " \u2014 the precursor idea first appeared at Oneflow as a small Zod-based validation helper; Adaptate is a from-scratch open-source rebuild. One Zod schema; each consumer declares the fields it needs at runtime, with OpenAPI interop and streaming validation. Three npm packages at 2.4.2, published with SLSA provenance.",
           "links": [
             {
               "url": "https://github.com/p10ns11y/adaptate",
@@ -1743,7 +1735,7 @@
         },
         {
           "lead": "kanithanj",
-          "text": " (collab-finder) — a local-first desktop app that runs an agentic workflow over listings and documents. Typed Rust checks (fit, cost, rate) run before any model call; a human-in-the-loop step approves changes and spend. 1.0.0 in Aug 2026, now 1.3.0. Tauri, React, SQLite. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized.",
+          "text": " (collab-finder) \u2014 a local-first desktop app that runs an agentic workflow over listings and documents. Typed Rust checks (fit, cost, rate) run before any model call; a human-in-the-loop step approves changes and spend. 1.0.0 in Aug 2026, now 1.3.0. Tauri, React, SQLite. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized.",
           "links": [
             {
               "url": "https://kanithanj-ai.vercel.app",
@@ -1757,7 +1749,7 @@
         },
         {
           "lead": "Event planner",
-          "text": " — a live web app: type one sentence, get ranked venues back. Parses the brief with xAI through the Vercel AI SDK, with a scripted fallback. Next.js, Adaptate, end-to-end tests.",
+          "text": " \u2014 a live web app: type one sentence, get ranked venues back. Parses the brief with xAI through the Vercel AI SDK, with a scripted fallback. Next.js, Adaptate, end-to-end tests.",
           "links": [
             {
               "url": "https://proposales-planner-bench.vercel.app",
@@ -1771,7 +1763,7 @@
         },
         {
           "lead": "thepulimaangani",
-          "text": " — classical Tamil prosody in the browser. A Rust parser compiled to WebAssembly splits poems into metrical units behind a React (TanStack Start) interface, with no server.",
+          "text": " \u2014 classical Tamil prosody in the browser. A Rust parser compiled to WebAssembly splits poems into metrical units behind a React (TanStack Start) interface, with no server.",
           "links": [
             {
               "url": "https://seiyul-alagi.vercel.app",
@@ -1785,7 +1777,7 @@
         },
         {
           "lead": "Ensembly",
-          "text": " — a Rust service that gives several coding-agent tools (Grok Bot, Grok Build, Cursor, Claude Code) one shared SQLite ledger and one approval flow. Agents propose; the ledger authorizes, claims and completes, with idempotent retries and a one-command installer per harness.",
+          "text": " \u2014 a Rust service that gives several coding-agent tools (Grok Bot, Grok Build, Cursor, Claude Code) one shared SQLite ledger and one approval flow. Agents propose; the ledger authorizes, claims and completes, with idempotent retries and a one-command installer per harness.",
           "links": [
             {
               "url": "https://github.com/thecuriousts/ensembly",
@@ -1801,7 +1793,7 @@
         },
         {
           "lead": "Agent plugins and skills",
-          "text": " — public plugins in a marketplace for Grok Build, Claude Code and Cursor, and skills in the public repo.",
+          "text": " \u2014 public plugins in a marketplace for Grok Build, Claude Code and Cursor, and skills in the public repo.",
           "links": [
             {
               "url": "https://github.com/p10ns11y/plugins",
@@ -1819,7 +1811,7 @@
       {
         "title": "Senior Software Engineer",
         "org": "Oneflow AB, Stockholm",
-        "dates": "Jan 2023 – Dec 2024",
+        "dates": "Jan 2023 \u2013 Dec 2024",
         "items": [
           {
             "text": "Introduced TypeScript into a mixed Flow and JavaScript codebase, cutting type-related errors by 70%; used Zod inference for typed business data."
@@ -1836,7 +1828,7 @@
       {
         "title": "Engineering Team Lead",
         "org": "Oneflow AB, Stockholm",
-        "dates": "Oct 2021 – Dec 2022",
+        "dates": "Oct 2021 \u2013 Dec 2022",
         "items": [
           {
             "text": "Co-led a new JSON-based rich text editor that integrates with legacy HTML, raising user satisfaction by 60%."
@@ -1853,7 +1845,7 @@
       {
         "title": "Full Stack Integration Engineer",
         "org": "Oneflow AB, Stockholm",
-        "dates": "Mar 2019 – Sep 2021",
+        "dates": "Mar 2019 \u2013 Sep 2021",
         "items": [
           {
             "text": "Founded the Integration Team and its processes, aligning integrations with business needs."
@@ -1870,7 +1862,7 @@
       {
         "title": "JavaScript Developer",
         "org": "Oneflow AB, Stockholm",
-        "dates": "Apr 2017 – Feb 2019",
+        "dates": "Apr 2017 \u2013 Feb 2019",
         "items": [
           {
             "text": "Integrated React Router into a Backbone.js client to build Identity and Access Management with faster prototyping and testing."
@@ -1883,7 +1875,7 @@
       {
         "title": "System and Full Stack Developer",
         "org": "Weavler AB, Stockholm",
-        "dates": "Jan 2016 – Mar 2017",
+        "dates": "Jan 2016 \u2013 Mar 2017",
         "items": [
           {
             "text": "Accessible artisan e-commerce platform (1.6M SEK grant from the Swedish Post and Telecom Authority). Managed AWS infrastructure, reducing operating costs by 40%; integrated Mandrill, Slack bots and PayPal."
@@ -1893,12 +1885,12 @@
       },
       {
         "title": "Software Engineer Intern",
-        "org": "Bumbee Labs AB, Stockholm · footfall analytics, MongoDB",
-        "dates": "Jul 2015 – Sep 2015",
+        "org": "Bumbee Labs AB, Stockholm \u00b7 footfall analytics, MongoDB",
+        "dates": "Jul 2015 \u2013 Sep 2015",
         "items": []
       }
     ],
-    "profile_in_brief": "Senior Fullstack Engineer and Product Engineer, Stockholm. 9+ years in TypeScript, JavaScript, React, Next.js and Node.js, plus Python and Rust. At Oneflow (2017–2024) founded the Integration Team, extended and stabilised the public API, built HubSpot and SuperOffice apps and a Teamtailor connector, reviewed Salesforce and Microsoft Dynamics work, led the team, set up Playwright end-to-end testing and led a TypeScript migration. Since December 2024: maintainer of Adaptate on npm (Zod, OpenAPI, streaming validation; 2.4.2 with SLSA provenance from CI), builder of kanithanj (Tauri, Rust, React, SQLite) and Ensembly (a Rust service: single-writer ledger, append-only record layer, CRDT memory, pulse memory sync, MCP), and author of agent plugins and skills for Grok Build, Cursor and Claude Code. Strengths: LLM tooling, agents, context and memory design, evals, CI⁠/⁠CD, supply-chain security, accessibility. MSc Computer Science, Uppsala University; two IoT papers. EU work authorised, no sponsorship needed; can start within two weeks. Full profile: captain.kingsparrow.space/llms.txt",
+    "profile_in_brief": "Senior Fullstack Engineer and Product Engineer, Stockholm. 9+ years in TypeScript, JavaScript, React, Next.js and Node.js, plus Python and Rust. At Oneflow (2017\u20132024) founded the Integration Team, extended and stabilised the public API, built HubSpot and SuperOffice apps and a Teamtailor connector, reviewed Salesforce and Microsoft Dynamics work, led the team, set up Playwright end-to-end testing and led a TypeScript migration. Since December 2024: maintainer of Adaptate on npm (Zod, OpenAPI, streaming validation; 2.4.2 with SLSA provenance from CI), builder of kanithanj (Tauri, Rust, React, SQLite) and Ensembly (a Rust service: single-writer ledger, append-only record layer, CRDT memory, pulse memory sync, MCP), and author of agent plugins and skills for Grok Build, Cursor and Claude Code. Strengths: LLM tooling, agents, context and memory design, evals, CI\u2060/\u2060CD, supply-chain security, accessibility. MSc Computer Science, Uppsala University; two IoT papers. EU work authorised, no sponsorship needed; can start within two weeks. Full profile: captain.kingsparrow.space/llms.txt",
     "publications": [
       {
         "title": "Cilium AI/ML Security",
@@ -1934,17 +1926,17 @@
       {
         "title": "MSc in Computer Science",
         "org": "Uppsala University, Sweden",
-        "dates": "2010 – 2016"
+        "dates": "2010 \u2013 2016"
       },
       {
         "title": "MSc in Operations Research and Computer Applications",
         "org": "NIT Tiruchirappalli, India",
-        "dates": "2007 – 2009"
+        "dates": "2007 \u2013 2009"
       },
       {
         "title": "BSc in Mathematics",
         "org": "Kadhir Mohideen College (Bharathidasan University), India",
-        "dates": "2004 – 2007"
+        "dates": "2004 \u2013 2007"
       }
     ]
   }
