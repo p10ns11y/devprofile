@@ -83,7 +83,7 @@ describe("agent profile text routes", () => {
     expect(body).toContain("## 9. Short summary");
     expect(body).not.toContain("## 6. How I work");
     const fullWords = body.split(/\s+/).filter(Boolean).length;
-    expect(fullWords).toBeLessThanOrEqual(2800);
+    expect(fullWords).toBeLessThanOrEqual(2500);
     for (const claim of requiredClaims) {
       expect(body).toContain(claim);
     }
