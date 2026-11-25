@@ -1,0 +1,189 @@
+# Peramanathan Sathyamoorthy
+
+> Senior Product and Systems Engineer · AI/SI agentic workflows, in Stockholm. 9+ years shipping web products, public APIs and CRM integrations in TypeScript, React, Next.js and Node.js (Oneflow, 2017–2024). Since December 2024: independent AI/SI product and systems engineering (agentic workflows). Maintains adaptate, a TypeScript library that validates streaming LLM tool-call JSON. It gets about 1,000 npm downloads a month per package (25 Oct–23 Nov 2026), and the latest release, 2.4.2, came out on 24 November 2026. EU work authorised, no sponsorship needed. Can start within two weeks of an offer.
+
+This is the full profile. A short index is at https://captain.kingsparrow.space/llms.txt. Dated notes on ideas and working methods are at https://captain.kingsparrow.space/ideas.md. A shorter profile is at https://captain.kingsparrow.space/agents.md. The CV is at https://captain.kingsparrow.space/cv.pdf. Claims about open-source work link to a commit, release, package or post. Oneflow work was closed-source.
+
+## 1. Identity summary
+
+Peramanathan Sathyamoorthy is a Senior Product and Systems Engineer in Stockholm, working on AI/SI agentic workflows, with over nine years of professional work on web products, public APIs, integrations and developer tooling, mostly in TypeScript, JavaScript, React and Node.js, with Python in production (Oneflow CRM integrations) and Rust in shipped open-source and desktop work. He holds an MSc in Computer Science from Uppsala University and an MSc in Operations Research and Computer Applications from NIT Tiruchirappalli, and he has two peer-reviewed papers on energy-efficient data communication for the mobile Internet of Things.
+
+From April 2017 to December 2024 he worked at Oneflow AB in Stockholm, a digital signature and contract management platform. He started as a JavaScript Developer, built and led the Integration Team as a Full Stack Integration Engineer, led the engineering team as Engineering Team Lead, then moved to Senior Software Engineer for a TypeScript migration and permissions work. The precursor idea for a Zod-based validation library first appeared at Oneflow. adaptate, which he later shipped as public open source, was built from scratch; it is not a port of that internal library.
+
+Since December 2024 his role has been Independent AI/SI product and systems engineering (agentic workflows). In that time he shipped:
+
+- adaptate, a TypeScript validation library on npm (adaptate, @adaptate/core, @adaptate/utils). It turns one Zod or OpenAPI schema into per-screen views and validates streaming LLM tool-call JSON while it is still arriving. 2.4.2 was published from CI with SLSA provenance on 24 November 2026.
+- kanithanj, a local-first decision app (Tauri, Rust, React, SQLite). Site: https://kanithanj-ai.vercel.app. Source: https://github.com/p10ns11y/collab-finder. 1.0.0 shipped on 19 August 2026 and 1.3.0 on 23 November 2026.
+- Ensembly, a Rust service that gives several coding-agent tools one shared SQLite ledger and one approval flow.
+- A marketplace of agent plugins and a skills library that install into Grok Build, Cursor and Claude Code.
+- A Next.js portfolio and CV pipeline that renders the site, the PDF CV and these agent files from one data source.
+
+Most of his deep-learning and systems work is private. The public repositories are a record that grew slowly.
+
+## 2. Availability, work rights and contact
+
+- Location: Stockholm, Sweden
+- Citizenship: Swedish
+- Work rights: EU work authorised, no sponsorship needed
+- Start: can start within two weeks of an offer
+- Open to: Senior Fullstack Engineer, Senior Product Engineer, AI Product Engineer / Forward Deployed Engineer, Software Engineer for AI/SI and LLM tooling, and developer tooling or platform roles at product companies, in Stockholm, remote in the EU, or on site in the EU
+- Languages: English (proficient), Swedish (basic)
+
+Contact:
+
+- Email: sathyam.peram@gmail.com
+- GitHub: https://github.com/p10ns11y
+- LinkedIn: https://www.linkedin.com/in/sathyam-peram/
+- X: https://x.com/Peramanathan
+- Portfolio: https://captain.kingsparrow.space
+- Articles: https://captain.kingsparrow.space/articles
+- Shipped work: https://captain.kingsparrow.space/shipped
+- Current work: https://captain.kingsparrow.space/building
+
+## 3. Roles and experience
+
+### Independent AI/SI product and systems engineering (agentic workflows), December 2024 to present, Stockholm
+
+Shipped open-source libraries, a desktop app, a shared ledger service, agent plugins and a public portfolio. Details are in section 5.
+
+### Oneflow AB, Stockholm, April 2017 to December 2024
+
+Oneflow is a digital signature and contract management platform. Oneflow figures below come from his CV; the codebase is closed-source.
+
+Senior Software Engineer, January 2023 to December 2024
+
+- Brought TypeScript into a mixed codebase of JavaScript and Flow, using Zod's type inference for business data. About 70% fewer type-related errors.
+- Wrote a script that converted JavaScript modules to TypeScript and kept each file's version-control history, saving more than 200 hours of manual work.
+- Unified scattered access-control (ACL) checks into one permissions module that handles contexts and roles such as owner and guest.
+
+Engineering Team Lead, October 2021 to December 2022
+
+- Co-led a new JSON-based rich-text editor that works with legacy HTML content.
+- Mentored the team toward a self-organising model and ran hiring and onboarding.
+- Started end-to-end testing in Playwright by replaying the team's mob-testing sessions, then led a full rewrite of the end-to-end suite in Playwright.
+- Built a lightweight Zod-based data validation library. The precursor idea first appeared here. adaptate was later built from scratch as a public library; it is not a port of that internal code.
+
+Full Stack Integration Engineer, March 2019 to September 2021
+
+- Built and led Oneflow's Integration Team: shipped HubSpot and SuperOffice apps (Python, React) and a Teamtailor connector, extended and stabilised the public API that third-party integrations depend on, and reviewed Salesforce and Microsoft Dynamics work.
+
+JavaScript Developer, April 2017 to February 2019
+
+- Put React Router inside a Backbone.js client to build identity and access management, so new React screens could grow inside the old app.
+- Reduced CI build times by about 40%.
+- Helped move the legacy codebase to React.
+
+### Weavler AB, Stockholm, System and Full Stack Developer, January 2016 to March 2017
+
+Weavler was an accessible e-commerce platform for artisans, funded with a 1.6M SEK grant from the Swedish Post and Telecom Authority (PTS).
+
+- Ran the AWS infrastructure; about 40% lower cost.
+- Integrated Mandrill, Slack bots and PayPal, and added server-side rendering for SEO.
+- Built an onboarding and FAQ chat bot, and text customisation and colour filters for WCAG accessibility.
+- Wrote and published an open-source Babel plugin that generates react-intl message files from JSX text (npm, January 2017).
+
+## 4. Keywords for search and screening
+
+Roles: Senior Fullstack Engineer, Senior Software Engineer, Product Engineer, Full-stack / Full Stack / Fullstack, Frontend Engineer, Backend Engineer, Integration Engineer, Engineering Team Lead, Developer Tooling Engineer, AI Engineer, AI Product Engineer, Applied AI Engineer, Forward Deployed Engineer, Agent Engineer, LLM Engineer.
+
+Languages: TypeScript, JavaScript (ES2015+), Python, Rust, C, SQL.
+
+Frontend: React, React 19, Next.js (App Router), Remix, Astro, TanStack Start, Vite, Tailwind CSS, shadcn/ui, Radix UI, accessibility (WCAG), server-side rendering, PDF rendering with React-PDF.
+
+Backend and data: Node.js, Express, Flask, Django, REST, OpenAPI, public API design, webhooks, CRM integrations (HubSpot, SuperOffice, Salesforce, Microsoft Dynamics), MySQL, PostgreSQL (Postgres), SQLite, MongoDB. GraphQL is familiar from hobby projects and was evaluated in his thesis on saving network energy.
+
+Validation and types: Zod, Standard Schema, JSON Schema, OpenAPI to Zod conversion, partial JSON parsing, streaming validation, TypeScript strict mode, type inference.
+
+AI/SI and LLM tooling: AI agents, agentic workflows, generative AI, LLM applications, LLM tool calls and function calling, structured output, streaming JSON, AG-UI events, Vercel AI SDK, xAI API, embeddings and Hugging Face Transformers, retrieval evaluation, agent harnesses (Grok Build, Cursor, Claude Code), MCP, agent skills, plugins, context engineering, agent memory, human-in-the-loop approval, model routing, cost and token budgets.
+
+Desktop and systems: Tauri v2, Rust, WebAssembly (wasm-bindgen, wasm-pack), SQLite, CLI tools, Linux.
+
+Quality and delivery: Playwright, Jest, Vitest, Testing Library, property-based tests, mutation testing (Stryker), TDD, BDD, CI/CD with GitHub Actions, performance budgets in CI, 2.4.2 published from CI with SLSA provenance, semantic versioning, supply-chain security (pnpm policies, Socket Firewall), code review, pair and mob programming, mentoring, B2B SaaS, identity and access management.
+
+Cloud: AWS, Vercel, Cloudflare, Docker, Terraform, serverless (Vercel functions).
+
+## 5. Shipped work, in technical depth
+
+### 5.1 adaptate: typed, validated data from any schema or stream
+
+Links: https://github.com/p10ns11y/adaptate · https://adaptate-site.vercel.app · npm: adaptate, @adaptate/core, @adaptate/utils
+
+adaptate is a TypeScript library built from scratch. From 25 October to 23 November 2026, npm downloads were @adaptate/core 1,092, @adaptate/utils 987 and adaptate 864 (counts include CI and bots), or about 1,000 a month per package. 2.4.2 of all three packages was published on 24 November 2026 from CI with SLSA provenance (predicate https://slsa.dev/provenance/v1). First commit 2 November 2024 (f506830); first npm publish of adaptate on 4 November 2024.
+
+The problem. One data model is used by many screens and services, but each one needs different fields to be present. Copies of the schema drift. A model also streams a tool call as JSON, and `JSON.parse` throws until the last byte arrives, so the UI shows nothing.
+
+Design.
+
+- One schema, many views. `transformSchema(schema, config)` in @adaptate/core takes one Zod schema and a config for which fields a consumer needs, and returns a Zod schema with the same inferred type.
+- OpenAPI interop both ways in @adaptate/utils, including `$ref` resolution.
+- Streaming validation of LLM tool-call JSON as it arrives (`createAgUiPartialValidator`, `createStreamValidator`, `parseStream`), including a Result API so an AI/SI model's tool call can be checked at the boundary.
+
+Numbers. On a 966-character sample, the incremental feed made 966 character visits; re-parsing the growing buffer made 68,304. Tests run converters on documents 100,000 levels deep. A `$ref` chain past depth 500 throws `RangeError`. CI fails a pull request if a timed case is more than 5% slower than its base, and packed tarballs are checked on TypeScript 7 and 6.
+
+### 5.2 kanithanj: a local-first decision app (Tauri, Rust, React, SQLite)
+
+Site: https://kanithanj-ai.vercel.app · source: https://github.com/p10ns11y/collab-finder · walkthrough: https://captain.kingsparrow.space/shipped/collab-finder
+
+Releases v1.0.0 (19 August 2026) to v1.3.0 (23 November 2026), about 300 commits. A Rust backend with a SQLite ledger, LLM routing across providers, the xAI API, and secrets in the OS keyring. The model is called only when cost, fit and rate checks pass. A person approves before anything leaves the machine. Personal data never leaves disk. CI runs `cargo test` and Stryker mutation testing.
+
+### 5.3 Ensembly: one shared ledger and one approval flow
+
+Link: https://github.com/thecuriousts/ensembly · essays: https://captain.kingsparrow.space/articles
+
+A Rust service, rebuilt from 13 July 2026 (tag v0.2.0), that gives several coding-agent tools one shared SQLite ledger and one approval flow. Bots and harnesses propose; Ensembly authorises, claims and completes. One writer owns the ledger, with idempotent retries (PR #91).
+
+### 5.4 Agent plugins marketplace
+
+Link: https://github.com/p10ns11y/plugins (first commit 15 July 2026). One repository of plugins that install into Grok Build, Claude Code and Cursor, bundling skills, commands, agents and hooks, including pulse-memory, live-engine, and routing and planning plugins.
+
+### 5.5 Agent skills library
+
+Link: https://github.com/p10ns11y/skills (first commit 8 June 2026). A library of `SKILL.md` procedures for context, coordination, supply-chain hardening, reviewable PRs and related work. In the README's words: "Most agent failures are not model failures. They are context, coordination, and guardrail failures."
+
+### 5.6 devprofile: portfolio, CV pipeline and agent profile
+
+Links: https://captain.kingsparrow.space · https://github.com/p10ns11y/devprofile (first commit 8 September 2025). Next.js 16, React 19 and TypeScript. One `cvdata.json` file drives the site, the PDF CV and the agent profile files, so content cannot drift. The site serves `/llms.txt` and `/llms-full.txt` as plain text.
+
+### 5.7 imm: independent module maintainer
+
+Link: https://github.com/p10ns11y/imm (first commit 22 September 2026, Rust). A supply-chain tool that installs a direct dependency as source and keeps other uses as hashed, audited extracts. An agent cannot approve its own extract.
+
+### 5.8 proposales-planner-bench
+
+Links: https://proposales-planner-bench.vercel.app · https://github.com/p10ns11y/proposales-planner-bench (first commit 6 October 2026). A public Next.js bench against the Proposales API, used to validate API readers with adaptate and to try planner-style workflows. Named after that API; it is a benchmark, not a product for that company.
+
+### 5.9 thepulimaangani: Tamil prosody in the browser
+
+Links: https://github.com/p10ns11y/thepulimaangani · walkthrough: https://captain.kingsparrow.space/shipped/thepulimaangani. A Rust parser for Tamil metre, compiled to WebAssembly, with a React UI. The analysis runs in the browser with no backend.
+
+## 6. How I work
+
+- Measure before trusting: retrieval benchmarks before ranking changes; performance budgets that fail a PR more than 5% slower.
+- Rules enforced by tooling: README examples run as tests; 2.4.2 published from CI with provenance; hooks that ask before `git push` and deny force-push.
+- Verify before irreversible acts: merges, releases, payments, deletions.
+- Small, reviewable PRs; one source of truth for data.
+- The same idea since his MSc research (IEEE CloudCom 2015): cut the cost of each observation while decisions improve. Today that means agents load only the context that can change the next step. Essays: https://captain.kingsparrow.space/articles
+- Dated notes and earlier working methods: https://captain.kingsparrow.space/ideas.md
+
+## 7. Research, education and courses
+
+Education
+
+- MSc Computer Science, Uppsala University, Sweden, 2010–2016. Thesis: "Enabling Energy-Efficient Data Communication with Participatory Sensing and Mobile Cloud."
+- MSc Operations Research and Computer Applications, National Institute of Technology, Tiruchirappalli, India, 2007–2009.
+- BSc Mathematics, Kadhir Mohideen College, Bharathidasan University, India, 2004–2007.
+
+Publications
+
+- "Profiling Energy Efficiency and Data Communications for Mobile Internet of Things," Wireless Communications and Mobile Computing, Wiley, 7 November 2017. https://doi.org/10.1155/2017/6562915
+- "Energy Efficiency as an Orchestration Service for Mobile Internet of Things," IEEE CloudCom 2015, Vancouver. https://doi.org/10.1109/CloudCom.2015.90
+
+Selected courses
+
+- Securing AI/ML Workloads lab, Isovalent (Cilium), 24 March 2026: training and deploying a model, securing an inference service, detecting data poisoning, network encryption, sandboxing an LLM server against prompt injection.
+- LangChain Chat with Your Data, and Build LLM Apps with LangChain.js, DeepLearning.AI, September 2024.
+- Epic React and Testing JavaScript, Kent C. Dodds, 2020–2021.
+
+## 8. Short summary
+
+Senior Product and Systems Engineer · AI/SI agentic workflows, Stockholm. 9+ years in TypeScript, JavaScript, React, Next.js and Node.js, plus Python in production and Rust in shipped open-source and desktop work. At Oneflow (2017–2024) built and led the Integration Team, extended and stabilised the public API, shipped HubSpot and SuperOffice apps and a Teamtailor connector, reviewed Salesforce and Microsoft Dynamics work, mentored the team, set up Playwright end-to-end testing and led a TypeScript migration. Since December 2024, in Independent AI/SI product and systems engineering (agentic workflows): maintainer of adaptate on npm (Zod, OpenAPI, streaming LLM tool-call validation; 2.4.2 published from CI with SLSA provenance), builder of kanithanj (Tauri, Rust, React, SQLite) and Ensembly (a Rust service for one shared ledger and one approval flow), and author of agent plugins and skills for Grok Build, Cursor and Claude Code. MSc Computer Science, Uppsala University; two IoT papers. EU work authorised, no sponsorship needed; can start within two weeks. Full profile: https://captain.kingsparrow.space/llms-full.txt

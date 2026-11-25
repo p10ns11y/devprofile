@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { FOCUS_ESSAYS, FOCUS_INDEX_HREF } from "@/data/focus-essays";
 import { PROJECT_WALKTHROUGHS, SHIPPED_INDEX_HREF } from "@/data/project-walkthroughs";
-import { getMetadataBase } from "@/lib/site-url";
+import { PRODUCTION_SITE_ORIGIN } from "@/lib/site-url";
 
 const STATIC_PATHS = [
   "/",
@@ -13,11 +13,13 @@ const STATIC_PATHS = [
   "/certificates",
   "/pay-report",
   "/llms.txt",
+  "/llms-full.txt",
+  "/ideas.md",
   "/agents.md",
 ] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const origin = getMetadataBase().origin;
+  const origin = PRODUCTION_SITE_ORIGIN;
   const paths = [
     ...STATIC_PATHS,
     FOCUS_INDEX_HREF,

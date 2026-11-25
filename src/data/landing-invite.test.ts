@@ -4,7 +4,7 @@ import { landingInvite } from "./landing-invite";
 describe("landingInvite", () => {
   it("reads hire copy from cvdata.landing", () => {
     const blob = JSON.stringify(landingInvite);
-    expect(landingInvite.role).toContain("AI-native");
+    expect(landingInvite.role).toContain("Senior Product and Systems Engineer · AI/SI agentic workflows");
     expect(landingInvite.place).toBe("Available now");
     expect(blob).not.toMatch(/ReactJS/);
     expect(blob).not.toMatch(/9\+ years in scalable/);

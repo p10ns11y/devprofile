@@ -533,8 +533,8 @@ export default function PayReportPage() {
         />
         <div className="pay-report__body">
           <p>
-            Since December 2024 I have been on a career break for personal and family-care reasons.
-            My senior and team lead work at Oneflow falls in the last three years before the break.
+            Since December 2024 I have worked independently on AI/SI product and systems engineering for agentic workflows; most of the deep learning and systems work is private.
+            My senior and team lead work at Oneflow falls in the three years before that.
             Since then the way I work has moved forward. The projects began one after another,
             slowly at first. After a while the connections between them started to evolve and the
             work settled into one system.{" "}

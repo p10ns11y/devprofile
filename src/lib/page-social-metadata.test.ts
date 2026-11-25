@@ -11,7 +11,7 @@ const rootOgImage = {
   url: "/opengraph-image",
   width: 1200,
   height: 630,
-  alt: "Peramanathan Sathyamoorthy — available now. AI-native product / agent engineer in Stockholm.",
+  alt: "Peramanathan Sathyamoorthy — available now. Senior Product and Systems Engineer · AI/SI agentic workflows, in Stockholm.",
 };
 
 const rootTwitterImage = {

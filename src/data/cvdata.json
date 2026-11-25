@@ -9,7 +9,7 @@
   "one_liner": "Senior Software Engineer with 9+ years in scalable web apps, JavaScript, ReactJS, and system architecture, leading teams and mentoring in innovative startups.",
   "shorter_bio": "Senior Software Engineer with 9+ years of experience in scalable web apps and team leadership. Master's in Computer Science and Operations Research, skilled in JavaScript, ReactJS, and system architecture. Drives innovation and efficiency in startups, passionate about mentoring.",
   "short_bio": "Senior Software Engineer with 9+ years of experience building scalable web applications and leading teams. Holds Master's degrees in Computer Science and Operations Research, with expertise in JavaScript, ReactJS, and system architecture. Proven leader in driving innovative solutions and efficiency in startups, with a passion for mentoring and fostering innovation.",
-  "profile": "Senior Software Engineer with over 9 years of experience in building scalable web applications and leading development teams. Holds Master's degrees in Computer Science and Operations Research, providing a strong foundation in both theoretical and applied aspects of technology and optimization. Proven expertise in JavaScript, ReactJS, Architectural Design and System Building. Demonstrated leadership in integrating innovative solutions and driving efficiency in startup environments. Experienced educator with a passion for mentoring and fostering innovation through technology. Independent learner and builder since December 2024 (family-care employment gap). Projects listed are the recent March–August 2026 slice — not the whole interval. Available now for a permanent senior role building AI and agentic workflows — fullstack, product, or Forward Deployed Engineer.",
+  "profile": "Senior software engineer with 9+ years shipping web products. Nearly eight of them were at Oneflow, a contract management platform, where I grew from JavaScript developer to founding the Integration Team, leading an engineering team and moving a live codebase to TypeScript. Since December 2024 I have worked independently on AI/SI product and systems engineering for agentic workflows; most of my deep learning and systems work is private, and the public repos grew slowly as I learned. Master's degrees in Computer Science and Operations Research. Swedish citizen with EU work authorisation. Available now and can start within two weeks of an offer, for a senior fullstack, product or Forward Deployed Engineer role.",
   "contact": {
     "email": "sathyam.peram@gmail.com",
     "phone_hint": "Waiting for Telenor to reactivate — omit from public CV/contact until then",
@@ -57,17 +57,18 @@
   },
   "work_experience": [
     {
-      "title": "Independent learner and builder",
-      "company": "Family care + shipped products",
+      "title": "Independent AI/SI product and systems engineering (agentic workflows)",
+      "company": "Independent",
       "location": "Sweden",
       "start_date": "December 2024",
       "end_date": "Present",
       "duration": "ongoing",
       "kind": "independent_work",
+      "note": "Most of my deep learning and systems work is private; the public repos grew slowly as I learned.",
       "responsibilities": [
-        "Shipped kanithanj.ai (collab-finder) 1.0.0 on 19 August 2026 — a Tauri, Rust, and React apply cockpit with SQLite history and CI quality gates, replacing scattered hunt notes with a local operator loop.",
-        "Compiled a Rust Tamil-metre parser to WASM and shipped a React UI (thepulimaangani), so prosody analysis runs in the browser without a backend.",
-        "Built the public CV and apply-PDF pipeline (devprofile + kanithanj.cv) on Next.js, generating a two-page master CV and role-fit packs from a single cvdata source."
+        "Adaptate: the precursor idea first appeared at Oneflow as a small Zod-based validation helper; Adaptate is a from-scratch open-source rebuild. One Zod schema; each consumer declares the fields it needs at runtime, with OpenAPI interop and streaming validation. Three npm packages (adaptate, @adaptate/core, @adaptate/utils) at 2.4.2, published with SLSA provenance; docs at https://adaptate-site.vercel.app.",
+        "kanithanj (collab-finder): a local-first Tauri, Rust and React desktop app that runs an agentic workflow over listings and documents. Typed Rust checks (fit, cost, rate) run before any model call; a human-in-the-loop step approves changes and spend. 1.0.0 in Aug 2026, now 1.3.0; https://kanithanj-ai.vercel.app.",
+        "Compiled a Rust Tamil-metre parser to WebAssembly and shipped a React UI (thepulimaangani), so prosody analysis runs in the browser without a backend."
       ],
       "tools": ["TypeScript", "React", "Rust", "Tauri"]
     },
@@ -148,7 +149,7 @@
       "tools": ["Python", "Reactjs"]
     },
     {
-      "title": "Full Stack Developer",
+      "title": "System and Full Stack Developer",
       "company": "Weavler AB, An accessible e-commerce artisans platform (with 1.6M SEK PTS grant)",
       "location": "Stockholm, Sweden",
       "start_date": "January 2016",
@@ -1030,7 +1031,7 @@
     }
   ],
   "landing": {
-    "role": "AI-native product / agent engineer",
+    "role": "Senior Product and Systems Engineer · AI/SI agentic workflows",
     "place": "Available now",
     "location": "Stockholm",
     "seat": "Open to AI-native product or agent roles, and to senior fullstack roles where using AI is already part of the job.",
@@ -1086,7 +1087,7 @@
     "contact_aside": "",
     "form_placeholder": "Role, company, and why you are writing.",
     "credentials_quote": "Harnesses such as Grok Build, and persistent-agent swarms such as Grok Bot, are becoming mostly sufficient even for advanced work. Well-crafted courses, built with deliberate team effort and AI assistance, still offer powerful leverage. They compress extensive research, impose useful structure, and surface new ways of thinking, saving the learner significant time and friction. What ultimately matters most is the learner's own curiosity and interest. The highest-value courses deliver outcomes that are highly applicable, pragmatic, and relevant to the current state of the art, creating positive impact for both the individual and society while remaining cost-effective.",
-    "meta_description": "Available now in Stockholm. AI-native product / agent engineer.",
+    "meta_description": "Available now in Stockholm. Senior Product and Systems Engineer · AI/SI agentic workflows.",
     "work_lead": "",
     "claim_families": [
       { "id": "product", "title": "Product" },

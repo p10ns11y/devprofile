@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { getMetadataBase } from "@/lib/site-url";
+import { PRODUCTION_SITE_ORIGIN } from "@/lib/site-url";
 
 export default function robots(): MetadataRoute.Robots {
-  const origin = getMetadataBase().origin;
+  const origin = PRODUCTION_SITE_ORIGIN;
 
   return {
     rules: {

@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Peramanathan Sathyamoorthy — available now. AI-native product / agent engineer in Stockholm.";
+  "Peramanathan Sathyamoorthy — available now. Senior Product and Systems Engineer · AI/SI agentic workflows, in Stockholm.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -69,7 +69,7 @@ export default function OpenGraphImage() {
               fontFamily: "ui-sans-serif, system-ui, sans-serif",
             }}
           >
-            AI-native product / agent engineer · forward deployed · applied AI
+            Senior Product and Systems Engineer · AI/SI agentic workflows
           </div>
         </div>
 

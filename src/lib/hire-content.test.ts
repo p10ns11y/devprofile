@@ -5,7 +5,7 @@ describe("getHireContent", () => {
   it("reads hire copy from cvdata.landing only", () => {
     const content = getHireContent();
     const blob = JSON.stringify(content);
-    expect(content.role).toContain("AI-native");
+    expect(content.role).toContain("Senior Product and Systems Engineer · AI/SI agentic workflows");
     expect(content.place).toBe("Available now");
     expect(content.thesis).toMatch(/Scarce: shipping agentic workflows/);
     expect(blob).not.toMatch(/ReactJS/);

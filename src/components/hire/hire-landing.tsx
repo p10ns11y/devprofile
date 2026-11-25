@@ -12,7 +12,6 @@ import type { HireContent } from "@/lib/hire-content";
 import { deriveHireLayoutClasses } from "@/lib/hire-layout-derived";
 import { lcvMustShow } from "@/lib/hire-lcv";
 import type { HireVisualLanguage } from "@/lib/hire-visual-language";
-import { TARGET_RANGE_HREF, TARGET_RANGE_LABEL } from "@/lib/pay-report-bands";
 
 export function HireProfileSummary() {
   return (
@@ -30,63 +29,33 @@ export function HireProfileSummary() {
         </header>
         <div className="hire-phi__summary">
           <p>
-            I am Peramanathan Sathyamoorthy, a Senior Fullstack Engineer and Product Engineer in
-            Stockholm. I have over nine years of work on web products, public APIs, integrations and
-            developer tooling, mostly in TypeScript, React, Next.js and Node.js, with Python and
-            Rust in production and open-source work.
-          </p>
-          <p>
-            At Oneflow, a contract management platform, I worked from 2017 to 2024. I built the
-            Integration Team, ran the public API and the CRM integrations with HubSpot, SuperOffice,
-            Salesforce and Microsoft Dynamics, led the engineering team, set up Playwright
-            end-to-end testing and led a TypeScript migration that kept each file&apos;s history.
-          </p>
-          <p>
-            Since December 2024 my role has been Independent AI/SI product and systems engineering
-            (agentic workflows). In that time I have shipped:
+            I am Peramanathan Sathyamoorthy, a Senior Product and Systems Engineer in Stockholm,
+            working on AI/SI agentic workflows. From 2017 to 2024 I worked at Oneflow, where I built
+            the Integration Team, extended and stabilised the public API, and shipped HubSpot and
+            SuperOffice apps and a Teamtailor connector. Since December 2024 I have worked
+            independently on AI/SI product and systems engineering. I maintain adaptate, a
+            TypeScript library built from scratch that validates streaming LLM tool-call JSON. It
+            gets about 1,000 npm downloads a month per package, and 2.4.2 was published on 24
+            November 2026 from CI with SLSA provenance.
           </p>
           <ul>
             <li>
-              <a href="https://github.com/p10ns11y/adaptate">adaptate</a>, a TypeScript library on
-              npm that turns one Zod or OpenAPI schema into per-screen views and validates streaming
-              LLM tool-call JSON while it arrives. Version 2.4.2 is published with SLSA provenance.
+              <a href="https://github.com/p10ns11y/adaptate">adaptate</a>
             </li>
             <li>
-              <a href="https://kanithanj-ai.vercel.app">kanithanj.ai</a>, a product that helps
-              people find roles they can grow into, with a Tauri, Rust and React desktop app and a
-              SQLite ledger.
+              <a href="https://kanithanj-ai.vercel.app">kanithanj</a>
             </li>
             <li>
-              <a href="https://github.com/thecuriousts/ensembly">Ensembly</a>, a Rust kernel that
-              gives several agent harnesses one ledger, one memory sync and one approval flow.
+              <a href="https://github.com/thecuriousts/ensembly">Ensembly</a>
             </li>
             <li>
               <a href="https://github.com/p10ns11y/plugins">Agent plugins</a> and{" "}
-              <a href="https://github.com/p10ns11y/skills">skills</a> that load into Grok Build,
-              Cursor and Claude Code.
+              <a href="https://github.com/p10ns11y/skills">skills</a>
             </li>
           </ul>
           <p>
-            Much of my deep-learning and systems work is private and not public. The public
-            repositories are a record that grew slowly as I learned and crafted over time, not the
-            full depth of that work.
-          </p>
-          <p>
-            My MSc research at Uppsala University, published at IEEE CloudCom 2015 and in a 2017
-            journal paper, argued that a system stays viable only when the cost of the next useful
-            observation falls while the quality of decisions rises. I apply that rule to agents
-            today: context and memory are costs, so an agent should load only what can change its
-            next decision.
-          </p>
-          <p>
-            How I work: I build tools that save the team time, enforce rules with tooling instead of
-            memory, verify before anything irreversible, review by area and risk, keep docs short
-            and visual, and credit the work I build on.
-          </p>
-          <p>
             I am authorised to work in the EU with no sponsorship needed, and I can start within two
-            weeks of an offer. The full profile for search engines and agents is at{" "}
-            <a href="/llms.txt">/llms.txt</a>.
+            weeks of an offer.
           </p>
         </div>
       </div>
@@ -136,9 +105,6 @@ export function HireLanding({ content, visualLanguage = null }: HireLandingProps
               <blockquote className="hire-phi__thesis" {...lcvMustShow}>
                 {content.thesis}
               </blockquote>
-              <p className="hire-phi__target">
-                <Link href={TARGET_RANGE_HREF}>{TARGET_RANGE_LABEL}</Link>
-              </p>
             </div>
           </div>
           <div className={layout.heroReach}>
