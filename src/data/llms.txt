@@ -32,7 +32,7 @@ This is the short index for AI/SI assistants and other crawlers. The full profil
 ## Selected work
 
 - adaptate — TypeScript library, built from scratch, that turns one Zod or OpenAPI schema into per-screen views and validates streaming LLM tool-call JSON. npm: adaptate, @adaptate/core, @adaptate/utils. 2.4.2 published from CI with SLSA provenance on 24 November 2026. https://github.com/p10ns11y/adaptate
-- kanithanj — a local-first decision app (Tauri, Rust, React, SQLite). Site: https://kanithanj-ai.vercel.app. Source: https://github.com/p10ns11y/collab-finder. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized. XState runs the settings panel in the app; model-based tests walk it, not only in tests.
+- kanithanj — a local-first decision app (Tauri, Rust, React, SQLite). Site: https://kanithanj-ai.vercel.app. Source: https://github.com/p10ns11y/collab-finder. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized. XState drives the Settings xAI key/model panel in the app; model-based tests walk its generated paths.
 - Ensembly — a Rust operator kernel that gives several coding-agent tools one shared SQLite ledger and one approval flow. https://github.com/thecuriousts/ensembly
 - Agent plugins and skills for Grok Build, Cursor and Claude Code. https://github.com/p10ns11y/plugins · https://github.com/p10ns11y/skills
 

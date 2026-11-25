@@ -8,7 +8,6 @@ export type CvPdfDisposition = "inline" | "attachment";
 const FILENAME = "peramanathan-sathyamoorthy-cv.pdf";
 const BUILD_ARTIFACT = join(process.cwd(), "public", "cv.pdf");
 
-/** Serve the Typst PDF written by `pnpm generate-pdf` / prebuild from cvdata.json. */
 async function loadCvPdfBytes(): Promise<Uint8Array> {
   const buffer = await readFile(BUILD_ARTIFACT);
   return new Uint8Array(buffer);
