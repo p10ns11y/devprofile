@@ -32,7 +32,7 @@ Available now. Open to product or agent roles, and to senior fullstack roles whe
   - Engineering Team Lead, October 2021–December 2022. Mentored the team, hiring and onboarding; Playwright end-to-end suite; a lightweight Zod validation library; rich-text editor work.
   - Full Stack Integration Engineer, March 2019–September 2021
   - JavaScript Developer, April 2017–February 2019
-- Weavler AB, Stockholm, Full Stack Developer, January 2016–March 2017. Accessible e-commerce platform for artisans.
+- Weavler AB, Stockholm, System and Full Stack Developer, January 2016–March 2017. Accessible e-commerce platform for artisans.
 - Bumbee Labs AB, Stockholm, Software Engineer Intern (Summer Project), July 2015–September 2015
 
 ## Skills

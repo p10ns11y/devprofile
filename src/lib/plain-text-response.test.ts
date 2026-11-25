@@ -33,7 +33,7 @@ describe("agent profile text routes", () => {
     expect(response.headers.get("content-type")).toBe(PLAIN_TEXT_CONTENT_TYPE);
     expect(body).toContain("Swedish citizen, based in Stockholm");
     expect(body).toContain("https://github.com/p10ns11y/adaptate");
-    expect(body).toContain("Full Stack Developer");
+    expect(body).toContain("System and Full Stack Developer");
   });
 });
 
