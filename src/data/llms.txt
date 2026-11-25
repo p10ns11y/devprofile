@@ -40,6 +40,10 @@ Python in production (Oneflow CRM integrations) and Rust in shipped open-source 
 
 Most of his deep-learning and systems work is private. The public repositories are a record that grew slowly.
 
+## How I build
+
+He keeps a few projects in focus and lets the rest change shape. The /building page draws this as a loop: work from every area goes into one priority list and one portal (Grok Bot and Ensembly), comes out as shipped work, and retired or melted projects go back in as raw material for new ones. premflow was rewritten on his elomaxz framework a day after elomaxz started (May 2026). packedbox melts arch-machine and shellyxz.sh (September 2026). Ensembly reused a 2016 repository for a new control layer (July 2026). He builds with limited time, budget and energy, so progress is steady, not fast. What has not worked yet is reach: few people outside use these projects. https://captain.kingsparrow.space/building
+
 ## How I work
 
 Measure before trusting; enforce rules with tooling; verify before irreversible acts; keep pull requests small and data in one place. The same idea as his MSc research: cut the cost of each observation while decisions improve. Full notes: https://captain.kingsparrow.space/llms-full.txt and https://captain.kingsparrow.space/ideas.md

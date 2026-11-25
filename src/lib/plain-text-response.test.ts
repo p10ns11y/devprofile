@@ -54,8 +54,10 @@ describe("agent profile text routes", () => {
     expect(body).toContain("AI/SI assistants");
     expect(body).toContain("Most of his deep-learning and systems work is private");
     expect(body).toContain("saving network energy");
-    expect(body.split(/\s+/).length).toBeGreaterThanOrEqual(300);
-    expect(body.split(/\s+/).length).toBeLessThanOrEqual(600);
+    expect(body).toContain("## How I build");
+    const llmsWords = body.split(/\s+/).filter(Boolean).length;
+    expect(llmsWords).toBeGreaterThanOrEqual(300);
+    expect(llmsWords).toBeLessThanOrEqual(650);
     for (const claim of requiredClaims) {
       expect(body).toContain(claim);
     }
@@ -75,7 +77,13 @@ describe("agent profile text routes", () => {
     expect(body).toContain(
       "Energy Efficiency as an Orchestration Service for Mobile Internet of Things"
     );
-    expect(body.split(/\s+/).length).toBeLessThanOrEqual(2500);
+    expect(body).toContain("## 6. Build lifecycle and focus");
+    expect(body).toContain("## 7. How I work");
+    expect(body).toContain("## 8. Research, education and courses");
+    expect(body).toContain("## 9. Short summary");
+    expect(body).not.toContain("## 6. How I work");
+    const fullWords = body.split(/\s+/).filter(Boolean).length;
+    expect(fullWords).toBeLessThanOrEqual(2500);
     for (const claim of requiredClaims) {
       expect(body).toContain(claim);
     }
@@ -89,6 +97,8 @@ describe("agent profile text routes", () => {
     const agents = await readRoute(getAgentsMd);
 
     expect(ideas).toContain("Ideas and working notes");
+    expect(ideas).toContain("### 8.4 Build lifecycle");
+    expect(ideas).toContain("Reach is the gap so far");
     expect(ideas).not.toContain("Bumbee");
     expect(ideas).not.toContain("Family care");
     expect(agents).toContain("Swedish citizen, based in Stockholm");
