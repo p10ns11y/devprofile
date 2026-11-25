@@ -12,7 +12,56 @@ import type { HireContent } from "@/lib/hire-content";
 import { deriveHireLayoutClasses } from "@/lib/hire-layout-derived";
 import { lcvMustShow } from "@/lib/hire-lcv";
 import type { HireVisualLanguage } from "@/lib/hire-visual-language";
-import { TARGET_RANGE_HREF, TARGET_RANGE_LABEL } from "@/lib/pay-report-bands";
+
+export function HireProfileSummary() {
+  return (
+    <section
+      id="profile-summary"
+      data-section="profile-summary"
+      className="hire-phi__section"
+      aria-labelledby="profile-summary-title"
+    >
+      <div className="phi-route-band hire-phi__cluster">
+        <header className="hire-phi__section-header">
+          <h2 id="profile-summary-title" className="hire-phi__section-title">
+            Profile summary
+          </h2>
+        </header>
+        <div className="hire-phi__summary">
+          <p>
+            I am Peramanathan Sathyamoorthy, a Senior Product and Systems Engineer in Stockholm,
+            working on AI/SI agentic workflows. From 2017 to 2024 I worked at Oneflow, where I built
+            the Integration Team, extended and stabilised the public API, and shipped HubSpot and
+            SuperOffice apps and a Teamtailor connector. Since December 2024 I have worked
+            independently on AI/SI product and systems engineering. I maintain adaptate, a
+            TypeScript library built from scratch that validates streaming LLM tool-call JSON. It
+            gets about 1,000 npm downloads a month per package, and 2.4.2 was published on 24
+            November 2026 from CI with SLSA provenance.
+          </p>
+          <ul>
+            <li>
+              <a href="https://github.com/p10ns11y/adaptate">adaptate</a>
+            </li>
+            <li>
+              <a href="https://kanithanj-ai.vercel.app">kanithanj</a>
+            </li>
+            <li>
+              <a href="https://github.com/thecuriousts/ensembly">Ensembly</a>
+            </li>
+            <li>
+              <a href="https://github.com/p10ns11y/plugins">Agent plugins</a> and{" "}
+              <a href="https://github.com/p10ns11y/skills">skills</a>
+            </li>
+          </ul>
+          <p>
+            I am authorised to work in the EU with no sponsorship needed, and I can start within two
+            weeks of an offer.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 type HireLandingProps = {
   content: HireContent;
@@ -56,9 +105,6 @@ export function HireLanding({ content, visualLanguage = null }: HireLandingProps
               <blockquote className="hire-phi__thesis" {...lcvMustShow}>
                 {content.thesis}
               </blockquote>
-              <p className="hire-phi__target">
-                <Link href={TARGET_RANGE_HREF}>{TARGET_RANGE_LABEL}</Link>
-              </p>
             </div>
           </div>
           <div className={layout.heroReach}>
@@ -158,6 +204,7 @@ export function HireLanding({ content, visualLanguage = null }: HireLandingProps
 
       <HireEvidenceSection content={content} layout={layout} />
       <HireContact content={content} layoutClass={layout.contact} />
+      <HireProfileSummary />
       <Footer />
     </div>
   );

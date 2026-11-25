@@ -39,7 +39,9 @@ test.describe("Homepage", () => {
     await expect(hero.getByRole("heading", { level: 1 })).toContainText(
       "Peramanathan Sathyamoorthy"
     );
-    await expect(hero.getByText("AI-native product / agent engineer")).toBeVisible();
+    await expect(
+      hero.getByText("Senior Product and Systems Engineer · AI/SI agentic workflows")
+    ).toBeVisible();
     await expect(hero.getByText(/Available now · Stockholm/)).toBeVisible();
     await expect(
       hero.getByText(/Scarce: shipping agentic workflows with taste, evals, and judgment/)

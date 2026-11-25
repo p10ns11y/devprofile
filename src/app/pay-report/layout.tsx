@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     creator: "@peramanathan",
   },
   robots: {
-    index: true,
+    index: false,
     follow: true,
   },
 };

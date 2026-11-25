@@ -7,14 +7,34 @@ import { DM_Sans, Instrument_Serif } from "next/font/google";
 import { Suspense } from "react";
 import { BuildingActivityModal } from "@/components/building/building-activity-modal";
 import { CvModal } from "@/components/cv/cv-modal";
-import { PersonJsonLd } from "@/components/person-json-ld";
 import { SWRegister } from "@/components/sw-register";
 import { ThemeProvider } from "@/components/theme-provider";
-import cvdata from "@/data/cvdata.json";
-import { getMetadataBase } from "@/lib/site-url";
+import { PRODUCTION_SITE_ORIGIN, siteOg } from "@/lib/site-url";
 
-const siteTitle = `${cvdata.name} — ${cvdata.landing.role}`;
-const siteDescription = cvdata.landing.meta_description;
+const siteTitle =
+  "Peramanathan Sathyamoorthy: Senior Product and Systems Engineer · AI/SI agentic workflows";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(PRODUCTION_SITE_ORIGIN),
+  title: {
+    default: siteTitle,
+    template: "%s · Peramanathan Sathyamoorthy",
+  },
+  authors: [{ name: "Peramanathan Sathyamoorthy" }],
+  alternates: {
+    types: {
+      "text/plain": "/llms.txt",
+    },
+  },
+  openGraph: {
+    siteName: siteOg.siteName,
+    locale: siteOg.locale,
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@Peramanathan",
+  },
+};
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -28,29 +48,6 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   display: "swap",
 });
-
-export const metadata: Metadata = {
-  metadataBase: getMetadataBase(),
-  title: siteTitle,
-  description: siteDescription,
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    title: siteTitle,
-    description: siteDescription,
-    url: "/",
-    siteName: "Peramanathan Sathyamoorthy",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteTitle,
-    description: siteDescription,
-    creator: "@peramanathan",
-  },
-};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const shouldInjectToolbar = process.env.NODE_ENV === "development";
@@ -70,7 +67,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             Skip to main content
           </a>
-          <PersonJsonLd />
           <SpeedInsights />
           <SWRegister />
           {shouldInjectToolbar && <VercelToolbar />}

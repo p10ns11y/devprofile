@@ -1,3 +1,10 @@
+export const PRODUCTION_SITE_ORIGIN = "https://captain.kingsparrow.space";
+
+export const siteOg = {
+  siteName: "Peramanathan Sathyamoorthy",
+  locale: "en_GB",
+} as const;
+
 /**
  * Canonical origin for metadata (Open Graph, Twitter cards, canonical URLs).
  * Prefer explicit NEXT_PUBLIC_SITE_URL; on Vercel production use the stable
