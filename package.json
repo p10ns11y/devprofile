@@ -62,7 +62,7 @@
     "ai": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "kanithanj-cv": "github:p10ns11y/collab-finder#5916ec24cc70e2f0010cd3ae897979d05d09b916&path:vendor/kanithanj-cv",
+    "kanithanj-cv": "workspace:*",
     "lucide-react": "^1.16.0",
     "mermaid": "^11.17.2",
     "motion": "^12.40.0",

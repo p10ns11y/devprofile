@@ -25,7 +25,7 @@ jobs:
       - name: Install poppler
         run: sudo apt-get update && sudo apt-get install -y poppler-utils
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --config.strict-store-pkg-content-check=false
+        run: pnpm install --frozen-lockfile
       - name: Generate typst CV from cvdata
         run: pnpm generate-pdf
       - name: Fail on cvdata / PDF drift
