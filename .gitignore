@@ -66,3 +66,4 @@ installer.log
 
 # Colorfigures engine is vendored under third_party/; local preview copy only
 skins/colorfigures/core.js
+vendor/kanithanj-cv/node_modules
