@@ -56,6 +56,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      kanithanj-cv:
+        specifier: github:p10ns11y/collab-finder#5916ec24cc70e2f0010cd3ae897979d05d09b916&path:vendor/kanithanj-cv
+        version: https://codeload.github.com/p10ns11y/collab-finder/tar.gz/5916ec24cc70e2f0010cd3ae897979d05d09b916#path:vendor/kanithanj-cv
       lucide-react:
         specifier: ^1.16.0
         version: 1.16.0(react@19.2.6)
@@ -2050,6 +2053,10 @@ packages:
 
   jsonc-parser@3.3.1:
     resolution: {integrity: sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ==}
+
+  kanithanj-cv@https://codeload.github.com/p10ns11y/collab-finder/tar.gz/5916ec24cc70e2f0010cd3ae897979d05d09b916#path:vendor/kanithanj-cv:
+    resolution: {gitHosted: true, integrity: sha512-68gp0VNIPANbhO+MSIVO8trqq9a8/UkiBmNbj3g1zRlQIQjy4VbbbOgzvB9H2SJ65+mAQLX4FVZ/emeUh8Djcg==, tarball: https://codeload.github.com/p10ns11y/collab-finder/tar.gz/5916ec24cc70e2f0010cd3ae897979d05d09b916}
+    version: 0.1.0
 
   katex@0.16.47:
     resolution: {integrity: sha512-Eeo8Ys1doU1z+x8AZsPpQu+p/QcZBI5PeOo7QGQdy2x2m0MU/hYagBbGOmXwr5KVbEfVuWv9LpnQWeehogurjg==}
@@ -4461,6 +4468,11 @@ snapshots:
   json-schema@0.4.0: {}
 
   jsonc-parser@3.3.1: {}
+
+  kanithanj-cv@https://codeload.github.com/p10ns11y/collab-finder/tar.gz/5916ec24cc70e2f0010cd3ae897979d05d09b916#path:vendor/kanithanj-cv:
+    dependencies:
+      '@react-pdf/renderer': 4.5.1(react@19.2.6)
+      react: 19.2.6
 
   katex@0.16.47:
     dependencies:

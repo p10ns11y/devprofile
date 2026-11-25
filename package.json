@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev": "node scripts/sync-github-dashboard-cache.mjs && next dev --turbopack",
-    "build": "npm run generate-pdf && node scripts/build-qa-index.mjs && node scripts/generate-sw-version.mjs && node scripts/sync-github-dashboard-cache.mjs && next build",
+    "build": "node scripts/build-qa-index.mjs && node scripts/generate-sw-version.mjs && node scripts/sync-github-dashboard-cache.mjs && next build",
     "start": "next start",
     "lint": "biome lint . --diagnostic-level=error",
     "lint:report": "biome lint . --max-diagnostics=none",
@@ -21,7 +21,7 @@
     "imports:fix": "biome check --write --only=organizeImports src scripts tests playwright.config.ts playwright.brave.ts vitest.config.ts next.config.mjs",
     "test:certificates": "vitest run src/lib/certificates src/app/api/certificates",
     "precommit": "pnpm imports:fix && pnpm format && pnpm lint:fix && pnpm lint",
-    "generate-pdf": "bun scripts/generate-pdf.tsx",
+    "generate-pdf": "node scripts/generate-pdf.mjs",
     "link-application-packs": "node scripts/link-application-packs.mjs",
     "generate-apply-cv": "bun scripts/generate-apply-cv.tsx",
     "type-check": "tsc --noEmit",
@@ -47,7 +47,9 @@
     "test:unit:cov": "vitest run --coverage",
     "test:qa": "vitest run src/lib/qa src/app/api/cv/qa",
     "test:golden": "QA_EVAL_STRICT=1 pnpm qa:pipeline",
-    "validate-certificates": "node scripts/validate-certificates.mjs"
+    "validate-certificates": "node scripts/validate-certificates.mjs",
+    "prebuild": "npm run generate-pdf",
+    "check:cv-drift": "node scripts/check-cv-drift.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.0",
@@ -60,6 +62,7 @@
     "ai": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "kanithanj-cv": "github:p10ns11y/collab-finder#5916ec24cc70e2f0010cd3ae897979d05d09b916&path:vendor/kanithanj-cv",
     "lucide-react": "^1.16.0",
     "mermaid": "^11.17.2",
     "motion": "^12.40.0",

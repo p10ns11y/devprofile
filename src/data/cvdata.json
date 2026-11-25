@@ -6,10 +6,10 @@
   "previous_role": "Senior Software Engineer",
   "open_for_new_opportunies": true,
   "name_with_initial": "Peramanathan S.",
-  "one_liner": "Senior Software Engineer with 9+ years in scalable web apps, JavaScript, ReactJS, and system architecture, leading teams and mentoring in innovative startups.",
-  "shorter_bio": "Senior Software Engineer with 9+ years of experience in scalable web apps and team leadership. Master's in Computer Science and Operations Research, skilled in JavaScript, ReactJS, and system architecture. Drives innovation and efficiency in startups, passionate about mentoring.",
-  "short_bio": "Senior Software Engineer with 9+ years of experience building scalable web applications and leading teams. Holds Master's degrees in Computer Science and Operations Research, with expertise in JavaScript, ReactJS, and system architecture. Proven leader in driving innovative solutions and efficiency in startups, with a passion for mentoring and fostering innovation.",
-  "profile": "Senior software engineer with 9+ years shipping web products. Nearly eight of them were at Oneflow, a contract management platform, where I grew from JavaScript developer to founding the Integration Team, leading an engineering team and moving a live codebase to TypeScript. Since December 2024 I have worked independently on AI/SI product and systems engineering for agentic workflows; most of my deep learning and systems work is private, and the public repos grew slowly as I learned. Master's degrees in Computer Science and Operations Research. Swedish citizen with EU work authorisation. Available now and can start within two weeks of an offer, for a senior fullstack, product or Forward Deployed Engineer role.",
+  "one_liner": "Senior software engineer with 9+ years shipping web products, nearly eight of them at Oneflow. Since December 2024 I have worked independently on AI/SI product and systems engineering for agentic workflows.",
+  "shorter_bio": "Senior software engineer with 9+ years shipping web products. Nearly eight of them were at Oneflow, a contract management platform, where I grew from JavaScript developer to founding the Integration Team, leading an engineering team and moving a live codebase to TypeScript. Since December 2024 I have worked independently on AI/SI product and systems engineering for agentic workflows.",
+  "short_bio": "Senior software engineer with 9+ years shipping web products. Nearly eight of them were at Oneflow, a contract management platform, where I grew from JavaScript developer to founding the Integration Team, leading an engineering team and moving a live codebase to TypeScript. Since December 2024 I have worked independently on AI/SI product and systems engineering for agentic workflows. Master's degrees in Computer Science and Operations Research. Available now and can start within two weeks of an offer, for a senior fullstack, product or Forward Deployed Engineer role.",
+  "profile": "Senior software engineer with 9+ years shipping web products. Nearly eight of them were at Oneflow, a contract management platform, where I grew from JavaScript developer to founding the Integration Team, leading an engineering team and moving a live codebase to TypeScript. Since December 2024 I have worked independently on AI/SI product and systems engineering for agentic workflows. Master's degrees in Computer Science and Operations Research. Available now and can start within two weeks of an offer, for a senior fullstack, product or Forward Deployed Engineer role.",
   "contact": {
     "email": "sathyam.peram@gmail.com",
     "phone_hint": "Waiting for Telenor to reactivate — omit from public CV/contact until then",
@@ -52,7 +52,10 @@
       "huggingface": "https://huggingface.co/Peramanathan"
     },
     "inactive": {
-      "github": ["https://github.com/peramsathyam", "https://github.com/peramanathan"]
+      "github": [
+        "https://github.com/peramsathyam",
+        "https://github.com/peramanathan"
+      ]
     }
   },
   "work_experience": [
@@ -67,10 +70,18 @@
       "note": "Most of my deep learning and systems work is private; the public repos grew slowly as I learned.",
       "responsibilities": [
         "Adaptate: the precursor idea first appeared at Oneflow as a small Zod-based validation helper; Adaptate is a from-scratch open-source rebuild. One Zod schema; each consumer declares the fields it needs at runtime, with OpenAPI interop and streaming validation. Three npm packages (adaptate, @adaptate/core, @adaptate/utils) at 2.4.2, published with SLSA provenance; docs at https://adaptate-site.vercel.app.",
-        "kanithanj (collab-finder): a local-first Tauri, Rust and React desktop app that runs an agentic workflow over listings and documents. Typed Rust checks (fit, cost, rate) run before any model call; a human-in-the-loop step approves changes and spend. 1.0.0 in Aug 2026, now 1.3.0; https://kanithanj-ai.vercel.app.",
+        "kanithanj (collab-finder): a local-first Tauri, Rust and React desktop app that runs an agentic workflow over listings and documents. Typed Rust checks (fit, cost, rate) run before any model call; a human-in-the-loop step approves changes and spend. 1.0.0 in Aug 2026, now 1.3.0; https://kanithanj-ai.vercel.app. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized.",
+        "Ensembly: a Rust service that gives several coding-agent tools (Grok Bot, Grok Build, Cursor, Claude Code) one shared SQLite ledger and one approval flow. Agents propose; one single-writer SQLite ledger authorizes, claims and completes, with idempotent retries and a one-command installer per harness.",
+        "Append-only record layer with event time, hybrid logical clocks, versioned envelopes and writer provenance; CRDT episodic memory that advises but never decides; pulse-pack memory sync between hosts; a read-only MCP server.",
+        "evalbench and a retrieval benchmark measure memory before it is trusted; a semi-decision model proposes and waits for my confirmation, so it suggests and I decide.",
         "Compiled a Rust Tamil-metre parser to WebAssembly and shipped a React UI (thepulimaangani), so prosody analysis runs in the browser without a backend."
       ],
-      "tools": ["TypeScript", "React", "Rust", "Tauri"]
+      "tools": [
+        "TypeScript",
+        "React",
+        "Rust",
+        "Tauri"
+      ]
     },
     {
       "title": "Senior Software Engineer",
@@ -84,7 +95,11 @@
         "Automated the conversion of JavaScript modules to TypeScript with a custom script preserving the version control history, saving over 200 hours of manual work and accelerating development timelines",
         "Unified distributed ACL permissions into a single utility module, managing complex contexts and user roles (owner, guest) to simplify maintenance, migration and enhance scalability."
       ],
-      "tools": ["TypeScript", "ReactJS", "Python"]
+      "tools": [
+        "TypeScript",
+        "ReactJS",
+        "Python"
+      ]
     },
     {
       "title": "Engineering Team Lead",
@@ -146,7 +161,10 @@
         "Optimized CI build processes, reducing build times by 40%,",
         "Contributed to modernizing the legacy codebase by transitioning to React.js."
       ],
-      "tools": ["Python", "Reactjs"]
+      "tools": [
+        "Python",
+        "Reactjs"
+      ]
     },
     {
       "title": "System and Full Stack Developer",
@@ -185,7 +203,14 @@
         "Enhanced full-stack dashboard with gulp build and key performance indicators.",
         "Explored migrating tech stack to Reactjs and Eve Python framework."
       ],
-      "tools": ["MongoDB", "AngularJS", "Python", "Heroku", "Laravel (PHP)", "System Monitoring"]
+      "tools": [
+        "MongoDB",
+        "AngularJS",
+        "Python",
+        "Heroku",
+        "Laravel (PHP)",
+        "System Monitoring"
+      ]
     }
   ],
   "skills": {
@@ -233,7 +258,16 @@
       },
       {
         "title": "DevOps & AI",
-        "skills": ["AWS", "Terraform", "Docker", "Git", "LangChain", "LLMs", "Webpack", "Vite"]
+        "skills": [
+          "AWS",
+          "Terraform",
+          "Docker",
+          "Git",
+          "LangChain",
+          "LLMs",
+          "Webpack",
+          "Vite"
+        ]
       }
     ]
   },
@@ -287,7 +321,9 @@
       "lessonsCompleted": 104,
       "modulesCompleted": 7,
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
       "filename": "JavaScriptTestingCertificate.pdf",
       "sha256Hash": "1da0d9c0f8f6726a20cbbd52c1aede5b0d28362342ebad2d0c78813d40c22864",
@@ -301,7 +337,11 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/0UXP2OPIYHPS",
-      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "instructors": [
+        "Jeff Leek, PhD",
+        "Roger Peng, PhD",
+        "Brian Caffo, PhD"
+      ],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
       "filename": "Coursera 0UXP2OPIYHPS.pdf",
@@ -315,7 +355,9 @@
       "issuer": "University of London and Goldsmiths, University of London",
       "provider": "Coursera",
       "verifyUrl": "https://coursera.org/verify/5M8WT6R5VW32",
-      "instructors": ["Dr Matthew Yee-King"],
+      "instructors": [
+        "Dr Matthew Yee-King"
+      ],
       "department": "Computing Department, Goldsmiths, University of London",
       "type": "Online Non-Credit Course",
       "filename": "Coursera-Meteor.pdf",
@@ -330,7 +372,11 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/A5O6UPSB1TU2",
-      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "instructors": [
+        "Jeff Leek, PhD",
+        "Roger Peng, PhD",
+        "Brian Caffo, PhD"
+      ],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
       "filename": "Coursera A5O6UPSB1TU2.pdf",
@@ -345,7 +391,11 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/CF3OFVOXL5DL",
-      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "instructors": [
+        "Jeff Leek, PhD",
+        "Roger Peng, PhD",
+        "Brian Caffo, PhD"
+      ],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
       "filename": "Coursera CF3OFVOXL5DL.pdf",
@@ -360,7 +410,11 @@
       "issuer": "Johns Hopkins University",
       "provider": "Coursera",
       "verifyUrl": "coursera.org/verify/9PP3NZMJZBYQ",
-      "instructors": ["Jeff Leek, PhD", "Roger Peng, PhD", "Brian Caffo, PhD"],
+      "instructors": [
+        "Jeff Leek, PhD",
+        "Roger Peng, PhD",
+        "Brian Caffo, PhD"
+      ],
       "department": "Department of Biostatistics, Johns Hopkins Bloomberg School of Public Health",
       "type": "Online Non-Credit Course",
       "filename": "Coursera-dataproducts.pdf",
@@ -374,8 +428,14 @@
       "issuer": "University of Washington",
       "provider": "Coursera",
       "verifyUrl": "https://coursera.org/verify/QDDVWPVKDNEX",
-      "instructors": ["Emily Fox", "Carlos Guestrin"],
-      "departments": ["Statistics", "Computer Science and Engineering"],
+      "instructors": [
+        "Emily Fox",
+        "Carlos Guestrin"
+      ],
+      "departments": [
+        "Statistics",
+        "Computer Science and Engineering"
+      ],
       "type": "MOOC",
       "filename": "Coursera-ML.pdf",
       "sha256Hash": "5645ad06600f22491235dc96d93efd2084dd043dd649784e0b717398d23ab501",
@@ -388,7 +448,9 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
       "filename": "advanced-react-hooks-certificate.pdf",
       "sha256Hash": "59af8a29c4e8d29026c6984914c2ab351ad6ff6e09756db4435cad76b52ef084",
@@ -401,7 +463,9 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
       "filename": "advanced-react-patterns-certificate.pdf",
       "sha256Hash": "635c9d643ec1eab42b52abc961f804f4fd5d87f2c40d524e2cbc7fdc4ff1c89f",
@@ -414,7 +478,9 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Workshop",
       "filename": "build-epic-react-app-certificate.pdf",
       "sha256Hash": "0e7d47e2503d21261ee42d92d5e965a8af939f6b994e6420123194738f603b4f",
@@ -441,7 +507,9 @@
       "provider": "Just JavaScript",
       "episodesCompleted": 10,
       "verifyUrl": null,
-      "instructors": ["Dan Abramov"],
+      "instructors": [
+        "Dan Abramov"
+      ],
       "type": "Online Course",
       "filename": "JustJavaScript-certificate.pdf",
       "sha256Hash": "70cb975aa2bd19795db985234f3decc440096943a31e205fa28c5154279cec86",
@@ -454,7 +522,9 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
       "filename": "react-fundamentals-certificate.pdf",
       "sha256Hash": "10e6c45191eb01c9aecf5b7b53afd07953786ae75a27d4204f9eff1143cc87bb",
@@ -467,7 +537,9 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
       "filename": "testing-react-apps-certificate.pdf",
       "sha256Hash": "9631dc96454398bf88e4007fd25183b5014d1a24ead64983b232664745c7b2d8",
@@ -480,7 +552,9 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
       "filename": "react-performance-certificate.pdf",
       "sha256Hash": "6af504885a25d5dec524f2f3ea32c762c0fc807711ab8baaac25f15d4dffa191",
@@ -493,7 +567,9 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
       "filename": "react-suspense-certificate.pdf",
       "sha256Hash": "3927186f452ebe6356f00037135b95516afd98923120427336fb164807a66000",
@@ -506,7 +582,9 @@
       "issuer": "Kent C. Dodds",
       "provider": "Epic React",
       "verifyUrl": null,
-      "instructors": ["Kent C. Dodds"],
+      "instructors": [
+        "Kent C. Dodds"
+      ],
       "type": "Online Course",
       "filename": "react-hooks-epic-react-certificate.pdf",
       "sha256Hash": "a7ec44fa1c4f6ac5d2aad9f52836da5b8f91bf53e4ec10004e0bb9405d6a56de",
@@ -644,7 +722,11 @@
         },
         {
           "category": "Data Science & AI",
-          "courses": ["Computer Assisted Image Analysis I", "Data Mining I", "Machine Learning"]
+          "courses": [
+            "Computer Assisted Image Analysis I",
+            "Data Mining I",
+            "Machine Learning"
+          ]
         },
         {
           "category": "Software Engineering & Databases",
@@ -674,26 +756,103 @@
     "Swedish": "Basic"
   },
   "technologies": {
-    "Languages": ["JavaScript", "TypeScript", "Python", "Rust", "C"],
-    "Frontend": ["React", "Next.js", "TanStack", "Vite", "Zod", "Accessibility (WCAG)"],
-    "Backend": ["Node.js", "Express"],
-    "Testing": ["Playwright", "Jest", "Testing Library"],
-    "Data": ["MySQL", "MongoDB"],
-    "Cloud & tooling": ["AWS", "Vercel", "Cloudflare", "Tauri"]
+    "Languages": [
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "Rust",
+      "C"
+    ],
+    "Frontend": [
+      "React",
+      "Next.js",
+      "TanStack",
+      "Vite",
+      "Zod",
+      "Accessibility (WCAG)"
+    ],
+    "Backend": [
+      "Node.js",
+      "Express"
+    ],
+    "Testing": [
+      "Playwright",
+      "Jest",
+      "Testing Library"
+    ],
+    "Data": [
+      "MySQL",
+      "MongoDB"
+    ],
+    "Cloud & tooling": [
+      "AWS",
+      "Vercel",
+      "Cloudflare",
+      "Tauri"
+    ]
   },
   "technologies_archive": {
     "_note": "Historical / broad stack snapshot. Not rendered on CV web or PDF — only `technologies` is.",
-    "AI": ["LangChainjs", "Agents"],
-    "Workflow": ["Graphite"],
-    "Fullstack": ["Remix", "Nextjs", "Astro", "Solid-start"],
-    "Languages": ["C", "C++", "Java", "R", "Erlang", "Elixir", "Rust"],
-    "Data Science & ML": ["R", "Python", "NumPy", "Panda", "Scikit-learn"],
-    "Front-End tools": ["Esbuild", "Vitejs"],
-    "API Frameworks": ["Django", "Eve", "Flask"],
-    "Databases": ["MySQL", "Postgres", "MongoDB"],
-    "Deployment": ["AWS (EC2, S3, IAM, ELB)", "Heroku", "Netlify", "Vercel", "Fly.io"],
-    "Cloud & build": ["AWS", "Vercel", "Webpack", "Babel"],
-    "Systems & agents": ["Tauri", "xAI / structured LLM I/O"],
+    "AI": [
+      "LangChainjs",
+      "Agents"
+    ],
+    "Workflow": [
+      "Graphite"
+    ],
+    "Fullstack": [
+      "Remix",
+      "Nextjs",
+      "Astro",
+      "Solid-start"
+    ],
+    "Languages": [
+      "C",
+      "C++",
+      "Java",
+      "R",
+      "Erlang",
+      "Elixir",
+      "Rust"
+    ],
+    "Data Science & ML": [
+      "R",
+      "Python",
+      "NumPy",
+      "Panda",
+      "Scikit-learn"
+    ],
+    "Front-End tools": [
+      "Esbuild",
+      "Vitejs"
+    ],
+    "API Frameworks": [
+      "Django",
+      "Eve",
+      "Flask"
+    ],
+    "Databases": [
+      "MySQL",
+      "Postgres",
+      "MongoDB"
+    ],
+    "Deployment": [
+      "AWS (EC2, S3, IAM, ELB)",
+      "Heroku",
+      "Netlify",
+      "Vercel",
+      "Fly.io"
+    ],
+    "Cloud & build": [
+      "AWS",
+      "Vercel",
+      "Webpack",
+      "Babel"
+    ],
+    "Systems & agents": [
+      "Tauri",
+      "xAI / structured LLM I/O"
+    ],
     "Miscellaneous": [
       "Data Visualization",
       "KPI Implementation",
@@ -711,7 +870,13 @@
       "description": "Tauri + Rust + React desktop app for high-fit roles and apply packs (1.0.0 shipped 19 Aug 2026).",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/collab-finder",
-      "technologies": ["Tauri", "Rust", "React", "TypeScript", "SQLite"],
+      "technologies": [
+        "Tauri",
+        "Rust",
+        "React",
+        "TypeScript",
+        "SQLite"
+      ],
       "status": "active",
       "is_open_source": true,
       "impact": "Production apply cockpit (kanithanj.ai desktop app)",
@@ -725,7 +890,12 @@
       "description": "Tamil metre in the browser — Rust/WASM parser and React UI (live demo).",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/thepulimaangani",
-      "technologies": ["TypeScript", "React", "Rust", "WASM"],
+      "technologies": [
+        "TypeScript",
+        "React",
+        "Rust",
+        "WASM"
+      ],
       "status": "active",
       "is_open_source": true,
       "impact": "Live cultural-computational product",
@@ -739,7 +909,11 @@
       "description": "Public portfolio and apply-CV — Next.js, grounded Q&A, Focus essays.",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/devprofile",
-      "technologies": ["Next.js", "React", "TypeScript"],
+      "technologies": [
+        "Next.js",
+        "React",
+        "TypeScript"
+      ],
       "status": "active",
       "is_open_source": true,
       "impact": "Public presence and CV product",
@@ -753,7 +927,12 @@
       "description": "Complementary operator kernel under Grok Bot, Grok Build, and Cursor — HITL/HOOTL gates, T1 SQLite ledger, episodic memory, and pulse-pack sync. Game of Peram is parked in prototype/.",
       "type": "hobby_oss",
       "url": "https://github.com/thecuriousts/ensembly",
-      "technologies": ["Rust", "SQLite", "CRDT", "MCP"],
+      "technologies": [
+        "Rust",
+        "SQLite",
+        "CRDT",
+        "MCP"
+      ],
       "status": "active",
       "is_open_source": true,
       "impact": "Operator kernel under capture harnesses",
@@ -767,7 +946,10 @@
       "description": "Elixir/OTP CommandFabric. An explicit allowlist across a distributed mesh. Transport and host tools are swappable. Pairs with ensembly: authorize and claim, then dispatch onto another participant.",
       "type": "hobby_oss",
       "url": "https://github.com/thecuriousts/participatory-mesh",
-      "technologies": ["Elixir", "Erlang/OTP"],
+      "technologies": [
+        "Elixir",
+        "Erlang/OTP"
+      ],
       "status": "active",
       "is_open_source": true,
       "impact": "Allowlisted multi-device dispatch",
@@ -781,7 +963,11 @@
       "description": "Privacy-first toolkit: local agent transcripts to datasets, skills, and gold exemplars.",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/agent-prompt-tuning-lab",
-      "technologies": ["JavaScript", "Datasets", "Prompt engineering"],
+      "technologies": [
+        "JavaScript",
+        "Datasets",
+        "Prompt engineering"
+      ],
       "status": "active",
       "is_open_source": true,
       "impact": "Local transcript → eval assets",
@@ -795,7 +981,11 @@
       "description": "Grok Dia renamed into this monorepo. Two extracted Chrome extensions: Ask Grok (apps/ask-grok) and Vocab Builder (apps/vocab-builder). Legacy combined build in src/extension is deprecated. Optional productive extension later if needed.",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/grok-daily-productivity-extensions",
-      "technologies": ["Browser Extension", "AI Integration", "Chrome Extension"],
+      "technologies": [
+        "Browser Extension",
+        "AI Integration",
+        "Chrome Extension"
+      ],
       "status": "development",
       "is_open_source": true,
       "meta": {
@@ -862,7 +1052,14 @@
       "description": "Dynamic and Adaptable Model Validator Using Zod, Interoperable with OpenAPI",
       "type": "hobby_oss",
       "url": "https://github.com/p10ns11y/adaptate",
-      "technologies": ["Zod", "TypeScript", "OpenAPI", "JSON Schema", "Validation", "Node.js"],
+      "technologies": [
+        "Zod",
+        "TypeScript",
+        "OpenAPI",
+        "JSON Schema",
+        "Validation",
+        "Node.js"
+      ],
       "impact": "Dynamic Validation",
       "is_open_source": true,
       "image": "https://imagine-public.x.ai/imagine-public/images/1513422f-f939-4e19-8977-713293d94216.png",
@@ -899,13 +1096,19 @@
       "description": "Contributions to Zod validation library",
       "type": "work_oss",
       "url": "https://github.com/colinhacks/zod",
-      "technologies": ["TypeScript", "Validation", "Zod"],
+      "technologies": [
+        "TypeScript",
+        "Validation",
+        "Zod"
+      ],
       "is_open_source": true,
       "meta": {
         "company": "Oneflow AB"
       },
       "impact": "Fixed the critical ordering in chainable operations to preserve expected behavior and avoid debugging issues.",
-      "prs": ["https://github.com/colinhacks/zod/pull/1702"],
+      "prs": [
+        "https://github.com/colinhacks/zod/pull/1702"
+      ],
       "work_related": true,
       "extra_image": "https://imagine-public.x.ai/imagine-public/images/36eb7eff-5ebc-4055-a171-ec98ef58a7d4.png",
       "image": "https://imagine-public.x.ai/imagine-public/images/ad6c499a-29d2-42e1-8aca-fe51964896eb.png"
@@ -917,7 +1120,10 @@
       "description": "Interview project for coding challenge",
       "type": "interview",
       "url": "https://github.com/p10ns11y/comment-on-highlight",
-      "technologies": ["JavaScript", "Development"],
+      "technologies": [
+        "JavaScript",
+        "Development"
+      ],
       "meta": {
         "company": "Oneflow AB"
       },
@@ -934,7 +1140,11 @@
       "type": "work_oss",
       "url": "https://github.com/p10ns11y/babel-plugin-react-intl-messages-generator",
       "npm_url": "https://www.npmjs.com/package/babel-plugin-react-intl-messages-generator",
-      "technologies": ["Babel", "JavaScript", "react-intl"],
+      "technologies": [
+        "Babel",
+        "JavaScript",
+        "react-intl"
+      ],
       "is_open_source": true,
       "meta": {
         "company": "Weavler AB"
@@ -955,12 +1165,18 @@
       "description": "Contributions to react-intl library used for internationalization",
       "type": "oss_contribution",
       "url": "https://github.com/formatjs/formatjs",
-      "technologies": ["JavaScript", "i18n", "react-intl"],
+      "technologies": [
+        "JavaScript",
+        "i18n",
+        "react-intl"
+      ],
       "is_open_source": true,
       "meta": {
         "company": "Weavler AB"
       },
-      "prs": ["https://github.com/formatjs/formatjs/pull/837"],
+      "prs": [
+        "https://github.com/formatjs/formatjs/pull/837"
+      ],
       "related_to": "react-intl",
       "image": "https://imagine-public.x.ai/imagine-public/images/b33b9553-a975-49b9-88ef-90fbc2adf6be.png"
     },
@@ -971,9 +1187,15 @@
       "description": "Contributions to React Boilerplate project",
       "type": "oss_contribution",
       "url": "https://github.com/react-boilerplate/react-boilerplate",
-      "technologies": ["React", "JavaScript", "Boilerplate"],
+      "technologies": [
+        "React",
+        "JavaScript",
+        "Boilerplate"
+      ],
       "is_open_source": true,
-      "prs": ["https://github.com/react-boilerplate/react-boilerplate/pull/1355"],
+      "prs": [
+        "https://github.com/react-boilerplate/react-boilerplate/pull/1355"
+      ],
       "image": "https://imagine-public.x.ai/imagine-public/images/09d0ceb5-686c-4f63-a26a-06788eae93ec.png"
     },
     {
@@ -983,7 +1205,10 @@
       "description": "Contributions to Kent C. Dodds' bookshelf project",
       "type": "oss_contribution",
       "url": "https://github.com/kentcdodds/bookshelf",
-      "technologies": ["JavaScript", "Open Source"],
+      "technologies": [
+        "JavaScript",
+        "Open Source"
+      ],
       "is_open_source": true,
       "prs": [
         "https://github.com/kentcdodds/bookshelf/pull/184",
@@ -998,7 +1223,11 @@
       "description": "Contributions to React testing applications documentation",
       "type": "oss_contribution",
       "url": "https://github.com/kentcdodds/testing-react-apps",
-      "technologies": ["React", "Testing", "Documentation"],
+      "technologies": [
+        "React",
+        "Testing",
+        "Documentation"
+      ],
       "is_open_source": true,
       "prs": [
         "https://github.com/kentcdodds/testing-react-apps/pull/42",
@@ -1013,7 +1242,12 @@
       "description": "A google chrome extension for Tamil Language that is distraction free English-Tamil online thesaurus with auto language detection integrating Glosbe, Wiktionary and Tamil Virtual University technical glossary APIs. Technically, an optimal integration of AJAX, JSON parsing, HTML parsing, jQuery, Message passing and regular expression",
       "type": "community",
       "url": "#",
-      "technologies": ["JavaScript", "Chrome Extension", "AJAX", "jQuery"],
+      "technologies": [
+        "JavaScript",
+        "Chrome Extension",
+        "AJAX",
+        "jQuery"
+      ],
       "status": "stopped",
       "is_open_source": false,
       "meta": {
@@ -1076,12 +1310,30 @@
         "link_label": "thepulimaangani on GitHub"
       }
     ],
-    "arc": { "label": "Articles", "url": "/articles" },
-    "hero_actions": [{ "href": "/?building=view", "label": "Building", "variant": "primary" }],
+    "arc": {
+      "label": "Articles",
+      "url": "/articles"
+    },
+    "hero_actions": [
+      {
+        "href": "/?building=view",
+        "label": "Building",
+        "variant": "primary"
+      }
+    ],
     "hero_links": [
-      { "href": "/?cv=view", "label": "View CV" },
-      { "href": "/qa", "label": "Q&A" },
-      { "href": "/articles", "label": "Articles" }
+      {
+        "href": "/?cv=view",
+        "label": "View CV"
+      },
+      {
+        "href": "/qa",
+        "label": "Q&A"
+      },
+      {
+        "href": "/articles",
+        "label": "Articles"
+      }
     ],
     "contact_lead": "",
     "contact_aside": "",
@@ -1090,52 +1342,88 @@
     "meta_description": "Available now in Stockholm. Senior Product and Systems Engineer · AI/SI agentic workflows.",
     "work_lead": "",
     "claim_families": [
-      { "id": "product", "title": "Product" },
-      { "id": "development", "title": "Development" }
+      {
+        "id": "product",
+        "title": "Product"
+      },
+      {
+        "id": "development",
+        "title": "Development"
+      }
     ],
     "claims": [
       {
         "id": "adaptable",
         "family": "product",
         "label": "Adaptable Problem Solving",
-        "evidence": ["PP-crm", "PP-iam-router"]
+        "evidence": [
+          "PP-crm",
+          "PP-iam-router"
+        ]
       },
       {
         "id": "prevention",
         "family": "product",
         "label": "Proactive Problem Prevention and Elimination",
-        "evidence": ["PP-ts-70", "PP-zod-lib", "PP-adaptate"]
+        "evidence": [
+          "PP-ts-70",
+          "PP-zod-lib",
+          "PP-adaptate"
+        ]
       },
       {
         "id": "systems",
         "family": "product",
         "label": "System Thinking",
-        "evidence": ["PP-acl", "PP-integ-team", "PP-collab"]
+        "evidence": [
+          "PP-acl",
+          "PP-integ-team",
+          "PP-collab"
+        ]
       },
       {
         "id": "detail",
         "family": "product",
         "label": "Detail Orientation",
-        "evidence": ["PP-ts-200h", "PP-playwright"]
+        "evidence": [
+          "PP-ts-200h",
+          "PP-playwright"
+        ]
       },
       {
         "id": "adjacent",
         "family": "product",
         "label": "Innovative Adjacent Thinking",
-        "evidence": ["PP-ieee", "PP-collab"]
+        "evidence": [
+          "PP-ieee",
+          "PP-collab"
+        ]
       },
       {
         "id": "creative",
         "family": "product",
         "label": "Creative Solutions",
-        "evidence": ["PP-rte-60", "PP-babel-i18n"]
+        "evidence": [
+          "PP-rte-60",
+          "PP-babel-i18n"
+        ]
       },
-      { "id": "agile", "family": "development", "label": "Agile", "evidence": ["PP-lead"] },
+      {
+        "id": "agile",
+        "family": "development",
+        "label": "Agile",
+        "evidence": [
+          "PP-lead"
+        ]
+      },
       {
         "id": "tdd",
         "family": "development",
         "label": "Test Driven Development",
-        "evidence": ["PP-zod-lib", "PP-adaptate"]
+        "evidence": [
+          "PP-zod-lib",
+          "PP-adaptate"
+        ]
       },
       {
         "id": "bdd",
@@ -1147,13 +1435,17 @@
         "id": "e2e",
         "family": "development",
         "label": "End-to-End Testing",
-        "evidence": ["PP-playwright"]
+        "evidence": [
+          "PP-playwright"
+        ]
       },
       {
         "id": "mob",
         "family": "development",
         "label": "Pair/Mob Programming",
-        "evidence": ["PP-playwright"]
+        "evidence": [
+          "PP-playwright"
+        ]
       }
     ],
     "evidence": [
@@ -1262,9 +1554,18 @@
         "where": "Publications",
         "source": "cvdata.publications",
         "links": [
-          { "label": "IEEE", "url": "https://ieeexplore.ieee.org/document/7396150" },
-          { "label": "Wiley", "url": "https://onlinelibrary.wiley.com/doi/10.1155/2017/6562915" },
-          { "label": "Thesis", "url": "/pdfs/master-thesis.pdf" }
+          {
+            "label": "IEEE",
+            "url": "https://ieeexplore.ieee.org/document/7396150"
+          },
+          {
+            "label": "Wiley",
+            "url": "https://onlinelibrary.wiley.com/doi/10.1155/2017/6562915"
+          },
+          {
+            "label": "Thesis",
+            "url": "/pdfs/master-thesis.pdf"
+          }
         ]
       },
       {
@@ -1274,6 +1575,376 @@
         "where": "Personal, not lab employment",
         "source": "cvdata.projects",
         "project_key": "collab-finder"
+      }
+    ]
+  },
+  "cv_pdf": {
+    "document": {
+      "title": "Peramanathan Sathyamoorthy – CV – Product and Systems Engineer, AI/SI agentic workflows",
+      "author": "Peramanathan Sathyamoorthy",
+      "description": "Senior Software Engineer (9+ years), Stockholm, Sweden. AI/SI product and systems engineering for agentic workflows; fullstack and product engineering; TypeScript, React, Rust, Python. EU work authorisation. Available now; can start within two weeks. Ensembly: a Rust service under Grok Bot, Grok Build, Cursor and Claude Code with a single-writer ledger, append-only record layer, CRDT episodic memory, pulse memory sync, MCP server, evalbench and a semi-decision model. Agent-readable profile: https://captain.kingsparrow.space/llms.txt",
+      "keywords": [
+        "Senior Software Engineer",
+        "Product Engineer",
+        "Fullstack Engineer",
+        "Forward Deployed Engineer",
+        "Agentic Engineer",
+        "agentic systems",
+        "AI",
+        "SI",
+        "agentic workflows",
+        "Grok Bot",
+        "Model Context Protocol (MCP)",
+        "coding agents",
+        "evaluations (evals)",
+        "human-in-the-loop (HITL)",
+        "TypeScript",
+        "JavaScript",
+        "React",
+        "Next.js",
+        "Node.js",
+        "GraphQL",
+        "Python",
+        "Rust",
+        "Elixir",
+        "WebAssembly",
+        "Tauri",
+        "Playwright",
+        "Amazon Web Services (AWS)",
+        "Vercel",
+        "Vercel AI SDK",
+        "record layer",
+        "append-only log",
+        "event time",
+        "hybrid logical clock",
+        "idempotency keys",
+        "provenance",
+        "CRDT",
+        "episodic memory",
+        "pulse memory sync",
+        "MCP server",
+        "evalbench",
+        "retrieval benchmark",
+        "decision model",
+        "single-writer ledger",
+        "Zod",
+        "OpenAPI",
+        "streaming validation",
+        "SLSA provenance",
+        "llms.txt"
+      ]
+    },
+    "name": "Peramanathan Sathyamoorthy",
+    "headline": "Senior Product and Systems Engineer · AI/SI agentic workflows",
+    "contact_line": [
+      {
+        "text": "Stockholm, Sweden"
+      },
+      {
+        "text": "Swedish citizen, EU work authorisation"
+      },
+      {
+        "text": "sathyam.peram@gmail.com",
+        "href": "mailto:sathyam.peram@gmail.com"
+      },
+      {
+        "text": "captain.kingsparrow.space",
+        "href": "https://captain.kingsparrow.space"
+      }
+    ],
+    "social_line": [
+      {
+        "text": "linkedin.com/in/sathyam-peram",
+        "href": "https://linkedin.com/in/sathyam-peram"
+      },
+      {
+        "text": "github.com/p10ns11y",
+        "href": "https://github.com/p10ns11y"
+      },
+      {
+        "text": "x.com/peramanathan",
+        "href": "https://x.com/peramanathan"
+      }
+    ],
+    "profile_line": [
+      {
+        "prefix": "Agent-readable profile: ",
+        "text": "captain.kingsparrow.space/llms.txt",
+        "href": "https://captain.kingsparrow.space/llms.txt"
+      },
+      {
+        "prefix": "full: ",
+        "text": "/llms-full.txt",
+        "href": "https://captain.kingsparrow.space/llms-full.txt"
+      }
+    ],
+    "summary": "Senior software engineer with 9+ years shipping web products. Nearly eight of them were at Oneflow, a contract management platform, where I grew from JavaScript developer to founding the Integration Team, leading an engineering team and moving a live codebase to TypeScript. Since December 2024 I have worked independently on AI/SI product and systems engineering for agentic workflows. Master's degrees in Computer Science and Operations Research. Available now and can start within two weeks of an offer, for a senior fullstack, product or Forward Deployed Engineer role.",
+    "skills": [
+      [
+        "Languages",
+        "TypeScript, JavaScript, Python, Rust, C, Elixir"
+      ],
+      [
+        "Frontend",
+        "React, Next.js, TanStack Start and Router, Vite, Zod, accessibility (WCAG)"
+      ],
+      [
+        "Backend and data",
+        "Node.js, Express, Flask, OpenAPI, public APIs, SQLite, MySQL, MongoDB; GraphQL (hobby projects, and evaluated in my MSc thesis on saving network energy)"
+      ],
+      [
+        "Systems and desktop",
+        "Tauri, WebAssembly, GTK, Linux (Arch, Debian, Ubuntu), Elixir and OTP"
+      ],
+      [
+        "AI/SI and agents",
+        "Agentic workflows, Model Context Protocol (MCP) servers, Vercel AI SDK, Claude Code, Cursor, Grok Build, agent plugins and skills, evals, human-in-the-loop design"
+      ],
+      [
+        "Testing and delivery",
+        "Playwright, Vitest, Jest, Testing Library, GitHub Actions, AWS, Vercel, Cloudflare"
+      ],
+      [
+        "Practices",
+        "Agile, pair and mob programming, team leadership, mentoring, hiring"
+      ],
+      [
+        "Spoken languages",
+        "English (proficient), Swedish (basic)"
+      ]
+    ],
+    "independent": {
+      "title": "Independent AI/SI product and systems engineering (agentic workflows)",
+      "org": null,
+      "dates": "Dec 2024 – Present",
+      "note": "Most of my deep learning and systems work is private; the public repos grew slowly as I learned.",
+      "note_link": {
+        "url": "https://captain.kingsparrow.space/building",
+        "label": "captain.kingsparrow.space/building"
+      },
+      "items": [
+        {
+          "lead": "Adaptate",
+          "text": " — the precursor idea first appeared at Oneflow as a small Zod-based validation helper; Adaptate is a from-scratch open-source rebuild. One Zod schema; each consumer declares the fields it needs at runtime, with OpenAPI interop and streaming validation. Three npm packages at 2.4.2, published with SLSA provenance.",
+          "links": [
+            {
+              "url": "https://github.com/p10ns11y/adaptate",
+              "label": "github.com/p10ns11y/adaptate"
+            },
+            {
+              "url": "https://adaptate-site.vercel.app",
+              "label": "adaptate-site.vercel.app"
+            },
+            {
+              "url": "https://www.npmjs.com/package/@adaptate/core",
+              "label": "npmjs.com/package/@adaptate/core"
+            }
+          ]
+        },
+        {
+          "lead": "kanithanj",
+          "text": " (collab-finder) — a local-first desktop app that runs an agentic workflow over listings and documents. Typed Rust checks (fit, cost, rate) run before any model call; a human-in-the-loop step approves changes and spend. 1.0.0 in Aug 2026, now 1.3.0. Tauri, React, SQLite. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized.",
+          "links": [
+            {
+              "url": "https://kanithanj-ai.vercel.app",
+              "label": "kanithanj-ai.vercel.app"
+            },
+            {
+              "url": "https://github.com/p10ns11y/collab-finder",
+              "label": "github.com/p10ns11y/collab-finder"
+            }
+          ]
+        },
+        {
+          "lead": "Event planner",
+          "text": " — a live web app: type one sentence, get ranked venues back. Parses the brief with xAI through the Vercel AI SDK, with a scripted fallback. Next.js, Adaptate, end-to-end tests.",
+          "links": [
+            {
+              "url": "https://proposales-planner-bench.vercel.app",
+              "label": "proposales-planner-bench.vercel.app"
+            },
+            {
+              "url": "https://github.com/p10ns11y/proposales-planner-bench",
+              "label": "github.com/p10ns11y/proposales-planner-bench"
+            }
+          ]
+        },
+        {
+          "lead": "thepulimaangani",
+          "text": " — classical Tamil prosody in the browser. A Rust parser compiled to WebAssembly splits poems into metrical units behind a React (TanStack Start) interface, with no server.",
+          "links": [
+            {
+              "url": "https://seiyul-alagi.vercel.app",
+              "label": "seiyul-alagi.vercel.app"
+            },
+            {
+              "url": "https://github.com/p10ns11y/thepulimaangani",
+              "label": "github.com/p10ns11y/thepulimaangani"
+            }
+          ]
+        },
+        {
+          "lead": "Ensembly",
+          "text": " — a Rust service that gives several coding-agent tools (Grok Bot, Grok Build, Cursor, Claude Code) one shared SQLite ledger and one approval flow. Agents propose; the ledger authorizes, claims and completes, with idempotent retries and a one-command installer per harness.",
+          "links": [
+            {
+              "url": "https://github.com/thecuriousts/ensembly",
+              "label": "github.com/thecuriousts/ensembly"
+            }
+          ]
+        },
+        {
+          "text": "Append-only record layer with event time, hybrid logical clocks, versioned envelopes and writer provenance; CRDT episodic memory that advises but never decides; pulse-pack memory sync between hosts; a read-only MCP server."
+        },
+        {
+          "text": "evalbench and a retrieval benchmark measure memory before it is trusted; a semi-decision model proposes and waits for my confirmation, so it suggests and I decide."
+        },
+        {
+          "lead": "Agent plugins and skills",
+          "text": " — public plugins in a marketplace for Grok Build, Claude Code and Cursor, and skills in the public repo.",
+          "links": [
+            {
+              "url": "https://github.com/p10ns11y/plugins",
+              "label": "github.com/p10ns11y/plugins"
+            },
+            {
+              "url": "https://skills.sh/p10ns11y/skills",
+              "label": "skills.sh/p10ns11y/skills"
+            }
+          ]
+        }
+      ]
+    },
+    "experience": [
+      {
+        "title": "Senior Software Engineer",
+        "org": "Oneflow AB, Stockholm",
+        "dates": "Jan 2023 – Dec 2024",
+        "items": [
+          {
+            "text": "Introduced TypeScript into a mixed Flow and JavaScript codebase, cutting type-related errors by 70%; used Zod inference for typed business data."
+          },
+          {
+            "text": "Automated JavaScript-to-TypeScript conversion with a script that preserved version history, saving 200+ hours of manual work."
+          },
+          {
+            "text": "Unified scattered access-control (ACL) permission logic into one module covering contexts and roles, easing maintenance and migration."
+          }
+        ],
+        "note": "TypeScript, React, Python"
+      },
+      {
+        "title": "Engineering Team Lead",
+        "org": "Oneflow AB, Stockholm",
+        "dates": "Oct 2021 – Dec 2022",
+        "items": [
+          {
+            "text": "Co-led a new JSON-based rich text editor that integrates with legacy HTML, raising user satisfaction by 60%."
+          },
+          {
+            "text": "Moved the team to a self-organizing model; ran hiring and onboarding and built a continuous-improvement culture."
+          },
+          {
+            "text": "Led the end-to-end testing transformation, from mob testing to a full rewrite of the suite in Playwright, reducing regressions."
+          }
+        ],
+        "note": "TypeScript, React, Python, Jest, Testing Library, Playwright, MySQL, Node.js, Express, Flask"
+      },
+      {
+        "title": "Full Stack Integration Engineer",
+        "org": "Oneflow AB, Stockholm",
+        "dates": "Mar 2019 – Sep 2021",
+        "items": [
+          {
+            "text": "Founded the Integration Team and its processes, aligning integrations with business needs."
+          },
+          {
+            "text": "Built Python and React integrations with HubSpot, SuperOffice and Teamtailor; reviewed Microsoft Dynamics and Salesforce work."
+          },
+          {
+            "text": "Stabilized and extended the Public API, enabling a third-party integration ecosystem."
+          }
+        ],
+        "note": "Python, React, HubSpot, SuperOffice, Microsoft Dynamics, Salesforce, Connexion"
+      },
+      {
+        "title": "JavaScript Developer",
+        "org": "Oneflow AB, Stockholm",
+        "dates": "Apr 2017 – Feb 2019",
+        "items": [
+          {
+            "text": "Integrated React Router into a Backbone.js client to build Identity and Access Management with faster prototyping and testing."
+          },
+          {
+            "text": "Optimized continuous integration (CI) builds, cutting build times by 40%, and helped move the legacy codebase to React."
+          }
+        ]
+      },
+      {
+        "title": "System and Full Stack Developer",
+        "org": "Weavler AB, Stockholm",
+        "dates": "Jan 2016 – Mar 2017",
+        "items": [
+          {
+            "text": "Accessible artisan e-commerce platform (1.6M SEK grant from the Swedish Post and Telecom Authority). Managed AWS infrastructure, reducing operating costs by 40%; integrated Mandrill, Slack bots and PayPal."
+          }
+        ],
+        "note": "JavaScript, Express, React, server-side rendering (SSR), MongoDB"
+      },
+      {
+        "title": "Software Engineer Intern",
+        "org": "Bumbee Labs AB, Stockholm · footfall analytics, MongoDB",
+        "dates": "Jul 2015 – Sep 2015",
+        "items": []
+      }
+    ],
+    "profile_in_brief": "Senior Fullstack Engineer and Product Engineer, Stockholm. 9+ years in TypeScript, JavaScript, React, Next.js and Node.js, plus Python and Rust. At Oneflow (2017–2024) founded the Integration Team, extended and stabilised the public API, built HubSpot and SuperOffice apps and a Teamtailor connector, reviewed Salesforce and Microsoft Dynamics work, led the team, set up Playwright end-to-end testing and led a TypeScript migration. Since December 2024: maintainer of Adaptate on npm (Zod, OpenAPI, streaming validation; 2.4.2 with SLSA provenance from CI), builder of kanithanj (Tauri, Rust, React, SQLite) and Ensembly (a Rust service: single-writer ledger, append-only record layer, CRDT memory, pulse memory sync, MCP), and author of agent plugins and skills for Grok Build, Cursor and Claude Code. Strengths: LLM tooling, agents, context and memory design, evals, CI⁠/⁠CD, supply-chain security, accessibility. MSc Computer Science, Uppsala University; two IoT papers. EU work authorised, no sponsorship needed; can start within two weeks. Full profile: captain.kingsparrow.space/llms.txt",
+    "publications": [
+      {
+        "title": "Cilium AI/ML Security",
+        "org": "certification",
+        "dates": "Mar 2026"
+      },
+      {
+        "title": "Profiling Energy Efficiency and Data Communications for Mobile Internet of Things",
+        "org": null,
+        "dates": "Nov 2017",
+        "detail": {
+          "venue": "Wireless Communications and Mobile Computing",
+          "link": {
+            "url": "https://doi.org/10.1155/2017/6562915",
+            "label": "doi.org/10.1155/2017/6562915"
+          }
+        }
+      },
+      {
+        "title": "Energy Efficiency as an Orchestration Service for Mobile Internet of Things",
+        "org": null,
+        "dates": "Nov 2015",
+        "detail": {
+          "venue": "IEEE CloudCom",
+          "link": {
+            "url": "https://doi.org/10.1109/CloudCom.2015.90",
+            "label": "doi.org/10.1109/CloudCom.2015.90"
+          }
+        }
+      }
+    ],
+    "education": [
+      {
+        "title": "MSc in Computer Science",
+        "org": "Uppsala University, Sweden",
+        "dates": "2010 – 2016"
+      },
+      {
+        "title": "MSc in Operations Research and Computer Applications",
+        "org": "NIT Tiruchirappalli, India",
+        "dates": "2007 – 2009"
+      },
+      {
+        "title": "BSc in Mathematics",
+        "org": "Kadhir Mohideen College (Bharathidasan University), India",
+        "dates": "2004 – 2007"
       }
     ]
   }

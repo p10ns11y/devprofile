@@ -124,7 +124,7 @@ Numbers. On a 966-character sample, the incremental feed made 966 character visi
 
 Site: https://kanithanj-ai.vercel.app · source: https://github.com/p10ns11y/collab-finder · walkthrough: https://captain.kingsparrow.space/shipped/collab-finder
 
-Releases v1.0.0 (19 August 2026) to v1.3.0 (23 November 2026), about 300 commits. A Rust backend with a SQLite ledger, LLM routing across providers, the xAI API, and secrets in the OS keyring. The model is called only when cost, fit and rate checks pass. A person approves before anything leaves the machine. Personal data never leaves disk. CI runs `cargo test` and Stryker mutation testing.
+Releases v1.0.0 (19 August 2026) to v1.3.0 (23 November 2026), about 300 commits. A Rust backend with a SQLite ledger, LLM routing across providers, the xAI API, and secrets in the OS keyring. The model is called only when cost, fit and rate checks pass. A person approves before anything leaves the machine. Personal data never leaves disk. CI runs `cargo test` and Stryker mutation testing. Kanithanj began as a private desktop app he uses daily and is now heading to public use once fully actualized.
 
 ### 5.3 Ensembly: one shared ledger and one approval flow
 
